@@ -1,4 +1,4 @@
-"""Market odds devigging and multi-market derivative pricing."""
+"""Market devigging, Asian handicap pricing, Skellam, overdispersed tail goals, and Omni-Market engine."""
 
 from quantfoot.markets.devig import DevigResult, book_overround, devig, devig_batch
 from quantfoot.markets.halves_btts import (
@@ -6,6 +6,11 @@ from quantfoot.markets.halves_btts import (
     compute_halves_btts,
     half_model_params,
     half_timing_profile,
+)
+from quantfoot.markets.omni_markets import (
+    HTFT_OUTCOMES,
+    OmniMarketBundle,
+    compute_omni_markets,
 )
 from quantfoot.markets.pricing import (
     expected_ah_ev,
@@ -30,11 +35,14 @@ from quantfoot.markets.tail_goals import (
 
 __all__ = [
     "DevigResult",
+    "HTFT_OUTCOMES",
     "HalvesBttsSummary",
+    "OmniMarketBundle",
     "TailGoalSummary",
     "book_overround",
     "com_poisson_pmf",
     "compute_halves_btts",
+    "compute_omni_markets",
     "devig",
     "devig_batch",
     "expected_ah_ev",

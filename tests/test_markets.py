@@ -216,3 +216,41 @@ def test_halves_btts_fgm_copula_preserves_coherence():
     assert fgm.p_1h_kg > base.p_1h_kg
     assert 0.0 < fgm.p_both_halves_kg <= min(fgm.p_1h_kg, fgm.p_2h_kg) <= fgm.p_either_half_kg <= fgm.p_ft_kg < 1.0
 
+
+def test_omni_markets_bundle_identities_and_all_markets():
+    from quantfoot.markets import HTFT_OUTCOMES, compute_omni_markets
+
+    b = compute_omni_markets(1.85, 1.15, league="uefa.nations")
+    assert sum(b.ft_1x2.values()) == pytest.approx(1.0, abs=1e-3)
+    assert sum(b.ht_1x2.values()) == pytest.approx(1.0, abs=1e-3)
+    assert sum(b.h2_1x2.values()) == pytest.approx(1.0, abs=1e-3)
+    assert sum(b.ht_ft.values()) == pytest.approx(1.0, abs=1e-3)
+    assert set(b.ht_ft.keys()) == set(HTFT_OUTCOMES)
+
+    # Disjoint goal bands 0-1 + 2-3 + 4-5 + +6 sum to 1.0
+    disjoint_bands = (
+        b.goal_bands["0-1 Gol"]
+        + b.goal_bands["2-3 Gol"]
+        + b.goal_bands["4-5 Gol"]
+        + b.goal_bands["+6 Gol"]
+    )
+    assert disjoint_bands == pytest.approx(1.0, abs=2e-3)
+    assert b.goal_bands["3-5 Gol"] >= b.goal_bands["4-5 Gol"]
+    assert b.goal_bands["2-4 Gol"] >= b.goal_bands["2-3 Gol"]
+
+    # Over/Under complements across FT (1.5..5.5), 1H (0.5..2.5), and 2H (0.5..2.5)
+    for line in ("1.5", "2.5", "3.5", "4.5", "5.5"):
+        assert b.ft_ou[f"{line} Üst"] + b.ft_ou[f"{line} Alt"] == pytest.approx(1.0, abs=1e-3)
+    for line in ("0.5", "1.5", "2.5"):
+        assert b.ht_ou[f"İY {line} Üst"] + b.ht_ou[f"İY {line} Alt"] == pytest.approx(1.0, abs=1e-3)
+        assert b.h2_ou[f"2Y {line} Üst"] + b.h2_ou[f"2Y {line} Alt"] == pytest.approx(1.0, abs=1e-3)
+
+    # 2H expected total exceeds 1H expected total (44% vs 56% empirical split)
+    assert b.exp_2h_total > b.exp_1h_total
+    assert b.btts["KG Var"] + b.btts["KG Yok"] == pytest.approx(1.0, abs=1e-3)
+    assert b.btts["1. Yarı KG Var"] + b.btts["1. Yarı KG Yok"] == pytest.approx(1.0, abs=1e-3)
+    assert b.btts["2. Yarı KG Var"] + b.btts["2. Yarı KG Yok"] == pytest.approx(1.0, abs=1e-3)
+    assert len(b.top_ft_scores) == 8
+    assert b.top3_score_cluster["prob"] > b.top2_score_cluster["prob"] > 0.0
+
+
