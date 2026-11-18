@@ -1,0 +1,786 @@
+{
+  "date": "2026-11-18",
+  "engine_version": "QuantFoot-v6 (OmniMarketBundle + 5-Layer Post-Mortem Risk Guard)",
+  "min_allowed_odds": 1.2,
+  "total_matches_analyzed": 45,
+  "total_coupons": 7,
+  "coupons": [
+    {
+      "coupon_id": "2026_11_18_C1_CORE_3LEG",
+      "date": "2026-11-18",
+      "title": "KUPON 1 — 3 Maçlık Çekirdek Güven Kuponu (En Düşük Varyans)",
+      "tier": "Kademe 1 (Ana Kasa Koruma — En Yüksek İsabet)",
+      "recommended_stake_pct": "Toplam günlük bütçenin %35'i",
+      "system_note": "Düz Kombine (3 Maç — Ortalama tekil olasılık %76.6)",
+      "leg_count": 3,
+      "total_odds": 2.03,
+      "joint_probability": 0.4489,
+      "average_leg_probability": 0.7662,
+      "status": "PENDING_VERIFICATION",
+      "legs": [
+        {
+          "event_id": "401916981",
+          "ko_tsi": "2026-11-18 20:45",
+          "league": "UEFA Women's Champions League",
+          "home": "Real Madrid",
+          "away": "Internazionale",
+          "selection": "MS 1",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.2,
+          "prob": 0.7921,
+          "fair_odds": 1.26,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "3.17-0.74 (1Y 1.73 / 2Y 2.20)",
+          "top_scores": [
+            "2-0",
+            "3-0",
+            "1-0"
+          ],
+          "note": "Günün en yüksek tekil olasılığı (%79.2); 2.5 Alt tuzağı engellendi.",
+          "result": null
+        },
+        {
+          "event_id": "401841313",
+          "ko_tsi": "2026-11-19 02:30",
+          "league": "Brazilian Serie A",
+          "home": "Flamengo",
+          "away": "Athletico-PR",
+          "selection": "MS 1",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.26,
+          "prob": 0.7782,
+          "fair_odds": 1.29,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "2.52-0.68 (1Y 1.34 / 2Y 1.87)",
+          "top_scores": [
+            "2-0",
+            "3-0",
+            "1-0"
+          ],
+          "note": "Brezilya Série A iç saha dominasyonu (23G-7B-4M, xG 2.52-0.68).",
+          "result": null
+        },
+        {
+          "event_id": "401916982",
+          "ko_tsi": "2026-11-18 20:45",
+          "league": "UEFA Women's Champions League",
+          "home": "BK Häcken",
+          "away": "Manchester City",
+          "selection": "MS 2",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.34,
+          "prob": 0.7282,
+          "fair_odds": 1.37,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "0.91-2.87 (1Y 1.67 / 2Y 2.13)",
+          "top_scores": [
+            "0-2",
+            "0-1",
+            "0-3"
+          ],
+          "note": "Manchester City Kadınlar deplasman kalite farkı (xG 0.91-2.87).",
+          "result": null
+        }
+      ]
+    },
+    {
+      "coupon_id": "2026_11_18_C2_BALANCED_4LEG",
+      "date": "2026-11-18",
+      "title": "KUPON 2 — 4 Maçlık Avrupa & Brezilya İdeal Denge Kuponu",
+      "tier": "Kademe 2 (Dengeli Ana Kupon)",
+      "recommended_stake_pct": "Toplam günlük bütçenin %25'i",
+      "system_note": "Düz Kombine (4 Maç — Ortalama tekil olasılık %74.6)",
+      "leg_count": 4,
+      "total_odds": 2.85,
+      "joint_probability": 0.3101,
+      "average_leg_probability": 0.7465,
+      "status": "PENDING_VERIFICATION",
+      "legs": [
+        {
+          "event_id": "401916980",
+          "ko_tsi": "2026-11-18 23:00",
+          "league": "UEFA Women's Champions League",
+          "home": "Chelsea",
+          "away": "Paris Saint-Germain",
+          "selection": "MS 1",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.28,
+          "prob": 0.7519,
+          "fair_odds": 1.33,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "2.77-0.72 (1Y 1.55 / 2Y 1.96)",
+          "top_scores": [
+            "2-0",
+            "1-0",
+            "3-0"
+          ],
+          "note": "UEFA Kadınlar ŞL iç saha üstünlüğü (xG 2.77-0.72).",
+          "result": null
+        },
+        {
+          "event_id": "401916979",
+          "ko_tsi": "2026-11-18 23:00",
+          "league": "UEFA Women's Champions League",
+          "home": "Juventus",
+          "away": "OH Leuven",
+          "selection": "MS 1",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.32,
+          "prob": 0.7277,
+          "fair_odds": 1.37,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "2.65-0.76 (1Y 1.51 / 2Y 1.92)",
+          "top_scores": [
+            "2-0",
+            "1-0",
+            "3-0"
+          ],
+          "note": "OH Leuven karşısında net kalite farkı (xG 2.65-0.76).",
+          "result": null
+        },
+        {
+          "event_id": "401916982",
+          "ko_tsi": "2026-11-18 20:45",
+          "league": "UEFA Women's Champions League",
+          "home": "BK Häcken",
+          "away": "Manchester City",
+          "selection": "MS 2",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.34,
+          "prob": 0.7282,
+          "fair_odds": 1.37,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "0.91-2.87 (1Y 1.67 / 2Y 2.13)",
+          "top_scores": [
+            "0-2",
+            "0-1",
+            "0-3"
+          ],
+          "note": "Man City deplasmanda maç başı 2.87 gol beklentisi üretiyor.",
+          "result": null
+        },
+        {
+          "event_id": "401841313",
+          "ko_tsi": "2026-11-19 02:30",
+          "league": "Brazilian Serie A",
+          "home": "Flamengo",
+          "away": "Athletico-PR",
+          "selection": "MS 1",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.26,
+          "prob": 0.7782,
+          "fair_odds": 1.29,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "2.52-0.68 (1Y 1.34 / 2Y 1.87)",
+          "top_scores": [
+            "2-0",
+            "3-0",
+            "1-0"
+          ],
+          "note": "Athletico-PR karşısında %77.8 kazanma olasılığı.",
+          "result": null
+        }
+      ]
+    },
+    {
+      "coupon_id": "2026_11_18_C3_VALUE_5LEG",
+      "date": "2026-11-18",
+      "title": "KUPON 3 — 5 Maçlık Orta Ölçekli Favori Kuponu",
+      "tier": "Kademe 3 (Orta Çarpan)",
+      "recommended_stake_pct": "Toplam günlük bütçenin %15'i",
+      "system_note": "Düz Kombine veya Sistem 4/5 (5 Maç — Ortalama tekil olasılık %69.3)",
+      "leg_count": 5,
+      "total_odds": 5.28,
+      "joint_probability": 0.1556,
+      "average_leg_probability": 0.6934,
+      "status": "PENDING_VERIFICATION",
+      "legs": [
+        {
+          "event_id": "401841313",
+          "ko_tsi": "2026-11-19 02:30",
+          "league": "Brazilian Serie A",
+          "home": "Flamengo",
+          "away": "Athletico-PR",
+          "selection": "MS 1",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.26,
+          "prob": 0.7782,
+          "fair_odds": 1.29,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "2.52-0.68 (1Y 1.34 / 2Y 1.87)",
+          "top_scores": [
+            "2-0",
+            "3-0",
+            "1-0"
+          ],
+          "note": "Ev sahibi net favori (%77.8).",
+          "result": null
+        },
+        {
+          "event_id": "401916980",
+          "ko_tsi": "2026-11-18 23:00",
+          "league": "UEFA Women's Champions League",
+          "home": "Chelsea",
+          "away": "Paris Saint-Germain",
+          "selection": "MS 1",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.28,
+          "prob": 0.7519,
+          "fair_odds": 1.33,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "2.77-0.72 (1Y 1.55 / 2Y 1.96)",
+          "top_scores": [
+            "2-0",
+            "1-0",
+            "3-0"
+          ],
+          "note": "Ev sahibi net favori (%75.2).",
+          "result": null
+        },
+        {
+          "event_id": "401916979",
+          "ko_tsi": "2026-11-18 23:00",
+          "league": "UEFA Women's Champions League",
+          "home": "Juventus",
+          "away": "OH Leuven",
+          "selection": "MS 1",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.32,
+          "prob": 0.7277,
+          "fair_odds": 1.37,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "2.65-0.76 (1Y 1.51 / 2Y 1.92)",
+          "top_scores": [
+            "2-0",
+            "1-0",
+            "3-0"
+          ],
+          "note": "Ev sahibi net favori (%72.8).",
+          "result": null
+        },
+        {
+          "event_id": "401928497",
+          "ko_tsi": "2026-11-18 21:00",
+          "league": "Spanish Copa del Rey",
+          "home": "Utebo",
+          "away": "CD Sabadell",
+          "selection": "MS 2",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.56,
+          "prob": 0.6008,
+          "fair_odds": 1.66,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "0.82-1.91 (1Y 1.19 / 2Y 1.55)",
+          "top_scores": [
+            "0-1",
+            "0-2",
+            "1-1"
+          ],
+          "note": "Kral Kupası alt lig ev sahibi (0G-0B-4M) vs Sabadell (xG 0.82-1.91).",
+          "result": null
+        },
+        {
+          "event_id": "401841310",
+          "ko_tsi": "2026-11-19 02:00",
+          "league": "Brazilian Serie A",
+          "home": "Remo",
+          "away": "Chapecoense",
+          "selection": "MS 1",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.59,
+          "prob": 0.6084,
+          "fair_odds": 1.64,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "2.04-1.01 (1Y 1.28 / 2Y 1.77)",
+          "top_scores": [
+            "1-1",
+            "2-1",
+            "2-0"
+          ],
+          "note": "Chapecoense deplasmanda çok kırılgan (xG 2.04-1.01).",
+          "result": null
+        }
+      ]
+    },
+    {
+      "coupon_id": "2026_11_18_C4_TARGET_10X",
+      "date": "2026-11-18",
+      "title": "KUPON 4 — Hedef 10x Optimize Kupon (%100 Canlı Piyasa Oranlı)",
+      "tier": "Kademe 4 (10x Çarpan Kuponu)",
+      "recommended_stake_pct": "Toplam günlük bütçenin %10'u",
+      "system_note": "Sistem 4/5 veya Düz (5 Maç — Toplam Oran 10.08)",
+      "leg_count": 5,
+      "total_odds": 10.08,
+      "joint_probability": 0.0803,
+      "average_leg_probability": 0.6072,
+      "status": "PENDING_VERIFICATION",
+      "legs": [
+        {
+          "event_id": "401916982",
+          "ko_tsi": "2026-11-18 20:45",
+          "league": "UEFA Women's Champions League",
+          "home": "BK Häcken",
+          "away": "Manchester City",
+          "selection": "MS 2",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.34,
+          "prob": 0.7282,
+          "fair_odds": 1.37,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "0.91-2.87 (1Y 1.67 / 2Y 2.13)",
+          "top_scores": [
+            "0-2",
+            "0-1",
+            "0-3"
+          ],
+          "note": "Man City deplasman bankosu (%72.8).",
+          "result": null
+        },
+        {
+          "event_id": "401928524",
+          "ko_tsi": "2026-11-18 22:30",
+          "league": "Spanish Copa del Rey",
+          "home": "CD Minera",
+          "away": "FC Cartagena",
+          "selection": "2.5 Alt",
+          "category": "Maç Geneli Alt/Üst",
+          "odds": 1.59,
+          "prob": 0.6031,
+          "fair_odds": 1.66,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "1.13-1.18 (1Y 1.00 / 2Y 1.31)",
+          "top_scores": [
+            "0-0",
+            "1-1",
+            "0-1"
+          ],
+          "note": "Simetrik düşük xG (1.13-1.18, toplam 2.31); İY 0 yerine maç geneli 2.5 Alt.",
+          "result": null
+        },
+        {
+          "event_id": "401841310",
+          "ko_tsi": "2026-11-19 02:00",
+          "league": "Brazilian Serie A",
+          "home": "Remo",
+          "away": "Chapecoense",
+          "selection": "MS 1",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.59,
+          "prob": 0.6084,
+          "fair_odds": 1.64,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "2.04-1.01 (1Y 1.28 / 2Y 1.77)",
+          "top_scores": [
+            "1-1",
+            "2-1",
+            "2-0"
+          ],
+          "note": "Ev sahibi xG üstünlüğü (2.04 vs 1.01, %60.8).",
+          "result": null
+        },
+        {
+          "event_id": "401841315",
+          "ko_tsi": "2026-11-19 01:30",
+          "league": "Brazilian Serie A",
+          "home": "Coritiba",
+          "away": "Santos",
+          "selection": "2.5 Üst",
+          "category": "Maç Geneli Alt/Üst",
+          "odds": 1.71,
+          "prob": 0.5533,
+          "fair_odds": 1.81,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "1.23-1.65 (1Y 1.20 / 2Y 1.68)",
+          "top_scores": [
+            "1-1",
+            "1-2",
+            "0-1"
+          ],
+          "note": "Toplam xG 2.88 (2-4 gol olasılığı %64.1, KG Var %59.7).",
+          "result": null
+        },
+        {
+          "event_id": "401841314",
+          "ko_tsi": "2026-11-19 02:30",
+          "league": "Brazilian Serie A",
+          "home": "Cruzeiro",
+          "away": "Palmeiras",
+          "selection": "2.5 Üst",
+          "category": "Maç Geneli Alt/Üst",
+          "odds": 1.74,
+          "prob": 0.5431,
+          "fair_odds": 1.84,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "1.40-1.44 (1Y 1.18 / 2Y 1.65)",
+          "top_scores": [
+            "1-1",
+            "1-2",
+            "2-1"
+          ],
+          "note": "Açık geçiş maçı (xG 1.40-1.44 = 2.84, KG Var %60.0).",
+          "result": null
+        }
+      ]
+    },
+    {
+      "coupon_id": "2026_11_18_C5_TARGET_20X",
+      "date": "2026-11-18",
+      "title": "KUPON 5 — Hedef 20x Optimize Kupon (%100 Canlı Piyasa Oranlı)",
+      "tier": "Kademe 5 (20x Yüksek Çarpan Kuponu)",
+      "recommended_stake_pct": "Toplam günlük bütçenin %5'i",
+      "system_note": "Sistem 6/7 önerilir (7 Maç — Toplam Oran 21.08)",
+      "leg_count": 7,
+      "total_odds": 21.08,
+      "joint_probability": 0.033,
+      "average_leg_probability": 0.6182,
+      "status": "PENDING_VERIFICATION",
+      "legs": [
+        {
+          "event_id": "401916981",
+          "ko_tsi": "2026-11-18 20:45",
+          "league": "UEFA Women's Champions League",
+          "home": "Real Madrid",
+          "away": "Internazionale",
+          "selection": "MS 1",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.2,
+          "prob": 0.7921,
+          "fair_odds": 1.26,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "3.17-0.74 (1Y 1.73 / 2Y 2.20)",
+          "top_scores": [
+            "2-0",
+            "3-0",
+            "1-0"
+          ],
+          "note": "En yüksek olasılıklı favori (%79.2).",
+          "result": null
+        },
+        {
+          "event_id": "401928497",
+          "ko_tsi": "2026-11-18 21:00",
+          "league": "Spanish Copa del Rey",
+          "home": "Utebo",
+          "away": "CD Sabadell",
+          "selection": "MS 2",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.56,
+          "prob": 0.6008,
+          "fair_odds": 1.66,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "0.82-1.91 (1Y 1.19 / 2Y 1.55)",
+          "top_scores": [
+            "0-1",
+            "0-2",
+            "1-1"
+          ],
+          "note": "Sabadell tur favorisi (%60.1).",
+          "result": null
+        },
+        {
+          "event_id": "401928505",
+          "ko_tsi": "2026-11-18 22:00",
+          "league": "Spanish Copa del Rey",
+          "home": "Alcoyano",
+          "away": "Mallorca",
+          "selection": "MS 2",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.56,
+          "prob": 0.5991,
+          "fair_odds": 1.67,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "0.81-1.88 (1Y 1.17 / 2Y 1.52)",
+          "top_scores": [
+            "0-1",
+            "0-2",
+            "0-0"
+          ],
+          "note": "La Liga ekibi Mallorca'nın alt lig deplasmanı (%59.9).",
+          "result": null
+        },
+        {
+          "event_id": "401928524",
+          "ko_tsi": "2026-11-18 22:30",
+          "league": "Spanish Copa del Rey",
+          "home": "CD Minera",
+          "away": "FC Cartagena",
+          "selection": "2.5 Alt",
+          "category": "Maç Geneli Alt/Üst",
+          "odds": 1.59,
+          "prob": 0.6031,
+          "fair_odds": 1.66,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "1.13-1.18 (1Y 1.00 / 2Y 1.31)",
+          "top_scores": [
+            "0-0",
+            "1-1",
+            "0-1"
+          ],
+          "note": "Dengeli düşük tempo kupa maçı (%60.3).",
+          "result": null
+        },
+        {
+          "event_id": "401841310",
+          "ko_tsi": "2026-11-19 02:00",
+          "league": "Brazilian Serie A",
+          "home": "Remo",
+          "away": "Chapecoense",
+          "selection": "MS 1",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.59,
+          "prob": 0.6084,
+          "fair_odds": 1.64,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "2.04-1.01 (1Y 1.28 / 2Y 1.77)",
+          "top_scores": [
+            "1-1",
+            "2-1",
+            "2-0"
+          ],
+          "note": "Ev sahibi %60.8.",
+          "result": null
+        },
+        {
+          "event_id": "401841315",
+          "ko_tsi": "2026-11-19 01:30",
+          "league": "Brazilian Serie A",
+          "home": "Coritiba",
+          "away": "Santos",
+          "selection": "2.5 Üst",
+          "category": "Maç Geneli Alt/Üst",
+          "odds": 1.71,
+          "prob": 0.5533,
+          "fair_odds": 1.81,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "1.23-1.65 (1Y 1.20 / 2Y 1.68)",
+          "top_scores": [
+            "1-1",
+            "1-2",
+            "0-1"
+          ],
+          "note": "2.5 Üst (%55.3, canlı piyasa favorisi).",
+          "result": null
+        },
+        {
+          "event_id": "401841312",
+          "ko_tsi": "2026-11-19 03:30",
+          "league": "Brazilian Serie A",
+          "home": "Grêmio",
+          "away": "Bahia",
+          "selection": "2.5 Üst",
+          "category": "Maç Geneli Alt/Üst",
+          "odds": 1.67,
+          "prob": 0.5703,
+          "fair_odds": 1.75,
+          "odds_source": "Canlı Piyasa",
+          "xg_summary": "1.59-1.35 (1Y 1.23 / 2Y 1.72)",
+          "top_scores": [
+            "1-1",
+            "2-1",
+            "1-2"
+          ],
+          "note": "Toplam xG 2.95 (KG Var %61.7, 2.5 Üst %57.0).",
+          "result": null
+        }
+      ]
+    },
+    {
+      "coupon_id": "2026_11_18_C6_TUR3_DAYTIME",
+      "date": "2026-11-18",
+      "title": "KUPON 6 — Nesine 2. Lig Gündüz (13:00 & 15:00) Kuponu",
+      "tier": "Kademe 6 (Gündüz Bülteni Özel)",
+      "recommended_stake_pct": "Toplam günlük bütçenin %5'i",
+      "system_note": "Düz Kombine (4 Maç — Ortalama tekil olasılık %71.9)",
+      "leg_count": 4,
+      "total_odds": 2.3,
+      "joint_probability": 0.2657,
+      "average_leg_probability": 0.7183,
+      "status": "PENDING_VERIFICATION",
+      "legs": [
+        {
+          "event_id": "tff2_4",
+          "ko_tsi": "2026-11-18 13:00",
+          "league": "Nesine 2. Lig (12. Hafta)",
+          "home": "Seza Çimento Elazığspor",
+          "away": "Menemen FK",
+          "selection": "MS 1",
+          "category": "Maç Sonucu (1X2)",
+          "odds": 1.27,
+          "prob": 0.699,
+          "fair_odds": 1.43,
+          "odds_source": "Model Tahmini",
+          "xg_summary": "2.17-0.76 (1Y 1.27 / 2Y 1.67)",
+          "top_scores": [
+            "2-0",
+            "1-0",
+            "2-1"
+          ],
+          "note": "2. Lig bülteninin en net iç saha favorisi (xG 2.17-0.76, %69.9).",
+          "result": null
+        },
+        {
+          "event_id": "tff2_2",
+          "ko_tsi": "2026-11-18 13:00",
+          "league": "Nesine 2. Lig (12. Hafta)",
+          "home": "12 Bingölspor",
+          "away": "Sakaryaspor",
+          "selection": "1.5 Üst",
+          "category": "Maç Geneli Alt/Üst",
+          "odds": 1.2,
+          "prob": 0.7407,
+          "fair_odds": 1.35,
+          "odds_source": "Model Tahmini",
+          "xg_summary": "1.15-1.40 (1Y 1.10 / 2Y 1.45)",
+          "top_scores": [
+            "1-1",
+            "0-1",
+            "1-2"
+          ],
+          "note": "Sakaryaspor deplasmanı; 1.5 Üst olasılığı %74.1.",
+          "result": null
+        },
+        {
+          "event_id": "tff2_3",
+          "ko_tsi": "2026-11-18 13:00",
+          "league": "Nesine 2. Lig (12. Hafta)",
+          "home": "MKE Ankaragücü",
+          "away": "Kırklarelispor",
+          "selection": "3.5 Alt",
+          "category": "Maç Geneli Alt/Üst",
+          "odds": 1.2,
+          "prob": 0.7418,
+          "fair_odds": 1.35,
+          "odds_source": "Model Tahmini",
+          "xg_summary": "1.56-1.03 (1Y 1.12 / 2Y 1.47)",
+          "top_scores": [
+            "1-1",
+            "1-0",
+            "2-1"
+          ],
+          "note": "Kontrollü 2. Lig temposu (xG 1.56-1.03, 3.5 Alt %74.2).",
+          "result": null
+        },
+        {
+          "event_id": "tff2_10",
+          "ko_tsi": "2026-11-18 15:00",
+          "league": "Nesine 2. Lig (12. Hafta)",
+          "home": "Güzide Gebze Spor",
+          "away": "Ankaraspor",
+          "selection": "İY 0.5 Üst",
+          "category": "İlk Yarı Alt/Üst",
+          "odds": 1.26,
+          "prob": 0.6917,
+          "fair_odds": 1.45,
+          "odds_source": "Model Tahmini",
+          "xg_summary": "1.96-0.88 (1Y 1.23 / 2Y 1.61)",
+          "top_scores": [
+            "2-0",
+            "1-1",
+            "1-0"
+          ],
+          "note": "Gebzespor erken baskı profili (1Y xG 1.23, İY 0.5 Üst %69.2).",
+          "result": null
+        }
+      ]
+    },
+    {
+      "coupon_id": "2026_11_18_C7_HTFT_SPECIAL",
+      "date": "2026-11-18",
+      "title": "KUPON 7 — İlk Yarı / Maç Sonucu (İY/MS) Özel Kuponu",
+      "tier": "Kademe 7 (Özel Market — İY/MS)",
+      "recommended_stake_pct": "Toplam günlük bütçenin %5'i",
+      "system_note": "Sistem 3/4 önerilir (İlk yarı 0-0 kilidine karşı koruma)",
+      "leg_count": 4,
+      "total_odds": 10.16,
+      "joint_probability": 0.0762,
+      "average_leg_probability": 0.5261,
+      "status": "PENDING_VERIFICATION",
+      "legs": [
+        {
+          "event_id": "401916981",
+          "ko_tsi": "2026-11-18 20:45",
+          "league": "UEFA Women's Champions League",
+          "home": "Real Madrid",
+          "away": "Internazionale",
+          "selection": "İY/MS 1/1",
+          "category": "İlk Yarı / Maç Sonucu",
+          "odds": 1.65,
+          "prob": 0.5723,
+          "fair_odds": 1.75,
+          "odds_source": "Model Tahmini",
+          "xg_summary": "3.17-0.74 (1Y 1.73 / 2Y 2.20)",
+          "top_scores": [
+            "2-0",
+            "3-0",
+            "1-0"
+          ],
+          "note": "1. Yarı xG 1.40-0.33; İY/MS 1/1 olasılığı %57.2 (Adil 1.75).",
+          "result": null
+        },
+        {
+          "event_id": "401916980",
+          "ko_tsi": "2026-11-18 23:00",
+          "league": "UEFA Women's Champions League",
+          "home": "Chelsea",
+          "away": "Paris Saint-Germain",
+          "selection": "İY/MS 1/1",
+          "category": "İlk Yarı / Maç Sonucu",
+          "odds": 1.8,
+          "prob": 0.5205,
+          "fair_odds": 1.92,
+          "odds_source": "Model Tahmini",
+          "xg_summary": "2.77-0.72 (1Y 1.55 / 2Y 1.96)",
+          "top_scores": [
+            "2-0",
+            "1-0",
+            "3-0"
+          ],
+          "note": "1. Yarı xG 1.23-0.32; İY/MS 1/1 olasılığı %52.0 (Adil 1.92).",
+          "result": null
+        },
+        {
+          "event_id": "401841313",
+          "ko_tsi": "2026-11-19 02:30",
+          "league": "Brazilian Serie A",
+          "home": "Flamengo",
+          "away": "Athletico-PR",
+          "selection": "İY/MS 1/1",
+          "category": "İlk Yarı / Maç Sonucu",
+          "odds": 1.82,
+          "prob": 0.5128,
+          "fair_odds": 1.95,
+          "odds_source": "Model Tahmini",
+          "xg_summary": "2.52-0.68 (1Y 1.34 / 2Y 1.87)",
+          "top_scores": [
+            "2-0",
+            "3-0",
+            "1-0"
+          ],
+          "note": "1. Yarı xG 1.06-0.28; İY/MS 1/1 olasılığı %51.3 (Adil 1.95).",
+          "result": null
+        },
+        {
+          "event_id": "401916982",
+          "ko_tsi": "2026-11-18 20:45",
+          "league": "UEFA Women's Champions League",
+          "home": "BK Häcken",
+          "away": "Manchester City",
+          "selection": "İY/MS 2/2",
+          "category": "İlk Yarı / Maç Sonucu",
+          "odds": 1.88,
+          "prob": 0.4987,
+          "fair_odds": 2.01,
+          "odds_source": "Model Tahmini",
+          "xg_summary": "0.91-2.87 (1Y 1.67 / 2Y 2.13)",
+          "top_scores": [
+            "0-2",
+            "0-1",
+            "0-3"
+          ],
+          "note": "1. Yarı xG 0.40-1.27; İY/MS 2/2 olasılığı %49.9 (Adil 2.01).",
+          "result": null
+        }
+      ]
+    }
+  ]
+}
