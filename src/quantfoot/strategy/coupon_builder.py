@@ -199,7 +199,7 @@ def _estimate_offered_odds(prob: float, category: str) -> float:
     if prob <= 1e-5:
         return 99.0
     # Typical bookmaker margin by market type
-    haircut = 0.88 if category in ("Maç Sonucu (1X2)", "Maç Geneli Alt/Üst", "Karşılıklı Gol") else 0.84
+    haircut = 0.89 if category in ("Maç Sonucu (1X2)", "Maç Geneli Alt/Üst", "Karşılıklı Gol") else 0.87
     return round(max(1.01, (1.0 / prob) * haircut), 2)
 
 
@@ -354,10 +354,15 @@ def build_target_odds_coupon(
         valid_opts = [o for o in opts if o.offered_odds >= floor - 1e-9]
         if valid_opts:
             valid_opts.sort(key=lambda r: (r.safety_score, r.probability), reverse=True)
-            chosen_opts = list(valid_opts[:3])
-            for extra in sorted(valid_opts[3:8], key=lambda r: (r.offered_odds, r.safety_score), reverse=True)[:2]:
-                if extra not in chosen_opts:
-                    chosen_opts.append(extra)
+            best_safe = valid_opts[0]
+            chosen_opts = [best_safe]
+            higher_odds = [
+                r for r in valid_opts[1:]
+                if r.offered_odds >= best_safe.offered_odds + 0.06
+            ]
+            if higher_odds:
+                higher_odds.sort(key=lambda r: (r.offered_odds * (r.probability ** 1.1), r.safety_score), reverse=True)
+                chosen_opts.append(higher_odds[0])
             normalized_pool.append(chosen_opts)
             for t in valid_opts[0].blocked_traps:
                 if t not in all_traps:
@@ -390,22 +395,23 @@ def build_target_odds_coupon(
 
                 if nl_o >= target_log_odds - 1e-9:
                     # Completed coupon candidate: rank primarily by joint probability & safety!
-                    cand_score = nl_p + 0.35 * nl_saf - 0.04 * len(n_legs)
+                    cand_score = nl_p + 0.45 * nl_saf
                     if best_completed is None or cand_score > best_completed[0]:
                         best_completed = (cand_score, nl_p, nl_o, n_legs)
                 else:
                     new_states.append((nl_saf, nl_p, nl_o, n_legs, n_groups))
 
-        # Prune beam per leg-count bucket keeping both probability-optimal and odds-progress Pareto frontiers
+        # Prune beam per leg-count bucket keeping probability-optimal, balanced, and high-odds Pareto frontiers
         by_len: dict[int, list[tuple[float, float, float, tuple[MarketRecommendation, ...], frozenset[str]]]] = {}
         for st in new_states:
             by_len.setdefault(len(st[3]), []).append(st)
         beam = []
         for k_len, bucket in by_len.items():
-            by_prob = sorted(bucket, key=lambda s: s[1] + 0.35 * s[0] + 0.35 * s[2], reverse=True)[:30]
-            by_odds = sorted(bucket, key=lambda s: s[2] + 0.85 * s[1] + 0.30 * s[0], reverse=True)[:25]
+            by_prob = sorted(bucket, key=lambda s: s[1] + 0.35 * s[0] + 0.30 * s[2], reverse=True)[:50]
+            by_bal = sorted(bucket, key=lambda s: s[2] + 0.90 * s[1] + 0.30 * s[0], reverse=True)[:50]
+            by_odds = sorted(bucket, key=lambda s: s[2] + 0.35 * s[1], reverse=True)[:50]
             seen_ids: set[int] = set()
-            for st in by_prob + by_odds:
+            for st in by_prob + by_bal + by_odds:
                 sid = id(st[3])
                 if sid not in seen_ids:
                     seen_ids.add(sid)
