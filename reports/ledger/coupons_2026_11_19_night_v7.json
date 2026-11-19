@@ -1,0 +1,1117 @@
+{
+  "date": "2026-11-19",
+  "session": "night_v7",
+  "generated_at_tsi": "2026-11-19T20:41:00+03:00",
+  "engine": "QuantFoot-v7",
+  "matches_analyzed": 24,
+  "score_predictions": [
+    {
+      "idx": 37,
+      "id": "3307411",
+      "kickoff": "19.11 20:45",
+      "home": "FK Austria Wien (K)",
+      "away": "B. Münih (K)",
+      "mu_home": 0.65,
+      "mu_away": 4.37,
+      "top_scores": [
+        {
+          "score": "0-3",
+          "prob": 8.8
+        },
+        {
+          "score": "0-2",
+          "prob": 8.1
+        },
+        {
+          "score": "0-4",
+          "prob": 8.0
+        }
+      ],
+      "best_v7": "3.5 Üst"
+    },
+    {
+      "idx": 38,
+      "id": "3307697",
+      "kickoff": "19.11 20:45",
+      "home": "Paris (K)",
+      "away": "HB Koege (K)",
+      "mu_home": 2.59,
+      "mu_away": 1.09,
+      "top_scores": [
+        {
+          "score": "2-0",
+          "prob": 8.3
+        },
+        {
+          "score": "1-0",
+          "prob": 8.2
+        },
+        {
+          "score": "2-1",
+          "prob": 7.4
+        }
+      ],
+      "best_v7": "MS 1"
+    },
+    {
+      "idx": 39,
+      "id": "3408911",
+      "kickoff": "19.11 21:00",
+      "home": "Ferro Carril (K)",
+      "away": "CA River Plate (K)",
+      "mu_home": 1.32,
+      "mu_away": 1.03,
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 13.4
+        },
+        {
+          "score": "1-0",
+          "prob": 12.2
+        },
+        {
+          "score": "0-0",
+          "prob": 9.9
+        }
+      ],
+      "best_v7": "ÇŞ 02"
+    },
+    {
+      "idx": 40,
+      "id": "3314224",
+      "kickoff": "19.11 21:00",
+      "home": "Fredericia",
+      "away": "Hilleroed",
+      "mu_home": 2.8,
+      "mu_away": 0.8,
+      "top_scores": [
+        {
+          "score": "2-0",
+          "prob": 10.7
+        },
+        {
+          "score": "3-0",
+          "prob": 10.0
+        },
+        {
+          "score": "2-1",
+          "prob": 8.6
+        }
+      ],
+      "best_v7": "2.5 Üst"
+    },
+    {
+      "idx": 41,
+      "id": "3381559",
+      "kickoff": "19.11 21:00",
+      "home": "RC Celta de Vigo (K)",
+      "away": "RCD Espanyol (K)",
+      "mu_home": 0.57,
+      "mu_away": 2.46,
+      "top_scores": [
+        {
+          "score": "0-1",
+          "prob": 13.4
+        },
+        {
+          "score": "0-2",
+          "prob": 13.1
+        },
+        {
+          "score": "0-3",
+          "prob": 9.8
+        }
+      ],
+      "best_v7": null
+    },
+    {
+      "idx": 42,
+      "id": "3398367",
+      "kickoff": "19.11 21:00",
+      "home": "ZED",
+      "away": "Smouha SC",
+      "mu_home": 1.15,
+      "mu_away": 0.88,
+      "top_scores": [
+        {
+          "score": "1-0",
+          "prob": 14.9
+        },
+        {
+          "score": "1-1",
+          "prob": 14.5
+        },
+        {
+          "score": "0-0",
+          "prob": 12.9
+        }
+      ],
+      "best_v7": "1.5 Üst"
+    },
+    {
+      "idx": 43,
+      "id": "3266477",
+      "kickoff": "19.11 22:00",
+      "home": "JS Kabylie",
+      "away": "USM Alger",
+      "mu_home": 1.22,
+      "mu_away": 0.84,
+      "top_scores": [
+        {
+          "score": "1-0",
+          "prob": 15.2
+        },
+        {
+          "score": "1-1",
+          "prob": 14.3
+        },
+        {
+          "score": "0-0",
+          "prob": 12.3
+        }
+      ],
+      "best_v7": "2.5 Alt"
+    },
+    {
+      "idx": 44,
+      "id": "3406921",
+      "kickoff": "19.11 22:30",
+      "home": "CA Progreso",
+      "away": "Torque",
+      "mu_home": 0.92,
+      "mu_away": 1.99,
+      "top_scores": [
+        {
+          "score": "0-2",
+          "prob": 10.8
+        },
+        {
+          "score": "0-1",
+          "prob": 10.6
+        },
+        {
+          "score": "1-1",
+          "prob": 10.3
+        }
+      ],
+      "best_v7": "MS 2"
+    },
+    {
+      "idx": 45,
+      "id": "3406922",
+      "kickoff": "19.11 22:30",
+      "home": "Penarol",
+      "away": "Cerro Largo",
+      "mu_home": 1.86,
+      "mu_away": 0.6,
+      "top_scores": [
+        {
+          "score": "1-0",
+          "prob": 15.6
+        },
+        {
+          "score": "2-0",
+          "prob": 14.8
+        },
+        {
+          "score": "1-1",
+          "prob": 9.8
+        }
+      ],
+      "best_v7": "MS 1"
+    },
+    {
+      "idx": 46,
+      "id": "3406925",
+      "kickoff": "19.11 22:30",
+      "home": "Boston River",
+      "away": "D. Maldonado",
+      "mu_home": 1.09,
+      "mu_away": 1.55,
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 12.4
+        },
+        {
+          "score": "0-1",
+          "prob": 10.8
+        },
+        {
+          "score": "1-2",
+          "prob": 9.3
+        }
+      ],
+      "best_v7": "KG Var"
+    },
+    {
+      "idx": 47,
+      "id": "3307710",
+      "kickoff": "19.11 22:45",
+      "home": "Amiens",
+      "away": "Caen",
+      "mu_home": 1.5,
+      "mu_away": 1.16,
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 12.5
+        },
+        {
+          "score": "1-0",
+          "prob": 10.1
+        },
+        {
+          "score": "2-1",
+          "prob": 9.1
+        }
+      ],
+      "best_v7": "ÇŞ 02"
+    },
+    {
+      "idx": 48,
+      "id": "3307516",
+      "kickoff": "19.11 23:00",
+      "home": "Arsenal (K)",
+      "away": "O. Lyon (K)",
+      "mu_home": 1.47,
+      "mu_away": 2.46,
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 7.5
+        },
+        {
+          "score": "1-2",
+          "prob": 7.1
+        },
+        {
+          "score": "0-1",
+          "prob": 6.4
+        }
+      ],
+      "best_v7": "2.5 Üst"
+    },
+    {
+      "idx": 49,
+      "id": "3307525",
+      "kickoff": "19.11 23:00",
+      "home": "Barcelona (K)",
+      "away": "Servette (K)",
+      "mu_home": 5.85,
+      "mu_away": 0.25,
+      "top_scores": [
+        {
+          "score": "4-0",
+          "prob": 9.9
+        },
+        {
+          "score": "5-0",
+          "prob": 9.7
+        },
+        {
+          "score": "3-0",
+          "prob": 8.9
+        }
+      ],
+      "best_v7": null
+    },
+    {
+      "idx": 50,
+      "id": "3307686",
+      "kickoff": "19.11 23:00",
+      "home": "Benfica (K)",
+      "away": "AS Roma (K)",
+      "mu_home": 2.11,
+      "mu_away": 1.65,
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 8.2
+        },
+        {
+          "score": "2-1",
+          "prob": 6.9
+        },
+        {
+          "score": "1-0",
+          "prob": 6.3
+        }
+      ],
+      "best_v7": "KG Var"
+    },
+    {
+      "idx": 51,
+      "id": "3304862",
+      "kickoff": "20.11 01:30",
+      "home": "Vitoria BA",
+      "away": "Bragantino",
+      "mu_home": 1.35,
+      "mu_away": 1.35,
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 13.4
+        },
+        {
+          "score": "1-2",
+          "prob": 8.8
+        },
+        {
+          "score": "2-1",
+          "prob": 8.8
+        }
+      ],
+      "best_v7": "3.5 Alt"
+    },
+    {
+      "idx": 52,
+      "id": "3305120",
+      "kickoff": "20.11 01:30",
+      "home": "Vasco Da G.",
+      "away": "Internacional",
+      "mu_home": 1.99,
+      "mu_away": 0.89,
+      "top_scores": [
+        {
+          "score": "2-0",
+          "prob": 11.4
+        },
+        {
+          "score": "1-0",
+          "prob": 10.8
+        },
+        {
+          "score": "1-1",
+          "prob": 10.7
+        }
+      ],
+      "best_v7": "MS 1"
+    },
+    {
+      "idx": 53,
+      "id": "3361180",
+      "kickoff": "20.11 01:30",
+      "home": "U. Magdalena",
+      "away": "Boca Juniors (Kol)",
+      "mu_home": 2.15,
+      "mu_away": 0.57,
+      "top_scores": [
+        {
+          "score": "2-0",
+          "prob": 15.6
+        },
+        {
+          "score": "1-0",
+          "prob": 13.8
+        },
+        {
+          "score": "3-0",
+          "prob": 11.1
+        }
+      ],
+      "best_v7": "KG Yok"
+    },
+    {
+      "idx": 54,
+      "id": "3361195",
+      "kickoff": "20.11 01:30",
+      "home": "Independiente Yumbo",
+      "away": "Envigado",
+      "mu_home": 0.99,
+      "mu_away": 1.16,
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 14.6
+        },
+        {
+          "score": "0-1",
+          "prob": 13.1
+        },
+        {
+          "score": "0-0",
+          "prob": 11.3
+        }
+      ],
+      "best_v7": "2.5 Alt"
+    },
+    {
+      "idx": 55,
+      "id": "3355406",
+      "kickoff": "20.11 01:30",
+      "home": "Dep. La Gua.",
+      "away": "Academia Anzoategui",
+      "mu_home": 2.2,
+      "mu_away": 0.73,
+      "top_scores": [
+        {
+          "score": "2-0",
+          "prob": 12.9
+        },
+        {
+          "score": "1-0",
+          "prob": 11.5
+        },
+        {
+          "score": "3-0",
+          "prob": 9.5
+        }
+      ],
+      "best_v7": "2.5 Üst"
+    },
+    {
+      "idx": 56,
+      "id": "3305027",
+      "kickoff": "20.11 03:30",
+      "home": "Sao Paulo SP",
+      "away": "Fluminense",
+      "mu_home": 1.26,
+      "mu_away": 1.15,
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 14.2
+        },
+        {
+          "score": "1-0",
+          "prob": 10.9
+        },
+        {
+          "score": "0-1",
+          "prob": 9.8
+        }
+      ],
+      "best_v7": "1.5 Üst"
+    },
+    {
+      "idx": 57,
+      "id": "3386737",
+      "kickoff": "20.11 03:30",
+      "home": "Orlando City",
+      "away": "Cincinnati",
+      "mu_home": 2.08,
+      "mu_away": 2.02,
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 7.4
+        },
+        {
+          "score": "2-1",
+          "prob": 6.7
+        },
+        {
+          "score": "1-2",
+          "prob": 6.5
+        }
+      ],
+      "best_v7": "ÇŞ 10"
+    },
+    {
+      "idx": 58,
+      "id": "3408920",
+      "kickoff": "20.11 03:45",
+      "home": "R. Cartagena",
+      "away": "Tigres (Kol)",
+      "mu_home": 2.21,
+      "mu_away": 0.48,
+      "top_scores": [
+        {
+          "score": "2-0",
+          "prob": 17.1
+        },
+        {
+          "score": "1-0",
+          "prob": 14.8
+        },
+        {
+          "score": "3-0",
+          "prob": 12.5
+        }
+      ],
+      "best_v7": "KG Yok"
+    },
+    {
+      "idx": 59,
+      "id": "3408921",
+      "kickoff": "20.11 03:45",
+      "home": "R. S. Cundinamarca",
+      "away": "Deportes Quindio",
+      "mu_home": 0.92,
+      "mu_away": 1.03,
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 14.7
+        },
+        {
+          "score": "0-1",
+          "prob": 14.4
+        },
+        {
+          "score": "0-0",
+          "prob": 13.9
+        }
+      ],
+      "best_v7": "ÇŞ 10"
+    },
+    {
+      "idx": 60,
+      "id": "3386736",
+      "kickoff": "20.11 06:00",
+      "home": "S. Sounders",
+      "away": "Real Salt Lake",
+      "mu_home": 1.91,
+      "mu_away": 1.34,
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 9.8
+        },
+        {
+          "score": "2-1",
+          "prob": 8.4
+        },
+        {
+          "score": "1-0",
+          "prob": 7.9
+        }
+      ],
+      "best_v7": "KG Var"
+    }
+  ],
+  "coupons": [
+    {
+      "coupon_no": 1,
+      "title": "KUPON 1 — Gece Çekirdek Güven (3 Maç, ~2.4x)",
+      "target_odds": 2.4,
+      "achieved_odds": 2.42,
+      "leg_count": 3,
+      "avg_leg_prob": 0.6382,
+      "joint_prob": 0.2599,
+      "reached_target": true,
+      "legs": [
+        {
+          "match_id": "3304862",
+          "kickoff": "20.11 01:30",
+          "league": "Brezilya Serie A",
+          "home": "Vitoria BA",
+          "away": "Bragantino",
+          "mbs": 1,
+          "category": "Çifte Şans",
+          "selection": "ÇŞ 02",
+          "nesine_odds": 1.32,
+          "global_fair_odds": 1.56,
+          "global_prob": 0.6396,
+          "ev": -0.1557,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3408920",
+          "kickoff": "20.11 03:45",
+          "league": "Kolombiya Prmr B Kapanış, Yük. Gr B",
+          "home": "R. Cartagena",
+          "away": "Tigres (Kol)",
+          "mbs": 3,
+          "category": "Karşılıklı Gol",
+          "selection": "KG Yok",
+          "nesine_odds": 1.33,
+          "global_fair_odds": 1.54,
+          "global_prob": 0.6505,
+          "ev": -0.1348,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3386736",
+          "kickoff": "20.11 06:00",
+          "league": "ABD Major Lig Playoff",
+          "home": "S. Sounders",
+          "away": "Real Salt Lake",
+          "mbs": 1,
+          "category": "Karşılıklı Gol",
+          "selection": "KG Var",
+          "nesine_odds": 1.38,
+          "global_fair_odds": 1.6,
+          "global_prob": 0.6246,
+          "ev": -0.1381,
+          "status": "PENDING"
+        }
+      ],
+      "status": "PENDING"
+    },
+    {
+      "coupon_no": 2,
+      "title": "KUPON 2 — Dengeli Akşam & Gece (4 Maç, ~4.8x)",
+      "target_odds": 4.8,
+      "achieved_odds": 4.81,
+      "leg_count": 4,
+      "avg_leg_prob": 0.5688,
+      "joint_prob": 0.1042,
+      "reached_target": true,
+      "legs": [
+        {
+          "match_id": "3266477",
+          "kickoff": "19.11 22:00",
+          "league": "Cezayir 1. Lig",
+          "home": "JS Kabylie",
+          "away": "USM Alger",
+          "mbs": 3,
+          "category": "Karşılıklı Gol",
+          "selection": "KG Yok",
+          "nesine_odds": 1.43,
+          "global_fair_odds": 1.72,
+          "global_prob": 0.5817,
+          "ev": -0.1682,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3386737",
+          "kickoff": "20.11 03:30",
+          "league": "ABD Major Lig Playoff",
+          "home": "Orlando City",
+          "away": "Cincinnati",
+          "mbs": 1,
+          "category": "Maç Geneli Alt/Üst",
+          "selection": "3.5 Üst",
+          "nesine_odds": 1.55,
+          "global_fair_odds": 1.83,
+          "global_prob": 0.547,
+          "ev": -0.1521,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3386736",
+          "kickoff": "20.11 06:00",
+          "league": "ABD Major Lig Playoff",
+          "home": "S. Sounders",
+          "away": "Real Salt Lake",
+          "mbs": 1,
+          "category": "Maç Geneli Alt/Üst",
+          "selection": "2.5 Üst",
+          "nesine_odds": 1.41,
+          "global_fair_odds": 1.65,
+          "global_prob": 0.6046,
+          "ev": -0.1476,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3406925",
+          "kickoff": "19.11 22:30",
+          "league": "Uruguay Prmr Ligi, Kapanış",
+          "home": "Boston River",
+          "away": "D. Maldonado",
+          "mbs": 3,
+          "category": "Karşılıklı Gol",
+          "selection": "KG Var",
+          "nesine_odds": 1.54,
+          "global_fair_odds": 1.85,
+          "global_prob": 0.5418,
+          "ev": -0.1656,
+          "status": "PENDING"
+        }
+      ],
+      "status": "PENDING"
+    },
+    {
+      "coupon_no": 3,
+      "title": "KUPON 3 — Hedef 10x+ Global Exchange Kombinesi",
+      "target_odds": 10.0,
+      "achieved_odds": 10.21,
+      "leg_count": 7,
+      "avg_leg_prob": 0.6047,
+      "joint_prob": 0.0294,
+      "reached_target": true,
+      "legs": [
+        {
+          "match_id": "3305027",
+          "kickoff": "20.11 03:30",
+          "league": "Brezilya Serie A",
+          "home": "Sao Paulo SP",
+          "away": "Fluminense",
+          "mbs": 1,
+          "category": "Çifte Şans",
+          "selection": "ÇŞ 02",
+          "nesine_odds": 1.37,
+          "global_fair_odds": 1.61,
+          "global_prob": 0.6212,
+          "ev": -0.1489,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3305120",
+          "kickoff": "20.11 01:30",
+          "league": "Brezilya Serie A",
+          "home": "Vasco Da G.",
+          "away": "Internacional",
+          "mbs": 1,
+          "category": "Maç Geneli Alt/Üst",
+          "selection": "2.5 Üst",
+          "nesine_odds": 1.49,
+          "global_fair_odds": 1.8,
+          "global_prob": 0.5544,
+          "ev": -0.1739,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3408921",
+          "kickoff": "20.11 03:45",
+          "league": "Kolombiya Prmr B Kapanış, Yük. Gr B",
+          "home": "R. S. Cundinamarca",
+          "away": "Deportes Quindio",
+          "mbs": 3,
+          "category": "Maç Geneli Alt/Üst",
+          "selection": "1.5 Üst",
+          "nesine_odds": 1.4,
+          "global_fair_odds": 1.7,
+          "global_prob": 0.5896,
+          "ev": -0.1746,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3386737",
+          "kickoff": "20.11 03:30",
+          "league": "ABD Major Lig Playoff",
+          "home": "Orlando City",
+          "away": "Cincinnati",
+          "mbs": 1,
+          "category": "Çifte Şans",
+          "selection": "ÇŞ 10",
+          "nesine_odds": 1.35,
+          "global_fair_odds": 1.59,
+          "global_prob": 0.6274,
+          "ev": -0.153,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3406921",
+          "kickoff": "19.11 22:30",
+          "league": "Uruguay Prmr Ligi, Kapanış",
+          "home": "CA Progreso",
+          "away": "Torque",
+          "mbs": 3,
+          "category": "Maç Sonucu (1X2)",
+          "selection": "MS 2",
+          "nesine_odds": 1.37,
+          "global_fair_odds": 1.61,
+          "global_prob": 0.6216,
+          "ev": -0.1484,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3398367",
+          "kickoff": "19.11 21:00",
+          "league": "Mısır Kupası",
+          "home": "ZED",
+          "away": "Smouha SC",
+          "mbs": 3,
+          "category": "Maç Geneli Alt/Üst",
+          "selection": "1.5 Üst",
+          "nesine_odds": 1.38,
+          "global_fair_odds": 1.62,
+          "global_prob": 0.6171,
+          "ev": -0.1484,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3361180",
+          "kickoff": "20.11 01:30",
+          "league": "Kolombiya Prmr B Kapanış, Yük. Gr A",
+          "home": "U. Magdalena",
+          "away": "Boca Juniors (Kol)",
+          "mbs": 3,
+          "category": "Karşılıklı Gol",
+          "selection": "KG Yok",
+          "nesine_odds": 1.4,
+          "global_fair_odds": 1.66,
+          "global_prob": 0.6016,
+          "ev": -0.1578,
+          "status": "PENDING"
+        }
+      ],
+      "status": "PENDING"
+    },
+    {
+      "coupon_no": 4,
+      "title": "KUPON 4 — Hedef 20x+ Ana Gece Kombinesi (0 Tekrar)",
+      "target_odds": 20.0,
+      "achieved_odds": 20.14,
+      "leg_count": 9,
+      "avg_leg_prob": 0.5938,
+      "joint_prob": 0.0091,
+      "reached_target": true,
+      "legs": [
+        {
+          "match_id": "3304862",
+          "kickoff": "20.11 01:30",
+          "league": "Brezilya Serie A",
+          "home": "Vitoria BA",
+          "away": "Bragantino",
+          "mbs": 1,
+          "category": "Çifte Şans",
+          "selection": "ÇŞ 10",
+          "nesine_odds": 1.31,
+          "global_fair_odds": 1.56,
+          "global_prob": 0.6396,
+          "ev": -0.1621,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3305027",
+          "kickoff": "20.11 03:30",
+          "league": "Brezilya Serie A",
+          "home": "Sao Paulo SP",
+          "away": "Fluminense",
+          "mbs": 1,
+          "category": "Maç Geneli Alt/Üst",
+          "selection": "2.5 Alt",
+          "nesine_odds": 1.5,
+          "global_fair_odds": 1.78,
+          "global_prob": 0.5626,
+          "ev": -0.1561,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3307516",
+          "kickoff": "19.11 23:00",
+          "league": "UEFA Şamp. Ligi Kadınlar",
+          "home": "Arsenal (K)",
+          "away": "O. Lyon (K)",
+          "mbs": 1,
+          "category": "Maç Sonucu (1X2)",
+          "selection": "MS 2",
+          "nesine_odds": 1.43,
+          "global_fair_odds": 1.76,
+          "global_prob": 0.5698,
+          "ev": -0.1852,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3305120",
+          "kickoff": "20.11 01:30",
+          "league": "Brezilya Serie A",
+          "home": "Vasco Da G.",
+          "away": "Internacional",
+          "mbs": 1,
+          "category": "Maç Sonucu (1X2)",
+          "selection": "MS 1",
+          "nesine_odds": 1.35,
+          "global_fair_odds": 1.58,
+          "global_prob": 0.6338,
+          "ev": -0.1443,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3361195",
+          "kickoff": "20.11 01:30",
+          "league": "Kolombiya Prmr B Kapanış, Yük. Gr A",
+          "home": "Independiente Yumbo",
+          "away": "Envigado",
+          "mbs": 3,
+          "category": "Maç Geneli Alt/Üst",
+          "selection": "2.5 Alt",
+          "nesine_odds": 1.3,
+          "global_fair_odds": 1.6,
+          "global_prob": 0.6238,
+          "ev": -0.1891,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3386737",
+          "kickoff": "20.11 03:30",
+          "league": "ABD Major Lig Playoff",
+          "home": "Orlando City",
+          "away": "Cincinnati",
+          "mbs": 1,
+          "category": "Çifte Şans",
+          "selection": "ÇŞ 02",
+          "nesine_odds": 1.36,
+          "global_fair_odds": 1.64,
+          "global_prob": 0.6085,
+          "ev": -0.1725,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3398367",
+          "kickoff": "19.11 21:00",
+          "league": "Mısır Kupası",
+          "home": "ZED",
+          "away": "Smouha SC",
+          "mbs": 3,
+          "category": "Karşılıklı Gol",
+          "selection": "KG Yok",
+          "nesine_odds": 1.39,
+          "global_fair_odds": 1.71,
+          "global_prob": 0.5853,
+          "ev": -0.1864,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3355406",
+          "kickoff": "20.11 01:30",
+          "league": "Venezuela Kupası, Eleme Turu",
+          "home": "Dep. La Gua.",
+          "away": "Academia Anzoategui",
+          "mbs": 3,
+          "category": "Maç Geneli Alt/Üst",
+          "selection": "2.5 Üst",
+          "nesine_odds": 1.47,
+          "global_fair_odds": 1.78,
+          "global_prob": 0.5608,
+          "ev": -0.1756,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3406921",
+          "kickoff": "19.11 22:30",
+          "league": "Uruguay Prmr Ligi, Kapanış",
+          "home": "CA Progreso",
+          "away": "Torque",
+          "mbs": 3,
+          "category": "Maç Geneli Alt/Üst",
+          "selection": "2.5 Üst",
+          "nesine_odds": 1.47,
+          "global_fair_odds": 1.79,
+          "global_prob": 0.5601,
+          "ev": -0.1767,
+          "status": "PENDING"
+        }
+      ],
+      "status": "PENDING"
+    },
+    {
+      "coupon_no": 5,
+      "title": "KUPON 5 — Yüksek Olasılıklı Zırhlı Alternatif (8 Maç, Ort P=%67.7, ~5.5x)",
+      "target_odds": 5.5,
+      "achieved_odds": 5.51,
+      "leg_count": 8,
+      "avg_leg_prob": 0.6765,
+      "joint_prob": 0.0434,
+      "reached_target": true,
+      "legs": [
+        {
+          "match_id": "3304862",
+          "kickoff": "20.11 01:30",
+          "league": "Brezilya Serie A",
+          "home": "Vitoria BA",
+          "away": "Bragantino",
+          "mbs": 1,
+          "category": "Maç Geneli Alt/Üst",
+          "selection": "3.5 Alt",
+          "nesine_odds": 1.21,
+          "global_fair_odds": 1.41,
+          "global_prob": 0.7098,
+          "ev": -0.1411,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3314224",
+          "kickoff": "19.11 21:00",
+          "league": "Danimarka 1. Lig",
+          "home": "Fredericia",
+          "away": "Hilleroed",
+          "mbs": 3,
+          "category": "Maç Geneli Alt/Üst",
+          "selection": "2.5 Üst",
+          "nesine_odds": 1.2,
+          "global_fair_odds": 1.43,
+          "global_prob": 0.7013,
+          "ev": -0.1585,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3305027",
+          "kickoff": "20.11 03:30",
+          "league": "Brezilya Serie A",
+          "home": "Sao Paulo SP",
+          "away": "Fluminense",
+          "mbs": 1,
+          "category": "Maç Geneli Alt/Üst",
+          "selection": "1.5 Üst",
+          "nesine_odds": 1.21,
+          "global_fair_odds": 1.44,
+          "global_prob": 0.6968,
+          "ev": -0.1569,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3307516",
+          "kickoff": "19.11 23:00",
+          "league": "UEFA Şamp. Ligi Kadınlar",
+          "home": "Arsenal (K)",
+          "away": "O. Lyon (K)",
+          "mbs": 1,
+          "category": "Maç Geneli Alt/Üst",
+          "selection": "2.5 Üst",
+          "nesine_odds": 1.2,
+          "global_fair_odds": 1.44,
+          "global_prob": 0.6944,
+          "ev": -0.1668,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3406922",
+          "kickoff": "19.11 22:30",
+          "league": "Uruguay Prmr Ligi, Kapanış",
+          "home": "Penarol",
+          "away": "Cerro Largo",
+          "mbs": 3,
+          "category": "Maç Sonucu (1X2)",
+          "selection": "MS 1",
+          "nesine_odds": 1.21,
+          "global_fair_odds": 1.46,
+          "global_prob": 0.6834,
+          "ev": -0.173,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3307686",
+          "kickoff": "19.11 23:00",
+          "league": "UEFA Şamp. Ligi Kadınlar",
+          "home": "Benfica (K)",
+          "away": "AS Roma (K)",
+          "mbs": 1,
+          "category": "Karşılıklı Gol",
+          "selection": "KG Var",
+          "nesine_odds": 1.24,
+          "global_fair_odds": 1.48,
+          "global_prob": 0.6752,
+          "ev": -0.1628,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3266477",
+          "kickoff": "19.11 22:00",
+          "league": "Cezayir 1. Lig",
+          "home": "JS Kabylie",
+          "away": "USM Alger",
+          "mbs": 3,
+          "category": "Maç Geneli Alt/Üst",
+          "selection": "2.5 Alt",
+          "nesine_odds": 1.28,
+          "global_fair_odds": 1.53,
+          "global_prob": 0.6529,
+          "ev": -0.1643,
+          "status": "PENDING"
+        },
+        {
+          "match_id": "3408921",
+          "kickoff": "20.11 03:45",
+          "league": "Kolombiya Prmr B Kapanış, Yük. Gr B",
+          "home": "R. S. Cundinamarca",
+          "away": "Deportes Quindio",
+          "mbs": 3,
+          "category": "Karşılıklı Gol",
+          "selection": "KG Yok",
+          "nesine_odds": 1.36,
+          "global_fair_odds": 1.67,
+          "global_prob": 0.5979,
+          "ev": -0.1869,
+          "status": "PENDING"
+        }
+      ],
+      "status": "PENDING"
+    }
+  ]
+}
