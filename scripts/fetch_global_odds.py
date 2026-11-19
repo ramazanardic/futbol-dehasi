@@ -44,7 +44,7 @@ DIRECT_TYPES = {"OVER_UNDER", "BTTS", "DOUBLE_CHANCE", "ODD_EVEN", "SCORE_RANGE"
                 "WINNER_AND_OVER", "BTTS_AND_OVER", "HALF_TIME_DOUBLE_CHANCE", "FIRST_HALF_WINNER_AND_BTTS"}
 MAX_SPREAD = 0.04  # widest acceptable bid/offer spread (4 percentage points) for an exchange reference
 
-DEADLINE = time.monotonic() + 8 * 60  # hard time budget for the whole run (seconds)
+DEADLINE = time.monotonic() + 11 * 60  # hard time budget for the whole run (seconds)
 
 
 def _say(msg: str) -> None:
@@ -149,14 +149,14 @@ def _chunks(items: list, n: int):
         yield items[i:i + n]
 
 
-def smarkets(days: int = 2, max_events: int = 600, window_hours: float | None = None) -> list[dict]:
+def smarkets(days: int = 7, max_events: int = 2000, window_hours: float | None = None, direct_hours: float = 48.0) -> list[dict]:
     now = dt.datetime.now(dt.timezone.utc)
     horizon = now + (dt.timedelta(hours=window_hours) if window_hours else dt.timedelta(days=days))
     events, url = [], f"{SMARKETS}/events/"
     params = {"type": "football_match", "state": "upcoming", "limit": 300, "sort": "start_datetime,id",
               "start_datetime_max": horizon.strftime("%Y-%m-%dT%H:%M:%SZ")}
     seen_pages: set[str] = set()
-    for _ in range(10):  # pagination (bounded)
+    for _ in range(12):  # pagination (bounded)
         r = _get(url, **params) if params else _get(url)
         _say(f"smarkets events page: HTTP {r.status_code}")
         if r.status_code != 200:
@@ -204,9 +204,19 @@ def smarkets(days: int = 2, max_events: int = 600, window_hours: float | None = 
             return "1x2"
         if name in ("over/under 2.5", "over/under 2.5 goals", "total goals over/under 2.5") and "half" not in name:
             return "ou25"
-        if mtype in DIRECT_TYPES:
+        if mtype in DIRECT_TYPES and _soon(m):
             return "direct"
         return None
+
+    direct_until = now + dt.timedelta(hours=direct_hours)
+
+    def _soon(m: dict) -> bool:
+        # derivative markets only for matches within direct_hours (time budget); the light run refreshes them pre-kick-off
+        ev = by_event.get(str(m.get("event_id")))
+        try:
+            return dt.datetime.fromisoformat(ev["start_datetime"].replace("Z", "+00:00")) <= direct_until
+        except (TypeError, KeyError, ValueError):
+            return False
 
     wanted = {str(m["id"]): (m, _kind(m)) for m in markets if _kind(m)}
     contracts, quotes = [], {}
@@ -295,7 +305,7 @@ def smarkets(days: int = 2, max_events: int = 600, window_hours: float | None = 
 MATCHBOOK = "https://api.matchbook.com/edge/rest/events"
 
 
-def matchbook(window_hours: float = 48.0) -> list[dict]:
+def matchbook(window_hours: float = 7 * 24.0) -> list[dict]:
     """Matchbook exchange (public price feed, no account): margin-free 1X2 and O/U 2.5 from back/lay mids."""
     now = dt.datetime.now(dt.timezone.utc)
     horizon = now + dt.timedelta(hours=window_hours)
