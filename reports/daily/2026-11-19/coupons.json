@@ -5,28 +5,28 @@
     {
       "selection": "2.5 Alt",
       "odds": 2.05,
-      "prob": 0.52498,
-      "ev": 0.0762,
+      "prob": 0.52323,
+      "ev": 0.0726,
       "event_id": "401841308",
       "match": "Vasco da Gama - Internacional",
       "league": "Brazilian Serie A"
     },
     {
-      "selection": "3.5 Alt",
-      "odds": 2.05,
-      "prob": 0.50772,
-      "ev": 0.0408,
-      "event_id": "401933535",
-      "match": "Orlando City SC - FC Cincinnati",
-      "league": "MLS"
-    },
-    {
       "selection": "2.5 Alt",
       "odds": 1.952,
-      "prob": 0.53117,
+      "prob": 0.53116,
       "ev": 0.0368,
       "event_id": "401841317",
       "match": "Vitória - Red Bull Bragantino",
+      "league": "Brazilian Serie A"
+    },
+    {
+      "selection": "MS 1",
+      "odds": 1.571,
+      "prob": 0.65643,
+      "ev": 0.0313,
+      "event_id": "401841308",
+      "match": "Vasco da Gama - Internacional",
       "league": "Brazilian Serie A"
     }
   ],
@@ -35,28 +35,55 @@
       "title": "Hedef 3x (yalnızca artı EV bacaklar)",
       "target_odds": 3.0,
       "reached_target": false,
-      "achieved_odds": 0.0,
-      "joint_probability": 0.0,
-      "expected_value": 0.0,
-      "legs": []
+      "achieved_odds": 1.57,
+      "joint_probability": 0.6564,
+      "expected_value": 0.0305,
+      "legs": [
+        {
+          "event_id": "401841308",
+          "match": "Vasco da Gama - Internacional",
+          "selection": "MS 1",
+          "odds": 1.57,
+          "prob": 0.6564,
+          "ev": 0.0312
+        }
+      ]
     },
     {
       "title": "Hedef 5x (yalnızca artı EV bacaklar)",
       "target_odds": 5.0,
       "reached_target": false,
-      "achieved_odds": 0.0,
-      "joint_probability": 0.0,
-      "expected_value": 0.0,
-      "legs": []
+      "achieved_odds": 1.57,
+      "joint_probability": 0.6564,
+      "expected_value": 0.0305,
+      "legs": [
+        {
+          "event_id": "401841308",
+          "match": "Vasco da Gama - Internacional",
+          "selection": "MS 1",
+          "odds": 1.57,
+          "prob": 0.6564,
+          "ev": 0.0312
+        }
+      ]
     },
     {
       "title": "Hedef 10x (yalnızca artı EV bacaklar)",
       "target_odds": 10.0,
       "reached_target": false,
-      "achieved_odds": 0.0,
-      "joint_probability": 0.0,
-      "expected_value": 0.0,
-      "legs": []
+      "achieved_odds": 1.57,
+      "joint_probability": 0.6564,
+      "expected_value": 0.0305,
+      "legs": [
+        {
+          "event_id": "401841308",
+          "match": "Vasco da Gama - Internacional",
+          "selection": "MS 1",
+          "odds": 1.57,
+          "prob": 0.6564,
+          "ev": 0.0312
+        }
+      ]
     }
   ]
 }

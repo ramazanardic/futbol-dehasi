@@ -272,15 +272,28 @@ def test_omni_htft_matches_both_ht_and_ft_marginals(mu_h, mu_a, league):
 def test_omni_first_half_fgm_matches_halves_btts_parametrization():
     from quantfoot.markets.halves_btts import half_model_params
     from quantfoot.markets.omni_markets import compute_omni_markets
-    from quantfoot.markets.tail_goals import com_poisson_pmf
+    from quantfoot.markets.tail_goals import com_poisson_pmf, league_tail_regime
 
     mu_h, mu_a = 1.6, 1.1
     a1, _, _, fgm_1h, _ = half_model_params("e0")
-    p_h = com_poisson_pmf(mu_h * (a1 + 0.0023), 1.10, 7)
-    p_a = com_poisson_pmf(mu_a * (a1 - 0.0023), 1.10, 7)
+    p_h = com_poisson_pmf(mu_h * (a1 + 0.0023), league_tail_regime("e0")[0], 7)
+    p_a = com_poisson_pmf(mu_a * (a1 - 0.0023), league_tail_regime("e0")[0], 7)
     ph, pa = 1.0 - p_h[0], 1.0 - p_a[0]
     # Same binary FGM as halves_btts: P(0-0) = p0_h*p0_a*(1 + fgm*ph*pa), marginals preserved.
     expected_1h_00 = p_h[0] * p_a[0] * (1.0 + fgm_1h * ph * pa)
 
     b = compute_omni_markets(mu_h, mu_a, league="e0")
     assert b.ht_ou["İY 0.5 Alt"] == pytest.approx(expected_1h_00, abs=1e-3)
+
+
+@pytest.mark.parametrize("nu,alpha,kappa", [(1.0, 0.0, 0.0), (1.05, 0.0, 0.02), (1.10, 0.0, 0.0), (1.0, 0.09, 0.07)])
+def test_market_fit_hits_1x2_and_over_targets(nu, alpha, kappa):
+    """Regression: with nu != 1 the fit used to stay at its initial guess (zero numerical gradient)."""
+    from quantfoot.markets.tail_goals import fit_tail_rates_from_markets, matrix_1x2, matrix_over_probability
+
+    p1x2 = np.array([0.395, 0.235, 0.370])
+    _, _, mat = fit_tail_rates_from_markets(p_1x2=p1x2, ou_line=2.5, p_over=0.713, seed_rates=(1.45, 1.15),
+                                            alpha_nb=alpha, shared_kappa=kappa, com_nu=nu, fund_weight=0.0)
+    assert matrix_over_probability(mat, 2.5) == pytest.approx(0.713, abs=0.01)
+    # Overdispersed regimes trade a little draw probability for the O/U fit (2 parameters, 4 targets).
+    assert matrix_1x2(mat) == pytest.approx(p1x2, abs=0.03)

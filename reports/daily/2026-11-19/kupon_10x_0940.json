@@ -1,0 +1,180 @@
+{
+  "target": 10.0,
+  "created": "2026-11-19T09:40:38+03:00",
+  "coupons": [
+    {
+      "legs": [
+        {
+          "code": 3351650,
+          "kickoff": "2026-11-19 15:30",
+          "league": "Slovenya Kupası",
+          "match": "ND Beltinci - NK Celje",
+          "market": "2. Yarı Sonucu",
+          "selection": "2",
+          "odds": 1.51,
+          "p": 0.5739,
+          "ev": -0.1334,
+          "mbs": 3,
+          "reference": "Smarkets"
+        },
+        {
+          "code": 3398362,
+          "kickoff": "2026-11-19 18:00",
+          "league": "Mısır Kupası",
+          "match": "Al Masry - Asyut Petroleum",
+          "market": "1,5 Gol Alt/Üst",
+          "selection": "1,5 Üst",
+          "odds": 1.31,
+          "p": 0.6645,
+          "ev": -0.1295,
+          "mbs": 3,
+          "reference": "Smarkets"
+        },
+        {
+          "code": 3266497,
+          "kickoff": "2026-11-19 19:45",
+          "league": "Cezayir 1. Lig",
+          "match": "MC Alger - Olympique Akbou",
+          "market": "2,5 Alt/Üst ve Karşılıklı Gol",
+          "selection": "Alt&Yok",
+          "odds": 1.54,
+          "p": 0.57273,
+          "ev": -0.118,
+          "mbs": 3,
+          "reference": "Smarkets"
+        },
+        {
+          "code": 3307710,
+          "kickoff": "2026-11-19 22:45",
+          "league": "Fransa Ulusal Lig",
+          "match": "Amiens - Caen",
+          "market": "2,5 Gol Alt/Üst",
+          "selection": "2,5 Alt",
+          "odds": 1.59,
+          "p": 0.59263,
+          "ev": -0.0577,
+          "mbs": 3,
+          "reference": "Smarkets"
+        },
+        {
+          "code": 3304862,
+          "kickoff": "2026-11-20 01:30",
+          "league": "Brezilya Serie A",
+          "match": "Vitoria BA - Bragantino",
+          "market": "Karşılıklı Gol",
+          "selection": "Var",
+          "odds": 1.47,
+          "p": 0.57882,
+          "ev": -0.1491,
+          "mbs": 1,
+          "reference": "Smarkets"
+        },
+        {
+          "code": 3305120,
+          "kickoff": "2026-11-20 01:30",
+          "league": "Brezilya Serie A",
+          "match": "Vasco Da G. - Internacional",
+          "market": "Maç Sonucu",
+          "selection": "1",
+          "odds": 1.42,
+          "p": 0.61106,
+          "ev": -0.1323,
+          "mbs": 1,
+          "reference": "Smarkets"
+        }
+      ],
+      "nesine_odds": 10.11,
+      "probability": 0.04578172575384964,
+      "global_fair_odds": 21.84,
+      "ev": -0.5371247850602334,
+      "min_mbs": 3
+    },
+    {
+      "legs": [
+        {
+          "code": 3307608,
+          "kickoff": "2026-11-19 15:00",
+          "league": "ASEAN Kulüpler Şamp. Grup B",
+          "match": "Persib Bandung - Shan Utd",
+          "market": "Ev Sahibi 2,5 Gol Alt/Üst",
+          "selection": "2,5 Üst",
+          "odds": 1.34,
+          "p": 0.64024,
+          "ev": -0.1421,
+          "mbs": 3,
+          "reference": "Smarkets"
+        },
+        {
+          "code": 3307557,
+          "kickoff": "2026-11-19 15:45",
+          "league": "BAE - Arap Körfez Ligi",
+          "match": "Al Wasl - Hatta SC",
+          "market": "3,5 Gol Alt/Üst",
+          "selection": "3,5 Üst",
+          "odds": 1.44,
+          "p": 0.59132,
+          "ev": -0.1485,
+          "mbs": 2,
+          "reference": "Smarkets"
+        },
+        {
+          "code": 3314224,
+          "kickoff": "2026-11-19 21:00",
+          "league": "Danimarka 1. Lig",
+          "match": "Fredericia - Hilleroed",
+          "market": "Karşılıklı Gol",
+          "selection": "Var",
+          "odds": 1.52,
+          "p": 0.55524,
+          "ev": -0.156,
+          "mbs": 3,
+          "reference": "Smarkets"
+        },
+        {
+          "code": 3305027,
+          "kickoff": "2026-11-20 03:30",
+          "league": "Brezilya Serie A",
+          "match": "Sao Paulo SP - Fluminense",
+          "market": "2,5 Gol Alt/Üst",
+          "selection": "2,5 Alt",
+          "odds": 1.5,
+          "p": 0.56423,
+          "ev": -0.1537,
+          "mbs": 1,
+          "reference": "Smarkets"
+        },
+        {
+          "code": 3386737,
+          "kickoff": "2026-11-20 03:30",
+          "league": "ABD Major Lig Playoff",
+          "match": "Orlando City - Cincinnati",
+          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
+          "selection": "1,5 Üst",
+          "odds": 1.51,
+          "p": 0.56278,
+          "ev": -0.1502,
+          "mbs": 1,
+          "reference": "Smarkets"
+        },
+        {
+          "code": 3386736,
+          "kickoff": "2026-11-20 06:00",
+          "league": "ABD Major Lig Playoff",
+          "match": "S. Sounders - Real Salt Lake",
+          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
+          "selection": "1,5 Üst",
+          "odds": 1.51,
+          "p": 0.5652,
+          "ev": -0.1466,
+          "mbs": 1,
+          "reference": "Smarkets"
+        }
+      ],
+      "nesine_odds": 10.03,
+      "probability": 0.03772620321424695,
+      "global_fair_odds": 26.51,
+      "ev": -0.6215581718174261,
+      "min_mbs": 3
+    }
+  ]
+}

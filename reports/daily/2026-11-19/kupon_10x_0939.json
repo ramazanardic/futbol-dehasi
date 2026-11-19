@@ -1,0 +1,50 @@
+{
+  "target": 10.0,
+  "created": "2026-11-19T09:39:57+03:00",
+  "coupons": [
+    {
+      "legs": [
+        {
+          "code": 3305120,
+          "kickoff": "2026-11-20 01:30",
+          "league": "Brezilya Serie A",
+          "match": "Vasco Da G. - Internacional",
+          "market": "Toplam Gol Aralığı",
+          "selection": "6+ Gol",
+          "odds": 10.25,
+          "p": 0.08063,
+          "ev": -0.1736,
+          "mbs": 1,
+          "reference": "Smarkets"
+        }
+      ],
+      "nesine_odds": 10.25,
+      "probability": 0.08062999999999998,
+      "global_fair_odds": 12.4,
+      "ev": -0.17354250000000015,
+      "min_mbs": 1
+    },
+    {
+      "legs": [
+        {
+          "code": 3386737,
+          "kickoff": "2026-11-20 03:30",
+          "league": "ABD Major Lig Playoff",
+          "match": "Orlando City - Cincinnati",
+          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+          "selection": "2 & Var",
+          "odds": 10.1,
+          "p": 0.07828,
+          "ev": -0.2094,
+          "mbs": 1,
+          "reference": "Smarkets"
+        }
+      ],
+      "nesine_odds": 10.1,
+      "probability": 0.07827999999999999,
+      "global_fair_odds": 12.77,
+      "ev": -0.2093720000000001,
+      "min_mbs": 1
+    }
+  ]
+}

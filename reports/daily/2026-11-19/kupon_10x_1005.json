@@ -1,0 +1,57 @@
+{
+  "target": 10.0,
+  "created": "2026-11-19T10:05:20+03:00",
+  "coupons": [
+    {
+      "legs": [
+        {
+          "code": 3398362,
+          "kickoff": "2026-11-19 18:00",
+          "league": "Mısır Kupası",
+          "match": "Al Masry - Asyut Petroleum",
+          "market": "1,5 Gol Alt/Üst",
+          "selection": "1,5 Üst",
+          "odds": 1.31,
+          "p": 0.676,
+          "ev": -0.1144,
+          "mbs": 3,
+          "reference": "Smarkets",
+          "direct": true
+        },
+        {
+          "code": 3307411,
+          "kickoff": "2026-11-19 20:45",
+          "league": "UEFA Şamp. Ligi Kadınlar ",
+          "match": "FK Austria Wien (K) - B. Münih (K)",
+          "market": "2,5 Alt/Üst ve Karşılıklı Gol",
+          "selection": "Üst&Yok",
+          "odds": 2.46,
+          "p": 0.3542,
+          "ev": -0.1287,
+          "mbs": 1,
+          "reference": "Smarkets",
+          "direct": true
+        },
+        {
+          "code": 3386736,
+          "kickoff": "2026-11-20 06:00",
+          "league": "ABD Major Lig Playoff",
+          "match": "S. Sounders - Real Salt Lake",
+          "market": "Maç Sonucu",
+          "selection": "2",
+          "odds": 3.14,
+          "p": 0.27085,
+          "ev": -0.1495,
+          "mbs": 1,
+          "reference": "Smarkets",
+          "direct": true
+        }
+      ],
+      "nesine_odds": 10.12,
+      "probability": 0.06485210732000002,
+      "global_fair_odds": 15.42,
+      "ev": -0.3437638607047834,
+      "min_mbs": 3
+    }
+  ]
+}

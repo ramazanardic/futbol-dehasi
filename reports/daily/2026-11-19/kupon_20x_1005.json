@@ -1,0 +1,57 @@
+{
+  "target": 20.0,
+  "created": "2026-11-19T10:05:29+03:00",
+  "coupons": [
+    {
+      "legs": [
+        {
+          "code": 3398362,
+          "kickoff": "2026-11-19 18:00",
+          "league": "Mısır Kupası",
+          "match": "Al Masry - Asyut Petroleum",
+          "market": "1,5 Gol Alt/Üst",
+          "selection": "1,5 Üst",
+          "odds": 1.31,
+          "p": 0.676,
+          "ev": -0.1144,
+          "mbs": 3,
+          "reference": "Smarkets",
+          "direct": true
+        },
+        {
+          "code": 3307658,
+          "kickoff": "2026-11-19 18:25",
+          "league": "BAE - Arap Körfez Ligi",
+          "match": "AL Ain - AL Dhafra Scc",
+          "market": "1. Yarı 2,5 Gol Alt/Üst",
+          "selection": "2,5 Alt",
+          "odds": 1.18,
+          "p": 0.7231,
+          "ev": -0.1467,
+          "mbs": 2,
+          "reference": "Smarkets",
+          "direct": true
+        },
+        {
+          "code": 3305027,
+          "kickoff": "2026-11-20 03:30",
+          "league": "Brezilya Serie A",
+          "match": "Sao Paulo SP - Fluminense",
+          "market": "Maç Sonucu ve 2,5 Alt/Üst",
+          "selection": "X & Üst",
+          "odds": 13.0,
+          "p": 0.0671,
+          "ev": -0.1277,
+          "mbs": 1,
+          "reference": "Smarkets",
+          "direct": true
+        }
+      ],
+      "nesine_odds": 20.1,
+      "probability": 0.03279952676,
+      "global_fair_odds": 30.49,
+      "ev": -0.3408803899470959,
+      "min_mbs": 3
+    }
+  ]
+}

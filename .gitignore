@@ -14,3 +14,6 @@ Thumbs.db
 # Regenerable research cache and scheduler logs
 reports/research/backtest_cache*
 reports/daily/logs/
+reports/daily/*/nesine_history.jsonl
+reports/haftalik_sakatlik_ceza_*
+reports/DURUM.md

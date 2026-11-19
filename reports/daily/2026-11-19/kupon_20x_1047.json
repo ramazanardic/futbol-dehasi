@@ -1,0 +1,57 @@
+{
+  "target": 20.0,
+  "created": "2026-11-19T10:47:00+03:00",
+  "coupons": [
+    {
+      "legs": [
+        {
+          "code": 3307608,
+          "kickoff": "2026-11-19 15:00",
+          "league": "ASEAN Kulüpler Şamp. Grup B",
+          "match": "Persib Bandung - Shan Utd",
+          "market": "Handikaplı Maç Sonucu ({{handicap}})",
+          "selection": "1",
+          "odds": 1.66,
+          "p": 0.53022,
+          "ev": -0.1198,
+          "mbs": 3,
+          "reference": "Smarkets",
+          "direct": false
+        },
+        {
+          "code": 3307707,
+          "kickoff": "2026-11-19 15:30",
+          "league": "Mısır 2. Lig",
+          "match": "Baladiyyat AL M. - Haras Hodood",
+          "market": "Deplasman 1,5 Gol Alt/Üst",
+          "selection": "1,5 Alt",
+          "odds": 1.23,
+          "p": 0.73301,
+          "ev": -0.0984,
+          "mbs": 3,
+          "reference": "Matchbook",
+          "direct": false
+        },
+        {
+          "code": 3307710,
+          "kickoff": "2026-11-19 22:45",
+          "league": "Fransa Ulusal Lig",
+          "match": "Amiens - Caen",
+          "market": "İlk Golü Hangi Takım Atar?",
+          "selection": "Olmaz",
+          "odds": 9.89,
+          "p": 0.10441,
+          "ev": 0.0326,
+          "mbs": 3,
+          "reference": "Smarkets",
+          "direct": false
+        }
+      ],
+      "nesine_odds": 20.19,
+      "probability": 0.04057963165930201,
+      "global_fair_odds": 24.64,
+      "ev": -0.18055918489178757,
+      "min_mbs": 3
+    }
+  ]
+}

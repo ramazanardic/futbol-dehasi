@@ -1,0 +1,114 @@
+{
+  "target": 50.0,
+  "created": "2026-11-19T15:48:54+03:00",
+  "coupons": [
+    {
+      "legs": [
+        {
+          "code": 3307410,
+          "kickoff": "2026-11-19 16:00",
+          "league": "Uganda Premier Ligi",
+          "match": "Maroons - NEC",
+          "market": "Maç Sonucu",
+          "selection": "2",
+          "odds": 1.67,
+          "p": 0.57165,
+          "ev": -0.0453,
+          "mbs": 3,
+          "reference": "Matchbook",
+          "direct": true,
+          "context": ""
+        },
+        {
+          "code": 3398367,
+          "kickoff": "2026-11-19 21:00",
+          "league": "Mısır Kupası",
+          "match": "ZED - Smouha SC",
+          "market": "Maç Sonucu",
+          "selection": "1",
+          "odds": 2.26,
+          "p": 0.38941,
+          "ev": -0.1199,
+          "mbs": 3,
+          "reference": "Matchbook",
+          "direct": true,
+          "context": "Ev: 3 sakat, 0 cezalı"
+        },
+        {
+          "code": 3305120,
+          "kickoff": "2026-11-20 01:30",
+          "league": "Brezilya Serie A",
+          "match": "Vasco Da G. - Internacional",
+          "market": "Maç Sonucu ve 2,5 Alt/Üst",
+          "selection": "X & Üst",
+          "odds": 13.25,
+          "p": 0.0633,
+          "ev": -0.1613,
+          "mbs": 1,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": "Ev: form LLWWW, 11./20, 6 sakat, 0 cezalı, son kadroda yok: Thiago Mendes, Santiago Sosa · Dep: form DLWLW, 17./20, 6 sakat, 0 cezalı (kaleci yok), son kadroda yok: Alan Patrick, Guillermo Maripán"
+        }
+      ],
+      "nesine_odds": 50.01,
+      "probability": 0.014090974137449997,
+      "global_fair_odds": 70.97,
+      "ev": -0.29533645168828004,
+      "min_mbs": 3
+    },
+    {
+      "legs": [
+        {
+          "code": 3398362,
+          "kickoff": "2026-11-19 18:00",
+          "league": "Mısır Kupası",
+          "match": "Al Masry - Asyut Petroleum",
+          "market": "1,5 Gol Alt/Üst",
+          "selection": "1,5 Üst",
+          "odds": 1.31,
+          "p": 0.6919,
+          "ev": -0.0936,
+          "mbs": 3,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": ""
+        },
+        {
+          "code": 3314224,
+          "kickoff": "2026-11-19 21:00",
+          "league": "Danimarka 1. Lig",
+          "match": "Fredericia - Hilleroed",
+          "market": "Maç Sonucu ve Alt/Üst",
+          "selection": "MS 0 & 3.5 Üst",
+          "odds": 14.6,
+          "p": 0.0571,
+          "ev": -0.1663,
+          "mbs": 3,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": "Ev: 2 sakat, 0 cezalı"
+        },
+        {
+          "code": 3305027,
+          "kickoff": "2026-11-20 03:30",
+          "league": "Brezilya Serie A",
+          "match": "Sao Paulo SP - Fluminense",
+          "market": "Maç Sonucu",
+          "selection": "2",
+          "odds": 2.64,
+          "p": 0.326,
+          "ev": -0.1394,
+          "mbs": 1,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": "Ev: form WWDLD, 10./20, 5 sakat, 0 cezalı · Dep: form LWLWW, 4./20, 5 sakat, 0 cezalı, son kadroda yok: Ignácio"
+        }
+      ],
+      "nesine_odds": 50.49,
+      "probability": 0.012879441740000004,
+      "global_fair_odds": 77.64,
+      "ev": -0.3496829848212061,
+      "min_mbs": 3
+    }
+  ]
+}

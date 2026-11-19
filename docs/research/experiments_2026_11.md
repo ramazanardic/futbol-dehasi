@@ -49,8 +49,9 @@ adil CLV +5.6%.
 %9.9 üstünde — eski / limitli fiyatlar içeriyor olabilir. (c) Kazanan hesaplar kısıtlanır
 (Kaunitz ve ark. 2017). (d) Yalnızca yaşadığın yerde yasal olan bürolarla oynanmalı.
 
-Canlı uygulama: `scripts/sharp_scan.py` (The Odds API anahtarı gerekir) ve kendi büronun oranlarını
-Pinnacle'a karşı kontrol etmek için `sharp_scan.py check --my-odds`.
+Canlı uygulama: ücretsiz, anahtarsız ve Türkiye'den erişilebilir bir Pinnacle kaynağı bulunamadı
+(football-data.co.uk, Polymarket ve Kalshi erişime engelli; oran toplayıcıları otomatik toplamayı yasaklıyor).
+Canlı karşılaştırma ESPN (DraftKings) ile yapılır: `scripts/nesine_global.py`.
 
 ## 4. Türev pazarların kalibrasyonu (piyasaya sabitlenmiş motor)
 
@@ -76,4 +77,53 @@ bkz. §5.
 
 `research_experiments.py calibrate-regime` · ayrıntı: [regime_calibration.md](../../reports/research/regime_calibration.md)
 
-(sonuç aşağıda)
+ν (COM-Poisson) × ρ (Dixon-Coles) × κ (ortak tempo) ızgarası yalnızca kalibrasyon döneminde
+(2019-07 – 2022-07, 2.500 maç) tarandı; en iyisi **ν = 1.0, ρ = −0.03, κ = 0** (eski: 1.10 / −0.07 / 0).
+Bağımsız test (2022-07+, 6.000 maç) — her satırda iyileşme:
+
+| Pazar | Gerçekleşen | Eski | Yeni |
+|---|---|---|---|
+| KG Var | %52.8 | %48.1 | %51.3 |
+| 3.5 Üst | %28.7 | %24.0 | %29.1 |
+| 4.5 Üst | %13.3 | %10.5 | %14.4 |
+| Dep 0.5 Üst | %69.4 | %65.0 | %68.0 |
+| Skor 0-0 | %7.6 | %8.3 | %7.4 |
+
+Toplam test log-loss 4.611 → 4.554. Motora uygulandı (`tail_goals.CLUB_REGIME`, `DEFAULT_RHO`).
+
+> **Düzeltme (19 Kasım):** Bu ızgara sırasında `fit_tail_rates_from_markets`'te bir hata vardı: ν ≠ 1 olan
+> rejimlerde optimizer hiç hareket etmiyor, başlangıç tahmininde kalıyordu (COM-Poisson ikiye bölme
+> adımı çok kaba olduğu için sayısal gradyan sıfırdı). Yani ν = 1.10 seçenekleri piyasaya hiç
+> uydurulmadan puanlandı; ν = 1.0'ın kazanması kısmen bu yüzden olabilir. Hata düzeltildi ve
+> kalibrasyon yeniden çalıştırıldı (sonuç: `reports/research/regime_calibration.md`).
+> **Yeniden çalıştırma sonucu:** düzeltilmiş uydurucuyla da en iyi rejim ν = 1.0, ρ = −0.03, κ = 0
+> (toplam log-loss 4.61746; ν = 1.05 için 4.61747). ν = 1.0'ın kazanması hatadan kaynaklanmıyormuş;
+> parametreler değiştirilmedi.
+README'deki "ν = 1.10 kulüp rejimi" bulgusu bu sabitlenmiş kullanımda geçerli değil.
+
+
+## 6. Gol modelinin doğrudan borsa fiyatlarına kalibrasyonu (19 Kasım)
+
+`scripts/calibrate_direct.py`: Smarkets'in tam ve likit defterlerinden (KG, tüm Alt/Üst çizgileri, İY,
+İY/MS, yarı Alt/Üst, Tek/Çift, gol aralığı, kombineler) bağımsız bir doğrulama seti. Model üretimdeki
+girdilerle (1X2 + 2,5 Alt/Üst) uydurulur, girdi olmayan seçimlerde KL(borsa || model) ölçülür; maçlar
+ikiye bölünür (seçim / test). 38 maç:
+
+- Mevcut ayar (ρ = −0.03, ν = 1.0, κ = 0, İY payı 0.44): test KL 0.00018 (~1 puan olasılık hatası).
+- En iyi ızgara noktası ν = 1.08: 0.00017. Fark çok küçük ve örneklem küçük: **parametre değişmedi**.
+- Tüm Alt/Üst çizgileri + KG'yi de girdi yapmak türev pazarları iyileştirmedi (0.00017 / 0.00019).
+- En zayıf aile İY/MS (KL ≈ 0.0005–0.0006, diğerlerinin ~3 katı).
+
+Veri her çekimle büyür; test düzenli olarak tekrarlanacak. Kaynaklar: ESPN futbol sakatlık uçları
+(lig ve takım) boş; ücretsiz resmî tek kaynak Premier Lig (FPL). `penaltyblog` (MIT) incelendi: içerdiği
+modeller ve marj yöntemleri sistemde zaten var; entegrasyon ölçülebilir kazanç getirmez.
+
+## 7. İlk yarı / oyun durumu kalibrasyonu (19 Kasım)
+
+`scripts/calibrate_halves.py`: ilk yarı gol payı ve ikinci yarı oyun durumu çarpanları (0-0, gollü
+beraberlik, 1 ve 2+ farkla önde / geride) doğrudan kote edilen yarı pazarlarına (İY/MS, İY sonucu,
+İY Alt/Üst, İY KG, 2Y…) uyduruldu, maçların yarısında test edildi. Test KL 0.00028 → 0.00026 (%7).
+Geride kalan takımın 1 farkta ikinci yarı tempo artışı **+%10.5** çıktı: Maia vd. (2023) ile birebir
+(+%10). Ancak çözüm üç parametrede sınıra dayandı ve İY/MS'li maç sayısı çok az (≈5): **üretime
+alınmadı**; `compute_omni_markets(state_mults=...)` ile parametreli hâle getirildi, veri birikince
+tekrarlanacak.

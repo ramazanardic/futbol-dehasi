@@ -1,0 +1,70 @@
+name: global-odds
+
+# Fetches sharp global prices (Pinnacle via football-data.co.uk, Smarkets exchange) from GitHub's
+# servers, because these sources are not reachable from Turkey. Results are committed to
+# data/global_odds/latest/ and read locally by scripts/nesine_global.py after `git pull`.
+
+on:
+  schedule:
+    - cron: "10 4,8,12,16,20 * * *"   # full fetch: 07:10, 11:10, 15:10, 19:10, 23:10 TSİ
+  # GitHub never fired these schedules for this repo (19 Nov): the PC dispatches runs with `gh workflow run`
+  # (scripts/scheduled.py) — full when the data is stale, light ~1 h before Nesine kick-offs (line-ups).
+  workflow_dispatch:
+    inputs:
+      light:
+        description: "Light refresh window in hours (empty = full fetch)"
+        required: false
+        default: ""
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/global-odds.yml"
+      - "scripts/fetch_global_odds.py"
+      - "data/global_odds/trigger.txt"   # backup trigger pushed by scheduled.py when the cron skipped runs
+
+permissions:
+  contents: write
+
+concurrency:
+  group: global-odds
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install requests
+      - name: Fetch global odds
+        run: |
+          git pull -q --ff-only || true   # a light run merges into the newest snapshot, not the one at trigger time
+          if [ -n "${{ github.event.inputs.light }}" ]; then
+            python scripts/fetch_global_odds.py --light "${{ github.event.inputs.light }}"
+          else
+            python scripts/fetch_global_odds.py
+          fi
+      - name: Commit data
+        run: |
+          git config user.name "global-odds-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p /tmp/ours && cp data/global_odds/latest/* /tmp/ours/
+          for i in 1 2 3 4; do
+            git add data/global_odds
+            if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+            git commit -q -m "data(global-odds): $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push -q && exit 0
+            # Another run pushed first. Never line-merge the JSON: start from the newest data and rebuild on it.
+            git fetch -q origin main && git reset -q --hard origin/main
+            if [ -n "${{ github.event.inputs.light }}" ]; then
+              python scripts/fetch_global_odds.py --light "${{ github.event.inputs.light }}"   # re-merge into newest
+            else
+              cp /tmp/ours/* data/global_odds/latest/   # a full fetch is a complete, newer snapshot
+            fi
+            sleep 3
+          done
+          exit 1

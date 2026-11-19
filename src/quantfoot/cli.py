@@ -23,7 +23,7 @@ from quantfoot.data.loader import DEFAULT_LEAGUES, LEAGUE_NAMES, load_matches
 from quantfoot.data.xg_proxy import BoxScoreXGModel
 from quantfoot.evaluation.backtest import run_pinnacle_soft_backtest, run_walk_forward_backtest
 from quantfoot.evaluation.reporting import generate_backtest_charts
-from quantfoot.markets.devig import DevigMethod, book_overround, devig
+from quantfoot.markets.devig import book_overround, devig
 from quantfoot.markets.pricing import expected_ah_ev, over_under_probability, price_all_markets
 from quantfoot.models.bivariate_poisson import DiagonalBivariatePoisson
 from quantfoot.models.dixon_coles import TimeDecayedDixonColes
@@ -40,7 +40,6 @@ from quantfoot.models.weibull_copula import (
 )
 from quantfoot.strategy.kelly import (
     baker_mchale_kelly_fraction,
-    kelly_fraction,
     maclean_doubling_before_halving,
     optimize_correlated_kelly,
 )

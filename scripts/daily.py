@@ -72,7 +72,6 @@ SLUG_TO_DIVISION = {
     "ger.1": "D1", "ger.2": "D2", "ita.1": "I1", "ita.2": "I2", "fra.1": "F1", "fra.2": "F2", "tur.1": "T1",
     "ned.1": "N1", "por.1": "P1", "bel.1": "B1", "sco.1": "SC0", "gre.1": "G1",
 }
-SUMMARY_KEYS = ("MS 1", "MS 0", "MS 2", "2.5 Üst", "2.5 Alt", "KG Var", "KG Yok", "İY 0.5 Üst")
 
 
 def _day_dir(date: str) -> Path:
@@ -253,7 +252,7 @@ def cmd_coupons(args: argparse.Namespace) -> None:
           "> **Bu liste bahis önerisi değildir.** Gol beklentisi bu büronun oranlarına uydurulduğu için buradaki "
           "artı EV, modelin gol dağılımı ile piyasanın yapısal farkıdır. Geçmiş testte (16.423 maç, 2021–2026) repodaki "
           "15 modelin hiçbiri Bet365 fiyatına bilgi katmadı (havuz ağırlığı w = 0.00; `reports/research/pooling_test.md`). "
-          "Kanıtı olan tek yöntem keskin–yumuşak oran farkıdır: `scripts/sharp_scan.py`.", ""]
+          "Nesine için global referans karşılaştırması: `scripts/nesine_global.py`.", ""]
     md += ["## Artı EV tekiller", ""]
     if singles:
         md += ["| Maç | Seçim | Oran | Model P | EV |", "|---|---|---|---|---|"]

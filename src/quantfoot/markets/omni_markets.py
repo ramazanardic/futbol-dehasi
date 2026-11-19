@@ -7,6 +7,7 @@ import numpy as np
 
 from quantfoot.markets.halves_btts import compute_halves_btts, half_model_params
 from quantfoot.markets.tail_goals import (
+    DEFAULT_RHO,
     _apply_dixon_coles_low_scores,
     com_poisson_pmf,
     league_tail_regime,
@@ -19,13 +20,6 @@ HTFT_OUTCOMES: tuple[str, ...] = (
     "2/1", "2/0", "2/2",
 )
 
-
-def _outcome_idx(h: int, a: int) -> int:
-    if h > a:
-        return 0  # '1'
-    if h == a:
-        return 1  # '0'
-    return 2      # '2'
 
 
 def _safe_fair_odds(prob: float) -> float:
@@ -120,6 +114,22 @@ def rake_joint_to_margins(
     return flat.reshape(joint.shape)
 
 
+# Second-half scoring multipliers (home, away) by half-time state; rescaled to conserve the 2H mean.
+GAME_STATE_MULTS: dict[str, tuple[float, float]] = {
+    "00": (0.965, 0.955),       # 0-0 at HT reflects tighter defensive lock
+    "tied_g": (1.025, 1.025),   # 1-1+ at HT reflects open transition tempo
+    "h_plus1": (0.960, 1.095),  # Home +1 at HT -> Away pushes harder in 2H (1/0, 1/2)
+    "a_plus1": (1.105, 0.955),  # Away +1 at HT -> Home pushes harder in 2H (2/0, 2/1)
+    "h_plus2": (1.030, 0.990),
+    "a_plus2": (0.990, 1.040),
+}
+
+
+def game_state_mults(z: float, g: float, l1: float, t1: float, l2: float, t2: float) -> dict[str, tuple[float, float]]:
+    """Symmetric game-state multipliers: z = 0-0, g = level with goals, l/t = leader/trailer at +1 and +2."""
+    return {"00": (z, z), "tied_g": (g, g), "h_plus1": (l1, t1), "a_plus1": (t1, l1), "h_plus2": (l2, t2), "a_plus2": (t2, l2)}
+
+
 def compute_omni_markets(
     mu_home: float,
     mu_away: float,
@@ -130,6 +140,7 @@ def compute_omni_markets(
     away_1h_urgency_shift: float = 0.0,
     max_half_goals: int = 7,
     max_ft_goals: int = 14,
+    state_mults: dict[str, tuple[float, float]] | None = None,
 ) -> OmniMarketBundle:
     """Compute unified probabilities across all FT, 1H, 2H, HT/FT, Goal Band, BTTS, and Exact Score markets.
 
@@ -164,7 +175,7 @@ def compute_omni_markets(
             mu_h,
             mu_a,
             alpha_nb=alpha_nb,
-            rho=-0.07,
+            rho=DEFAULT_RHO,
             shared_kappa=shared_kappa,
             com_nu=com_nu,
             max_goals=max_ft_goals,
@@ -184,14 +195,7 @@ def compute_omni_markets(
     mat_1h /= mat_1h.sum()
 
     # 3. Mean-conserving game-state conditional 2H matrices for 9-way HT/FT & 2H markets
-    raw_mults = {
-        "00": (0.965, 0.955),       # 0-0 at HT reflects tighter defensive lock
-        "tied_g": (1.025, 1.025),   # 1-1+ at HT reflects open transition tempo
-        "h_plus1": (0.960, 1.095),  # Home +1 at HT -> Away pushes harder in 2H (1/0, 1/2)
-        "a_plus1": (1.105, 0.955),  # Away +1 at HT -> Home pushes harder in 2H (2/0, 2/1)
-        "h_plus2": (1.030, 0.990),
-        "a_plus2": (0.990, 1.040),
-    }
+    raw_mults = state_mults if state_mults is not None else GAME_STATE_MULTS
 
     G = max_half_goals + 1
     state_probs = {k: 0.0 for k in raw_mults}

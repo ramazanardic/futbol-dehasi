@@ -1,0 +1,90 @@
+{
+  "target": 50.0,
+  "created": "2026-11-19T15:49:34+03:00",
+  "coupons": [
+    {
+      "legs": [
+        {
+          "code": 3307410,
+          "kickoff": "2026-11-19 16:00",
+          "league": "Uganda Premier Ligi",
+          "match": "Maroons - NEC",
+          "market": "Maç Sonucu",
+          "selection": "2",
+          "odds": 1.67,
+          "p": 0.57165,
+          "ev": -0.0453,
+          "mbs": 3,
+          "reference": "Matchbook",
+          "direct": true,
+          "context": ""
+        },
+        {
+          "code": 3307430,
+          "kickoff": "2026-11-19 16:00",
+          "league": "Özbekistan Süper Ligi",
+          "match": "Surkhon Termez - Andijon",
+          "market": "Maç Sonucu",
+          "selection": "2",
+          "odds": 1.94,
+          "p": 0.48614,
+          "ev": -0.0569,
+          "mbs": 3,
+          "reference": "Smarkets",
+          "direct": true,
+          "context": ""
+        },
+        {
+          "code": 3307513,
+          "kickoff": "2026-11-19 16:00",
+          "league": "Uganda Premier Ligi",
+          "match": "Kigezi Homeoyz - Express",
+          "market": "Maç Sonucu",
+          "selection": "1",
+          "odds": 3.29,
+          "p": 0.26863,
+          "ev": -0.1162,
+          "mbs": 3,
+          "reference": "Matchbook",
+          "direct": true,
+          "context": ""
+        },
+        {
+          "code": 3307658,
+          "kickoff": "2026-11-19 18:25",
+          "league": "BAE - Arap Körfez Ligi",
+          "match": "AL Ain - AL Dhafra Scc",
+          "market": "3,5 Gol Alt/Üst",
+          "selection": "3,5 Alt",
+          "odds": 1.98,
+          "p": 0.4383,
+          "ev": -0.1322,
+          "mbs": 2,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": ""
+        },
+        {
+          "code": 3398367,
+          "kickoff": "2026-11-19 21:00",
+          "league": "Mısır Kupası",
+          "match": "ZED - Smouha SC",
+          "market": "Maç Sonucu",
+          "selection": "1",
+          "odds": 2.39,
+          "p": 0.38941,
+          "ev": -0.0693,
+          "mbs": 3,
+          "reference": "Matchbook",
+          "direct": true,
+          "context": "Ev: 3 sakat, 0 cezalı"
+        }
+      ],
+      "nesine_odds": 50.44,
+      "probability": 0.012741619953748009,
+      "global_fair_odds": 78.48,
+      "ev": -0.3573095636007474,
+      "min_mbs": 3
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "target": 10.0,
+  "created": "2026-11-19T09:50:17+03:00",
+  "coupons": [
+    {
+      "legs": [
+        {
+          "code": 3406925,
+          "kickoff": "2026-11-19 22:30",
+          "league": "Uruguay Prmr Ligi, Kapanış",
+          "match": "Boston River - D. Maldonado",
+          "market": "Maç Sonucu",
+          "selection": "2",
+          "odds": 1.74,
+          "p": 0.54025,
+          "ev": -0.06,
+          "mbs": 3,
+          "reference": "Smarkets"
+        },
+        {
+          "code": 3307710,
+          "kickoff": "2026-11-19 22:45",
+          "league": "Fransa Ulusal Lig",
+          "match": "Amiens - Caen",
+          "market": "Toplam Gol Aralığı",
+          "selection": "0-1 Gol",
+          "odds": 3.0,
+          "p": 0.32591,
+          "ev": -0.0223,
+          "mbs": 3,
+          "reference": "Smarkets"
+        },
+        {
+          "code": 3305027,
+          "kickoff": "2026-11-20 03:30",
+          "league": "Brezilya Serie A",
+          "match": "Sao Paulo SP - Fluminense",
+          "market": "1. Yarı Tek/Çift",
+          "selection": "Tek",
+          "odds": 1.93,
+          "p": 0.4372,
+          "ev": -0.1562,
+          "mbs": 1,
+          "reference": "Smarkets"
+        }
+      ],
+      "nesine_odds": 10.07,
+      "probability": 0.07697906204300001,
+      "global_fair_odds": 12.99,
+      "ev": -0.2244667415415923,
+      "min_mbs": 3
+    }
+  ]
+}
