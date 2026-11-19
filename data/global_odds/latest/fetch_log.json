@@ -1,14 +1,14 @@
 {
- "started_utc": "2026-11-19T06:20:29+00:00",
+ "started_utc": "2026-11-19T06:24:12+00:00",
  "errors": [],
  "counts": {
   "fixtures.csv": 51,
   "new_league_fixtures.csv": 9,
-  "references_total": 144,
+  "references_total": 216,
   "smarkets_events": 160,
   "smarkets_markets": 13321,
-  "smarkets_contracts": 6236,
-  "smarkets_references": 144
+  "smarkets_contracts": 795,
+  "smarkets_references": 158
  },
  "samples": {
   "fixtures.csv": {
@@ -318,6 +318,68 @@
    "state": "open",
    "winner_count": 1
   },
+  "smarkets_market_names": {
+   "WINNER_3_WAY | Full-time result": 159,
+   "CORRECT_SCORE | Correct score": 159,
+   "BTTS | Both teams to score": 159,
+   "OVER_UNDER | Over/under 0.5": 159,
+   "OVER_UNDER | Over/under 1.5": 159,
+   "OVER_UNDER | Over/under 2.5": 159,
+   "OVER_UNDER | Over/under 3.5": 159,
+   "OVER_UNDER | Over/under 4.5": 159,
+   "OVER_UNDER | Over/under 5.5": 159,
+   "OVER_UNDER | Over/under 6.5": 159,
+   "WINNER_AND_BTTS | Winner and both teams to score": 159,
+   "WINNER_AND_OVER | Winner and over/under 2.5": 159,
+   "BTTS_AND_OVER | Both teams to score and over/under 2.5": 159,
+   "DOUBLE_CHANCE | Double chance": 159,
+   "WINNER_DNB | Draw No Bet": 159,
+   "SCORE_RANGE | Goal range": 157,
+   "HALF_TIME_CORRECT_SCORE | Half-time correct score": 157,
+   "HIGHEST_SCORING_HALF | Highest scoring half": 156,
+   "ODD_EVEN | Odd or even score": 156,
+   "FIRST_HALF_OVER_UNDER | First half over/under 1.5": 156,
+   "FIRST_HALF_OVER_UNDER | First half over/under 2.5": 156,
+   "SECOND_HALF_WINNER_3_WAY | Second half result": 156,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 1.5": 156,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 2.5": 156,
+   "SECOND_HALF_EXACT_GOALS | Second half exact goals": 156,
+   "HALF_FULL | Half-time/full-time": 155,
+   "HALF_TIME_WINNER_3_WAY | Half-time result": 155,
+   "FIRST_HALF_ODD_EVEN | First half odd or even score": 155,
+   "SECOND_HALF_ODD_EVEN | Second half odd or even score": 155,
+   "HALF_TIME_DOUBLE_CHANCE | Half-time double chance": 154,
+   "FIRST_HALF_OVER_UNDER | First half over/under 0.5": 154,
+   "FIRST_HALF_WINNER_AND_BTTS | First half winner and both teams to score": 154,
+   "FIRST_HALF_WINNER_AND_OVER | First half winner and over/under 1.5": 154,
+   "BTTS_FIRST_HALF | Both teams to score in First Half": 154,
+   "BTTS_SECOND_HALF | Both teams to score in Second Half": 154,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 0.5": 139,
+   "WINNER_AND_OVER | Winner and over/under 3.5": 123,
+   "WINNER_AND_OVER | Winner and over/under 1.5": 92,
+   "FIRST_HALF_EXACT_GOALS | First half exact goals": 79,
+   "BTTS_BOTH_HALVES | Both teams to score in first half / second half": 79,
+   "WINNER_AND_OVER | Winner and over/under 4.5": 62,
+   "EXACT_GOALS | Exact goals": 38,
+   "CORNERS_WINNER_THREE_WAY | Most corners": 36,
+   "WIN_MARGIN | Winning margin": 24,
+   "TIME_OF_NEXT_GOAL | Goal 1 time bracket": 24,
+   "LAST_TEAM_TO_SCORE | Last team to score": 24,
+   "NEXT_TEAM_TO_SCORE | Team to score first goal": 24,
+   "CORNER_RANGE | Total corners in range": 24,
+   "WINNER_3_WAY_TIME_BRACKET | Winner in 1 minute to 10 minute time bracket": 24,
+   "CORNERS_OVER_UNDER | Over/under 8.5 corners": 23,
+   "CORNERS_OVER_UNDER | Over/under 9.5 corners": 23,
+   "CORNERS_OVER_UNDER | Over/under 10.5 corners": 23,
+   "FIRST_HALF_CORNERS_OVER_UNDER | First half over/under 4.5 corners": 23,
+   "FIRST_HALF_CORNERS_OVER_UNDER | First half over/under 5.5 corners": 23,
+   "LAST_CORNER | Team to have the last corner": 22,
+   "NEXT_CORNER | Team to have first corner": 22,
+   "ANYTIME_GOALSCORER | Anytime goalscorer": 22,
+   "FIRST_GOALSCORER | First goalscorer": 22,
+   "LAST_GOALSCORER | Last goalscorer": 22,
+   "PLAYER_AT_LEAST_GOALS | Player to score at least 2 goals": 22
+  },
   "smarkets_contract": {
    "competitor_id": 197988,
    "contract_type": {
@@ -339,20 +401,16 @@
    "484103272": {
     "bids": [
      {
-      "price": 3937,
-      "quantity": 1813757
-     },
-     {
-      "price": 3906,
-      "quantity": 7271603
-     },
-     {
-      "price": 3876,
-      "quantity": 14420
-     },
-     {
       "price": 3846,
-      "quantity": 9271004
+      "quantity": 91148
+     },
+     {
+      "price": 3817,
+      "quantity": 593921
+     },
+     {
+      "price": 3731,
+      "quantity": 10338047
      },
      {
       "price": 3704,
@@ -361,16 +419,20 @@
     ],
     "offers": [
      {
+      "price": 4032,
+      "quantity": 231025
+     },
+     {
       "price": 4098,
-      "quantity": 6282092
+      "quantity": 8229681
      },
      {
       "price": 4132,
-      "quantity": 13307928
+      "quantity": 1704158
      }
     ]
    }
   }
  },
- "finished_utc": "2026-11-19T06:22:49+00:00"
+ "finished_utc": "2026-11-19T06:24:18+00:00"
 }
