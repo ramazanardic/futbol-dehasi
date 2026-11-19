@@ -34,6 +34,26 @@ python scripts/nesine_global.py --date 2026-11-19
    Kalibre edilmemiş yarışmalarda (kadın
    futbolu) yalnızca doğrudan referansı olan pazarlar (1X2, aynı çizgideki Alt/Üst) fiyatlanır.
 
+## Kupon: olasılık globalden, oran Nesine'den
+
+```bash
+python scripts/nesine_kupon.py --hedef 10                                   # matematiksel en iyi
+python scripts/nesine_kupon.py --hedef 10 --min-mac 4 --min-olasilik 0.55  # kombine
+```
+
+- Her bacağın tutma olasılığı **yalnızca keskin referanstan** (Pinnacle / Smarkets / Betfair) gelir;
+  ESPN referanslı maçlar `--espn` verilmedikçe kullanılmaz.
+- Hedef **Nesine oranlarının çarpımıdır**: "10 oranlık kupon" Nesine'de oynandığında 10'un üstündedir.
+  Global orana göre kurulup Nesine'de 4'e düşen kupon sorunu böylece ortadan kalkar.
+- Hedefe ulaşan kuponlar arasında global birleşik olasılığı en yüksek olan, kesin bir dinamik
+  programlamayla seçilir (kaba kuvvetle doğrulanır, `tests/test_nesine_kupon.py`). Maç başına tek seçim,
+  Nesine MBS kuralı, başlamış maçlar hariç. `--adet` maçları ayrı alternatif kuponlar verir.
+- **Önemli:** her ek maç Nesine marjını (~%20) yeniden ekler. Bu yüzden aynı hedef için az maçlı kupon
+  çoğu zaman daha olasıdır (19 Kasım, hedef 10: tek bacak %8.1, 6 bacaklı kombine %4.6).
+  `--min-mac` kombine ister, ama bunun bedeli tutma olasılığıdır.
+
+Çıktı: `reports/daily/<tarih>/kupon_<hedef>x_<SSDD>.md` ve `.json`.
+
 ## İlk bulgu: Nesine marjı (19 Kasım 2026, 60 maç)
 
 - Maç sonucu marjı **%18.4 – %23.5** (Pinnacle'da tipik olarak %2–3).

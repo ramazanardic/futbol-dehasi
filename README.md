@@ -14,6 +14,8 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
 - **Günlük akış:** `scripts/daily.py` (CLV ve havuz testi dahil), zamanlanmış görevler `scripts/scheduled.py`.
 - **Nesine analizi:** bültenin her seçimi ücretsiz global referans fiyatına (ESPN / DraftKings) göre fiyatlanır:
   `scripts/nesine_global.py`, [docs/nesine.md](docs/nesine.md). İlk ölçüm: Nesine marjı pazarların çoğunda %19–23.
+- **Nesine kuponu:** `scripts/nesine_kupon.py --hedef 10` — olasılık keskin global fiyattan, hedef oran
+  Nesine oranlarından (Nesine'de oynanınca hedef tutar). Kombine için `--min-mac`, `--min-olasilik`.
 - Yol haritası: [docs/research/roadmap_2026_11.md](docs/research/roadmap_2026_11.md).
 
 ---

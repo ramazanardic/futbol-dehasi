@@ -153,27 +153,24 @@ def price_event(event, ref: dict, league: str) -> dict:
             "nesine_ms_margin": None if margin is None else round(margin, 4), "derivatives_priced": derivatives_ok, "selections": rows}
 
 
-def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--date", default=dt.datetime.now(TSI).date().isoformat())
-    ap.add_argument("--min-ev", type=float, default=0.0)
-    args = ap.parse_args()
-    day = dt.date.fromisoformat(args.date)
-    nxt = day + dt.timedelta(days=1)
+def analyze_day(day: dt.date, verbose: bool = True) -> tuple[list[dict], dict, list]:
+    """Fetch the live Nesine bulletin and price every match of `day` against the best global reference.
 
+    Returns (match records, raw bulletin payload, parsed events). Used by main() and nesine_kupon.py.
+    """
+    nxt = day + dt.timedelta(days=1)
     payload = fetch_bulletin()
     leagues = league_names(payload)
     events = [e for e in parse_bulletin(payload)
               if e.kickoff.date() == day or (e.kickoff.date() == nxt and e.kickoff.hour < 7)]
-    print(f"Nesine {args.date}: {len(events)} futbol maçı")
-
     sharp, generated = global_references()
-    print(f"Global (Pinnacle/Smarkets): {len(sharp)} referans (oluşturulma {generated or 'yok'})")
     espn = espn_references([day.isoformat(), nxt.isoformat()])
-    print(f"ESPN: {len(espn)} maçta oran bulundu")
+    if verbose:
+        print(f"Nesine {day}: {len(events)} futbol maçı")
+        print(f"Global (Pinnacle/Smarkets/Betfair): {len(sharp)} referans (oluşturulma {generated or 'yok'})")
+        print(f"ESPN: {len(espn)} maçta oran bulundu")
     refs = sharp + espn
-
-    out, priced = [], 0
+    out = []
     for e in sorted(events, key=lambda x: x.kickoff):
         league = leagues.get(e.league_code, str(e.league_code))
         ref, score = None, 0.0
@@ -182,15 +179,25 @@ def main() -> None:
             ref, score = _match(e, pool) if pool else (None, 0.0)
             if ref is not None:
                 break
-        rec = {"code": e.code, "kickoff": e.kickoff.strftime("%Y-%m-%d %H:%M"), "league": league, "home": e.home, "away": e.away,
+        rec = {"code": e.code, "kickoff": e.kickoff.strftime("%Y-%m-%d %H:%M"), "kickoff_iso": e.kickoff.isoformat(),
+               "league": league, "home": e.home, "away": e.away,
                "nesine_ms": [e.odds_of(f"MS {c}") for c in "102"], "n_nesine_selections": len(e.selections)}
         if ref is None:
             rec["status"] = "global referans bulunamadı — fiyatlanmadı"
         else:
             rec.update(match_score=round(score, 2), ref_match=f"{ref['home']} - {ref['away']}", **price_event(e, ref, league))
             rec["status"] = "fiyatlandı"
-            priced += 1
         out.append(rec)
+    return out, payload, events
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--date", default=dt.datetime.now(TSI).date().isoformat())
+    ap.add_argument("--min-ev", type=float, default=0.0)
+    args = ap.parse_args()
+    out, payload, events = analyze_day(dt.date.fromisoformat(args.date))
+    priced = sum(1 for m in out if m["status"] == "fiyatlandı")
 
     d = DAILY / args.date
     d.mkdir(parents=True, exist_ok=True)

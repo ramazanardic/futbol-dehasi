@@ -1,0 +1,90 @@
+"""Nesine coupon builder: exact optimum, Nesine-odds target, MBS rule, one leg per match."""
+
+import importlib.util
+from itertools import product
+import math
+from pathlib import Path
+import random
+import sys
+
+import pytest
+
+SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
+sys.path.insert(0, str(SCRIPTS))
+spec = importlib.util.spec_from_file_location("nesine_kupon", SCRIPTS / "nesine_kupon.py")
+kupon = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(kupon)
+
+
+def _pools(seed: int, n_matches: int = 6, per_match: int = 3) -> list[list[dict]]:
+    rng = random.Random(seed)
+    pools = []
+    for m in range(n_matches):
+        legs = []
+        for k in range(per_match):
+            p = rng.uniform(0.35, 0.85)
+            odds = round((1 / p) * rng.uniform(0.75, 0.95), 2)  # Nesine pays below fair (margin)
+            legs.append({"code": m, "kickoff": f"2026-11-19 {12 + m}:00", "odds": max(odds, 1.16), "p": p,
+                         "mbs": rng.choice([1, 2, 3]), "ev": 0.0})
+        pools.append(legs)
+    return pools
+
+
+def _brute(pools, target, max_legs):
+    best = None
+    for choice in product(*[[None] + pool for pool in pools]):
+        legs = [x for x in choice if x is not None]
+        if not legs or len(legs) > max_legs or len(legs) < max(x["mbs"] for x in legs):
+            continue
+        if math.prod(x["odds"] for x in legs) < target:
+            continue
+        lp = sum(math.log(x["p"]) for x in legs)
+        if best is None or lp > best + 1e-12:
+            best = lp
+    return best
+
+
+@pytest.mark.parametrize("seed", range(8))
+@pytest.mark.parametrize("target", [3.0, 6.0])
+def test_dp_matches_brute_force(seed, target):
+    pools = _pools(seed)
+    c = kupon.best_coupon(pools, target, max_legs=5)
+    ref = _brute(pools, target, 5)
+    if ref is None:
+        assert c is None
+        return
+    assert c is not None
+    assert c["nesine_odds"] >= target - 1e-9
+    assert len({leg["code"] for leg in c["legs"]}) == len(c["legs"])  # one leg per match
+    assert len(c["legs"]) >= max(leg["mbs"] for leg in c["legs"])  # MBS
+    # Log-odds bucketing may lose at most a sliver of optimality.
+    assert math.log(c["probability"]) == pytest.approx(ref, abs=0.03)
+
+
+@pytest.mark.parametrize("seed", range(4))
+def test_min_legs_is_respected(seed):
+    pools = _pools(seed)
+    c = kupon.best_coupon(pools, 3.0, max_legs=5, min_legs=4)
+    if c is not None:
+        assert len(c["legs"]) >= 4
+        assert c["nesine_odds"] >= 3.0 - 1e-9
+        free = kupon.best_coupon(pools, 3.0, max_legs=5)
+        assert c["probability"] <= free["probability"] + 1e-12  # a constraint cannot raise the optimum
+
+
+def test_candidates_keep_only_non_dominated_legs():
+    import datetime as dt
+
+    now = dt.datetime(2026, 11, 19, 9, 0, tzinfo=dt.timezone(dt.timedelta(hours=3)))
+    match = {"status": "fiyatlandı", "reference": "Smarkets (borsa)", "kickoff_iso": "2026-11-19T20:00:00+03:00",
+             "kickoff": "2026-11-19 20:00", "code": 1, "league": "L", "home": "A", "away": "B",
+             "selections": [
+                 {"market": "MS", "selection": "1", "odds": 1.50, "fair_prob": 0.60, "ev": -0.10, "mbs": 1},
+                 {"market": "ÇŞ", "selection": "1-X", "odds": 1.20, "fair_prob": 0.55, "ev": -0.34, "mbs": 1},  # dominated
+                 {"market": "AÜ", "selection": "Üst", "odds": 1.90, "fair_prob": 0.50, "ev": -0.05, "mbs": 1},
+                 {"market": "X", "selection": "?", "odds": 5.0, "fair_prob": 0.40, "ev": 1.0, "mbs": 1},  # implausible EV
+             ]}
+    espn = dict(match, code=2, reference="ESPN (DraftKings/ESPN BET)")
+    pools = kupon.candidates([match, espn], now, min_odds=1.15, min_prob=0.0, allow_espn=False)
+    assert len(pools) == 1
+    assert {(leg["market"], leg["odds"]) for leg in pools[0]} == {("MS", 1.50), ("AÜ", 1.90)}
