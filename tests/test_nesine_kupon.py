@@ -203,3 +203,10 @@ def test_model_htft_legs_are_excluded_but_direct_ones_kept():
              {"market": "İY/MS", "selection": "2/2", "name": "İY/MS 2/2", "odds": 6.0, "fair_prob": 0.15, "ev": -0.1, "mbs": 1, "direct": True}]}
     legs = kupon.candidates([m], now, 1.2, 0.0, False)[0]
     assert [leg["selection"] for leg in legs] == ["2/2"]
+
+
+def test_safest_first_partial_when_target_unreachable():
+    pools = [[{"code": i, "kickoff": f"2026-11-19 {10 + i}:00", "odds": 1.3, "p": 0.7, "mbs": 1}] for i in range(3)]
+    assert kupon.safest_first_coupon(pools, 50.0, max_legs=10) is None
+    c = kupon.safest_first_coupon(pools, 50.0, max_legs=10, partial=True)
+    assert c["reached"] is False and len(c["legs"]) == 3

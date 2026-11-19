@@ -96,7 +96,8 @@ def candidates(matches: list[dict], now: dt.datetime, min_odds: float, min_prob:
             legs.append({"code": m["code"], "kickoff": m["kickoff"], "league": m["league"], "match": f"{m['home']} - {m['away']}",
                          "market": s["market"], "selection": s["selection"], "odds": s["odds"], "p": s["fair_prob"],
                          "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": m["reference"].split(" (")[0],
-                         "direct": bool(s.get("direct")), "context": context})
+                         "direct": bool(s.get("direct")), "context": context,
+                         "researched": bool((m.get("research") or {}).get("teams") or (m.get("research") or {}).get("user_absences"))})
         legs.sort(key=lambda x: (-x["odds"], -x["p"]))
         front, best_p = [], -1.0
         for leg in legs:  # descending odds: keep a leg only if no higher-odds leg has a higher probability
@@ -150,18 +151,26 @@ def _summary(legs: list[dict]) -> dict:
             "global_fair_odds": round(1 / p, 2), "ev": p * odds - 1.0, "min_mbs": max(x["mbs"] for x in legs)}
 
 
-def safest_first_coupon(pools: list[list[dict]], target: float, max_legs: int) -> dict | None:
-    """User's method: take each match's most probable selection, sort all matches from the surest (closest to
-    100%) downwards and add them one by one until the product of Nesine odds reaches the target (MBS rule kept)."""
+def _trust(leg: dict) -> float:
+    # Sort key: probability first; a researched match or a direct exchange quote wins near-ties (+2 / +1 pt).
+    return leg["p"] + 0.02 * bool(leg.get("researched")) + 0.01 * bool(leg.get("direct"))
+
+
+def safest_first_coupon(pools: list[list[dict]], target: float, max_legs: int, partial: bool = False) -> dict | None:
+    """User's method: take each match's most probable selection (any market family), sort the matches from the
+    surest downwards and add them one by one until the product of Nesine odds reaches the target (MBS kept).
+    With partial=True an unreachable target returns every safe leg instead of None (flagged reached=False)."""
     best = [max(pool, key=lambda x: (x["p"], x["odds"])) for pool in pools]
-    best.sort(key=lambda x: (-x["p"], -x["odds"]))
+    best.sort(key=lambda x: (-_trust(x), -x["odds"]))
     legs: list[dict] = []
     for leg in best:
         if len(legs) >= max_legs:
-            return None
+            break
         legs.append(leg)
         if math.prod(x["odds"] for x in legs) >= target and len(legs) >= max(x["mbs"] for x in legs):
-            return _summary(legs)
+            return {**_summary(legs), "reached": True}
+    if partial and legs and len(legs) >= max(x["mbs"] for x in legs):
+        return {**_summary(legs), "reached": False}
     return None
 
 
@@ -176,14 +185,16 @@ def main() -> None:
     ap.add_argument("--max-mac", type=int, default=None, help="En çok maç (guvenli: 30, optimum: 8)")
     ap.add_argument("--min-mac", type=int, default=1, help="Kupondaki en az maç sayısı (kombine için ör. 3)")
     ap.add_argument("--min-oran", type=float, default=1.20, help="Bacak başına en düşük Nesine oranı (kullanıcı kuralı: 1,20)")
-    ap.add_argument("--min-olasilik", type=float, default=0.0, help="Bacak başına en düşük global olasılık")
+    ap.add_argument("--min-olasilik", type=float, default=None,
+                    help="Bacak başına en düşük global olasılık (guvenli: 0.60, optimum: 0)")
     ap.add_argument("--espn", action="store_true", help="ESPN (keskin olmayan) referanslı maçları da kullan")
     ap.add_argument("--dogrudan", action="store_true", help="Yalnızca doğrudan global fiyatı olan seçimler (model türevi yok)")
     args = ap.parse_args()
 
     matches, _, _ = analyze_day(dt.date.fromisoformat(args.tarih), verbose=False)
     now = dt.datetime.now(TSI)
-    pools = candidates(matches, now, args.min_oran, args.min_olasilik, args.espn, args.dogrudan)
+    min_prob = args.min_olasilik if args.min_olasilik is not None else (0.60 if args.yontem == "guvenli" else 0.0)
+    pools = candidates(matches, now, args.min_oran, min_prob, args.espn, args.dogrudan)
     print(f"{sum(1 for m in matches if m.get('status') == 'fiyatlandı')} maç global fiyatlı; {len(pools)} maç kupona uygun "
           f"(başlamamış, {'ESPN dahil' if args.espn else 'yalnız keskin referans'}).")
 
@@ -191,7 +202,7 @@ def main() -> None:
     coupons, used = [], set()
     for _ in range(args.adet):
         free = [p for p in pools if p[0]["code"] not in used]
-        c = (safest_first_coupon(free, args.hedef, max_legs) if args.yontem == "guvenli"
+        c = (safest_first_coupon(free, args.hedef, max_legs, partial=not coupons) if args.yontem == "guvenli"
              else best_coupon(free, args.hedef, max_legs, args.min_mac))
         if c is None:
             break
@@ -207,15 +218,19 @@ def main() -> None:
           + " Oranlar maç saatine kadar değişebilir; oynamadan önce Nesine'de kontrol edin.", ""]
     if not coupons:
         md.append("_Bu hedefe uygun kupon kurulamadı (yeterli keskin referanslı, başlamamış maç yok)._")
+    elif coupons[0].get("reached") is False:
+        md += [f"> **Hedef {args.hedef:g} güvenli tercihlerle bugün ulaşılamıyor.** Aşağıdaki kupon, her bacağı en az "
+               f"%{min_prob * 100:.0f} olasılıklı ve 1,{int(round((args.min_oran - 1) * 100)):02d}+ oranlı tüm güvenli "
+               "tercihlerden oluşuyor; hedefe ulaşmak için daha zayıf tercih eklemedim.", ""]
     for i, c in enumerate(coupons, 1):
         md += [f"## Kupon {i}: Nesine oranı **{c['nesine_odds']:.2f}** · tutma olasılığı **%{c['probability'] * 100:.1f}** "
                f"· global adil oranı {c['global_fair_odds']:.2f} · {len(c['legs'])} maç (MBS en az {c['min_mbs']})", "",
-               "| Saat | Maç | Pazar | Seçim | Nesine oranı | Global olasılık | Global adil oran | MBS | Referans | Fiyat |",
-               "|---|---|---|---|---|---|---|---|---|---|"]
+               "| Saat | Maç | Pazar | Seçim | Nesine oranı | Global olasılık | Global adil oran | MBS | Referans | Fiyat | Araştırma |",
+               "|---|---|---|---|---|---|---|---|---|---|---|"]
         for leg in c["legs"]:
             md.append(f"| {leg['kickoff'][11:]} | {leg['match']} | {leg['market']} | {leg['selection']} | {leg['odds']:.2f} | "
                       f"%{leg['p'] * 100:.1f} | {1 / leg['p']:.2f} | {leg['mbs']} | {leg['reference']} | "
-                      f"{'doğrudan' if leg.get('direct') else 'model'} |")
+                      f"{'doğrudan' if leg.get('direct') else 'model'} | {'var' if leg.get('researched') else 'yok'} |")
         md += ["", "**Gerekçeler**", ""]
         md += [f"- **{leg['match']} — {leg['market']}: {leg['selection']}** — {leg_reason(leg)}" for leg in c["legs"]]
         md += ["", f"Kuponun tutma olasılığı %{c['probability'] * 100:.1f}: düşük oranlı bir bacak bile kesin değildir "
