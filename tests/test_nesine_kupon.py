@@ -191,3 +191,15 @@ def test_user_absence_file_is_read_by_nesine_code(tmp_path):
     assert set(data) == {11} and data[11]["home"]["injuries"][0]["player"] == "A"
     assert src.startswith("haftalik_sakatlik_ceza_x.json (2026-11-19 11:50")
     assert ng.load_user_absences(tmp_path / "none") == ({}, None)
+
+
+def test_model_htft_legs_are_excluded_but_direct_ones_kept():
+    import datetime as dt
+
+    now = dt.datetime(2026, 11, 19, 9, 0, tzinfo=dt.timezone(dt.timedelta(hours=3)))
+    m = {"status": "fiyatlandı", "reference": "Smarkets (borsa)", "kickoff_iso": "2026-11-19T20:00:00+03:00",
+         "kickoff": "2026-11-19 20:00", "code": 1, "league": "L", "home": "A", "away": "B", "selections": [
+             {"market": "İY/MS", "selection": "1/1", "name": "İY/MS 1/1", "odds": 3.0, "fair_prob": 0.30, "ev": -0.1, "mbs": 1, "direct": False},
+             {"market": "İY/MS", "selection": "2/2", "name": "İY/MS 2/2", "odds": 6.0, "fair_prob": 0.15, "ev": -0.1, "mbs": 1, "direct": True}]}
+    legs = kupon.candidates([m], now, 1.2, 0.0, False)[0]
+    assert [leg["selection"] for leg in legs] == ["2/2"]
