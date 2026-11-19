@@ -1,0 +1,216 @@
+{
+  "models": [
+    {
+      "model": "calibrated_ensemble",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 0.983047397304349,
+      "logloss_pool": 0.9721067715188921
+    },
+    {
+      "model": "dc_goals",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 0.9948725210864463,
+      "logloss_pool": 0.9721067715188921
+    },
+    {
+      "model": "dc_hybrid",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 0.9928421914860415,
+      "logloss_pool": 0.9721067715188921
+    },
+    {
+      "model": "elo",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 0.9882451204622249,
+      "logloss_pool": 0.9721067715188921
+    },
+    {
+      "model": "epistemic_std",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 1.0672258117717197,
+      "logloss_pool": 0.9721067715188921
+    },
+    {
+      "model": "gap_elo",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.01,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 0.9840765117509063,
+      "logloss_pool": 0.9721067715188921
+    },
+    {
+      "model": "gap_ordered",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 0.9835838216862994,
+      "logloss_pool": 0.9721067715188921
+    },
+    {
+      "model": "gas_poisson",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 0.9950513437989378,
+      "logloss_pool": 0.9721067715188921
+    },
+    {
+      "model": "glicko2",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 0.9890110854938129,
+      "logloss_pool": 0.9721067715188921
+    },
+    {
+      "model": "kalman",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 0.9948228065403801,
+      "logloss_pool": 0.9721067715188921
+    },
+    {
+      "model": "lgbm",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 0.9858121651318916,
+      "logloss_pool": 0.9721067715188921
+    },
+    {
+      "model": "mlp",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 0.9848114735814127,
+      "logloss_pool": 0.9721067715188921
+    },
+    {
+      "model": "pi",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 0.9907698301987411,
+      "logloss_pool": 0.9721067715188921
+    },
+    {
+      "model": "pyramid_rating",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 0.9883597922284239,
+      "logloss_pool": 0.9721067715188921
+    },
+    {
+      "model": "raw_ensemble",
+      "n": 16423,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9721067715188921,
+      "logloss_model": 0.9832710225214509,
+      "logloss_pool": 0.9721067715188921
+    }
+  ],
+  "seasons": [
+    {
+      "season": "2021/22",
+      "n": 3317,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9810898688676204,
+      "logloss_model": 0.9936294627348057,
+      "logloss_pool": 0.9810898688676204
+    },
+    {
+      "season": "2022/23",
+      "n": 3259,
+      "weight": 0.12,
+      "ci_low": 0.0,
+      "ci_high": 0.42,
+      "logloss_market": 0.9767478803946151,
+      "logloss_model": 0.9817700439159183,
+      "logloss_pool": 0.9766470380546196
+    },
+    {
+      "season": "2023/24",
+      "n": 3257,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "logloss_market": 0.9554363217784615,
+      "logloss_model": 0.9696138586404847,
+      "logloss_pool": 0.9554363217784615
+    },
+    {
+      "season": "2024/25",
+      "n": 3184,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.050499999999999545,
+      "logloss_market": 0.9659743227922233,
+      "logloss_model": 0.978836707843966,
+      "logloss_pool": 0.9659743227922233
+    },
+    {
+      "season": "2025/26",
+      "n": 3194,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.14,
+      "logloss_market": 0.9820896999842468,
+      "logloss_model": 0.9924212563246161,
+      "logloss_pool": 0.9820896999842468
+    },
+    {
+      "season": "2026/27",
+      "n": 212,
+      "weight": 0.07,
+      "ci_low": 0.0,
+      "ci_high": 0.9904999999999995,
+      "logloss_market": 0.9580199333124787,
+      "logloss_model": 0.9655094190939878,
+      "logloss_pool": 0.957971486133779
+    }
+  ]
+}
