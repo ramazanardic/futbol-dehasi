@@ -1,17 +1,17 @@
 {
- "started_utc": "2026-11-19T07:33:56+00:00",
+ "started_utc": "2026-11-19T10:52:50+00:00",
  "errors": [],
  "counts": {
   "fixtures.csv": 51,
   "new_league_fixtures.csv": 9,
-  "references_total": 183,
-  "smarkets_events": 172,
-  "smarkets_markets": 14202,
-  "smarkets_contracts": 17140,
-  "smarkets_markets_illiquid": 4418,
-  "smarkets_references": 64,
-  "matchbook_events": 228,
-  "matchbook_references": 61
+  "references_total": 443,
+  "smarkets_events": 600,
+  "smarkets_markets": 49697,
+  "smarkets_contracts": 20884,
+  "smarkets_markets_illiquid": 5490,
+  "smarkets_references": 175,
+  "matchbook_events": 234,
+  "matchbook_references": 210
  },
  "samples": {
   "fixtures.csv": {
@@ -260,33 +260,27 @@
    "bet_allowed": true,
    "bettable": true,
    "chart_time_period": null,
-   "created": "2026-11-17T07:32:33.707412Z",
+   "created": "2026-11-17T15:40:12.037802Z",
    "description": "",
    "display_order": 10,
    "end_date": null,
-   "full_slug": "/sport/football/australia-championship/2026/11/19/08-30/lions-fc-vs-wollongong-wolves",
+   "full_slug": "/sport/football/asean-club-championship/2026/11/19/12-00/persib-bandung-vs-shan-united",
    "hidden": false,
-   "id": "45447148",
-   "inplay_enabled": false,
-   "modified": "2026-11-19T07:01:05.778575Z",
-   "name": "Lions FC vs Wollongong Wolves",
-   "parent_id": "45371580",
+   "id": "45448566",
+   "inplay_enabled": true,
+   "modified": "2026-11-19T06:47:11.562124Z",
+   "name": "Persib Bandung vs Shan United",
+   "parent_id": "45448564",
    "seo_description": "Bet on {{ contracts.home.name }} vs {{ contracts.away.name }} on {{ event.start_datetime | date \"eeee, d MMMM\" }}.\r\n\r\nWith the Smarkets exchange, you can back or lay your bets on the clash between {{ contracts.home.name }} and {{ contracts.away.name }} on {{ event.start_datetime | date \"eeee, d MMMM\" }}. This game has {{ markets.length }} markets available to bet on. The most popular market so far is {{ markets.0.name }}.\r\n\r\nThe favourites to win the game between {{ contracts.home.name }} and {{ contracts.away.name }} as of publication are {{ contracts.fav.name }} who are priced at odds of {{ contracts.fav.anyPrice | odds }}. The odds of a draw are {{ contracts.draw.anyPrice | odds }} while the odds for {{ contracts.other.name }} to win are {{ contracts.other.anyPrice | odds }}.\r\n\r\nA {{ 10 | money }} back bet on {{ contracts.fav.name }} to win returns {{ contracts.fav.buyPrice | payout 10 }}, whereas a {{ 10 | money }} back bet on {{ contracts.other.name }} to win are {{ contracts.other.buyPrice | payout 10 }}. If you think neither side will come away with the victory, betting the same amount in a back bet on the draw would win you {{ contracts.draw.buyPrice | payout 10 }}.\r\n\r\nAs Smarkets is an exchange, you can also place lay bets on all outcomes for {{ contracts.home.name }} vs {{ contracts.away.name }}.\r\nYou can also use the bet calculator to help you calculate potential winnings.",
-   "short_name": "LIO vs. WOL",
-   "slug": "lions-fc-vs-wollongong-wolves",
+   "short_name": "PER vs. SHA",
+   "slug": "persib-bandung-vs-shan-united",
    "special_rules": "",
    "start_date": "2026-11-19",
-   "start_datetime": "2026-11-19T08:30:00Z",
+   "start_datetime": "2026-11-19T12:00:00Z",
    "state": "upcoming",
    "super_sub_enabled": false,
    "type": "football_match",
    "venue": {
-    "city": "Australia",
-    "country_code": "AUS",
-    "country_name": "Australia",
-    "latitude": 27.5925599,
-    "longitude": 152.9492622,
-    "name": "Lions Stadium",
     "neutral": false
    }
   },
@@ -322,66 +316,66 @@
    "winner_count": 1
   },
   "smarkets_market_names": {
-   "WINNER_3_WAY | Full-time result": 171,
-   "CORRECT_SCORE | Correct score": 171,
-   "BTTS | Both teams to score": 171,
-   "OVER_UNDER | Over/under 0.5": 171,
-   "OVER_UNDER | Over/under 1.5": 171,
-   "OVER_UNDER | Over/under 2.5": 171,
-   "OVER_UNDER | Over/under 3.5": 171,
-   "OVER_UNDER | Over/under 4.5": 171,
-   "OVER_UNDER | Over/under 5.5": 171,
-   "OVER_UNDER | Over/under 6.5": 171,
-   "WINNER_AND_BTTS | Winner and both teams to score": 171,
-   "WINNER_AND_OVER | Winner and over/under 2.5": 171,
-   "BTTS_AND_OVER | Both teams to score and over/under 2.5": 171,
-   "DOUBLE_CHANCE | Double chance": 171,
-   "WINNER_DNB | Draw No Bet": 171,
-   "SCORE_RANGE | Goal range": 167,
-   "HALF_TIME_CORRECT_SCORE | Half-time correct score": 167,
-   "HIGHEST_SCORING_HALF | Highest scoring half": 166,
-   "ODD_EVEN | Odd or even score": 166,
-   "FIRST_HALF_OVER_UNDER | First half over/under 1.5": 166,
-   "FIRST_HALF_OVER_UNDER | First half over/under 2.5": 166,
-   "SECOND_HALF_WINNER_3_WAY | Second half result": 166,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 2.5": 166,
-   "SECOND_HALF_EXACT_GOALS | Second half exact goals": 166,
-   "HALF_FULL | Half-time/full-time": 165,
-   "HALF_TIME_WINNER_3_WAY | Half-time result": 165,
-   "FIRST_HALF_ODD_EVEN | First half odd or even score": 165,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 1.5": 165,
-   "SECOND_HALF_ODD_EVEN | Second half odd or even score": 165,
-   "HALF_TIME_DOUBLE_CHANCE | Half-time double chance": 164,
-   "FIRST_HALF_OVER_UNDER | First half over/under 0.5": 164,
-   "FIRST_HALF_WINNER_AND_BTTS | First half winner and both teams to score": 164,
-   "FIRST_HALF_WINNER_AND_OVER | First half winner and over/under 1.5": 164,
-   "BTTS_FIRST_HALF | Both teams to score in First Half": 164,
-   "BTTS_SECOND_HALF | Both teams to score in Second Half": 164,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 0.5": 148,
-   "WINNER_AND_OVER | Winner and over/under 3.5": 132,
-   "WINNER_AND_OVER | Winner and over/under 1.5": 98,
-   "FIRST_HALF_EXACT_GOALS | First half exact goals": 86,
-   "BTTS_BOTH_HALVES | Both teams to score in first half / second half": 86,
-   "WINNER_AND_OVER | Winner and over/under 4.5": 67,
-   "EXACT_GOALS | Exact goals": 42,
-   "CORNERS_WINNER_THREE_WAY | Most corners": 37,
-   "WIN_MARGIN | Winning margin": 25,
-   "TIME_OF_NEXT_GOAL | Goal 1 time bracket": 25,
-   "LAST_TEAM_TO_SCORE | Last team to score": 25,
-   "NEXT_TEAM_TO_SCORE | Team to score first goal": 25,
-   "CORNER_RANGE | Total corners in range": 25,
-   "WINNER_3_WAY_TIME_BRACKET | Winner in 1 minute to 10 minute time bracket": 25,
-   "CORNERS_OVER_UNDER | Over/under 8.5 corners": 24,
-   "CORNERS_OVER_UNDER | Over/under 9.5 corners": 24,
-   "CORNERS_OVER_UNDER | Over/under 10.5 corners": 24,
-   "FIRST_HALF_CORNERS_OVER_UNDER | First half over/under 4.5 corners": 24,
-   "FIRST_HALF_CORNERS_OVER_UNDER | First half over/under 5.5 corners": 24,
-   "ANYTIME_GOALSCORER | Anytime goalscorer": 23,
-   "FIRST_GOALSCORER | First goalscorer": 23,
-   "LAST_GOALSCORER | Last goalscorer": 23,
-   "PLAYER_AT_LEAST_GOALS | Player to score at least 2 goals": 23,
-   "PLAYER_AT_LEAST_GOALS | Player to score a hat-trick": 23,
-   "WHICH_TEAM_TO_SCORE | Which team to score": 23
+   "WINNER_3_WAY | Full-time result": 599,
+   "CORRECT_SCORE | Correct score": 599,
+   "BTTS | Both teams to score": 599,
+   "OVER_UNDER | Over/under 0.5": 599,
+   "OVER_UNDER | Over/under 1.5": 599,
+   "OVER_UNDER | Over/under 2.5": 599,
+   "OVER_UNDER | Over/under 3.5": 599,
+   "OVER_UNDER | Over/under 4.5": 599,
+   "OVER_UNDER | Over/under 5.5": 599,
+   "OVER_UNDER | Over/under 6.5": 599,
+   "WINNER_AND_BTTS | Winner and both teams to score": 599,
+   "WINNER_AND_OVER | Winner and over/under 2.5": 599,
+   "BTTS_AND_OVER | Both teams to score and over/under 2.5": 599,
+   "DOUBLE_CHANCE | Double chance": 599,
+   "WINNER_DNB | Draw No Bet": 599,
+   "HALF_TIME_CORRECT_SCORE | Half-time correct score": 596,
+   "SCORE_RANGE | Goal range": 592,
+   "HIGHEST_SCORING_HALF | Highest scoring half": 592,
+   "FIRST_HALF_OVER_UNDER | First half over/under 1.5": 592,
+   "FIRST_HALF_OVER_UNDER | First half over/under 2.5": 592,
+   "SECOND_HALF_WINNER_3_WAY | Second half result": 592,
+   "HALF_FULL | Half-time/full-time": 591,
+   "ODD_EVEN | Odd or even score": 591,
+   "HALF_TIME_WINNER_3_WAY | Half-time result": 591,
+   "FIRST_HALF_ODD_EVEN | First half odd or even score": 591,
+   "SECOND_HALF_ODD_EVEN | Second half odd or even score": 591,
+   "FIRST_HALF_OVER_UNDER | First half over/under 0.5": 590,
+   "FIRST_HALF_WINNER_AND_BTTS | First half winner and both teams to score": 590,
+   "FIRST_HALF_WINNER_AND_OVER | First half winner and over/under 1.5": 590,
+   "BTTS_FIRST_HALF | Both teams to score in First Half": 590,
+   "BTTS_SECOND_HALF | Both teams to score in Second Half": 590,
+   "WINNER_AND_OVER | Winner and over/under 3.5": 432,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 2.5": 425,
+   "SECOND_HALF_EXACT_GOALS | Second half exact goals": 425,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 1.5": 424,
+   "HALF_TIME_DOUBLE_CHANCE | Half-time double chance": 423,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 0.5": 405,
+   "WINNER_AND_OVER | Winner and over/under 1.5": 343,
+   "FIRST_HALF_EXACT_GOALS | First half exact goals": 335,
+   "BTTS_BOTH_HALVES | Both teams to score in first half / second half": 334,
+   "CORNERS_WINNER_THREE_WAY | Most corners": 196,
+   "WINNER_AND_OVER | Winner and over/under 4.5": 194,
+   "EXACT_GOALS | Exact goals": 182,
+   "TIME_OF_NEXT_GOAL | Goal 1 time bracket": 171,
+   "LAST_TEAM_TO_SCORE | Last team to score": 171,
+   "NEXT_TEAM_TO_SCORE | Team to score first goal": 171,
+   "WINNER_3_WAY_TIME_BRACKET | Winner in 1 minute to 10 minute time bracket": 171,
+   "WIN_MARGIN | Winning margin": 166,
+   "CORNER_RANGE | Total corners in range": 165,
+   "WHICH_TEAM_TO_SCORE | Which team to score": 164,
+   "ANYTIME_GOALSCORER | Anytime goalscorer": 163,
+   "FIRST_GOALSCORER | First goalscorer": 163,
+   "LAST_GOALSCORER | Last goalscorer": 163,
+   "PLAYER_AT_LEAST_GOALS | Player to score at least 2 goals": 163,
+   "PLAYER_AT_LEAST_GOALS | Player to score a hat-trick": 163,
+   "CORNERS_OVER_UNDER | Over/under 10.5 corners": 150,
+   "BTTS_AND_OVER | Both teams to score and over/under 3.5": 147,
+   "BTTS_AND_OVER | Both teams to score and over/under 4.5": 147,
+   "CORNERS_OVER_UNDER | Over/under 9.5 corners": 145,
+   "FIRST_HALF_CORNERS_OVER_UNDER | First half over/under 4.5 corners": 135
   },
   "smarkets_contract": {
    "competitor_id": 197988,
@@ -404,52 +398,48 @@
    "484103272": {
     "bids": [
      {
-      "price": 3846,
-      "quantity": 2443326
-     },
-     {
       "price": 3788,
-      "quantity": 5744600
+      "quantity": 932858
      },
      {
       "price": 3759,
-      "quantity": 6415000
+      "quantity": 863507
      },
      {
       "price": 3731,
-      "quantity": 2680247
+      "quantity": 9998947
      },
      {
       "price": 3704,
-      "quantity": 2699
+      "quantity": 1163854
      }
     ],
     "offers": [
      {
+      "price": 3876,
+      "quantity": 403734
+     },
+     {
+      "price": 3906,
+      "quantity": 1793485
+     },
+     {
       "price": 3937,
-      "quantity": 351823
+      "quantity": 406747
      },
      {
       "price": 3968,
-      "quantity": 1587536
+      "quantity": 13709133
      },
      {
       "price": 4000,
       "quantity": 1071507
-     },
-     {
-      "price": 4032,
-      "quantity": 5018425
-     },
-     {
-      "price": 4065,
-      "quantity": 1684920
      }
     ]
    }
   },
   "matchbook_market": {
-   "live": false,
+   "live": true,
    "event-id": 34895273417500023,
    "id": 34896536010000023,
    "name": "Match Odds",
@@ -459,128 +449,129 @@
    "market-type": "one_x_two",
    "type": "multirunner",
    "handicap": 0.0,
-   "in-running-flag": false,
+   "in-running-flag": true,
    "allow-live-betting": true,
-   "volume": 0.0,
-   "back-overround": 105.60833,
-   "lay-overround": 95.35767,
+   "volume": 506.6998499999999,
+   "back-overround": 101.08136,
+   "lay-overround": 98.29005,
    "number-of-winners": 1,
    "runners": [
     {
      "withdrawn": false,
      "prices": [
       {
-       "available-amount": 8.44984,
+       "available-amount": 2.62919,
        "currency": "USD",
        "odds-type": "DECIMAL",
-       "odds": 2.62,
-       "decimal-odds": 2.62,
+       "odds": 3.3,
+       "decimal-odds": 3.3,
        "side": "back",
        "exchange-type": "back-lay"
       },
       {
-       "available-amount": 7.8979,
+       "available-amount": 38.12327,
        "currency": "USD",
        "odds-type": "DECIMAL",
-       "odds": 3.05,
-       "decimal-odds": 3.05,
+       "odds": 3.45,
+       "decimal-odds": 3.45,
        "side": "lay",
        "exchange-type": "back-lay"
       }
      ],
-     "last-price-update-time": "2026-11-19T07:38:57.051Z",
+     "last-price-update-time": "2026-11-19T11:00:16.134Z",
      "event-id": 34895273417500023,
      "id": 34896536011401023,
      "market-id": 34896536010000023,
      "name": "MOIK Baku",
      "status": "open",
-     "volume": 0.0,
+     "volume": 397.5754800000001,
      "event-participant-id": 34895273420300023
     },
     {
      "withdrawn": false,
      "prices": [
       {
-       "available-amount": 30.85571,
+       "available-amount": 17.08974,
        "currency": "USD",
        "odds-type": "DECIMAL",
-       "odds": 2.64,
-       "decimal-odds": 2.64,
+       "odds": 2.72,
+       "decimal-odds": 2.72,
        "side": "back",
        "exchange-type": "back-lay"
       },
       {
-       "available-amount": 8.04246,
+       "available-amount": 68.35896,
        "currency": "USD",
        "odds-type": "DECIMAL",
-       "odds": 2.94,
-       "decimal-odds": 2.94,
+       "odds": 2.78,
+       "decimal-odds": 2.78,
        "side": "lay",
        "exchange-type": "back-lay"
       }
      ],
-     "last-price-update-time": "2026-11-19T07:38:47.083Z",
+     "last-price-update-time": "2026-11-19T11:00:28.136Z",
      "event-id": 34895273417500023,
      "id": 34896536011700023,
      "market-id": 34896536010000023,
      "name": "Sabail FC",
      "status": "open",
-     "volume": 0.0,
+     "volume": 70.3174,
      "event-participant-id": 34895273420800023
     },
     {
      "withdrawn": false,
      "prices": [
       {
-       "available-amount": 2.62825,
+       "available-amount": 9.20217,
        "currency": "USD",
        "odds-type": "DECIMAL",
-       "odds": 3.35,
-       "decimal-odds": 3.35,
+       "odds": 2.94,
+       "decimal-odds": 2.94,
        "side": "back",
        "exchange-type": "back-lay"
       },
       {
-       "available-amount": 2.62825,
+       "available-amount": 5.25838,
        "currency": "USD",
        "odds-type": "DECIMAL",
-       "odds": 3.6,
-       "decimal-odds": 3.6,
+       "odds": 3.0,
+       "decimal-odds": 3.0,
        "side": "lay",
        "exchange-type": "back-lay"
       }
      ],
-     "last-price-update-time": "2026-11-19T07:35:56.163Z",
+     "last-price-update-time": "2026-11-19T11:00:28.820Z",
      "event-id": 34895273417500023,
      "id": 34896536011901023,
      "market-id": 34896536010000023,
      "name": "Draw",
      "status": "open",
-     "volume": 0.0
+     "volume": 38.80697000000001
     }
    ]
   },
   "matchbook_market_names": {
-   "handicap | Handicap": 931,
-   "total | Total": 481,
-   "total | 1st Half Total": 185,
-   "one_x_two | Match Odds": 61,
-   "both_to_score | Both Teams To Score": 61,
-   "correct_score | Correct Score": 61,
-   "other | Double Chance": 61,
-   "other | Draw No Bet": 61,
-   "total | Home Team Total Goals": 53,
-   "total | Away Team Total Goals": 51,
-   "other | Half-time Result": 50,
-   "other | Match Result and Total Goals": 42,
-   "half_time_full_time | Half Time/Full Time": 27,
-   "other | Match Result and Both Teams To Score": 18,
-   "other | Odd or Even Total": 18,
-   "other | Half Time Result": 11,
-   "to_qualify | To Qualify": 6,
-   "other | Home Team To Win To Nil": 3,
-   "other | Away Team To Win To Nil": 3
+   "handicap | Handicap": 2913,
+   "total | Total": 1637,
+   "total | 1st Half Total": 632,
+   "other | Match Result and Total Goals": 460,
+   "total | Home Team Total Goals": 300,
+   "total | Away Team Total Goals": 297,
+   "one_x_two | Match Odds": 214,
+   "both_to_score | Both Teams To Score": 214,
+   "correct_score | Correct Score": 214,
+   "other | Double Chance": 214,
+   "other | Draw No Bet": 214,
+   "other | Half-time Result": 201,
+   "half_time_full_time | Half Time/Full Time": 171,
+   "other | Match Result and Both Teams To Score": 152,
+   "other | Odd or Even Total": 152,
+   "other | Home Team To Win To Nil": 50,
+   "other | Away Team To Win To Nil": 50,
+   "correct_score | Half-time Correct Score": 28,
+   "other | Half Time Result": 12,
+   "to_qualify | To Qualify": 9
   }
  },
- "finished_utc": "2026-11-19T07:39:14+00:00"
+ "finished_utc": "2026-11-19T11:00:33+00:00"
 }
