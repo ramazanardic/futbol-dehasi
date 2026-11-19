@@ -3,7 +3,8 @@
     python scripts/scheduled.py morning    # 09:00: settle yesterday (results + verify + summary), run today,
                                            #        then price the Nesine bulletin against the global reference
     python scripts/scheduled.py snapshot   # every 30 min: record pre-kickoff odds for today and yesterday
-    python scripts/scheduled.py kadro      # at :10 and :30: re-analyse today (line-ups published ~1 h before kick-off)
+    python scripts/scheduled.py kadro      # at :10 and :30: light exchange refresh for kick-offs in 40-100 min
+                                           #        (gh workflow run), re-analyse today (line-ups ~1 h before)
     python scripts/scheduled.py analiz     # hourly at :50: pull the fresh global prices (Actions refreshes at :40)
                                            #        and re-run the Nesine analysis for the next 5 betting days
 
@@ -18,6 +19,7 @@ from __future__ import annotations
 import datetime as dt
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 
@@ -60,19 +62,86 @@ def _data_age_hours() -> float | None:
         return None
 
 
+GH = shutil.which("gh") or r"C:\Program Files\GitHub CLI\gh.exe"
+KICK_FILE = LOG_DIR / "last_dispatch.json"  # untracked: when the PC last dispatched a full / light run
+LIGHT_WINDOW = (40, 100)  # minutes before a Nesine kick-off in which a light (line-up time) refresh is wanted
+LIGHT_COOLDOWN_MIN = 50
+
+
+def _last_kick(kind: str) -> dt.datetime | None:
+    try:
+        import json
+        return dt.datetime.fromisoformat(json.loads(KICK_FILE.read_text(encoding="utf-8"))[kind])
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+
+
+def _dispatch(log, kind: str, light_hours: float | None = None) -> bool:
+    """Start the overseas fetch directly (`gh workflow run`); records the time per kind ('full' / 'light')."""
+    import json
+    cmd = [GH, "workflow", "run", "global-odds.yml"] + (["-f", f"light={light_hours:g}"] if light_hours else [])
+    try:
+        r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=60)
+    except OSError as exc:
+        log.write(f"[gh] {kind}: {exc}\n")
+        return False
+    log.write(f"[gh] {kind} çalıştırma: {r.returncode} {(r.stdout + r.stderr).strip()[:200]}\n")
+    if r.returncode:
+        return False
+    try:
+        data = json.loads(KICK_FILE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        data = {}
+    data[kind] = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
+    KICK_FILE.parent.mkdir(parents=True, exist_ok=True)
+    KICK_FILE.write_text(json.dumps(data), encoding="utf-8")
+    return True
+
+
+def _upcoming_nesine_kickoffs(now: dt.datetime) -> list[dt.datetime]:
+    """Kick-offs of globally priced Nesine matches (today's and yesterday's analysis files)."""
+    import json
+    out = []
+    for d in (now.date() - dt.timedelta(days=1), now.date()):
+        try:
+            data = json.loads((ROOT / "reports" / "daily" / d.isoformat() / "nesine_global.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        for m in data.get("matches", []):
+            if m.get("status") == "fiyatlandı" and m.get("kickoff_iso"):
+                out.append(dt.datetime.fromisoformat(m["kickoff_iso"]))
+    return out
+
+
+def _kick_lineup_refresh(log) -> None:
+    """Line-ups come out ~1 h before kick-off: a light exchange refresh for Nesine matches starting in
+    40-100 minutes, at most once per LIGHT_COOLDOWN_MIN (keeps Actions minutes low)."""
+    now = dt.datetime.now(dt.timezone.utc)
+    lo, hi = (now + dt.timedelta(minutes=m) for m in LIGHT_WINDOW)
+    if not any(lo <= k <= hi for k in _upcoming_nesine_kickoffs(now)):
+        return
+    last = _last_kick("light")
+    if last and now - last < dt.timedelta(minutes=LIGHT_COOLDOWN_MIN):
+        return
+    _dispatch(log, "light", light_hours=2)
+
+
 def _kick_fetch_if_stale(log) -> None:
-    """Backup for GitHub's best-effort cron: when the overseas fetch has not run for STALE_HOURS, push a
-    one-line trigger file; the workflow runs on pushes to that path (a normal git push, no extra token)."""
+    """GitHub's cron does not fire for this repo: when the overseas data is STALE_HOURS old, start a full run
+    with `gh`; if gh fails, push the one-line trigger file (the workflow also runs on pushes to that path)."""
     age = _data_age_hours()
     if age is not None and age < STALE_HOURS:
         return
+    kicks = [k for k in (_last_kick("full"),) if k]
     if TRIGGER_FILE.exists():
         try:
-            last = dt.datetime.fromisoformat(TRIGGER_FILE.read_text(encoding="utf-8").strip())
-            if dt.datetime.now(dt.timezone.utc) - last < dt.timedelta(hours=RETRIGGER_HOURS):
-                return  # already kicked recently; give that run time to finish
+            kicks.append(dt.datetime.fromisoformat(TRIGGER_FILE.read_text(encoding="utf-8").strip()))
         except ValueError:
             pass
+    if kicks and dt.datetime.now(dt.timezone.utc) - max(kicks) < dt.timedelta(hours=RETRIGGER_HOURS):
+        return  # already kicked recently; give that run time to finish
+    if _dispatch(log, "full"):
+        return
     TRIGGER_FILE.write_text(dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds") + "\n", encoding="utf-8")
     rel = str(TRIGGER_FILE.relative_to(ROOT))
     steps = (["git", "add", rel], ["git", "commit", "-q", "-m", f"chore(trigger): global data {age if age is None else round(age, 1)} h old",
@@ -97,6 +166,7 @@ def _write_status(log, note: str) -> None:
              f"- Global veri yaşı: {'bilinmiyor' if age is None else f'{age:.1f} saat'}"
              + ("" if age is None or age < STALE_HOURS else " ⚠ ESKİ"),
              f"- Son yedek tetikleme: {last_trigger}",
+             f"- Son gh çalıştırması: tam {_last_kick('full') or '-'} · kadro saati {_last_kick('light') or '-'}",
              f"- Günlük kayıt: reports/daily/logs/{dt.date.today().isoformat()}.log", ""]
     STATUS_FILE.write_text("\n".join(lines), encoding="utf-8")
     if age is not None and age >= ALERT_HOURS:
@@ -129,6 +199,8 @@ def main() -> None:
             _run(["sonuc", "--date", y], log, ROOT / "scripts" / "nesine_takip.py")
             _run(["rapor"], log, ROOT / "scripts" / "nesine_takip.py")
         elif mode == "kadro":
+            _kick_lineup_refresh(log)
+            _kick_fetch_if_stale(log)
             _pull(log)
             day = today if dt.datetime.now().hour >= 7 else yesterday
             _run(["--date", day.isoformat()], log, ROOT / "scripts" / "nesine_global.py")

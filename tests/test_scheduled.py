@@ -24,11 +24,12 @@ def _setup(tmp_path, monkeypatch, age_hours, last_trigger_hours=None):
     calls = []
 
     class _R:
-        returncode, stderr = 0, ""
+        returncode, stderr, stdout = 0, "", ""
 
     monkeypatch.setattr(sched, "ROOT", tmp_path)
     monkeypatch.setattr(sched, "GLOBAL_FILE", ref)
     monkeypatch.setattr(sched, "TRIGGER_FILE", trig)
+    monkeypatch.setattr(sched, "KICK_FILE", tmp_path / "last_dispatch.json")
     monkeypatch.setattr(sched.subprocess, "run", lambda cmd, **kw: calls.append(cmd) or _R())
     return calls
 
@@ -39,19 +40,49 @@ def test_fresh_data_does_not_trigger(tmp_path, monkeypatch):
     assert calls == []
 
 
-def test_stale_data_pushes_trigger_once(tmp_path, monkeypatch):
+def test_stale_data_dispatches_with_gh_once(tmp_path, monkeypatch):
     calls = _setup(tmp_path, monkeypatch, age_hours=6)
     sched._kick_fetch_if_stale(io.StringIO())
-    assert [c[1] for c in calls] == ["add", "commit", "push"]
+    assert [c[1:4] for c in calls] == [["workflow", "run", "global-odds.yml"]]
     calls.clear()
-    sched._kick_fetch_if_stale(io.StringIO())  # just triggered: wait for that run
+    sched._kick_fetch_if_stale(io.StringIO())  # just dispatched: wait for that run
     assert calls == []
 
 
-def test_retriggers_after_cooldown(tmp_path, monkeypatch):
+def test_falls_back_to_trigger_push_when_gh_fails(tmp_path, monkeypatch):
     calls = _setup(tmp_path, monkeypatch, age_hours=8, last_trigger_hours=4)
+
+    class _R:
+        def __init__(self, code):
+            self.returncode, self.stderr, self.stdout = code, "", ""
+
+    monkeypatch.setattr(sched.subprocess, "run", lambda cmd, **kw: calls.append(cmd) or _R(1 if cmd[1] == "workflow" else 0))
     sched._kick_fetch_if_stale(io.StringIO())
-    assert [c[1] for c in calls] == ["add", "commit", "push"]
+    assert [c[1] for c in calls] == ["workflow", "add", "commit", "push"]
+
+
+def test_lineup_refresh_only_near_nesine_kickoffs(tmp_path, monkeypatch):
+    calls = _setup(tmp_path, monkeypatch, age_hours=1)
+    now = dt.datetime.now(dt.timezone.utc)
+    day = tmp_path / "reports" / "daily" / now.date().isoformat()
+    day.mkdir(parents=True)
+
+    def _write(minutes, status="fiyatlandı"):
+        k = (now + dt.timedelta(minutes=minutes)).isoformat()
+        (day / "nesine_global.json").write_text(json.dumps({"matches": [{"status": status, "kickoff_iso": k}]}), encoding="utf-8")
+
+    _write(180)
+    sched._kick_lineup_refresh(io.StringIO())
+    assert calls == []  # nothing within 40-100 min
+    _write(70, status="global referans bulunamadı — fiyatlanmadı")
+    sched._kick_lineup_refresh(io.StringIO())
+    assert calls == []  # unpriced match: no exchange price to refresh
+    _write(70)
+    sched._kick_lineup_refresh(io.StringIO())
+    assert calls and calls[0][-2:] == ["-f", "light=2"]
+    calls.clear()
+    sched._kick_lineup_refresh(io.StringIO())
+    assert calls == []  # cooldown
 
 
 def test_status_file_and_alert(tmp_path, monkeypatch):
