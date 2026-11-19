@@ -23,6 +23,7 @@ import csv
 import datetime as dt
 import io
 import json
+import sys
 from pathlib import Path
 import time
 
@@ -148,11 +149,12 @@ def _chunks(items: list, n: int):
         yield items[i:i + n]
 
 
-def smarkets(days: int = 2, max_events: int = 600) -> list[dict]:
+def smarkets(days: int = 2, max_events: int = 600, window_hours: float | None = None) -> list[dict]:
     now = dt.datetime.now(dt.timezone.utc)
+    horizon = now + (dt.timedelta(hours=window_hours) if window_hours else dt.timedelta(days=days))
     events, url = [], f"{SMARKETS}/events/"
     params = {"type": "football_match", "state": "upcoming", "limit": 300, "sort": "start_datetime,id",
-              "start_datetime_max": (now + dt.timedelta(days=days)).strftime("%Y-%m-%dT%H:%M:%SZ")}
+              "start_datetime_max": horizon.strftime("%Y-%m-%dT%H:%M:%SZ")}
     seen_pages: set[str] = set()
     for _ in range(10):  # pagination (bounded)
         r = _get(url, **params) if params else _get(url)
@@ -268,7 +270,8 @@ def smarkets(days: int = 2, max_events: int = 600) -> list[dict]:
             continue
         home, away = name.split(" vs ", 1)
         rec = refs.setdefault(str(ev["id"]), {"source": "Smarkets (borsa)", "league": ev.get("parent_id"), "home": home.strip(),
-                                              "away": away.strip(), "kickoff_utc": ev.get("start_datetime"), "x12": None, "ou": None})
+                                              "away": away.strip(), "kickoff_utc": ev.get("start_datetime"), "x12": None, "ou": None,
+                                              "fetched_utc": now.isoformat(timespec="seconds")})
         if kind == "1x2" and {"HOME", "DRAW", "AWAY"} <= set(probs):
             p = [probs["HOME"], probs["DRAW"], probs["AWAY"]]
             s = sum(p)
@@ -289,28 +292,76 @@ def smarkets(days: int = 2, max_events: int = 600) -> list[dict]:
     return out
 
 
-def probe_sources() -> list[dict]:
-    """Reachability/shape probe of further free keyless sources (logged only; no references yet)."""
-    probes = {
-        "matchbook": ("https://api.matchbook.com/edge/rest/events",
-                      {"sport-ids": 15, "per-page": 20, "include-prices": "true", "price-depth": 1, "states": "open"}),
-        "polymarket_sports": ("https://gamma-api.polymarket.com/sports", {}),
-        "polymarket_soccer": ("https://gamma-api.polymarket.com/events", {"tag_slug": "soccer", "closed": "false", "limit": 50}),
-        "kalshi_sports_series": ("https://api.elections.kalshi.com/trade-api/v2/series", {"category": "Sports"}),
-        "clubelo": ("http://api.clubelo.com/" + dt.date.today().isoformat(), {}),
-    }
-    out = {}
-    for name, (url, params) in probes.items():
-        if _time_left() < 20:
+MATCHBOOK = "https://api.matchbook.com/edge/rest/events"
+
+
+def matchbook(window_hours: float = 48.0) -> list[dict]:
+    """Matchbook exchange (public price feed, no account): margin-free 1X2 and O/U 2.5 from back/lay mids."""
+    now = dt.datetime.now(dt.timezone.utc)
+    horizon = now + dt.timedelta(hours=window_hours)
+    events, offset = [], 0
+    while offset < 1000 and _time_left() > 60:
+        r = _get(MATCHBOOK, **{"sport-ids": 15, "per-page": 100, "offset": offset, "include-prices": "true", "price-depth": 1,
+                               "exchange-type": "back-lay", "odds-type": "DECIMAL", "states": "open"})
+        if r.status_code != 200:
+            LOG["errors"].append(f"matchbook HTTP {r.status_code}")
             break
+        js = r.json()
+        batch = js.get("events", [])
+        events += batch
+        offset += len(batch)
+        if not batch or offset >= js.get("total", 0):
+            break
+    LOG["counts"]["matchbook_events"] = len(events)
+    if events and events[0].get("markets"):
+        LOG["samples"]["matchbook_market"] = events[0]["markets"][0]
+    names: dict[str, int] = {}
+
+    def _mid(runner: dict) -> tuple[float, float] | None:
+        backs = [p["decimal-odds"] for p in runner.get("prices", []) if p.get("side") == "back" and p.get("decimal-odds")]
+        lays = [p["decimal-odds"] for p in runner.get("prices", []) if p.get("side") == "lay" and p.get("decimal-odds")]
+        if not backs or not lays:
+            return None
+        pb, pl = 1 / max(backs), 1 / min(lays)  # back = lower probability bound, lay = upper
+        return (pb + pl) / 2, pl - pb
+
+    out = []
+    for ev in events:
         try:
-            r = _get(url, **params)
-            out[name] = {"status": r.status_code, "bytes": len(r.content), "head": r.text[:3000]}
-        except Exception as exc:  # probe only
-            out[name] = {"error": f"{type(exc).__name__}: {exc}"}
-        _say(f"probe {name}: {out[name].get('status', out[name].get('error'))}")
-    LOG["samples"]["probes"] = out
-    return []
+            ko = dt.datetime.fromisoformat(ev["start"].replace("Z", "+00:00"))
+        except (KeyError, ValueError):
+            continue
+        if ko > horizon or " vs " not in ev.get("name", ""):
+            continue
+        home, away = (x.strip() for x in ev["name"].split(" vs ", 1))
+        rec = {"source": "Matchbook (borsa)", "home": home, "away": away, "kickoff_utc": ev["start"], "x12": None, "ou": None,
+               "fetched_utc": now.isoformat(timespec="seconds")}
+        for m in ev.get("markets", []):
+            key = f"{m.get('market-type')} | {m.get('name')}"
+            names[key] = names.get(key, 0) + 1
+            runners = [x for x in m.get("runners", []) if not x.get("withdrawn")]
+            mids = [_mid(x) for x in runners]
+            if not runners or any(x is None for x in mids) or max(x[1] for x in mids) > MAX_SPREAD:
+                continue  # incomplete or illiquid book
+            total = sum(x[0] for x in mids)
+            if m.get("market-type") == "one_x_two" and len(runners) == 3:
+                by = {x["name"].strip(): mid[0] for x, mid in zip(runners, mids)}
+                draw = next((v for k, v in by.items() if k.lower() == "draw"), None)
+                ph, pa = by.get(home), by.get(away)
+                if None not in (draw, ph, pa):
+                    rec["x12"] = [round(total / x, 4) for x in (ph, draw, pa)]
+                    rec["x12_spread"] = round(max(x[1] for x in mids), 4)
+            if m.get("market-type") == "total" and abs(float(m.get("handicap") or 0) - 2.5) < 1e-9 and len(runners) == 2:
+                over = next((mid[0] for x, mid in zip(runners, mids) if "over" in x["name"].lower()), None)
+                under = next((mid[0] for x, mid in zip(runners, mids) if "under" in x["name"].lower()), None)
+                if over and under:
+                    rec["ou"] = [2.5, [round(total / over, 4), round(total / under, 4)]]
+                    rec["ou_spread"] = round(max(x[1] for x in mids), 4)
+        if rec["x12"]:
+            out.append(rec)
+    LOG["samples"]["matchbook_market_names"] = dict(sorted(names.items(), key=lambda kv: -kv[1])[:30])
+    LOG["counts"]["matchbook_references"] = len(out)
+    return out
 
 
 def _write(refs: list[dict]) -> None:
@@ -322,11 +373,38 @@ def _write(refs: list[dict]) -> None:
     _say(json.dumps(LOG["counts"]) + f" errors: {len(LOG['errors'])}")
 
 
+def _key(r: dict) -> tuple:
+    return (r.get("source"), r.get("home"), r.get("away"), r.get("kickoff_utc"))
+
+
+def light(window_hours: float) -> None:
+    """Pre-kick-off refresh: re-fetch Smarkets (all stored markets) only for matches starting within the window
+    and merge them into the last full snapshot, so line-up news is priced in without a full 5-minute run."""
+    old = []
+    if (OUT / "references.json").exists():
+        old = json.loads((OUT / "references.json").read_text(encoding="utf-8")).get("references", [])
+    LOG["mode"] = f"light ({window_hours:g} h)"
+    try:
+        fresh = smarkets(window_hours=window_hours)
+    except Exception as exc:
+        LOG["errors"].append(f"light smarkets: {type(exc).__name__}: {exc}")
+        fresh = []
+    try:
+        fresh += matchbook(window_hours=window_hours)
+    except Exception as exc:
+        LOG["errors"].append(f"light matchbook: {type(exc).__name__}: {exc}")
+    keys = {_key(r) for r in fresh}
+    _write([r for r in old if _key(r) not in keys] + fresh)
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
+    if len(sys.argv) > 2 and sys.argv[1] == "--light":
+        light(float(sys.argv[2]))
+        return
     refs: list[dict] = []
     # Pinnacle (football-data) first: small, fast, most reliable. Saved before the exchange fetch.
-    for fn in (football_data, smarkets, probe_sources):
+    for fn in (football_data, smarkets, matchbook):
         _say(f"--- {fn.__name__} (time left {_time_left():.0f}s)")
         try:
             refs += fn()

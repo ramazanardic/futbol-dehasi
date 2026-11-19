@@ -6,7 +6,8 @@ name: global-odds
 
 on:
   schedule:
-    - cron: "10 4,8,12,16,20 * * *"   # 07:10, 11:10, 15:10, 19:10, 23:10 TSİ
+    - cron: "10 4,8,12,16,20 * * *"   # full fetch: 07:10, 11:10, 15:10, 19:10, 23:10 TSİ
+    - cron: "40 9-23,0-3 * * *"       # light pre-kick-off refresh (next 3 h), hourly 12:40-06:40 TSİ
   workflow_dispatch:
   push:
     branches: [main]
@@ -33,7 +34,12 @@ jobs:
       - name: Install
         run: pip install requests
       - name: Fetch global odds
-        run: python scripts/fetch_global_odds.py
+        run: |
+          if [ "${{ github.event.schedule }}" = "40 9-23,0-3 * * *" ]; then
+            python scripts/fetch_global_odds.py --light 3
+          else
+            python scripts/fetch_global_odds.py
+          fi
       - name: Commit data
         run: |
           git config user.name "global-odds-bot"

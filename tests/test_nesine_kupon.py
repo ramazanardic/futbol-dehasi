@@ -102,3 +102,17 @@ def test_direct_quote_names_map_to_nesine_selections():
     assert ng._direct_name("Goal range", "RANGE|2 - 3") == "2-3 Gol"
     assert ng._direct_name("Goal range", "RANGE|4 - 6") is None  # Nesine's 4-5 band is a different event
     assert ng._direct_name("Correct score", "X|1-0") is None
+
+
+def test_two_exchange_consensus_averages_probabilities():
+    import nesine_global as ng
+
+    a = {"source": "Smarkets (borsa)", "x12": [2.0, 4.0, 4.0], "ou": [2.5, [2.0, 2.0]], "markets": {"m": {}}, "fetched_utc": "2026-11-19T07:00:00+00:00"}
+    b = {"source": "Matchbook (borsa)", "x12": [2.5, 4.0, 1 / 0.35], "ou": [2.5, [1.8, 2.25]], "fetched_utc": "2026-11-19T08:00:00+00:00"}
+    c = ng.consensus(a, b)
+    assert c["source"] == "Matchbook + Smarkets (borsa)"
+    p = [1 / x for x in c["x12"]]
+    assert sum(p) == pytest.approx(1.0, abs=1e-3)
+    assert p[0] == pytest.approx((0.5 + 0.4) / 2, abs=1e-3)
+    assert c["consensus_gap"] == pytest.approx(0.1, abs=1e-3)
+    assert c["markets"] == {"m": {}} and c["fetched_utc"].startswith("2026-11-19T07")  # older fetch time is the honest one

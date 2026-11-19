@@ -34,7 +34,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from nesine_global import DAILY, MAX_PLAUSIBLE_EV, TSI, analyze_day  # noqa: E402
 
-SHARP_SOURCES = ("Pinnacle", "Smarkets", "Betfair")
+SHARP_SOURCES = ("Pinnacle", "Smarkets", "Matchbook", "Betfair")
 RES = 0.002  # log-odds bucket width
 
 
@@ -49,6 +49,8 @@ def candidates(matches: list[dict], now: dt.datetime, min_odds: float, min_prob:
             continue
         if dt.datetime.fromisoformat(m["kickoff_iso"]) <= now + dt.timedelta(minutes=5):
             continue  # started or about to start
+        if m.get("research_block"):
+            continue  # important absence announced after the global price was fetched
         legs = []
         for s in m["selections"]:
             if s["odds"] < min_odds or s["fair_prob"] < min_prob or s["ev"] > MAX_PLAUSIBLE_EV:

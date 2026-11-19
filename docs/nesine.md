@@ -17,6 +17,9 @@ python scripts/nesine_global.py --date 2026-11-19
    1. **Pinnacle** (football-data.co.uk fikstür dosyaları, varsa)
    2. **Smarkets borsası** — alış/satış ortası; alış-satış farkı 4 puandan geniş (likit olmayan)
       pazarlar referans sayılmaz
+   2b. **Matchbook borsası** — herkese açık fiyat akışı (hesap gerekmez), aynı 4 puan likidite
+      kuralı. Bir maç hem Smarkets'te hem Matchbook'ta likitse iki borsanın marjsız olasılıkları
+      ortalanır ("Matchbook + Smarkets"); aradaki en büyük fark `consensus_gap` olarak kaydedilir.
    3. **Betfair borsası** (football-data.co.uk dosyalarındaki BFE sütunları)
    4. **ESPN** (DraftKings) — yerelde çekilir, en zayıf referans
 
@@ -40,6 +43,24 @@ python scripts/nesine_global.py --date 2026-11-19
    alınmaz, "referans hatası şüphesi" tablosunda ayrıca gösterilir.
    Kalibre edilmemiş yarışmalarda (kadın
    futbolu) yalnızca doğrudan referansı olan pazarlar (1X2, aynı çizgideki Alt/Üst) fiyatlanır.
+
+## Maç araştırması (ESPN)
+
+Her fiyatlanan maç için ESPN'in ücretsiz, anahtarsız sitesinden (`quantfoot.data.match_research`):
+son 5 maç formu, dinlenme günü, aralarındaki son 5 maç, puan durumu ve tablo baskısı (yalnız yerel
+liglerde: zirve yarışı / orta / küme hattı), haber başlıkları ve ilk 11 (maçtan ~1 saat önce).
+İlk 11 açıklandığında son 5 maçın ≥ 4'ünde ilk 11'de olup bugün olmayan oyuncular, kaleci ve gol
+kralı ayrıca işaretlenir.
+
+Olasılık yine global fiyattan gelir (piyasa bu haberleri dakikalar içinde fiyatlar). Araştırmanın
+işi **eski fiyat koruması**dır: önemli bir eksik varsa ve global fiyat 75 dakikadan eskiyse maç
+kupona alınmaz. Bunu kısaltmak için Actions saatte bir (12:40–06:40 TSİ) yalnız önümüzdeki 3 saatte
+başlayacak maçları yeniler (~1 dk; tam çekim günde 5 kez, ~5 dk; toplam ayda ~1.200 dk, ücretsiz
+kota 2.000 dk). Kapsam: ESPN'in yayınladığı ligler (Brezilya, Uruguay, MLS, Avrupa ligleri, kadın
+Şampiyonlar Ligi…); küçük liglerde veri yok.
+
+Denenip alınmayanlar: Polymarket ve Kalshi (erişilebilir, ama futbolda neredeyse yalnız uzun vadeli
+pazarlar), ClubElo (sunucu yurt dışından da 502 veriyor).
 
 ## Kupon: olasılık globalden, oran Nesine'den
 

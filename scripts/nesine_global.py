@@ -24,6 +24,7 @@ the documented edge is a soft book offering more than the sharp fair price.
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 import datetime as dt
 import difflib
 import json
@@ -32,6 +33,7 @@ import re
 import unicodedata
 
 from quantfoot.data.live_espn import fetch_espn_slate
+from quantfoot.data.match_research import espn_events, motivation, research, staleness_flags
 from quantfoot.data.nesine import TSI, fetch_bulletin, league_names, market_overrounds, parse_bulletin
 from quantfoot.markets.devig import devig
 from quantfoot.markets.goal_markets import goal_probability
@@ -76,7 +78,29 @@ def _match(event, candidates: list[dict], max_hours: float = 3.0, threshold: flo
 
 # ---- reference sources ------------------------------------------------------------------
 MAX_PLAUSIBLE_EV = 0.25
-SOURCE_RANK = {"Pinnacle (football-data)": 0, "Smarkets (borsa)": 1, "Betfair Borsası (football-data)": 2, "ESPN (DraftKings/ESPN BET)": 3}
+SOURCE_RANK = {"Pinnacle (football-data)": 0, "Smarkets (borsa)": 1, "Matchbook (borsa)": 1,
+               "Betfair Borsası (football-data)": 2, "ESPN (DraftKings/ESPN BET)": 3}
+EXCHANGES = ("Smarkets (borsa)", "Matchbook (borsa)")
+
+
+def consensus(a: dict, b: dict) -> dict:
+    """Average the margin-free probabilities of two independent exchanges (1X2, and O/U on the same line)."""
+    def _avg(x: list[float], y: list[float]) -> list[float]:
+        px = devig(x, method="power").probabilities
+        py = devig(y, method="power").probabilities
+        return [round(2 / (u + v), 4) for u, v in zip(px, py)]
+
+    out = dict(a, source=" + ".join(sorted({a["source"].split(" ")[0], b["source"].split(" ")[0]})) + " (borsa)")
+    out["x12"] = _avg(a["x12"], b["x12"])
+    if a.get("ou") and b.get("ou") and a["ou"][0] == b["ou"][0]:
+        out["ou"] = [a["ou"][0], _avg(a["ou"][1], b["ou"][1])]
+    else:
+        out["ou"] = a.get("ou") or b.get("ou")
+    out["markets"] = a.get("markets") or b.get("markets")
+    out["fetched_utc"] = min(filter(None, [a.get("fetched_utc"), b.get("fetched_utc")]), default=None)
+    out["consensus_gap"] = round(max(abs(u - v) for u, v in zip(devig(a["x12"], method="power").probabilities,
+                                                                devig(b["x12"], method="power").probabilities)), 4)
+    return out
 GLOBAL_FILE = ROOT / "data" / "global_odds" / "latest" / "references.json"
 
 
@@ -217,11 +241,44 @@ def price_event(event, ref: dict, league: str) -> dict:
     nesine_ms = [event.odds_of(f"MS {c}") for c in "102"]
     margin = sum(1 / o for o in nesine_ms) - 1 if all(nesine_ms) else None
     return {"mu_home": round(float(mu_h), 3), "mu_away": round(float(mu_a), 3), "reference": ref["source"],
+            "ref_fetched_utc": ref.get("fetched_utc"),
             "ref_1x2": ref["x12"], "ref_ou": ref.get("ou"), "fair_1x2": [round(float(x), 4) for x in p1x2],
             "nesine_ms_margin": None if margin is None else round(margin, 4), "derivatives_priced": derivatives_ok, "selections": rows}
 
 
-def analyze_day(day: dt.date, verbose: bool = True) -> tuple[list[dict], dict, list]:
+def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated: str | None) -> None:
+    """Add ESPN research (form, table, rest, line-ups, absences) to priced matches; flag stale prices."""
+    pool = []
+    for d in (day - dt.timedelta(days=1), day, day + dt.timedelta(days=1)):
+        pool += [{**x, "source": "ESPN"} for x in espn_events(d.strftime("%Y%m%d"))]
+    by_code = {e.code: e for e in events}
+    jobs = {}
+    for rec in out:
+        if rec.get("status") != "fiyatlandı":
+            continue
+        hit, _ = _match(by_code[rec["code"]], pool)
+        if hit:
+            jobs[rec["code"]] = hit["id"]
+    with ThreadPoolExecutor(max_workers=8) as ex:
+        results = dict(zip(jobs, ex.map(research, jobs.values())))
+    gen = dt.datetime.fromisoformat(sharp_generated) if sharp_generated else None
+    for rec in out:
+        res = results.get(rec["code"])
+        if not res:
+            continue
+        if rec.get("ref_fetched_utc"):
+            price_time = dt.datetime.fromisoformat(rec["ref_fetched_utc"])
+        else:  # ESPN references are fetched live, now
+            price_time = None if rec["reference"].startswith("ESPN") else gen
+        flags = staleness_flags(res, price_time)
+        res["motivation"] = {side: motivation(t, res.get("league_slug")) for side, t in res["teams"].items()}
+        res["flags"] = flags
+        rec["research"] = res
+        # Important absence in a line-up published after our price was fetched -> keep out of coupons.
+        rec["research_block"] = bool(flags) and flags[-1].startswith("global fiyat")
+
+
+def analyze_day(day: dt.date, verbose: bool = True, with_research: bool = True) -> tuple[list[dict], dict, list]:
     """Fetch the live Nesine bulletin and price every match of `day` against the best global reference.
 
     Returns (match records, raw bulletin payload, parsed events). Used by main() and nesine_kupon.py.
@@ -247,6 +304,10 @@ def analyze_day(day: dt.date, verbose: bool = True) -> tuple[list[dict], dict, l
             ref, score = _match(e, pool) if pool else (None, 0.0)
             if ref is not None:
                 break
+        if ref is not None and ref["source"] in EXCHANGES:
+            other, _ = _match(e, [r for r in refs if r["source"] in EXCHANGES and r["source"] != ref["source"]])
+            if other is not None:
+                ref = consensus(ref, other)
         rec = {"code": e.code, "kickoff": e.kickoff.strftime("%Y-%m-%d %H:%M"), "kickoff_iso": e.kickoff.isoformat(),
                "league": league, "home": e.home, "away": e.away,
                "nesine_ms": [e.odds_of(f"MS {c}") for c in "102"], "n_nesine_selections": len(e.selections)}
@@ -256,6 +317,8 @@ def analyze_day(day: dt.date, verbose: bool = True) -> tuple[list[dict], dict, l
             rec.update(match_score=round(score, 2), ref_match=f"{ref['home']} - {ref['away']}", **price_event(e, ref, league))
             rec["status"] = "fiyatlandı"
         out.append(rec)
+    if with_research:
+        attach_research(out, events, day, generated)
     return out, payload, events
 
 
@@ -317,6 +380,21 @@ def main() -> None:
            "marj ne kadar yüksekse uzun vadeli beklenen kayıp o kadar büyüktür.", "",
            "| Pazar | Maç | Ortalama marj |", "|---|---|---|"]
     md += [f"| {k} | {v['n']} | %{v['margin'] * 100:.1f} |" for k, v in top]
+    md += ["", "## Maç araştırması (ESPN: form, puan durumu, dinlenme, ilk 11)", "",
+           "Olasılık global fiyattan gelir; bu bölüm bağlam ve güvenlik kontrolüdür. Önemli bir eksik, global fiyat "
+           "çekildikten sonra açıklanan ilk 11'de görülürse maç kupona alınmaz.", "",
+           "| Saat | Maç | Form (ev / dep) | Puan durumu (ev / dep) | Dinlenme (gün) | Aralarında | İlk 11 | Uyarı |",
+           "|---|---|---|---|---|---|---|---|"]
+    for m in out:
+        r = m.get("research")
+        if not r:
+            continue
+        h, a = r["teams"].get("home", {}), r["teams"].get("away", {})
+        mot = r.get("motivation", {})
+        lineup = "açıklandı" if h.get("lineup_announced") or a.get("lineup_announced") else "henüz yok"
+        md.append(f"| {m['kickoff'][11:]} | {m['home']} - {m['away']} | {h.get('form', '-')} / {a.get('form', '-')} | "
+                  f"{mot.get('home') or '-'} / {mot.get('away') or '-'} | {h.get('rest_days', '-')} / {a.get('rest_days', '-')} | "
+                  f"{r.get('h2h') or '-'} | {lineup} | {'; '.join(r.get('flags') or []) or '-'} |")
     md += ["", "## Global fiyatı bulunamayan maçlar (fiyatlanmadı)", ""]
     md += [f"- {m['kickoff'][11:]} {m['league']}: {m['home']} - {m['away']}" for m in out if m["status"] != "fiyatlandı"]
     (d / "nesine_global.md").write_text("\n".join(md) + "\n", encoding="utf-8")
