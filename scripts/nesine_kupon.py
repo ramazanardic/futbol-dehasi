@@ -42,6 +42,12 @@ from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
 SHARP_SOURCES = ("Pinnacle", "Smarkets", "Matchbook", "Betfair")
 RES = 0.002  # log-odds bucket width
 MIN_LEG_ODDS = 1.20  # user rule: never a selection below 1.20
+MAX_PRICE_AGE_H = 3.0  # global price older than this may predate team news / line-ups: not used in coupons
+
+
+def price_age_hours(m: dict, now: dt.datetime) -> float | None:
+    t = m.get("ref_fetched_utc")
+    return None if not t else (now - dt.datetime.fromisoformat(t)).total_seconds() / 3600
 
 
 def match_context(m: dict) -> str:
@@ -113,6 +119,9 @@ def candidates(matches: list[dict], now: dt.datetime, min_odds: float, min_prob:
             continue  # started or about to start
         if m.get("research_block"):
             continue  # important absence announced after the global price was fetched
+        age = price_age_hours(m, now)
+        if age is not None and age > MAX_PRICE_AGE_H:
+            continue  # stale global price (GitHub's scheduler skipped runs)
         legs = []
         context = match_context(m)
         researched = bool((m.get("research") or {}).get("teams") or (m.get("research") or {}).get("user_absences"))
@@ -304,6 +313,9 @@ def main() -> None:
     pools = candidates(matches, now, args.min_oran, min_prob, args.espn, args.dogrudan)
     print(f"{sum(1 for m in matches if m.get('status') == 'fiyatlandı')} maç global fiyatlı; {len(pools)} maç kupona uygun "
           f"(başlamamış, {'ESPN dahil' if args.espn else 'yalnız keskin referans'}).")
+    stale = sum(1 for m in matches if m.get("status") == "fiyatlandı" and (price_age_hours(m, now) or 0) > MAX_PRICE_AGE_H)
+    if stale:
+        print(f"⚠ {stale} maçın global fiyatı {MAX_PRICE_AGE_H:g} saatten eski: kupona alınmadı (GitHub verisi yenilenmeli).")
 
     max_legs = args.max_mac or (30 if args.yontem == "guvenli" else 8)
     coupons, used = [], set()
@@ -327,6 +339,9 @@ def main() -> None:
           + " Oranlar maç saatine kadar değişebilir; oynamadan önce Nesine'de kontrol edin.", ""]
     if not coupons:
         md.append("_Bu hedefe uygun kupon kurulamadı (yeterli keskin referanslı, başlamamış maç yok)._")
+    if stale:
+        md += [f"> ⚠ {stale} maçın global fiyatı {MAX_PRICE_AGE_H:g} saatten eski olduğu için kupona alınmadı "
+               "(eski fiyat sakatlık / kadro haberinden önce kalmış olabilir).", ""]
     if coupons:
         md += [f"> **Oran kontrolü {coupons[0]['odds_checked_at']} TSİ:** kupon kurulduktan sonra Nesine bülteni yeniden "
                "çekildi ve her tercih tek tek karşılaştırıldı. "

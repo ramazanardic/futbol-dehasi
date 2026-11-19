@@ -205,6 +205,19 @@ def test_model_htft_legs_are_excluded_but_direct_ones_kept():
     assert [leg["selection"] for leg in legs] == ["2/2"]
 
 
+def test_stale_global_price_is_kept_out_of_coupons():
+    import datetime as dt
+
+    now = dt.datetime(2026, 11, 19, 19, 0, tzinfo=dt.timezone(dt.timedelta(hours=3)))  # 16:00 UTC
+    leg = {"market": "MS", "selection": "1", "name": "MS 1", "odds": 1.5, "fair_prob": 0.7, "ev": 0.05, "mbs": 1, "direct": True}
+    base = {"status": "fiyatlandı", "reference": "Smarkets (borsa)", "kickoff_iso": "2026-11-19T22:00:00+03:00",
+            "kickoff": "2026-11-19 22:00", "code": 1, "league": "L", "home": "A", "away": "B", "selections": [leg]}
+    fresh = dict(base, ref_fetched_utc="2026-11-19T14:30:00+00:00")  # 1.5 h old
+    stale = dict(base, code=2, ref_fetched_utc="2026-11-19T12:30:00+00:00")  # 3.5 h old
+    pools = kupon.candidates([fresh, stale], now, 1.2, 0.0, False)
+    assert [p[0]["code"] for p in pools] == [1]
+
+
 def test_safest_first_partial_when_target_unreachable():
     pools = [[{"code": i, "kickoff": f"2026-11-19 {10 + i}:00", "odds": 1.3, "p": 0.7, "mbs": 1}] for i in range(3)]
     assert kupon.safest_first_coupon(pools, 50.0, max_legs=10) is None

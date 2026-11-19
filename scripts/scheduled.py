@@ -47,8 +47,8 @@ def _pull(log) -> None:
 
 GLOBAL_FILE = ROOT / "data" / "global_odds" / "latest" / "references.json"
 TRIGGER_FILE = ROOT / "data" / "global_odds" / "trigger.txt"
-STALE_HOURS = 5.0   # GitHub's scheduler skipped runs if the sharp prices are older than this
-RETRIGGER_HOURS = 3.0
+STALE_HOURS = 2.5   # GitHub's scheduler skipped runs if the sharp prices are older than this (coupons refuse > 3 h)
+RETRIGGER_HOURS = 1.5
 
 
 def _data_age_hours() -> float | None:
