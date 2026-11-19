@@ -251,3 +251,20 @@ def test_nesine_only_estimates_never_enter_coupons():
          "kickoff": "2026-11-19 20:00", "code": 1, "league": "L", "home": "A", "away": "B",
          "selections": [{"market": "MS", "selection": "1", "name": "MS 1", "odds": 2.0, "fair_prob": 0.46, "ev": -0.08, "mbs": 1}]}
     assert kupon.candidates([m], now, 1.2, 0.0, True) == []
+
+
+def test_compatibility_and_reliability_ordering():
+    assert kupon.compatible("ÇŞ 12", "MS 1")
+    assert not kupon.compatible("ÇŞ 12", "İY Skor 0-0 & Skor 0-0")
+    assert not kupon.compatible("İY 0.5 Üst", "İY Skor 0-0 & Skor 0-0")
+    assert kupon.compatible("İY 0.5 Üst", "İY Skor 1-0 & Skor 1-0")
+    assert not kupon.compatible("2.5 Üst", "2.5 Alt")
+    a = {"code": 1, "key": "k1", "name": "ÇŞ 12"}
+    pools = [[{"code": 1, "key": "k2", "name": "İY Skor 0-0 & Skor 0-0"}, {"code": 1, "key": "k3", "name": "İY Skor 0-0 & Skor 1-0"}],
+             [{"code": 2, "key": "k1", "name": "MS 1"}]]
+    left = kupon.drop_conflicts(pools, [a])
+    assert [x["key"] for x in left[0]] == ["k3"] and left[1][0]["key"] == "k1"  # other match untouched
+    # a direct exchange quote at 68 % beats a model half-market at 70 %
+    d = kupon.leg_sigma("2.5 Üst", True, "Matchbook + Smarkets (borsa)", True, False)
+    mdl = kupon.leg_sigma("2Y KG Yok", False, "Matchbook + Smarkets (borsa)", True, False)
+    assert 0.68 - kupon.Z_LOW * d > 0.70 - kupon.Z_LOW * mdl

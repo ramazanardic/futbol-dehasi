@@ -28,6 +28,8 @@ import argparse
 import datetime as dt
 import json
 import math
+from functools import lru_cache
+from itertools import product
 from pathlib import Path
 import sys
 
@@ -35,6 +37,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from nesine_global import DAILY, MAX_PLAUSIBLE_EV, TSI, analyze_day, selection_key  # noqa: E402
 
 from quantfoot.data.nesine import fetch_bulletin, parse_bulletin  # noqa: E402
+from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
 
 SHARP_SOURCES = ("Pinnacle", "Smarkets", "Matchbook", "Betfair")
 RES = 0.002  # log-odds bucket width
@@ -74,6 +77,29 @@ def leg_reason(leg: dict) -> str:
     return text + (f" · {leg['context']}" if leg.get("context") else "")
 
 
+HALF_TOKENS = ("İY", "2Y", "İki Yarıda", "En Çok Gol", "Yarıyı", "Yarıda")
+Z_LOW = 1.28  # one-sided 90 % lower bound
+
+
+def leg_sigma(name: str, direct: bool, reference: str, researched: bool, flagged: bool) -> float:
+    """Uncertainty (probability points) of a leg's probability, from what the calibration work measured:
+    a direct exchange quote is within ~1 pt, a goal-model derivative ~2-3 pts, half-time / second-half
+    model markets less certain still; a single exchange, missing research or a team-news flag widen it."""
+    if direct:
+        sigma = 0.010
+    elif any(t in name for t in HALF_TOKENS):
+        sigma = 0.035
+    else:
+        sigma = 0.025
+    if "+" not in reference:  # one exchange instead of two agreeing ones
+        sigma += 0.005
+    if not researched:
+        sigma += 0.010
+    if flagged:
+        sigma += 0.020
+    return sigma
+
+
 def candidates(matches: list[dict], now: dt.datetime, min_odds: float, min_prob: float, allow_espn: bool,
                direct_only: bool = False) -> list[list[dict]]:
     """Per match: non-dominated legs (higher Nesine odds AND higher global probability dominates)."""
@@ -89,6 +115,8 @@ def candidates(matches: list[dict], now: dt.datetime, min_odds: float, min_prob:
             continue  # important absence announced after the global price was fetched
         legs = []
         context = match_context(m)
+        researched = bool((m.get("research") or {}).get("teams") or (m.get("research") or {}).get("user_absences"))
+        flagged = bool((m.get("research") or {}).get("flags"))
         for s in m["selections"]:
             if s["odds"] < min_odds or s["fair_prob"] < min_prob or s["ev"] > MAX_PLAUSIBLE_EV:
                 continue
@@ -100,13 +128,16 @@ def candidates(matches: list[dict], now: dt.datetime, min_odds: float, min_prob:
                          "market": s["market"], "selection": s["selection"], "odds": s["odds"], "p": s["fair_prob"],
                          "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": m["reference"].split(" (")[0],
                          "direct": bool(s.get("direct")), "context": context, "key": s.get("key"),
-                         "researched": bool((m.get("research") or {}).get("teams") or (m.get("research") or {}).get("user_absences"))})
-        legs.sort(key=lambda x: (-x["odds"], -x["p"]))
+                         "name": s.get("name", ""), "researched": researched})
+            sig = leg_sigma(s.get("name", ""), bool(s.get("direct")), m["reference"], researched, flagged)
+            legs[-1]["sigma"] = sig
+            legs[-1]["p_low"] = max(0.001, s["fair_prob"] - Z_LOW * sig)
+        legs.sort(key=lambda x: (-x["odds"], -x["p_low"]))
         front, best_p = [], -1.0
-        for leg in legs:  # descending odds: keep a leg only if no higher-odds leg has a higher probability
-            if leg["p"] > best_p + 1e-12:
+        for leg in legs:  # descending odds: keep a leg only if no higher-odds leg is more reliably probable
+            if leg["p_low"] > best_p + 1e-12:
                 front.append(leg)
-                best_p = leg["p"]
+                best_p = leg["p_low"]
         if front:
             pools.append(front)
     return pools
@@ -131,7 +162,7 @@ def best_coupon(pools: list[list[dict]], target: float, max_legs: int, min_legs:
             for leg in pool:
                 nlo = lo + math.log(leg["odds"])
                 key = (n + 1, max(mbs, leg["mbs"]), _bucket(nlo))
-                val = lp + math.log(leg["p"])
+                val = lp + math.log(leg.get("p_low", leg["p"]))
                 old = new.get(key)
                 # Keep the more probable state; on (near) ties keep the one with the higher odds.
                 if old is None or val > old[0] + 1e-12 or (abs(val - old[0]) <= 1e-12 and nlo > old[1]):
@@ -140,30 +171,66 @@ def best_coupon(pools: list[list[dict]], target: float, max_legs: int, min_legs:
     finals = [(lp, legs) for (n, mbs, b), (lp, lo, legs) in states.items() if b == tb and n >= max(mbs, min_legs, 1)]
     if not finals:
         return None
-    lp, legs = max(finals, key=lambda x: (x[0], -len(x[1])))
-    odds = math.prod(x["odds"] for x in legs)
-    p = math.exp(lp)
-    return {"legs": list(sorted(legs, key=lambda x: x["kickoff"])), "nesine_odds": round(odds, 2), "probability": p,
-            "global_fair_odds": round(1 / p, 2), "ev": p * odds - 1.0, "min_mbs": max(x["mbs"] for x in legs)}
+    _, legs = max(finals, key=lambda x: (x[0], -len(x[1])))
+    return _summary(list(legs))
 
 
 def _summary(legs: list[dict]) -> dict:
     odds = math.prod(x["odds"] for x in legs)
     p = math.prod(x["p"] for x in legs)
+    p_low = math.prod(x.get("p_low", x["p"]) for x in legs)
     return {"legs": list(sorted(legs, key=lambda x: x["kickoff"])), "nesine_odds": round(odds, 2), "probability": p,
-            "global_fair_odds": round(1 / p, 2), "ev": p * odds - 1.0, "min_mbs": max(x["mbs"] for x in legs)}
+            "probability_low": p_low, "global_fair_odds": round(1 / p, 2), "ev": p * odds - 1.0,
+            "min_mbs": max(x["mbs"] for x in legs)}
+
+
+@lru_cache(maxsize=20000)
+def compatible(a: str, b: str) -> bool:
+    """True when some half-time / full-time score settles both selections as winners (else the two bets
+    can never win together, e.g. 'ÇŞ 12' and 'İY Skor 0-0 & Skor 0-0'). Unknown syntax: assume compatible."""
+    def win(name: str, h1: int, a1: int, h2: int, a2: int) -> bool | None:
+        neg = name.startswith("DEĞİL(")
+        base = name[6:-1] if neg else name
+        try:
+            v = settle_selection(base, (h1, a1), (h1 + h2, a1 + a2))
+        except (KeyError, ValueError):
+            return None
+        return None if v is None else (not v if neg else v)
+    for h1, a1, h2, a2 in product(range(5), repeat=4):
+        wa, wb = win(a, h1, a1, h2, a2), win(b, h1, a1, h2, a2)
+        if wa is None or wb is None:
+            return True
+        if wa and wb:
+            return True
+    return False
+
+
+def drop_conflicts(pools: list[list[dict]], chosen: list[dict]) -> list[list[dict]]:
+    """Remove legs that repeat a chosen bet or can never win together with a chosen leg on the same match."""
+    by_code: dict = {}
+    for leg in chosen:
+        by_code.setdefault(leg["code"], []).append(leg)
+    out = []
+    for pool in pools:
+        taken = by_code.get(pool[0]["code"], [])
+        keep = [x for x in pool if all(x.get("key") != t.get("key") and compatible(x.get("name", ""), t.get("name", ""))
+                                       for t in taken)]
+        if keep:
+            out.append(keep)
+    return out
 
 
 def _trust(leg: dict) -> float:
-    # Sort key: probability first; a researched match or a direct exchange quote wins near-ties (+2 / +1 pt).
-    return leg["p"] + 0.02 * bool(leg.get("researched")) + 0.01 * bool(leg.get("direct"))
+    # Reliability-adjusted probability: the lower bound already penalises model prices, missing research
+    # and team-news flags.
+    return leg.get("p_low", leg["p"])
 
 
 def safest_first_coupon(pools: list[list[dict]], target: float, max_legs: int, partial: bool = False) -> dict | None:
     """User's method: take each match's most probable selection (any market family), sort the matches from the
     surest downwards and add them one by one until the product of Nesine odds reaches the target (MBS kept).
     With partial=True an unreachable target returns every safe leg instead of None (flagged reached=False)."""
-    best = [max(pool, key=lambda x: (x["p"], x["odds"])) for pool in pools]
+    best = [max(pool, key=lambda x: (_trust(x), x["odds"])) for pool in pools]
     best.sort(key=lambda x: (-_trust(x), -x["odds"]))
     legs: list[dict] = []
     for leg in best:
@@ -225,6 +292,8 @@ def main() -> None:
     ap.add_argument("--min-olasilik", type=float, default=None,
                     help="Bacak başına en düşük global olasılık (guvenli: 0.60, optimum: 0)")
     ap.add_argument("--espn", action="store_true", help="ESPN (keskin olmayan) referanslı maçları da kullan")
+    ap.add_argument("--ortak-mac", action="store_true",
+                    help="Kuponlar aynı maçı paylaşabilir; aynı bahis ve birbirini kesin yatıran bahis yasak")
     ap.add_argument("--dogrudan", action="store_true", help="Yalnızca doğrudan global fiyatı olan seçimler (model türevi yok)")
     args = ap.parse_args()
 
@@ -239,7 +308,8 @@ def main() -> None:
     max_legs = args.max_mac or (30 if args.yontem == "guvenli" else 8)
     coupons, used = [], set()
     for _ in range(args.adet):
-        free = [p for p in pools if p[0]["code"] not in used]
+        chosen = [leg for c in coupons for leg in c["legs"]]
+        free = drop_conflicts(pools, chosen) if args.ortak_mac else [p for p in pools if p[0]["code"] not in used]
         c = (safest_first_coupon(free, args.hedef, max_legs, partial=not coupons) if args.yontem == "guvenli"
              else best_coupon(free, args.hedef, max_legs, args.min_mac))
         if c is None:
@@ -267,6 +337,7 @@ def main() -> None:
                "tercihlerden oluşuyor; hedefe ulaşmak için daha zayıf tercih eklemedim.", ""]
     for i, c in enumerate(coupons, 1):
         md += [f"## Kupon {i}: Nesine oranı **{c['nesine_odds']:.2f}** · tutma olasılığı **%{c['probability'] * 100:.1f}** "
+               f"(güvenilir alt sınır %{c.get('probability_low', c['probability']) * 100:.1f}) "
                f"· global adil oranı {c['global_fair_odds']:.2f} · {len(c['legs'])} maç (MBS en az {c['min_mbs']})", "",
                "| Saat | Maç | Pazar | Seçim | Nesine oranı | Global olasılık | Global adil oran | MBS | Referans | Fiyat | Araştırma |",
                "|---|---|---|---|---|---|---|---|---|---|---|"]
