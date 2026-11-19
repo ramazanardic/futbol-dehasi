@@ -1,15 +1,15 @@
 {
- "started_utc": "2026-11-19T06:25:45+00:00",
+ "started_utc": "2026-11-19T06:58:45+00:00",
  "errors": [],
  "counts": {
   "fixtures.csv": 51,
   "new_league_fixtures.csv": 9,
-  "references_total": 111,
-  "smarkets_events": 160,
-  "smarkets_markets": 13321,
-  "smarkets_contracts": 795,
-  "smarkets_markets_illiquid": 239,
-  "smarkets_references": 53
+  "references_total": 112,
+  "smarkets_events": 164,
+  "smarkets_markets": 13523,
+  "smarkets_contracts": 16322,
+  "smarkets_markets_illiquid": 4214,
+  "smarkets_references": 54
  },
  "samples": {
   "fixtures.csv": {
@@ -320,47 +320,47 @@
    "winner_count": 1
   },
   "smarkets_market_names": {
-   "WINNER_3_WAY | Full-time result": 159,
-   "CORRECT_SCORE | Correct score": 159,
-   "BTTS | Both teams to score": 159,
-   "OVER_UNDER | Over/under 0.5": 159,
-   "OVER_UNDER | Over/under 1.5": 159,
-   "OVER_UNDER | Over/under 2.5": 159,
-   "OVER_UNDER | Over/under 3.5": 159,
-   "OVER_UNDER | Over/under 4.5": 159,
-   "OVER_UNDER | Over/under 5.5": 159,
-   "OVER_UNDER | Over/under 6.5": 159,
-   "WINNER_AND_BTTS | Winner and both teams to score": 159,
-   "WINNER_AND_OVER | Winner and over/under 2.5": 159,
-   "BTTS_AND_OVER | Both teams to score and over/under 2.5": 159,
-   "DOUBLE_CHANCE | Double chance": 159,
-   "WINNER_DNB | Draw No Bet": 159,
-   "SCORE_RANGE | Goal range": 157,
-   "HALF_TIME_CORRECT_SCORE | Half-time correct score": 157,
-   "HIGHEST_SCORING_HALF | Highest scoring half": 156,
-   "ODD_EVEN | Odd or even score": 156,
-   "FIRST_HALF_OVER_UNDER | First half over/under 1.5": 156,
-   "FIRST_HALF_OVER_UNDER | First half over/under 2.5": 156,
-   "SECOND_HALF_WINNER_3_WAY | Second half result": 156,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 1.5": 156,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 2.5": 156,
-   "SECOND_HALF_EXACT_GOALS | Second half exact goals": 156,
-   "HALF_FULL | Half-time/full-time": 155,
-   "HALF_TIME_WINNER_3_WAY | Half-time result": 155,
-   "FIRST_HALF_ODD_EVEN | First half odd or even score": 155,
-   "SECOND_HALF_ODD_EVEN | Second half odd or even score": 155,
-   "HALF_TIME_DOUBLE_CHANCE | Half-time double chance": 154,
-   "FIRST_HALF_OVER_UNDER | First half over/under 0.5": 154,
-   "FIRST_HALF_WINNER_AND_BTTS | First half winner and both teams to score": 154,
-   "FIRST_HALF_WINNER_AND_OVER | First half winner and over/under 1.5": 154,
-   "BTTS_FIRST_HALF | Both teams to score in First Half": 154,
-   "BTTS_SECOND_HALF | Both teams to score in Second Half": 154,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 0.5": 139,
-   "WINNER_AND_OVER | Winner and over/under 3.5": 123,
-   "WINNER_AND_OVER | Winner and over/under 1.5": 92,
+   "WINNER_3_WAY | Full-time result": 163,
+   "CORRECT_SCORE | Correct score": 163,
+   "BTTS | Both teams to score": 163,
+   "OVER_UNDER | Over/under 0.5": 163,
+   "OVER_UNDER | Over/under 1.5": 163,
+   "OVER_UNDER | Over/under 2.5": 163,
+   "OVER_UNDER | Over/under 3.5": 163,
+   "OVER_UNDER | Over/under 4.5": 163,
+   "OVER_UNDER | Over/under 5.5": 163,
+   "OVER_UNDER | Over/under 6.5": 163,
+   "WINNER_AND_BTTS | Winner and both teams to score": 163,
+   "WINNER_AND_OVER | Winner and over/under 2.5": 163,
+   "BTTS_AND_OVER | Both teams to score and over/under 2.5": 163,
+   "DOUBLE_CHANCE | Double chance": 163,
+   "WINNER_DNB | Draw No Bet": 163,
+   "SCORE_RANGE | Goal range": 159,
+   "HALF_TIME_CORRECT_SCORE | Half-time correct score": 159,
+   "HIGHEST_SCORING_HALF | Highest scoring half": 158,
+   "ODD_EVEN | Odd or even score": 158,
+   "FIRST_HALF_OVER_UNDER | First half over/under 1.5": 158,
+   "FIRST_HALF_OVER_UNDER | First half over/under 2.5": 158,
+   "SECOND_HALF_WINNER_3_WAY | Second half result": 158,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 1.5": 158,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 2.5": 158,
+   "SECOND_HALF_EXACT_GOALS | Second half exact goals": 158,
+   "HALF_FULL | Half-time/full-time": 157,
+   "HALF_TIME_WINNER_3_WAY | Half-time result": 157,
+   "FIRST_HALF_ODD_EVEN | First half odd or even score": 157,
+   "SECOND_HALF_ODD_EVEN | Second half odd or even score": 157,
+   "HALF_TIME_DOUBLE_CHANCE | Half-time double chance": 156,
+   "FIRST_HALF_OVER_UNDER | First half over/under 0.5": 156,
+   "FIRST_HALF_WINNER_AND_BTTS | First half winner and both teams to score": 156,
+   "FIRST_HALF_WINNER_AND_OVER | First half winner and over/under 1.5": 156,
+   "BTTS_FIRST_HALF | Both teams to score in First Half": 156,
+   "BTTS_SECOND_HALF | Both teams to score in Second Half": 156,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 0.5": 142,
+   "WINNER_AND_OVER | Winner and over/under 3.5": 125,
+   "WINNER_AND_OVER | Winner and over/under 1.5": 94,
    "FIRST_HALF_EXACT_GOALS | First half exact goals": 79,
    "BTTS_BOTH_HALVES | Both teams to score in first half / second half": 79,
-   "WINNER_AND_OVER | Winner and over/under 4.5": 62,
+   "WINNER_AND_OVER | Winner and over/under 4.5": 64,
    "EXACT_GOALS | Exact goals": 38,
    "CORNERS_WINNER_THREE_WAY | Most corners": 36,
    "WIN_MARGIN | Winning margin": 24,
@@ -374,12 +374,12 @@
    "CORNERS_OVER_UNDER | Over/under 10.5 corners": 23,
    "FIRST_HALF_CORNERS_OVER_UNDER | First half over/under 4.5 corners": 23,
    "FIRST_HALF_CORNERS_OVER_UNDER | First half over/under 5.5 corners": 23,
-   "LAST_CORNER | Team to have the last corner": 22,
-   "NEXT_CORNER | Team to have first corner": 22,
    "ANYTIME_GOALSCORER | Anytime goalscorer": 22,
    "FIRST_GOALSCORER | First goalscorer": 22,
    "LAST_GOALSCORER | Last goalscorer": 22,
-   "PLAYER_AT_LEAST_GOALS | Player to score at least 2 goals": 22
+   "PLAYER_AT_LEAST_GOALS | Player to score at least 2 goals": 22,
+   "PLAYER_AT_LEAST_GOALS | Player to score a hat-trick": 22,
+   "WHICH_TEAM_TO_SCORE | Which team to score": 22
   },
   "smarkets_contract": {
    "competitor_id": 197988,
@@ -402,46 +402,50 @@
    "484103272": {
     "bids": [
      {
-      "price": 3937,
-      "quantity": 203660
-     },
-     {
       "price": 3846,
-      "quantity": 51868
+      "quantity": 1265018
      },
      {
       "price": 3817,
-      "quantity": 593921
+      "quantity": 72793
+     },
+     {
+      "price": 3788,
+      "quantity": 5744600
+     },
+     {
+      "price": 3759,
+      "quantity": 6415000
      },
      {
       "price": 3731,
-      "quantity": 10338047
-     },
-     {
-      "price": 3704,
-      "quantity": 2699
+      "quantity": 2680247
      }
     ],
     "offers": [
+     {
+      "price": 3937,
+      "quantity": 351823
+     },
+     {
+      "price": 3968,
+      "quantity": 3315649
+     },
      {
       "price": 4000,
       "quantity": 1071507
      },
      {
       "price": 4032,
-      "quantity": 231025
+      "quantity": 5018425
      },
      {
-      "price": 4098,
-      "quantity": 8229681
-     },
-     {
-      "price": 4132,
-      "quantity": 1704158
+      "price": 4065,
+      "quantity": 1684920
      }
     ]
    }
   }
  },
- "finished_utc": "2026-11-19T06:25:55+00:00"
+ "finished_utc": "2026-11-19T07:03:39+00:00"
 }

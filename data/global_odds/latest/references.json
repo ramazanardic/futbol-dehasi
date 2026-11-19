@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-19T06:25:55+00:00",
+ "generated_utc": "2026-11-19T07:03:39+00:00",
  "references": [
   {
    "source": "Betfair Borsası (football-data)",
@@ -1044,19 +1044,57 @@
    "away": "Fluminense",
    "kickoff_utc": "2026-11-20T00:30:00Z",
    "x12": [
-    2.5362,
-    3.4457,
-    3.1696
+    2.5742,
+    3.4555,
+    3.1043
    ],
    "ou": [
     2.5,
     [
-     2.2898,
-     1.7753
+     2.275,
+     1.7843
     ]
    ],
-   "x12_spread": 0.0128,
-   "ou_spread": 0.0285
+   "x12_spread": 0.0104,
+   "ou_spread": 0.0195,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.5154,
+     "NO|No": 0.4846
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|São Paulo / Yes": 0.1688,
+     "DRAW_YES|Draw / Yes": 0.2073,
+     "AWAY_YES|Fluminense / Yes": 0.1367,
+     "HOME_NO|São Paulo / No": 0.2212,
+     "DRAW_NO|Draw / No": 0.0865,
+     "AWAY_NO|Fluminense / No": 0.1794
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.4964,
+     "EVEN|Even": 0.5036
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|São Paulo / over 2.5 goals": 0.2064,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0671,
+     "AWAY_OVER|Fluminense / over 2.5 goals": 0.1683,
+     "HOME_UNDER|São Paulo / under 2.5 goals": 0.1831,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.2274,
+     "AWAY_UNDER|Fluminense / under 2.5 goals": 0.1476
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0841,
+     "OVER|Over 0.5 goals": 0.9159
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.3031,
+     "OVER|Over 1.5 goals": 0.6969
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.7723,
+     "OVER|Over 3.5 goals": 0.2277
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1065,19 +1103,90 @@
    "away": "Internacional",
    "kickoff_utc": "2026-11-19T22:30:00Z",
    "x12": [
-    1.6426,
-    4.4318,
-    6.0402
+    1.6446,
+    4.4235,
+    6.0288
    ],
    "ou": [
     2.5,
     [
-     1.7845,
-     2.2747
+     1.7756,
+     2.2894
     ]
    ],
    "x12_spread": 0.0111,
-   "ou_spread": 0.0271
+   "ou_spread": 0.0268,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.5347,
+     "NO|No": 0.4653
+    },
+    "Half-time result": {
+     "HOME|Vasco": 0.4501,
+     "DRAW|Draw": 0.3826,
+     "AWAY|Internacional": 0.1673
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Vasco / Yes": 0.2774,
+     "DRAW_YES|Draw / Yes": 0.1648,
+     "AWAY_YES|Internacional / Yes": 0.0879,
+     "HOME_NO|Vasco / No": 0.3303,
+     "DRAW_NO|Draw / No": 0.0568,
+     "AWAY_NO|Internacional / No": 0.0828
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Vasco / over 2.5 goals": 0.4019,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0647,
+     "AWAY_OVER|Internacional / over 2.5 goals": 0.0932,
+     "HOME_UNDER|Vasco / under 2.5 goals": 0.2125,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1583,
+     "AWAY_UNDER|Internacional / under 2.5 goals": 0.0693
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Vasco / over 3.5 goals": 0.225,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0648,
+     "AWAY_OVER|Internacional / over 3.5 goals": 0.0433,
+     "HOME_UNDER|Vasco / under 3.5 goals": 0.3822,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1584,
+     "AWAY_UNDER|Internacional / under 3.5 goals": 0.1264
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Vasco / over 4.5 goals": 0.1281,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0118,
+     "AWAY_OVER|Internacional / over 4.5 goals": 0.0273,
+     "HOME_UNDER|Vasco / under 4.5 goals": 0.4794,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.2122,
+     "AWAY_UNDER|Internacional / under 4.5 goals": 0.1412
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0574,
+     "OVER|Over 0.5 goals": 0.9426
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.2085,
+     "OVER|Over 1.5 goals": 0.7915
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.6657,
+     "OVER|Over 3.5 goals": 0.3343
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.8303,
+     "OVER|Over 4.5 goals": 0.1697
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9276,
+     "OVER|Over 5.5 goals": 0.0724
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.9723,
+     "OVER|Over 6.5 goals": 0.0277
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.6301,
+     "OVER|Over 1.5 goals": 0.3699
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1086,9 +1195,9 @@
    "away": "Bragantino",
    "kickoff_utc": "2026-11-19T22:30:00Z",
    "x12": [
-    2.8617,
-    3.6018,
-    2.6815
+    2.8538,
+    3.6296,
+    2.6733
    ],
    "ou": [
     2.5,
@@ -1097,8 +1206,128 @@
      2.153
     ]
    ],
-   "x12_spread": 0.0112,
-   "ou_spread": 0.0259
+   "x12_spread": 0.0084,
+   "ou_spread": 0.0259,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.5827,
+     "NO|No": 0.4173
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Vitória / Yes": 0.1821,
+     "DRAW_YES|Draw / Yes": 0.2108,
+     "AWAY_YES|Bragantino / Yes": 0.1927,
+     "HOME_NO|Vitória / No": 0.1705,
+     "DRAW_NO|Draw / No": 0.0647,
+     "AWAY_NO|Bragantino / No": 0.1792
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Vitória / over 1.5 goals": 0.273,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.2114,
+     "AWAY_OVER|Bragantino / over 1.5 goals": 0.2866,
+     "HOME_UNDER|Vitória / under 1.5 goals": 0.0821,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0649,
+     "AWAY_UNDER|Bragantino / under 1.5 goals": 0.0821
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Vitória / over 2.5 goals": 0.2196,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0836,
+     "AWAY_OVER|Bragantino / over 2.5 goals": 0.2322,
+     "HOME_UNDER|Vitória / under 2.5 goals": 0.1351,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1902,
+     "AWAY_UNDER|Bragantino / under 2.5 goals": 0.1393
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0648,
+     "OVER|Over 0.5 goals": 0.9352
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.2313,
+     "OVER|Over 1.5 goals": 0.7687
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.6896,
+     "OVER|Over 3.5 goals": 0.3104
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.8496,
+     "OVER|Over 4.5 goals": 0.1504
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.936,
+     "OVER|Over 5.5 goals": 0.064
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.9821,
+     "OVER|Over 6.5 goals": 0.0179
+    },
+    "Half-time/full-time": {
+     "HOME_HOME|Vitória / Vitória": 0.1983,
+     "HOME_AWAY|Vitória / Bragantino": 0.0269,
+     "HOME_DRAW|Vitória / Draw": 0.0557,
+     "AWAY_HOME|Bragantino / Vitória": 0.0265,
+     "AWAY_AWAY|Bragantino / Bragantino": 0.2149,
+     "AWAY_DRAW|Bragantino / Draw": 0.0568,
+     "DRAW_HOME|Draw / Vitória": 0.1274,
+     "DRAW_AWAY|Draw / Bragantino": 0.1337,
+     "DRAW_DRAW|Draw / Draw": 0.1597
+    },
+    "Half-time result": {
+     "HOME|Vitória": 0.2847,
+     "DRAW|Draw": 0.4159,
+     "AWAY|Bragantino": 0.2994
+    },
+    "First half winner and both teams to score": {
+     "HOME_YES|Vitória / Yes": 0.0439,
+     "DRAW_YES|Draw / Yes": 0.1292,
+     "AWAY_YES|Bragantino / Yes": 0.0459,
+     "HOME_NO|Vitória / No": 0.2398,
+     "DRAW_NO|Draw / No": 0.2854,
+     "AWAY_NO|Bragantino / No": 0.2558
+    },
+    "Both teams to score in First Half": {
+     "YES|Yes": 0.2213,
+     "NO|No": 0.7787
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.4932,
+     "EVEN|Even": 0.5068
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.2301,
+     "RANGE|2 - 3": 0.4586,
+     "RANGE|4 - 6": 0.2888,
+     "RANGE|7 or more goals": 0.0225
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Vitória / over 3.5 goals": 0.1106,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.084,
+     "AWAY_OVER|Bragantino / over 3.5 goals": 0.1182,
+     "HOME_UNDER|Vitória / under 3.5 goals": 0.2422,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1911,
+     "AWAY_UNDER|Bragantino / under 3.5 goals": 0.2539
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Vitória / over 4.5 goals": 0.0663,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0158,
+     "AWAY_OVER|Bragantino / over 4.5 goals": 0.0696,
+     "HOME_UNDER|Vitória / under 4.5 goals": 0.2897,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.2582,
+     "AWAY_UNDER|Bragantino / under 4.5 goals": 0.3004
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.286,
+     "OVER|Over 0.5 goals": 0.714
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.646,
+     "OVER|Over 1.5 goals": 0.354
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.8717,
+     "OVER|Over 2.5 goals": 0.1283
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1112,7 +1341,21 @@
     4.8561
    ],
    "ou": null,
-   "x12_spread": 0.0232
+   "x12_spread": 0.0232,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.6227,
+     "NO|No": 0.3773
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Western Sydney Wanderers / over 2.5 goals": 0.4272,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0862,
+     "AWAY_OVER|Adelaide United / over 2.5 goals": 0.145,
+     "HOME_UNDER|Western Sydney Wanderers / under 2.5 goals": 0.1485,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1265,
+     "AWAY_UNDER|Adelaide United / under 2.5 goals": 0.0666
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1133,7 +1376,95 @@
     ]
    ],
    "x12_spread": 0.0119,
-   "ou_spread": 0.0241
+   "ou_spread": 0.0241,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.6325,
+     "NO|No": 0.3675
+    },
+    "Half-time/full-time": {
+     "HOME_HOME|Seattle Sounders / Seattle Sounders": 0.3016,
+     "HOME_AWAY|Seattle Sounders / Real Salt Lake": 0.0269,
+     "HOME_DRAW|Seattle Sounders / Draw": 0.0582,
+     "AWAY_HOME|Real Salt Lake / Seattle Sounders": 0.0372,
+     "AWAY_AWAY|Real Salt Lake / Real Salt Lake": 0.1511,
+     "AWAY_DRAW|Real Salt Lake / Draw": 0.0538,
+     "DRAW_HOME|Draw / Seattle Sounders": 0.1532,
+     "DRAW_AWAY|Draw / Real Salt Lake": 0.0952,
+     "DRAW_DRAW|Draw / Draw": 0.1227
+    },
+    "Half-time result": {
+     "HOME|Seattle Sounders": 0.3797,
+     "DRAW|Draw": 0.3826,
+     "AWAY|Real Salt Lake": 0.2378
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Seattle Sounders / Yes": 0.2714,
+     "DRAW_YES|Draw / Yes": 0.1941,
+     "AWAY_YES|Real Salt Lake / Yes": 0.1627,
+     "HOME_NO|Seattle Sounders / No": 0.2194,
+     "DRAW_NO|Draw / No": 0.041,
+     "AWAY_NO|Real Salt Lake / No": 0.1115
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.495,
+     "EVEN|Even": 0.505
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.1691,
+     "RANGE|2 - 3": 0.4264,
+     "RANGE|4 - 6": 0.3617,
+     "RANGE|7 or more goals": 0.0428
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Seattle Sounders / over 1.5 goals": 0.4146,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.1939,
+     "AWAY_OVER|Real Salt Lake / over 1.5 goals": 0.2247,
+     "HOME_UNDER|Seattle Sounders / under 1.5 goals": 0.0729,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.041,
+     "AWAY_UNDER|Real Salt Lake / under 1.5 goals": 0.0529
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Seattle Sounders / over 2.5 goals": 0.3485,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0912,
+     "AWAY_OVER|Real Salt Lake / over 2.5 goals": 0.1889,
+     "HOME_UNDER|Seattle Sounders / under 2.5 goals": 0.1392,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.145,
+     "AWAY_UNDER|Real Salt Lake / under 2.5 goals": 0.0872
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Seattle Sounders / over 3.5 goals": 0.2134,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0915,
+     "AWAY_OVER|Real Salt Lake / over 3.5 goals": 0.103,
+     "HOME_UNDER|Seattle Sounders / under 3.5 goals": 0.2762,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1455,
+     "AWAY_UNDER|Real Salt Lake / under 3.5 goals": 0.1705
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Seattle Sounders / over 4.5 goals": 0.1351,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0222,
+     "AWAY_OVER|Real Salt Lake / over 4.5 goals": 0.0681,
+     "HOME_UNDER|Seattle Sounders / under 4.5 goals": 0.3526,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.2129,
+     "AWAY_UNDER|Real Salt Lake / under 4.5 goals": 0.2091
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1678,
+     "OVER|Over 1.5 goals": 0.8322
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.5942,
+     "OVER|Over 3.5 goals": 0.4058
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.7758,
+     "OVER|Over 4.5 goals": 0.2242
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.8928,
+     "OVER|Over 5.5 goals": 0.1072
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1142,9 +1473,9 @@
    "away": "Cincinnati",
    "kickoff_utc": "2026-11-20T00:30:00Z",
    "x12": [
-    2.5287,
-    4.2484,
-    2.7089
+    2.5127,
+    4.2369,
+    2.7323
    ],
    "ou": [
     2.5,
@@ -1153,8 +1484,101 @@
      3.4898
     ]
    ],
-   "x12_spread": 0.0156,
-   "ou_spread": 0.0253
+   "x12_spread": 0.0063,
+   "ou_spread": 0.0253,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.7183,
+     "NO|No": 0.2817
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Orlando City / Yes": 0.2635,
+     "DRAW_YES|Draw / Yes": 0.2118,
+     "AWAY_YES|Cincinnati / Yes": 0.2429,
+     "HOME_NO|Orlando City / No": 0.1347,
+     "DRAW_NO|Draw / No": 0.027,
+     "AWAY_NO|Cincinnati / No": 0.1201
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Orlando City / over 1.5 goals": 0.356,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.2085,
+     "AWAY_OVER|Cincinnati / over 1.5 goals": 0.3201,
+     "HOME_UNDER|Orlando City / under 1.5 goals": 0.0441,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0274,
+     "AWAY_UNDER|Cincinnati / under 1.5 goals": 0.0441
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Orlando City / over 2.5 goals": 0.3119,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.1183,
+     "AWAY_OVER|Cincinnati / over 2.5 goals": 0.2847,
+     "HOME_UNDER|Orlando City / under 2.5 goals": 0.0845,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1195,
+     "AWAY_UNDER|Cincinnati / under 2.5 goals": 0.081
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Orlando City / over 3.5 goals": 0.2044,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.1187,
+     "AWAY_OVER|Cincinnati / over 3.5 goals": 0.1819,
+     "HOME_UNDER|Orlando City / under 3.5 goals": 0.1925,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1206,
+     "AWAY_UNDER|Cincinnati / under 3.5 goals": 0.1819
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Orlando City / over 4.5 goals": 0.1415,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0389,
+     "AWAY_OVER|Cincinnati / over 4.5 goals": 0.1358,
+     "HOME_UNDER|Orlando City / under 4.5 goals": 0.252,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.1987,
+     "AWAY_UNDER|Cincinnati / under 4.5 goals": 0.2331
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1161,
+     "OVER|Over 1.5 goals": 0.8839
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.4919,
+     "OVER|Over 3.5 goals": 0.5081
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.6911,
+     "OVER|Over 4.5 goals": 0.3089
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.8359,
+     "OVER|Over 5.5 goals": 0.1641
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.926,
+     "OVER|Over 6.5 goals": 0.074
+    },
+    "Half-time result": {
+     "HOME|Orlando City": 0.3322,
+     "DRAW|Draw": 0.3487,
+     "AWAY|Cincinnati": 0.3191
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.4906,
+     "EVEN|Even": 0.5094
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.1147,
+     "RANGE|2 - 3": 0.3798,
+     "RANGE|4 - 6": 0.4318,
+     "RANGE|7 or more goals": 0.0737
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.1935,
+     "OVER|Over 0.5 goals": 0.8065
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.5131,
+     "OVER|Over 1.5 goals": 0.4869
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.7778,
+     "OVER|Over 2.5 goals": 0.2222
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1168,7 +1592,13 @@
     3.5104
    ],
    "ou": null,
-   "x12_spread": 0.0181
+   "x12_spread": 0.0181,
+   "markets": {
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.2561,
+     "OVER|Over 1.5 goals": 0.7439
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1177,9 +1607,9 @@
    "away": "Hillerød Fodbold",
    "kickoff_utc": "2026-11-19T18:00:00Z",
    "x12": [
-    1.3497,
-    6.3325,
-    9.8823
+    1.3482,
+    6.3253,
+    9.9836
    ],
    "ou": [
     2.5,
@@ -1189,7 +1619,82 @@
     ]
    ],
    "x12_spread": 0.0223,
-   "ou_spread": 0.023
+   "ou_spread": 0.023,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.5502,
+     "NO|No": 0.4498
+    },
+    "Half-time result": {
+     "HOME|Fredericia": 0.557,
+     "DRAW|Draw": 0.3162,
+     "AWAY|Hillerød Fodbold": 0.1268
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Fredericia / Yes": 0.3578,
+     "DRAW_YES|Draw / Yes": 0.1291,
+     "AWAY_YES|Hillerød Fodbold / Yes": 0.0611,
+     "HOME_NO|Fredericia / No": 0.3798,
+     "DRAW_NO|Draw / No": 0.0294,
+     "AWAY_NO|Hillerød Fodbold / No": 0.0429
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.503,
+     "EVEN|Even": 0.497
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Fredericia / over 1.5 goals": 0.6596,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.1299,
+     "AWAY_OVER|Hillerød Fodbold / over 1.5 goals": 0.0771,
+     "HOME_UNDER|Fredericia / under 1.5 goals": 0.0786,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0296,
+     "AWAY_UNDER|Hillerød Fodbold / under 1.5 goals": 0.0253
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Fredericia / over 2.5 goals": 0.5582,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0578,
+     "AWAY_OVER|Hillerød Fodbold / over 2.5 goals": 0.067,
+     "HOME_UNDER|Fredericia / under 2.5 goals": 0.1772,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.103,
+     "AWAY_UNDER|Hillerød Fodbold / under 2.5 goals": 0.0369
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Fredericia / over 3.5 goals": 0.3781,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0577,
+     "AWAY_OVER|Hillerød Fodbold / over 3.5 goals": 0.0319,
+     "HOME_UNDER|Fredericia / under 3.5 goals": 0.3576,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1029,
+     "AWAY_UNDER|Hillerød Fodbold / under 3.5 goals": 0.0718
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Fredericia / over 4.5 goals": 0.2372,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0131,
+     "AWAY_OVER|Hillerød Fodbold / over 4.5 goals": 0.0213,
+     "HOME_UNDER|Fredericia / under 4.5 goals": 0.4988,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.1469,
+     "AWAY_UNDER|Hillerød Fodbold / under 4.5 goals": 0.0826
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1377,
+     "OVER|Over 1.5 goals": 0.8623
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.5391,
+     "OVER|Over 3.5 goals": 0.4609
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.7236,
+     "OVER|Over 4.5 goals": 0.2764
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.8594,
+     "OVER|Over 5.5 goals": 0.1406
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.9396,
+     "OVER|Over 6.5 goals": 0.0604
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1198,19 +1703,118 @@
    "away": "Hatta",
    "kickoff_utc": "2026-11-19T12:45:00Z",
    "x12": [
-    1.1582,
-    11.1882,
-    21.1782
+    1.1358,
+    12.9961,
+    23.4597
    ],
    "ou": [
     2.5,
     [
-     1.2878,
-     4.4751
+     1.2561,
+     4.9045
     ]
    ],
-   "x12_spread": 0.0149,
-   "ou_spread": 0.0361
+   "x12_spread": 0.0157,
+   "ou_spread": 0.0313,
+   "markets": {
+    "Half-time/full-time": {
+     "HOME_HOME|Al-Wasl / Al-Wasl": 0.6716,
+     "HOME_AWAY|Al-Wasl / Hatta": 0.0074,
+     "HOME_DRAW|Al-Wasl / Draw": 0.0225,
+     "AWAY_HOME|Hatta / Al-Wasl": 0.0341,
+     "AWAY_AWAY|Hatta / Hatta": 0.0225,
+     "AWAY_DRAW|Hatta / Draw": 0.0204,
+     "DRAW_HOME|Draw / Al-Wasl": 0.1618,
+     "DRAW_AWAY|Draw / Hatta": 0.0176,
+     "DRAW_DRAW|Draw / Draw": 0.042
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Al-Wasl / Yes": 0.3966,
+     "DRAW_YES|Draw / Yes": 0.0643,
+     "AWAY_YES|Hatta / Yes": 0.0249,
+     "HOME_NO|Al-Wasl / No": 0.4878,
+     "DRAW_NO|Draw / No": 0.0113,
+     "AWAY_NO|Hatta / No": 0.0151
+    },
+    "First half winner and both teams to score": {
+     "HOME_YES|Al-Wasl / Yes": 0.1103,
+     "DRAW_YES|Draw / Yes": 0.0815,
+     "AWAY_YES|Hatta / Yes": 0.0157,
+     "HOME_NO|Al-Wasl / No": 0.6086,
+     "DRAW_NO|Draw / No": 0.1376,
+     "AWAY_NO|Hatta / No": 0.0463
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.0859,
+     "RANGE|2 - 3": 0.3235,
+     "RANGE|4 - 6": 0.4646,
+     "RANGE|7 or more goals": 0.126
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Al-Wasl / over 1.5 goals": 0.8253,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.0644,
+     "AWAY_OVER|Hatta / over 1.5 goals": 0.0299,
+     "HOME_UNDER|Al-Wasl / under 1.5 goals": 0.0596,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0111,
+     "AWAY_UNDER|Hatta / under 1.5 goals": 0.0097
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Al-Wasl / over 2.5 goals": 0.734,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0298,
+     "AWAY_OVER|Hatta / over 2.5 goals": 0.0261,
+     "HOME_UNDER|Al-Wasl / under 2.5 goals": 0.1511,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.0457,
+     "AWAY_UNDER|Hatta / under 2.5 goals": 0.0133
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Al-Wasl / over 3.5 goals": 0.5491,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.03,
+     "AWAY_OVER|Hatta / over 3.5 goals": 0.0125,
+     "HOME_UNDER|Al-Wasl / under 3.5 goals": 0.3347,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.046,
+     "AWAY_UNDER|Hatta / under 3.5 goals": 0.0277
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Al-Wasl / over 4.5 goals": 0.3883,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0081,
+     "AWAY_OVER|Hatta / over 4.5 goals": 0.0086,
+     "HOME_UNDER|Al-Wasl / under 4.5 goals": 0.4954,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.0726,
+     "AWAY_UNDER|Hatta / under 4.5 goals": 0.0271
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.0816,
+     "OVER|Over 1.5 goals": 0.9184
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.4049,
+     "OVER|Over 3.5 goals": 0.5951
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.5994,
+     "OVER|Over 4.5 goals": 0.4006
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.7657,
+     "OVER|Over 5.5 goals": 0.2343
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.877,
+     "OVER|Over 6.5 goals": 0.123
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.15,
+     "OVER|Over 0.5 goals": 0.85
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.4441,
+     "OVER|Over 1.5 goals": 0.5559
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.7271,
+     "OVER|Over 2.5 goals": 0.2729
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1219,19 +1823,143 @@
    "away": "Al Dhafra",
    "kickoff_utc": "2026-11-19T15:25:00Z",
    "x12": [
-    1.154,
-    11.3434,
-    22.0807
+    1.1596,
+    11.0033,
+    21.3881
    ],
    "ou": [
     2.5,
     [
-     1.2645,
-     4.7813
+     1.268,
+     4.7309
     ]
    ],
-   "x12_spread": 0.0154,
-   "ou_spread": 0.0313
+   "x12_spread": 0.0167,
+   "ou_spread": 0.0248,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.5075,
+     "NO|No": 0.4925
+    },
+    "Half-time/full-time": {
+     "HOME_HOME|Al-Ain / Al-Ain": 0.6646,
+     "HOME_AWAY|Al-Ain / Al Dhafra": 0.0046,
+     "HOME_DRAW|Al-Ain / Draw": 0.0256,
+     "AWAY_HOME|Al Dhafra / Al-Ain": 0.0292,
+     "AWAY_AWAY|Al Dhafra / Al Dhafra": 0.0202,
+     "AWAY_DRAW|Al Dhafra / Draw": 0.0202,
+     "DRAW_HOME|Draw / Al-Ain": 0.169,
+     "DRAW_AWAY|Draw / Al Dhafra": 0.0173,
+     "DRAW_DRAW|Draw / Draw": 0.0494
+    },
+    "Half-time result": {
+     "HOME|Al-Ain": 0.6839,
+     "DRAW|Draw": 0.2382,
+     "AWAY|Al Dhafra": 0.0779
+    },
+    "Both teams to score in first half / second half": {
+     "NO_NO|No / No": 0.5575,
+     "NO_YES|No / Yes": 0.2145,
+     "YES_NO|Yes / No": 0.1594,
+     "YES_YES|Yes / Yes": 0.0686
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Al-Ain / Yes": 0.4051,
+     "DRAW_YES|Draw / Yes": 0.0747,
+     "AWAY_YES|Al Dhafra / Yes": 0.0297,
+     "HOME_NO|Al-Ain / No": 0.4572,
+     "DRAW_NO|Draw / No": 0.0157,
+     "AWAY_NO|Al Dhafra / No": 0.0176
+    },
+    "First half winner and both teams to score": {
+     "HOME_YES|Al-Ain / Yes": 0.1164,
+     "DRAW_YES|Draw / Yes": 0.0903,
+     "AWAY_YES|Al Dhafra / Yes": 0.0176,
+     "HOME_NO|Al-Ain / No": 0.5823,
+     "DRAW_NO|Draw / No": 0.1388,
+     "AWAY_NO|Al Dhafra / No": 0.0547
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.5107,
+     "EVEN|Even": 0.4893
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.0859,
+     "RANGE|2 - 3": 0.3292,
+     "RANGE|4 - 6": 0.4645,
+     "RANGE|7 or more goals": 0.1204
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Al-Ain / over 1.5 goals": 0.7988,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.0743,
+     "AWAY_OVER|Al Dhafra / over 1.5 goals": 0.038,
+     "HOME_UNDER|Al-Ain / under 1.5 goals": 0.058,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0196,
+     "AWAY_UNDER|Al Dhafra / under 1.5 goals": 0.0114
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Al-Ain / over 2.5 goals": 0.7149,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0354,
+     "AWAY_OVER|Al Dhafra / over 2.5 goals": 0.0302,
+     "HOME_UNDER|Al-Ain / under 2.5 goals": 0.1447,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.0559,
+     "AWAY_UNDER|Al Dhafra / under 2.5 goals": 0.0189
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Al-Ain / over 3.5 goals": 0.531,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0354,
+     "AWAY_OVER|Al Dhafra / over 3.5 goals": 0.0157,
+     "HOME_UNDER|Al-Ain / under 3.5 goals": 0.3298,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.055,
+     "AWAY_UNDER|Al Dhafra / under 3.5 goals": 0.033
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Al-Ain / over 4.5 goals": 0.3762,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0085,
+     "AWAY_OVER|Al Dhafra / over 4.5 goals": 0.0103,
+     "HOME_UNDER|Al-Ain / under 4.5 goals": 0.4843,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.0805,
+     "AWAY_UNDER|Al Dhafra / under 4.5 goals": 0.0401
+    },
+    "Both teams to score and over/under 2.5": {
+     "YES_OVER|Yes / Over": 0.4761,
+     "YES_UNDER|Yes / Under": 0.0366,
+     "NO_OVER|No / Over": 0.3107,
+     "NO_UNDER|No / Under": 0.1766
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.082,
+     "OVER|Over 1.5 goals": 0.918
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.4067,
+     "OVER|Over 3.5 goals": 0.5933
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.6044,
+     "OVER|Over 4.5 goals": 0.3956
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.7691,
+     "OVER|Over 5.5 goals": 0.2309
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.8825,
+     "OVER|Over 6.5 goals": 0.1175
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.1499,
+     "OVER|Over 0.5 goals": 0.8501
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.4402,
+     "OVER|Over 1.5 goals": 0.5598
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.7231,
+     "OVER|Over 2.5 goals": 0.2769
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1240,12 +1968,77 @@
    "away": "Shimizu S-Pulse",
    "kickoff_utc": "2026-11-20T10:00:00Z",
    "x12": [
-    1.5769,
-    4.4881,
-    6.9906
+    1.5804,
+    4.4711,
+    6.9641
    ],
    "ou": null,
-   "x12_spread": 0.0298
+   "x12_spread": 0.0359,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.4939,
+     "NO|No": 0.5061
+    },
+    "Half-time result": {
+     "HOME|Kashima Antlers": 0.4638,
+     "DRAW|Draw": 0.3893,
+     "AWAY|Shimizu S-Pulse": 0.1469
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Kashima Antlers / Yes": 0.2636,
+     "DRAW_YES|Draw / Yes": 0.1618,
+     "AWAY_YES|Shimizu S-Pulse / Yes": 0.0682,
+     "HOME_NO|Kashima Antlers / No": 0.3704,
+     "DRAW_NO|Draw / No": 0.0638,
+     "AWAY_NO|Shimizu S-Pulse / No": 0.0722
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.497,
+     "EVEN|Even": 0.503
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.2377,
+     "RANGE|2 - 3": 0.4636,
+     "RANGE|4 - 6": 0.2791,
+     "RANGE|7 or more goals": 0.0197
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Kashima Antlers / over 2.5 goals": 0.3935,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0547,
+     "AWAY_OVER|Shimizu S-Pulse / over 2.5 goals": 0.0738,
+     "HOME_UNDER|Kashima Antlers / under 2.5 goals": 0.2407,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.17,
+     "AWAY_UNDER|Shimizu S-Pulse / under 2.5 goals": 0.0673
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Kashima Antlers / over 3.5 goals": 0.2147,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0547,
+     "AWAY_OVER|Shimizu S-Pulse / over 3.5 goals": 0.0289,
+     "HOME_UNDER|Kashima Antlers / under 3.5 goals": 0.421,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1698,
+     "AWAY_UNDER|Shimizu S-Pulse / under 3.5 goals": 0.111
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.064,
+     "OVER|Over 0.5 goals": 0.936
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.24,
+     "OVER|Over 1.5 goals": 0.76
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.7041,
+     "OVER|Over 3.5 goals": 0.2959
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.8544,
+     "OVER|Over 4.5 goals": 0.1456
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9413,
+     "OVER|Over 5.5 goals": 0.0587
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1254,12 +2047,66 @@
    "away": "Mito Hollyhock",
    "kickoff_utc": "2026-11-20T10:00:00Z",
    "x12": [
-    1.4392,
-    4.9808,
-    9.5776
+    1.4676,
+    4.8775,
+    8.8031
    ],
    "ou": null,
-   "x12_spread": 0.0289
+   "x12_spread": 0.037,
+   "markets": {
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0629,
+     "OVER|Over 0.5 goals": 0.9371
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.5007,
+     "EVEN|Even": 0.4993
+    }
+   }
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "25500881",
+   "home": "Al-Ahli",
+   "away": "Al-Shamal",
+   "kickoff_utc": "2026-11-19T15:30:00Z",
+   "x12": [
+    3.1627,
+    4.2153,
+    2.2392
+   ],
+   "ou": null,
+   "x12_spread": 0.012,
+   "markets": {
+    "Winner and both teams to score": {
+     "HOME_YES|Al-Ahli / Yes": 0.1982,
+     "DRAW_YES|Draw / Yes": 0.1999,
+     "AWAY_YES|Al-Shamal / Yes": 0.267,
+     "HOME_NO|Al-Ahli / No": 0.1219,
+     "DRAW_NO|Draw / No": 0.0398,
+     "AWAY_NO|Al-Shamal / No": 0.1732
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Al-Ahli / over 2.5 goals": 0.23,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.1025,
+     "AWAY_OVER|Al-Shamal / over 2.5 goals": 0.3279,
+     "HOME_UNDER|Al-Ahli / under 2.5 goals": 0.0849,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1368,
+     "AWAY_UNDER|Al-Shamal / under 2.5 goals": 0.1178
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1453,
+     "OVER|Over 1.5 goals": 0.8547
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.7411,
+     "OVER|Over 4.5 goals": 0.2589
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.9432,
+     "OVER|Over 6.5 goals": 0.0568
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1268,12 +2115,50 @@
    "away": "Lyon (W)",
    "kickoff_utc": "2026-11-19T20:00:00Z",
    "x12": [
-    4.6878,
-    4.4163,
-    1.7849
+    4.955,
+    4.4529,
+    1.7433
    ],
-   "ou": null,
-   "x12_spread": 0.035
+   "ou": [
+    2.5,
+    [
+     1.6109,
+     2.637
+    ]
+   ],
+   "x12_spread": 0.0152,
+   "ou_spread": 0.0349,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.5979,
+     "NO|No": 0.4021
+    },
+    "Half-time result": {
+     "HOME|Arsenal (W)": 0.2014,
+     "DRAW|Draw": 0.3674,
+     "AWAY|Lyon (W)": 0.4312
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.172,
+     "OVER|Over 1.5 goals": 0.828
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.6083,
+     "OVER|Over 3.5 goals": 0.3917
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.2299,
+     "OVER|Over 0.5 goals": 0.7701
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.5777,
+     "OVER|Over 1.5 goals": 0.4223
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.8293,
+     "OVER|Over 2.5 goals": 0.1707
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1282,19 +2167,119 @@
    "away": "Bayern Munich (W)",
    "kickoff_utc": "2026-11-19T17:45:00Z",
    "x12": [
-    30.5576,
-    12.9091,
-    1.1238
+    30.6022,
+    11.0678,
+    1.1403
    ],
    "ou": [
     2.5,
     [
-     1.3394,
-     3.9467
+     1.3446,
+     3.9021
     ]
    ],
-   "x12_spread": 0.0157,
-   "ou_spread": 0.0286
+   "x12_spread": 0.0229,
+   "ou_spread": 0.0228,
+   "markets": {
+    "Half-time/full-time": {
+     "HOME_HOME|FK Austria Wien Women / FK Austria Wien Women": 0.0242,
+     "HOME_AWAY|FK Austria Wien Women / FC Bayern München Women": 0.0337,
+     "HOME_DRAW|FK Austria Wien Women / Draw": 0.0205,
+     "AWAY_HOME|FC Bayern München Women / FK Austria Wien Women": 0.0055,
+     "AWAY_AWAY|Bayern Munich (W) / Bayern Munich (W)": 0.6352,
+     "AWAY_DRAW|Bayern Munich (W) / Draw": 0.023,
+     "DRAW_HOME|Draw / FK Austria Wien Women": 0.0214,
+     "DRAW_AWAY|Draw / Bayern Munich (W)": 0.1825,
+     "DRAW_DRAW|Draw / Draw": 0.0541
+    },
+    "Half-time result": {
+     "HOME|FK Austria Wien Women": 0.0632,
+     "DRAW|Draw": 0.2431,
+     "AWAY|Bayern Munich (W)": 0.6936
+    },
+    "First half winner and both teams to score": {
+     "HOME_YES|FK Austria Wien Women / Yes": 0.011,
+     "DRAW_YES|Draw / Yes": 0.0824,
+     "AWAY_YES|Bayern Munich (W) / Yes": 0.0857,
+     "HOME_NO|FK Austria Wien Women / No": 0.0559,
+     "DRAW_NO|Draw / No": 0.1688,
+     "AWAY_NO|Bayern Munich (W) / No": 0.5961
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|FK Austria Wien Women / over 1.5 goals": 0.0216,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.0698,
+     "AWAY_OVER|Bayern Munich (W) / over 1.5 goals": 0.8014,
+     "HOME_UNDER|FK Austria Wien Women / under 1.5 goals": 0.0114,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0197,
+     "AWAY_UNDER|Bayern Munich (W) / under 1.5 goals": 0.0762
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|FK Austria Wien Women / over 2.5 goals": 0.018,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.027,
+     "AWAY_OVER|Bayern Munich (W) / over 2.5 goals": 0.6963,
+     "HOME_UNDER|FK Austria Wien Women / under 2.5 goals": 0.0163,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.0624,
+     "AWAY_UNDER|Bayern Munich (W) / under 2.5 goals": 0.1799
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|FK Austria Wien Women / over 3.5 goals": 0.0081,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0271,
+     "AWAY_OVER|Bayern Munich (W) / over 3.5 goals": 0.497,
+     "HOME_UNDER|FK Austria Wien Women / under 3.5 goals": 0.0266,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.0626,
+     "AWAY_UNDER|Bayern Munich (W) / under 3.5 goals": 0.3786
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|FK Austria Wien Women / over 4.5 goals": 0.0072,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0068,
+     "AWAY_OVER|Bayern Munich (W) / over 4.5 goals": 0.3274,
+     "HOME_UNDER|FK Austria Wien Women / under 4.5 goals": 0.0285,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.0846,
+     "AWAY_UNDER|Bayern Munich (W) / under 4.5 goals": 0.5453
+    },
+    "Both teams to score and over/under 2.5": {
+     "YES_OVER|Yes / Over": 0.3854,
+     "YES_UNDER|Yes / Under": 0.0405,
+     "NO_OVER|No / Over": 0.3542,
+     "NO_UNDER|No / Under": 0.2198
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0193,
+     "OVER|Over 0.5 goals": 0.9807
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1059,
+     "OVER|Over 1.5 goals": 0.8941
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.4574,
+     "OVER|Over 3.5 goals": 0.5426
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.6642,
+     "OVER|Over 4.5 goals": 0.3358
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.8155,
+     "OVER|Over 5.5 goals": 0.1845
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.908,
+     "OVER|Over 6.5 goals": 0.092
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.17,
+     "OVER|Over 0.5 goals": 0.83
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.4757,
+     "OVER|Over 1.5 goals": 0.5243
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.7499,
+     "OVER|Over 2.5 goals": 0.2501
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1303,12 +2288,38 @@
    "away": "Roma (W)",
    "kickoff_utc": "2026-11-19T20:00:00Z",
    "x12": [
-    2.2582,
-    4.1125,
-    3.1847
+    2.2637,
+    4.1045,
+    3.1785
    ],
    "ou": null,
-   "x12_spread": 0.0149
+   "x12_spread": 0.0149,
+   "markets": {
+    "Winner and both teams to score": {
+     "HOME_YES|S.L. Benfica Women / Yes": 0.2502,
+     "DRAW_YES|Draw / Yes": 0.2003,
+     "AWAY_YES|Roma (W) / Yes": 0.1853,
+     "HOME_NO|S.L. Benfica Women / No": 0.1925,
+     "DRAW_NO|Draw / No": 0.0414,
+     "AWAY_NO|Roma (W) / No": 0.1303
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|S.L. Benfica Women / over 1.5 goals": 0.3725,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.1972,
+     "AWAY_OVER|Roma (W) / over 1.5 goals": 0.2597,
+     "HOME_UNDER|S.L. Benfica Women / under 1.5 goals": 0.0695,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0412,
+     "AWAY_UNDER|Roma (W) / under 1.5 goals": 0.06
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.5921,
+     "OVER|Over 3.5 goals": 0.4079
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.8886,
+     "OVER|Over 5.5 goals": 0.1114
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1317,40 +2328,19 @@
    "away": "HB Køge Women",
    "kickoff_utc": "2026-11-19T17:45:00Z",
    "x12": [
-    1.6535,
-    4.5936,
-    5.6335
+    1.6559,
+    4.6002,
+    5.5959
    ],
    "ou": [
     2.5,
     [
-     1.5654,
-     2.7687
+     1.5697,
+     2.7554
     ]
    ],
-   "x12_spread": 0.0157,
-   "ou_spread": 0.0325
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30088540",
-   "home": "Bayern Munich",
-   "away": "Köln",
-   "kickoff_utc": "2026-11-20T19:30:00Z",
-   "x12": [
-    1.097,
-    17.514,
-    31.9553
-   ],
-   "ou": [
-    2.5,
-    [
-     1.1794,
-     6.5733
-    ]
-   ],
-   "x12_spread": 0.0083,
-   "ou_spread": 0.0288
+   "x12_spread": 0.0128,
+   "ou_spread": 0.0316
   },
   {
    "source": "Smarkets (borsa)",
@@ -1359,12 +2349,36 @@
    "away": "Servette FC Women",
    "kickoff_utc": "2026-11-19T20:00:00Z",
    "x12": [
-    1.0257,
-    59.5089,
-    121.1687
+    1.023,
+    73.386,
+    113.4148
    ],
    "ou": null,
-   "x12_spread": 0.0192
+   "x12_spread": 0.0095
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "30091534",
+   "home": "FC Farul Constanta",
+   "away": "Universitatea Cluj",
+   "kickoff_utc": "2026-11-20T18:30:00Z",
+   "x12": [
+    2.8216,
+    3.7224,
+    2.6529
+   ],
+   "ou": null,
+   "x12_spread": 0.0381,
+   "markets": {
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0575,
+     "OVER|Over 0.5 goals": 0.9425
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9279,
+     "OVER|Over 5.5 goals": 0.0721
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1373,12 +2387,22 @@
    "away": "Olympique Akbou",
    "kickoff_utc": "2026-11-19T16:45:00Z",
    "x12": [
-    1.487,
-    4.1562,
-    11.5066
+    1.4924,
+    4.2101,
+    10.8227
    ],
    "ou": null,
-   "x12_spread": 0.0259
+   "x12_spread": 0.0221,
+   "markets": {
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.3448,
+     "OVER|Over 1.5 goals": 0.6552
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.7439,
+     "OVER|Over 1.5 goals": 0.2561
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1387,19 +2411,49 @@
    "away": "Montevideo City Torque",
    "kickoff_utc": "2026-11-19T19:30:00Z",
    "x12": [
-    6.3055,
-    4.7065,
-    1.59
+    6.3014,
+    4.8573,
+    1.5737
    ],
    "ou": [
     2.5,
     [
-     1.6734,
-     2.4851
+     1.6808,
+     2.4688
     ]
    ],
-   "x12_spread": 0.0181,
-   "ou_spread": 0.0287
+   "x12_spread": 0.0163,
+   "ou_spread": 0.0296,
+   "markets": {
+    "Winner and both teams to score": {
+     "HOME_YES|CA Progreso / Yes": 0.0868,
+     "DRAW_YES|Draw / Yes": 0.1604,
+     "AWAY_YES|Montevideo City Torque / Yes": 0.3008,
+     "HOME_NO|CA Progreso / No": 0.0716,
+     "DRAW_NO|Draw / No": 0.0483,
+     "AWAY_NO|Montevideo City Torque / No": 0.332
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.5057,
+     "EVEN|Even": 0.4943
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|CA Progreso / over 2.5 goals": 0.0954,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0664,
+     "AWAY_OVER|Montevideo City Torque / over 2.5 goals": 0.4389,
+     "HOME_UNDER|CA Progreso / under 2.5 goals": 0.0634,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1456,
+     "AWAY_UNDER|Montevideo City Torque / under 2.5 goals": 0.1904
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.6364,
+     "OVER|Over 3.5 goals": 0.3636
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.8061,
+     "OVER|Over 4.5 goals": 0.1939
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1415,12 +2469,22 @@
    "ou": [
     2.5,
     [
-     2.1077,
-     1.9028
+     2.0963,
+     1.9122
     ]
    ],
    "x12_spread": 0.0222,
-   "ou_spread": 0.0359
+   "ou_spread": 0.0272,
+   "markets": {
+    "Winner and both teams to score": {
+     "HOME_YES|Peñarol / Yes": 0.2353,
+     "DRAW_YES|Draw / Yes": 0.1408,
+     "AWAY_YES|Cerro Largo FC / Yes": 0.0506,
+     "HOME_NO|Peñarol / No": 0.431,
+     "DRAW_NO|Draw / No": 0.0741,
+     "AWAY_NO|Cerro Largo FC / No": 0.0681
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1429,19 +2493,38 @@
    "away": "Deportivo Maldonado",
    "kickoff_utc": "2026-11-19T19:30:00Z",
    "x12": [
-    4.7459,
-    3.9984,
-    1.8546
+    3.7851,
+    3.8111,
+    2.1123
    ],
    "ou": [
     2.5,
     [
-     1.952,
-     2.0505
+     1.9634,
+     2.038
     ]
    ],
-   "x12_spread": 0.0204,
-   "ou_spread": 0.0334
+   "x12_spread": 0.0178,
+   "ou_spread": 0.0289,
+   "markets": {
+    "Half-time result": {
+     "HOME|Boston River": 0.2287,
+     "DRAW|Draw": 0.4103,
+     "AWAY|Deportivo Maldonado": 0.361
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0608,
+     "OVER|Over 0.5 goals": 0.9392
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.7124,
+     "OVER|Over 3.5 goals": 0.2876
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.2928,
+     "OVER|Over 0.5 goals": 0.7072
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1450,40 +2533,33 @@
    "away": "Asyut Petroleum",
    "kickoff_utc": "2026-11-19T15:00:00Z",
    "x12": [
-    1.8179,
-    3.6335,
-    5.7242
+    1.6902,
+    3.7722,
+    6.9812
    ],
    "ou": [
     2.5,
     [
-     2.5114,
-     1.6616
+     2.4932,
+     1.6697
     ]
    ],
-   "x12_spread": 0.0151,
-   "ou_spread": 0.0222
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "45422580",
-   "home": "Al-Mokawloon al-Arab",
-   "away": "Olympic El Qanal",
-   "kickoff_utc": "2026-11-19T15:00:00Z",
-   "x12": [
-    1.7636,
-    3.6123,
-    6.4036
-   ],
-   "ou": [
-    2.5,
-    [
-     2.4453,
-     1.6919
-    ]
-   ],
-   "x12_spread": 0.0353,
-   "ou_spread": 0.0314
+   "x12_spread": 0.021,
+   "ou_spread": 0.0356,
+   "markets": {
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.324,
+     "OVER|Over 1.5 goals": 0.676
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.7997,
+     "OVER|Over 3.5 goals": 0.2003
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.3548,
+     "OVER|Over 0.5 goals": 0.6452
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1492,26 +2568,26 @@
    "away": "Shan United",
    "kickoff_utc": "2026-11-19T12:00:00Z",
    "x12": [
-    1.1284,
-    11.9484,
-    33.2076
+    1.1247,
+    12.3259,
+    33.6218
    ],
    "ou": null,
-   "x12_spread": 0.0353
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "45448564",
-   "home": "Svay Rieng F.C.",
-   "away": "Port FC",
-   "kickoff_utc": "2026-11-19T12:00:00Z",
-   "x12": [
-    2.5595,
-    3.9232,
-    2.8217
-   ],
-   "ou": null,
-   "x12_spread": 0.0344
+   "x12_spread": 0.0395,
+   "markets": {
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1065,
+     "OVER|Over 1.5 goals": 0.8935
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.4839,
+     "OVER|Over 3.5 goals": 0.5161
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.6791,
+     "OVER|Over 4.5 goals": 0.3209
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1553,7 +2629,17 @@
     ]
    ],
    "x12_spread": 0.024,
-   "ou_spread": 0.0321
+   "ou_spread": 0.0321,
+   "markets": {
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.5731,
+     "OVER|Over 1.5 goals": 0.4269
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.8265,
+     "OVER|Over 2.5 goals": 0.1735
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1562,33 +2648,95 @@
    "away": "FK Andijan",
    "kickoff_utc": "2026-11-19T13:00:00Z",
    "x12": [
-    3.3656,
-    3.469,
-    2.4119
+    3.329,
+    3.5049,
+    2.4137
    ],
    "ou": [
     2.5,
     [
-     2.2341,
-     1.8103
+     2.1743,
+     1.8516
     ]
    ],
-   "x12_spread": 0.0209,
-   "ou_spread": 0.0395
+   "x12_spread": 0.0136,
+   "ou_spread": 0.0337,
+   "markets": {
+    "Winner and both teams to score": {
+     "HOME_YES|Termez Surkhon / Yes": 0.1442,
+     "DRAW_YES|Draw / Yes": 0.1944,
+     "AWAY_YES|FK Andijan / Yes": 0.1829,
+     "HOME_NO|Termez Surkhon / No": 0.169,
+     "DRAW_NO|Draw / No": 0.0811,
+     "AWAY_NO|FK Andijan / No": 0.2283
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0811,
+     "OVER|Over 0.5 goals": 0.9189
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.7588,
+     "OVER|Over 3.5 goals": 0.2412
+    },
+    "Half-time result": {
+     "HOME|Termez Surkhon": 0.2438,
+     "DRAW|Draw": 0.4356,
+     "AWAY|FK Andijan": 0.3207
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.5068,
+     "EVEN|Even": 0.4932
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.7002,
+     "OVER|Over 1.5 goals": 0.2998
+    }
+   }
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "42644678",
+   "home": "Independiente Valle del Cauca",
+   "away": "Envigado FC",
+   "kickoff_utc": "2026-11-19T22:30:00Z",
+   "x12": [
+    3.3022,
+    3.1008,
+    2.669
+   ],
+   "ou": null,
+   "x12_spread": 0.0369,
+   "markets": {
+    "Half-time result": {
+     "HOME|Independiente Valle del Cauca": 0.2433,
+     "DRAW|Draw": 0.4697,
+     "AWAY|Envigado": 0.2871
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
    "league": "30091534",
-   "home": "FC Farul Constanta",
-   "away": "Universitatea Cluj",
-   "kickoff_utc": "2026-11-20T18:30:00Z",
+   "home": "FC Botosani",
+   "away": "FC Voluntari",
+   "kickoff_utc": "2026-11-20T15:30:00Z",
    "x12": [
-    2.8216,
-    3.7224,
-    2.6529
+    1.754,
+    4.2573,
+    5.129
    ],
    "ou": null,
-   "x12_spread": 0.0381
+   "x12_spread": 0.0365,
+   "markets": {
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0565,
+     "OVER|Over 0.5 goals": 0.9435
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9251,
+     "OVER|Over 5.5 goals": 0.0749
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1597,26 +2745,80 @@
    "away": "Lyngby BK",
    "kickoff_utc": "2026-11-20T18:00:00Z",
    "x12": [
-    1.7875,
-    4.4209,
-    4.6651
+    1.7932,
+    4.402,
+    4.6472
    ],
    "ou": null,
-   "x12_spread": 0.0342
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30089013",
-   "home": "Verona",
-   "away": "Cesena",
-   "kickoff_utc": "2026-11-20T19:30:00Z",
-   "x12": [
-    1.7619,
-    4.0635,
-    5.3668
-   ],
-   "ou": null,
-   "x12_spread": 0.0306
+   "x12_spread": 0.0326,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.5958,
+     "NO|No": 0.4042
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|AGF Aarhus / Yes": 0.2902,
+     "DRAW_YES|Draw / Yes": 0.1819,
+     "AWAY_YES|Lyngby BK / Yes": 0.1223,
+     "HOME_NO|AGF Aarhus / No": 0.2693,
+     "DRAW_NO|Draw / No": 0.0449,
+     "AWAY_NO|Lyngby BK / No": 0.0914
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.1848,
+     "RANGE|2 - 3": 0.437,
+     "RANGE|4 - 6": 0.3422,
+     "RANGE|7 or more goals": 0.036
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|AGF Aarhus / over 1.5 goals": 0.4679,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.1831,
+     "AWAY_OVER|Lyngby BK / over 1.5 goals": 0.1665,
+     "HOME_UNDER|AGF Aarhus / under 1.5 goals": 0.0896,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0452,
+     "AWAY_UNDER|Lyngby BK / under 1.5 goals": 0.0476
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|AGF Aarhus / over 2.5 goals": 0.3902,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0793,
+     "AWAY_OVER|Lyngby BK / over 2.5 goals": 0.1379,
+     "HOME_UNDER|AGF Aarhus / under 2.5 goals": 0.1693,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1459,
+     "AWAY_UNDER|Lyngby BK / under 2.5 goals": 0.0775
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|AGF Aarhus / over 3.5 goals": 0.2353,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0789,
+     "AWAY_OVER|Lyngby BK / over 3.5 goals": 0.0704,
+     "HOME_UNDER|AGF Aarhus / under 3.5 goals": 0.3275,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1451,
+     "AWAY_UNDER|Lyngby BK / under 3.5 goals": 0.1428
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|AGF Aarhus / over 4.5 goals": 0.1404,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0172,
+     "AWAY_OVER|Lyngby BK / over 4.5 goals": 0.044,
+     "HOME_UNDER|AGF Aarhus / under 4.5 goals": 0.417,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.2119,
+     "AWAY_UNDER|Lyngby BK / under 4.5 goals": 0.1696
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1841,
+     "OVER|Over 1.5 goals": 0.8159
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.6201,
+     "OVER|Over 3.5 goals": 0.3799
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.7955,
+     "OVER|Over 4.5 goals": 0.2045
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9084,
+     "OVER|Over 5.5 goals": 0.0916
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1625,9 +2827,9 @@
    "away": "Heidenheim",
    "kickoff_utc": "2026-11-20T17:30:00Z",
    "x12": [
-    3.4547,
-    4.1303,
-    2.1348
+    3.4478,
+    4.1221,
+    2.1397
    ],
    "ou": [
     2.5,
@@ -1636,8 +2838,68 @@
      2.6504
     ]
    ],
-   "x12_spread": 0.0309,
-   "ou_spread": 0.0386
+   "x12_spread": 0.0349,
+   "ou_spread": 0.0386,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.6293,
+     "NO|No": 0.3707
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Darmstadt / Yes": 0.1672,
+     "DRAW_YES|Draw / Yes": 0.1988,
+     "AWAY_YES|Heidenheim / Yes": 0.2636,
+     "HOME_NO|Darmstadt / No": 0.1208,
+     "DRAW_NO|Draw / No": 0.0427,
+     "AWAY_NO|Heidenheim / No": 0.207
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.1689,
+     "RANGE|2 - 3": 0.4296,
+     "RANGE|4 - 6": 0.3602,
+     "RANGE|7 or more goals": 0.0412
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Darmstadt / over 2.5 goals": 0.1978,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0922,
+     "AWAY_OVER|Heidenheim / over 2.5 goals": 0.3305,
+     "HOME_UNDER|Darmstadt / under 2.5 goals": 0.0922,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.149,
+     "AWAY_UNDER|Heidenheim / under 2.5 goals": 0.1384
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Darmstadt / over 3.5 goals": 0.109,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0915,
+     "AWAY_OVER|Heidenheim / over 3.5 goals": 0.1987,
+     "HOME_UNDER|Darmstadt / under 3.5 goals": 0.1821,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.148,
+     "AWAY_UNDER|Heidenheim / under 3.5 goals": 0.2707
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Darmstadt / over 4.5 goals": 0.0706,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0229,
+     "AWAY_OVER|Heidenheim / over 4.5 goals": 0.1269,
+     "HOME_UNDER|Darmstadt / under 4.5 goals": 0.2201,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.2201,
+     "AWAY_UNDER|Heidenheim / under 4.5 goals": 0.3394
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1697,
+     "OVER|Over 1.5 goals": 0.8303
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.5987,
+     "OVER|Over 3.5 goals": 0.4013
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.7819,
+     "OVER|Over 4.5 goals": 0.2181
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.8965,
+     "OVER|Over 5.5 goals": 0.1035
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1658,7 +2920,13 @@
     ]
    ],
    "x12_spread": 0.0297,
-   "ou_spread": 0.0375
+   "ou_spread": 0.0375,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.5943,
+     "NO|No": 0.4057
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1681,12 +2949,12 @@
    "away": "Rodez",
    "kickoff_utc": "2026-11-20T19:00:00Z",
    "x12": [
-    2.1314,
-    3.9434,
-    3.6071
+    2.1388,
+    3.9571,
+    3.5748
    ],
    "ou": null,
-   "x12_spread": 0.0388
+   "x12_spread": 0.0357
   },
   {
    "source": "Smarkets (borsa)",
@@ -1700,7 +2968,13 @@
     3.7459
    ],
    "ou": null,
-   "x12_spread": 0.0357
+   "x12_spread": 0.0357,
+   "markets": {
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0816,
+     "OVER|Over 0.5 goals": 0.9184
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1714,7 +2988,49 @@
     2.6943
    ],
    "ou": null,
-   "x12_spread": 0.036
+   "x12_spread": 0.036,
+   "markets": {
+    "Winner and both teams to score": {
+     "HOME_YES|Piast Gliwice / Yes": 0.1995,
+     "DRAW_YES|Draw / Yes": 0.2071,
+     "AWAY_YES|Korona Kielce / Yes": 0.1995,
+     "HOME_NO|Piast Gliwice / No": 0.1706,
+     "DRAW_NO|Draw / No": 0.0544,
+     "AWAY_NO|Korona Kielce / No": 0.1689
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Piast Gliwice / over 2.5 goals": 0.2379,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0901,
+     "AWAY_OVER|Korona Kielce / over 2.5 goals": 0.2412,
+     "HOME_UNDER|Piast Gliwice / under 2.5 goals": 0.1291,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1726,
+     "AWAY_UNDER|Korona Kielce / under 2.5 goals": 0.1291
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Piast Gliwice / over 3.5 goals": 0.1308,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0899,
+     "AWAY_OVER|Korona Kielce / over 3.5 goals": 0.1288,
+     "HOME_UNDER|Piast Gliwice / under 3.5 goals": 0.2391,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1723,
+     "AWAY_UNDER|Korona Kielce / under 3.5 goals": 0.2391
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Piast Gliwice / over 4.5 goals": 0.0797,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0182,
+     "AWAY_OVER|Korona Kielce / over 4.5 goals": 0.0797,
+     "HOME_UNDER|Piast Gliwice / under 4.5 goals": 0.2868,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.2426,
+     "AWAY_UNDER|Korona Kielce / under 4.5 goals": 0.2929
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0556,
+     "OVER|Over 0.5 goals": 0.9444
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9227,
+     "OVER|Over 5.5 goals": 0.0773
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1728,7 +3044,25 @@
     1.9308
    ],
    "ou": null,
-   "x12_spread": 0.0282
+   "x12_spread": 0.0282,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.7338,
+     "NO|No": 0.2662
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.0875,
+     "OVER|Over 1.5 goals": 0.9125
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.7729,
+     "OVER|Over 5.5 goals": 0.2271
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.8877,
+     "OVER|Over 6.5 goals": 0.1123
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1737,9 +3071,9 @@
    "away": "Le Havre",
    "kickoff_utc": "2026-11-20T19:45:00Z",
    "x12": [
-    2.2999,
-    3.5894,
-    3.4891
+    2.2939,
+    3.5713,
+    3.5206
    ],
    "ou": [
     2.5,
@@ -1748,7 +3082,7 @@
      2.0486
     ]
    ],
-   "x12_spread": 0.0124,
+   "x12_spread": 0.0082,
    "ou_spread": 0.0279
   },
   {
@@ -1763,21 +3097,127 @@
     16.2981
    ],
    "ou": null,
-   "x12_spread": 0.035
+   "x12_spread": 0.035,
+   "markets": {
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.0724,
+     "OVER|Over 1.5 goals": 0.9276
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
-   "league": "29626177",
-   "home": "Auckland FC",
-   "away": "Melbourne Victory",
-   "kickoff_utc": "2026-11-21T04:00:00Z",
+   "league": "30088540",
+   "home": "Bayern Munich",
+   "away": "Köln",
+   "kickoff_utc": "2026-11-20T19:30:00Z",
    "x12": [
-    2.5678,
-    3.6737,
-    2.9554
+    1.097,
+    17.514,
+    31.9553
    ],
-   "ou": null,
-   "x12_spread": 0.0371
+   "ou": [
+    2.5,
+    [
+     1.1794,
+     6.5733
+    ]
+   ],
+   "x12_spread": 0.0083,
+   "ou_spread": 0.0288,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.4981,
+     "NO|No": 0.5019
+    },
+    "Half-time result": {
+     "HOME|Bayern": 0.7318,
+     "DRAW|Draw": 0.2057,
+     "AWAY|Köln": 0.0624
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Bayern / Yes": 0.4224,
+     "DRAW_YES|Draw / Yes": 0.0483,
+     "AWAY_YES|Köln / Yes": 0.0193,
+     "HOME_NO|Bayern / No": 0.4917,
+     "DRAW_NO|Draw / No": 0.0081,
+     "AWAY_NO|Köln / No": 0.0101
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.508,
+     "EVEN|Even": 0.492
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.0558,
+     "RANGE|2 - 3": 0.2676,
+     "RANGE|4 - 6": 0.4987,
+     "RANGE|7 or more goals": 0.1779
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Bayern / over 1.5 goals": 0.8716,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.0481,
+     "AWAY_OVER|Köln / over 1.5 goals": 0.0229,
+     "HOME_UNDER|Bayern / under 1.5 goals": 0.0413,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0081,
+     "AWAY_UNDER|Köln / under 1.5 goals": 0.0078
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Bayern / over 2.5 goals": 0.7985,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0257,
+     "AWAY_OVER|Köln / over 2.5 goals": 0.0197,
+     "HOME_UNDER|Bayern / under 2.5 goals": 0.1151,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.0319,
+     "AWAY_UNDER|Köln / under 2.5 goals": 0.0091
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Bayern / over 3.5 goals": 0.6443,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0257,
+     "AWAY_OVER|Köln / over 3.5 goals": 0.01,
+     "HOME_UNDER|Bayern / under 3.5 goals": 0.2702,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.0318,
+     "AWAY_UNDER|Köln / under 3.5 goals": 0.018
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Bayern / over 4.5 goals": 0.478,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0081,
+     "AWAY_OVER|Köln / over 4.5 goals": 0.0085,
+     "HOME_UNDER|Bayern / under 4.5 goals": 0.4327,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.0507,
+     "AWAY_UNDER|Köln / under 4.5 goals": 0.0219
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.0565,
+     "OVER|Over 1.5 goals": 0.9435
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.3127,
+     "OVER|Over 3.5 goals": 0.6873
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.5018,
+     "OVER|Over 4.5 goals": 0.4982
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.6816,
+     "OVER|Over 5.5 goals": 0.3184
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.8181,
+     "OVER|Over 6.5 goals": 0.1819
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.1181,
+     "OVER|Over 0.5 goals": 0.8819
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.3816,
+     "OVER|Over 1.5 goals": 0.6184
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.6593,
+     "OVER|Over 2.5 goals": 0.3407
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1786,9 +3226,9 @@
    "away": "Espanyol",
    "kickoff_utc": "2026-11-20T20:00:00Z",
    "x12": [
-    1.5133,
-    4.7445,
-    7.786
+    1.5108,
+    4.7364,
+    7.8772
    ],
    "ou": [
     2.5,
@@ -1797,8 +3237,142 @@
      2.1414
     ]
    ],
-   "x12_spread": 0.0066,
-   "ou_spread": 0.0199
+   "x12_spread": 0.0045,
+   "ou_spread": 0.0199,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.4845,
+     "NO|No": 0.5155
+    },
+    "Half-time/full-time": {
+     "HOME_HOME|Athletic Bilbao / Athletic Bilbao": 0.4203,
+     "HOME_AWAY|Athletic Bilbao / Espanyol": 0.0097,
+     "HOME_DRAW|Athletic Bilbao / Draw": 0.0423,
+     "AWAY_HOME|Espanyol / Athletic Bilbao": 0.0307,
+     "AWAY_AWAY|Espanyol / Espanyol": 0.067,
+     "AWAY_DRAW|Espanyol / Draw": 0.037,
+     "DRAW_HOME|Draw / Athletic Bilbao": 0.206,
+     "DRAW_AWAY|Draw / Espanyol": 0.0564,
+     "DRAW_DRAW|Draw / Draw": 0.1307
+    },
+    "Half-time result": {
+     "HOME|Athletic Bilbao": 0.4767,
+     "DRAW|Draw": 0.3862,
+     "AWAY|Espanyol": 0.1371
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Athletic Bilbao / Yes": 0.2705,
+     "DRAW_YES|Draw / Yes": 0.15,
+     "AWAY_YES|Espanyol / Yes": 0.063,
+     "HOME_NO|Athletic Bilbao / No": 0.3906,
+     "DRAW_NO|Draw / No": 0.0604,
+     "AWAY_NO|Espanyol / No": 0.0656
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.5025,
+     "EVEN|Even": 0.4975
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.2262,
+     "RANGE|2 - 3": 0.4694,
+     "RANGE|4 - 6": 0.2835,
+     "RANGE|7 or more goals": 0.0209
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Athletic Bilbao / over 1.5 goals": 0.5343,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.1503,
+     "AWAY_OVER|Espanyol / over 1.5 goals": 0.0862,
+     "HOME_UNDER|Athletic Bilbao / under 1.5 goals": 0.1259,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0597,
+     "AWAY_UNDER|Espanyol / under 1.5 goals": 0.0436
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Athletic Bilbao / over 2.5 goals": 0.4144,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0497,
+     "AWAY_OVER|Espanyol / over 2.5 goals": 0.0675,
+     "HOME_UNDER|Athletic Bilbao / under 2.5 goals": 0.2478,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1609,
+     "AWAY_UNDER|Espanyol / under 2.5 goals": 0.0598
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Athletic Bilbao / over 3.5 goals": 0.2296,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0494,
+     "AWAY_OVER|Espanyol / over 3.5 goals": 0.026,
+     "HOME_UNDER|Athletic Bilbao / under 3.5 goals": 0.4341,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1601,
+     "AWAY_UNDER|Espanyol / under 3.5 goals": 0.1008
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Athletic Bilbao / over 4.5 goals": 0.1263,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0085,
+     "AWAY_OVER|Espanyol / over 4.5 goals": 0.0157,
+     "HOME_UNDER|Athletic Bilbao / under 4.5 goals": 0.5346,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.2036,
+     "AWAY_UNDER|Espanyol / under 4.5 goals": 0.1113
+    },
+    "Both teams to score and over/under 2.5": {
+     "YES_OVER|Yes / Over": 0.3801,
+     "YES_UNDER|Yes / Under": 0.1011,
+     "NO_OVER|No / Over": 0.1501,
+     "NO_UNDER|No / Under": 0.3688
+    },
+    "Both teams to score and over/under 3.5": {
+     "YES_OVER|Yes / Over": 0.2375,
+     "YES_UNDER|Yes / Under": 0.2434,
+     "NO_OVER|No / Over": 0.065,
+     "NO_UNDER|No / Under": 0.454
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0604,
+     "OVER|Over 0.5 goals": 0.9396
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.2309,
+     "OVER|Over 1.5 goals": 0.7691
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.6953,
+     "OVER|Over 3.5 goals": 0.3047
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.85,
+     "OVER|Over 4.5 goals": 0.15
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9371,
+     "OVER|Over 5.5 goals": 0.0629
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.9663,
+     "OVER|Over 6.5 goals": 0.0337
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.2888,
+     "OVER|Over 0.5 goals": 0.7112
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.6514,
+     "OVER|Over 1.5 goals": 0.3486
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.875,
+     "OVER|Over 2.5 goals": 0.125
+    },
+    "Both teams to score in first half / second half": {
+     "NO_NO|No / No": 0.6258,
+     "NO_YES|No / Yes": 0.1952,
+     "YES_NO|Yes / No": 0.1372,
+     "YES_YES|Yes / Yes": 0.0418
+    },
+    "First half winner and both teams to score": {
+     "HOME_YES|Athletic Bilbao / Yes": 0.0605,
+     "DRAW_YES|Draw / Yes": 0.1033,
+     "AWAY_YES|Espanyol / Yes": 0.0171,
+     "HOME_NO|Athletic Bilbao / No": 0.4209,
+     "DRAW_NO|Draw / No": 0.2835,
+     "AWAY_NO|Espanyol / No": 0.1147
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1807,9 +3381,9 @@
    "away": "Belgrano",
    "kickoff_utc": "2026-11-20T23:00:00Z",
    "x12": [
-    2.3314,
-    3.3269,
-    3.6969
+    2.3372,
+    3.3077,
+    3.7061
    ],
    "ou": null,
    "x12_spread": 0.0332
@@ -1821,12 +3395,100 @@
    "away": "Westerlo",
    "kickoff_utc": "2026-11-20T19:45:00Z",
    "x12": [
-    2.1196,
-    4.2841,
-    3.3922
+    2.1297,
+    4.2863,
+    3.3654
    ],
    "ou": null,
-   "x12_spread": 0.0357
+   "x12_spread": 0.0397,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.6563,
+     "NO|No": 0.3437
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Cercle Brugge / Yes": 0.2758,
+     "DRAW_YES|Draw / Yes": 0.1965,
+     "AWAY_YES|Westerlo / Yes": 0.1835,
+     "HOME_NO|Cercle Brugge / No": 0.1943,
+     "DRAW_NO|Draw / No": 0.0358,
+     "AWAY_NO|Westerlo / No": 0.1141
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.1484,
+     "RANGE|2 - 3": 0.4162,
+     "RANGE|4 - 6": 0.3858,
+     "RANGE|7 or more goals": 0.0496
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Cercle Brugge / over 1.5 goals": 0.4079,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.1967,
+     "AWAY_OVER|Westerlo / over 1.5 goals": 0.2463,
+     "HOME_UNDER|Cercle Brugge / under 1.5 goals": 0.0646,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0358,
+     "AWAY_UNDER|Westerlo / under 1.5 goals": 0.0487
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Cercle Brugge / over 2.5 goals": 0.3461,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0978,
+     "AWAY_OVER|Westerlo / over 2.5 goals": 0.2144,
+     "HOME_UNDER|Cercle Brugge / under 2.5 goals": 0.1215,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1349,
+     "AWAY_UNDER|Westerlo / under 2.5 goals": 0.0853
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Cercle Brugge / over 4.5 goals": 0.1411,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0255,
+     "AWAY_OVER|Westerlo / over 4.5 goals": 0.0732,
+     "HOME_UNDER|Cercle Brugge / under 4.5 goals": 0.3328,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.2091,
+     "AWAY_UNDER|Westerlo / under 4.5 goals": 0.2183
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1483,
+     "OVER|Over 1.5 goals": 0.8517
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.7521,
+     "OVER|Over 4.5 goals": 0.2479
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.8781,
+     "OVER|Over 5.5 goals": 0.1219
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.9503,
+     "OVER|Over 6.5 goals": 0.0497
+    }
+   }
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "30089013",
+   "home": "Verona",
+   "away": "Cesena",
+   "kickoff_utc": "2026-11-20T19:30:00Z",
+   "x12": [
+    1.7619,
+    4.0635,
+    5.3668
+   ],
+   "ou": null,
+   "x12_spread": 0.0306,
+   "markets": {
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0587,
+     "OVER|Over 0.5 goals": 0.9413
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.8395,
+     "OVER|Over 4.5 goals": 0.1605
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9312,
+     "OVER|Over 5.5 goals": 0.0688
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1835,19 +3497,83 @@
    "away": "Atlético San Luis",
    "kickoff_utc": "2026-11-21T01:00:00Z",
    "x12": [
-    2.5748,
-    3.8126,
-    2.8626
+    2.5652,
+    3.7983,
+    2.8828
    ],
    "ou": [
     2.5,
     [
-     1.7745,
-     2.2912
+     1.7763,
+     2.2882
     ]
    ],
-   "x12_spread": 0.0267,
-   "ou_spread": 0.0308
+   "x12_spread": 0.0241,
+   "ou_spread": 0.0319,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.5987,
+     "NO|No": 0.4013
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0556,
+     "OVER|Over 0.5 goals": 0.9444
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.2083,
+     "OVER|Over 1.5 goals": 0.7917
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.6612,
+     "OVER|Over 3.5 goals": 0.3388
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Puebla / Yes": 0.2061,
+     "DRAW_YES|Draw / Yes": 0.2061,
+     "AWAY_YES|Atlético San Luis / Yes": 0.1888,
+     "HOME_NO|Puebla / No": 0.1806,
+     "DRAW_NO|Draw / No": 0.0556,
+     "AWAY_NO|Atlético San Luis / No": 0.1629
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.2079,
+     "RANGE|2 - 3": 0.4506,
+     "RANGE|4 - 6": 0.3142,
+     "RANGE|7 or more goals": 0.0273
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Puebla / over 2.5 goals": 0.2506,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0879,
+     "AWAY_OVER|Atlético San Luis / over 2.5 goals": 0.227,
+     "HOME_UNDER|Puebla / under 2.5 goals": 0.1382,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1714,
+     "AWAY_UNDER|Atlético San Luis / under 2.5 goals": 0.1248
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Puebla / over 3.5 goals": 0.1353,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0885,
+     "AWAY_OVER|Atlético San Luis / over 3.5 goals": 0.1209,
+     "HOME_UNDER|Puebla / under 3.5 goals": 0.2522,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1724,
+     "AWAY_UNDER|Atlético San Luis / under 3.5 goals": 0.2307
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Puebla / over 4.5 goals": 0.0826,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0178,
+     "AWAY_OVER|Atlético San Luis / over 4.5 goals": 0.0728,
+     "HOME_UNDER|Puebla / under 4.5 goals": 0.3065,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.2412,
+     "AWAY_UNDER|Atlético San Luis / under 4.5 goals": 0.2791
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.8288,
+     "OVER|Over 4.5 goals": 0.1712
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9255,
+     "OVER|Over 5.5 goals": 0.0745
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1861,7 +3587,87 @@
     2.1556
    ],
    "ou": null,
-   "x12_spread": 0.0344
+   "x12_spread": 0.0344,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.5892,
+     "NO|No": 0.4108
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Juárez / Yes": 0.1525,
+     "DRAW_YES|Draw / Yes": 0.1995,
+     "AWAY_YES|Atlas / Yes": 0.2383,
+     "HOME_NO|Juárez / No": 0.1293,
+     "DRAW_NO|Draw / No": 0.0567,
+     "AWAY_NO|Atlas / No": 0.2237
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Juárez / over 1.5 goals": 0.2135,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.1989,
+     "AWAY_OVER|Atlas / over 1.5 goals": 0.3749,
+     "HOME_UNDER|Juárez / under 1.5 goals": 0.066,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0553,
+     "AWAY_UNDER|Atlas / under 1.5 goals": 0.0916
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Juárez / over 2.5 goals": 0.1731,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0842,
+     "AWAY_OVER|Atlas / over 2.5 goals": 0.3053,
+     "HOME_UNDER|Juárez / under 2.5 goals": 0.1048,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1714,
+     "AWAY_UNDER|Atlas / under 2.5 goals": 0.1611
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Juárez / over 3.5 goals": 0.0878,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0841,
+     "AWAY_OVER|Atlas / over 3.5 goals": 0.1678,
+     "HOME_UNDER|Juárez / under 3.5 goals": 0.1934,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1711,
+     "AWAY_UNDER|Atlas / under 3.5 goals": 0.2958
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Juárez / over 4.5 goals": 0.0582,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0175,
+     "AWAY_OVER|Atlas / over 4.5 goals": 0.0984,
+     "HOME_UNDER|Juárez / under 4.5 goals": 0.2255,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.237,
+     "AWAY_UNDER|Atlas / under 4.5 goals": 0.3634
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0556,
+     "OVER|Over 0.5 goals": 0.9444
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.2103,
+     "OVER|Over 1.5 goals": 0.7897
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.6628,
+     "OVER|Over 3.5 goals": 0.3372
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.8303,
+     "OVER|Over 4.5 goals": 0.1697
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9266,
+     "OVER|Over 5.5 goals": 0.0734
+    }
+   }
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "28958927",
+   "home": "Jeonbuk Hyundai Motors",
+   "away": "FC Seoul",
+   "kickoff_utc": "2026-11-21T05:00:00Z",
+   "x12": [
+    2.4968,
+    3.7209,
+    3.0236
+   ],
+   "ou": null,
+   "x12_spread": 0.0385
   },
   {
    "source": "Smarkets (borsa)",
@@ -1870,26 +3676,12 @@
    "away": "V-Varen Nagasaki",
    "kickoff_utc": "2026-11-21T05:00:00Z",
    "x12": [
-    1.5521,
-    4.5298,
-    7.4104
+    1.5542,
+    4.536,
+    7.3464
    ],
    "ou": null,
    "x12_spread": 0.0381
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "27153991",
-   "home": "Barnsley",
-   "away": "Sheff Wed",
-   "kickoff_utc": "2026-11-20T20:00:00Z",
-   "x12": [
-    3.0922,
-    4.1229,
-    2.3038
-   ],
-   "ou": null,
-   "x12_spread": 0.0158
   },
   {
    "source": "Smarkets (borsa)",
@@ -1898,12 +3690,52 @@
    "away": "Perth Glory",
    "kickoff_utc": "2026-11-21T06:00:00Z",
    "x12": [
-    2.9884,
-    4.0348,
-    2.3951
+    2.9958,
+    4.0297,
+    2.3921
    ],
    "ou": null,
    "x12_spread": 0.0386
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "27153991",
+   "home": "Barnsley",
+   "away": "Sheff Wed",
+   "kickoff_utc": "2026-11-20T20:00:00Z",
+   "x12": [
+    3.098,
+    4.1307,
+    2.2982
+   ],
+   "ou": null,
+   "x12_spread": 0.0158,
+   "markets": {
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Barnsley / over 2.5 goals": 0.2276,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0955,
+     "AWAY_OVER|Sheff Wed / over 2.5 goals": 0.3158,
+     "HOME_UNDER|Barnsley / under 2.5 goals": 0.0944,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1432,
+     "AWAY_UNDER|Sheff Wed / under 2.5 goals": 0.1234
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Barnsley / over 4.5 goals": 0.0873,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0247,
+     "AWAY_OVER|Sheff Wed / over 4.5 goals": 0.1227,
+     "HOME_UNDER|Barnsley / under 4.5 goals": 0.237,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.2156,
+     "AWAY_UNDER|Sheff Wed / under 4.5 goals": 0.3127
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1592,
+     "OVER|Over 1.5 goals": 0.8408
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.8877,
+     "OVER|Over 5.5 goals": 0.1123
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -1912,12 +3744,30 @@
    "away": "Leganés",
    "kickoff_utc": "2026-11-20T19:30:00Z",
    "x12": [
-    1.9648,
-    3.8115,
-    4.3731
+    1.9625,
+    3.8238,
+    4.3681
    ],
    "ou": null,
-   "x12_spread": 0.0361
+   "x12_spread": 0.0361,
+   "markets": {
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0672,
+     "OVER|Over 0.5 goals": 0.9328
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.7062,
+     "OVER|Over 3.5 goals": 0.2938
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.8552,
+     "OVER|Over 4.5 goals": 0.1448
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9403,
+     "OVER|Over 5.5 goals": 0.0597
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
