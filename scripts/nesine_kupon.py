@@ -107,12 +107,37 @@ def best_coupon(pools: list[list[dict]], target: float, max_legs: int, min_legs:
             "global_fair_odds": round(1 / p, 2), "ev": p * odds - 1.0, "min_mbs": max(x["mbs"] for x in legs)}
 
 
+def _summary(legs: list[dict]) -> dict:
+    odds = math.prod(x["odds"] for x in legs)
+    p = math.prod(x["p"] for x in legs)
+    return {"legs": list(sorted(legs, key=lambda x: x["kickoff"])), "nesine_odds": round(odds, 2), "probability": p,
+            "global_fair_odds": round(1 / p, 2), "ev": p * odds - 1.0, "min_mbs": max(x["mbs"] for x in legs)}
+
+
+def safest_first_coupon(pools: list[list[dict]], target: float, max_legs: int) -> dict | None:
+    """User's method: take each match's most probable selection, sort all matches from the surest (closest to
+    100%) downwards and add them one by one until the product of Nesine odds reaches the target (MBS rule kept)."""
+    best = [max(pool, key=lambda x: (x["p"], x["odds"])) for pool in pools]
+    best.sort(key=lambda x: (-x["p"], -x["odds"]))
+    legs: list[dict] = []
+    for leg in best:
+        if len(legs) >= max_legs:
+            return None
+        legs.append(leg)
+        if math.prod(x["odds"] for x in legs) >= target and len(legs) >= max(x["mbs"] for x in legs):
+            return _summary(legs)
+    return None
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--hedef", type=float, required=True, help="Hedef toplam Nesine oranı (ör. 10)")
     ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
     ap.add_argument("--adet", type=int, default=3, help="Kaç alternatif kupon (maçlar birbirinden ayrı)")
-    ap.add_argument("--max-mac", type=int, default=8)
+    ap.add_argument("--yontem", choices=("guvenli", "optimum"), default="guvenli",
+                    help="guvenli: en yüksek olasılıklı maçtan başlayıp hedefe kadar ekle (varsayılan); "
+                         "optimum: hedefe ulaşan kuponlar arasında birleşik olasılığı en yüksek olan")
+    ap.add_argument("--max-mac", type=int, default=None, help="En çok maç (guvenli: 30, optimum: 8)")
     ap.add_argument("--min-mac", type=int, default=1, help="Kupondaki en az maç sayısı (kombine için ör. 3)")
     ap.add_argument("--min-oran", type=float, default=1.15, help="Bacak başına en düşük Nesine oranı")
     ap.add_argument("--min-olasilik", type=float, default=0.0, help="Bacak başına en düşük global olasılık")
@@ -126,9 +151,12 @@ def main() -> None:
     print(f"{sum(1 for m in matches if m.get('status') == 'fiyatlandı')} maç global fiyatlı; {len(pools)} maç kupona uygun "
           f"(başlamamış, {'ESPN dahil' if args.espn else 'yalnız keskin referans'}).")
 
+    max_legs = args.max_mac or (30 if args.yontem == "guvenli" else 8)
     coupons, used = [], set()
     for _ in range(args.adet):
-        c = best_coupon([p for p in pools if p[0]["code"] not in used], args.hedef, args.max_mac, args.min_mac)
+        free = [p for p in pools if p[0]["code"] not in used]
+        c = (safest_first_coupon(free, args.hedef, max_legs) if args.yontem == "guvenli"
+             else best_coupon(free, args.hedef, max_legs, args.min_mac))
         if c is None:
             break
         coupons.append(c)
@@ -136,14 +164,16 @@ def main() -> None:
 
     stamp = now.strftime("%H%M")
     md = [f"# {args.tarih} — Nesine {args.hedef:g} oranlık kupon ({now:%H:%M} TSİ)", "",
-          "Olasılıklar global keskin fiyattan (Pinnacle / Smarkets / Betfair borsası), oranlar Nesine'den. "
-          "Kupon, hedef Nesine oranına ulaşanlar arasında **tutma olasılığı en yüksek** olandır. Oranlar maç saatine kadar "
-          "değişebilir; oynamadan önce Nesine'de kontrol edin.", ""]
+          "Olasılıklar global keskin fiyattan (Pinnacle / Smarkets / Matchbook / Betfair borsası), oranlar Nesine'den. "
+          + ("Yöntem: her maçın en olası seçimi alınır, maçlar **%100'e en yakından** başlayarak sıralanır ve Nesine "
+             "oranı hedefe ulaşana kadar eklenir." if args.yontem == "guvenli" else
+             "Yöntem: hedef Nesine oranına ulaşan kuponlar arasında **birleşik tutma olasılığı en yüksek** olan.")
+          + " Oranlar maç saatine kadar değişebilir; oynamadan önce Nesine'de kontrol edin.", ""]
     if not coupons:
         md.append("_Bu hedefe uygun kupon kurulamadı (yeterli keskin referanslı, başlamamış maç yok)._")
     for i, c in enumerate(coupons, 1):
         md += [f"## Kupon {i}: Nesine oranı **{c['nesine_odds']:.2f}** · tutma olasılığı **%{c['probability'] * 100:.1f}** "
-               f"· global adil oranı {c['global_fair_odds']:.2f} · beklenen değer {c['ev']:+.1%} · en az {c['min_mbs']} maç (MBS)", "",
+               f"· global adil oranı {c['global_fair_odds']:.2f} · {len(c['legs'])} maç (MBS en az {c['min_mbs']})", "",
                "| Saat | Maç | Pazar | Seçim | Nesine oranı | Global olasılık | Global adil oran | MBS | Referans | Fiyat |",
                "|---|---|---|---|---|---|---|---|---|---|"]
         for leg in c["legs"]:
@@ -151,9 +181,12 @@ def main() -> None:
                       f"%{leg['p'] * 100:.1f} | {1 / leg['p']:.2f} | {leg['mbs']} | {leg['reference']} | "
                       f"{'doğrudan' if leg.get('direct') else 'model'} |")
         md.append("")
-    md += ["> Beklenen değer = tutma olasılığı × Nesine oranı − 1. Negatifse uzun vadede kaybettirir; araç bu kaybı en aza "
-           "indiren bacakları seçer ama kazanç garanti etmez.",
-           "> Fiyat: **doğrudan** = olasılık bu seçimin kendi global borsa fiyatından; **model** = global 1X2 ve Alt/Üst "
+    if args.yontem == "guvenli" and coupons:
+        ref = best_coupon(pools, args.hedef, 8)
+        if ref:
+            md += [f"> Karşılaştırma: aynı hedef için birleşik olasılığı en yüksek kupon {len(ref['legs'])} maçla "
+                   f"%{ref['probability'] * 100:.1f} (bkz. --yontem optimum).", ""]
+    md += ["> Fiyat: **doğrudan** = olasılık bu seçimin kendi global borsa fiyatından; **model** = global 1X2 ve Alt/Üst "
            "fiyatından gol modeliyle türetildi (daha az güvenilir). Yalnız doğrudan için: --dogrudan."]
     d = DAILY / args.tarih
     d.mkdir(parents=True, exist_ok=True)

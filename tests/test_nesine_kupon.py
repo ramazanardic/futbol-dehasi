@@ -146,3 +146,15 @@ def test_wrong_pairing_is_rejected_and_each_reference_used_once():
     assert not ng._consistent(salt, ref)  # Nesine says ~70% home, the reference says ~31%
     assert ng._consistent(ahli, ref)
     assert ng._owners([salt, ahli], [ref])[id(ref)] == 2
+
+
+def test_safest_first_adds_surest_matches_until_target():
+    pools = [[{"code": i, "kickoff": f"2026-11-19 {10 + i}:00", "odds": o, "p": p, "mbs": 1}] for i, (o, p) in
+             enumerate([(1.30, 0.80), (1.20, 0.90), (1.50, 0.65), (2.00, 0.50), (1.25, 0.85)])]
+    c = kupon.safest_first_coupon(pools, 2.0, max_legs=10)
+    probs = sorted(leg["p"] for leg in c["legs"])
+    assert probs == [0.65, 0.80, 0.85, 0.90]  # surest first: 0.90, 0.85, 0.80, then 0.65 crosses 2.0
+    assert c["nesine_odds"] >= 2.0
+    assert kupon.safest_first_coupon(pools, 2.0, max_legs=3) is None
+    mbs3 = [[dict(pools[1][0], mbs=3)], pools[3]]
+    assert kupon.safest_first_coupon(mbs3, 1.1, max_legs=5) is None  # 2 legs cannot satisfy MBS 3
