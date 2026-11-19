@@ -289,6 +289,30 @@ def smarkets(days: int = 2, max_events: int = 600) -> list[dict]:
     return out
 
 
+def probe_sources() -> list[dict]:
+    """Reachability/shape probe of further free keyless sources (logged only; no references yet)."""
+    probes = {
+        "matchbook": ("https://api.matchbook.com/edge/rest/events",
+                      {"sport-ids": 15, "per-page": 20, "include-prices": "true", "price-depth": 1, "states": "open"}),
+        "polymarket_sports": ("https://gamma-api.polymarket.com/sports", {}),
+        "polymarket_soccer": ("https://gamma-api.polymarket.com/events", {"tag_slug": "soccer", "closed": "false", "limit": 50}),
+        "kalshi_sports_series": ("https://api.elections.kalshi.com/trade-api/v2/series", {"category": "Sports"}),
+        "clubelo": ("http://api.clubelo.com/" + dt.date.today().isoformat(), {}),
+    }
+    out = {}
+    for name, (url, params) in probes.items():
+        if _time_left() < 20:
+            break
+        try:
+            r = _get(url, **params)
+            out[name] = {"status": r.status_code, "bytes": len(r.content), "head": r.text[:3000]}
+        except Exception as exc:  # probe only
+            out[name] = {"error": f"{type(exc).__name__}: {exc}"}
+        _say(f"probe {name}: {out[name].get('status', out[name].get('error'))}")
+    LOG["samples"]["probes"] = out
+    return []
+
+
 def _write(refs: list[dict]) -> None:
     LOG["counts"]["references_total"] = len(refs)
     LOG["finished_utc"] = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
@@ -302,7 +326,7 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     refs: list[dict] = []
     # Pinnacle (football-data) first: small, fast, most reliable. Saved before the exchange fetch.
-    for fn in (football_data, smarkets):
+    for fn in (football_data, smarkets, probe_sources):
         _say(f"--- {fn.__name__} (time left {_time_left():.0f}s)")
         try:
             refs += fn()
