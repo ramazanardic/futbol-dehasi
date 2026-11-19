@@ -79,6 +79,20 @@ Her analiz çalıştırması doğrudan borsa fiyatlı seçimlerin (Nesine oranı
 saatte borsa olasılığı **en az 3 puan artan** ama Nesine'nin **aynı oranı** vermeye devam ettiği seçimleri
 listeler: haber ya da kadro sonrası geç kalan oran. Saatlik `QuantFoot\Analiz` görevi bu kaydı biriktirir.
 
+## Yedek tetikleyici (GitHub zamanlayıcısı atlarsa)
+
+GitHub'ın ücretsiz zamanlayıcısı "en iyi çaba" ile çalışır; 19 Kasım'da hiçbir zamanlanmış çalışma başlamadı.
+Saatlik yerel görev (`scheduled.py analiz`) global verinin yaşına bakar: 5 saatten eskiyse
+`data/global_odds/trigger.txt` dosyasını güncelleyip normal bir `git push` yapar; iş akışı bu dosyaya
+gelen gönderimle hemen çalışır. En fazla 3 saatte bir tetikler. Raporların başında verinin yaşı yazar.
+
+## Sizin sağladığınız sakatlık / ceza dosyası
+
+`reports/haftalik_sakatlik_ceza_*.json` (en yenisi) varsa takım dosyalarına Nesine maç koduyla eklenir:
+sakatlar, cezalılar, eksik kaleci ve uyarılar; kupon gerekçelerinde de sayıları görünür. Sistem bu veriyi
+kendisi çekmez (kaynağın koşulları otomatik çekimi yasaklıyor); yalnızca klasöre konan dosyayı okur.
+Dosya git'e girmez.
+
 ## Haftalık analiz
 
 ```bash

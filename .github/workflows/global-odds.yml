@@ -14,6 +14,7 @@ on:
     paths:
       - ".github/workflows/global-odds.yml"
       - "scripts/fetch_global_odds.py"
+      - "data/global_odds/trigger.txt"   # backup trigger pushed by scheduled.py when the cron skipped runs
 
 permissions:
   contents: write
