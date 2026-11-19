@@ -14,21 +14,24 @@ python scripts/nesine_global.py --date 2026-11-19
    (`src/quantfoot/data/nesine_markets.json`, sitenin `CCAll.min.js` dosyasından; 599 pazar) —
    tahmin edilmez.
 2. **Global referans fiyat** — maç başına en iyisi seçilir:
-   1. **Pinnacle** (football-data.co.uk fikstür dosyaları)
-   2. **Smarkets borsası** (alış/satış ortası; düşük komisyonlu borsa fiyatı)
-   3. **ESPN** (DraftKings) — yerelde çekilir, en zayıf referans
+   1. **Pinnacle** (football-data.co.uk fikstür dosyaları, varsa)
+   2. **Smarkets borsası** — alış/satış ortası; alış-satış farkı 4 puandan geniş (likit olmayan)
+      pazarlar referans sayılmaz
+   3. **Betfair borsası** (football-data.co.uk dosyalarındaki BFE sütunları)
+   4. **ESPN** (DraftKings) — yerelde çekilir, en zayıf referans
 
-   1 ve 2 Türkiye'den erişilemediği için GitHub'ın yurt dışındaki sunucularında
-   (GitHub Actions, `.github/workflows/global-odds.yml`) günde 5 kez çekilip
-   `data/global_odds/latest/references.json` olarak depoya yazılır; sabah görevi önce
-   `git pull` yapar. Hiçbir referansı olmayan maç **fiyatlanmaz**; adil fiyat asla Nesine'nin kendi
-   oranından türetilmez.
+   1–3 Türkiye'den erişilemediği için GitHub'ın yurt dışındaki sunucularında (GitHub Actions,
+   `.github/workflows/global-odds.yml`) günde 5 kez çekilip `data/global_odds/latest/` altına
+   yazılır; sabah görevi önce `git pull` yapar. Hiçbir referansı olmayan maç **fiyatlanmaz**;
+   adil fiyat asla Nesine'nin kendi oranından türetilmez.
 3. Referans 1X2 (+ varsa Alt/Üst) marjdan arındırılır (power yöntemi), gol beklentileri hiçbir
    model önseli olmadan (fund_weight = 0) bu fiyata uydurulur ve Nesine'nin her seçimi — İY/MS,
    KG, gol aralığı, handikap, kombineler, ilk gol — tek tutarlı gol dağılımından fiyatlanır
    ([markets.md](markets.md)). Kulüp gol rejimi bu kullanım için yeniden kalibre edildi
    ([research/experiments_2026_11.md](research/experiments_2026_11.md) §4–5).
-4. **EV = global adil olasılık × Nesine oranı − 1.** Kalibre edilmemiş yarışmalarda (kadın
+4. **EV = global adil olasılık × Nesine oranı − 1.** EV'si +%25'i aşan seçimler öneri listesine
+   alınmaz, "referans hatası şüphesi" tablosunda ayrıca gösterilir.
+   Kalibre edilmemiş yarışmalarda (kadın
    futbolu) yalnızca doğrudan referansı olan pazarlar (1X2, aynı çizgideki Alt/Üst) fiyatlanır.
 
 ## İlk bulgu: Nesine marjı (19 Kasım 2026, 60 maç)

@@ -90,4 +90,10 @@ Bağımsız test (2022-07+, 6.000 maç) — her satırda iyileşme:
 | Skor 0-0 | %7.6 | %8.3 | %7.4 |
 
 Toplam test log-loss 4.611 → 4.554. Motora uygulandı (`tail_goals.CLUB_REGIME`, `DEFAULT_RHO`).
+
+> **Düzeltme (19 Kasım):** Bu ızgara sırasında `fit_tail_rates_from_markets`'te bir hata vardı: ν ≠ 1 olan
+> rejimlerde optimizer hiç hareket etmiyor, başlangıç tahmininde kalıyordu (COM-Poisson ikiye bölme
+> adımı çok kaba olduğu için sayısal gradyan sıfırdı). Yani ν = 1.10 seçenekleri piyasaya hiç
+> uydurulmadan puanlandı; ν = 1.0'ın kazanması kısmen bu yüzden olabilir. Hata düzeltildi ve
+> kalibrasyon yeniden çalıştırıldı (sonuç: `reports/research/regime_calibration.md`).
 README'deki "ν = 1.10 kulüp rejimi" bulgusu bu sabitlenmiş kullanımda geçerli değil.
