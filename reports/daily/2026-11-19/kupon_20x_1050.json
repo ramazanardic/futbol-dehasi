@@ -1,0 +1,99 @@
+{
+  "target": 20.0,
+  "created": "2026-11-19T10:50:40+03:00",
+  "coupons": [
+    {
+      "legs": [
+        {
+          "code": 3307608,
+          "kickoff": "2026-11-19 15:00",
+          "league": "ASEAN Kulüpler Şamp. Grup B",
+          "match": "Persib Bandung - Shan Utd",
+          "market": "Handikaplı Maç Sonucu ({{handicap}})",
+          "selection": "1",
+          "odds": 1.66,
+          "p": 0.53022,
+          "ev": -0.1198,
+          "mbs": 3,
+          "reference": "Smarkets",
+          "direct": false
+        },
+        {
+          "code": 3307557,
+          "kickoff": "2026-11-19 15:45",
+          "league": "BAE - Arap Körfez Ligi",
+          "match": "Al Wasl - Hatta SC",
+          "market": "Handikaplı Maç Sonucu ({{handicap}})",
+          "selection": "1",
+          "odds": 1.61,
+          "p": 0.53528,
+          "ev": -0.1382,
+          "mbs": 2,
+          "reference": "Matchbook + Smarkets",
+          "direct": false
+        },
+        {
+          "code": 3266482,
+          "kickoff": "2026-11-19 19:45",
+          "league": "Cezayir 1. Lig",
+          "match": "MB Rouisset - CR Belouizdad",
+          "market": "Maç Sonucu",
+          "selection": "2",
+          "odds": 1.69,
+          "p": 0.51182,
+          "ev": -0.135,
+          "mbs": 3,
+          "reference": "Matchbook",
+          "direct": true
+        },
+        {
+          "code": 3307710,
+          "kickoff": "2026-11-19 22:45",
+          "league": "Fransa Ulusal Lig",
+          "match": "Amiens - Caen",
+          "market": "2,5 Gol Alt/Üst",
+          "selection": "2,5 Alt",
+          "odds": 1.59,
+          "p": 0.59263,
+          "ev": -0.0577,
+          "mbs": 3,
+          "reference": "Smarkets",
+          "direct": false
+        },
+        {
+          "code": 3305027,
+          "kickoff": "2026-11-20 03:30",
+          "league": "Brezilya Serie A",
+          "match": "Sao Paulo SP - Fluminense",
+          "market": "Karşılıklı Gol",
+          "selection": "Var",
+          "odds": 1.67,
+          "p": 0.5142,
+          "ev": -0.1413,
+          "mbs": 1,
+          "reference": "Matchbook + Smarkets",
+          "direct": true
+        },
+        {
+          "code": 3386737,
+          "kickoff": "2026-11-20 03:30",
+          "league": "ABD Major Lig Playoff",
+          "match": "Orlando City - Cincinnati",
+          "market": "3,5 Gol Alt/Üst",
+          "selection": "3,5 Üst",
+          "odds": 1.67,
+          "p": 0.5081,
+          "ev": -0.1515,
+          "mbs": 1,
+          "reference": "Matchbook + Smarkets",
+          "direct": true
+        }
+      ],
+      "nesine_odds": 20.03,
+      "probability": 0.022491544232928096,
+      "global_fair_odds": 44.46,
+      "ev": -0.549525709730944,
+      "min_mbs": 3
+    }
+  ]
+}

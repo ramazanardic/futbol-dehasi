@@ -3,6 +3,8 @@
     python scripts/scheduled.py morning    # 09:00: settle yesterday (results + verify + summary), run today,
                                            #        then price the Nesine bulletin against the global reference
     python scripts/scheduled.py snapshot   # every 30 min: record pre-kickoff odds for today and yesterday
+    python scripts/scheduled.py analiz     # hourly at :50: pull the fresh global prices (Actions refreshes at :40)
+                                           #        and re-run the Nesine analysis for the next 5 betting days
 
 Late kick-offs (e.g. Brazil at 03:30 TSİ) belong to the previous day's slate, so the snapshot
 job also refreshes yesterday's matches that have not started yet. Each step runs in its own
@@ -36,6 +38,12 @@ def _run(args: list[str], log, script: Path = DAILY_SCRIPT) -> int:
     return proc.returncode
 
 
+def _pull(log) -> None:
+    pull = subprocess.run(["git", "pull", "--rebase", "--autostash", "-q"], cwd=ROOT,
+                          capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=300)
+    log.write(f"\n[git pull] çıkış kodu {pull.returncode} {pull.stderr.strip()}\n")
+
+
 def main() -> None:
     mode = sys.argv[1] if len(sys.argv) > 1 else ""
     today = dt.date.today()
@@ -51,16 +59,19 @@ def main() -> None:
             _run(["run", "--date", today.isoformat()], log)
             # Pull the sharp prices GitHub Actions fetched abroad (data/global_odds/latest), then price
             # the Nesine bulletin against them (Pinnacle -> Smarkets -> ESPN).
-            pull = subprocess.run(["git", "pull", "--rebase", "--autostash", "-q"], cwd=ROOT,
-                                  capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=300)
-            log.write(f"\n[git pull] çıkış kodu {pull.returncode} {pull.stderr.strip()}\n")
+            _pull(log)
             _run(["--date", today.isoformat()], log, ROOT / "scripts" / "nesine_global.py")
+        elif mode == "analiz":
+            _pull(log)
+            # betting day runs 07:00-07:00: before 07:00 the current slate is still yesterday's
+            day = today if dt.datetime.now().hour >= 7 else yesterday
+            _run(["--date", day.isoformat(), "--hafta", "5"], log, ROOT / "scripts" / "nesine_global.py")
         elif mode == "snapshot":
             for day in (yesterday, today):
                 if (ROOT / "reports" / "daily" / day.isoformat() / "predictions.json").exists():
                     _run(["snapshot", "--date", day.isoformat()], log)
         else:
-            raise SystemExit("Kullanım: scheduled.py morning|snapshot")
+            raise SystemExit("Kullanım: scheduled.py morning|snapshot|analiz")
 
 
 if __name__ == "__main__":

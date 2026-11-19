@@ -150,3 +150,30 @@ def staleness_flags(res: dict, price_time: dt.datetime | None) -> list[str]:
     if flags and price_time is not None and dt.datetime.now(dt.timezone.utc) - price_time > dt.timedelta(minutes=75):
         flags.append("global fiyat ilk 11 açıklanmadan önce çekilmiş olabilir")
     return flags
+
+
+# ---- Premier League availability (official Fantasy Premier League feed: free, keyless) ----------------
+FPL_URL = "https://fantasy.premierleague.com/api/bootstrap-static/"
+_FPL_STATUS = {"i": "sakat", "s": "cezalı", "d": "şüpheli", "u": "kadro dışı", "n": "oynayamaz"}
+
+
+@lru_cache(maxsize=1)
+def fpl_availability() -> dict[str, list[dict]]:
+    """Team name -> unavailable/doubtful players, with a 'key' flag for regular starters (FPL starts share)."""
+    js = _get(FPL_URL)
+    if not js:
+        return {}
+    teams = {t["id"]: t["name"] for t in js.get("teams", [])}
+    max_starts: dict[int, int] = {}
+    for e in js.get("elements", []):
+        max_starts[e["team"]] = max(max_starts.get(e["team"], 0), int(e.get("starts") or 0))
+    out: dict[str, list[dict]] = {}
+    for e in js.get("elements", []):
+        if e.get("status") not in ("i", "s", "d", "n"):
+            continue
+        top = max_starts.get(e["team"]) or 1
+        out.setdefault(teams[e["team"]], []).append({
+            "name": e.get("web_name"), "status": _FPL_STATUS.get(e["status"], e["status"]),
+            "chance": e.get("chance_of_playing_next_round"), "news": e.get("news"),
+            "goals": e.get("goals_scored"), "key": int(e.get("starts") or 0) >= 0.6 * top})
+    return out

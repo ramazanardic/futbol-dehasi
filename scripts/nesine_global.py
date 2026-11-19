@@ -33,7 +33,7 @@ import re
 import unicodedata
 
 from quantfoot.data.live_espn import fetch_espn_slate
-from quantfoot.data.match_research import espn_events, motivation, research, staleness_flags
+from quantfoot.data.match_research import espn_events, fpl_availability, motivation, research, staleness_flags
 from quantfoot.data.nesine import TSI, fetch_bulletin, league_names, market_overrounds, parse_bulletin
 from quantfoot.markets.devig import devig
 from quantfoot.markets.goal_markets import goal_probability
@@ -226,6 +226,9 @@ def price_event(event, ref: dict, league: str) -> dict:
     timing = GoalTimingModel.from_joint(joint).markets()["İlk Golü Atan Takım"]
     derivatives_ok = not is_uncalibrated_competition(league)
     quoted = direct_probabilities(ref)
+    # Without any quoted total the goal level is extrapolated from 1X2 alone (it overshoots for big favourites):
+    # then only pure result markets are priced from the model.
+    totals_known = ou_line is not None or any("Üst" in k or "Alt" in k for k in quoted)
     rows = []
     for s in event.selections:
         direct = s.name in ("MS 1", "MS 0", "MS 2") or (ou_line is not None and s.name in (f"{ou_line:.1f} Üst", f"{ou_line:.1f} Alt"))
@@ -233,6 +236,8 @@ def price_event(event, ref: dict, league: str) -> dict:
             direct = True  # the global source prices this exact selection: use its own price, not the model
         if not direct and not derivatives_ok:
             continue  # derivative distribution not calibrated for this competition
+        if not direct and not totals_known and not (s.name.startswith(("MS ", "ÇŞ ")) and "&" not in s.name):
+            continue  # goal-count market with no global total to anchor it
         if s.name in quoted:
             p = quoted[s.name]
         elif s.name.startswith("İlk Gol"):
@@ -243,7 +248,10 @@ def price_event(event, ref: dict, league: str) -> dict:
             continue
         if s.negate:
             p = 1.0 - p
-        rows.append({"market": s.market_title, "selection": s.label, "name": s.name if not s.negate else f"DEĞİL({s.name})",
+        # Nesine templates ("{{handicap}} Gol Alt/Üst" / "{{SOV}} Üst"): show the resolved name instead.
+        market = s.market_title.replace("{{handicap}} ", "").replace(" ({{handicap}})", "")
+        label = s.name if "{{" in s.label or "{{" in s.market_title else s.label
+        rows.append({"market": market, "selection": label, "name": s.name if not s.negate else f"DEĞİL({s.name})",
                      "odds": s.odds, "fair_prob": round(p, 5), "fair_odds": round(1 / p, 3) if p > 1e-9 else None,
                      "ev": round(p * s.odds - 1.0, 4), "mbs": s.mbs, "direct": direct})
     rows.sort(key=lambda r: r["ev"], reverse=True)
@@ -281,6 +289,19 @@ def _owners(events: list, refs: list[dict]) -> dict[int, object]:
     return {k: v[1] for k, v in best.items()}
 
 
+def _absent(r: dict, side: str) -> str:
+    """Key absences for the report (Premier League official list); '-' when unknown."""
+    a = (r.get("absences") or {}).get(side)
+    if not a:
+        return "-"
+    key = []
+    for p in a["players"]:
+        if p["key"]:
+            chance = f" %{p['chance']}" if p["chance"] not in (None, 0) else ""
+            key.append(f"{p['name']} ({p['status']}{chance})")
+    return ", ".join(key) or "kilit eksik yok"
+
+
 def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated: str | None) -> None:
     """Add ESPN research (form, table, rest, line-ups, absences) to priced matches; flag stale prices."""
     pool = []
@@ -311,6 +332,19 @@ def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated
         rec["research"] = res
         # Important absence in a line-up published after our price was fetched -> keep out of coupons.
         rec["research_block"] = bool(flags) and flags[-1].startswith("global fiyat")
+    # Premier League: official injury / suspension list (already priced by the market; shown as context).
+    fpl = None
+    for rec in out:
+        if rec.get("status") != "fiyatlandı" or rec.get("league") != "İngiltere Premier Lig":
+            continue
+        fpl = fpl if fpl is not None else fpl_availability()
+        absences = {}
+        for side, name in (("home", rec["home"]), ("away", rec["away"])):
+            team = max(fpl, key=lambda t: _sim(name, t), default=None)
+            if team and _sim(name, team) >= 0.6:
+                absences[side] = {"team": team, "players": fpl[team]}
+        if absences:
+            rec.setdefault("research", {"teams": {}, "flags": [], "motivation": {}})["absences"] = absences
 
 
 def analyze_day(day: dt.date, verbose: bool = True, with_research: bool = True) -> tuple[list[dict], dict, list]:
@@ -321,8 +355,9 @@ def analyze_day(day: dt.date, verbose: bool = True, with_research: bool = True) 
     nxt = day + dt.timedelta(days=1)
     payload = fetch_bulletin()
     leagues = league_names(payload)
+    # Betting day = 07:00–07:00 TSİ, so consecutive days never share a match.
     events = [e for e in parse_bulletin(payload)
-              if e.kickoff.date() == day or (e.kickoff.date() == nxt and e.kickoff.hour < 7)]
+              if (e.kickoff.date() == day and e.kickoff.hour >= 7) or (e.kickoff.date() == nxt and e.kickoff.hour < 7)]
     sharp, generated = global_references()
     espn = espn_references([day.isoformat(), nxt.isoformat()])
     if verbose:
@@ -366,22 +401,56 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--date", default=dt.datetime.now(TSI).date().isoformat())
     ap.add_argument("--min-ev", type=float, default=0.0)
+    ap.add_argument("--hafta", type=int, default=1, help="Kaç gün analiz edilsin (ör. 7: bugünden itibaren bütün hafta)")
     args = ap.parse_args()
-    out, payload, events = analyze_day(dt.date.fromisoformat(args.date))
-    priced = sum(1 for m in out if m["status"] == "fiyatlandı")
+    start = dt.date.fromisoformat(args.date)
+    week = []
+    for k in range(args.hafta):
+        day = (start + dt.timedelta(days=k)).isoformat()
+        out, payload, events = analyze_day(dt.date.fromisoformat(day), verbose=args.hafta == 1)
+        write_report(day, out, payload, events, args.min_ev)
+        week.append((day, out))
+    if args.hafta > 1:
+        write_week(start, week, args.min_ev)
 
-    d = DAILY / args.date
+
+def write_week(start: dt.date, week: list[tuple[str, list[dict]]], min_ev: float) -> None:
+    """One-page summary of a multi-day run: coverage per day and every plausible value selection of the week."""
+    lines = [f"# Nesine haftalık analiz ({start} – {week[-1][0]})", "",
+             "| Gün | Nesine maçı | Global fiyatlı | Doğrudan borsa seçimi | Araştırma (ESPN/PL) | Uyarılı |", "|---|---|---|---|---|---|"]
+    value = []
+    for day, out in week:
+        priced = [m for m in out if m["status"] == "fiyatlandı"]
+        direct = sum(1 for m in priced for s in m["selections"] if s.get("direct"))
+        lines.append(f"| {day} | {len(out)} | {len(priced)} | {direct} | {sum(1 for m in out if m.get('research'))} | "
+                     f"{sum(1 for m in out if (m.get('research') or {}).get('flags'))} |")
+        value += [(m, s) for m in priced for s in m["selections"] if min_ev <= s["ev"] <= MAX_PLAUSIBLE_EV]
+    value.sort(key=lambda x: x[1]["ev"], reverse=True)
+    lines += ["", "## Haftanın değerli seçimleri (Nesine oranı > global adil oran)", "",
+              "| Gün saat | Maç | Pazar | Seçim | Nesine | Global olasılık | EV | Fiyat | Referans |", "|---|---|---|---|---|---|---|---|---|"]
+    lines += [f"| {m['kickoff']} | {m['home']} - {m['away']} | {s['market']} | {s['selection']} | {s['odds']:.2f} | "
+              f"%{s['fair_prob'] * 100:.1f} | {s['ev']:+.1%} | {'doğrudan' if s.get('direct') else 'model'} | "
+              f"{m['reference'].split(' (')[0]} |" for m, s in value[:100]] or ["_Yok._"]
+    path = ROOT / "reports" / "weekly" / f"{start}_nesine_hafta.md"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"-> {path.relative_to(ROOT)}")
+
+
+def write_report(date: str, out: list[dict], payload: dict, events: list, min_ev: float) -> None:
+    priced = sum(1 for m in out if m["status"] == "fiyatlandı")
+    d = DAILY / date
     d.mkdir(parents=True, exist_ok=True)
-    (d / "nesine_global.json").write_text(json.dumps({"date": args.date, "generated_at": dt.datetime.now(TSI).isoformat(timespec="seconds"),
+    (d / "nesine_global.json").write_text(json.dumps({"date": date, "generated_at": dt.datetime.now(TSI).isoformat(timespec="seconds"),
                                                       "nesine_margins": market_overrounds(payload, {e.code for e in events}),
                                                       "matches": out}, ensure_ascii=False, indent=2, default=str),
                                           encoding="utf-8")
-    md = [f"# {args.date} — Nesine bülteni, global referans fiyatına göre", "",
-          f"Referans önceliği: Pinnacle → Smarkets borsası → ESPN. {len(events)} maçın {priced}'i fiyatlandı; "
+    md = [f"# {date} — Nesine bülteni, global referans fiyatına göre", "",
+          f"Referans önceliği: Pinnacle → Smarkets / Matchbook (ikisi varsa ortalaması) → Betfair → ESPN. {len(events)} maçın {priced}'i fiyatlandı; "
           "global fiyatı olmayan maçlar Nesine oranından türetilmez, fiyatlanmaz.", "",
           "> EV = global adil olasılık × Nesine oranı − 1. Türev pazarlar (İY/MS, KG, aralık, kombine…) referans 1X2 + Alt/Üst'ten "
           "kalibre edilmiş ortak gol dağılımıyla hesaplanır. DraftKings keskin bir büro değildir: küçük artı EV'ler gürültü olabilir.", ""]
-    value = [(m, s) for m in out if m["status"] == "fiyatlandı" for s in m["selections"] if s["ev"] >= args.min_ev]
+    value = [(m, s) for m in out if m["status"] == "fiyatlandı" for s in m["selections"] if s["ev"] >= min_ev]
     value.sort(key=lambda x: x[1]["ev"], reverse=True)
     # In a liquid market an edge above +25% against a sharp price is almost always a data error
     # (thin reference, wrong match, model extrapolation) -> listed separately, never as a pick.
@@ -402,8 +471,8 @@ def main() -> None:
                "Likit bir piyasada keskin fiyata karşı bu büyüklükte fark neredeyse her zaman veri hatasıdır "
                "(ince borsa fiyatı, yanlış eşleşen maç ya da uç favorilerde model dışı bölge).", ""]
         md += _rows(suspicious)
-    md += ["", "## Fiyatlanan maçlar", "", "| Saat | Lig | Maç | Nesine 1/X/2 | Global adil 1/X/2 | Nesine MS marjı | Referans | En iyi EV |",
-           "|---|---|---|---|---|---|---|---|"]
+    md += ["", "## Fiyatlanan maçlar", "", "| Saat | Lig | Maç | Nesine 1/X/2 | Global adil 1/X/2 | Referans | En iyi EV |",
+           "|---|---|---|---|---|---|---|"]
     for m in out:
         if m["status"] != "fiyatlandı":
             continue
@@ -411,20 +480,12 @@ def main() -> None:
         nes = "/".join(f"{o:.2f}" if o else "-" for o in m["nesine_ms"])
         best = m["selections"][0] if m["selections"] else None
         best_s = f"{best['market']}: {best['selection']} {best['ev']:+.1%}" if best else "-"
-        marg = f"%{m['nesine_ms_margin'] * 100:.1f}" if m["nesine_ms_margin"] is not None else "-"
-        md.append(f"| {m['kickoff'][11:]} | {m['league']} | {m['home']} - {m['away']} | {nes} | {fair} | {marg} | {m['reference'].split(' ')[0]} | {best_s} |")
-    margins = market_overrounds(payload, {e.code for e in events})
-    top = sorted(((k, v) for k, v in margins.items() if v["n"] >= 5), key=lambda kv: kv[1]["margin"])
-    md += ["", "## Nesine marjları (bugünkü maçlar, tam seçenek setleri)", "",
-           "Marj = oranların tersleri toplamı − 1. Pinnacle'da maç sonucu marjı tipik olarak %2–3'tür; "
-           "marj ne kadar yüksekse uzun vadeli beklenen kayıp o kadar büyüktür.", "",
-           "| Pazar | Maç | Ortalama marj |", "|---|---|---|"]
-    md += [f"| {k} | {v['n']} | %{v['margin'] * 100:.1f} |" for k, v in top]
+        md.append(f"| {m['kickoff'][11:]} | {m['league']} | {m['home']} - {m['away']} | {nes} | {fair} | {m['reference'].split(' ')[0]} | {best_s} |")
     md += ["", "## Maç araştırması (ESPN: form, puan durumu, dinlenme, ilk 11)", "",
            "Olasılık global fiyattan gelir; bu bölüm bağlam ve güvenlik kontrolüdür. Önemli bir eksik, global fiyat "
            "çekildikten sonra açıklanan ilk 11'de görülürse maç kupona alınmaz.", "",
-           "| Saat | Maç | Form (ev / dep) | Puan durumu (ev / dep) | Dinlenme (gün) | Aralarında | İlk 11 | Uyarı |",
-           "|---|---|---|---|---|---|---|---|"]
+           "| Saat | Maç | Form (ev / dep) | Puan durumu (ev / dep) | Dinlenme (gün) | Aralarında | İlk 11 | Eksikler (ev / dep) | Uyarı |",
+           "|---|---|---|---|---|---|---|---|---|"]
     for m in out:
         r = m.get("research")
         if not r:
@@ -434,11 +495,12 @@ def main() -> None:
         lineup = "açıklandı" if h.get("lineup_announced") or a.get("lineup_announced") else "henüz yok"
         md.append(f"| {m['kickoff'][11:]} | {m['home']} - {m['away']} | {h.get('form', '-')} / {a.get('form', '-')} | "
                   f"{mot.get('home') or '-'} / {mot.get('away') or '-'} | {h.get('rest_days', '-')} / {a.get('rest_days', '-')} | "
-                  f"{r.get('h2h') or '-'} | {lineup} | {'; '.join(r.get('flags') or []) or '-'} |")
+                  f"{r.get('h2h') or '-'} | {lineup} | {_absent(r, 'home')} / {_absent(r, 'away')} | "
+                  f"{'; '.join(r.get('flags') or []) or '-'} |")
     md += ["", "## Global fiyatı bulunamayan maçlar (fiyatlanmadı)", ""]
     md += [f"- {m['kickoff'][11:]} {m['league']}: {m['home']} - {m['away']}" for m in out if m["status"] != "fiyatlandı"]
     (d / "nesine_global.md").write_text("\n".join(md) + "\n", encoding="utf-8")
-    print(f"{priced}/{len(events)} maç fiyatlandı; {len(value)} seçim EV ≥ {args.min_ev:+.1%}. -> {d.relative_to(ROOT)}/nesine_global.md")
+    print(f"{priced}/{len(events)} maç fiyatlandı; {len(value)} seçim EV ≥ {min_ev:+.1%}. -> {d.relative_to(ROOT)}/nesine_global.md")
 
 
 if __name__ == "__main__":

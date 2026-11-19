@@ -57,6 +57,11 @@ liglerde: zirve yarışı / orta / küme hattı), haber başlıkları ve ilk 11 
 İlk 11 açıklandığında son 5 maçın ≥ 4'ünde ilk 11'de olup bugün olmayan oyuncular, kaleci ve gol
 kralı ayrıca işaretlenir.
 
+**Premier Lig sakat / cezalı listesi:** resmî Fantasy Premier League akışından (ücretsiz, anahtarsız):
+sakat, cezalı, şüpheli oyuncular, oynama ihtimali (%) ve haber notu; düzenli ilk 11 oyuncuları "kilit"
+olarak işaretlenir. ESPN'in futbol sakatlık alanları boş geldiği için diğer liglerde ilk 11 karşılaştırması
+kullanılır. Transfermarkt kullanım koşulları otomatik veri toplamayı yasakladığı için kullanılmaz.
+
 Olasılık yine global fiyattan gelir (piyasa bu haberleri dakikalar içinde fiyatlar). Araştırmanın
 işi **eski fiyat koruması**dır: önemli bir eksik varsa ve global fiyat 75 dakikadan eskiyse maç
 kupona alınmaz. Bunu kısaltmak için Actions saatte bir (12:40–06:40 TSİ) yalnız önümüzdeki 3 saatte
@@ -66,6 +71,17 @@ kota 2.000 dk). Kapsam: ESPN'in yayınladığı ligler (Brezilya, Uruguay, MLS, 
 
 Denenip alınmayanlar: Polymarket ve Kalshi (erişilebilir, ama futbolda neredeyse yalnız uzun vadeli
 pazarlar), ClubElo (sunucu yurt dışından da 502 veriyor).
+
+## Haftalık analiz
+
+```bash
+python scripts/nesine_global.py --date 2026-11-19 --hafta 7
+```
+
+Her bahis günü (07:00–07:00 TSİ) için ayrı rapor + `reports/weekly/<başlangıç>_nesine_hafta.md` özeti
+(gün başına kapsam ve haftanın Nesine'nin global adil fiyatın üstünde ödediği seçimleri). Global çekim
+1X2 ve Alt/Üst için 7 gün, türev pazarlar için 48 saat ileriye bakar; maç öncesi saatlik yenileme tüm
+pazarları tazeler.
 
 ## Kupon: olasılık globalden, oran Nesine'den
 

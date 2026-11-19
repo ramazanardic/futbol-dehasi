@@ -59,3 +59,17 @@ def test_motivation_only_for_domestic_leagues():
     assert "küme hattı" in mr.motivation(rec, "bra.1")
     assert mr.motivation({"table": {"rank": 2, "size": 20, "points": 70}}, "eng.1").startswith("2./20 (zirve")
     assert mr.motivation(rec, "uefa.wchampions") is None
+
+
+def test_fpl_availability_marks_key_players(monkeypatch):
+    feed = {"teams": [{"id": 1, "name": "Arsenal"}],
+            "elements": [{"team": 1, "web_name": "Saka", "status": "i", "starts": 10, "chance_of_playing_next_round": 0,
+                          "news": "Thigh", "goals_scored": 5},
+                         {"team": 1, "web_name": "Kid", "status": "d", "starts": 1, "chance_of_playing_next_round": 75,
+                          "news": "Knock", "goals_scored": 0},
+                         {"team": 1, "web_name": "Fit", "status": "a", "starts": 12}]}
+    mr.fpl_availability.cache_clear()
+    monkeypatch.setattr(mr, "_get", lambda url, **p: feed)
+    a = mr.fpl_availability()["Arsenal"]
+    mr.fpl_availability.cache_clear()
+    assert [(p["name"], p["status"], p["key"]) for p in a] == [("Saka", "sakat", True), ("Kid", "şüpheli", False)]
