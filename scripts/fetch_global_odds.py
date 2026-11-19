@@ -115,15 +115,22 @@ def football_data() -> list[dict]:
             home = row.get("HomeTeam") or row.get("Home")
             away = row.get("AwayTeam") or row.get("Away")
             ko = _fd_kickoff(row.get("Date", ""), row.get("Time", ""))
-            # Pinnacle columns: PSH/PSD/PSA (main files) or PH/PD/PA (extra leagues).
-            x12 = [_f(row, "PSH", "PH"), _f(row, "PSD", "PD"), _f(row, "PSA", "PA")]
-            source = "Pinnacle (football-data)"
-            if None in x12:
+            # Sharpest available columns: Pinnacle (PS*/P*), else Betfair Exchange (BFE*).
+            x12, source = None, None
+            for prefix, label in (("PS", "Pinnacle (football-data)"), ("P", "Pinnacle (football-data)"),
+                                  ("BFE", "Betfair Borsası (football-data)")):
+                cand = [_f(row, f"{prefix}H"), _f(row, f"{prefix}D"), _f(row, f"{prefix}A")]
+                if None not in cand:
+                    x12, source = cand, label
+                    break
+            if x12 is None:
                 continue
             ou = None
-            over, under = _f(row, "P>2.5", "PC>2.5"), _f(row, "P<2.5", "PC<2.5")
-            if over and under:
-                ou = [2.5, [over, under]]
+            for prefix in ("P", "BFE"):
+                over, under = _f(row, f"{prefix}>2.5"), _f(row, f"{prefix}<2.5")
+                if over and under:
+                    ou = [2.5, [over, under]]
+                    break
             if home and away and ko:
                 refs.append({"source": source, "league": row.get("Div") or f"{row.get('Country', '')} {row.get('League', '')}".strip(),
                              "home": home, "away": away, "kickoff_utc": ko, "x12": x12, "ou": ou})
@@ -175,12 +182,19 @@ def smarkets(days: int = 2, max_events: int = 600) -> list[dict]:
     if markets:
         LOG["samples"]["smarkets_market"] = markets[0]
 
+    names: dict[str, int] = {}
+    for m in markets:
+        key = f"{(m.get('market_type') or {}).get('name')} | {m.get('name')}"
+        names[key] = names.get(key, 0) + 1
+    LOG["samples"]["smarkets_market_names"] = dict(sorted(names.items(), key=lambda kv: -kv[1])[:60])
+
     def _kind(m: dict) -> str | None:
-        name = (m.get("name") or "").lower()
+        # Full-time markets only: half-time markets share the same market_type, so match on the name.
+        name = (m.get("name") or "").strip().lower()
         mtype = str((m.get("market_type") or {}).get("name", "")).upper()
-        if "WINNER_3_WAY" in mtype or name in ("full-time result", "match odds", "full time result"):
+        if mtype == "WINNER_3_WAY" and name in ("full-time result", "full time result", "match odds"):
             return "1x2"
-        if "2.5" in name and ("over" in name or "under" in name or "goals" in name):
+        if name in ("over/under 2.5", "over/under 2.5 goals", "total goals over/under 2.5") and "half" not in name:
             return "ou25"
         return None
 

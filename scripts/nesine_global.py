@@ -75,7 +75,7 @@ def _match(event, candidates: list[dict], max_hours: float = 3.0, threshold: flo
 
 
 # ---- reference sources ------------------------------------------------------------------
-SOURCE_RANK = {"Pinnacle (football-data)": 0, "Smarkets (borsa)": 1, "ESPN (DraftKings/ESPN BET)": 2}
+SOURCE_RANK = {"Pinnacle (football-data)": 0, "Betfair Borsası (football-data)": 1, "Smarkets (borsa)": 1, "ESPN (DraftKings/ESPN BET)": 2}
 GLOBAL_FILE = ROOT / "data" / "global_odds" / "latest" / "references.json"
 
 
