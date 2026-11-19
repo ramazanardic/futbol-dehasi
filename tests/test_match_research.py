@@ -73,3 +73,24 @@ def test_fpl_availability_marks_key_players(monkeypatch):
     a = mr.fpl_availability()["Arsenal"]
     mr.fpl_availability.cache_clear()
     assert [(p["name"], p["status"], p["key"]) for p in a] == [("Saka", "sakat", True), ("Kid", "şüpheli", False)]
+
+
+def test_team_profile_and_stats(monkeypatch):
+    def ath(name, pos, **st):
+        return {"displayName": name, "position": {"abbreviation": pos},
+                "statistics": {"splits": {"categories": [{"stats": [{"name": k, "value": v} for k, v in st.items()]}]}}}
+    roster = {"athletes": [ath("Keeper", "G", appearances=30, saves=90, goalsConceded=30),
+                           ath("Striker", "F", appearances=30, totalGoals=12, goalAssists=2, yellowCards=5),
+                           ath("Playmaker", "M", appearances=28, totalGoals=3, goalAssists=9)]}
+    stats = {"splits": {"categories": [{"stats": [{"name": "appearances", "value": 30}, {"name": "totalShots", "value": 450},
+                                                  {"name": "possessionPct", "value": 55.2}, {"name": "passPct", "value": 0.86},
+                                                  {"name": "avgExpectedGoals", "value": 1.57}]}]}}
+    monkeypatch.setattr(mr, "_get", lambda url, **p: roster if url.endswith("/roster") else stats)
+    mr.team_profile.cache_clear(); mr.team_stats.cache_clear()
+    prof = mr.team_profile("bra.1", "1")
+    assert prof["top_scorers"][0]["name"] == "Striker" and prof["top_assists"][0]["name"] == "Playmaker"
+    assert prof["goalkeeper"]["save_pct"] == 0.75 and prof["goalkeeper"]["conceded_per_game"] == 1.0
+    assert [p["name"] for p in prof["cards"]] == ["Striker"]
+    ts = mr.team_stats("bra.1", 2026, "1")
+    assert ts == {"Topla oynama": "%55.2", "Şut": "15.0 / maç", "xG (beklenen gol)": "1.57", "Pas isabeti": "%86"}
+    mr.team_profile.cache_clear(); mr.team_stats.cache_clear()

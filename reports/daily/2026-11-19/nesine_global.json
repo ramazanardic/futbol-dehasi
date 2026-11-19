@@ -1,14 +1,14 @@
 {
   "date": "2026-11-19",
-  "generated_at": "2026-11-19T14:15:17+03:00",
+  "generated_at": "2026-11-19T14:23:02+03:00",
   "nesine_margins": {
     "1. Yarı Tek/Çift": {
       "n": 43,
-      "margin": 0.22782999961234518
+      "margin": 0.22773624885062024
     },
     "Maç Sonucu ve 1,5 Alt/Üst": {
       "n": 14,
-      "margin": 0.27087710690753547
+      "margin": 0.2706260896285207
     },
     "Deplasman 0,5 Gol Alt/Üst": {
       "n": 35,
@@ -16,55 +16,55 @@
     },
     "Maç Sonucu": {
       "n": 53,
-      "margin": 0.22882191712572886
+      "margin": 0.228830374530651
     },
     "Deplasman Hangi Yarıda Daha Çok Gol Atar?": {
       "n": 21,
-      "margin": 0.22246875906634495
+      "margin": 0.22234763133187765
     },
     "Handikaplı Maç Sonucu (X)": {
       "n": 78,
-      "margin": 0.2836926793251931
+      "margin": 0.2837425950679007
     },
     "Maç Sonucu ve Karşılıklı Gol": {
       "n": 21,
-      "margin": 0.2785080196773385
+      "margin": 0.2785134136999418
     },
     "1. Yarı Sonucu": {
       "n": 45,
-      "margin": 0.2283751662071512
+      "margin": 0.22830222827548172
     },
     "Deplasman 1.Y X Gol Alt/Üst": {
       "n": 40,
-      "margin": 0.22756452819641582
+      "margin": 0.2276014947623405
     },
     "En Çok Gol Olacak Yarı": {
       "n": 22,
-      "margin": 0.2251713456097259
+      "margin": 0.22514773634274532
     },
     "Karşılıklı Gol": {
       "n": 58,
-      "margin": 0.2296786682233442
+      "margin": 0.22969301433966163
     },
     "Her İki Yarıda da X Alt": {
       "n": 17,
-      "margin": 0.22011029794083825
+      "margin": 0.2196693419482463
     },
     "2. Yarı Sonucu": {
       "n": 42,
-      "margin": 0.22760417316589554
+      "margin": 0.22769910138295738
     },
     "1.Y Sonucu ve 1.Y X Alt/Üst": {
       "n": 21,
-      "margin": 0.27815732356357825
+      "margin": 0.2781214978784026
     },
     "Ev Sahibi 1.Y X Gol Alt/Üst": {
       "n": 44,
-      "margin": 0.2281417210168909
+      "margin": 0.22820041570826152
     },
     "Çifte Şans": {
-      "n": 29,
-      "margin": 1.454257528147763
+      "n": 30,
+      "margin": 1.454256940426992
     },
     "1,5 Gol Alt/Üst": {
       "n": 18,
@@ -72,27 +72,27 @@
     },
     "2,5 Alt/Üst ve Karşılıklı Gol": {
       "n": 21,
-      "margin": 0.2569834943645683
+      "margin": 0.2570638669194262
     },
     "Ev Sahibi Hangi Yarıda Daha Çok Gol Atar?": {
       "n": 21,
-      "margin": 0.222367198194426
+      "margin": 0.2224031665215031
     },
     "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol": {
       "n": 21,
-      "margin": 0.28066623739493535
+      "margin": 0.2806529709770846
     },
     "1. Yarı / 2. Yarı Karşılıklı Gol": {
       "n": 21,
-      "margin": 0.2576796618620823
+      "margin": 0.25753188217081313
     },
     "2,5 Gol Alt/Üst": {
       "n": 46,
-      "margin": 0.2279936641136093
+      "margin": 0.2280466786247413
     },
     "Tek/Çift": {
       "n": 55,
-      "margin": 0.2301966052152213
+      "margin": 0.23027224793435425
     },
     "Toplam Gol Aralığı": {
       "n": 22,
@@ -104,23 +104,23 @@
     },
     "Ev Sahibi 1,5 Gol Alt/Üst": {
       "n": 30,
-      "margin": 0.22625145331017724
+      "margin": 0.22598245927539917
     },
     "Deplasman 1,5 Gol Alt/Üst": {
       "n": 27,
-      "margin": 0.22500691188604469
+      "margin": 0.22478632624135472
     },
     "Ev Sahibi 0,5 Gol Alt/Üst": {
       "n": 27,
-      "margin": 0.2297803832011549
+      "margin": 0.2298068602156482
     },
     "Deplasman İki Yarıda da Gol": {
       "n": 10,
-      "margin": 0.21957347872336852
+      "margin": 0.21909619355390603
     },
     "Maç Sonucu ve X Alt/Üst": {
       "n": 28,
-      "margin": 0.2761612617564851
+      "margin": 0.2761377427467654
     },
     "Maç Sonucu ve 2,5 Alt/Üst": {
       "n": 16,
@@ -128,11 +128,11 @@
     },
     "Ev Sahibi İki Yarıda da Gol": {
       "n": 15,
-      "margin": 0.21765310671250113
+      "margin": 0.21819914079867894
     },
     "1. Yarı Karşılıklı Gol": {
       "n": 18,
-      "margin": 0.2223563261156833
+      "margin": 0.22214685523187916
     },
     "1. Yarı 1,5 Gol Alt/Üst": {
       "n": 31,
@@ -168,11 +168,11 @@
     },
     "1. Yarı Çifte Şans": {
       "n": 19,
-      "margin": 1.4472270703420398
+      "margin": 1.4472889730873877
     },
     "2. Yarı Karşılıklı Gol": {
       "n": 27,
-      "margin": 0.2247005169929127
+      "margin": 0.22443543908288155
     },
     "1. Yarı X Korner Alt/Üst": {
       "n": 16,
@@ -260,7 +260,7 @@
     },
     "Deplasman 2,5 Gol Alt/Üst": {
       "n": 7,
-      "margin": 0.2270957873893602
+      "margin": 0.22668805687222826
     },
     "Deplasman X Gol Alt/Üst": {
       "n": 1,
@@ -288,9 +288,9 @@
       "home": "Preah Khan R. S.",
       "away": "Port",
       "nesine_ms": [
-        1.91,
+        1.87,
         3.35,
-        2.44
+        2.51
       ],
       "n_nesine_selections": 87,
       "match_score": 0.64,
@@ -311,7 +311,7 @@
         0.2345,
         0.3309
       ],
-      "nesine_ms_margin": 0.2319,
+      "nesine_ms_margin": 0.2317,
       "derivatives_priced": true,
       "selections": [
         {
@@ -337,6 +337,17 @@
           "direct": false
         },
         {
+          "market": "Maç Sonucu",
+          "selection": "2",
+          "name": "MS 2",
+          "odds": 2.51,
+          "fair_prob": 0.3309,
+          "fair_odds": 3.022,
+          "ev": -0.1694,
+          "mbs": 3,
+          "direct": true
+        },
+        {
           "market": "En Çok Gol Olacak Yarı",
           "selection": "2.Y",
           "name": "En Çok Gol 2Y",
@@ -348,15 +359,15 @@
           "direct": false
         },
         {
-          "market": "Maç Sonucu",
-          "selection": "1",
-          "name": "MS 1",
-          "odds": 1.91,
-          "fair_prob": 0.43456,
-          "fair_odds": 2.301,
-          "ev": -0.17,
+          "market": "1. Yarı Sonucu",
+          "selection": "X",
+          "name": "İY 0",
+          "odds": 2.22,
+          "fair_prob": 0.37321,
+          "fair_odds": 2.679,
+          "ev": -0.1715,
           "mbs": 3,
-          "direct": true
+          "direct": false
         },
         {
           "market": "3,5 Gol Alt/Üst",
@@ -392,24 +403,13 @@
           "direct": false
         },
         {
-          "market": "Deplasman İki Yarıda da Gol",
-          "selection": "Atamaz",
-          "name": "DEĞİL(Dep İki Yarıda Gol)",
-          "odds": 1.18,
-          "fair_prob": 0.70052,
-          "fair_odds": 1.428,
-          "ev": -0.1734,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "1. Yarı Sonucu",
-          "selection": "X",
-          "name": "İY 0",
-          "odds": 2.21,
-          "fair_prob": 0.37321,
-          "fair_odds": 2.679,
-          "ev": -0.1752,
+          "market": "Tek/Çift",
+          "selection": "Tek",
+          "name": "Tek",
+          "odds": 1.67,
+          "fair_prob": 0.4935,
+          "fair_odds": 2.026,
+          "ev": -0.1758,
           "mbs": 3,
           "direct": false
         },
@@ -436,13 +436,35 @@
           "direct": false
         },
         {
-          "market": "Deplasman 1,5 Gol Alt/Üst",
+          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
           "selection": "1,5 Alt",
-          "name": "Dep 1.5 Alt",
-          "odds": 1.55,
-          "fair_prob": 0.53014,
-          "fair_odds": 1.886,
-          "ev": -0.1783,
+          "name": "Ev 1.5 Alt",
+          "odds": 1.81,
+          "fair_prob": 0.45389,
+          "fair_odds": 2.203,
+          "ev": -0.1785,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "1. Yarı / 2. Yarı Karşılıklı Gol",
+          "selection": "Evet/Evet",
+          "name": "İki Yarıda KG Var",
+          "odds": 7.2,
+          "fair_prob": 0.11404,
+          "fair_odds": 8.769,
+          "ev": -0.1789,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Deplasman İki Yarıda da Gol",
+          "selection": "Atamaz",
+          "name": "DEĞİL(Dep İki Yarıda Gol)",
+          "odds": 1.17,
+          "fair_prob": 0.70052,
+          "fair_odds": 1.428,
+          "ev": -0.1804,
           "mbs": 3,
           "direct": false
         },
@@ -458,17 +480,6 @@
           "direct": true
         },
         {
-          "market": "Tek/Çift",
-          "selection": "Tek",
-          "name": "Tek",
-          "odds": 1.66,
-          "fair_prob": 0.4935,
-          "fair_odds": 2.026,
-          "ev": -0.1808,
-          "mbs": 3,
-          "direct": false
-        },
-        {
           "market": "Ev Sahibi İki Yarıda da Gol",
           "selection": "Atamaz",
           "name": "DEĞİL(Ev İki Yarıda Gol)",
@@ -480,17 +491,6 @@
           "direct": false
         },
         {
-          "market": "1. Yarı / 2. Yarı Karşılıklı Gol",
-          "selection": "Evet/Evet",
-          "name": "İki Yarıda KG Var",
-          "odds": 7.17,
-          "fair_prob": 0.11404,
-          "fair_odds": 8.769,
-          "ev": -0.1823,
-          "mbs": 3,
-          "direct": false
-        },
-        {
           "market": "2,5 Gol Alt/Üst",
           "selection": "2,5 Üst",
           "name": "2.5 Üst",
@@ -498,6 +498,17 @@
           "fair_prob": 0.65907,
           "fair_odds": 1.517,
           "ev": -0.1828,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Deplasman 1,5 Gol Alt/Üst",
+          "selection": "1,5 Alt",
+          "name": "Dep 1.5 Alt",
+          "odds": 1.54,
+          "fair_prob": 0.53014,
+          "fair_odds": 1.886,
+          "ev": -0.1836,
           "mbs": 3,
           "direct": false
         },
@@ -535,15 +546,26 @@
           "direct": false
         },
         {
-          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
-          "selection": "1,5 Alt",
-          "name": "Ev 1.5 Alt",
-          "odds": 1.79,
-          "fair_prob": 0.45389,
-          "fair_odds": 2.203,
-          "ev": -0.1875,
+          "market": "2. Yarı Karşılıklı Gol",
+          "selection": "Var",
+          "name": "2Y KG Var",
+          "odds": 2.12,
+          "fair_prob": 0.38357,
+          "fair_odds": 2.607,
+          "ev": -0.1868,
           "mbs": 3,
           "direct": false
+        },
+        {
+          "market": "Maç Sonucu",
+          "selection": "1",
+          "name": "MS 1",
+          "odds": 1.87,
+          "fair_prob": 0.43456,
+          "fair_odds": 2.301,
+          "ev": -0.1874,
+          "mbs": 3,
+          "direct": true
         },
         {
           "market": "Maç Sonucu ve 2,5 Alt/Üst",
@@ -553,17 +575,6 @@
           "fair_prob": 0.32146,
           "fair_odds": 3.111,
           "ev": -0.1899,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Çifte Şans",
-          "selection": "1-X",
-          "name": "ÇŞ 1X",
-          "odds": 1.21,
-          "fair_prob": 0.6691,
-          "fair_odds": 1.495,
-          "ev": -0.1904,
           "mbs": 3,
           "direct": false
         },
@@ -579,48 +590,26 @@
           "direct": false
         },
         {
-          "market": "2. Yarı Karşılıklı Gol",
-          "selection": "Var",
-          "name": "2Y KG Var",
-          "odds": 2.11,
-          "fair_prob": 0.38357,
-          "fair_odds": 2.607,
-          "ev": -0.1907,
+          "market": "1. Yarı Sonucu",
+          "selection": "2",
+          "name": "İY 2",
+          "odds": 2.9,
+          "fair_prob": 0.27873,
+          "fair_odds": 3.588,
+          "ev": -0.1917,
           "mbs": 3,
           "direct": false
         },
         {
-          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
+          "market": "Deplasman 1,5 Gol Alt/Üst",
           "selection": "1,5 Üst",
-          "name": "Ev 1.5 Üst",
-          "odds": 1.48,
-          "fair_prob": 0.54611,
-          "fair_odds": 1.831,
+          "name": "Dep 1.5 Üst",
+          "odds": 1.72,
+          "fair_prob": 0.46986,
+          "fair_odds": 2.128,
           "ev": -0.1918,
           "mbs": 3,
           "direct": false
-        },
-        {
-          "market": "1. Yarı Sonucu",
-          "selection": "1",
-          "name": "İY 1",
-          "odds": 2.32,
-          "fair_prob": 0.34807,
-          "fair_odds": 2.873,
-          "ev": -0.1925,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Maç Sonucu",
-          "selection": "2",
-          "name": "MS 2",
-          "odds": 2.44,
-          "fair_prob": 0.3309,
-          "fair_odds": 3.022,
-          "ev": -0.1926,
-          "mbs": 3,
-          "direct": true
         },
         {
           "market": "1. Yarı Tek/Çift",
@@ -634,46 +623,90 @@
           "direct": false
         },
         {
-          "market": "Tek/Çift",
-          "selection": "Çift",
-          "name": "Çift",
-          "odds": 1.59,
-          "fair_prob": 0.5065,
-          "fair_odds": 1.974,
-          "ev": -0.1947,
-          "mbs": 3,
-          "direct": false
-        },
-        {
           "market": "Maç Sonucu ve Alt/Üst",
-          "selection": "MS 1 & 3.5 Alt",
-          "name": "MS 1 & 3.5 Alt",
-          "odds": 3.46,
-          "fair_prob": 0.23258,
-          "fair_odds": 4.3,
-          "ev": -0.1953,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Ev Sahibi İki Yarıda da Gol",
-          "selection": "Atar",
-          "name": "Ev İki Yarıda Gol",
-          "odds": 2.23,
-          "fair_prob": 0.36027,
-          "fair_odds": 2.776,
-          "ev": -0.1966,
+          "selection": "MS 2 & 3.5 Alt",
+          "name": "MS 2 & 3.5 Alt",
+          "odds": 4.33,
+          "fair_prob": 0.18624,
+          "fair_odds": 5.369,
+          "ev": -0.1936,
           "mbs": 3,
           "direct": false
         },
         {
           "market": "2. Yarı Sonucu",
-          "selection": "1",
-          "name": "2Y 1",
-          "odds": 2.16,
-          "fair_prob": 0.37186,
-          "fair_odds": 2.689,
-          "ev": -0.1968,
+          "selection": "2",
+          "name": "2Y 2",
+          "odds": 2.66,
+          "fair_prob": 0.30236,
+          "fair_odds": 3.307,
+          "ev": -0.1957,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Çifte Şans",
+          "selection": "1-X",
+          "name": "ÇŞ 1X",
+          "odds": 1.2,
+          "fair_prob": 0.6691,
+          "fair_odds": 1.495,
+          "ev": -0.1971,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(-1) 2",
+          "name": "Hnd(-1) 2",
+          "odds": 1.42,
+          "fair_prob": 0.56544,
+          "fair_odds": 1.769,
+          "ev": -0.1971,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
+          "selection": "1,5 Üst",
+          "name": "Ev 1.5 Üst",
+          "odds": 1.47,
+          "fair_prob": 0.54611,
+          "fair_odds": 1.831,
+          "ev": -0.1972,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Tek/Çift",
+          "selection": "Çift",
+          "name": "Çift",
+          "odds": 1.58,
+          "fair_prob": 0.5065,
+          "fair_odds": 1.974,
+          "ev": -0.1997,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
+          "selection": "İY 0 & İY 1.5 Üst",
+          "name": "İY 0 & İY 1.5 Üst",
+          "odds": 5.33,
+          "fair_prob": 0.14992,
+          "fair_odds": 6.67,
+          "ev": -0.2009,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "2 & Var",
+          "name": "MS 2 & KG Var",
+          "odds": 3.82,
+          "fair_prob": 0.20891,
+          "fair_odds": 4.787,
+          "ev": -0.202,
           "mbs": 3,
           "direct": false
         },
@@ -689,24 +722,24 @@
           "direct": false
         },
         {
-          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
-          "selection": "İY 0 & İY 1.5 Üst",
-          "name": "İY 0 & İY 1.5 Üst",
-          "odds": 5.32,
-          "fair_prob": 0.14992,
-          "fair_odds": 6.67,
-          "ev": -0.2024,
+          "market": "Çifte Şans",
+          "selection": "X-2",
+          "name": "ÇŞ X2",
+          "odds": 1.41,
+          "fair_prob": 0.56544,
+          "fair_odds": 1.769,
+          "ev": -0.2027,
           "mbs": 3,
           "direct": false
         },
         {
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "1 & Var",
-          "name": "MS 1 & KG Var",
-          "odds": 2.97,
-          "fair_prob": 0.26802,
-          "fair_odds": 3.731,
-          "ev": -0.204,
+          "market": "1. Yarı Sonucu",
+          "selection": "1",
+          "name": "İY 1",
+          "odds": 2.29,
+          "fair_prob": 0.34807,
+          "fair_odds": 2.873,
+          "ev": -0.2029,
           "mbs": 3,
           "direct": false
         },
@@ -733,13 +766,24 @@
           "direct": false
         },
         {
-          "market": "Deplasman 1,5 Gol Alt/Üst",
-          "selection": "1,5 Üst",
-          "name": "Dep 1.5 Üst",
-          "odds": 1.69,
-          "fair_prob": 0.46986,
-          "fair_odds": 2.128,
-          "ev": -0.2059,
+          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+          "selection": "X & Var",
+          "name": "İY 0 & İY KG Var",
+          "odds": 5.3,
+          "fair_prob": 0.14992,
+          "fair_odds": 6.67,
+          "ev": -0.2054,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Deplasman İki Yarıda da Gol",
+          "selection": "Atar",
+          "name": "Dep İki Yarıda Gol",
+          "odds": 2.65,
+          "fair_prob": 0.29948,
+          "fair_odds": 3.339,
+          "ev": -0.2064,
           "mbs": 3,
           "direct": false
         },
@@ -755,17 +799,6 @@
           "direct": false
         },
         {
-          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
-          "selection": "X & Var",
-          "name": "İY 0 & İY KG Var",
-          "odds": 5.29,
-          "fair_prob": 0.14992,
-          "fair_odds": 6.67,
-          "ev": -0.2069,
-          "mbs": 3,
-          "direct": false
-        },
-        {
           "market": "3,5 Gol Alt/Üst",
           "selection": "3,5 Alt",
           "name": "3.5 Alt",
@@ -777,35 +810,13 @@
           "direct": true
         },
         {
-          "market": "1. Yarı Sonucu",
-          "selection": "2",
-          "name": "İY 2",
-          "odds": 2.84,
-          "fair_prob": 0.27873,
-          "fair_odds": 3.588,
-          "ev": -0.2084,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(-1) 2",
-          "name": "Hnd(-1) 2",
-          "odds": 1.4,
-          "fair_prob": 0.56544,
-          "fair_odds": 1.769,
-          "ev": -0.2084,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
-          "selection": "İY 1 & İY 1.5 Alt",
-          "name": "İY 1 & İY 1.5 Alt",
-          "odds": 4.44,
-          "fair_prob": 0.17817,
-          "fair_odds": 5.613,
-          "ev": -0.2089,
+          "market": "2. Yarı Sonucu",
+          "selection": "1",
+          "name": "2Y 1",
+          "odds": 2.13,
+          "fair_prob": 0.37186,
+          "fair_odds": 2.689,
+          "ev": -0.2079,
           "mbs": 3,
           "direct": false
         },
@@ -819,6 +830,17 @@
           "ev": -0.2089,
           "mbs": 3,
           "direct": true
+        },
+        {
+          "market": "Maç Sonucu ve Alt/Üst",
+          "selection": "MS 1 & 3.5 Alt",
+          "name": "MS 1 & 3.5 Alt",
+          "odds": 3.4,
+          "fair_prob": 0.23258,
+          "fair_odds": 4.3,
+          "ev": -0.2092,
+          "mbs": 3,
+          "direct": false
         },
         {
           "market": "2,5 Alt/Üst ve Karşılıklı Gol",
@@ -843,24 +865,13 @@
           "direct": false
         },
         {
-          "market": "2. Yarı Sonucu",
-          "selection": "2",
-          "name": "2Y 2",
-          "odds": 2.61,
-          "fair_prob": 0.30236,
-          "fair_odds": 3.307,
-          "ev": -0.2108,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Karşılıklı Gol",
-          "selection": "Yok",
-          "name": "KG Yok",
-          "odds": 2.42,
-          "fair_prob": 0.32595,
-          "fair_odds": 3.068,
-          "ev": -0.2112,
+          "market": "Ev Sahibi İki Yarıda da Gol",
+          "selection": "Atar",
+          "name": "Ev İki Yarıda Gol",
+          "odds": 2.19,
+          "fair_prob": 0.36027,
+          "fair_odds": 2.776,
+          "ev": -0.211,
           "mbs": 3,
           "direct": false
         },
@@ -876,24 +887,13 @@
           "direct": false
         },
         {
-          "market": "Maç Sonucu ve Alt/Üst",
-          "selection": "MS 2 & 3.5 Alt",
-          "name": "MS 2 & 3.5 Alt",
-          "odds": 4.23,
-          "fair_prob": 0.18624,
-          "fair_odds": 5.369,
-          "ev": -0.2122,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Çifte Şans",
-          "selection": "X-2",
-          "name": "ÇŞ X2",
-          "odds": 1.39,
-          "fair_prob": 0.56544,
-          "fair_odds": 1.769,
-          "ev": -0.214,
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "2 & Yok",
+          "name": "MS 2 & KG Yok",
+          "odds": 6.45,
+          "fair_prob": 0.12199,
+          "fair_odds": 8.197,
+          "ev": -0.2132,
           "mbs": 3,
           "direct": false
         },
@@ -920,24 +920,35 @@
           "direct": true
         },
         {
-          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
-          "selection": "1 & Yok",
-          "name": "İY 1 & İY KG Yok",
-          "odds": 2.88,
-          "fair_prob": 0.27265,
-          "fair_odds": 3.668,
-          "ev": -0.2148,
+          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
+          "selection": "İY 2 & İY 1.5 Alt",
+          "name": "İY 2 & İY 1.5 Alt",
+          "odds": 5.19,
+          "fair_prob": 0.15138,
+          "fair_odds": 6.606,
+          "ev": -0.2143,
           "mbs": 3,
           "direct": false
         },
         {
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "1 & Yok",
-          "name": "MS 1 & KG Yok",
-          "odds": 4.7,
-          "fair_prob": 0.16654,
-          "fair_odds": 6.005,
-          "ev": -0.2173,
+          "market": "Karşılıklı Gol",
+          "selection": "Yok",
+          "name": "KG Yok",
+          "odds": 2.41,
+          "fair_prob": 0.32595,
+          "fair_odds": 3.068,
+          "ev": -0.2145,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Maç Sonucu ve Alt/Üst",
+          "selection": "MS 2 & 3.5 Üst",
+          "name": "MS 2 & 3.5 Üst",
+          "odds": 5.41,
+          "fair_prob": 0.14465,
+          "fair_odds": 6.913,
+          "ev": -0.2174,
           "mbs": 3,
           "direct": false
         },
@@ -953,46 +964,35 @@
           "direct": false
         },
         {
-          "market": "Deplasman İki Yarıda da Gol",
-          "selection": "Atar",
-          "name": "Dep İki Yarıda Gol",
-          "odds": 2.6,
-          "fair_prob": 0.29948,
-          "fair_odds": 3.339,
-          "ev": -0.2214,
+          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
+          "selection": "İY 1 & İY 1.5 Alt",
+          "name": "İY 1 & İY 1.5 Alt",
+          "odds": 4.38,
+          "fair_prob": 0.17817,
+          "fair_odds": 5.613,
+          "ev": -0.2196,
           "mbs": 3,
           "direct": false
         },
         {
           "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "X & Yok",
-          "name": "MS 0 & KG Yok",
-          "odds": 20.8,
-          "fair_prob": 0.03743,
-          "fair_odds": 26.72,
-          "ev": -0.2215,
+          "selection": "1 & Var",
+          "name": "MS 1 & KG Var",
+          "odds": 2.91,
+          "fair_prob": 0.26802,
+          "fair_odds": 3.731,
+          "ev": -0.2201,
           "mbs": 3,
           "direct": false
         },
         {
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "2 & Var",
-          "name": "MS 2 & KG Var",
-          "odds": 3.72,
-          "fair_prob": 0.20891,
-          "fair_odds": 4.787,
-          "ev": -0.2229,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Maç Sonucu ve Alt/Üst",
-          "selection": "MS 1 & 3.5 Üst",
-          "name": "MS 1 & 3.5 Üst",
-          "odds": 3.84,
-          "fair_prob": 0.20198,
-          "fair_odds": 4.951,
-          "ev": -0.2244,
+          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+          "selection": "2 & Yok",
+          "name": "İY 2 & İY KG Yok",
+          "odds": 3.59,
+          "fair_prob": 0.21701,
+          "fair_odds": 4.608,
+          "ev": -0.2209,
           "mbs": 3,
           "direct": false
         },
@@ -1000,10 +1000,21 @@
           "market": "1. Yarı Karşılıklı Gol",
           "selection": "Var",
           "name": "İY KG Var",
-          "odds": 2.7,
+          "odds": 2.71,
           "fair_prob": 0.28705,
           "fair_odds": 3.484,
-          "ev": -0.225,
+          "ev": -0.2221,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "X & Yok",
+          "name": "MS 0 & KG Yok",
+          "odds": 20.75,
+          "fair_prob": 0.03743,
+          "fair_odds": 26.72,
+          "ev": -0.2234,
           "mbs": 3,
           "direct": false
         },
@@ -1019,13 +1030,13 @@
           "direct": false
         },
         {
-          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
-          "selection": "İY 2 & İY 1.5 Alt",
-          "name": "İY 2 & İY 1.5 Alt",
-          "odds": 5.11,
-          "fair_prob": 0.15138,
-          "fair_odds": 6.606,
-          "ev": -0.2265,
+          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+          "selection": "1 & Yok",
+          "name": "İY 1 & İY KG Yok",
+          "odds": 2.83,
+          "fair_prob": 0.27265,
+          "fair_odds": 3.668,
+          "ev": -0.2284,
           "mbs": 3,
           "direct": false
         },
@@ -1042,34 +1053,12 @@
         },
         {
           "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "2 & Yok",
-          "name": "MS 2 & KG Yok",
-          "odds": 6.27,
-          "fair_prob": 0.12199,
-          "fair_odds": 8.197,
-          "ev": -0.2351,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(-1) 0",
-          "name": "Hnd(-1) 0",
-          "odds": 3.79,
-          "fair_prob": 0.20128,
-          "fair_odds": 4.968,
-          "ev": -0.2372,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
-          "selection": "2 & Yok",
-          "name": "İY 2 & İY KG Yok",
-          "odds": 3.51,
-          "fair_prob": 0.21701,
-          "fair_odds": 4.608,
-          "ev": -0.2383,
+          "selection": "1 & Yok",
+          "name": "MS 1 & KG Yok",
+          "odds": 4.57,
+          "fair_prob": 0.16654,
+          "fair_odds": 6.005,
+          "ev": -0.2389,
           "mbs": 3,
           "direct": false
         },
@@ -1097,45 +1086,45 @@
         },
         {
           "market": "Maç Sonucu ve Alt/Üst",
-          "selection": "MS 2 & 3.5 Üst",
-          "name": "MS 2 & 3.5 Üst",
-          "odds": 5.23,
-          "fair_prob": 0.14465,
-          "fair_odds": 6.913,
-          "ev": -0.2435,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
-          "selection": "İY 1 & İY 1.5 Üst",
-          "name": "İY 1 & İY 1.5 Üst",
-          "odds": 4.45,
-          "fair_prob": 0.1699,
-          "fair_odds": 5.886,
-          "ev": -0.244,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
-          "selection": "1 & Var",
-          "name": "İY 1 & İY KG Var",
-          "odds": 9.93,
-          "fair_prob": 0.07542,
-          "fair_odds": 13.259,
-          "ev": -0.2511,
+          "selection": "MS 1 & 3.5 Üst",
+          "name": "MS 1 & 3.5 Üst",
+          "odds": 3.75,
+          "fair_prob": 0.20198,
+          "fair_odds": 4.951,
+          "ev": -0.2426,
           "mbs": 3,
           "direct": false
         },
         {
           "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(-1) 1",
-          "name": "Hnd(-1) 1",
-          "odds": 3.21,
-          "fair_prob": 0.23328,
-          "fair_odds": 4.287,
-          "ev": -0.2512,
+          "selection": "Hnd(-1) 0",
+          "name": "Hnd(-1) 0",
+          "odds": 3.76,
+          "fair_prob": 0.20128,
+          "fair_odds": 4.968,
+          "ev": -0.2432,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
+          "selection": "İY 2 & İY 1.5 Üst",
+          "name": "İY 2 & İY 1.5 Üst",
+          "odds": 5.93,
+          "fair_prob": 0.12735,
+          "fair_odds": 7.852,
+          "ev": -0.2448,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+          "selection": "2 & Var",
+          "name": "İY 2 & İY KG Var",
+          "odds": 12.2,
+          "fair_prob": 0.06172,
+          "fair_odds": 16.203,
+          "ev": -0.247,
           "mbs": 3,
           "direct": false
         },
@@ -1185,23 +1174,23 @@
         },
         {
           "market": "1.Y Sonucu ve 1.Y Alt/Üst",
-          "selection": "İY 2 & İY 1.5 Üst",
-          "name": "İY 2 & İY 1.5 Üst",
-          "odds": 5.77,
-          "fair_prob": 0.12735,
-          "fair_odds": 7.852,
-          "ev": -0.2652,
+          "selection": "İY 1 & İY 1.5 Üst",
+          "name": "İY 1 & İY 1.5 Üst",
+          "odds": 4.35,
+          "fair_prob": 0.1699,
+          "fair_odds": 5.886,
+          "ev": -0.2609,
           "mbs": 3,
           "direct": false
         },
         {
           "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
-          "selection": "2 & Var",
-          "name": "İY 2 & İY KG Var",
-          "odds": 11.9,
-          "fair_prob": 0.06172,
-          "fair_odds": 16.203,
-          "ev": -0.2656,
+          "selection": "1 & Var",
+          "name": "İY 1 & İY KG Var",
+          "odds": 9.76,
+          "fair_prob": 0.07542,
+          "fair_odds": 13.259,
+          "ev": -0.2639,
           "mbs": 3,
           "direct": false
         },
@@ -1217,13 +1206,13 @@
           "direct": false
         },
         {
-          "market": "2,5 Alt/Üst ve Karşılıklı Gol",
-          "selection": "Üst&Yok",
-          "name": "2.5 Üst & KG Yok",
-          "odds": 8.42,
-          "fair_prob": 0.08494,
-          "fair_odds": 11.773,
-          "ev": -0.2848,
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(-1) 1",
+          "name": "Hnd(-1) 1",
+          "odds": 3.11,
+          "fair_prob": 0.23328,
+          "fair_odds": 4.287,
+          "ev": -0.2745,
           "mbs": 3,
           "direct": false
         },
@@ -1231,10 +1220,21 @@
           "market": "Maç Sonucu ve Alt/Üst",
           "selection": "MS 0 & 3.5 Üst",
           "name": "MS 0 & 3.5 Üst",
-          "odds": 7.3,
+          "odds": 7.31,
           "fair_prob": 0.0972,
           "fair_odds": 10.288,
-          "ev": -0.2904,
+          "ev": -0.2895,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "2,5 Alt/Üst ve Karşılıklı Gol",
+          "selection": "Üst&Yok",
+          "name": "2.5 Üst & KG Yok",
+          "odds": 8.35,
+          "fair_prob": 0.08494,
+          "fair_odds": 11.773,
+          "ev": -0.2907,
           "mbs": 3,
           "direct": false
         },
@@ -2210,9 +2210,9 @@
       "home": "MFK Lokomotiva Zvolen",
       "away": "FK Kosice",
       "nesine_ms": [
-        6.87,
-        4.94,
-        1.13
+        7.78,
+        5.27,
+        1.09
       ],
       "n_nesine_selections": 31,
       "match_score": 0.83,
@@ -2239,17 +2239,50 @@
         0.1387,
         0.7686
       ],
-      "nesine_ms_margin": 0.2329,
+      "nesine_ms_margin": 0.2357,
       "derivatives_priced": true,
       "selections": [
         {
           "market": "2. Yarı Sonucu",
           "selection": "2",
           "name": "2Y 2",
-          "odds": 1.39,
+          "odds": 1.34,
           "fair_prob": 0.63596,
           "fair_odds": 1.572,
-          "ev": -0.116,
+          "ev": -0.1478,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Karşılıklı Gol",
+          "selection": "Var",
+          "name": "KG Var",
+          "odds": 1.49,
+          "fair_prob": 0.56503,
+          "fair_odds": 1.77,
+          "ev": -0.1581,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Ev Sahibi 0,5 Gol Alt/Üst",
+          "selection": "0,5 Üst",
+          "name": "Ev 0.5 Üst",
+          "odds": 1.4,
+          "fair_prob": 0.5985,
+          "fair_odds": 1.671,
+          "ev": -0.1621,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Deplasman 2,5 Gol Alt/Üst",
+          "selection": "2,5 Üst",
+          "name": "Dep 2.5 Üst",
+          "odds": 1.58,
+          "fair_prob": 0.52841,
+          "fair_odds": 1.892,
+          "ev": -0.1651,
           "mbs": 3,
           "direct": false
         },
@@ -2257,43 +2290,21 @@
           "market": "Maç Sonucu",
           "selection": "2",
           "name": "MS 2",
-          "odds": 1.13,
+          "odds": 1.09,
           "fair_prob": 0.76571,
           "fair_odds": 1.306,
-          "ev": -0.1348,
+          "ev": -0.1654,
           "mbs": 3,
           "direct": true
         },
         {
-          "market": "Deplasman 2,5 Gol Alt/Üst",
-          "selection": "2,5 Üst",
-          "name": "Dep 2.5 Üst",
-          "odds": 1.62,
-          "fair_prob": 0.52841,
-          "fair_odds": 1.892,
-          "ev": -0.144,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(+2) 2",
-          "name": "Hnd(+2) 2",
-          "odds": 2.39,
-          "fair_prob": 0.3525,
-          "fair_odds": 2.837,
-          "ev": -0.1575,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "1. Yarı Sonucu",
-          "selection": "2",
-          "name": "İY 2",
-          "odds": 1.46,
-          "fair_prob": 0.57432,
-          "fair_odds": 1.741,
-          "ev": -0.1615,
+          "market": "2. Yarı Karşılıklı Gol",
+          "selection": "Var",
+          "name": "2Y KG Var",
+          "odds": 2.6,
+          "fair_prob": 0.32063,
+          "fair_odds": 3.119,
+          "ev": -0.1664,
           "mbs": 3,
           "direct": false
         },
@@ -2309,24 +2320,13 @@
           "direct": false
         },
         {
-          "market": "1. Yarı Karşılıklı Gol",
-          "selection": "Yok",
-          "name": "İY KG Yok",
-          "odds": 1.09,
-          "fair_prob": 0.75923,
-          "fair_odds": 1.317,
-          "ev": -0.1724,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Ev Sahibi 0,5 Gol Alt/Üst",
-          "selection": "0,5 Alt",
-          "name": "Ev 0.5 Alt",
-          "odds": 2.06,
-          "fair_prob": 0.4015,
-          "fair_odds": 2.491,
-          "ev": -0.1729,
+          "market": "1. Yarı Sonucu",
+          "selection": "X",
+          "name": "İY 0",
+          "odds": 2.68,
+          "fair_prob": 0.30911,
+          "fair_odds": 3.235,
+          "ev": -0.1716,
           "mbs": 3,
           "direct": false
         },
@@ -2345,32 +2345,21 @@
           "market": "1. Yarı Tek/Çift",
           "selection": "Çift",
           "name": "İY Çift",
-          "odds": 1.57,
+          "odds": 1.58,
           "fair_prob": 0.52123,
           "fair_odds": 1.919,
-          "ev": -0.1817,
+          "ev": -0.1765,
           "mbs": 3,
           "direct": false
         },
         {
-          "market": "2. Yarı Karşılıklı Gol",
+          "market": "1. Yarı Karşılıklı Gol",
           "selection": "Yok",
-          "name": "2Y KG Yok",
-          "odds": 1.2,
-          "fair_prob": 0.67937,
-          "fair_odds": 1.472,
-          "ev": -0.1848,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Karşılıklı Gol",
-          "selection": "Yok",
-          "name": "KG Yok",
-          "odds": 1.87,
-          "fair_prob": 0.43497,
-          "fair_odds": 2.299,
-          "ev": -0.1866,
+          "name": "İY KG Yok",
+          "odds": 1.08,
+          "fair_prob": 0.75923,
+          "fair_odds": 1.317,
+          "ev": -0.18,
           "mbs": 3,
           "direct": false
         },
@@ -2387,12 +2376,12 @@
         },
         {
           "market": "1. Yarı Sonucu",
-          "selection": "X",
-          "name": "İY 0",
-          "odds": 2.62,
-          "fair_prob": 0.30911,
-          "fair_odds": 3.235,
-          "ev": -0.1901,
+          "selection": "2",
+          "name": "İY 2",
+          "odds": 1.41,
+          "fair_prob": 0.57432,
+          "fair_odds": 1.741,
+          "ev": -0.1902,
           "mbs": 3,
           "direct": false
         },
@@ -2400,43 +2389,21 @@
           "market": "Tek/Çift",
           "selection": "Tek",
           "name": "Tek",
-          "odds": 1.63,
+          "odds": 1.62,
           "fair_prob": 0.49584,
           "fair_odds": 2.017,
-          "ev": -0.1918,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Karşılıklı Gol",
-          "selection": "Var",
-          "name": "KG Var",
-          "odds": 1.43,
-          "fair_prob": 0.56503,
-          "fair_odds": 1.77,
-          "ev": -0.192,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Ev Sahibi 0,5 Gol Alt/Üst",
-          "selection": "0,5 Üst",
-          "name": "Ev 0.5 Üst",
-          "odds": 1.34,
-          "fair_prob": 0.5985,
-          "fair_odds": 1.671,
-          "ev": -0.198,
+          "ev": -0.1967,
           "mbs": 3,
           "direct": false
         },
         {
           "market": "2. Yarı Karşılıklı Gol",
-          "selection": "Var",
-          "name": "2Y KG Var",
-          "odds": 2.5,
-          "fair_prob": 0.32063,
-          "fair_odds": 3.119,
-          "ev": -0.1984,
+          "selection": "Yok",
+          "name": "2Y KG Yok",
+          "odds": 1.18,
+          "fair_prob": 0.67937,
+          "fair_odds": 1.472,
+          "ev": -0.1983,
           "mbs": 3,
           "direct": false
         },
@@ -2474,35 +2441,35 @@
           "direct": false
         },
         {
-          "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(+2) 0",
-          "name": "Hnd(+2) 0",
-          "odds": 3.65,
-          "fair_prob": 0.20999,
-          "fair_odds": 4.762,
-          "ev": -0.2335,
-          "mbs": 3,
-          "direct": false
-        },
-        {
           "market": "Deplasman 2,5 Gol Alt/Üst",
           "selection": "2,5 Alt",
           "name": "Dep 2.5 Alt",
-          "odds": 1.62,
+          "odds": 1.67,
           "fair_prob": 0.47159,
           "fair_odds": 2.12,
-          "ev": -0.236,
+          "ev": -0.2124,
           "mbs": 3,
           "direct": false
         },
         {
-          "market": "2. Yarı Sonucu",
-          "selection": "X",
-          "name": "2Y 0",
-          "odds": 2.98,
-          "fair_prob": 0.25226,
-          "fair_odds": 3.964,
-          "ev": -0.2483,
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(+2) 2",
+          "name": "Hnd(+2) 2",
+          "odds": 2.23,
+          "fair_prob": 0.3525,
+          "fair_odds": 2.837,
+          "ev": -0.2139,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "1. Yarı Sonucu",
+          "selection": "1",
+          "name": "İY 1",
+          "odds": 6.7,
+          "fair_prob": 0.11657,
+          "fair_odds": 8.578,
+          "ev": -0.219,
           "mbs": 3,
           "direct": false
         },
@@ -2510,10 +2477,21 @@
           "market": "1. Yarı Karşılıklı Gol",
           "selection": "Var",
           "name": "İY KG Var",
-          "odds": 3.11,
+          "odds": 3.24,
           "fair_prob": 0.24077,
           "fair_odds": 4.153,
-          "ev": -0.2512,
+          "ev": -0.2199,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Ev Sahibi 0,5 Gol Alt/Üst",
+          "selection": "0,5 Alt",
+          "name": "Ev 0.5 Alt",
+          "odds": 1.93,
+          "fair_prob": 0.4015,
+          "fair_odds": 2.491,
+          "ev": -0.2251,
           "mbs": 3,
           "direct": false
         },
@@ -2521,10 +2499,32 @@
           "market": "Handikaplı Maç Sonucu",
           "selection": "Hnd(+2) 1",
           "name": "Hnd(+2) 1",
-          "odds": 1.67,
+          "odds": 1.77,
           "fair_prob": 0.43751,
           "fair_odds": 2.286,
-          "ev": -0.2694,
+          "ev": -0.2256,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Karşılıklı Gol",
+          "selection": "Yok",
+          "name": "KG Yok",
+          "odds": 1.78,
+          "fair_prob": 0.43497,
+          "fair_odds": 2.299,
+          "ev": -0.2257,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "2. Yarı Sonucu",
+          "selection": "X",
+          "name": "2Y 0",
+          "odds": 3.05,
+          "fair_prob": 0.25226,
+          "fair_odds": 3.964,
+          "ev": -0.2306,
           "mbs": 3,
           "direct": false
         },
@@ -2532,21 +2532,21 @@
           "market": "Maç Sonucu",
           "selection": "X",
           "name": "MS 0",
-          "odds": 4.94,
+          "odds": 5.27,
           "fair_prob": 0.14501,
           "fair_odds": 6.896,
-          "ev": -0.2837,
+          "ev": -0.2358,
           "mbs": 3,
           "direct": true
         },
         {
-          "market": "1. Yarı Sonucu",
-          "selection": "1",
-          "name": "İY 1",
-          "odds": 6.09,
-          "fair_prob": 0.11657,
-          "fair_odds": 8.578,
-          "ev": -0.2901,
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(+2) 0",
+          "name": "Hnd(+2) 0",
+          "odds": 3.6,
+          "fair_prob": 0.20999,
+          "fair_odds": 4.762,
+          "ev": -0.244,
           "mbs": 3,
           "direct": false
         },
@@ -2554,10 +2554,10 @@
           "market": "2. Yarı Sonucu",
           "selection": "1",
           "name": "2Y 1",
-          "odds": 5.63,
+          "odds": 6.22,
           "fair_prob": 0.11178,
           "fair_odds": 8.946,
-          "ev": -0.3707,
+          "ev": -0.3047,
           "mbs": 3,
           "direct": false
         },
@@ -2565,10 +2565,10 @@
           "market": "Maç Sonucu",
           "selection": "1",
           "name": "MS 1",
-          "odds": 6.87,
+          "odds": 7.78,
           "fair_prob": 0.08929,
           "fair_odds": 11.2,
-          "ev": -0.3866,
+          "ev": -0.3054,
           "mbs": 3,
           "direct": true
         },
@@ -2576,10 +2576,10 @@
           "market": "Çifte Şans",
           "selection": "1-X",
           "name": "ÇŞ 1X",
-          "odds": 2.59,
+          "odds": 2.78,
           "fair_prob": 0.23429,
           "fair_odds": 4.268,
-          "ev": -0.3932,
+          "ev": -0.3487,
           "mbs": 3,
           "direct": false
         }
@@ -3646,11 +3646,11 @@
       "home": "Cong An Nhan Dan",
       "away": "Johor Darul",
       "nesine_ms": [
-        3.74,
-        3.49,
-        1.47
+        3.64,
+        3.44,
+        1.5
       ],
-      "n_nesine_selections": 78,
+      "n_nesine_selections": 79,
       "match_score": 0.85,
       "ref_match": "Cong An Ha Noi - Johor Darul Ta'zim",
       "mu_home": 1.214,
@@ -3675,17 +3675,17 @@
         0.2289,
         0.5537
       ],
-      "nesine_ms_margin": 0.2342,
+      "nesine_ms_margin": 0.2321,
       "derivatives_priced": true,
       "selections": [
         {
           "market": "1. Yarı / 2. Yarı Karşılıklı Gol",
           "selection": "Evet/Evet",
           "name": "İki Yarıda KG Var",
-          "odds": 10.3,
+          "odds": 10.15,
           "fair_prob": 0.08833,
           "fair_odds": 11.321,
-          "ev": -0.0901,
+          "ev": -0.1034,
           "mbs": 3,
           "direct": false
         },
@@ -3697,28 +3697,6 @@
           "fair_prob": 0.7041,
           "fair_odds": 1.42,
           "ev": -0.148,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Karşılıklı Gol",
-          "selection": "Var",
-          "name": "KG Var",
-          "odds": 1.38,
-          "fair_prob": 0.61523,
-          "fair_odds": 1.625,
-          "ev": -0.151,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "2. Yarı Karşılıklı Gol",
-          "selection": "Var",
-          "name": "2Y KG Var",
-          "odds": 2.5,
-          "fair_prob": 0.33868,
-          "fair_odds": 2.953,
-          "ev": -0.1533,
           "mbs": 3,
           "direct": false
         },
@@ -3745,13 +3723,24 @@
           "direct": false
         },
         {
-          "market": "2,5 Alt/Üst ve Karşılıklı Gol",
-          "selection": "Üst&Var",
-          "name": "2.5 Üst & KG Var",
-          "odds": 1.64,
-          "fair_prob": 0.51396,
-          "fair_odds": 1.946,
+          "market": "Karşılıklı Gol",
+          "selection": "Var",
+          "name": "KG Var",
+          "odds": 1.37,
+          "fair_prob": 0.61523,
+          "fair_odds": 1.625,
           "ev": -0.1571,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "2. Yarı Karşılıklı Gol",
+          "selection": "Var",
+          "name": "2Y KG Var",
+          "odds": 2.48,
+          "fair_prob": 0.33868,
+          "fair_odds": 2.953,
+          "ev": -0.1601,
           "mbs": 3,
           "direct": false
         },
@@ -3767,35 +3756,24 @@
           "direct": true
         },
         {
-          "market": "1. Yarı Sonucu",
-          "selection": "1",
-          "name": "İY 1",
-          "odds": 4.03,
-          "fair_prob": 0.2061,
-          "fair_odds": 4.852,
-          "ev": -0.1694,
+          "market": "2,5 Alt/Üst ve Karşılıklı Gol",
+          "selection": "Üst&Var",
+          "name": "2.5 Üst & KG Var",
+          "odds": 1.63,
+          "fair_prob": 0.51396,
+          "fair_odds": 1.946,
+          "ev": -0.1622,
           "mbs": 3,
-          "direct": true
+          "direct": false
         },
         {
           "market": "Çifte Şans",
           "selection": "1-2",
           "name": "ÇŞ 12",
-          "odds": 1.07,
+          "odds": 1.08,
           "fair_prob": 0.77566,
           "fair_odds": 1.289,
-          "ev": -0.17,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
-          "selection": "1 & Var",
-          "name": "İY 1 & İY KG Var",
-          "odds": 20.4,
-          "fair_prob": 0.04068,
-          "fair_odds": 24.582,
-          "ev": -0.1701,
+          "ev": -0.1623,
           "mbs": 3,
           "direct": false
         },
@@ -3803,65 +3781,32 @@
           "market": "Deplasman 1,5 Gol Alt/Üst",
           "selection": "1,5 Üst",
           "name": "Dep 1.5 Üst",
-          "odds": 1.39,
+          "odds": 1.4,
           "fair_prob": 0.59656,
           "fair_odds": 1.676,
-          "ev": -0.1708,
+          "ev": -0.1648,
           "mbs": 3,
           "direct": false
         },
         {
-          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
-          "selection": "1,5 Üst",
-          "name": "Ev 1.5 Üst",
-          "odds": 2.42,
-          "fair_prob": 0.34181,
-          "fair_odds": 2.926,
-          "ev": -0.1728,
+          "market": "Maç Sonucu",
+          "selection": "2",
+          "name": "MS 2",
+          "odds": 1.5,
+          "fair_prob": 0.55595,
+          "fair_odds": 1.799,
+          "ev": -0.1661,
           "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "1 & Var",
-          "name": "MS 1 & KG Var",
-          "odds": 6.32,
-          "fair_prob": 0.13084,
-          "fair_odds": 7.643,
-          "ev": -0.1731,
-          "mbs": 3,
-          "direct": false
+          "direct": true
         },
         {
           "market": "2. Yarı Sonucu",
           "selection": "2",
           "name": "2Y 2",
-          "odds": 1.79,
+          "odds": 1.8,
           "fair_prob": 0.46149,
           "fair_odds": 2.167,
-          "ev": -0.1739,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
-          "selection": "İY 0 & İY 1.5 Üst",
-          "name": "İY 0 & İY 1.5 Üst",
-          "odds": 6.12,
-          "fair_prob": 0.13452,
-          "fair_odds": 7.434,
-          "ev": -0.1767,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
-          "selection": "İY 1 & İY 1.5 Üst",
-          "name": "İY 1 & İY 1.5 Üst",
-          "odds": 10.2,
-          "fair_prob": 0.08063,
-          "fair_odds": 12.402,
-          "ev": -0.1776,
+          "ev": -0.1693,
           "mbs": 3,
           "direct": false
         },
@@ -3869,21 +3814,43 @@
           "market": "Deplasman İki Yarıda da Gol",
           "selection": "Atar",
           "name": "Dep İki Yarıda Gol",
-          "odds": 2.04,
+          "odds": 2.06,
           "fair_prob": 0.40306,
           "fair_odds": 2.481,
-          "ev": -0.1777,
+          "ev": -0.1697,
           "mbs": 3,
           "direct": false
         },
         {
-          "market": "Maç Sonucu",
-          "selection": "1",
-          "name": "MS 1",
-          "odds": 3.74,
-          "fair_prob": 0.21971,
-          "fair_odds": 4.551,
-          "ev": -0.1783,
+          "market": "Çifte Şans",
+          "selection": "X-2",
+          "name": "ÇŞ X2",
+          "odds": 1.06,
+          "fair_prob": 0.78029,
+          "fair_odds": 1.282,
+          "ev": -0.1729,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "2 & Var",
+          "name": "MS 2 & KG Var",
+          "odds": 2.71,
+          "fair_prob": 0.30445,
+          "fair_odds": 3.285,
+          "ev": -0.1749,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "1. Yarı Sonucu",
+          "selection": "2",
+          "name": "İY 2",
+          "odds": 1.93,
+          "fair_prob": 0.4259,
+          "fair_odds": 2.348,
+          "ev": -0.178,
           "mbs": 3,
           "direct": true
         },
@@ -3899,6 +3866,17 @@
           "direct": false
         },
         {
+          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
+          "selection": "İY 0 & İY 1.5 Üst",
+          "name": "İY 0 & İY 1.5 Üst",
+          "odds": 6.09,
+          "fair_prob": 0.13452,
+          "fair_odds": 7.434,
+          "ev": -0.1808,
+          "mbs": 3,
+          "direct": false
+        },
+        {
           "market": "Tek/Çift",
           "selection": "Tek",
           "name": "Tek",
@@ -3908,28 +3886,6 @@
           "ev": -0.1813,
           "mbs": 3,
           "direct": false
-        },
-        {
-          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
-          "selection": "X & Var",
-          "name": "İY 0 & İY KG Var",
-          "odds": 6.08,
-          "fair_prob": 0.13452,
-          "fair_odds": 7.434,
-          "ev": -0.1821,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Maç Sonucu",
-          "selection": "2",
-          "name": "MS 2",
-          "odds": 1.47,
-          "fair_prob": 0.55595,
-          "fair_odds": 1.799,
-          "ev": -0.1828,
-          "mbs": 3,
-          "direct": true
         },
         {
           "market": "2. Yarı Sonucu",
@@ -3954,6 +3910,17 @@
           "direct": false
         },
         {
+          "market": "Maç Sonucu ve 1,5 Alt/Üst",
+          "selection": "2 & Üst",
+          "name": "MS 2 & 1.5 Üst",
+          "odds": 1.71,
+          "fair_prob": 0.47703,
+          "fair_odds": 2.096,
+          "ev": -0.1843,
+          "mbs": 3,
+          "direct": false
+        },
+        {
           "market": "1. Yarı Tek/Çift",
           "selection": "Çift",
           "name": "İY Çift",
@@ -3965,15 +3932,37 @@
           "direct": false
         },
         {
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "2 & Var",
-          "name": "MS 2 & KG Var",
-          "odds": 2.67,
-          "fair_prob": 0.30445,
-          "fair_odds": 3.285,
-          "ev": -0.1871,
+          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
+          "selection": "1,5 Üst",
+          "name": "Ev 1.5 Üst",
+          "odds": 2.38,
+          "fair_prob": 0.34181,
+          "fair_odds": 2.926,
+          "ev": -0.1865,
           "mbs": 3,
           "direct": false
+        },
+        {
+          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+          "selection": "X & Var",
+          "name": "İY 0 & İY KG Var",
+          "odds": 6.04,
+          "fair_prob": 0.13452,
+          "fair_odds": 7.434,
+          "ev": -0.1875,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "1. Yarı Sonucu",
+          "selection": "1",
+          "name": "İY 1",
+          "odds": 3.94,
+          "fair_prob": 0.2061,
+          "fair_odds": 4.852,
+          "ev": -0.188,
+          "mbs": 3,
+          "direct": true
         },
         {
           "market": "3,5 Gol Alt/Üst",
@@ -4020,15 +4009,15 @@
           "direct": false
         },
         {
-          "market": "1. Yarı Sonucu",
-          "selection": "2",
-          "name": "İY 2",
-          "odds": 1.9,
-          "fair_prob": 0.4259,
-          "fair_odds": 2.348,
-          "ev": -0.1908,
+          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
+          "selection": "1,5 Alt",
+          "name": "Ev 1.5 Alt",
+          "odds": 1.23,
+          "fair_prob": 0.65819,
+          "fair_odds": 1.519,
+          "ev": -0.1904,
           "mbs": 3,
-          "direct": true
+          "direct": false
         },
         {
           "market": "1. Yarı Tek/Çift",
@@ -4042,12 +4031,12 @@
           "direct": false
         },
         {
-          "market": "Maç Sonucu ve 1,5 Alt/Üst",
-          "selection": "1 & Üst",
-          "name": "MS 1 & 1.5 Üst",
-          "odds": 4.64,
-          "fair_prob": 0.17402,
-          "fair_odds": 5.746,
+          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+          "selection": "1 & Var",
+          "name": "İY 1 & İY KG Var",
+          "odds": 19.85,
+          "fair_prob": 0.04068,
+          "fair_odds": 24.582,
           "ev": -0.1925,
           "mbs": 3,
           "direct": false
@@ -4064,15 +4053,26 @@
           "direct": false
         },
         {
-          "market": "1. Yarı Sonucu",
-          "selection": "X",
-          "name": "İY 0",
-          "odds": 2.18,
-          "fair_prob": 0.368,
-          "fair_odds": 2.717,
-          "ev": -0.1978,
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "1 & Var",
+          "name": "MS 1 & KG Var",
+          "odds": 6.13,
+          "fair_prob": 0.13084,
+          "fair_odds": 7.643,
+          "ev": -0.198,
           "mbs": 3,
-          "direct": true
+          "direct": false
+        },
+        {
+          "market": "2. Yarı Karşılıklı Gol",
+          "selection": "Yok",
+          "name": "2Y KG Yok",
+          "odds": 1.21,
+          "fair_prob": 0.66132,
+          "fair_odds": 1.512,
+          "ev": -0.1998,
+          "mbs": 3,
+          "direct": false
         },
         {
           "market": "Deplasman İki Yarıda da Gol",
@@ -4086,13 +4086,35 @@
           "direct": false
         },
         {
-          "market": "Ev Sahibi İki Yarıda da Gol",
-          "selection": "Atar",
-          "name": "Ev İki Yarıda Gol",
-          "odds": 3.86,
-          "fair_prob": 0.20672,
-          "fair_odds": 4.837,
-          "ev": -0.2021,
+          "market": "Maç Sonucu",
+          "selection": "1",
+          "name": "MS 1",
+          "odds": 3.64,
+          "fair_prob": 0.21971,
+          "fair_odds": 4.551,
+          "ev": -0.2003,
+          "mbs": 3,
+          "direct": true
+        },
+        {
+          "market": "1. Yarı Sonucu",
+          "selection": "X",
+          "name": "İY 0",
+          "odds": 2.17,
+          "fair_prob": 0.368,
+          "fair_odds": 2.717,
+          "ev": -0.2014,
+          "mbs": 3,
+          "direct": true
+        },
+        {
+          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
+          "selection": "İY 1 & İY 1.5 Üst",
+          "name": "İY 1 & İY 1.5 Üst",
+          "odds": 9.89,
+          "fair_prob": 0.08063,
+          "fair_odds": 12.402,
+          "ev": -0.2026,
           "mbs": 3,
           "direct": false
         },
@@ -4108,61 +4130,6 @@
           "direct": false
         },
         {
-          "market": "1. Yarı Karşılıklı Gol",
-          "selection": "Var",
-          "name": "İY KG Var",
-          "odds": 3.17,
-          "fair_prob": 0.25146,
-          "fair_odds": 3.977,
-          "ev": -0.2029,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Maç Sonucu ve 1,5 Alt/Üst",
-          "selection": "2 & Üst",
-          "name": "MS 2 & 1.5 Üst",
-          "odds": 1.67,
-          "fair_prob": 0.47703,
-          "fair_odds": 2.096,
-          "ev": -0.2034,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
-          "selection": "1,5 Alt",
-          "name": "Ev 1.5 Alt",
-          "odds": 1.21,
-          "fair_prob": 0.65819,
-          "fair_odds": 1.519,
-          "ev": -0.2036,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(+1) 1",
-          "name": "Hnd(+1) 1",
-          "odds": 1.79,
-          "fair_prob": 0.44405,
-          "fair_odds": 2.252,
-          "ev": -0.2052,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "2. Yarı Karşılıklı Gol",
-          "selection": "Yok",
-          "name": "2Y KG Yok",
-          "odds": 1.2,
-          "fair_prob": 0.66132,
-          "fair_odds": 1.512,
-          "ev": -0.2064,
-          "mbs": 3,
-          "direct": false
-        },
-        {
           "market": "Toplam Gol Aralığı",
           "selection": "4-5 Gol",
           "name": "4-5 Gol",
@@ -4174,35 +4141,13 @@
           "direct": false
         },
         {
-          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
-          "selection": "1 & Yok",
-          "name": "İY 1 & İY KG Yok",
-          "odds": 4.75,
-          "fair_prob": 0.16655,
-          "fair_odds": 6.004,
-          "ev": -0.2089,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
-          "selection": "İY 1 & İY 1.5 Alt",
-          "name": "İY 1 & İY 1.5 Alt",
-          "odds": 6.22,
-          "fair_prob": 0.12661,
-          "fair_odds": 7.899,
-          "ev": -0.2125,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Deplasman 1,5 Gol Alt/Üst",
-          "selection": "1,5 Alt",
-          "name": "Dep 1.5 Alt",
-          "odds": 1.95,
-          "fair_prob": 0.40344,
-          "fair_odds": 2.479,
-          "ev": -0.2133,
+          "market": "1. Yarı Karşılıklı Gol",
+          "selection": "Var",
+          "name": "İY KG Var",
+          "odds": 3.15,
+          "fair_prob": 0.25146,
+          "fair_odds": 3.977,
+          "ev": -0.2079,
           "mbs": 3,
           "direct": false
         },
@@ -4210,23 +4155,45 @@
           "market": "En Çok Gol Olacak Yarı",
           "selection": "1.Y",
           "name": "En Çok Gol 1Y",
-          "odds": 2.64,
+          "odds": 2.65,
           "fair_prob": 0.29687,
           "fair_odds": 3.369,
-          "ev": -0.2163,
+          "ev": -0.2133,
           "mbs": 3,
           "direct": false
         },
         {
-          "market": "Maç Sonucu",
-          "selection": "X",
-          "name": "MS 0",
-          "odds": 3.49,
-          "fair_prob": 0.22434,
-          "fair_odds": 4.458,
-          "ev": -0.2171,
+          "market": "Maç Sonucu ve 1,5 Alt/Üst",
+          "selection": "1 & Üst",
+          "name": "MS 1 & 1.5 Üst",
+          "odds": 4.5,
+          "fair_prob": 0.17402,
+          "fair_odds": 5.746,
+          "ev": -0.2169,
           "mbs": 3,
-          "direct": true
+          "direct": false
+        },
+        {
+          "market": "Ev Sahibi İki Yarıda da Gol",
+          "selection": "Atar",
+          "name": "Ev İki Yarıda Gol",
+          "odds": 3.78,
+          "fair_prob": 0.20672,
+          "fair_odds": 4.837,
+          "ev": -0.2186,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Deplasman 1,5 Gol Alt/Üst",
+          "selection": "1,5 Alt",
+          "name": "Dep 1.5 Alt",
+          "odds": 1.93,
+          "fair_prob": 0.40344,
+          "fair_odds": 2.479,
+          "ev": -0.2214,
+          "mbs": 3,
+          "direct": false
         },
         {
           "market": "Gol Alt/Üst",
@@ -4240,46 +4207,57 @@
           "direct": false
         },
         {
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(+1) 1",
+          "name": "Hnd(+1) 1",
+          "odds": 1.75,
+          "fair_prob": 0.44405,
+          "fair_odds": 2.252,
+          "ev": -0.2229,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(+1) 2",
+          "name": "Hnd(+1) 2",
+          "odds": 2.36,
+          "fair_prob": 0.32903,
+          "fair_odds": 3.039,
+          "ev": -0.2235,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+          "selection": "1 & Yok",
+          "name": "İY 1 & İY KG Yok",
+          "odds": 4.66,
+          "fair_prob": 0.16655,
+          "fair_odds": 6.004,
+          "ev": -0.2239,
+          "mbs": 3,
+          "direct": false
+        },
+        {
           "market": "En Çok Gol Olacak Yarı",
           "selection": "Eşit",
           "name": "En Çok Gol Eşit",
-          "odds": 3.32,
+          "odds": 3.31,
           "fair_prob": 0.23409,
           "fair_odds": 4.272,
-          "ev": -0.2228,
+          "ev": -0.2252,
           "mbs": 3,
           "direct": false
         },
         {
-          "market": "2. Yarı Sonucu",
-          "selection": "1",
-          "name": "2Y 1",
-          "odds": 3.61,
-          "fair_prob": 0.21441,
-          "fair_odds": 4.664,
-          "ev": -0.226,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "2,5 Gol Alt/Üst",
-          "selection": "2,5 Alt",
-          "name": "2.5 Alt",
-          "odds": 2.03,
-          "fair_prob": 0.37846,
-          "fair_odds": 2.642,
-          "ev": -0.2317,
-          "mbs": 3,
-          "direct": true
-        },
-        {
-          "market": "Çifte Şans",
-          "selection": "1-X",
-          "name": "ÇŞ 1X",
-          "odds": 1.73,
-          "fair_prob": 0.44405,
-          "fair_odds": 2.252,
-          "ev": -0.2318,
+          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
+          "selection": "İY 1 & İY 1.5 Alt",
+          "name": "İY 1 & İY 1.5 Alt",
+          "odds": 6.12,
+          "fair_prob": 0.12661,
+          "fair_odds": 7.899,
+          "ev": -0.2252,
           "mbs": 3,
           "direct": false
         },
@@ -4287,10 +4265,54 @@
           "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
           "selection": "2 & Var",
           "name": "İY 2 & İY KG Var",
-          "odds": 10.05,
+          "odds": 10.15,
           "fair_prob": 0.07626,
           "fair_odds": 13.113,
-          "ev": -0.2336,
+          "ev": -0.226,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Maç Sonucu",
+          "selection": "X",
+          "name": "MS 0",
+          "odds": 3.44,
+          "fair_prob": 0.22434,
+          "fair_odds": 4.458,
+          "ev": -0.2283,
+          "mbs": 3,
+          "direct": true
+        },
+        {
+          "market": "Karşılıklı Gol",
+          "selection": "Yok",
+          "name": "KG Yok",
+          "odds": 2.0,
+          "fair_prob": 0.38477,
+          "fair_odds": 2.599,
+          "ev": -0.2305,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
+          "selection": "İY 2 & İY 1.5 Alt",
+          "name": "İY 2 & İY 1.5 Alt",
+          "odds": 3.61,
+          "fair_prob": 0.21272,
+          "fair_odds": 4.701,
+          "ev": -0.2321,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(+1) 0",
+          "name": "Hnd(+1) 0",
+          "odds": 3.38,
+          "fair_prob": 0.22692,
+          "fair_odds": 4.407,
+          "ev": -0.233,
           "mbs": 3,
           "direct": false
         },
@@ -4306,24 +4328,35 @@
           "direct": false
         },
         {
-          "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(+1) 0",
-          "name": "Hnd(+1) 0",
-          "odds": 3.36,
-          "fair_prob": 0.22692,
-          "fair_odds": 4.407,
-          "ev": -0.2375,
+          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+          "selection": "2 & Yok",
+          "name": "İY 2 & İY KG Yok",
+          "odds": 2.26,
+          "fair_prob": 0.33884,
+          "fair_odds": 2.951,
+          "ev": -0.2342,
           "mbs": 3,
           "direct": false
         },
         {
-          "market": "Karşılıklı Gol",
-          "selection": "Yok",
-          "name": "KG Yok",
-          "odds": 1.98,
-          "fair_prob": 0.38477,
-          "fair_odds": 2.599,
-          "ev": -0.2382,
+          "market": "2,5 Gol Alt/Üst",
+          "selection": "2,5 Alt",
+          "name": "2.5 Alt",
+          "odds": 2.02,
+          "fair_prob": 0.37846,
+          "fair_odds": 2.642,
+          "ev": -0.2355,
+          "mbs": 3,
+          "direct": true
+        },
+        {
+          "market": "2. Yarı Sonucu",
+          "selection": "1",
+          "name": "2Y 1",
+          "odds": 3.54,
+          "fair_prob": 0.21441,
+          "fair_odds": 4.664,
+          "ev": -0.241,
           "mbs": 3,
           "direct": false
         },
@@ -4331,87 +4364,10 @@
           "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
           "selection": "X & Yok",
           "name": "İY 0 & İY KG Yok",
-          "odds": 3.13,
+          "odds": 3.12,
           "fair_prob": 0.24314,
           "fair_odds": 4.113,
-          "ev": -0.239,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(+1) 2",
-          "name": "Hnd(+1) 2",
-          "odds": 2.31,
-          "fair_prob": 0.32903,
-          "fair_odds": 3.039,
-          "ev": -0.2399,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
-          "selection": "İY 2 & İY 1.5 Alt",
-          "name": "İY 2 & İY 1.5 Alt",
-          "odds": 3.57,
-          "fair_prob": 0.21272,
-          "fair_odds": 4.701,
-          "ev": -0.2406,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "X & Var",
-          "name": "MS 0 & KG Var",
-          "odds": 4.22,
-          "fair_prob": 0.17994,
-          "fair_odds": 5.557,
-          "ev": -0.2407,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
-          "selection": "2 & Yok",
-          "name": "İY 2 & İY KG Yok",
-          "odds": 2.23,
-          "fair_prob": 0.33884,
-          "fair_odds": 2.951,
-          "ev": -0.2444,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "2,5 Alt/Üst ve Karşılıklı Gol",
-          "selection": "Alt&Yok",
-          "name": "2.5 Alt & KG Yok",
-          "odds": 2.71,
-          "fair_prob": 0.27719,
-          "fair_odds": 3.608,
-          "ev": -0.2488,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "1 & Yok",
-          "name": "MS 1 & KG Yok",
-          "odds": 8.43,
-          "fair_prob": 0.08887,
-          "fair_odds": 11.252,
-          "ev": -0.2508,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Maç Sonucu ve 1,5 Alt/Üst",
-          "selection": "X & Üst",
-          "name": "MS 0 & 1.5 Üst",
-          "odds": 4.16,
-          "fair_prob": 0.17994,
-          "fair_odds": 5.557,
-          "ev": -0.2515,
+          "ev": -0.2414,
           "mbs": 3,
           "direct": false
         },
@@ -4419,21 +4375,21 @@
           "market": "1.Y Sonucu ve 1.Y Alt/Üst",
           "selection": "İY 2 & İY 1.5 Üst",
           "name": "İY 2 & İY 1.5 Üst",
-          "odds": 3.68,
+          "odds": 3.74,
           "fair_prob": 0.20238,
           "fair_odds": 4.941,
-          "ev": -0.2552,
+          "ev": -0.2431,
           "mbs": 3,
           "direct": false
         },
         {
-          "market": "2,5 Alt/Üst ve Karşılıklı Gol",
-          "selection": "Alt&Var",
-          "name": "2.5 Alt & KG Var",
-          "odds": 7.31,
-          "fair_prob": 0.10127,
-          "fair_odds": 9.875,
-          "ev": -0.2597,
+          "market": "Çifte Şans",
+          "selection": "1-X",
+          "name": "ÇŞ 1X",
+          "odds": 1.7,
+          "fair_prob": 0.44405,
+          "fair_odds": 2.252,
+          "ev": -0.2451,
           "mbs": 3,
           "direct": false
         },
@@ -4441,10 +4397,43 @@
           "market": "Maç Sonucu ve Karşılıklı Gol",
           "selection": "2 & Yok",
           "name": "MS 2 & KG Yok",
-          "odds": 2.93,
+          "odds": 3.0,
           "fair_prob": 0.2515,
           "fair_odds": 3.976,
-          "ev": -0.2631,
+          "ev": -0.2455,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "2,5 Alt/Üst ve Karşılıklı Gol",
+          "selection": "Alt&Yok",
+          "name": "2.5 Alt & KG Yok",
+          "odds": 2.72,
+          "fair_prob": 0.27719,
+          "fair_odds": 3.608,
+          "ev": -0.246,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "X & Var",
+          "name": "MS 0 & KG Var",
+          "odds": 4.15,
+          "fair_prob": 0.17994,
+          "fair_odds": 5.557,
+          "ev": -0.2533,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Maç Sonucu ve 1,5 Alt/Üst",
+          "selection": "X & Üst",
+          "name": "MS 0 & 1.5 Üst",
+          "odds": 4.09,
+          "fair_prob": 0.17994,
+          "fair_odds": 5.557,
+          "ev": -0.264,
           "mbs": 3,
           "direct": false
         },
@@ -4460,6 +4449,39 @@
           "direct": false
         },
         {
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "1 & Yok",
+          "name": "MS 1 & KG Yok",
+          "odds": 8.23,
+          "fair_prob": 0.08887,
+          "fair_odds": 11.252,
+          "ev": -0.2686,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "2,5 Alt/Üst ve Karşılıklı Gol",
+          "selection": "Üst&Yok",
+          "name": "2.5 Üst & KG Yok",
+          "odds": 6.79,
+          "fair_prob": 0.10758,
+          "fair_odds": 9.295,
+          "ev": -0.2695,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "2,5 Alt/Üst ve Karşılıklı Gol",
+          "selection": "Alt&Var",
+          "name": "2.5 Alt & KG Var",
+          "odds": 7.2,
+          "fair_prob": 0.10127,
+          "fair_odds": 9.875,
+          "ev": -0.2709,
+          "mbs": 3,
+          "direct": false
+        },
+        {
           "market": "Ev Sahibi 0,5 Gol Alt/Üst",
           "selection": "0,5 Alt",
           "name": "Ev 0.5 Alt",
@@ -4471,35 +4493,13 @@
           "direct": false
         },
         {
-          "market": "2,5 Alt/Üst ve Karşılıklı Gol",
-          "selection": "Üst&Yok",
-          "name": "2.5 Üst & KG Yok",
-          "odds": 6.62,
-          "fair_prob": 0.10758,
-          "fair_odds": 9.295,
-          "ev": -0.2878,
-          "mbs": 3,
-          "direct": false
-        },
-        {
           "market": "Maç Sonucu ve 1,5 Alt/Üst",
           "selection": "2 & Alt",
           "name": "MS 2 & 1.5 Alt",
-          "odds": 9.02,
+          "odds": 9.15,
           "fair_prob": 0.07892,
           "fair_odds": 12.671,
-          "ev": -0.2881,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "market": "Maç Sonucu ve 1,5 Alt/Üst",
-          "selection": "1 & Alt",
-          "name": "MS 1 & 1.5 Alt",
-          "odds": 15.55,
-          "fair_prob": 0.04569,
-          "fair_odds": 21.888,
-          "ev": -0.2896,
+          "ev": -0.2779,
           "mbs": 3,
           "direct": false
         },
@@ -4507,10 +4507,21 @@
           "market": "Maç Sonucu ve Karşılıklı Gol",
           "selection": "X & Yok",
           "name": "MS 0 & KG Yok",
-          "odds": 15.9,
+          "odds": 15.85,
           "fair_prob": 0.0444,
           "fair_odds": 22.522,
-          "ev": -0.294,
+          "ev": -0.2963,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "market": "Maç Sonucu ve 1,5 Alt/Üst",
+          "selection": "1 & Alt",
+          "name": "MS 1 & 1.5 Alt",
+          "odds": 15.35,
+          "fair_prob": 0.04569,
+          "fair_odds": 21.888,
+          "ev": -0.2987,
           "mbs": 3,
           "direct": false
         },
@@ -4518,10 +4529,10 @@
           "market": "Maç Sonucu ve 1,5 Alt/Üst",
           "selection": "X & Alt",
           "name": "MS 0 & 1.5 Alt",
-          "odds": 15.65,
+          "odds": 15.55,
           "fair_prob": 0.0444,
           "fair_odds": 22.522,
-          "ev": -0.3051,
+          "ev": -0.3096,
           "mbs": 3,
           "direct": false
         },
@@ -13581,6 +13592,10 @@
               "rank": 18.0,
               "points": 1.0,
               "played": 4.0,
+              "wins": 0.0,
+              "draws": 1.0,
+              "losses": 3.0,
+              "goal_diff": -6.0,
               "size": 18
             },
             "top_scorer": {
@@ -13651,7 +13666,102 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "3",
+              "goals_against": "9",
+              "goal_diff": "-6",
+              "played": 4.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Carina Wenninger",
+                  "pos": "D",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 0,
+                  "yellow": 1,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 9
+                },
+                {
+                  "name": "Lotta Cordes",
+                  "pos": "M",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 0,
+                  "yellow": 1,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 6
+                },
+                {
+                  "name": "Modesta Uka",
+                  "pos": "F",
+                  "apps": 3,
+                  "goals": 1,
+                  "assists": 0,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 5
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Almedina Sisic",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 0,
+                  "assists": 1,
+                  "yellow": 1,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 5
+                }
+              ],
+              "goalkeeper": {
+                "name": "Jasmin Pal",
+                "apps": 4,
+                "save_pct": 0.611,
+                "conceded_per_game": 1.75
+              },
+              "cards": [
+                {
+                  "name": "Jasmin Pal",
+                  "pos": "G",
+                  "apps": 4,
+                  "goals": 0,
+                  "assists": 0,
+                  "yellow": 1,
+                  "red": 1,
+                  "saves": 11,
+                  "conceded": 7
+                }
+              ]
+            },
+            "team_stats": {
+              "Topla oynama": "%40.2",
+              "Şut": "14.8 / maç",
+              "İsabetli şut": "5.0 / maç",
+              "xG (beklenen gol)": "1.16",
+              "xGA (beklenen yenen gol)": "1.94",
+              "Gol": "0.75",
+              "Yenen gol": "2.25",
+              "Net pozisyon": "0.0 / maç",
+              "Korner": "7.5 / maç",
+              "Gol yemeden biten maç": "0",
+              "Rakip şutu": "10.8 / maç",
+              "Sarı kart": "2.8 / maç",
+              "Kırmızı kart": "1",
+              "Faul": "14.8 / maç",
+              "Pas isabeti": "%65",
+              "Top kapma başarısı": "%63",
+              "İç sahada gol": "2",
+              "Deplasmanda gol": "1"
+            }
           },
           "away": {
             "name": "Bayern Munich",
@@ -13667,6 +13777,10 @@
               "rank": 7.0,
               "points": 8.0,
               "played": 4.0,
+              "wins": 2.0,
+              "draws": 2.0,
+              "losses": 0.0,
+              "goal_diff": 4.0,
               "size": 18
             },
             "top_scorer": {
@@ -13737,7 +13851,112 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "9",
+              "goals_against": "5",
+              "goal_diff": "4",
+              "played": 4.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Klara Bühl",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 2,
+                  "assists": 2,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 5
+                },
+                {
+                  "name": "Momoko Tanikawa",
+                  "pos": "M",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 5
+                },
+                {
+                  "name": "Pernille Harder",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 5
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Klara Bühl",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 2,
+                  "assists": 2,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 5
+                },
+                {
+                  "name": "Momoko Tanikawa",
+                  "pos": "M",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 5
+                },
+                {
+                  "name": "Pernille Harder",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 5
+                }
+              ],
+              "goalkeeper": {
+                "name": "Ena Mahmutovic",
+                "apps": 4,
+                "save_pct": 0.545,
+                "conceded_per_game": 1.25
+              },
+              "cards": []
+            },
+            "team_stats": {
+              "Topla oynama": "%57.4",
+              "Şut": "15.8 / maç",
+              "İsabetli şut": "4.2 / maç",
+              "xG (beklenen gol)": "2.19",
+              "xGA (beklenen yenen gol)": "1.29",
+              "Gol": "2.25",
+              "Yenen gol": "1.25",
+              "Net pozisyon": "2.5 / maç",
+              "Korner": "4.8 / maç",
+              "Gol yemeden biten maç": "1",
+              "Rakip şutu": "7.2 / maç",
+              "Sarı kart": "1.8 / maç",
+              "Kırmızı kart": "0",
+              "Faul": "10.5 / maç",
+              "Pas isabeti": "%86",
+              "Top kapma başarısı": "%71",
+              "İç sahada gol": "4",
+              "Deplasmanda gol": "5"
+            }
           }
         },
         "h2h": null,
@@ -13891,6 +14110,10 @@
               "rank": 15.0,
               "points": 2.0,
               "played": 4.0,
+              "wins": 0.0,
+              "draws": 2.0,
+              "losses": 2.0,
+              "goal_diff": -6.0,
               "size": 18
             },
             "top_scorer": {
@@ -13967,7 +14190,124 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "5",
+              "goals_against": "11",
+              "goal_diff": "-6",
+              "played": 4.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Evelyne Viens",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 2,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 9
+                },
+                {
+                  "name": "Clara Mateo",
+                  "pos": "F",
+                  "apps": 3,
+                  "goals": 2,
+                  "assists": 0,
+                  "yellow": 0,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 7
+                },
+                {
+                  "name": "Maeline Mendy",
+                  "pos": "M",
+                  "apps": 3,
+                  "goals": 1,
+                  "assists": 0,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 4
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Evelyne Viens",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 2,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 9
+                },
+                {
+                  "name": "Anaële Le Moguédec",
+                  "pos": "M",
+                  "apps": 4,
+                  "goals": 0,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 10
+                },
+                {
+                  "name": "Mariam Toloba",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 0,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 8
+                }
+              ],
+              "goalkeeper": {
+                "name": "Mylene Chavas",
+                "apps": 2,
+                "save_pct": 0.588,
+                "conceded_per_game": 3.5
+              },
+              "cards": [
+                {
+                  "name": "Clara Mateo",
+                  "pos": "F",
+                  "apps": 3,
+                  "goals": 2,
+                  "assists": 0,
+                  "yellow": 0,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 7
+                }
+              ]
+            },
+            "team_stats": {
+              "Topla oynama": "%40.6",
+              "Şut": "11.0 / maç",
+              "İsabetli şut": "3.2 / maç",
+              "xG (beklenen gol)": "1.31",
+              "xGA (beklenen yenen gol)": "2.58",
+              "Gol": "1.25",
+              "Yenen gol": "2.75",
+              "Net pozisyon": "1.2 / maç",
+              "Korner": "3.5 / maç",
+              "Gol yemeden biten maç": "0",
+              "Rakip şutu": "17.5 / maç",
+              "Sarı kart": "0.8 / maç",
+              "Kırmızı kart": "1",
+              "Faul": "6.0 / maç",
+              "Pas isabeti": "%79",
+              "Top kapma başarısı": "%67",
+              "İç sahada gol": "3",
+              "Deplasmanda gol": "2"
+            }
           },
           "away": {
             "name": "HB Køge",
@@ -13983,6 +14323,10 @@
               "rank": 11.0,
               "points": 4.0,
               "played": 4.0,
+              "wins": 1.0,
+              "draws": 1.0,
+              "losses": 2.0,
+              "goal_diff": -5.0,
               "size": 18
             },
             "top_scorer": {
@@ -14041,7 +14385,112 @@
                 "starts": 5
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "6",
+              "goals_against": "11",
+              "goal_diff": "-5",
+              "played": 4.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Kyra Carusa",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 7
+                },
+                {
+                  "name": "Simone Boye",
+                  "pos": "D",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 0,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 11
+                },
+                {
+                  "name": "Macy Schultz",
+                  "pos": "D",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 0,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 11
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Mille Gejl",
+                  "pos": "M",
+                  "apps": 4,
+                  "goals": 0,
+                  "assists": 2,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 11
+                },
+                {
+                  "name": "Sarah Thygesen",
+                  "pos": "M",
+                  "apps": 4,
+                  "goals": 0,
+                  "assists": 2,
+                  "yellow": 1,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 10
+                },
+                {
+                  "name": "Kyra Carusa",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 7
+                }
+              ],
+              "goalkeeper": {
+                "name": "Alberte Andersen",
+                "apps": 2,
+                "save_pct": 0.25,
+                "conceded_per_game": 4.5
+              },
+              "cards": []
+            },
+            "team_stats": {
+              "Topla oynama": "%39.6",
+              "Şut": "11.0 / maç",
+              "İsabetli şut": "5.2 / maç",
+              "xG (beklenen gol)": "1.38",
+              "xGA (beklenen yenen gol)": "2.19",
+              "Gol": "1.50",
+              "Yenen gol": "2.75",
+              "Net pozisyon": "1.8 / maç",
+              "Korner": "5.5 / maç",
+              "Gol yemeden biten maç": "0",
+              "Rakip şutu": "16.8 / maç",
+              "Sarı kart": "1.0 / maç",
+              "Kırmızı kart": "0",
+              "Faul": "13.0 / maç",
+              "Pas isabeti": "%75",
+              "Top kapma başarısı": "%60",
+              "İç sahada gol": "5",
+              "Deplasmanda gol": "1"
+            }
           }
         },
         "h2h": null,
@@ -16939,12 +17388,29 @@
               "rank": 8.0,
               "points": 20.0,
               "played": 14.0,
+              "wins": 6.0,
+              "draws": 2.0,
+              "losses": 6.0,
+              "goal_diff": -2.0,
               "size": 16
             },
             "top_scorer": null,
             "rest_days": 6.9,
             "regulars": [],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": null,
+              "goals_against": null,
+              "goal_diff": null,
+              "played": 14.0
+            },
+            "profile": {
+              "top_scorers": [],
+              "top_assists": [],
+              "goalkeeper": null,
+              "cards": []
+            },
+            "team_stats": {}
           },
           "away": {
             "name": "Montevideo City Torque",
@@ -16960,12 +17426,29 @@
               "rank": 2.0,
               "points": 29.0,
               "played": 14.0,
+              "wins": 9.0,
+              "draws": 2.0,
+              "losses": 3.0,
+              "goal_diff": 12.0,
               "size": 16
             },
             "top_scorer": null,
             "rest_days": 6.0,
             "regulars": [],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": null,
+              "goals_against": null,
+              "goal_diff": null,
+              "played": 14.0
+            },
+            "profile": {
+              "top_scorers": [],
+              "top_assists": [],
+              "goalkeeper": null,
+              "cards": []
+            },
+            "team_stats": {}
           }
         },
         "h2h": "MCT leads series 4-1",
@@ -17196,12 +17679,29 @@
               "rank": 4.0,
               "points": 23.0,
               "played": 14.0,
+              "wins": 6.0,
+              "draws": 6.0,
+              "losses": 2.0,
+              "goal_diff": 8.0,
               "size": 16
             },
             "top_scorer": null,
             "rest_days": 3.9,
             "regulars": [],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": null,
+              "goals_against": null,
+              "goal_diff": null,
+              "played": 14.0
+            },
+            "profile": {
+              "top_scorers": [],
+              "top_assists": [],
+              "goalkeeper": null,
+              "cards": []
+            },
+            "team_stats": {}
           },
           "away": {
             "name": "Cerro Largo",
@@ -17217,12 +17717,29 @@
               "rank": 15.0,
               "points": 10.0,
               "played": 14.0,
+              "wins": 1.0,
+              "draws": 7.0,
+              "losses": 6.0,
+              "goal_diff": -7.0,
               "size": 16
             },
             "top_scorer": null,
             "rest_days": 6.9,
             "regulars": [],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": null,
+              "goals_against": null,
+              "goal_diff": null,
+              "played": 14.0
+            },
+            "profile": {
+              "top_scorers": [],
+              "top_assists": [],
+              "goalkeeper": null,
+              "cards": []
+            },
+            "team_stats": {}
           }
         },
         "h2h": "PEN leads series 3-1-1",
@@ -17431,12 +17948,29 @@
               "rank": 11.0,
               "points": 15.0,
               "played": 14.0,
+              "wins": 4.0,
+              "draws": 3.0,
+              "losses": 7.0,
+              "goal_diff": -3.0,
               "size": 16
             },
             "top_scorer": null,
             "rest_days": 5.3,
             "regulars": [],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": null,
+              "goals_against": null,
+              "goal_diff": null,
+              "played": 14.0
+            },
+            "profile": {
+              "top_scorers": [],
+              "top_assists": [],
+              "goalkeeper": null,
+              "cards": []
+            },
+            "team_stats": {}
           },
           "away": {
             "name": "Deportivo Maldonado",
@@ -17452,12 +17986,29 @@
               "rank": 5.0,
               "points": 22.0,
               "played": 14.0,
+              "wins": 6.0,
+              "draws": 4.0,
+              "losses": 4.0,
+              "goal_diff": 7.0,
               "size": 16
             },
             "top_scorer": null,
             "rest_days": 5.0,
             "regulars": [],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": null,
+              "goals_against": null,
+              "goal_diff": null,
+              "played": 14.0
+            },
+            "profile": {
+              "top_scorers": [],
+              "top_assists": [],
+              "goalkeeper": null,
+              "cards": []
+            },
+            "team_stats": {}
           }
         },
         "h2h": "BOS leads series 3-2",
@@ -19100,6 +19651,10 @@
               "rank": 8.0,
               "points": 8.0,
               "played": 4.0,
+              "wins": 2.0,
+              "draws": 2.0,
+              "losses": 0.0,
+              "goal_diff": 4.0,
               "size": 18
             },
             "top_scorer": {
@@ -19152,7 +19707,112 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "7",
+              "goals_against": "3",
+              "goal_diff": "4",
+              "played": 4.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Alessia Russo",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 4,
+                  "assists": 0,
+                  "yellow": 1,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 3
+                },
+                {
+                  "name": "Georgia Stanway",
+                  "pos": "M",
+                  "apps": 3,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 1,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 1
+                },
+                {
+                  "name": "Mariona Caldentey",
+                  "pos": "M",
+                  "apps": 2,
+                  "goals": 1,
+                  "assists": 0,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 2
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Georgia Stanway",
+                  "pos": "M",
+                  "apps": 3,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 1,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 1
+                },
+                {
+                  "name": "Steph Catley",
+                  "pos": "D",
+                  "apps": 3,
+                  "goals": 0,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 1
+                },
+                {
+                  "name": "Caitlin Foord",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 0,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 1
+                }
+              ],
+              "goalkeeper": {
+                "name": "Misa Rodríguez",
+                "apps": 3,
+                "save_pct": 0.75,
+                "conceded_per_game": 1.0
+              },
+              "cards": []
+            },
+            "team_stats": {
+              "Topla oynama": "%58.3",
+              "Şut": "18.8 / maç",
+              "İsabetli şut": "6.5 / maç",
+              "xG (beklenen gol)": "1.86",
+              "xGA (beklenen yenen gol)": "1.27",
+              "Gol": "1.75",
+              "Yenen gol": "0.75",
+              "Net pozisyon": "1.5 / maç",
+              "Korner": "9.5 / maç",
+              "Gol yemeden biten maç": "2",
+              "Rakip şutu": "10.5 / maç",
+              "Sarı kart": "0.8 / maç",
+              "Kırmızı kart": "0",
+              "Faul": "8.8 / maç",
+              "Pas isabeti": "%85",
+              "Top kapma başarısı": "%69",
+              "İç sahada gol": "4",
+              "Deplasmanda gol": "3"
+            }
           },
           "away": {
             "name": "OL Lyonnes",
@@ -19168,6 +19828,10 @@
               "rank": 2.0,
               "points": 10.0,
               "played": 4.0,
+              "wins": 3.0,
+              "draws": 1.0,
+              "losses": 0.0,
+              "goal_diff": 20.0,
               "size": 18
             },
             "top_scorer": {
@@ -19177,7 +19841,112 @@
             },
             "rest_days": 5.1,
             "regulars": [],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "20",
+              "goals_against": "0",
+              "goal_diff": "20",
+              "played": 4.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Marie-Antoinette Katoto",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 7,
+                  "assists": 0,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 0
+                },
+                {
+                  "name": "Melchie Dumornay",
+                  "pos": "M",
+                  "apps": 4,
+                  "goals": 3,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 0
+                },
+                {
+                  "name": "Vicki Bècho",
+                  "pos": "F",
+                  "apps": 3,
+                  "goals": 3,
+                  "assists": 0,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 0
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Ada Hegerberg",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 0,
+                  "assists": 2,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 0
+                },
+                {
+                  "name": "Jule Brand",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 0,
+                  "assists": 2,
+                  "yellow": 1,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 0
+                },
+                {
+                  "name": "Salma Paralluelo",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 0,
+                  "assists": 2,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 0
+                }
+              ],
+              "goalkeeper": {
+                "name": "Maria Luisa Grohs",
+                "apps": 4,
+                "save_pct": 1.0,
+                "conceded_per_game": 0.0
+              },
+              "cards": []
+            },
+            "team_stats": {
+              "Topla oynama": "%62.2",
+              "Şut": "20.8 / maç",
+              "İsabetli şut": "8.2 / maç",
+              "xG (beklenen gol)": "3.56",
+              "xGA (beklenen yenen gol)": "0.34",
+              "Gol": "5",
+              "Yenen gol": "0",
+              "Net pozisyon": "4.2 / maç",
+              "Korner": "4.5 / maç",
+              "Gol yemeden biten maç": "4",
+              "Rakip şutu": "5.0 / maç",
+              "Sarı kart": "0.8 / maç",
+              "Kırmızı kart": "0",
+              "Faul": "8.8 / maç",
+              "Pas isabeti": "%86",
+              "Top kapma başarısı": "%62",
+              "İç sahada gol": "6",
+              "Deplasmanda gol": "14"
+            }
           }
         },
         "h2h": "LYON leads series 3-2",
@@ -19314,6 +20083,10 @@
               "rank": 3.0,
               "points": 10.0,
               "played": 4.0,
+              "wins": 3.0,
+              "draws": 1.0,
+              "losses": 0.0,
+              "goal_diff": 17.0,
               "size": 18
             },
             "top_scorer": {
@@ -19348,7 +20121,112 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "20",
+              "goals_against": "3",
+              "goal_diff": "17",
+              "played": 4.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Caroline Graham Hansen",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 5,
+                  "assists": 2,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 3
+                },
+                {
+                  "name": "Ewa Pajor",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 4,
+                  "assists": 3,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 3
+                },
+                {
+                  "name": "Clàudia Pina",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 4,
+                  "assists": 2,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 2
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Ewa Pajor",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 4,
+                  "assists": 3,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 3
+                },
+                {
+                  "name": "Caroline Graham Hansen",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 5,
+                  "assists": 2,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 3
+                },
+                {
+                  "name": "Clàudia Pina",
+                  "pos": "F",
+                  "apps": 4,
+                  "goals": 4,
+                  "assists": 2,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 2
+                }
+              ],
+              "goalkeeper": {
+                "name": "Cata Coll",
+                "apps": 4,
+                "save_pct": 0.625,
+                "conceded_per_game": 0.75
+              },
+              "cards": []
+            },
+            "team_stats": {
+              "Topla oynama": "%72.5",
+              "Şut": "22.5 / maç",
+              "İsabetli şut": "10.5 / maç",
+              "xG (beklenen gol)": "3.51",
+              "xGA (beklenen yenen gol)": "0.72",
+              "Gol": "5",
+              "Yenen gol": "0.75",
+              "Net pozisyon": "5.2 / maç",
+              "Korner": "8.5 / maç",
+              "Gol yemeden biten maç": "2",
+              "Rakip şutu": "6.8 / maç",
+              "Sarı kart": "0.8 / maç",
+              "Kırmızı kart": "0",
+              "Faul": "5.0 / maç",
+              "Pas isabeti": "%89",
+              "Top kapma başarısı": "%72",
+              "İç sahada gol": "6",
+              "Deplasmanda gol": "14"
+            }
           },
           "away": {
             "name": "Servette",
@@ -19364,6 +20242,10 @@
               "rank": 14.0,
               "points": 3.0,
               "played": 4.0,
+              "wins": 1.0,
+              "draws": 0.0,
+              "losses": 3.0,
+              "goal_diff": -9.0,
               "size": 18
             },
             "top_scorer": {
@@ -19416,7 +20298,112 @@
                 "starts": 5
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "7",
+              "goals_against": "16",
+              "goal_diff": "-9",
+              "played": 4.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Gloria Marinelli",
+                  "pos": "F",
+                  "apps": 3,
+                  "goals": 3,
+                  "assists": 0,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 3
+                },
+                {
+                  "name": "Paola Hernández",
+                  "pos": "M",
+                  "apps": 4,
+                  "goals": 2,
+                  "assists": 0,
+                  "yellow": 1,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 6
+                },
+                {
+                  "name": "Joana Marchão",
+                  "pos": "D",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 11
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Joana Marchão",
+                  "pos": "D",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 11
+                },
+                {
+                  "name": "Bénédicte Simon",
+                  "pos": "D",
+                  "apps": 4,
+                  "goals": 0,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 16
+                },
+                {
+                  "name": "Natasa Andonova",
+                  "pos": "F",
+                  "apps": 3,
+                  "goals": 0,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 12
+                }
+              ],
+              "goalkeeper": {
+                "name": "Jacintha Weimar",
+                "apps": 4,
+                "save_pct": 0.417,
+                "conceded_per_game": 3.5
+              },
+              "cards": []
+            },
+            "team_stats": {
+              "Topla oynama": "%32.8",
+              "Şut": "6.8 / maç",
+              "İsabetli şut": "2.2 / maç",
+              "xG (beklenen gol)": "0.80",
+              "xGA (beklenen yenen gol)": "2.18",
+              "Gol": "1.75",
+              "Yenen gol": "4",
+              "Net pozisyon": "0.8 / maç",
+              "Korner": "2.5 / maç",
+              "Gol yemeden biten maç": "0",
+              "Rakip şutu": "14.0 / maç",
+              "Sarı kart": "1.8 / maç",
+              "Kırmızı kart": "0",
+              "Faul": "10.2 / maç",
+              "Pas isabeti": "%70",
+              "Top kapma başarısı": "%61",
+              "İç sahada gol": "5",
+              "Deplasmanda gol": "2"
+            }
           }
         },
         "h2h": null,
@@ -19713,6 +20700,10 @@
               "rank": 9.0,
               "points": 6.0,
               "played": 4.0,
+              "wins": 2.0,
+              "draws": 0.0,
+              "losses": 2.0,
+              "goal_diff": -3.0,
               "size": 18
             },
             "top_scorer": {
@@ -19771,7 +20762,112 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "5",
+              "goals_against": "8",
+              "goal_diff": "-3",
+              "played": 4.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Marit Bratberg Lund",
+                  "pos": "D",
+                  "apps": 4,
+                  "goals": 2,
+                  "assists": 0,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 8
+                },
+                {
+                  "name": "Andreia Norton",
+                  "pos": "M",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 7
+                },
+                {
+                  "name": "Caroline Møller",
+                  "pos": "M",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 6
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Andreia Norton",
+                  "pos": "M",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 7
+                },
+                {
+                  "name": "Caroline Møller",
+                  "pos": "M",
+                  "apps": 4,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 6
+                },
+                {
+                  "name": "Nycole Raysla",
+                  "pos": "F",
+                  "apps": 3,
+                  "goals": 1,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 5
+                }
+              ],
+              "goalkeeper": {
+                "name": "Lena Pauels",
+                "apps": 4,
+                "save_pct": 0.758,
+                "conceded_per_game": 2.0
+              },
+              "cards": []
+            },
+            "team_stats": {
+              "Topla oynama": "%41.5",
+              "Şut": "7.5 / maç",
+              "İsabetli şut": "3.8 / maç",
+              "xG (beklenen gol)": "1.09",
+              "xGA (beklenen yenen gol)": "2.21",
+              "Gol": "1.25",
+              "Yenen gol": "2",
+              "Net pozisyon": "1.0 / maç",
+              "Korner": "3.8 / maç",
+              "Gol yemeden biten maç": "0",
+              "Rakip şutu": "20.8 / maç",
+              "Sarı kart": "1.2 / maç",
+              "Kırmızı kart": "0",
+              "Faul": "9.8 / maç",
+              "Pas isabeti": "%76",
+              "Top kapma başarısı": "%65",
+              "İç sahada gol": "3",
+              "Deplasmanda gol": "2"
+            }
           },
           "away": {
             "name": "Roma",
@@ -19787,6 +20883,10 @@
               "rank": 12.0,
               "points": 4.0,
               "played": 4.0,
+              "wins": 1.0,
+              "draws": 1.0,
+              "losses": 2.0,
+              "goal_diff": -7.0,
               "size": 18
             },
             "top_scorer": {
@@ -19833,7 +20933,90 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "2",
+              "goals_against": "9",
+              "goal_diff": "-7",
+              "played": 4.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Kayleigh Van Dooren",
+                  "pos": "M",
+                  "apps": 3,
+                  "goals": 1,
+                  "assists": 0,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 1
+                },
+                {
+                  "name": "Alayah Pilgrim",
+                  "pos": "F",
+                  "apps": 2,
+                  "goals": 1,
+                  "assists": 0,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 1
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Frederikke Thøgersen",
+                  "pos": "D",
+                  "apps": 4,
+                  "goals": 0,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 9
+                },
+                {
+                  "name": "Manuela Giugliano",
+                  "pos": "M",
+                  "apps": 4,
+                  "goals": 0,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 6
+                }
+              ],
+              "goalkeeper": {
+                "name": "Rachele Baldi",
+                "apps": 4,
+                "save_pct": 0.679,
+                "conceded_per_game": 2.25
+              },
+              "cards": []
+            },
+            "team_stats": {
+              "Topla oynama": "%43.8",
+              "Şut": "8.5 / maç",
+              "İsabetli şut": "2.5 / maç",
+              "xG (beklenen gol)": "1.20",
+              "xGA (beklenen yenen gol)": "1.80",
+              "Gol": "0.50",
+              "Yenen gol": "2.25",
+              "Net pozisyon": "1.2 / maç",
+              "Korner": "2.2 / maç",
+              "Gol yemeden biten maç": "1",
+              "Rakip şutu": "15.5 / maç",
+              "Sarı kart": "1.0 / maç",
+              "Kırmızı kart": "0",
+              "Faul": "8.2 / maç",
+              "Pas isabeti": "%75",
+              "Top kapma başarısı": "%62",
+              "İç sahada gol": "2",
+              "Deplasmanda gol": "0"
+            }
           }
         },
         "h2h": null,
@@ -21274,6 +22457,10 @@
               "rank": 16.0,
               "points": 38.0,
               "played": 34.0,
+              "wins": 10.0,
+              "draws": 8.0,
+              "losses": 16.0,
+              "goal_diff": -16.0,
               "size": 20
             },
             "top_scorer": {
@@ -21338,7 +22525,157 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "35",
+              "goals_against": "51",
+              "goal_diff": "-16",
+              "played": 34.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Renê",
+                  "pos": "F",
+                  "apps": 26,
+                  "goals": 10,
+                  "assists": 1,
+                  "yellow": 3,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 25
+                },
+                {
+                  "name": "Erick",
+                  "pos": "F",
+                  "apps": 32,
+                  "goals": 5,
+                  "assists": 6,
+                  "yellow": 2,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 33
+                },
+                {
+                  "name": "Matheus",
+                  "pos": "M",
+                  "apps": 31,
+                  "goals": 5,
+                  "assists": 4,
+                  "yellow": 5,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 28
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Erick",
+                  "pos": "F",
+                  "apps": 32,
+                  "goals": 5,
+                  "assists": 6,
+                  "yellow": 2,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 33
+                },
+                {
+                  "name": "Matheus",
+                  "pos": "M",
+                  "apps": 31,
+                  "goals": 5,
+                  "assists": 4,
+                  "yellow": 5,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 28
+                },
+                {
+                  "name": "Gabriel Baralhas",
+                  "pos": "M",
+                  "apps": 20,
+                  "goals": 2,
+                  "assists": 3,
+                  "yellow": 4,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 26
+                }
+              ],
+              "goalkeeper": {
+                "name": "Lucas Arcanjo",
+                "apps": 30,
+                "save_pct": 0.734,
+                "conceded_per_game": 1.37
+              },
+              "cards": [
+                {
+                  "name": "Cacá",
+                  "pos": "D",
+                  "apps": 25,
+                  "goals": 1,
+                  "assists": 0,
+                  "yellow": 6,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 31
+                },
+                {
+                  "name": "Luan Cândido",
+                  "pos": "D",
+                  "apps": 25,
+                  "goals": 0,
+                  "assists": 2,
+                  "yellow": 3,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 31
+                },
+                {
+                  "name": "Edenilson",
+                  "pos": "M",
+                  "apps": 12,
+                  "goals": 0,
+                  "assists": 0,
+                  "yellow": 2,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 7
+                },
+                {
+                  "name": "Marinho",
+                  "pos": "F",
+                  "apps": 14,
+                  "goals": 0,
+                  "assists": 0,
+                  "yellow": 1,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 9
+                }
+              ]
+            },
+            "team_stats": {
+              "Topla oynama": "%44.8",
+              "Şut": "11.8 / maç",
+              "İsabetli şut": "4.1 / maç",
+              "xG (beklenen gol)": "1.03",
+              "xGA (beklenen yenen gol)": "1.43",
+              "Gol": "1.03",
+              "Yenen gol": "1.50",
+              "Net pozisyon": "0.7 / maç",
+              "Korner": "4.5 / maç",
+              "Gol yemeden biten maç": "11",
+              "Rakip şutu": "15.6 / maç",
+              "Sarı kart": "2.2 / maç",
+              "Kırmızı kart": "4",
+              "Faul": "12.9 / maç",
+              "Pas isabeti": "%81",
+              "Top kapma başarısı": "%67",
+              "İç sahada gol": "23",
+              "Deplasmanda gol": "12"
+            }
           },
           "away": {
             "name": "Red Bull Bragantino",
@@ -21354,6 +22691,10 @@
               "rank": 9.0,
               "points": 47.0,
               "played": 34.0,
+              "wins": 13.0,
+              "draws": 8.0,
+              "losses": 13.0,
+              "goal_diff": 5.0,
               "size": 20
             },
             "top_scorer": {
@@ -21424,7 +22765,157 @@
                 "starts": 5
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "44",
+              "goals_against": "39",
+              "goal_diff": "5",
+              "played": 34.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Lucas Barbosa",
+                  "pos": "M",
+                  "apps": 32,
+                  "goals": 7,
+                  "assists": 3,
+                  "yellow": 6,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 35
+                },
+                {
+                  "name": "Isidro Pitta",
+                  "pos": "F",
+                  "apps": 30,
+                  "goals": 5,
+                  "assists": 3,
+                  "yellow": 2,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 23
+                },
+                {
+                  "name": "Juninho Capixaba",
+                  "pos": "D",
+                  "apps": 30,
+                  "goals": 3,
+                  "assists": 2,
+                  "yellow": 12,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 32
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Henry Mosquera",
+                  "pos": "F",
+                  "apps": 24,
+                  "goals": 1,
+                  "assists": 5,
+                  "yellow": 5,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 12
+                },
+                {
+                  "name": "Lucas Barbosa",
+                  "pos": "M",
+                  "apps": 32,
+                  "goals": 7,
+                  "assists": 3,
+                  "yellow": 6,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 35
+                },
+                {
+                  "name": "Isidro Pitta",
+                  "pos": "F",
+                  "apps": 30,
+                  "goals": 5,
+                  "assists": 3,
+                  "yellow": 2,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 23
+                }
+              ],
+              "goalkeeper": {
+                "name": "Tiago Volpi",
+                "apps": 26,
+                "save_pct": 0.735,
+                "conceded_per_game": 1.19
+              },
+              "cards": [
+                {
+                  "name": "Fabinho",
+                  "pos": "M",
+                  "apps": 18,
+                  "goals": 0,
+                  "assists": 0,
+                  "yellow": 0,
+                  "red": 2,
+                  "saves": 0,
+                  "conceded": 17
+                },
+                {
+                  "name": "Alix Vinicius",
+                  "pos": "D",
+                  "apps": 25,
+                  "goals": 0,
+                  "assists": 0,
+                  "yellow": 7,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 23
+                },
+                {
+                  "name": "Agustín Sant'Anna",
+                  "pos": "D",
+                  "apps": 15,
+                  "goals": 0,
+                  "assists": 2,
+                  "yellow": 4,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 8
+                },
+                {
+                  "name": "Wallace Yan",
+                  "pos": "F",
+                  "apps": 9,
+                  "goals": 3,
+                  "assists": 2,
+                  "yellow": 0,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 9
+                }
+              ]
+            },
+            "team_stats": {
+              "Topla oynama": "%49.4",
+              "Şut": "16.9 / maç",
+              "İsabetli şut": "5.4 / maç",
+              "xG (beklenen gol)": "1.51",
+              "xGA (beklenen yenen gol)": "1.28",
+              "Gol": "1.29",
+              "Yenen gol": "1.15",
+              "Net pozisyon": "0.9 / maç",
+              "Korner": "6.1 / maç",
+              "Gol yemeden biten maç": "9",
+              "Rakip şutu": "13.2 / maç",
+              "Sarı kart": "2.4 / maç",
+              "Kırmızı kart": "5",
+              "Faul": "13.7 / maç",
+              "Pas isabeti": "%82",
+              "Top kapma başarısı": "%61",
+              "İç sahada gol": "29",
+              "Deplasmanda gol": "15"
+            }
           }
         },
         "h2h": "BRA leads series 3-2",
@@ -22854,6 +24345,10 @@
               "rank": 11.0,
               "points": 44.0,
               "played": 34.0,
+              "wins": 12.0,
+              "draws": 8.0,
+              "losses": 14.0,
+              "goal_diff": -5.0,
               "size": 20
             },
             "top_scorer": {
@@ -22894,7 +24389,157 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "45",
+              "goals_against": "50",
+              "goal_diff": "-5",
+              "played": 34.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Andrés Gómez",
+                  "pos": "F",
+                  "apps": 30,
+                  "goals": 5,
+                  "assists": 3,
+                  "yellow": 9,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 35
+                },
+                {
+                  "name": "Thiago Mendes",
+                  "pos": "M",
+                  "apps": 30,
+                  "goals": 5,
+                  "assists": 1,
+                  "yellow": 8,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 38
+                },
+                {
+                  "name": "David",
+                  "pos": "F",
+                  "apps": 26,
+                  "goals": 4,
+                  "assists": 2,
+                  "yellow": 0,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 21
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "José Luis Rodríguez",
+                  "pos": "D",
+                  "apps": 25,
+                  "goals": 3,
+                  "assists": 5,
+                  "yellow": 3,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 30
+                },
+                {
+                  "name": "Cuiabano",
+                  "pos": "D",
+                  "apps": 24,
+                  "goals": 1,
+                  "assists": 4,
+                  "yellow": 4,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 28
+                },
+                {
+                  "name": "Andrés Gómez",
+                  "pos": "F",
+                  "apps": 30,
+                  "goals": 5,
+                  "assists": 3,
+                  "yellow": 9,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 35
+                }
+              ],
+              "goalkeeper": {
+                "name": "Léo Jardim",
+                "apps": 34,
+                "save_pct": 0.645,
+                "conceded_per_game": 1.47
+              },
+              "cards": [
+                {
+                  "name": "Cauan Barros",
+                  "pos": "M",
+                  "apps": 19,
+                  "goals": 3,
+                  "assists": 0,
+                  "yellow": 4,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 25
+                },
+                {
+                  "name": "Carlos Cuesta",
+                  "pos": "D",
+                  "apps": 16,
+                  "goals": 0,
+                  "assists": 1,
+                  "yellow": 1,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 24
+                },
+                {
+                  "name": "Andrés Gómez",
+                  "pos": "F",
+                  "apps": 30,
+                  "goals": 5,
+                  "assists": 3,
+                  "yellow": 9,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 35
+                },
+                {
+                  "name": "Thiago Mendes",
+                  "pos": "M",
+                  "apps": 30,
+                  "goals": 5,
+                  "assists": 1,
+                  "yellow": 8,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 38
+                }
+              ]
+            },
+            "team_stats": {
+              "Topla oynama": "%54.7",
+              "Şut": "17.5 / maç",
+              "İsabetli şut": "5.3 / maç",
+              "xG (beklenen gol)": "1.57",
+              "xGA (beklenen yenen gol)": "1.06",
+              "Gol": "1.32",
+              "Yenen gol": "1.47",
+              "Net pozisyon": "0.9 / maç",
+              "Korner": "5.6 / maç",
+              "Gol yemeden biten maç": "5",
+              "Rakip şutu": "11.8 / maç",
+              "Sarı kart": "1.9 / maç",
+              "Kırmızı kart": "2",
+              "Faul": "13.0 / maç",
+              "Pas isabeti": "%85",
+              "Top kapma başarısı": "%68",
+              "İç sahada gol": "25",
+              "Deplasmanda gol": "20"
+            }
           },
           "away": {
             "name": "Internacional",
@@ -22910,6 +24555,10 @@
               "rank": 17.0,
               "points": 38.0,
               "played": 34.0,
+              "wins": 9.0,
+              "draws": 11.0,
+              "losses": 14.0,
+              "goal_diff": -4.0,
               "size": 20
             },
             "top_scorer": {
@@ -22962,7 +24611,157 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "38",
+              "goals_against": "42",
+              "goal_diff": "-4",
+              "played": 34.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Johan Carbonero",
+                  "pos": "F",
+                  "apps": 31,
+                  "goals": 7,
+                  "assists": 4,
+                  "yellow": 5,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 27
+                },
+                {
+                  "name": "Alan Patrick",
+                  "pos": "M",
+                  "apps": 27,
+                  "goals": 6,
+                  "assists": 2,
+                  "yellow": 2,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 26
+                },
+                {
+                  "name": "Alexander Bernabei",
+                  "pos": "D",
+                  "apps": 30,
+                  "goals": 5,
+                  "assists": 1,
+                  "yellow": 8,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 26
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Alerrando",
+                  "pos": "F",
+                  "apps": 27,
+                  "goals": 4,
+                  "assists": 5,
+                  "yellow": 2,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 16
+                },
+                {
+                  "name": "Johan Carbonero",
+                  "pos": "F",
+                  "apps": 31,
+                  "goals": 7,
+                  "assists": 4,
+                  "yellow": 5,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 27
+                },
+                {
+                  "name": "Vitinho",
+                  "pos": "F",
+                  "apps": 32,
+                  "goals": 4,
+                  "assists": 3,
+                  "yellow": 7,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 35
+                }
+              ],
+              "goalkeeper": {
+                "name": "Anthoni",
+                "apps": 13,
+                "save_pct": 0.66,
+                "conceded_per_game": 1.38
+              },
+              "cards": [
+                {
+                  "name": "Alexander Bernabei",
+                  "pos": "D",
+                  "apps": 30,
+                  "goals": 5,
+                  "assists": 1,
+                  "yellow": 8,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 26
+                },
+                {
+                  "name": "Victor Gabriel",
+                  "pos": "D",
+                  "apps": 17,
+                  "goals": 0,
+                  "assists": 0,
+                  "yellow": 6,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 18
+                },
+                {
+                  "name": "Matheus Bahia",
+                  "pos": "D",
+                  "apps": 24,
+                  "goals": 1,
+                  "assists": 3,
+                  "yellow": 4,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 21
+                },
+                {
+                  "name": "Guillermo Maripán",
+                  "pos": "D",
+                  "apps": 11,
+                  "goals": 0,
+                  "assists": 0,
+                  "yellow": 2,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 12
+                }
+              ]
+            },
+            "team_stats": {
+              "Topla oynama": "%46.5",
+              "Şut": "14.8 / maç",
+              "İsabetli şut": "4.4 / maç",
+              "xG (beklenen gol)": "1.45",
+              "xGA (beklenen yenen gol)": "1.29",
+              "Gol": "1.12",
+              "Yenen gol": "1.24",
+              "Net pozisyon": "0.5 / maç",
+              "Korner": "6.1 / maç",
+              "Gol yemeden biten maç": "8",
+              "Rakip şutu": "12.0 / maç",
+              "Sarı kart": "2.5 / maç",
+              "Kırmızı kart": "5",
+              "Faul": "15.9 / maç",
+              "Pas isabeti": "%79",
+              "Top kapma başarısı": "%67",
+              "İç sahada gol": "22",
+              "Deplasmanda gol": "16"
+            }
           }
         },
         "h2h": "Series tied 2-2-1",
@@ -25577,6 +27376,10 @@
               "rank": 10.0,
               "points": 44.0,
               "played": 34.0,
+              "wins": 12.0,
+              "draws": 8.0,
+              "losses": 14.0,
+              "goal_diff": 0.0,
               "size": 20
             },
             "top_scorer": {
@@ -25629,7 +27432,157 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "39",
+              "goals_against": "39",
+              "goal_diff": "0",
+              "played": 34.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "Jonathan Calleri",
+                  "pos": "F",
+                  "apps": 28,
+                  "goals": 10,
+                  "assists": 2,
+                  "yellow": 6,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 27
+                },
+                {
+                  "name": "Luciano",
+                  "pos": "F",
+                  "apps": 27,
+                  "goals": 9,
+                  "assists": 2,
+                  "yellow": 7,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 23
+                },
+                {
+                  "name": "Ferreira",
+                  "pos": "F",
+                  "apps": 24,
+                  "goals": 4,
+                  "assists": 0,
+                  "yellow": 3,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 11
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Damián Bobadilla",
+                  "pos": "M",
+                  "apps": 23,
+                  "goals": 1,
+                  "assists": 3,
+                  "yellow": 3,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 27
+                },
+                {
+                  "name": "Wendell",
+                  "pos": "D",
+                  "apps": 22,
+                  "goals": 0,
+                  "assists": 3,
+                  "yellow": 5,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 22
+                },
+                {
+                  "name": "Jonathan Calleri",
+                  "pos": "F",
+                  "apps": 28,
+                  "goals": 10,
+                  "assists": 2,
+                  "yellow": 6,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 27
+                }
+              ],
+              "goalkeeper": {
+                "name": "Rafael",
+                "apps": 32,
+                "save_pct": 0.697,
+                "conceded_per_game": 1.03
+              },
+              "cards": [
+                {
+                  "name": "Lucas Ramon",
+                  "pos": "D",
+                  "apps": 21,
+                  "goals": 0,
+                  "assists": 2,
+                  "yellow": 1,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 18
+                },
+                {
+                  "name": "Luis Osorio",
+                  "pos": "D",
+                  "apps": 8,
+                  "goals": 0,
+                  "assists": 1,
+                  "yellow": 1,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 8
+                },
+                {
+                  "name": "Enzo Díaz",
+                  "pos": "D",
+                  "apps": 13,
+                  "goals": 0,
+                  "assists": 1,
+                  "yellow": 7,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 13
+                },
+                {
+                  "name": "Luciano",
+                  "pos": "F",
+                  "apps": 27,
+                  "goals": 9,
+                  "assists": 2,
+                  "yellow": 7,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 23
+                }
+              ]
+            },
+            "team_stats": {
+              "Topla oynama": "%53.3",
+              "Şut": "13.7 / maç",
+              "İsabetli şut": "4.2 / maç",
+              "xG (beklenen gol)": "1.34",
+              "xGA (beklenen yenen gol)": "1.21",
+              "Gol": "1.15",
+              "Yenen gol": "1.15",
+              "Net pozisyon": "0.8 / maç",
+              "Korner": "6.9 / maç",
+              "Gol yemeden biten maç": "8",
+              "Rakip şutu": "12.7 / maç",
+              "Sarı kart": "2.2 / maç",
+              "Kırmızı kart": "2",
+              "Faul": "14.4 / maç",
+              "Pas isabeti": "%84",
+              "Top kapma başarısı": "%66",
+              "İç sahada gol": "25",
+              "Deplasmanda gol": "14"
+            }
           },
           "away": {
             "name": "Fluminense",
@@ -25645,6 +27598,10 @@
               "rank": 4.0,
               "points": 57.0,
               "played": 34.0,
+              "wins": 16.0,
+              "draws": 9.0,
+              "losses": 9.0,
+              "goal_diff": 13.0,
               "size": 20
             },
             "top_scorer": {
@@ -25691,7 +27648,157 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "55",
+              "goals_against": "42",
+              "goal_diff": "13",
+              "played": 34.0
+            },
+            "profile": {
+              "top_scorers": [
+                {
+                  "name": "John Kennedy",
+                  "pos": "F",
+                  "apps": 18,
+                  "goals": 9,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 11
+                },
+                {
+                  "name": "Jefferson Savarino",
+                  "pos": "F",
+                  "apps": 25,
+                  "goals": 7,
+                  "assists": 2,
+                  "yellow": 3,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 18
+                },
+                {
+                  "name": "Luciano Acosta",
+                  "pos": "M",
+                  "apps": 29,
+                  "goals": 6,
+                  "assists": 5,
+                  "yellow": 6,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 17
+                }
+              ],
+              "top_assists": [
+                {
+                  "name": "Luciano Acosta",
+                  "pos": "M",
+                  "apps": 29,
+                  "goals": 6,
+                  "assists": 5,
+                  "yellow": 6,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 17
+                },
+                {
+                  "name": "Agustín Canobbio",
+                  "pos": "F",
+                  "apps": 25,
+                  "goals": 6,
+                  "assists": 4,
+                  "yellow": 8,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 22
+                },
+                {
+                  "name": "Kevin Serna",
+                  "pos": "F",
+                  "apps": 33,
+                  "goals": 4,
+                  "assists": 4,
+                  "yellow": 1,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 27
+                }
+              ],
+              "goalkeeper": {
+                "name": "Fábio",
+                "apps": 34,
+                "save_pct": 0.736,
+                "conceded_per_game": 1.24
+              },
+              "cards": [
+                {
+                  "name": "Agustín Canobbio",
+                  "pos": "F",
+                  "apps": 25,
+                  "goals": 6,
+                  "assists": 4,
+                  "yellow": 8,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 22
+                },
+                {
+                  "name": "John Kennedy",
+                  "pos": "F",
+                  "apps": 18,
+                  "goals": 9,
+                  "assists": 1,
+                  "yellow": 0,
+                  "red": 1,
+                  "saves": 0,
+                  "conceded": 11
+                },
+                {
+                  "name": "Ignácio",
+                  "pos": "D",
+                  "apps": 18,
+                  "goals": 3,
+                  "assists": 1,
+                  "yellow": 6,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 23
+                },
+                {
+                  "name": "Luciano Acosta",
+                  "pos": "M",
+                  "apps": 29,
+                  "goals": 6,
+                  "assists": 5,
+                  "yellow": 6,
+                  "red": 0,
+                  "saves": 0,
+                  "conceded": 17
+                }
+              ]
+            },
+            "team_stats": {
+              "Topla oynama": "%58.9",
+              "Şut": "14.7 / maç",
+              "İsabetli şut": "5.6 / maç",
+              "xG (beklenen gol)": "1.45",
+              "xGA (beklenen yenen gol)": "1.21",
+              "Gol": "1.62",
+              "Yenen gol": "1.24",
+              "Net pozisyon": "1.0 / maç",
+              "Korner": "5.4 / maç",
+              "Gol yemeden biten maç": "7",
+              "Rakip şutu": "12.7 / maç",
+              "Sarı kart": "2.3 / maç",
+              "Kırmızı kart": "2",
+              "Faul": "13.6 / maç",
+              "Pas isabeti": "%88",
+              "Top kapma başarısı": "%65",
+              "İç sahada gol": "31",
+              "Deplasmanda gol": "24"
+            }
           }
         },
         "h2h": "FLU leads series 3-2",
@@ -27219,7 +29326,39 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "63",
+              "goals_against": "78",
+              "goal_diff": "-15",
+              "played": null
+            },
+            "profile": {
+              "top_scorers": [],
+              "top_assists": [],
+              "goalkeeper": null,
+              "cards": []
+            },
+            "team_stats": {
+              "Topla oynama": "%49.5",
+              "Şut": "12.5 / maç",
+              "İsabetli şut": "5.1 / maç",
+              "xG (beklenen gol)": "1.56",
+              "xGA (beklenen yenen gol)": "2.08",
+              "Gol": "1.85",
+              "Yenen gol": "2.29",
+              "Net pozisyon": "1.5 / maç",
+              "Korner": "4.0 / maç",
+              "Gol yemeden biten maç": "5",
+              "Rakip şutu": "16.9 / maç",
+              "Sarı kart": "2.2 / maç",
+              "Kırmızı kart": "2",
+              "Faul": "10.8 / maç",
+              "Pas isabeti": "%85",
+              "Top kapma başarısı": "%65",
+              "İç sahada gol": "33",
+              "Deplasmanda gol": "30"
+            }
           },
           "away": {
             "name": "FC Cincinnati",
@@ -27306,7 +29445,39 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "67",
+              "goals_against": "75",
+              "goal_diff": "-8",
+              "played": null
+            },
+            "profile": {
+              "top_scorers": [],
+              "top_assists": [],
+              "goalkeeper": null,
+              "cards": []
+            },
+            "team_stats": {
+              "Topla oynama": "%50.6",
+              "Şut": "14.6 / maç",
+              "İsabetli şut": "5.7 / maç",
+              "xG (beklenen gol)": "1.65",
+              "xGA (beklenen yenen gol)": "1.59",
+              "Gol": "1.97",
+              "Yenen gol": "2.21",
+              "Net pozisyon": "1.1 / maç",
+              "Korner": "5.0 / maç",
+              "Gol yemeden biten maç": "4",
+              "Rakip şutu": "14.8 / maç",
+              "Sarı kart": "2.1 / maç",
+              "Kırmızı kart": "7",
+              "Faul": "11.1 / maç",
+              "Pas isabeti": "%85",
+              "Top kapma başarısı": "%66",
+              "İç sahada gol": "39",
+              "Deplasmanda gol": "28"
+            }
           }
         },
         "h2h": "CIN leads series 2-1-2",
@@ -29624,7 +31795,39 @@
                 "starts": 4
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "44",
+              "goals_against": "46",
+              "goal_diff": "-2",
+              "played": null
+            },
+            "profile": {
+              "top_scorers": [],
+              "top_assists": [],
+              "goalkeeper": null,
+              "cards": []
+            },
+            "team_stats": {
+              "Topla oynama": "%51.3",
+              "Şut": "13.6 / maç",
+              "İsabetli şut": "4.9 / maç",
+              "xG (beklenen gol)": "1.36",
+              "xGA (beklenen yenen gol)": "1.43",
+              "Gol": "1.29",
+              "Yenen gol": "1.35",
+              "Net pozisyon": "0.8 / maç",
+              "Korner": "5.4 / maç",
+              "Gol yemeden biten maç": "8",
+              "Rakip şutu": "14.2 / maç",
+              "Sarı kart": "1.6 / maç",
+              "Kırmızı kart": "1",
+              "Faul": "10.8 / maç",
+              "Pas isabeti": "%86",
+              "Top kapma başarısı": "%66",
+              "İç sahada gol": "26",
+              "Deplasmanda gol": "18"
+            }
           },
           "away": {
             "name": "Real Salt Lake",
@@ -29711,7 +31914,39 @@
                 "starts": 5
               }
             ],
-            "lineup_announced": false
+            "lineup_announced": false,
+            "season": {
+              "goals_for": "53",
+              "goals_against": "52",
+              "goal_diff": "1",
+              "played": null
+            },
+            "profile": {
+              "top_scorers": [],
+              "top_assists": [],
+              "goalkeeper": null,
+              "cards": []
+            },
+            "team_stats": {
+              "Topla oynama": "%49.2",
+              "Şut": "14.6 / maç",
+              "İsabetli şut": "5.5 / maç",
+              "xG (beklenen gol)": "1.66",
+              "xGA (beklenen yenen gol)": "1.39",
+              "Gol": "1.56",
+              "Yenen gol": "1.53",
+              "Net pozisyon": "1.2 / maç",
+              "Korner": "4.9 / maç",
+              "Gol yemeden biten maç": "4",
+              "Rakip şutu": "13.2 / maç",
+              "Sarı kart": "2.3 / maç",
+              "Kırmızı kart": "1",
+              "Faul": "12.2 / maç",
+              "Pas isabeti": "%85",
+              "Top kapma başarısı": "%69",
+              "İç sahada gol": "33",
+              "Deplasmanda gol": "20"
+            }
           }
         },
         "h2h": "series tied 2-2-1",

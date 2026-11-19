@@ -72,7 +72,6 @@ SLUG_TO_DIVISION = {
     "ger.1": "D1", "ger.2": "D2", "ita.1": "I1", "ita.2": "I2", "fra.1": "F1", "fra.2": "F2", "tur.1": "T1",
     "ned.1": "N1", "por.1": "P1", "bel.1": "B1", "sco.1": "SC0", "gre.1": "G1",
 }
-SUMMARY_KEYS = ("MS 1", "MS 0", "MS 2", "2.5 Üst", "2.5 Alt", "KG Var", "KG Yok", "İY 0.5 Üst")
 
 
 def _day_dir(date: str) -> Path:

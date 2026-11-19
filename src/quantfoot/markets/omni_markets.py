@@ -21,13 +21,6 @@ HTFT_OUTCOMES: tuple[str, ...] = (
 )
 
 
-def _outcome_idx(h: int, a: int) -> int:
-    if h > a:
-        return 0  # '1'
-    if h == a:
-        return 1  # '0'
-    return 2      # '2'
-
 
 def _safe_fair_odds(prob: float) -> float:
     return round(float(1.0 / prob), 2) if prob > 1e-6 else 9999.0

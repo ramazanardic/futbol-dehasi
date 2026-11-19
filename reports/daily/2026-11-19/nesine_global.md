@@ -15,14 +15,14 @@ Referans önceliği: Pinnacle → Smarkets / Matchbook (ikisi varsa ortalaması)
 
 | Saat | Lig | Maç | Nesine 1/X/2 | Global adil 1/X/2 | Referans | En iyi EV |
 |---|---|---|---|---|---|---|
-| 15:00 | ASEAN Kulüpler Şamp. Grup B | Preah Khan R. S. - Port | 1.91/3.35/2.44 | 2.30/4.26/3.02 | Smarkets | Handikaplı Maç Sonucu: Hnd(+1) 1 -13.0% |
+| 15:00 | ASEAN Kulüpler Şamp. Grup B | Preah Khan R. S. - Port | 1.87/3.35/2.51 | 2.30/4.26/3.02 | Smarkets | Handikaplı Maç Sonucu: Hnd(+1) 1 -13.0% |
 | 15:00 | ASEAN Kulüpler Şamp. Grup B | Persib Bandung - Shan Utd | -/8.30/17.35 | 1.12/13.05/34.84 | Smarkets | 1. Yarı / 2. Yarı Karşılıklı Gol: Evet/Evet +1.2% |
-| 15:00 | Slovakya Kupası | MFK Lokomotiva Zvolen - FK Kosice | 6.87/4.94/1.13 | 10.79/7.21/1.30 | Matchbook | 2. Yarı Sonucu: 2 -11.6% |
+| 15:00 | Slovakya Kupası | MFK Lokomotiva Zvolen - FK Kosice | 7.78/5.27/1.09 | 10.79/7.21/1.30 | Matchbook | 2. Yarı Sonucu: 2 -14.8% |
 | 15:30 | Mısır 2. Lig | EL Terasanah - Telecom Egypt | 2.17/2.23/3.09 | 2.57/2.85/3.85 | Matchbook | Maç Sonucu: 1 -12.3% |
 | 15:30 | Mısır 2. Lig | La Viena - El Sekka El Hadid | 2.93/2.26/2.22 | 3.82/2.82/2.61 | Matchbook | Maç Sonucu: 2 -11.7% |
 | 15:30 | Mısır 2. Lig | El Daklyeh - Ismaily Sc | 2.60/2.28/2.44 | 3.07/2.83/3.12 | Matchbook | Deplasman 1,5 Gol Alt/Üst: 1,5 Alt -9.9% |
 | 15:30 | Mısır 2. Lig | Farco - Entag Harby | 1.66/2.75/3.76 | 1.93/3.45/5.20 | Matchbook | Maç Sonucu: 1 -13.5% |
-| 15:30 | ASEAN Kulüpler Şamp. Grup B | Cong An Nhan Dan - Johor Darul | 3.74/3.49/1.47 | 4.60/4.37/1.81 | Smarkets | 1. Yarı / 2. Yarı Karşılıklı Gol: Evet/Evet -9.0% |
+| 15:30 | ASEAN Kulüpler Şamp. Grup B | Cong An Nhan Dan - Johor Darul | 3.64/3.44/1.50 | 4.60/4.37/1.81 | Smarkets | 1. Yarı / 2. Yarı Karşılıklı Gol: Evet/Evet -10.3% |
 | 15:30 | Mısır 2. Lig | Baladiyyat AL M. - Haras Hodood | 2.54/2.40/2.36 | 3.15/2.89/2.97 | Matchbook | Deplasman 1,5 Gol Alt/Üst: 1,5 Alt -9.3% |
 | 15:30 | Slovenya Kupası | ND Beltinci - NK Celje | 6.32/4.51/1.17 | 8.36/5.59/1.43 | Smarkets | Karşılıklı Gol: Var -14.1% |
 | 15:45 | BAE - Arap Körfez Ligi | Al Wasl - Hatta SC | -/7.90/13.15 | 1.14/12.94/23.58 | Matchbook | 2. Yarı Sonucu: 1 -13.4% |

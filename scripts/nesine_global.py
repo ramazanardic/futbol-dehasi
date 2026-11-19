@@ -437,6 +437,58 @@ def write_week(start: dt.date, week: list[tuple[str, list[dict]]], min_ev: float
     print(f"-> {path.relative_to(ROOT)}")
 
 
+def _side_rows(r: dict, side: str) -> dict[str, str]:
+    t = (r.get("teams") or {}).get(side) or {}
+    tab, sea, prof = t.get("table") or {}, t.get("season") or {}, t.get("profile") or {}
+    row: dict[str, str] = {"Takım": t.get("name") or "-", "Son 5 maç": " · ".join(t.get("last5") or []) or "-",
+                           "Form": t.get("form") or "-", "Dinlenme (gün)": str(t.get("rest_days", "-"))}
+    if tab.get("rank"):
+        row["Puan durumu"] = (f"{int(tab['rank'])}./{tab['size']} · {int(tab.get('points') or 0)} p · "
+                              f"{int(tab.get('wins') or 0)}G {int(tab.get('draws') or 0)}B {int(tab.get('losses') or 0)}M")
+    if sea.get("goals_for") and sea.get("played"):
+        n = float(sea["played"]) or 1.0
+        row["Sezon gol (at / ye)"] = (f"{sea['goals_for']} / {sea['goals_against']} "
+                                     f"({float(sea['goals_for']) / n:.2f} / {float(sea['goals_against']) / n:.2f} maç başı)")
+    if prof.get("top_scorers"):
+        row["Golcüler"] = ", ".join(f"{p['name']} {p['goals']}G {p['assists']}A" for p in prof["top_scorers"])
+    if prof.get("top_assists"):
+        row["Asist yapanlar"] = ", ".join(f"{p['name']} {p['assists']}A {p['goals']}G" for p in prof["top_assists"])
+    gk = prof.get("goalkeeper")
+    if gk:
+        sp = f"%{gk['save_pct'] * 100:.0f} kurtarış" if gk.get("save_pct") is not None else "kurtarış verisi yok"
+        row["Kaleci"] = f"{gk['name']} ({gk['apps']} maç, {sp}, maç başı {gk['conceded_per_game']} gol)"
+    if prof.get("cards"):
+        row["Kart riski"] = ", ".join(f"{p['name']} {p['yellow']}S" + (f" {p['red']}K" if p["red"] else "")
+                                      for p in prof["cards"])
+    for label, value in (t.get("team_stats") or {}).items():
+        row[label] = value
+    row["Eksikler"] = _absent(r, side)
+    if t.get("lineup_announced"):
+        miss = [p["name"] for p in t.get("missing_regulars") or []]
+        row["İlk 11"] = "açıklandı" + (f"; düzenli oyunculardan yok: {', '.join(miss)}" if miss else "")
+    return row
+
+
+def write_team_files(date: str, out: list[dict], d: Path) -> None:
+    """Per-match dossier of both teams (ESPN + Premier League official availability)."""
+    md = [f"# {date} — Takım dosyaları", "",
+          "Kaynak: ESPN (form, son maçlar, puan durumu, sezon golleri, golcüler, kaleci, kartlar, ilk 11) ve Premier Lig "
+          "resmî sakat/cezalı listesi. Olasılıklar bu bilgilerden değil global borsa fiyatından gelir; bu dosya bağlam ve "
+          "kontrol içindir.", ""]
+    for m in out:
+        r = m.get("research")
+        if not r or not r.get("teams"):
+            continue
+        h, a = _side_rows(r, "home"), _side_rows(r, "away")
+        md += [f"## {m['kickoff'][11:]} · {m['home']} - {m['away']} ({m['league']})", "",
+               f"Aralarında: {r.get('h2h') or '-'} · Uyarı: {'; '.join(r.get('flags') or []) or '-'}", "",
+               "| | Ev | Deplasman |", "|---|---|---|"]
+        for key in dict.fromkeys(list(h) + list(a)):
+            md.append(f"| {key} | {h.get(key, '-')} | {a.get(key, '-')} |")
+        md.append("")
+    (d / "takim_dosyalari.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+
+
 def write_report(date: str, out: list[dict], payload: dict, events: list, min_ev: float) -> None:
     priced = sum(1 for m in out if m["status"] == "fiyatlandı")
     d = DAILY / date
@@ -500,6 +552,7 @@ def write_report(date: str, out: list[dict], payload: dict, events: list, min_ev
     md += ["", "## Global fiyatı bulunamayan maçlar (fiyatlanmadı)", ""]
     md += [f"- {m['kickoff'][11:]} {m['league']}: {m['home']} - {m['away']}" for m in out if m["status"] != "fiyatlandı"]
     (d / "nesine_global.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    write_team_files(date, out, d)
     print(f"{priced}/{len(events)} maç fiyatlandı; {len(value)} seçim EV ≥ {min_ev:+.1%}. -> {d.relative_to(ROOT)}/nesine_global.md")
 
 

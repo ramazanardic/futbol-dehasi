@@ -58,6 +58,76 @@ def _starters(summary: dict, team_id: str) -> list[dict]:
     return []
 
 
+def _player_stats(athlete: dict) -> dict:
+    out = {}
+    for cat in (athlete.get("statistics") or {}).get("splits", {}).get("categories", []):
+        for st in cat.get("stats", []):
+            out[st["name"]] = st.get("value") or 0.0
+    return out
+
+
+@lru_cache(maxsize=1024)
+def team_profile(slug: str, team_id: str) -> dict | None:
+    """Season player data for one team: top scorers, first-choice goalkeeper (save %), card counts."""
+    js = _get(f"{BASE}/{slug}/teams/{team_id}/roster")
+    if not js or not js.get("athletes"):
+        return None
+    players = []
+    for a in js["athletes"]:
+        st = _player_stats(a)
+        players.append({"name": a.get("displayName"), "pos": (a.get("position") or {}).get("abbreviation", ""),
+                        "apps": int(st.get("appearances", 0)), "goals": int(st.get("totalGoals", 0)),
+                        "assists": int(st.get("goalAssists", 0)), "yellow": int(st.get("yellowCards", 0)),
+                        "red": int(st.get("redCards", 0)), "saves": int(st.get("saves", 0)),
+                        "conceded": int(st.get("goalsConceded", 0))})
+    scorers = sorted((p for p in players if p["goals"] > 0), key=lambda p: (-p["goals"], -p["assists"]))[:3]
+    assisters = sorted((p for p in players if p["assists"] > 0), key=lambda p: (-p["assists"], -p["goals"]))[:3]
+    keepers = sorted((p for p in players if p["pos"] == "G" and p["apps"] > 0), key=lambda p: -p["apps"])
+    gk = None
+    if keepers:
+        k = keepers[0]
+        faced = k["saves"] + k["conceded"]
+        gk = {"name": k["name"], "apps": k["apps"], "save_pct": round(k["saves"] / faced, 3) if faced else None,
+              "conceded_per_game": round(k["conceded"] / k["apps"], 2) if k["apps"] else None}
+    cards = sorted((p for p in players if p["yellow"] >= 4 or p["red"] > 0), key=lambda p: (-p["red"], -p["yellow"]))[:4]
+    return {"top_scorers": scorers, "top_assists": assisters, "goalkeeper": gk, "cards": cards}
+
+
+CORE = "https://sports.core.api.espn.com/v2/sports/soccer/leagues"
+TEAM_STATS = {  # ESPN name -> (Turkish label, per game?)
+    "possessionPct": ("Topla oynama", False), "totalShots": ("Şut", True), "shotsOnTarget": ("İsabetli şut", True),
+    "avgExpectedGoals": ("xG (beklenen gol)", False), "avgExpectedGoalsConceded": ("xGA (beklenen yenen gol)", False),
+    "avgGoals": ("Gol", False), "avgGoalsConceded": ("Yenen gol", False), "bigChanceCreated": ("Net pozisyon", True),
+    "wonCorners": ("Korner", True), "cleanSheet": ("Gol yemeden biten maç", False), "shotsFaced": ("Rakip şutu", True),
+    "yellowCards": ("Sarı kart", True), "redCards": ("Kırmızı kart", False), "foulsCommitted": ("Faul", True),
+    "passPct": ("Pas isabeti", False), "tacklePct": ("Top kapma başarısı", False), "homeGoals": ("İç sahada gol", False),
+    "awayGoals": ("Deplasmanda gol", False),
+}
+
+
+@lru_cache(maxsize=1024)
+def team_stats(slug: str, year: int, team_id: str) -> dict[str, str]:
+    """Season team statistics (possession, shots, xG/xGA, big chances, corners, clean sheets, cards...)."""
+    js = _get(f"{CORE}/{slug}/seasons/{year}/types/1/teams/{team_id}/statistics")
+    stats: dict[str, float] = {}
+    for cat in ((js or {}).get("splits") or {}).get("categories", []):
+        for st in cat.get("stats", []):
+            stats[st["name"]] = st.get("value")
+    games = stats.get("appearances") or 0
+    out = {}
+    for key, (label, per_game) in TEAM_STATS.items():
+        v = stats.get(key)
+        if v is None:
+            continue
+        if per_game and games:
+            out[label] = f"{v / games:.1f} / maç"
+        elif key.endswith("Pct"):  # ESPN mixes 0-1 fractions and 0-100 percentages
+            out[label] = f"%{v * 100:.0f}" if v <= 1 else f"%{v:.1f}"
+        else:
+            out[label] = f"{v:.2f}" if isinstance(v, float) and not float(v).is_integer() else f"{int(v)}"
+    return out
+
+
 def research(event_id: str) -> dict | None:
     """Research record for one ESPN event, or None when ESPN has no summary for it."""
     s = _summary(event_id)
@@ -75,7 +145,8 @@ def research(event_id: str) -> dict | None:
         for e in entries:
             st = {x["name"]: x.get("value") for x in e.get("stats", []) if "name" in x}
             table[str(e.get("id"))] = {"rank": st.get("rank"), "points": st.get("points"), "played": st.get("gamesPlayed"),
-                                       "size": len(entries)}
+                                       "wins": st.get("wins"), "draws": st.get("ties"), "losses": st.get("losses"),
+                                       "goal_diff": st.get("pointDifferential"), "size": len(entries)}
 
     leaders = {}
     for block in s.get("leaders") or []:
@@ -115,6 +186,18 @@ def research(event_id: str) -> dict | None:
             ts = rec["top_scorer"]
             rec["top_scorer_missing"] = bool(ts and ts["id"] not in ids)
             rec["goalkeeper_changed"] = any(c["pos"] == "G" for c in rec["missing_regulars"])
+        season = {}
+        for bt in (s.get("boxscore") or {}).get("teams", []):
+            if str((bt.get("team") or {}).get("id")) == tid:
+                season = {x["name"]: x.get("displayValue") for x in bt.get("statistics", [])}
+        played = (rec.get("table") or {}).get("played")
+        rec["season"] = {"goals_for": season.get("totalGoals"), "goals_against": season.get("goalsConceded"),
+                         "goal_diff": season.get("goalDifference"), "played": played}
+        if out["league_slug"]:
+            rec["profile"] = team_profile(out["league_slug"], tid)
+            year = ((s.get("header") or {}).get("season") or {}).get("year")
+            if year:
+                rec["team_stats"] = team_stats(out["league_slug"], int(year), tid)
         out["teams"][side] = rec
 
     series = (s.get("seasonseries") or [{}])[0] if s.get("seasonseries") else {}
