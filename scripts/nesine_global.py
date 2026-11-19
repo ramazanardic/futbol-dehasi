@@ -560,7 +560,13 @@ def write_report(date: str, out: list[dict], payload: dict, events: list, min_ev
                                                       "nesine_margins": market_overrounds(payload, {e.code for e in events}),
                                                       "matches": out}, ensure_ascii=False, indent=2, default=str),
                                           encoding="utf-8")
-    md = [f"# {date} — Nesine bülteni, global referans fiyatına göre", "",
+    _, generated = global_references(max_age_hours=1e9)
+    age = ""
+    if generated:
+        mins = (dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(generated)).total_seconds() / 60
+        age = (f"**Global veri {mins:.0f} dakika önce çekildi**" + (" — ESKİ, oranlar değişmiş olabilir." if mins > 240 else ".")
+               + " (yurt dışı sunucu: günde 5 tam çekim + maç öncesi saatlik yenileme)")
+    md = [f"# {date} — Nesine bülteni, global referans fiyatına göre", "", age, "",
           f"Referans önceliği: Pinnacle → Smarkets / Matchbook (ikisi varsa ortalaması) → Betfair → ESPN. {len(events)} maçın {priced}'i fiyatlandı; "
           "global fiyatı olmayan maçlar Nesine oranından türetilmez, fiyatlanmaz.", "",
           "> EV = global adil olasılık × Nesine oranı − 1. Türev pazarlar (İY/MS, KG, aralık, kombine…) referans 1X2 + Alt/Üst'ten "
