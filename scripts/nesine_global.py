@@ -149,6 +149,11 @@ def espn_references(dates: list[str]) -> list[dict]:
 
 
 # ---- pricing ----------------------------------------------------------------------------
+def selection_key(s) -> str:
+    """Stable identity of a Nesine selection within its event (for re-checking odds later)."""
+    return f"{s.market_id}|{s.name}|{int(bool(s.negate))}"
+
+
 _SIDE = {"HOME": "1", "DRAW": "0", "AWAY": "2"}
 _KG = {"YES": "KG Var", "NO": "KG Yok"}
 _OU = {"OVER": "Üst", "UNDER": "Alt"}
@@ -251,7 +256,7 @@ def price_event(event, ref: dict, league: str) -> dict:
         # Nesine templates ("{{handicap}} Gol Alt/Üst" / "{{SOV}} Üst"): show the resolved name instead.
         market = s.market_title.replace("{{handicap}} ", "").replace(" ({{handicap}})", "")
         label = s.name if "{{" in s.label or "{{" in s.market_title else s.label
-        rows.append({"market": market, "selection": label, "name": s.name if not s.negate else f"DEĞİL({s.name})",
+        rows.append({"key": selection_key(s), "market": market, "selection": label, "name": s.name if not s.negate else f"DEĞİL({s.name})",
                      "odds": s.odds, "fair_prob": round(p, 5), "fair_odds": round(1 / p, 3) if p > 1e-9 else None,
                      "ev": round(p * s.odds - 1.0, 4), "mbs": s.mbs, "direct": direct})
     rows.sort(key=lambda r: r["ev"], reverse=True)

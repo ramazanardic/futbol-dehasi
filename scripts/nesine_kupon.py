@@ -32,10 +32,13 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from nesine_global import DAILY, MAX_PLAUSIBLE_EV, TSI, analyze_day  # noqa: E402
+from nesine_global import DAILY, MAX_PLAUSIBLE_EV, TSI, analyze_day, selection_key  # noqa: E402
+
+from quantfoot.data.nesine import fetch_bulletin, parse_bulletin  # noqa: E402
 
 SHARP_SOURCES = ("Pinnacle", "Smarkets", "Matchbook", "Betfair")
 RES = 0.002  # log-odds bucket width
+MIN_LEG_ODDS = 1.20  # user rule: never a selection below 1.20
 
 
 def match_context(m: dict) -> str:
@@ -96,7 +99,7 @@ def candidates(matches: list[dict], now: dt.datetime, min_odds: float, min_prob:
             legs.append({"code": m["code"], "kickoff": m["kickoff"], "league": m["league"], "match": f"{m['home']} - {m['away']}",
                          "market": s["market"], "selection": s["selection"], "odds": s["odds"], "p": s["fair_prob"],
                          "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": m["reference"].split(" (")[0],
-                         "direct": bool(s.get("direct")), "context": context,
+                         "direct": bool(s.get("direct")), "context": context, "key": s.get("key"),
                          "researched": bool((m.get("research") or {}).get("teams") or (m.get("research") or {}).get("user_absences"))})
         legs.sort(key=lambda x: (-x["odds"], -x["p"]))
         front, best_p = [], -1.0
@@ -174,6 +177,40 @@ def safest_first_coupon(pools: list[list[dict]], target: float, max_legs: int, p
     return None
 
 
+def recheck_odds(coupons: list[dict]) -> list[str]:
+    """Fetch the Nesine bulletin again and compare every leg's odds; update legs and coupon totals in place.
+    Returns human-readable change notes (empty = all odds unchanged)."""
+    current: dict[int, dict[str, float]] = {}
+    for e in parse_bulletin(fetch_bulletin()):
+        current[int(e.code)] = {selection_key(s): s.odds for s in e.selections}
+    notes = []
+    for i, c in enumerate(coupons, 1):
+        for leg in c["legs"]:
+            now_odds = current.get(int(leg["code"]), {}).get(leg.get("key"))
+            if now_odds is None:
+                leg["status"] = "bültende yok / askıda"
+                notes.append(f"Kupon {i}: {leg['match']} {leg['selection']} — Nesine'de şu an yok ya da askıda")
+            elif abs(now_odds - leg["odds"]) > 1e-9:
+                low = now_odds < MIN_LEG_ODDS
+                notes.append(f"Kupon {i}: {leg['match']} {leg['selection']} — oran {leg['odds']:.2f} → {now_odds:.2f}"
+                             + (" (1,20 altına düştü: oynamayın / değiştirin)" if low else ""))
+                leg["odds"], leg["status"] = now_odds, ("oran 1,20 altına düştü" if low else "oran değişti")
+            else:
+                leg["status"] = "kontrol edildi"
+        live = [x for x in c["legs"] if x["status"] != "bültende yok / askıda"]
+        c["nesine_odds"] = round(math.prod(x["odds"] for x in live), 2) if live else 0.0
+        c["odds_checked_at"] = dt.datetime.now(TSI).strftime("%H:%M:%S")
+    return notes
+
+
+def refresh_global_data() -> str:
+    """Pull the newest sharp prices fetched abroad (GitHub Actions) before building a coupon."""
+    import subprocess
+    r = subprocess.run(["git", "pull", "--rebase", "--autostash", "-q", "origin", "main"], cwd=DAILY.parents[1],
+                       capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180)
+    return "güncel" if r.returncode == 0 else f"çekilemedi ({r.stderr.strip()[:80]})"
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--hedef", type=float, required=True, help="Hedef toplam Nesine oranı (ör. 10)")
@@ -191,6 +228,7 @@ def main() -> None:
     ap.add_argument("--dogrudan", action="store_true", help="Yalnızca doğrudan global fiyatı olan seçimler (model türevi yok)")
     args = ap.parse_args()
 
+    print(f"Global veri: {refresh_global_data()}")
     matches, _, _ = analyze_day(dt.date.fromisoformat(args.tarih), verbose=False)
     now = dt.datetime.now(TSI)
     min_prob = args.min_olasilik if args.min_olasilik is not None else (0.60 if args.yontem == "guvenli" else 0.0)
@@ -209,6 +247,7 @@ def main() -> None:
         coupons.append(c)
         used |= {leg["code"] for leg in c["legs"]}
 
+    change_notes = recheck_odds(coupons) if coupons else []
     stamp = now.strftime("%H%M")
     md = [f"# {args.tarih} — Nesine {args.hedef:g} oranlık kupon ({now:%H:%M} TSİ)", "",
           "Olasılıklar global keskin fiyattan (Pinnacle / Smarkets / Matchbook / Betfair borsası), oranlar Nesine'den. "
@@ -218,7 +257,11 @@ def main() -> None:
           + " Oranlar maç saatine kadar değişebilir; oynamadan önce Nesine'de kontrol edin.", ""]
     if not coupons:
         md.append("_Bu hedefe uygun kupon kurulamadı (yeterli keskin referanslı, başlamamış maç yok)._")
-    elif coupons[0].get("reached") is False:
+    if coupons:
+        md += [f"> **Oran kontrolü {coupons[0]['odds_checked_at']} TSİ:** kupon kurulduktan sonra Nesine bülteni yeniden "
+               "çekildi ve her tercih tek tek karşılaştırıldı. "
+               + ("Tüm oranlar aynı." if not change_notes else "Değişenler: " + "; ".join(change_notes)), ""]
+    if coupons and coupons[0].get("reached") is False:
         md += [f"> **Hedef {args.hedef:g} güvenli tercihlerle bugün ulaşılamıyor.** Aşağıdaki kupon, her bacağı en az "
                f"%{min_prob * 100:.0f} olasılıklı ve 1,{int(round((args.min_oran - 1) * 100)):02d}+ oranlı tüm güvenli "
                "tercihlerden oluşuyor; hedefe ulaşmak için daha zayıf tercih eklemedim.", ""]
@@ -230,7 +273,8 @@ def main() -> None:
         for leg in c["legs"]:
             md.append(f"| {leg['kickoff'][11:]} | {leg['match']} | {leg['market']} | {leg['selection']} | {leg['odds']:.2f} | "
                       f"%{leg['p'] * 100:.1f} | {1 / leg['p']:.2f} | {leg['mbs']} | {leg['reference']} | "
-                      f"{'doğrudan' if leg.get('direct') else 'model'} | {'var' if leg.get('researched') else 'yok'} |")
+                      f"{'doğrudan' if leg.get('direct') else 'model'} | {'var' if leg.get('researched') else 'yok'} |"
+                      + (f" ⚠ {leg['status']}" if leg.get("status") not in (None, "kontrol edildi") else ""))
         md += ["", "**Gerekçeler**", ""]
         md += [f"- **{leg['match']} — {leg['market']}: {leg['selection']}** — {leg_reason(leg)}" for leg in c["legs"]]
         md += ["", f"Kuponun tutma olasılığı %{c['probability'] * 100:.1f}: düşük oranlı bir bacak bile kesin değildir "

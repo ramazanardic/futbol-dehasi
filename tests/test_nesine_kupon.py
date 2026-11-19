@@ -210,3 +210,19 @@ def test_safest_first_partial_when_target_unreachable():
     assert kupon.safest_first_coupon(pools, 50.0, max_legs=10) is None
     c = kupon.safest_first_coupon(pools, 50.0, max_legs=10, partial=True)
     assert c["reached"] is False and len(c["legs"]) == 3
+
+
+def test_recheck_odds_updates_changed_and_flags_missing(monkeypatch):
+    from types import SimpleNamespace
+
+    sel = lambda mid, name, odds: SimpleNamespace(market_id=mid, name=name, negate=False, odds=odds)  # noqa: E731
+    events = [SimpleNamespace(code=1, selections=[sel(1, "MS 1", 1.50), sel(2, "2.5 Üst", 1.80)])]
+    monkeypatch.setattr(kupon, "fetch_bulletin", lambda: None)
+    monkeypatch.setattr(kupon, "parse_bulletin", lambda payload: events)
+    coupon = {"legs": [{"code": 1, "match": "A - B", "selection": "1", "key": "1|MS 1|0", "odds": 1.45},
+                       {"code": 1, "match": "A - B", "selection": "Üst", "key": "2|2.5 Üst|0", "odds": 1.80},
+                       {"code": 2, "match": "C - D", "selection": "X", "key": "1|MS 0|0", "odds": 3.0}]}
+    notes = kupon.recheck_odds([coupon])
+    assert [leg["status"] for leg in coupon["legs"]] == ["oran değişti", "kontrol edildi", "bültende yok / askıda"]
+    assert coupon["legs"][0]["odds"] == 1.50 and coupon["nesine_odds"] == round(1.50 * 1.80, 2)
+    assert len(notes) == 2
