@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-19T07:22:23+00:00",
+ "generated_utc": "2026-11-19T07:30:07+00:00",
  "references": [
   {
    "source": "Betfair Borsası (football-data)",
@@ -1055,6 +1055,7 @@
      1.7843
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0091,
    "ou_spread": 0.0195,
    "markets": {
@@ -1091,8 +1092,8 @@
      "OVER|Over 3.5 goals": 0.2295
     },
     "Odd or even score": {
-     "ODD|Odd": 0.4964,
-     "EVEN|Even": 0.5036
+     "ODD|Odd": 0.4957,
+     "EVEN|Even": 0.5043
     }
    }
   },
@@ -1114,6 +1115,7 @@
      2.2894
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0111,
    "ou_spread": 0.0268,
    "markets": {
@@ -1143,12 +1145,12 @@
      "AWAY_UNDER|Internacional / under 2.5 goals": 0.0693
     },
     "Winner and over/under 3.5": {
-     "HOME_OVER|Vasco / over 3.5 goals": 0.225,
-     "DRAW_OVER|Draw / over 3.5 goals": 0.0648,
-     "AWAY_OVER|Internacional / over 3.5 goals": 0.0433,
-     "HOME_UNDER|Vasco / under 3.5 goals": 0.3822,
-     "DRAW_UNDER|Draw / under 3.5 goals": 0.1584,
-     "AWAY_UNDER|Internacional / under 3.5 goals": 0.1264
+     "HOME_OVER|Vasco / over 3.5 goals": 0.2247,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0647,
+     "AWAY_OVER|Internacional / over 3.5 goals": 0.0432,
+     "HOME_UNDER|Vasco / under 3.5 goals": 0.383,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1582,
+     "AWAY_UNDER|Internacional / under 3.5 goals": 0.1262
     },
     "Winner and over/under 4.5": {
      "HOME_OVER|Vasco / over 4.5 goals": 0.1281,
@@ -1202,12 +1204,13 @@
      2.153
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0099,
    "ou_spread": 0.0259,
    "markets": {
     "Both teams to score": {
-     "YES|Yes": 0.5808,
-     "NO|No": 0.4192
+     "YES|Yes": 0.5821,
+     "NO|No": 0.4179
     },
     "Over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.0648,
@@ -1337,6 +1340,7 @@
     4.8561
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0232,
    "markets": {
     "Both teams to score": {
@@ -1360,34 +1364,35 @@
    "away": "Real Salt Lake",
    "kickoff_utc": "2026-11-20T03:00:00Z",
    "x12": [
-    2.0354,
-    4.1293,
-    3.7519
+    2.0405,
+    4.1194,
+    3.7429
    ],
    "ou": [
     2.5,
     [
-     1.5832,
-     2.7147
+     1.5855,
+     2.708
     ]
    ],
-   "x12_spread": 0.0119,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0146,
    "ou_spread": 0.0241,
    "markets": {
     "Both teams to score": {
-     "YES|Yes": 0.6325,
-     "NO|No": 0.3675
+     "YES|Yes": 0.6343,
+     "NO|No": 0.3657
     },
     "Half-time/full-time": {
-     "HOME_HOME|Seattle Sounders / Seattle Sounders": 0.3017,
+     "HOME_HOME|Seattle Sounders / Seattle Sounders": 0.3023,
      "HOME_AWAY|Seattle Sounders / Real Salt Lake": 0.0269,
-     "HOME_DRAW|Seattle Sounders / Draw": 0.0583,
-     "AWAY_HOME|Real Salt Lake / Seattle Sounders": 0.0372,
-     "AWAY_AWAY|Real Salt Lake / Real Salt Lake": 0.1512,
-     "AWAY_DRAW|Real Salt Lake / Draw": 0.0538,
-     "DRAW_HOME|Draw / Seattle Sounders": 0.1546,
-     "DRAW_AWAY|Draw / Real Salt Lake": 0.0953,
-     "DRAW_DRAW|Draw / Draw": 0.1211
+     "HOME_DRAW|Seattle Sounders / Draw": 0.0584,
+     "AWAY_HOME|Real Salt Lake / Seattle Sounders": 0.0373,
+     "AWAY_AWAY|Real Salt Lake / Real Salt Lake": 0.1515,
+     "AWAY_DRAW|Real Salt Lake / Draw": 0.0539,
+     "DRAW_HOME|Draw / Seattle Sounders": 0.1529,
+     "DRAW_AWAY|Draw / Real Salt Lake": 0.0955,
+     "DRAW_DRAW|Draw / Draw": 0.1213
     },
     "Winner and both teams to score": {
      "HOME_YES|Seattle Sounders / Yes": 0.2714,
@@ -1398,8 +1403,8 @@
      "AWAY_NO|Real Salt Lake / No": 0.1115
     },
     "Odd or even score": {
-     "ODD|Odd": 0.495,
-     "EVEN|Even": 0.505
+     "ODD|Odd": 0.4957,
+     "EVEN|Even": 0.5043
     },
     "Goal range": {
      "RANGE|0 - 1": 0.1691,
@@ -1475,12 +1480,13 @@
      3.4898
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0063,
    "ou_spread": 0.0253,
    "markets": {
     "Both teams to score": {
-     "YES|Yes": 0.7198,
-     "NO|No": 0.2802
+     "YES|Yes": 0.7191,
+     "NO|No": 0.2809
     },
     "Over/under 1.5": {
      "UNDER|Under 1.5 goals": 0.1161,
@@ -1562,8 +1568,8 @@
      "OVER|Over 0.5 goals": 0.8065
     },
     "First half over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.5131,
-     "OVER|Over 1.5 goals": 0.4869
+     "UNDER|Under 1.5 goals": 0.5124,
+     "OVER|Over 1.5 goals": 0.4876
     },
     "First half over/under 2.5": {
      "UNDER|Under 2.5 goals": 0.7778,
@@ -1583,6 +1589,7 @@
     3.5104
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0181,
    "markets": {
     "Over/under 1.5": {
@@ -1605,10 +1612,11 @@
    "ou": [
     2.5,
     [
-     1.4761,
-     3.1003
+     1.4721,
+     3.1181
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0223,
    "ou_spread": 0.023,
    "markets": {
@@ -1705,21 +1713,22 @@
      4.8488
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0154,
    "ou_spread": 0.0174,
    "markets": {
     "Both teams to score": {
-     "YES|Yes": 0.4964,
-     "NO|No": 0.5036
+     "YES|Yes": 0.4987,
+     "NO|No": 0.5013
     },
     "Half-time/full-time": {
-     "HOME_HOME|Al-Wasl / Al-Wasl": 0.6699,
+     "HOME_HOME|Al-Wasl / Al-Wasl": 0.6693,
      "HOME_AWAY|Al-Wasl / Hatta": 0.0064,
-     "HOME_DRAW|Al-Wasl / Draw": 0.0226,
-     "AWAY_HOME|Hatta / Al-Wasl": 0.035,
-     "AWAY_AWAY|Hatta / Hatta": 0.0226,
+     "HOME_DRAW|Al-Wasl / Draw": 0.0225,
+     "AWAY_HOME|Hatta / Al-Wasl": 0.0357,
+     "AWAY_AWAY|Hatta / Hatta": 0.0225,
      "AWAY_DRAW|Hatta / Draw": 0.0204,
-     "DRAW_HOME|Draw / Al-Wasl": 0.1634,
+     "DRAW_HOME|Draw / Al-Wasl": 0.1633,
      "DRAW_AWAY|Draw / Hatta": 0.0163,
      "DRAW_DRAW|Draw / Draw": 0.0434
     },
@@ -1737,12 +1746,12 @@
      "AWAY_NO|Hatta / No": 0.0151
     },
     "First half winner and both teams to score": {
-     "HOME_YES|Al-Wasl / Yes": 0.1096,
-     "DRAW_YES|Draw / Yes": 0.0834,
-     "AWAY_YES|Hatta / Yes": 0.015,
-     "HOME_NO|Al-Wasl / No": 0.6049,
-     "DRAW_NO|Draw / No": 0.1392,
-     "AWAY_NO|Hatta / No": 0.0479
+     "HOME_YES|Al-Wasl / Yes": 0.1136,
+     "DRAW_YES|Draw / Yes": 0.083,
+     "AWAY_YES|Hatta / Yes": 0.0149,
+     "HOME_NO|Al-Wasl / No": 0.6022,
+     "DRAW_NO|Draw / No": 0.1385,
+     "AWAY_NO|Hatta / No": 0.0477
     },
     "Goal range": {
      "RANGE|0 - 1": 0.0864,
@@ -1787,8 +1796,8 @@
      "OVER|Over 1.5 goals": 0.9219
     },
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.4079,
-     "OVER|Over 3.5 goals": 0.5921
+     "UNDER|Under 3.5 goals": 0.4065,
+     "OVER|Over 3.5 goals": 0.5935
     },
     "Over/under 4.5": {
      "UNDER|Under 4.5 goals": 0.6027,
@@ -1834,12 +1843,13 @@
      4.7882
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0151,
    "ou_spread": 0.0188,
    "markets": {
     "Both teams to score": {
-     "YES|Yes": 0.5086,
-     "NO|No": 0.4914
+     "YES|Yes": 0.5075,
+     "NO|No": 0.4925
     },
     "Half-time/full-time": {
      "HOME_HOME|Al-Ain / Al-Ain": 0.6648,
@@ -1926,8 +1936,8 @@
      "OVER|Over 1.5 goals": 0.9222
     },
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.4056,
-     "OVER|Over 3.5 goals": 0.5944
+     "UNDER|Under 3.5 goals": 0.4051,
+     "OVER|Over 3.5 goals": 0.5949
     },
     "Over/under 4.5": {
      "UNDER|Under 4.5 goals": 0.6002,
@@ -1967,6 +1977,7 @@
     6.9798
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0359,
    "markets": {
     "Both teams to score": {
@@ -2049,11 +2060,12 @@
    "away": "Mito Hollyhock",
    "kickoff_utc": "2026-11-20T10:00:00Z",
    "x12": [
-    1.4722,
-    4.8293,
-    8.7969
+    1.4707,
+    4.8399,
+    8.8163
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.023,
    "markets": {
     "Odd or even score": {
@@ -2086,6 +2098,7 @@
     2.2291
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0227,
    "markets": {
     "Over/under 1.5": {
@@ -2132,28 +2145,37 @@
    "ou": [
     2.5,
     [
-     1.6109,
-     2.637
+     1.6127,
+     2.6322
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0213,
-   "ou_spread": 0.0349,
+   "ou_spread": 0.0386,
    "markets": {
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1686,
+     "OVER|Over 1.5 goals": 0.8314
+    },
     "Over/under 3.5": {
      "UNDER|Under 3.5 goals": 0.6083,
      "OVER|Over 3.5 goals": 0.3917
     },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.786,
+     "OVER|Over 4.5 goals": 0.214
+    },
     "Over/under 5.5": {
-     "UNDER|Under 5.5 goals": 0.8995,
-     "OVER|Over 5.5 goals": 0.1005
+     "UNDER|Under 5.5 goals": 0.8961,
+     "OVER|Over 5.5 goals": 0.1039
     },
     "First half over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.2299,
      "OVER|Over 0.5 goals": 0.7701
     },
     "First half over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.5777,
-     "OVER|Over 1.5 goals": 0.4223
+     "UNDER|Under 1.5 goals": 0.5786,
+     "OVER|Over 1.5 goals": 0.4214
     },
     "First half over/under 2.5": {
      "UNDER|Under 2.5 goals": 0.8314,
@@ -2179,6 +2201,7 @@
      3.8825
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0229,
    "ou_spread": 0.033,
    "markets": {
@@ -2195,9 +2218,9 @@
      "OVER|Over 4.5 goals": 0.339
     },
     "Half-time result": {
-     "HOME|FK Austria Wien Women": 0.0659,
-     "DRAW|Draw": 0.245,
-     "AWAY|Bayern Munich (W)": 0.6891
+     "HOME|FK Austria Wien Women": 0.0661,
+     "DRAW|Draw": 0.2455,
+     "AWAY|Bayern Munich (W)": 0.6884
     }
    }
   },
@@ -2208,16 +2231,17 @@
    "away": "Roma (W)",
    "kickoff_utc": "2026-11-19T20:00:00Z",
    "x12": [
-    2.2582,
-    4.1125,
-    3.1847
+    2.2468,
+    4.1291,
+    3.1975
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0149,
    "markets": {
     "Both teams to score": {
-     "YES|Yes": 0.6463,
-     "NO|No": 0.3537
+     "YES|Yes": 0.6472,
+     "NO|No": 0.3528
     },
     "Winner and over/under 3.5": {
      "HOME_OVER|S.L. Benfica Women / over 3.5 goals": 0.199,
@@ -2228,8 +2252,8 @@
      "AWAY_UNDER|Roma (W) / under 3.5 goals": 0.1898
     },
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.5892,
-     "OVER|Over 3.5 goals": 0.4108
+     "UNDER|Under 3.5 goals": 0.5884,
+     "OVER|Over 3.5 goals": 0.4116
     },
     "Over/under 5.5": {
      "UNDER|Under 5.5 goals": 0.8886,
@@ -2255,6 +2279,7 @@
      2.7759
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0128,
    "ou_spread": 0.0244
   },
@@ -2265,9 +2290,9 @@
    "away": "Olympique Akbou",
    "kickoff_utc": "2026-11-19T16:45:00Z",
    "x12": [
-    1.4924,
-    4.2101,
-    10.8227
+    1.4892,
+    4.2286,
+    10.8702
    ],
    "ou": [
     2.5,
@@ -2276,7 +2301,8 @@
      1.6066
     ]
    ],
-   "x12_spread": 0.0221,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0167,
    "ou_spread": 0.0381
   },
   {
@@ -2291,6 +2317,7 @@
     4.0787
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0154,
    "markets": {
     "Over/under 1.5": {
@@ -2318,12 +2345,13 @@
    "ou": [
     2.5,
     [
-     1.6808,
-     2.4688
+     1.6779,
+     2.4752
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0128,
-   "ou_spread": 0.0296,
+   "ou_spread": 0.0261,
    "markets": {
     "Winner and both teams to score": {
      "HOME_YES|CA Progreso / Yes": 0.0867,
@@ -2332,10 +2360,6 @@
      "HOME_NO|CA Progreso / No": 0.0715,
      "DRAW_NO|Draw / No": 0.0483,
      "AWAY_NO|Montevideo City Torque / No": 0.3317
-    },
-    "Odd or even score": {
-     "ODD|Odd": 0.505,
-     "EVEN|Even": 0.495
     },
     "Winner and over/under 2.5": {
      "HOME_OVER|CA Progreso / over 2.5 goals": 0.0944,
@@ -2346,8 +2370,8 @@
      "AWAY_UNDER|Montevideo City Torque / under 2.5 goals": 0.191
     },
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.6372,
-     "OVER|Over 3.5 goals": 0.3628
+     "UNDER|Under 3.5 goals": 0.638,
+     "OVER|Over 3.5 goals": 0.362
     },
     "Over/under 4.5": {
      "UNDER|Under 4.5 goals": 0.8061,
@@ -2373,6 +2397,7 @@
      1.9073
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0222,
    "ou_spread": 0.0363,
    "markets": {
@@ -2404,13 +2429,18 @@
    "ou": [
     2.5,
     [
-     1.9729,
-     2.0279
+     1.9684,
+     2.0326
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0139,
-   "ou_spread": 0.0294,
+   "ou_spread": 0.034,
    "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.5473,
+     "NO|No": 0.4527
+    },
     "Over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.0706,
      "OVER|Over 0.5 goals": 0.9294
@@ -2420,13 +2450,8 @@
      "OVER|Over 1.5 goals": 0.7562
     },
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.7124,
-     "OVER|Over 3.5 goals": 0.2876
-    },
-    "Half-time result": {
-     "HOME|Boston River": 0.2287,
-     "DRAW|Draw": 0.4103,
-     "AWAY|Deportivo Maldonado": 0.361
+     "UNDER|Under 3.5 goals": 0.7131,
+     "OVER|Over 3.5 goals": 0.2869
     },
     "First half over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.2914,
@@ -2441,32 +2466,33 @@
    "away": "Asyut Petroleum",
    "kickoff_utc": "2026-11-19T15:00:00Z",
    "x12": [
-    1.6816,
-    3.8544,
-    6.854
+    1.6797,
+    3.861,
+    6.8657
    ],
    "ou": [
     2.5,
     [
-     2.4941,
-     1.6693
+     2.4776,
+     1.6768
     ]
    ],
-   "x12_spread": 0.014,
-   "ou_spread": 0.0291,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0126,
+   "ou_spread": 0.0296,
    "markets": {
     "Half-time result": {
      "HOME|El-Masry": 0.4154,
-     "DRAW|Draw": 0.4424,
-     "AWAY|Asyut Petroleum": 0.1422
+     "DRAW|Draw": 0.4442,
+     "AWAY|Asyut Petroleum": 0.1404
     },
     "Over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.3247,
-     "OVER|Over 1.5 goals": 0.6753
+     "UNDER|Under 1.5 goals": 0.324,
+     "OVER|Over 1.5 goals": 0.676
     },
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.7997,
-     "OVER|Over 3.5 goals": 0.2003
+     "UNDER|Under 3.5 goals": 0.8015,
+     "OVER|Over 3.5 goals": 0.1985
     },
     "First half over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.3524,
@@ -2481,21 +2507,22 @@
    "away": "Olympic El Qanal",
    "kickoff_utc": "2026-11-19T15:00:00Z",
    "x12": [
-    1.8163,
-    3.4809,
-    6.1667
+    1.8058,
+    3.5158,
+    6.1799
    ],
    "ou": null,
-   "x12_spread": 0.0306,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0245,
    "markets": {
     "Over/under 1.5": {
      "UNDER|Under 1.5 goals": 0.3552,
      "OVER|Over 1.5 goals": 0.6448
     },
     "Half-time result": {
-     "HOME|Al-Mokawloon al-Arab": 0.3935,
-     "DRAW|Draw": 0.4564,
-     "AWAY|El Qanah FC": 0.15
+     "HOME|Al-Mokawloon al-Arab": 0.3918,
+     "DRAW|Draw": 0.4583,
+     "AWAY|El Qanah FC": 0.1499
     },
     "First half over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.374,
@@ -2510,20 +2537,21 @@
    "away": "Shan United",
    "kickoff_utc": "2026-11-19T12:00:00Z",
    "x12": [
-    1.1285,
-    11.8769,
-    33.7345
+    1.1227,
+    12.4884,
+    34.2521
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0395,
    "markets": {
     "Over/under 4.5": {
-     "UNDER|Under 4.5 goals": 0.6713,
-     "OVER|Over 4.5 goals": 0.3287
+     "UNDER|Under 4.5 goals": 0.6723,
+     "OVER|Over 4.5 goals": 0.3277
     },
     "First half over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.4857,
-     "OVER|Over 1.5 goals": 0.5143
+     "UNDER|Under 1.5 goals": 0.4845,
+     "OVER|Over 1.5 goals": 0.5155
     }
    }
   },
@@ -2534,27 +2562,24 @@
    "away": "Port FC",
    "kickoff_utc": "2026-11-19T12:00:00Z",
    "x12": [
-    2.3534,
-    4.1453,
-    2.9954
+    2.3355,
+    4.1592,
+    3.0175
    ],
    "ou": [
     2.5,
     [
-     1.6066,
-     2.6485
+     1.5955,
+     2.6794
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0293,
-   "ou_spread": 0.0371,
+   "ou_spread": 0.0354,
    "markets": {
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.5985,
-     "OVER|Over 3.5 goals": 0.4015
-    },
-    "Over/under 4.5": {
-     "UNDER|Under 4.5 goals": 0.7708,
-     "OVER|Over 4.5 goals": 0.2292
+     "UNDER|Under 3.5 goals": 0.5947,
+     "OVER|Over 3.5 goals": 0.4053
     },
     "First half over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.246,
@@ -2573,12 +2598,13 @@
    "away": "Johor Darul Ta'zim",
    "kickoff_utc": "2026-11-19T12:30:00Z",
    "x12": [
-    4.6335,
-    4.4778,
-    1.783
+    4.6609,
+    4.4143,
+    1.7892
    ],
    "ou": null,
-   "x12_spread": 0.0298
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0232
   },
   {
    "source": "Smarkets (borsa)",
@@ -2598,6 +2624,7 @@
      3.2029
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0238,
    "ou_spread": 0.0294,
    "markets": {
@@ -2625,6 +2652,7 @@
      2.7204
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0237,
    "ou_spread": 0.0321,
    "markets": {
@@ -2645,19 +2673,20 @@
    "away": "FK Andijan",
    "kickoff_utc": "2026-11-19T13:00:00Z",
    "x12": [
-    3.3328,
-    3.5594,
-    2.3866
+    3.3492,
+    3.5519,
+    2.3816
    ],
    "ou": [
     2.5,
     [
-     2.1269,
-     1.8874
+     2.126,
+     1.8881
     ]
    ],
-   "x12_spread": 0.0136,
-   "ou_spread": 0.0336,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0178,
+   "ou_spread": 0.0397,
    "markets": {
     "Half-time result": {
      "HOME|Termez Surkhon": 0.2425,
@@ -2665,20 +2694,28 @@
      "AWAY|FK Andijan": 0.3211
     },
     "Winner and both teams to score": {
-     "HOME_YES|Termez Surkhon / Yes": 0.1451,
+     "HOME_YES|Termez Surkhon / Yes": 0.145,
      "DRAW_YES|Draw / Yes": 0.1956,
-     "AWAY_YES|FK Andijan / Yes": 0.1885,
-     "HOME_NO|Termez Surkhon / No": 0.1651,
+     "AWAY_YES|FK Andijan / Yes": 0.1901,
+     "HOME_NO|Termez Surkhon / No": 0.1636,
      "DRAW_NO|Draw / No": 0.0789,
      "AWAY_NO|FK Andijan / No": 0.2268
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Termez Surkhon / over 1.5 goals": 0.2188,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.1895,
+     "AWAY_OVER|FK Andijan / over 1.5 goals": 0.3037,
+     "HOME_UNDER|Termez Surkhon / under 1.5 goals": 0.0983,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0797,
+     "AWAY_UNDER|FK Andijan / under 1.5 goals": 0.11
     },
     "Over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.0811,
      "OVER|Over 0.5 goals": 0.9189
     },
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.7541,
-     "OVER|Over 3.5 goals": 0.2459
+     "UNDER|Under 3.5 goals": 0.7534,
+     "OVER|Over 3.5 goals": 0.2466
     },
     "Over/under 4.5": {
      "UNDER|Under 4.5 goals": 0.8831,
@@ -2697,19 +2734,13 @@
    "away": "Envigado FC",
    "kickoff_utc": "2026-11-19T22:30:00Z",
    "x12": [
-    3.291,
-    3.1119,
-    2.6681
+    3.3048,
+    3.125,
+    2.6497
    ],
    "ou": null,
-   "x12_spread": 0.0369,
-   "markets": {
-    "Half-time result": {
-     "HOME|Independiente Valle del Cauca": 0.2465,
-     "DRAW|Draw": 0.4685,
-     "AWAY|Envigado": 0.2849
-    }
-   }
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0369
   },
   {
    "source": "Smarkets (borsa)",
@@ -2723,6 +2754,7 @@
     5.129
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0365,
    "markets": {
     "Over/under 0.5": {
@@ -2742,9 +2774,9 @@
    "away": "Lyngby BK",
    "kickoff_utc": "2026-11-20T18:00:00Z",
    "x12": [
-    1.8016,
-    4.3553,
-    4.6442
+    1.8031,
+    4.3707,
+    4.6169
    ],
    "ou": [
     2.5,
@@ -2753,7 +2785,8 @@
      2.5374
     ]
    ],
-   "x12_spread": 0.0342,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0312,
    "ou_spread": 0.0373,
    "markets": {
     "Both teams to score": {
@@ -2826,20 +2859,6 @@
   },
   {
    "source": "Smarkets (borsa)",
-   "league": "25313818",
-   "home": "Septemvri Sofia",
-   "away": "Lokomotiv Plovdiv",
-   "kickoff_utc": "2026-11-20T16:00:00Z",
-   "x12": [
-    2.6782,
-    3.1454,
-    3.2396
-   ],
-   "ou": null,
-   "x12_spread": 0.038
-  },
-  {
-   "source": "Smarkets (borsa)",
    "league": "26109924",
    "home": "Darmstadt",
    "away": "Heidenheim",
@@ -2856,6 +2875,7 @@
      2.6504
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0349,
    "ou_spread": 0.0386,
    "markets": {
@@ -2937,6 +2957,7 @@
      2.2736
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0297,
    "ou_spread": 0.0375
   },
@@ -2952,6 +2973,7 @@
     4.5493
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0375
   },
   {
@@ -2966,6 +2988,7 @@
     3.5748
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0357
   },
   {
@@ -2980,6 +3003,7 @@
     3.7459
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0357,
    "markets": {
     "Over/under 0.5": {
@@ -2995,12 +3019,13 @@
    "away": "Korona Kielce",
    "kickoff_utc": "2026-11-20T17:00:00Z",
    "x12": [
-    2.7546,
-    3.762,
-    2.6943
+    2.7555,
+    3.7763,
+    2.6861
    ],
    "ou": null,
-   "x12_spread": 0.036,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.032,
    "markets": {
     "Winner and both teams to score": {
      "HOME_YES|Piast Gliwice / Yes": 0.1995,
@@ -3046,6 +3071,21 @@
   },
   {
    "source": "Smarkets (borsa)",
+   "league": "30088638",
+   "home": "TSV Havelse",
+   "away": "Viktoria Köln",
+   "kickoff_utc": "2026-11-20T18:00:00Z",
+   "x12": [
+    6.0194,
+    5.3527,
+    1.5455
+   ],
+   "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0382
+  },
+  {
+   "source": "Smarkets (borsa)",
    "league": "28960531",
    "home": "Molde",
    "away": "Bodø/Glimt",
@@ -3055,8 +3095,16 @@
     4.9913,
     1.9319
    ],
-   "ou": null,
+   "ou": [
+    2.5,
+    [
+     1.2824,
+     4.541
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0323,
+   "ou_spread": 0.0381,
    "markets": {
     "Both teams to score": {
      "YES|Yes": 0.7338,
@@ -3088,6 +3136,7 @@
     2.2966
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0394
   },
   {
@@ -3097,9 +3146,9 @@
    "away": "Le Havre",
    "kickoff_utc": "2026-11-20T19:45:00Z",
    "x12": [
-    2.2942,
-    3.5718,
-    3.5193
+    2.2855,
+    3.5558,
+    3.5558
    ],
    "ou": [
     2.5,
@@ -3108,7 +3157,8 @@
      2.0536
     ]
    ],
-   "x12_spread": 0.0163,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0159,
    "ou_spread": 0.0231,
    "markets": {
     "Odd or even score": {
@@ -3135,6 +3185,7 @@
     15.9482
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0278,
    "markets": {
     "Over/under 1.5": {
@@ -3150,9 +3201,9 @@
    "away": "Köln",
    "kickoff_utc": "2026-11-20T19:30:00Z",
    "x12": [
-    1.0965,
-    17.5883,
-    32.0909
+    1.097,
+    17.514,
+    31.9553
    ],
    "ou": [
     2.5,
@@ -3161,7 +3212,8 @@
      6.549
     ]
    ],
-   "x12_spread": 0.0168,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0083,
    "ou_spread": 0.0214,
    "markets": {
     "Both teams to score": {
@@ -3169,15 +3221,15 @@
      "NO|No": 0.505
     },
     "Half-time result": {
-     "HOME|Bayern": 0.7318,
-     "DRAW|Draw": 0.2057,
-     "AWAY|Köln": 0.0624
+     "HOME|Bayern": 0.7326,
+     "DRAW|Draw": 0.2052,
+     "AWAY|Köln": 0.0623
     },
     "Winner and both teams to score": {
-     "HOME_YES|Bayern / Yes": 0.4215,
-     "DRAW_YES|Draw / Yes": 0.0481,
-     "AWAY_YES|Köln / Yes": 0.0192,
-     "HOME_NO|Bayern / No": 0.4929,
+     "HOME_YES|Bayern / Yes": 0.4219,
+     "DRAW_YES|Draw / Yes": 0.0482,
+     "AWAY_YES|Köln / Yes": 0.0184,
+     "HOME_NO|Bayern / No": 0.4933,
      "DRAW_NO|Draw / No": 0.0081,
      "AWAY_NO|Köln / No": 0.0101
     },
@@ -3192,26 +3244,26 @@
      "RANGE|7 or more goals": 0.1779
     },
     "Winner and over/under 1.5": {
-     "HOME_OVER|Bayern / over 1.5 goals": 0.8716,
-     "DRAW_OVER|Draw / over 1.5 goals": 0.0481,
-     "AWAY_OVER|Köln / over 1.5 goals": 0.0229,
-     "HOME_UNDER|Bayern / under 1.5 goals": 0.0413,
+     "HOME_OVER|Bayern / over 1.5 goals": 0.8722,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.0482,
+     "AWAY_OVER|Köln / over 1.5 goals": 0.0224,
+     "HOME_UNDER|Bayern / under 1.5 goals": 0.0414,
      "DRAW_UNDER|Draw / under 1.5 goals": 0.0081,
      "AWAY_UNDER|Köln / under 1.5 goals": 0.0078
     },
     "Winner and over/under 2.5": {
-     "HOME_OVER|Bayern / over 2.5 goals": 0.7985,
-     "DRAW_OVER|Draw / over 2.5 goals": 0.0257,
-     "AWAY_OVER|Köln / over 2.5 goals": 0.0197,
-     "HOME_UNDER|Bayern / under 2.5 goals": 0.1151,
+     "HOME_OVER|Bayern / over 2.5 goals": 0.7992,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0258,
+     "AWAY_OVER|Köln / over 2.5 goals": 0.0187,
+     "HOME_UNDER|Bayern / under 2.5 goals": 0.1152,
      "DRAW_UNDER|Draw / under 2.5 goals": 0.0319,
      "AWAY_UNDER|Köln / under 2.5 goals": 0.0091
     },
     "Winner and over/under 3.5": {
-     "HOME_OVER|Bayern / over 3.5 goals": 0.6443,
+     "HOME_OVER|Bayern / over 3.5 goals": 0.6448,
      "DRAW_OVER|Draw / over 3.5 goals": 0.0257,
-     "AWAY_OVER|Köln / over 3.5 goals": 0.01,
-     "HOME_UNDER|Bayern / under 3.5 goals": 0.2702,
+     "AWAY_OVER|Köln / over 3.5 goals": 0.0094,
+     "HOME_UNDER|Bayern / under 3.5 goals": 0.2704,
      "DRAW_UNDER|Draw / under 3.5 goals": 0.0318,
      "AWAY_UNDER|Köln / under 3.5 goals": 0.018
     },
@@ -3269,6 +3321,7 @@
     2.939
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0389,
    "markets": {
     "Winner and both teams to score": {
@@ -3299,6 +3352,7 @@
      2.1414
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0045,
    "ou_spread": 0.0199,
    "markets": {
@@ -3331,12 +3385,12 @@
      "AWAY_UNDER|Espanyol / under 2.5 goals": 0.0598
     },
     "Winner and over/under 3.5": {
-     "HOME_OVER|Athletic Bilbao / over 3.5 goals": 0.2292,
-     "DRAW_OVER|Draw / over 3.5 goals": 0.0493,
-     "AWAY_OVER|Espanyol / over 3.5 goals": 0.0259,
-     "HOME_UNDER|Athletic Bilbao / under 3.5 goals": 0.4351,
-     "DRAW_UNDER|Draw / under 3.5 goals": 0.1598,
-     "AWAY_UNDER|Espanyol / under 3.5 goals": 0.1006
+     "HOME_OVER|Athletic Bilbao / over 3.5 goals": 0.2296,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0494,
+     "AWAY_OVER|Espanyol / over 3.5 goals": 0.026,
+     "HOME_UNDER|Athletic Bilbao / under 3.5 goals": 0.4341,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1601,
+     "AWAY_UNDER|Espanyol / under 3.5 goals": 0.1008
     },
     "Winner and over/under 4.5": {
      "HOME_OVER|Athletic Bilbao / over 4.5 goals": 0.1263,
@@ -3448,6 +3502,7 @@
     3.7061
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0332
   },
   {
@@ -3457,9 +3512,9 @@
    "away": "Westerlo",
    "kickoff_utc": "2026-11-20T19:45:00Z",
    "x12": [
-    2.1196,
-    4.2841,
-    3.3922
+    2.1287,
+    4.2997,
+    3.3596
    ],
    "ou": [
     2.5,
@@ -3468,7 +3523,8 @@
      2.9231
     ]
    ],
-   "x12_spread": 0.0357,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0326,
    "ou_spread": 0.0371,
    "markets": {
     "Both teams to score": {
@@ -3546,11 +3602,12 @@
    "away": "Cesena",
    "kickoff_utc": "2026-11-20T19:30:00Z",
    "x12": [
-    1.7619,
-    4.0635,
-    5.3668
+    1.7641,
+    4.0567,
+    5.3578
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0306,
    "markets": {
     "Over/under 0.5": {
@@ -3566,6 +3623,21 @@
      "OVER|Over 5.5 goals": 0.0697
     }
    }
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "25506385",
+   "home": "Pogon Szczecin",
+   "away": "Slask Wroclaw",
+   "kickoff_utc": "2026-11-20T19:30:00Z",
+   "x12": [
+    1.8617,
+    4.1691,
+    4.4846
+   ],
+   "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0398
   },
   {
    "source": "Smarkets (borsa)",
@@ -3585,6 +3657,7 @@
      2.2882
     ]
    ],
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0241,
    "ou_spread": 0.0319,
    "markets": {
@@ -3655,6 +3728,35 @@
   {
    "source": "Smarkets (borsa)",
    "league": "28959175",
+   "home": "Club Tijuana",
+   "away": "Atlante",
+   "kickoff_utc": "2026-11-21T03:10:00Z",
+   "x12": [
+    1.6651,
+    4.6417,
+    5.4344
+   ],
+   "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0363,
+   "markets": {
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.049,
+     "OVER|Over 0.5 goals": 0.951
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.8189,
+     "OVER|Over 4.5 goals": 0.1811
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9188,
+     "OVER|Over 5.5 goals": 0.0812
+    }
+   }
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "28959175",
    "home": "FC Juárez",
    "away": "Atlas",
    "kickoff_utc": "2026-11-21T03:00:00Z",
@@ -3664,6 +3766,7 @@
     2.1556
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0344,
    "markets": {
     "Both teams to score": {
@@ -3744,7 +3847,23 @@
     3.0236
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0385
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "28950058",
+   "home": "Tokyo Verdy",
+   "away": "Nagoya Grampus",
+   "kickoff_utc": "2026-11-21T05:00:00Z",
+   "x12": [
+    3.6381,
+    3.5373,
+    2.2602
+   ],
+   "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0398
   },
   {
    "source": "Smarkets (borsa)",
@@ -3758,6 +3877,7 @@
     7.3464
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0381
   },
   {
@@ -3772,6 +3892,7 @@
     2.3982
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0386
   },
   {
@@ -3781,12 +3902,13 @@
    "away": "Sheff Wed",
    "kickoff_utc": "2026-11-20T20:00:00Z",
    "x12": [
-    3.081,
-    4.108,
-    2.3148
+    3.098,
+    4.1307,
+    2.2982
    ],
    "ou": null,
-   "x12_spread": 0.0188,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "x12_spread": 0.0158,
    "markets": {
     "Winner and over/under 2.5": {
      "HOME_OVER|Barnsley / over 2.5 goals": 0.2276,
@@ -3826,6 +3948,7 @@
     4.3731
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0361,
    "markets": {
     "Over/under 0.5": {
@@ -3858,6 +3981,7 @@
     3.1839
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0392
   },
   {
@@ -3872,7 +3996,1289 @@
     4.5357
    ],
    "ou": null,
+   "fetched_utc": "2026-11-19T07:25:18+00:00",
    "x12_spread": 0.0354
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "MOIK Baku",
+   "away": "Sabail FC",
+   "kickoff_utc": "2026-11-19T10:00:00.000Z",
+   "x12": [
+    2.8285,
+    3.4944,
+    2.7755
+   ],
+   "ou": [
+    2.5,
+    [
+     7.8953,
+     1.145
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0364,
+   "ou_spread": -0.0382
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Khankhedi",
+   "away": "FK Karvan",
+   "kickoff_utc": "2026-11-19T12:00:00.000Z",
+   "x12": [
+    3.8731,
+    3.631,
+    2.144
+   ],
+   "ou": [
+    2.5,
+    [
+     8.5727,
+     1.1321
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.1042,
+   "ou_spread": -0.0601
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "MFK Zvolen",
+   "away": "FK Košice",
+   "kickoff_utc": "2026-11-19T12:00:00.000Z",
+   "x12": [
+    10.3447,
+    6.4856,
+    1.3349
+   ],
+   "ou": [
+    2.5,
+    [
+     4.6915,
+     1.2709
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0168,
+   "ou_spread": -0.0621
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Baladeyet Al-Mahalla",
+   "away": "Haras El Hodood",
+   "kickoff_utc": "2026-11-19T12:30:00.000Z",
+   "x12": [
+    3.1255,
+    2.8923,
+    2.9912
+   ],
+   "ou": [
+    2.5,
+    [
+     16.1386,
+     1.0661
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0216,
+   "ou_spread": -0.0241
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "El Dakhleya SC",
+   "away": "Ismaily",
+   "kickoff_utc": "2026-11-19T12:30:00.000Z",
+   "x12": [
+    4.1624,
+    3.0964,
+    2.2894
+   ],
+   "ou": [
+    2.5,
+    [
+     13.0755,
+     1.0828
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0114,
+   "ou_spread": -0.0284
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "La Viena FC",
+   "away": "El Seka Elhadeed",
+   "kickoff_utc": "2026-11-19T12:30:00.000Z",
+   "x12": [
+    2.9678,
+    2.8121,
+    3.2527
+   ],
+   "ou": [
+    2.5,
+    [
+     16.9981,
+     1.0625
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.019,
+   "ou_spread": -0.0154
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Pharco FC",
+   "away": "El-Entag El-Harby",
+   "kickoff_utc": "2026-11-19T12:30:00.000Z",
+   "x12": [
+    2.0332,
+    3.4833,
+    4.523
+   ],
+   "ou": [
+    2.5,
+    [
+     11.1044,
+     1.099
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0192,
+   "ou_spread": -0.02
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Tersana SC",
+   "away": "Telecom Egypt SC",
+   "kickoff_utc": "2026-11-19T12:30:00.000Z",
+   "x12": [
+    2.5897,
+    2.832,
+    3.835
+   ],
+   "ou": [
+    2.5,
+    [
+     17.4777,
+     1.0607
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0151,
+   "ou_spread": -0.0145
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Al-Wasl",
+   "away": "Hatta",
+   "kickoff_utc": "2026-11-19T12:45:00.000Z",
+   "x12": [
+    1.1358,
+    12.7154,
+    24.4264
+   ],
+   "ou": [
+    2.5,
+    [
+     1.2696,
+     4.7087
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.005,
+   "ou_spread": -0.0372
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Entebbe UPPC",
+   "away": "Kataka FC",
+   "kickoff_utc": "2026-11-19T13:00:00.000Z",
+   "x12": [
+    1.2668,
+    7.1444,
+    14.1504
+   ],
+   "ou": [
+    2.5,
+    [
+     6.0408,
+     1.1984
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0476,
+   "ou_spread": -0.0609
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Kigezi Homeboys FC",
+   "away": "Express FC",
+   "kickoff_utc": "2026-11-19T13:00:00.000Z",
+   "x12": [
+    4.3822,
+    3.4207,
+    2.0857
+   ],
+   "ou": [
+    2.5,
+    [
+     11.2774,
+     1.0973
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.078,
+   "ou_spread": -0.035
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Maroons FC",
+   "away": "NEC FC",
+   "kickoff_utc": "2026-11-19T13:00:00.000Z",
+   "x12": [
+    4.9586,
+    3.0722,
+    2.1149
+   ],
+   "ou": [
+    2.5,
+    [
+     14.0913,
+     1.0764
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0713,
+   "ou_spread": -0.0396
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Al-Mokawloon al-Arab",
+   "away": "El Qanah FC",
+   "kickoff_utc": "2026-11-19T15:00:00.000Z",
+   "x12": [
+    1.8112,
+    3.5761,
+    5.944
+   ],
+   "ou": [
+    2.5,
+    [
+     11.2354,
+     1.0977
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0117,
+   "ou_spread": -0.0602
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "El-Masry",
+   "away": "Asyut Petroleum",
+   "kickoff_utc": "2026-11-19T15:00:00.000Z",
+   "x12": [
+    1.6771,
+    3.9148,
+    6.7433
+   ],
+   "ou": [
+    2.5,
+    [
+     12.8562,
+     1.0843
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0087,
+   "ou_spread": -0.0425
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "PFC Dobrudzha Dobrich",
+   "away": "FC Fratria",
+   "kickoff_utc": "2026-11-19T15:00:00.000Z",
+   "x12": [
+    4.8445,
+    3.8933,
+    1.8632
+   ],
+   "ou": [
+    2.5,
+    [
+     8.1186,
+     1.1405
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0542,
+   "ou_spread": -0.0563
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Al-Ain",
+   "away": "Al Dhafra",
+   "kickoff_utc": "2026-11-19T15:25:00.000Z",
+   "x12": [
+    1.1572,
+    11.2705,
+    21.2388
+   ],
+   "ou": [
+    2.5,
+    [
+     3.4959,
+     1.4007
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0078,
+   "ou_spread": -0.0204
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Al-Ahli",
+   "away": "Al-Shamal",
+   "kickoff_utc": "2026-11-19T15:30:00.000Z",
+   "x12": [
+    3.1878,
+    4.2077,
+    2.2289
+   ],
+   "ou": [
+    2.5,
+    [
+     1.5,
+     3.0001
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.005,
+   "ou_spread": -0.0322
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "MB Rouissat",
+   "away": "CR Belouizdad",
+   "kickoff_utc": "2026-11-19T16:45:00.000Z",
+   "x12": [
+    5.3108,
+    3.2863,
+    1.9708
+   ],
+   "ou": [
+    2.5,
+    [
+     15.7319,
+     1.0679
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0276,
+   "ou_spread": -0.0269
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "MC Alger",
+   "away": "Olympique Akbou",
+   "kickoff_utc": "2026-11-19T16:45:00.000Z",
+   "x12": [
+    1.4981,
+    4.1855,
+    10.685
+   ],
+   "ou": [
+    2.5,
+    [
+     13.372,
+     1.0808
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0089,
+   "ou_spread": -0.0321
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "FK Austria Wien Women",
+   "away": "FC Bayern München Women",
+   "kickoff_utc": "2026-11-19T17:45:00.000Z",
+   "x12": [
+    26.6937,
+    11.1224,
+    1.146
+   ],
+   "ou": [
+    2.5,
+    [
+     1.3458,
+     3.8919
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0083,
+   "ou_spread": -0.0549
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Paris FC Women",
+   "away": "HB Køge Women",
+   "kickoff_utc": "2026-11-19T17:45:00.000Z",
+   "x12": [
+    1.6554,
+    4.5852,
+    5.6235
+   ],
+   "ou": [
+    2.5,
+    [
+     1.5834,
+     2.7141
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0073,
+   "ou_spread": -0.0325
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Aldosivi Reserves",
+   "away": "Godoy Cruz Reserves",
+   "kickoff_utc": "2026-11-19T18:00:00.000Z",
+   "x12": [
+    2.7585,
+    3.7241,
+    2.7103
+   ],
+   "ou": [
+    2.5,
+    [
+     8.4079,
+     1.135
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0418,
+   "ou_spread": -0.0476
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Argentinos Juniors Reserves",
+   "away": "Gimnasia y Esgrima de Mendoza Reserves",
+   "kickoff_utc": "2026-11-19T18:00:00.000Z",
+   "x12": [
+    3.0784,
+    3.6514,
+    2.492
+   ],
+   "ou": [
+    2.5,
+    [
+     2.2771,
+     1.783
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0591,
+   "ou_spread": -0.0563
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "CA River Plate Reserves",
+   "away": "Banfield Reserves",
+   "kickoff_utc": "2026-11-19T18:00:00.000Z",
+   "x12": [
+    1.5779,
+    4.7786,
+    6.3708
+   ],
+   "ou": [
+    2.5,
+    [
+     1.8419,
+     2.1878
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0548,
+   "ou_spread": -0.0581
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "CA Sarmiento Reserves",
+   "away": "Barracas Central Reserves",
+   "kickoff_utc": "2026-11-19T18:00:00.000Z",
+   "x12": [
+    2.4658,
+    3.2731,
+    3.4609
+   ],
+   "ou": [
+    2.5,
+    [
+     12.1568,
+     1.0896
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0276,
+   "ou_spread": -0.0337
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "FC Fredericia",
+   "away": "Hillerød Fodbold",
+   "kickoff_utc": "2026-11-19T18:00:00.000Z",
+   "x12": [
+    1.3432,
+    6.4092,
+    10.0541
+   ],
+   "ou": [
+    2.5,
+    [
+     5.0142,
+     1.2491
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0089,
+   "ou_spread": -0.0641
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "FC ZED",
+   "away": "Smouha SC",
+   "kickoff_utc": "2026-11-19T18:00:00.000Z",
+   "x12": [
+    2.9962,
+    2.7531,
+    3.3001
+   ],
+   "ou": [
+    2.5,
+    [
+     15.246,
+     1.0702
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0026,
+   "ou_spread": -0.0169
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Racing Club Reserves",
+   "away": "Club Atlético Talleres Reserves",
+   "kickoff_utc": "2026-11-19T18:00:00.000Z",
+   "x12": [
+    2.7285,
+    3.9321,
+    2.6372
+   ],
+   "ou": [
+    2.5,
+    [
+     1.8503,
+     2.176
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0551,
+   "ou_spread": -0.0628
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "JS Kabylie",
+   "away": "USM Alger",
+   "kickoff_utc": "2026-11-19T19:00:00.000Z",
+   "x12": [
+    2.3415,
+    3.0637,
+    4.0565
+   ],
+   "ou": [
+    2.5,
+    [
+     2.8359,
+     1.5447
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0496,
+   "ou_spread": -0.0584
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "CA Boston River",
+   "away": "Deportivo Maldonado",
+   "kickoff_utc": "2026-11-19T19:30:00.000Z",
+   "x12": [
+    3.7526,
+    3.7756,
+    2.1337
+   ],
+   "ou": [
+    2.5,
+    [
+     7.8953,
+     1.145
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0214,
+   "ou_spread": -0.0382
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "CA Peñarol",
+   "away": "Cerro Largo FC",
+   "kickoff_utc": "2026-11-19T19:30:00.000Z",
+   "x12": [
+    1.4876,
+    4.73,
+    8.5945
+   ],
+   "ou": [
+    2.5,
+    [
+     9.4106,
+     1.1189
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.018,
+   "ou_spread": -0.0516
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "CA Progreso",
+   "away": "Montevideo City Torque",
+   "kickoff_utc": "2026-11-19T19:30:00.000Z",
+   "x12": [
+    6.3534,
+    4.8207,
+    1.5744
+   ],
+   "ou": [
+    2.5,
+    [
+     6.5883,
+     1.1789
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.016,
+   "ou_spread": -0.0472
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Arsenal Women",
+   "away": "Olympique Lyonnais Women",
+   "kickoff_utc": "2026-11-19T20:00:00.000Z",
+   "x12": [
+    4.9471,
+    4.5466,
+    1.7304
+   ],
+   "ou": [
+    2.5,
+    [
+     1.6084,
+     2.6436
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0123,
+   "ou_spread": -0.0371
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "FC Barcelona Women",
+   "away": "Servette FC Women",
+   "kickoff_utc": "2026-11-19T20:00:00.000Z",
+   "x12": [
+    1.0212,
+    79.3926,
+    122.744
+   ],
+   "ou": [
+    2.5,
+    [
+     1.7847,
+     2.2743
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0016,
+   "ou_spread": -0.1863
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "S.L. Benfica Women",
+   "away": "AS Roma Women",
+   "kickoff_utc": "2026-11-19T20:00:00.000Z",
+   "x12": [
+    2.2406,
+    4.165,
+    3.1889
+   ],
+   "ou": [
+    2.5,
+    [
+     5.7412,
+     1.2109
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0121,
+   "ou_spread": -0.0747
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "EC Vitória",
+   "away": "Red Bull Bragantino",
+   "kickoff_utc": "2026-11-19T22:30:00.000Z",
+   "x12": [
+    2.8536,
+    3.6298,
+    2.6733
+   ],
+   "ou": [
+    2.5,
+    [
+     7.9182,
+     1.1445
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0038,
+   "ou_spread": -0.0229
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Vasco da Gama",
+   "away": "SC Internacional",
+   "kickoff_utc": "2026-11-19T22:30:00.000Z",
+   "x12": [
+    1.6422,
+    4.4171,
+    6.0729
+   ],
+   "ou": [
+    2.5,
+    [
+     7.4843,
+     1.1542
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0037,
+   "ou_spread": -0.0772
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Orlando City",
+   "away": "FC Cincinnati",
+   "kickoff_utc": "2026-11-20T00:30:00.000Z",
+   "x12": [
+    2.5127,
+    4.2373,
+    2.7321
+   ],
+   "ou": [
+    2.5,
+    [
+     4.4163,
+     1.2927
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0053,
+   "ou_spread": -0.0298
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "São Paulo",
+   "away": "Fluminense FC",
+   "kickoff_utc": "2026-11-20T00:30:00.000Z",
+   "x12": [
+    2.5673,
+    3.4462,
+    3.122
+   ],
+   "ou": [
+    2.5,
+    [
+     10.6549,
+     1.1036
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0051,
+   "ou_spread": -0.0208
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Seattle Sounders",
+   "away": "Real Salt Lake",
+   "kickoff_utc": "2026-11-20T03:00:00.000Z",
+   "x12": [
+    2.047,
+    4.0917,
+    3.744
+   ],
+   "ou": [
+    2.5,
+    [
+     5.7678,
+     1.2097
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0048,
+   "ou_spread": -0.0529
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Western Sydney Wanderers",
+   "away": "Adelaide United",
+   "kickoff_utc": "2026-11-20T08:40:00.000Z",
+   "x12": [
+    1.7218,
+    4.699,
+    4.8448
+   ],
+   "ou": [
+    2.5,
+    [
+     5.1424,
+     1.2414
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0181,
+   "ou_spread": -0.066
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Arminia Bielefeld",
+   "away": "1. FC Magdeburg",
+   "kickoff_utc": "2026-11-20T17:30:00.000Z",
+   "x12": [
+    2.34,
+    3.8487,
+    3.1967
+   ],
+   "ou": [
+    2.5,
+    [
+     6.9203,
+     1.1689
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0203,
+   "ou_spread": -0.0585
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "SV Darmstadt 98",
+   "away": "1. FC Heidenheim",
+   "kickoff_utc": "2026-11-20T17:30:00.000Z",
+   "x12": [
+    3.444,
+    4.1243,
+    2.1405
+   ],
+   "ou": [
+    2.5,
+    [
+     5.6316,
+     1.2159
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0206,
+   "ou_spread": -0.0991
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Annecy FC",
+   "away": "Clermont Foot",
+   "kickoff_utc": "2026-11-20T19:00:00.000Z",
+   "x12": [
+    2.2317,
+    3.5263,
+    3.7269
+   ],
+   "ou": [
+    2.5,
+    [
+     9.1562,
+     1.1226
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0357,
+   "ou_spread": -0.0756
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "AS Nancy",
+   "away": "Dijon FCO",
+   "kickoff_utc": "2026-11-20T19:00:00.000Z",
+   "x12": [
+    1.8556,
+    4.1131,
+    4.5876
+   ],
+   "ou": [
+    2.5,
+    [
+     6.9144,
+     1.1691
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0285,
+   "ou_spread": -0.0887
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "En Avant Guingamp",
+   "away": "Rodez",
+   "kickoff_utc": "2026-11-20T19:00:00.000Z",
+   "x12": [
+    2.1115,
+    3.9759,
+    3.6378
+   ],
+   "ou": [
+    2.5,
+    [
+     6.2812,
+     1.1894
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0286,
+   "ou_spread": -0.081
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "FC Metz",
+   "away": "US Boulogne",
+   "kickoff_utc": "2026-11-20T19:00:00.000Z",
+   "x12": [
+    2.2203,
+    3.5758,
+    3.7043
+   ],
+   "ou": [
+    2.5,
+    [
+     9.0112,
+     1.1248
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0325,
+   "ou_spread": -0.022
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Red Star FC 93",
+   "away": "Pau FC",
+   "kickoff_utc": "2026-11-20T19:00:00.000Z",
+   "x12": [
+    2.1127,
+    3.6813,
+    3.9213
+   ],
+   "ou": [
+    2.5,
+    [
+     8.0781,
+     1.1413
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.026,
+   "ou_spread": -0.0653
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Andorra FC",
+   "away": "Leganés",
+   "kickoff_utc": "2026-11-20T19:30:00.000Z",
+   "x12": [
+    1.9553,
+    3.8386,
+    4.3846
+   ],
+   "ou": [
+    2.5,
+    [
+     8.155,
+     1.1398
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0203,
+   "ou_spread": -0.0308
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "FC Bayern München",
+   "away": "1. FC Köln",
+   "kickoff_utc": "2026-11-20T19:30:00.000Z",
+   "x12": [
+    1.094,
+    17.7309,
+    33.8527
+   ],
+   "ou": [
+    2.5,
+    [
+     1.326,
+     4.0672
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0016,
+   "ou_spread": -0.0272
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Hellas Verona",
+   "away": "Cesena",
+   "kickoff_utc": "2026-11-20T19:30:00.000Z",
+   "x12": [
+    1.7834,
+    4.0271,
+    5.2369
+   ],
+   "ou": [
+    2.5,
+    [
+     3.5884,
+     1.3863
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0214,
+   "ou_spread": -0.0365
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Cercle Brugge",
+   "away": "Westerlo",
+   "kickoff_utc": "2026-11-20T19:45:00.000Z",
+   "x12": [
+    2.1343,
+    4.2737,
+    3.3617
+   ],
+   "ou": [
+    2.5,
+    [
+     5.1873,
+     1.2388
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0308,
+   "ou_spread": -0.0298
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Troyes AC",
+   "away": "Le Havre AC",
+   "kickoff_utc": "2026-11-20T19:45:00.000Z",
+   "x12": [
+    2.2904,
+    3.5499,
+    3.5499
+   ],
+   "ou": [
+    2.5,
+    [
+     1.973,
+     2.0278
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0038,
+   "ou_spread": -0.0231
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Athletic Bilbao",
+   "away": "Espanyol",
+   "kickoff_utc": "2026-11-20T20:00:00.000Z",
+   "x12": [
+    1.5108,
+    4.7363,
+    7.8768
+   ],
+   "ou": [
+    2.5,
+    [
+     1.8722,
+     2.1465
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0032,
+   "ou_spread": -0.0085
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Barnsley",
+   "away": "Sheffield Wednesday",
+   "kickoff_utc": "2026-11-20T20:00:00.000Z",
+   "x12": [
+    3.1063,
+    4.1589,
+    2.2851
+   ],
+   "ou": [
+    2.5,
+    [
+     5.2623,
+     1.2346
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0058,
+   "ou_spread": -0.0855
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Vélez Sársfield",
+   "away": "Belgrano",
+   "kickoff_utc": "2026-11-20T23:00:00.000Z",
+   "x12": [
+    2.3272,
+    3.3325,
+    3.7007
+   ],
+   "ou": [
+    2.5,
+    [
+     2.4172,
+     1.7056
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0178,
+   "ou_spread": -0.0548
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Puebla",
+   "away": "Atlético San Luis",
+   "kickoff_utc": "2026-11-21T01:00:00.000Z",
+   "x12": [
+    2.5966,
+    3.7295,
+    2.884
+   ],
+   "ou": [
+    2.5,
+    [
+     6.6235,
+     1.1778
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0142,
+   "ou_spread": -0.0897
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "FC Juárez",
+   "away": "Atlas",
+   "kickoff_utc": "2026-11-21T03:00:00.000Z",
+   "x12": [
+    3.6072,
+    3.907,
+    2.1421
+   ],
+   "ou": [
+    2.5,
+    [
+     6.7097,
+     1.1751
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0228,
+   "ou_spread": -0.0351
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Club Tijuana",
+   "away": "Atlante",
+   "kickoff_utc": "2026-11-21T03:10:00.000Z",
+   "x12": [
+    1.657,
+    4.675,
+    5.4768
+   ],
+   "ou": [
+    2.5,
+    [
+     6.5516,
+     1.1801
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0199,
+   "ou_spread": -0.0936
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Auckland FC",
+   "away": "Melbourne Victory",
+   "kickoff_utc": "2026-11-21T04:00:00.000Z",
+   "x12": [
+    2.5794,
+    3.6964,
+    2.9258
+   ],
+   "ou": [
+    2.5,
+    [
+     7.3219,
+     1.1582
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0293,
+   "ou_spread": -0.0595
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Central Coast Mariners",
+   "away": "Perth Glory",
+   "kickoff_utc": "2026-11-21T06:00:00.000Z",
+   "x12": [
+    2.9426,
+    4.0602,
+    2.4162
+   ],
+   "ou": [
+    2.5,
+    [
+     5.6316,
+     1.2159
+    ]
+   ],
+   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "x12_spread": -0.0239,
+   "ou_spread": -0.0991
   }
  ]
 }
