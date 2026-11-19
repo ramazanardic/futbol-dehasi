@@ -1,14 +1,15 @@
 {
- "started_utc": "2026-11-19T06:24:12+00:00",
+ "started_utc": "2026-11-19T06:25:45+00:00",
  "errors": [],
  "counts": {
   "fixtures.csv": 51,
   "new_league_fixtures.csv": 9,
-  "references_total": 216,
+  "references_total": 111,
   "smarkets_events": 160,
   "smarkets_markets": 13321,
   "smarkets_contracts": 795,
-  "smarkets_references": 158
+  "smarkets_markets_illiquid": 239,
+  "smarkets_references": 53
  },
  "samples": {
   "fixtures.csv": {
@@ -401,8 +402,12 @@
    "484103272": {
     "bids": [
      {
+      "price": 3937,
+      "quantity": 203660
+     },
+     {
       "price": 3846,
-      "quantity": 91148
+      "quantity": 51868
      },
      {
       "price": 3817,
@@ -419,6 +424,10 @@
     ],
     "offers": [
      {
+      "price": 4000,
+      "quantity": 1071507
+     },
+     {
       "price": 4032,
       "quantity": 231025
      },
@@ -434,5 +443,5 @@
    }
   }
  },
- "finished_utc": "2026-11-19T06:24:18+00:00"
+ "finished_utc": "2026-11-19T06:25:55+00:00"
 }

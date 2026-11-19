@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-19T06:24:18+00:00",
+ "generated_utc": "2026-11-19T06:25:55+00:00",
  "references": [
   {
    "source": "Betfair Borsası (football-data)",
@@ -1044,9 +1044,9 @@
    "away": "Fluminense",
    "kickoff_utc": "2026-11-20T00:30:00Z",
    "x12": [
-    2.5428,
-    3.455,
-    3.1517
+    2.5362,
+    3.4457,
+    3.1696
    ],
    "ou": [
     2.5,
@@ -1054,7 +1054,9 @@
      2.2898,
      1.7753
     ]
-   ]
+   ],
+   "x12_spread": 0.0128,
+   "ou_spread": 0.0285
   },
   {
    "source": "Smarkets (borsa)",
@@ -1073,7 +1075,9 @@
      1.7845,
      2.2747
     ]
-   ]
+   ],
+   "x12_spread": 0.0111,
+   "ou_spread": 0.0271
   },
   {
    "source": "Smarkets (borsa)",
@@ -1092,7 +1096,9 @@
      1.8673,
      2.153
     ]
-   ]
+   ],
+   "x12_spread": 0.0112,
+   "ou_spread": 0.0259
   },
   {
    "source": "Smarkets (borsa)",
@@ -1105,32 +1111,8 @@
     4.6546,
     4.8561
    ],
-   "ou": [
-    2.5,
-    [
-     1.5215,
-     2.9176
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30091534",
-   "home": "FC Botosani",
-   "away": "FC Voluntari",
-   "kickoff_utc": "2026-11-20T15:30:00Z",
-   "x12": [
-    1.7516,
-    4.2648,
-    5.1381
-   ],
-   "ou": [
-    2.5,
-    [
-     1.7594,
-     2.3168
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0232
   },
   {
    "source": "Smarkets (borsa)",
@@ -1139,9 +1121,9 @@
    "away": "Real Salt Lake",
    "kickoff_utc": "2026-11-20T03:00:00Z",
    "x12": [
-    2.0407,
-    4.119,
-    3.7426
+    2.0354,
+    4.1293,
+    3.7519
    ],
    "ou": [
     2.5,
@@ -1149,7 +1131,9 @@
      1.5832,
      2.7147
     ]
-   ]
+   ],
+   "x12_spread": 0.0119,
+   "ou_spread": 0.0241
   },
   {
    "source": "Smarkets (borsa)",
@@ -1158,9 +1142,9 @@
    "away": "Cincinnati",
    "kickoff_utc": "2026-11-20T00:30:00Z",
    "x12": [
-    2.5416,
-    4.2528,
-    2.6924
+    2.5287,
+    4.2484,
+    2.7089
    ],
    "ou": [
     2.5,
@@ -1168,7 +1152,9 @@
      1.4016,
      3.4898
     ]
-   ]
+   ],
+   "x12_spread": 0.0156,
+   "ou_spread": 0.0253
   },
   {
    "source": "Smarkets (borsa)",
@@ -1181,13 +1167,8 @@
     3.4365,
     3.5104
    ],
-   "ou": [
-    2.5,
-    [
-     2.0536,
-     1.9492
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0181
   },
   {
    "source": "Smarkets (borsa)",
@@ -1206,26 +1187,9 @@
      1.4761,
      3.1003
     ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "45299951",
-   "home": "PFC Dobrudzha Dobrich",
-   "away": "FC Fratria",
-   "kickoff_utc": "2026-11-19T15:00:00Z",
-   "x12": [
-    4.0393,
-    4.3812,
-    1.9077
    ],
-   "ou": [
-    2.5,
-    [
-     1.9538,
-     2.0484
-    ]
-   ]
+   "x12_spread": 0.0223,
+   "ou_spread": 0.023
   },
   {
    "source": "Smarkets (borsa)",
@@ -1244,7 +1208,9 @@
      1.2878,
      4.4751
     ]
-   ]
+   ],
+   "x12_spread": 0.0149,
+   "ou_spread": 0.0361
   },
   {
    "source": "Smarkets (borsa)",
@@ -1253,9 +1219,9 @@
    "away": "Al Dhafra",
    "kickoff_utc": "2026-11-19T15:25:00Z",
    "x12": [
-    1.1521,
-    11.5382,
-    22.0447
+    1.154,
+    11.3434,
+    22.0807
    ],
    "ou": [
     2.5,
@@ -1263,64 +1229,9 @@
      1.2645,
      4.7813
     ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "25153245",
-   "home": "FC Bihor Oradea",
-   "away": "CS Gloria 2018 Bistrita-Nasaud",
-   "kickoff_utc": "2026-11-20T12:30:00Z",
-   "x12": [
-    1.9918,
-    3.723,
-    4.3605
    ],
-   "ou": [
-    2.5,
-    [
-     1.9695,
-     2.0315
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "44550616",
-   "home": "PSS Sleman",
-   "away": "Arema",
-   "kickoff_utc": "2026-11-20T08:30:00Z",
-   "x12": [
-    2.1897,
-    4.1081,
-    3.3344
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6132,
-     2.6308
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "44550616",
-   "home": "Garudayaksa FC",
-   "away": "Madura United FC",
-   "kickoff_utc": "2026-11-20T08:30:00Z",
-   "x12": [
-    2.2727,
-    3.9097,
-    3.2872
-   ],
-   "ou": [
-    2.5,
-    [
-     1.7665,
-     2.3047
-    ]
-   ]
+   "x12_spread": 0.0154,
+   "ou_spread": 0.0313
   },
   {
    "source": "Smarkets (borsa)",
@@ -1333,13 +1244,8 @@
     4.4881,
     6.9906
    ],
-   "ou": [
-    2.5,
-    [
-     1.9242,
-     2.082
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0298
   },
   {
    "source": "Smarkets (borsa)",
@@ -1352,89 +1258,8 @@
     4.9808,
     9.5776
    ],
-   "ou": [
-    2.5,
-    [
-     1.9111,
-     2.0976
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28950058",
-   "home": "Kashiwa Reysol",
-   "away": "JEF United Chiba",
-   "kickoff_utc": "2026-11-20T10:00:00Z",
-   "x12": [
-    1.5707,
-    4.8936,
-    6.2902
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6875,
-     2.4546
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "44550616",
-   "home": "Dewa United",
-   "away": "Persita Tangerang",
-   "kickoff_utc": "2026-11-20T12:00:00Z",
-   "x12": [
-    1.5946,
-    4.5425,
-    6.5473
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6834,
-     2.4633
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42587667",
-   "home": "Shabab Al-Ahli Dubai FC",
-   "away": "Ajman",
-   "kickoff_utc": "2026-11-20T15:25:00Z",
-   "x12": [
-    1.5183,
-    5.1752,
-    6.7497
-   ],
-   "ou": [
-    2.5,
-    [
-     1.5502,
-     2.8175
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42587667",
-   "home": "Al-Ittihad Kalba",
-   "away": "Al-Sharjah",
-   "kickoff_utc": "2026-11-20T12:45:00Z",
-   "x12": [
-    3.9412,
-    3.7607,
-    2.0818
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8923,
-     2.1207
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0289
   },
   {
    "source": "Smarkets (borsa)",
@@ -1443,17 +1268,12 @@
    "away": "Lyon (W)",
    "kickoff_utc": "2026-11-19T20:00:00Z",
    "x12": [
-    4.7009,
-    4.3746,
-    1.7899
+    4.6878,
+    4.4163,
+    1.7849
    ],
-   "ou": [
-    2.5,
-    [
-     1.6191,
-     2.6152
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.035
   },
   {
    "source": "Smarkets (borsa)",
@@ -1469,10 +1289,12 @@
    "ou": [
     2.5,
     [
-     1.3446,
-     3.9021
+     1.3394,
+     3.9467
     ]
-   ]
+   ],
+   "x12_spread": 0.0157,
+   "ou_spread": 0.0286
   },
   {
    "source": "Smarkets (borsa)",
@@ -1485,13 +1307,8 @@
     4.1125,
     3.1847
    ],
-   "ou": [
-    2.5,
-    [
-     1.5663,
-     2.7657
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0149
   },
   {
    "source": "Smarkets (borsa)",
@@ -1510,7 +1327,9 @@
      1.5654,
      2.7687
     ]
-   ]
+   ],
+   "x12_spread": 0.0157,
+   "ou_spread": 0.0325
   },
   {
    "source": "Smarkets (borsa)",
@@ -1529,7 +1348,9 @@
      1.1794,
      6.5733
     ]
-   ]
+   ],
+   "x12_spread": 0.0083,
+   "ou_spread": 0.0288
   },
   {
    "source": "Smarkets (borsa)",
@@ -1542,26 +1363,8 @@
     59.5089,
     121.1687
    ],
-   "ou": null
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42354697",
-   "home": "OKS Swit Skolwin",
-   "away": "Stal Stalowa Wola",
-   "kickoff_utc": "2026-11-20T11:30:00Z",
-   "x12": [
-    3.214,
-    3.8117,
-    2.3446
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6554,
-     2.5259
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0192
   },
   {
    "source": "Smarkets (borsa)",
@@ -1574,32 +1377,8 @@
     4.1562,
     11.5066
    ],
-   "ou": [
-    2.5,
-    [
-     2.6017,
-     1.6243
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "41615151",
-   "home": "MB Rouissat",
-   "away": "CR Belouizdad",
-   "kickoff_utc": "2026-11-19T16:45:00Z",
-   "x12": [
-    5.0939,
-    3.2266,
-    2.0253
-   ],
-   "ou": [
-    2.5,
-    [
-     2.8269,
-     1.5474
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0259
   },
   {
    "source": "Smarkets (borsa)",
@@ -1618,7 +1397,9 @@
      1.6734,
      2.4851
     ]
-   ]
+   ],
+   "x12_spread": 0.0181,
+   "ou_spread": 0.0287
   },
   {
    "source": "Smarkets (borsa)",
@@ -1637,7 +1418,9 @@
      2.1077,
      1.9028
     ]
-   ]
+   ],
+   "x12_spread": 0.0222,
+   "ou_spread": 0.0359
   },
   {
    "source": "Smarkets (borsa)",
@@ -1646,9 +1429,9 @@
    "away": "Deportivo Maldonado",
    "kickoff_utc": "2026-11-19T19:30:00Z",
    "x12": [
-    4.6546,
-    4.0253,
-    1.8631
+    4.7459,
+    3.9984,
+    1.8546
    ],
    "ou": [
     2.5,
@@ -1656,64 +1439,9 @@
      1.952,
      2.0505
     ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "45371580",
-   "home": "Lions FC",
-   "away": "Wollongong Wolves",
-   "kickoff_utc": "2026-11-19T08:30:00Z",
-   "x12": [
-    1.6447,
-    4.6793,
-    5.6094
    ],
-   "ou": [
-    2.5,
-    [
-     1.4923,
-     3.0312
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "45371580",
-   "home": "Preston Lions FC",
-   "away": "South Hobart SC",
-   "kickoff_utc": "2026-11-19T08:30:00Z",
-   "x12": [
-    1.218,
-    9.2793,
-    14.0476
-   ],
-   "ou": [
-    2.5,
-    [
-     1.3157,
-     4.168
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "31675862",
-   "home": "Beijing Guoan",
-   "away": "Shanghai SIPG",
-   "kickoff_utc": "2026-11-20T11:35:00Z",
-   "x12": [
-    2.6958,
-    4.1017,
-    2.5957
-   ],
-   "ou": [
-    2.5,
-    [
-     1.523,
-     2.9122
-    ]
-   ]
+   "x12_spread": 0.0204,
+   "ou_spread": 0.0334
   },
   {
    "source": "Smarkets (borsa)",
@@ -1732,7 +1460,9 @@
      2.5114,
      1.6616
     ]
-   ]
+   ],
+   "x12_spread": 0.0151,
+   "ou_spread": 0.0222
   },
   {
    "source": "Smarkets (borsa)",
@@ -1741,36 +1471,19 @@
    "away": "Olympic El Qanal",
    "kickoff_utc": "2026-11-19T15:00:00Z",
    "x12": [
-    1.7368,
-    3.7318,
-    6.3993
+    1.7636,
+    3.6123,
+    6.4036
    ],
    "ou": [
     2.5,
     [
-     2.4392,
-     1.6948
+     2.4453,
+     1.6919
     ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "45448555",
-   "home": "Omiya Ardija Ventus Women",
-   "away": "INAC Kobe Leonessa Women",
-   "kickoff_utc": "2026-11-19T09:00:00Z",
-   "x12": [
-    4.9332,
-    4.0165,
-    1.8238
    ],
-   "ou": [
-    2.5,
-    [
-     1.9064,
-     2.1032
-    ]
-   ]
+   "x12_spread": 0.0353,
+   "ou_spread": 0.0314
   },
   {
    "source": "Smarkets (borsa)",
@@ -1779,17 +1492,12 @@
    "away": "Shan United",
    "kickoff_utc": "2026-11-19T12:00:00Z",
    "x12": [
-    1.1211,
-    12.6994,
-    34.1175
+    1.1284,
+    11.9484,
+    33.2076
    ],
-   "ou": [
-    2.5,
-    [
-     1.3672,
-     3.7231
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0353
   },
   {
    "source": "Smarkets (borsa)",
@@ -1802,89 +1510,8 @@
     3.9232,
     2.8217
    ],
-   "ou": [
-    2.5,
-    [
-     1.7055,
-     2.4174
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "45448564",
-   "home": "Cong An Ha Noi",
-   "away": "Johor Darul Ta'zim",
-   "kickoff_utc": "2026-11-19T12:30:00Z",
-   "x12": [
-    4.554,
-    4.3731,
-    1.8124
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6609,
-     2.5131
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "43234999",
-   "home": "FK Sumgayit",
-   "away": "Sabah FC",
-   "kickoff_utc": "2026-11-20T15:00:00Z",
-   "x12": [
-    8.0173,
-    5.1846,
-    1.4654
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6516,
-     2.5347
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "43234999",
-   "home": "Imisli Futbol Klubu",
-   "away": "Zira IK",
-   "kickoff_utc": "2026-11-20T10:30:00Z",
-   "x12": [
-    4.7044,
-    3.7266,
-    1.9264
-   ],
-   "ou": [
-    2.5,
-    [
-     2.4023,
-     1.7131
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "41859430",
-   "home": "Lee Man FC",
-   "away": "North District",
-   "kickoff_utc": "2026-11-20T12:00:00Z",
-   "x12": [
-    2.4041,
-    4.1872,
-    2.8967
-   ],
-   "ou": [
-    2.5,
-    [
-     1.4428,
-     3.2584
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0344
   },
   {
    "source": "Smarkets (borsa)",
@@ -1903,7 +1530,9 @@
      1.4555,
      3.1956
     ]
-   ]
+   ],
+   "x12_spread": 0.0357,
+   "ou_spread": 0.0331
   },
   {
    "source": "Smarkets (borsa)",
@@ -1912,9 +1541,9 @@
    "away": "NK Celje",
    "kickoff_utc": "2026-11-19T12:30:00Z",
    "x12": [
-    8.4394,
-    5.4255,
-    1.4343
+    8.5835,
+    5.4133,
+    1.4311
    ],
    "ou": [
     2.5,
@@ -1922,7 +1551,9 @@
      1.5813,
      2.7204
     ]
-   ]
+   ],
+   "x12_spread": 0.024,
+   "ou_spread": 0.0321
   },
   {
    "source": "Smarkets (borsa)",
@@ -1941,45 +1572,9 @@
      2.2341,
      1.8103
     ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42644678",
-   "home": "Independiente Valle del Cauca",
-   "away": "Envigado FC",
-   "kickoff_utc": "2026-11-19T22:30:00Z",
-   "x12": [
-    3.3508,
-    3.0719,
-    2.6594
    ],
-   "ou": [
-    2.5,
-    [
-     2.6954,
-     1.5898
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42644678",
-   "home": "Unión Magdalena",
-   "away": "Boca Juniors de Cali",
-   "kickoff_utc": "2026-11-19T22:30:00Z",
-   "x12": [
-    1.5063,
-    4.5615,
-    8.5543
-   ],
-   "ou": [
-    2.5,
-    [
-     2.0364,
-     1.9649
-    ]
-   ]
+   "x12_spread": 0.0209,
+   "ou_spread": 0.0395
   },
   {
    "source": "Smarkets (borsa)",
@@ -1992,13 +1587,8 @@
     3.7224,
     2.6529
    ],
-   "ou": [
-    2.5,
-    [
-     1.8,
-     2.25
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0381
   },
   {
    "source": "Smarkets (borsa)",
@@ -2011,146 +1601,8 @@
     4.4209,
     4.6651
    ],
-   "ou": [
-    2.5,
-    [
-     1.646,
-     2.5479
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30470165",
-   "home": "SK Rapid II",
-   "away": "FC Blau-Weiss Linz",
-   "kickoff_utc": "2026-11-20T17:30:00Z",
-   "x12": [
-    7.3603,
-    5.8509,
-    1.4425
-   ],
-   "ou": [
-    2.5,
-    [
-     1.4625,
-     3.162
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30470165",
-   "home": "Floridsdorfer AC",
-   "away": "Young Violets Austria Wien",
-   "kickoff_utc": "2026-11-20T17:30:00Z",
-   "x12": [
-    2.366,
-    3.6101,
-    3.3295
-   ],
-   "ou": [
-    2.5,
-    [
-     1.9655,
-     2.0357
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "25313818",
-   "home": "Septemvri Sofia",
-   "away": "Lokomotiv Plovdiv",
-   "kickoff_utc": "2026-11-20T16:00:00Z",
-   "x12": [
-    2.6865,
-    3.1521,
-    3.2204
-   ],
-   "ou": [
-    2.5,
-    [
-     2.5033,
-     1.6652
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30470165",
-   "home": "SKN St. Pölten",
-   "away": "ASK Voitsberg",
-   "kickoff_utc": "2026-11-20T17:30:00Z",
-   "x12": [
-    2.0139,
-    4.1365,
-    3.821
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6766,
-     2.478
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30470165",
-   "home": "SV Austria Salzburg",
-   "away": "FC Flyeralarm Admira",
-   "kickoff_utc": "2026-11-20T19:30:00Z",
-   "x12": [
-    2.5695,
-    4.0059,
-    2.7686
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6677,
-     2.4977
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30470165",
-   "home": "KSV 1919",
-   "away": "WSC Hertha Wels",
-   "kickoff_utc": "2026-11-20T17:30:00Z",
-   "x12": [
-    2.9208,
-    4.0406,
-    2.4382
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6291,
-     2.5895
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30088286",
-   "home": "Metz",
-   "away": "US Boulogne",
-   "kickoff_utc": "2026-11-20T19:00:00Z",
-   "x12": [
-    2.2327,
-    3.5659,
-    3.6807
-   ],
-   "ou": [
-    2.5,
-    [
-     2.0399,
-     1.9617
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0342
   },
   {
    "source": "Smarkets (borsa)",
@@ -2163,13 +1615,8 @@
     4.0635,
     5.3668
    ],
-   "ou": [
-    2.5,
-    [
-     1.8215,
-     2.2174
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0306
   },
   {
    "source": "Smarkets (borsa)",
@@ -2188,7 +1635,9 @@
      1.6059,
      2.6504
     ]
-   ]
+   ],
+   "x12_spread": 0.0309,
+   "ou_spread": 0.0386
   },
   {
    "source": "Smarkets (borsa)",
@@ -2207,7 +1656,9 @@
      1.7852,
      2.2736
     ]
-   ]
+   ],
+   "x12_spread": 0.0297,
+   "ou_spread": 0.0375
   },
   {
    "source": "Smarkets (borsa)",
@@ -2220,13 +1671,8 @@
     4.0575,
     4.5493
    ],
-   "ou": [
-    2.5,
-    [
-     1.7682,
-     2.3017
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0375
   },
   {
    "source": "Smarkets (borsa)",
@@ -2239,32 +1685,8 @@
     3.9434,
     3.6071
    ],
-   "ou": [
-    2.5,
-    [
-     1.7311,
-     2.3678
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30088286",
-   "home": "Red Star FC 93",
-   "away": "Pau FC",
-   "kickoff_utc": "2026-11-20T19:00:00Z",
-   "x12": [
-    2.1224,
-    3.6752,
-    3.8952
-   ],
-   "ou": [
-    2.5,
-    [
-     1.9808,
-     2.0196
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0388
   },
   {
    "source": "Smarkets (borsa)",
@@ -2277,13 +1699,8 @@
     3.4778,
     3.7459
    ],
-   "ou": [
-    2.5,
-    [
-     2.1028,
-     1.9068
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0357
   },
   {
    "source": "Smarkets (borsa)",
@@ -2296,51 +1713,8 @@
     3.762,
     2.6943
    ],
-   "ou": [
-    2.5,
-    [
-     1.7533,
-     2.3274
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30088638",
-   "home": "TSV Havelse",
-   "away": "Viktoria Köln",
-   "kickoff_utc": "2026-11-20T18:00:00Z",
-   "x12": [
-    5.9904,
-    5.4088,
-    1.5428
-   ],
-   "ou": [
-    2.5,
-    [
-     1.4126,
-     3.4238
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "41835852",
-   "home": "Chrobry Glogow",
-   "away": "Puszcza Niepolomice",
-   "kickoff_utc": "2026-11-20T17:00:00Z",
-   "x12": [
-    2.4062,
-    3.4623,
-    3.3832
-   ],
-   "ou": [
-    2.5,
-    [
-     2.053,
-     1.9497
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.036
   },
   {
    "source": "Smarkets (borsa)",
@@ -2353,108 +1727,8 @@
     5.013,
     1.9308
    ],
-   "ou": [
-    2.5,
-    [
-     1.2872,
-     4.4819
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "29807285",
-   "home": "Kolding IF",
-   "away": "Aalborg BK",
-   "kickoff_utc": "2026-11-20T18:00:00Z",
-   "x12": [
-    2.9401,
-    3.8027,
-    2.5195
-   ],
-   "ou": [
-    2.5,
-    [
-     1.808,
-     2.2377
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "29807285",
-   "home": "Aarhus Fremad",
-   "away": "Hobro IK",
-   "kickoff_utc": "2026-11-20T18:00:00Z",
-   "x12": [
-    2.0072,
-    3.8075,
-    4.1814
-   ],
-   "ou": [
-    2.5,
-    [
-     1.9626,
-     2.0389
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "29558817",
-   "home": "76 Iğdır Belediyespor",
-   "away": "Ümraniyespor",
-   "kickoff_utc": "2026-11-20T17:00:00Z",
-   "x12": [
-    1.8755,
-    3.8652,
-    4.8058
-   ],
-   "ou": [
-    2.5,
-    [
-     1.986,
-     2.0142
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30092788",
-   "home": "Stade Nyonnais",
-   "away": "FC Wil 1900",
-   "kickoff_utc": "2026-11-20T18:30:00Z",
-   "x12": [
-    4.579,
-    4.464,
-    1.7934
-   ],
-   "ou": [
-    2.5,
-    [
-     1.5447,
-     2.8358
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30092788",
-   "home": "FC Rapperswil Jona",
-   "away": "FC Aarau",
-   "kickoff_utc": "2026-11-20T18:30:00Z",
-   "x12": [
-    3.7461,
-    4.413,
-    1.9745
-   ],
-   "ou": [
-    2.5,
-    [
-     1.527,
-     2.8975
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0282
   },
   {
    "source": "Smarkets (borsa)",
@@ -2473,102 +1747,9 @@
      1.9537,
      2.0486
     ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30092788",
-   "home": "Stade Lausanne-Ouchy",
-   "away": "SC Kriens",
-   "kickoff_utc": "2026-11-20T18:30:00Z",
-   "x12": [
-    1.4631,
-    5.4365,
-    7.5419
    ],
-   "ou": [
-    2.5,
-    [
-     1.4872,
-     3.0527
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "39372133",
-   "home": "KSK Lierse Kempenzonen",
-   "away": "SC Lokeren-Temse",
-   "kickoff_utc": "2026-11-20T19:00:00Z",
-   "x12": [
-    3.9982,
-    4.0986,
-    1.9767
-   ],
-   "ou": [
-    2.5,
-    [
-     1.648,
-     2.5433
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30092788",
-   "home": "Yverdon-Sport",
-   "away": "Winterthur",
-   "kickoff_utc": "2026-11-20T19:15:00Z",
-   "x12": [
-    2.3354,
-    4.1463,
-    3.0245
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6933,
-     2.4424
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "39372133",
-   "home": "Club Brugge B",
-   "away": "RE Virton",
-   "kickoff_utc": "2026-11-20T19:00:00Z",
-   "x12": [
-    2.3641,
-    4.1099,
-    2.9968
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6512,
-     2.5356
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30089422",
-   "home": "Jong FC Utrecht",
-   "away": "FC Emmen",
-   "kickoff_utc": "2026-11-20T19:00:00Z",
-   "x12": [
-    3.1723,
-    4.4473,
-    2.1743
-   ],
-   "ou": [
-    2.5,
-    [
-     1.4602,
-     3.1732
-    ]
-   ]
+   "x12_spread": 0.0124,
+   "ou_spread": 0.0279
   },
   {
    "source": "Smarkets (borsa)",
@@ -2581,336 +1762,8 @@
     9.6087,
     16.2981
    ],
-   "ou": [
-    2.5,
-    [
-     1.2353,
-     5.2501
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30089422",
-   "home": "Almere City",
-   "away": "NAC",
-   "kickoff_utc": "2026-11-20T19:00:00Z",
-   "x12": [
-    2.8441,
-    4.4429,
-    2.3623
-   ],
-   "ou": [
-    2.5,
-    [
-     1.467,
-     3.1415
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30089422",
-   "home": "FC Volendam",
-   "away": "Jong Ajax",
-   "kickoff_utc": "2026-11-20T19:00:00Z",
-   "x12": [
-    1.8979,
-    4.8578,
-    3.7419
-   ],
-   "ou": [
-    2.5,
-    [
-     1.3044,
-     4.2852
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30089422",
-   "home": "Den Bosch",
-   "away": "VVV-Venlo",
-   "kickoff_utc": "2026-11-20T19:00:00Z",
-   "x12": [
-    2.1212,
-    4.578,
-    3.2244
-   ],
-   "ou": [
-    2.5,
-    [
-     1.3811,
-     3.6241
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30089422",
-   "home": "TOP Oss",
-   "away": "Roda JC",
-   "kickoff_utc": "2026-11-20T19:00:00Z",
-   "x12": [
-    4.0988,
-    4.1988,
-    1.931
-   ],
-   "ou": [
-    2.5,
-    [
-     1.7033,
-     2.4218
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30089422",
-   "home": "Helmond Sport",
-   "away": "FC Dordrecht",
-   "kickoff_utc": "2026-11-20T19:00:00Z",
-   "x12": [
-    2.3459,
-    4.054,
-    3.0576
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6295,
-     2.5886
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30089422",
-   "home": "De Graafschap",
-   "away": "MVV Maastricht",
-   "kickoff_utc": "2026-11-20T19:00:00Z",
-   "x12": [
-    1.8085,
-    4.6427,
-    4.3168
-   ],
-   "ou": [
-    2.5,
-    [
-     1.5377,
-     2.8598
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30089422",
-   "home": "Vitesse",
-   "away": "Jong AZ Alkmaar",
-   "kickoff_utc": "2026-11-20T19:00:00Z",
-   "x12": [
-    2.0212,
-    4.5585,
-    3.4982
-   ],
-   "ou": [
-    2.5,
-    [
-     1.4582,
-     3.1825
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42354697",
-   "home": "Lechia Zielona Gora",
-   "away": "Chojniczanka Chojnice",
-   "kickoff_utc": "2026-11-20T17:00:00Z",
-   "x12": [
-    2.6822,
-    4.0717,
-    2.6207
-   ],
-   "ou": [
-    2.5,
-    [
-     1.4735,
-     3.1121
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30092788",
-   "home": "Neuchâtel Xamax",
-   "away": "Etoile-Carouge FC",
-   "kickoff_utc": "2026-11-20T18:30:00Z",
-   "x12": [
-    2.3092,
-    4.0036,
-    3.1528
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6435,
-     2.554
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "25349331",
-   "home": "Al Ahli Jeddah",
-   "away": "Al-Nassr Riyadh",
-   "kickoff_utc": "2026-11-20T17:30:00Z",
-   "x12": [
-    3.6676,
-    4.3558,
-    2.009
-   ],
-   "ou": [
-    2.5,
-    [
-     1.5294,
-     2.8891
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "43246718",
-   "home": "Independiente del Valle",
-   "away": "Deportivo Macara",
-   "kickoff_utc": "2026-11-20T17:00:00Z",
-   "x12": [
-    1.5361,
-    4.6211,
-    7.5409
-   ],
-   "ou": [
-    2.5,
-    [
-     1.7408,
-     2.3498
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42330220",
-   "home": "Dinamo Tbilisi",
-   "away": "Torpedo Kutaisi",
-   "kickoff_utc": "2026-11-20T16:00:00Z",
-   "x12": [
-    1.8569,
-    4.0992,
-    4.5972
-   ],
-   "ou": [
-    2.5,
-    [
-     1.7233,
-     2.3826
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "41696986",
-   "home": "FK MAS Táborsko",
-   "away": "SK Slavia Praha B",
-   "kickoff_utc": "2026-11-20T16:00:00Z",
-   "x12": [
-    2.0658,
-    3.9994,
-    3.7609
-   ],
-   "ou": [
-    2.5,
-    [
-     1.664,
-     2.5061
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "41696986",
-   "home": "MFK Karviná",
-   "away": "FC Baník Ostrava B",
-   "kickoff_utc": "2026-11-20T17:00:00Z",
-   "x12": [
-    1.5747,
-    4.8752,
-    6.2567
-   ],
-   "ou": [
-    2.5,
-    [
-     1.5535,
-     2.8068
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "41696986",
-   "home": "MFK Vyškov",
-   "away": "Ústí nad Labem",
-   "kickoff_utc": "2026-11-20T17:00:00Z",
-   "x12": [
-    2.3817,
-    3.8908,
-    3.095
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6995,
-     2.4297
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "43480331",
-   "home": "Zabbar St. Patrick F.C.",
-   "away": "Gzira United FC",
-   "kickoff_utc": "2026-11-20T17:00:00Z",
-   "x12": [
-    2.0368,
-    3.9291,
-    3.9291
-   ],
-   "ou": [
-    2.5,
-    [
-     1.9172,
-     2.0903
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "43417975",
-   "home": "Fulham U21",
-   "away": "Sporting CP U21",
-   "kickoff_utc": "2026-11-20T19:00:00Z",
-   "x12": [
-    3.9346,
-    4.6037,
-    1.8917
-   ],
-   "ou": [
-    2.5,
-    [
-     1.4923,
-     3.0312
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.035
   },
   {
    "source": "Smarkets (borsa)",
@@ -2919,17 +1772,12 @@
    "away": "Melbourne Victory",
    "kickoff_utc": "2026-11-21T04:00:00Z",
    "x12": [
-    2.5839,
-    3.644,
-    2.9536
+    2.5678,
+    3.6737,
+    2.9554
    ],
-   "ou": [
-    2.5,
-    [
-     1.8656,
-     2.1553
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0371
   },
   {
    "source": "Smarkets (borsa)",
@@ -2948,26 +1796,9 @@
      1.8761,
      2.1414
     ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28934939",
-   "home": "Palestino",
-   "away": "Unión La Calera",
-   "kickoff_utc": "2026-11-20T23:30:00Z",
-   "x12": [
-    2.0039,
-    3.8222,
-    4.1779
    ],
-   "ou": [
-    2.5,
-    [
-     1.8569,
-     2.167
-    ]
-   ]
+   "x12_spread": 0.0066,
+   "ou_spread": 0.0199
   },
   {
    "source": "Smarkets (borsa)",
@@ -2980,13 +1811,8 @@
     3.3269,
     3.6969
    ],
-   "ou": [
-    2.5,
-    [
-     2.4261,
-     1.7012
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0332
   },
   {
    "source": "Smarkets (borsa)",
@@ -2999,32 +1825,8 @@
     4.2841,
     3.3922
    ],
-   "ou": [
-    2.5,
-    [
-     1.5087,
-     2.9656
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "25506385",
-   "home": "Pogon Szczecin",
-   "away": "Slask Wroclaw",
-   "kickoff_utc": "2026-11-20T19:30:00Z",
-   "x12": [
-    1.8481,
-    4.1517,
-    4.5867
-   ],
-   "ou": [
-    2.5,
-    [
-     1.7188,
-     2.3913
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0357
   },
   {
    "source": "Smarkets (borsa)",
@@ -3043,26 +1845,9 @@
      1.7745,
      2.2912
     ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28959175",
-   "home": "Club Tijuana",
-   "away": "Atlante",
-   "kickoff_utc": "2026-11-21T03:10:00Z",
-   "x12": [
-    1.6666,
-    4.6195,
-    5.4497
    ],
-   "ou": [
-    2.5,
-    [
-     1.7261,
-     2.3772
-    ]
-   ]
+   "x12_spread": 0.0267,
+   "ou_spread": 0.0308
   },
   {
    "source": "Smarkets (borsa)",
@@ -3075,203 +1860,8 @@
     3.887,
     2.1556
    ],
-   "ou": [
-    2.5,
-    [
-     1.7834,
-     2.2765
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "41835852",
-   "home": "Miedz Legnica",
-   "away": "LKS Lódz",
-   "kickoff_utc": "2026-11-20T19:30:00Z",
-   "x12": [
-    2.4553,
-    3.8127,
-    3.0264
-   ],
-   "ou": [
-    2.5,
-    [
-     1.87,
-     2.1494
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "41997112",
-   "home": "Club Sportivo Ameliano",
-   "away": "Club Sportivo Luqueño",
-   "kickoff_utc": "2026-11-20T20:30:00Z",
-   "x12": [
-    2.3364,
-    3.8089,
-    3.2316
-   ],
-   "ou": [
-    2.5,
-    [
-     1.9462,
-     2.0568
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30916042",
-   "home": "Cliftonville",
-   "away": "Glentoran",
-   "kickoff_utc": "2026-11-20T19:45:00Z",
-   "x12": [
-    3.0306,
-    3.8195,
-    2.4497
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8694,
-     2.1502
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "41674440",
-   "home": "Escorpiones",
-   "away": "Asociacion Deportiva San Carlos",
-   "kickoff_utc": "2026-11-21T02:00:00Z",
-   "x12": [
-    3.5058,
-    3.6921,
-    2.2527
-   ],
-   "ou": [
-    2.5,
-    [
-     1.9108,
-     2.0979
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28958927",
-   "home": "Jeonbuk Hyundai Motors",
-   "away": "FC Seoul",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    2.4772,
-    3.8134,
-    2.9933
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8531,
-     2.1723
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28958927",
-   "home": "Pohang Steelers",
-   "away": "FC Anyang",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    2.494,
-    3.4307,
-    3.2514
-   ],
-   "ou": [
-    2.5,
-    [
-     2.218,
-     1.821
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28950058",
-   "home": "Kyoto Sanga",
-   "away": "Urawa Red Diamonds",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    3.4471,
-    3.9372,
-    2.1934
-   ],
-   "ou": [
-    2.5,
-    [
-     1.7945,
-     2.2587
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28950058",
-   "home": "Sanfrecce Hiroshima",
-   "away": "Yokohama F. Marinos",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    1.4665,
-    5.644,
-    7.0964
-   ],
-   "ou": [
-    2.5,
-    [
-     1.5123,
-     2.9521
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28950058",
-   "home": "Tokyo Verdy",
-   "away": "Nagoya Grampus",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    3.6214,
-    3.5005,
-    2.2821
-   ],
-   "ou": [
-    2.5,
-    [
-     2.08,
-     1.9259
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "29112680",
-   "home": "Tochigi City FC",
-   "away": "Albirex Niigata Albi",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    2.9462,
-    4.0281,
-    2.4253
-   ],
-   "ou": [
-    2.5,
-    [
-     1.7309,
-     2.3682
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0344
   },
   {
    "source": "Smarkets (borsa)",
@@ -3284,70 +1874,8 @@
     4.5298,
     7.4104
    ],
-   "ou": [
-    2.5,
-    [
-     1.8724,
-     2.1463
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "41659081",
-   "home": "Suwon Samsung Bluewings",
-   "away": "Gyeongnam FC",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    1.4106,
-    5.4423,
-    9.317
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6955,
-     2.4379
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "41659081",
-   "home": "Busan I'Park",
-   "away": "Chungbuk Cheongju FC",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    2.0559,
-    3.9479,
-    3.8418
-   ],
-   "ou": [
-    2.5,
-    [
-     1.773,
-     2.2936
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28959446",
-   "home": "Inverness",
-   "away": "Ayr",
-   "kickoff_utc": "2026-11-20T19:30:00Z",
-   "x12": [
-    1.6759,
-    4.1471,
-    6.1663
-   ],
-   "ou": [
-    2.5,
-    [
-     1.9549,
-     2.0472
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0381
   },
   {
    "source": "Smarkets (borsa)",
@@ -3360,32 +1888,8 @@
     4.1229,
     2.3038
    ],
-   "ou": [
-    2.5,
-    [
-     1.5658,
-     2.7675
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "27154230",
-   "home": "Southend United",
-   "away": "Boreham Wood",
-   "kickoff_utc": "2026-11-20T19:45:00Z",
-   "x12": [
-    3.1381,
-    4.531,
-    2.1709
-   ],
-   "ou": [
-    2.5,
-    [
-     1.3892,
-     3.5695
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0158
   },
   {
    "source": "Smarkets (borsa)",
@@ -3398,13 +1902,8 @@
     4.0348,
     2.3951
    ],
-   "ou": [
-    2.5,
-    [
-     1.6355,
-     2.5736
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0386
   },
   {
    "source": "Smarkets (borsa)",
@@ -3417,184 +1916,8 @@
     3.8115,
     4.3731
    ],
-   "ou": [
-    2.5,
-    [
-     1.9516,
-     2.0509
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "29112680",
-   "home": "Blaublitz Akita",
-   "away": "Montedio Yamagata",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    2.7482,
-    3.2545,
-    3.0409
-   ],
-   "ou": [
-    2.5,
-    [
-     2.3348,
-     1.7492
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "29112680",
-   "home": "Yokohama FC",
-   "away": "Consadole Sapporo",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    1.7476,
-    4.1232,
-    5.3975
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8547,
-     2.17
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "29112680",
-   "home": "Tegevajaro Miyazaki",
-   "away": "Iwaki FC",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    1.9666,
-    3.7592,
-    4.4348
-   ],
-   "ou": [
-    2.5,
-    [
-     2.0568,
-     1.9462
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "29112680",
-   "home": "Sagan Tosu",
-   "away": "Vegalta Sendai",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    2.8011,
-    3.4477,
-    2.8333
-   ],
-   "ou": [
-    2.5,
-    [
-     2.1208,
-     1.8922
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "29112680",
-   "home": "Ventforet Kofu",
-   "away": "Vanraure Hachinohe",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    3.3124,
-    3.3909,
-    2.4802
-   ],
-   "ou": [
-    2.5,
-    [
-     2.2891,
-     1.7757
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "29112680",
-   "home": "Júbilo Iwata",
-   "away": "Omiya Ardija",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    2.4458,
-    4.0418,
-    2.9094
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6999,
-     2.4288
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "29112680",
-   "home": "Kataller Toyama",
-   "away": "Oita Trinita",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    1.7774,
-    4.2971,
-    4.8859
-   ],
-   "ou": [
-    2.5,
-    [
-     1.7549,
-     2.3246
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "29112680",
-   "home": "Fujieda MYFC",
-   "away": "FC Imabari",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    2.3536,
-    3.7067,
-    3.2752
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8883,
-     2.1257
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "41997112",
-   "home": "Recoleta FC",
-   "away": "Clube Guaraní",
-   "kickoff_utc": "2026-11-20T23:00:00Z",
-   "x12": [
-    4.4698,
-    3.9146,
-    1.92
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8647,
-     2.1565
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0361
   },
   {
    "source": "Smarkets (borsa)",
@@ -3607,279 +1930,8 @@
     3.9393,
     3.1839
    ],
-   "ou": [
-    2.5,
-    [
-     1.7929,
-     2.2612
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28953177",
-   "home": "Airbus UK",
-   "away": "Colwyn Bay",
-   "kickoff_utc": "2026-11-20T19:45:00Z",
-   "x12": [
-    3.1905,
-    3.9019,
-    2.324
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8099,
-     2.2347
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28953177",
-   "home": "Briton Ferry",
-   "away": "Holywell Town",
-   "kickoff_utc": "2026-11-20T19:45:00Z",
-   "x12": [
-    1.3648,
-    6.3734,
-    9.0577
-   ],
-   "ou": [
-    2.5,
-    [
-     1.3942,
-     3.5369
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28953177",
-   "home": "Caernarfon Town",
-   "away": "Gap Connah's Quay",
-   "kickoff_utc": "2026-11-20T19:45:00Z",
-   "x12": [
-    2.6509,
-    3.9351,
-    2.7127
-   ],
-   "ou": [
-    2.5,
-    [
-     1.838,
-     2.1933
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28953177",
-   "home": "Cardiff Metropolitan",
-   "away": "Ammanford AFC",
-   "kickoff_utc": "2026-11-20T19:45:00Z",
-   "x12": [
-    1.2263,
-    8.322,
-    15.5305
-   ],
-   "ou": [
-    2.5,
-    [
-     1.4563,
-     3.1913
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30092957",
-   "home": "Racing Club de Montevideo",
-   "away": "Central Español",
-   "kickoff_utc": "2026-11-20T19:30:00Z",
-   "x12": [
-    2.2906,
-    3.3985,
-    3.715
-   ],
-   "ou": [
-    2.5,
-    [
-     2.2681,
-     1.7886
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30092957",
-   "home": "CA Cerro",
-   "away": "Club Nacional",
-   "kickoff_utc": "2026-11-20T19:30:00Z",
-   "x12": [
-    5.3913,
-    3.9037,
-    1.791
-   ],
-   "ou": [
-    2.5,
-    [
-     2.0202,
-     1.9802
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "30092957",
-   "home": "Liverpool Montevideo",
-   "away": "Montevideo Wanderers",
-   "kickoff_utc": "2026-11-20T19:30:00Z",
-   "x12": [
-    2.1622,
-    3.4941,
-    3.9793
-   ],
-   "ou": [
-    2.5,
-    [
-     2.1779,
-     1.849
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28953177",
-   "home": "Flint Town United",
-   "away": "Cambrian United F.C",
-   "kickoff_utc": "2026-11-20T19:45:00Z",
-   "x12": [
-    1.9221,
-    4.2235,
-    4.1158
-   ],
-   "ou": [
-    2.5,
-    [
-     1.5878,
-     2.7013
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28953177",
-   "home": "Penybont FC",
-   "away": "Haverfordwest County",
-   "kickoff_utc": "2026-11-20T19:45:00Z",
-   "x12": [
-    1.5892,
-    4.5518,
-    6.6201
-   ],
-   "ou": [
-    2.5,
-    [
-     1.9341,
-     2.0705
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28953177",
-   "home": "Llandudno Town",
-   "away": "Barry Town",
-   "kickoff_utc": "2026-11-20T19:45:00Z",
-   "x12": [
-    2.7901,
-    3.8282,
-    2.629
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6668,
-     2.4997
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28953177",
-   "home": "The New Saints",
-   "away": "Trefelin",
-   "kickoff_utc": "2026-11-20T19:45:00Z",
-   "x12": [
-    1.1343,
-    10.8885,
-    37.6679
-   ],
-   "ou": [
-    2.5,
-    [
-     1.1903,
-     6.2561
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "41615509",
-   "home": "Deportes Recoleta",
-   "away": "Santiago Wanderers",
-   "kickoff_utc": "2026-11-20T21:00:00Z",
-   "x12": [
-    2.4099,
-    3.7286,
-    3.1561
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8567,
-     2.1672
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "43480331",
-   "home": "Balzan FC",
-   "away": "Mosta FC",
-   "kickoff_utc": "2026-11-20T19:45:00Z",
-   "x12": [
-    2.0981,
-    3.9265,
-    3.7215
-   ],
-   "ou": [
-    2.5,
-    [
-     2.0245,
-     1.9761
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28950058",
-   "home": "Cerezo Osaka",
-   "away": "FC Tokyo",
-   "kickoff_utc": "2026-11-21T06:00:00Z",
-   "x12": [
-    5.3355,
-    4.4965,
-    1.6944
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6708,
-     2.4907
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0392
   },
   {
    "source": "Smarkets (borsa)",
@@ -3892,146 +1944,8 @@
     3.9053,
     4.5226
    ],
-   "ou": [
-    2.5,
-    [
-     1.9204,
-     2.0864
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42240770",
-   "home": "Matsumoto Yamaga FC",
-   "away": "FC Ryukyu",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    2.0315,
-    3.939,
-    3.939
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8304,
-     2.2042
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42240770",
-   "home": "Kochi United",
-   "away": "Fukushima United F.C.",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    3.3259,
-    3.9224,
-    2.2503
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8248,
-     2.2124
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42240770",
-   "home": "Nara Club",
-   "away": "Sagamihara",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    2.8201,
-    3.7261,
-    2.6523
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8364,
-     2.1956
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42240770",
-   "home": "Gainare Tottori",
-   "away": "AC Nagano Parceiro",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    2.5682,
-    3.5949,
-    3.008
-   ],
-   "ou": [
-    2.5,
-    [
-     2.0387,
-     1.9627
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42240770",
-   "home": "Zweigen Kanazawa",
-   "away": "Kagoshima United FC",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    3.2682,
-    3.7466,
-    2.3413
-   ],
-   "ou": [
-    2.5,
-    [
-     1.9015,
-     2.1093
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42240770",
-   "home": "Thespakusatsu Gunma",
-   "away": "Tochigi S.C.",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    3.7185,
-    3.83,
-    2.1278
-   ],
-   "ou": [
-    2.5,
-    [
-     1.9237,
-     2.0825
-    ]
-   ]
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42240770",
-   "home": "Ehime FC",
-   "away": "FC Gifu",
-   "kickoff_utc": "2026-11-21T05:00:00Z",
-   "x12": [
-    2.7384,
-    3.857,
-    2.6628
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8223,
-     2.2161
-    ]
-   ]
+   "ou": null,
+   "x12_spread": 0.0359
   }
  ]
 }
