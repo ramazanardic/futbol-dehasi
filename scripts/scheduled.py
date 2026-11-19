@@ -1,6 +1,7 @@
 """Entry point for the Windows Task Scheduler jobs that keep the daily ledger running.
 
-    python scripts/scheduled.py morning    # 09:00: settle yesterday (results + verify + summary), then run today
+    python scripts/scheduled.py morning    # 09:00: settle yesterday (results + verify + summary), run today,
+                                           #        then price the Nesine bulletin against the global reference
     python scripts/scheduled.py snapshot   # every 30 min: record pre-kickoff odds for today and yesterday
 
 Late kick-offs (e.g. Brazil at 03:30 TSİ) belong to the previous day's slate, so the snapshot
@@ -22,11 +23,11 @@ DAILY_SCRIPT = ROOT / "scripts" / "daily.py"
 LOG_DIR = ROOT / "reports" / "daily" / "logs"
 
 
-def _run(args: list[str], log) -> int:
-    log.write(f"\n[{dt.datetime.now().isoformat(timespec='seconds')}] daily.py {' '.join(args)}\n")
+def _run(args: list[str], log, script: Path = DAILY_SCRIPT) -> int:
+    log.write(f"\n[{dt.datetime.now().isoformat(timespec='seconds')}] {script.name} {' '.join(args)}\n")
     log.flush()
     env = {**os.environ, "PYTHONIOENCODING": "utf-8"}
-    proc = subprocess.run([sys.executable, str(DAILY_SCRIPT), *args], cwd=ROOT, env=env,
+    proc = subprocess.run([sys.executable, str(script), *args], cwd=ROOT, env=env,
                           capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=900)
     log.write(proc.stdout)
     if proc.returncode:
@@ -48,6 +49,8 @@ def main() -> None:
                 _run(["verify", "--date", y], log)
             _run(["summary"], log)
             _run(["run", "--date", today.isoformat()], log)
+            # Nesine bulletin priced against the global reference (Pinnacle when ODDS_API_KEY is set).
+            _run(["--date", today.isoformat()], log, ROOT / "scripts" / "nesine_global.py")
         elif mode == "snapshot":
             for day in (yesterday, today):
                 if (ROOT / "reports" / "daily" / day.isoformat() / "predictions.json").exists():

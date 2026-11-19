@@ -12,6 +12,8 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
 - **20 pazar ailesi + Bet Builder** tek tutarlı dağılımdan: [docs/markets.md](docs/markets.md). Kulüp gol
   rejimi piyasaya sabitlenmiş türev pazarlarda yeniden kalibre edildi (ν = 1.0, ρ = −0.03).
 - **Günlük akış:** `scripts/daily.py` (CLV ve havuz testi dahil), zamanlanmış görevler `scripts/scheduled.py`.
+- **Nesine analizi:** bültenin her seçimi global referans fiyatına (Pinnacle; yoksa ESPN) göre fiyatlanır:
+  `scripts/nesine_global.py`, [docs/nesine.md](docs/nesine.md). İlk ölçüm: Nesine marjı pazarların çoğunda %19–23.
 - Yol haritası: [docs/research/roadmap_2026_11.md](docs/research/roadmap_2026_11.md).
 
 ---
