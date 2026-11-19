@@ -351,7 +351,9 @@ def matchbook(window_hours: float = 48.0) -> list[dict]:
                 if None not in (draw, ph, pa):
                     rec["x12"] = [round(total / x, 4) for x in (ph, draw, pa)]
                     rec["x12_spread"] = round(max(x[1] for x in mids), 4)
-            if m.get("market-type") == "total" and abs(float(m.get("handicap") or 0) - 2.5) < 1e-9 and len(runners) == 2:
+            # Full-time match total only: "1st Half Total" and team totals share market-type "total".
+            if (m.get("market-type") == "total" and (m.get("name") or "").strip().lower() == "total"
+                    and abs(float(m.get("handicap") or 0) - 2.5) < 1e-9 and len(runners) == 2):
                 over = next((mid[0] for x, mid in zip(runners, mids) if "over" in x["name"].lower()), None)
                 under = next((mid[0] for x, mid in zip(runners, mids) if "under" in x["name"].lower()), None)
                 if over and under:

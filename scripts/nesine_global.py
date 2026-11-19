@@ -83,23 +83,32 @@ SOURCE_RANK = {"Pinnacle (football-data)": 0, "Smarkets (borsa)": 1, "Matchbook 
 EXCHANGES = ("Smarkets (borsa)", "Matchbook (borsa)")
 
 
-def consensus(a: dict, b: dict) -> dict:
+MAX_CONSENSUS_GAP = 0.08  # two sharp exchanges disagreeing by > 8 pts on one outcome = one of them is wrong
+
+
+def _gap(x: list[float], y: list[float]) -> float:
+    return max(abs(u - v) for u, v in zip(devig(x, method="power").probabilities, devig(y, method="power").probabilities))
+
+
+def consensus(a: dict, b: dict) -> dict | None:
     """Average the margin-free probabilities of two independent exchanges (1X2, and O/U on the same line)."""
     def _avg(x: list[float], y: list[float]) -> list[float]:
         px = devig(x, method="power").probabilities
         py = devig(y, method="power").probabilities
         return [round(2 / (u + v), 4) for u, v in zip(px, py)]
 
+    if _gap(a["x12"], b["x12"]) > MAX_CONSENSUS_GAP:
+        return None  # exchanges contradict each other: do not price this match
     out = dict(a, source=" + ".join(sorted({a["source"].split(" ")[0], b["source"].split(" ")[0]})) + " (borsa)")
     out["x12"] = _avg(a["x12"], b["x12"])
     if a.get("ou") and b.get("ou") and a["ou"][0] == b["ou"][0]:
-        out["ou"] = [a["ou"][0], _avg(a["ou"][1], b["ou"][1])]
+        # contradictory totals -> use neither (fit on 1X2 only) rather than a possibly wrong line
+        out["ou"] = [a["ou"][0], _avg(a["ou"][1], b["ou"][1])] if _gap(a["ou"][1], b["ou"][1]) <= MAX_CONSENSUS_GAP else None
     else:
         out["ou"] = a.get("ou") or b.get("ou")
     out["markets"] = a.get("markets") or b.get("markets")
     out["fetched_utc"] = min(filter(None, [a.get("fetched_utc"), b.get("fetched_utc")]), default=None)
-    out["consensus_gap"] = round(max(abs(u - v) for u, v in zip(devig(a["x12"], method="power").probabilities,
-                                                                devig(b["x12"], method="power").probabilities)), 4)
+    out["consensus_gap"] = round(_gap(a["x12"], b["x12"]), 4)
     return out
 GLOBAL_FILE = ROOT / "data" / "global_odds" / "latest" / "references.json"
 
@@ -241,7 +250,7 @@ def price_event(event, ref: dict, league: str) -> dict:
     nesine_ms = [event.odds_of(f"MS {c}") for c in "102"]
     margin = sum(1 / o for o in nesine_ms) - 1 if all(nesine_ms) else None
     return {"mu_home": round(float(mu_h), 3), "mu_away": round(float(mu_a), 3), "reference": ref["source"],
-            "ref_fetched_utc": ref.get("fetched_utc"),
+            "ref_fetched_utc": ref.get("fetched_utc"), "consensus_gap": ref.get("consensus_gap"),
             "ref_1x2": ref["x12"], "ref_ou": ref.get("ou"), "fair_1x2": [round(float(x), 4) for x in p1x2],
             "nesine_ms_margin": None if margin is None else round(margin, 4), "derivatives_priced": derivatives_ok, "selections": rows}
 
@@ -304,15 +313,18 @@ def analyze_day(day: dt.date, verbose: bool = True, with_research: bool = True) 
             ref, score = _match(e, pool) if pool else (None, 0.0)
             if ref is not None:
                 break
+        contradiction = False
         if ref is not None and ref["source"] in EXCHANGES:
             other, _ = _match(e, [r for r in refs if r["source"] in EXCHANGES and r["source"] != ref["source"]])
             if other is not None:
-                ref = consensus(ref, other)
+                ref = consensus(ref, other)  # None when the two exchanges contradict each other
+                contradiction = ref is None
         rec = {"code": e.code, "kickoff": e.kickoff.strftime("%Y-%m-%d %H:%M"), "kickoff_iso": e.kickoff.isoformat(),
                "league": league, "home": e.home, "away": e.away,
                "nesine_ms": [e.odds_of(f"MS {c}") for c in "102"], "n_nesine_selections": len(e.selections)}
         if ref is None:
-            rec["status"] = "global referans bulunamadı — fiyatlanmadı"
+            rec["status"] = ("borsalar birbiriyle çelişiyor (> 8 puan) — fiyatlanmadı" if contradiction
+                             else "global referans bulunamadı — fiyatlanmadı")
         else:
             rec.update(match_score=round(score, 2), ref_match=f"{ref['home']} - {ref['away']}", **price_event(e, ref, league))
             rec["status"] = "fiyatlandı"

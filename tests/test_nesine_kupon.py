@@ -108,11 +108,21 @@ def test_two_exchange_consensus_averages_probabilities():
     import nesine_global as ng
 
     a = {"source": "Smarkets (borsa)", "x12": [2.0, 4.0, 4.0], "ou": [2.5, [2.0, 2.0]], "markets": {"m": {}}, "fetched_utc": "2026-11-19T07:00:00+00:00"}
-    b = {"source": "Matchbook (borsa)", "x12": [2.5, 4.0, 1 / 0.35], "ou": [2.5, [1.8, 2.25]], "fetched_utc": "2026-11-19T08:00:00+00:00"}
+    b = {"source": "Matchbook (borsa)", "x12": [1 / 0.44, 4.0, 1 / 0.31], "ou": [2.5, [1.8, 2.25]], "fetched_utc": "2026-11-19T08:00:00+00:00"}
     c = ng.consensus(a, b)
     assert c["source"] == "Matchbook + Smarkets (borsa)"
     p = [1 / x for x in c["x12"]]
     assert sum(p) == pytest.approx(1.0, abs=1e-3)
-    assert p[0] == pytest.approx((0.5 + 0.4) / 2, abs=1e-3)
-    assert c["consensus_gap"] == pytest.approx(0.1, abs=1e-3)
+    assert p[0] == pytest.approx((0.5 + 0.44) / 2, abs=1e-3)
+    assert c["consensus_gap"] == pytest.approx(0.06, abs=1e-3)
     assert c["markets"] == {"m": {}} and c["fetched_utc"].startswith("2026-11-19T07")  # older fetch time is the honest one
+
+
+def test_contradicting_exchanges_are_not_priced():
+    import nesine_global as ng
+
+    a = {"source": "Smarkets (borsa)", "x12": [2.0, 4.0, 4.0], "ou": [2.5, [2.0, 2.0]]}
+    b = {"source": "Matchbook (borsa)", "x12": [2.0, 4.0, 4.0], "ou": [2.5, [8.0, 1 / 0.875]]}  # wrong market read as O/U
+    assert ng.consensus(a, b)["ou"] is None  # contradictory totals are dropped, 1X2 still averaged
+    c = {"source": "Matchbook (borsa)", "x12": [4.0, 4.0, 2.0]}
+    assert ng.consensus(a, c) is None
