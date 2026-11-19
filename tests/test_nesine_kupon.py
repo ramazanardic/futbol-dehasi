@@ -177,3 +177,17 @@ def test_lagging_nesine_price_is_detected():
     assert [(s["name"], round(p0, 2)) for _, s, p0, _ in hits] == [("KG Var", 0.50)]
     same_snapshot = dict(match, ref_fetched_utc="2026-11-19T08:00:00+00:00")
     assert ng.lagging_selections(history, [same_snapshot]) == []
+
+
+def test_user_absence_file_is_read_by_nesine_code(tmp_path):
+    import json
+
+    import nesine_global as ng
+
+    (tmp_path / "haftalik_sakatlik_ceza_x.json").write_text(json.dumps({"generated_tsi": "2026-11-19T11:50:19+03:00", "matches": [
+        {"code": 11, "absences": {"covered": True, "home": {"injuries": [{"player": "A"}], "cards": []}, "alerts": ["x"]}},
+        {"code": 12, "absences": {"covered": False}}]}), encoding="utf-8")
+    data, src = ng.load_user_absences(tmp_path)
+    assert set(data) == {11} and data[11]["home"]["injuries"][0]["player"] == "A"
+    assert src.startswith("haftalik_sakatlik_ceza_x.json (2026-11-19 11:50")
+    assert ng.load_user_absences(tmp_path / "none") == ({}, None)

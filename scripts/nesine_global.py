@@ -302,6 +302,21 @@ def _absent(r: dict, side: str) -> str:
     return ", ".join(key) or "kilit eksik yok"
 
 
+def load_user_absences(folder: Path = ROOT / "reports") -> tuple[dict[int, dict], str | None]:
+    """Injury / suspension file the user supplies (reports/haftalik_sakatlik_ceza_*.json, newest wins),
+    keyed by Nesine event code. The system never fetches this data itself; it only reads the user's file."""
+    files = sorted(folder.glob("haftalik_sakatlik_ceza_*.json"), key=lambda f: f.stat().st_mtime)
+    if not files:
+        return {}, None
+    try:
+        data = json.loads(files[-1].read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}, None
+    out = {int(m["code"]): m["absences"] for m in data.get("matches", [])
+           if (m.get("absences") or {}).get("covered") and m.get("code") is not None}
+    return out, f"{files[-1].name} ({data.get('generated_tsi', '?')[:16].replace('T', ' ')})"
+
+
 def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated: str | None) -> None:
     """Add ESPN research (form, table, rest, line-ups, absences) to priced matches; flag stale prices."""
     pool = []
@@ -332,6 +347,13 @@ def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated
         rec["research"] = res
         # Important absence in a line-up published after our price was fetched -> keep out of coupons.
         rec["research_block"] = bool(flags) and flags[-1].startswith("global fiyat")
+    # User-supplied injury / suspension file, matched on the Nesine event code.
+    user_abs, user_src = load_user_absences()
+    for rec in out:
+        a = user_abs.get(int(rec["code"]))
+        if a:
+            res = rec.setdefault("research", {"teams": {}, "flags": [], "motivation": {}})
+            res["user_absences"] = {"source": user_src, **a}
     # Premier League: official injury / suspension list (already priced by the market; shown as context).
     fpl = None
     for rec in out:
@@ -463,6 +485,16 @@ def _side_rows(r: dict, side: str) -> dict[str, str]:
     for label, value in (t.get("team_stats") or {}).items():
         row[label] = value
     row["Eksikler"] = _absent(r, side)
+    ua = (r.get("user_absences") or {}).get(side) or {}
+    if ua.get("injuries"):
+        row["Sakatlar (kullanıcı dosyası)"] = "; ".join(
+            f"{p['player']} ({p.get('pos') or '?'}, {p.get('reason') or 'sakat'}" + (f", dönüş {p['until']}" if p.get("until") else "") + ")"
+            for p in ua["injuries"][:8])
+    if ua.get("cards"):
+        row["Cezalılar (kullanıcı dosyası)"] = "; ".join(f"{p['player']} ({p.get('pos') or '?'}, {p.get('reason') or 'cezalı'})"
+                                                        for p in ua["cards"][:6])
+    if ua.get("gk_out"):
+        row["Kaleci"] = (row.get("Kaleci", "") + " · ⚠ kullanıcı dosyası: kaleci eksik").strip(" ·")
     if t.get("news_flags"):
         row["Haber (sakatlık/ceza)"] = " · ".join(t["news_flags"])
     if t.get("likely_absent"):
@@ -476,16 +508,19 @@ def _side_rows(r: dict, side: str) -> dict[str, str]:
 def write_team_files(date: str, out: list[dict], d: Path) -> None:
     """Per-match dossier of both teams (ESPN + Premier League official availability)."""
     md = [f"# {date} — Takım dosyaları", "",
-          "Kaynak: ESPN (form, son maçlar, puan durumu, sezon golleri, golcüler, kaleci, kartlar, ilk 11) ve Premier Lig "
-          "resmî sakat/cezalı listesi. Olasılıklar bu bilgilerden değil global borsa fiyatından gelir; bu dosya bağlam ve "
+          "Kaynak: ESPN (form, son maçlar, puan durumu, sezon golleri, golcüler, kaleci, kartlar, ilk 11), Premier Lig "
+          "resmî sakat/cezalı listesi ve varsa sizin sağladığınız sakatlık/ceza dosyası. Olasılıklar bu bilgilerden değil global borsa fiyatından gelir; bu dosya bağlam ve "
           "kontrol içindir.", ""]
     for m in out:
         r = m.get("research")
-        if not r or not r.get("teams"):
+        if not r or not (r.get("teams") or r.get("user_absences") or r.get("absences")):
             continue
         h, a = _side_rows(r, "home"), _side_rows(r, "away")
+        h["Takım"] = h["Takım"] if h["Takım"] != "-" else m["home"]
+        a["Takım"] = a["Takım"] if a["Takım"] != "-" else m["away"]
+        alerts = (r.get("user_absences") or {}).get("alerts") or []
         md += [f"## {m['kickoff'][11:]} · {m['home']} - {m['away']} ({m['league']})", "",
-               f"Aralarında: {r.get('h2h') or '-'} · Uyarı: {'; '.join(r.get('flags') or []) or '-'}", "",
+               f"Aralarında: {r.get('h2h') or '-'} · Uyarı: {'; '.join((r.get('flags') or []) + alerts) or '-'}", "",
                "| | Ev | Deplasman |", "|---|---|---|"]
         for key in dict.fromkeys(list(h) + list(a)):
             md.append(f"| {key} | {h.get(key, '-')} | {a.get(key, '-')} |")
