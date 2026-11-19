@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-19T20:16:57+00:00",
+ "generated_utc": "2026-11-19T21:10:47+00:00",
  "full_utc": "2026-11-19T20:16:57+00:00",
  "references": [
   {
@@ -1040,27 +1040,6 @@
   },
   {
    "source": "Matchbook (borsa)",
-   "home": "CA Boston River",
-   "away": "Deportivo Maldonado",
-   "kickoff_utc": "2026-11-19T19:30:00.000Z",
-   "x12": [
-    5.3801,
-    3.0147,
-    2.0729
-   ],
-   "ou": [
-    2.5,
-    [
-     4.0994,
-     1.3226
-    ]
-   ],
-   "fetched_utc": "2026-11-19T20:10:21+00:00",
-   "x12_spread": -0.0055,
-   "ou_spread": -0.023
-  },
-  {
-   "source": "Matchbook (borsa)",
    "home": "CA Peñarol",
    "away": "Cerro Largo FC",
    "kickoff_utc": "2026-11-19T19:30:00.000Z",
@@ -1079,174 +1058,6 @@
    "fetched_utc": "2026-11-19T20:10:21+00:00",
    "x12_spread": -0.0021,
    "ou_spread": -0.0474
-  },
-  {
-   "source": "Matchbook (borsa)",
-   "home": "CA Progreso",
-   "away": "Montevideo City Torque",
-   "kickoff_utc": "2026-11-19T19:30:00.000Z",
-   "x12": [
-    10.1574,
-    4.1574,
-    1.5128
-   ],
-   "ou": [
-    2.5,
-    [
-     1.1377,
-     8.262
-    ]
-   ],
-   "fetched_utc": "2026-11-19T20:10:21+00:00",
-   "x12_spread": -0.0058,
-   "ou_spread": -0.0205
-  },
-  {
-   "source": "Matchbook (borsa)",
-   "home": "Arsenal Women",
-   "away": "Olympique Lyonnais Women",
-   "kickoff_utc": "2026-11-19T20:01:00.000Z",
-   "x12": [
-    5.1492,
-    4.5976,
-    1.6998
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6496,
-     2.5394
-    ]
-   ],
-   "fetched_utc": "2026-11-19T20:10:21+00:00",
-   "x12_spread": -0.0038,
-   "ou_spread": -0.0062
-  },
-  {
-   "source": "Matchbook (borsa)",
-   "home": "S.L. Benfica Women",
-   "away": "AS Roma Women",
-   "kickoff_utc": "2026-11-19T20:01:00.000Z",
-   "x12": [
-    2.3356,
-    3.8842,
-    3.1809
-   ],
-   "ou": [
-    2.5,
-    [
-     1.7026,
-     2.4233
-    ]
-   ],
-   "fetched_utc": "2026-11-19T20:10:21+00:00",
-   "x12_spread": -0.0033,
-   "ou_spread": -0.0137
-  },
-  {
-   "source": "Matchbook (borsa)",
-   "home": "Deportivo La Guaira",
-   "away": "Anzoategui FC",
-   "kickoff_utc": "2026-11-19T22:30:00.000Z",
-   "x12": [
-    1.431,
-    5.3433,
-    8.7672
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8203,
-     2.2191
-    ]
-   ],
-   "fetched_utc": "2026-11-19T20:10:21+00:00",
-   "x12_spread": -0.0156,
-   "ou_spread": -0.0302
-  },
-  {
-   "source": "Matchbook (borsa)",
-   "home": "EC Vitória",
-   "away": "Red Bull Bragantino",
-   "kickoff_utc": "2026-11-19T22:30:00.000Z",
-   "x12": [
-    2.7324,
-    3.528,
-    2.8525
-   ],
-   "ou": [
-    2.5,
-    [
-     1.9609,
-     2.0407
-    ]
-   ],
-   "fetched_utc": "2026-11-19T20:10:21+00:00",
-   "x12_spread": -0.0025,
-   "ou_spread": -0.0052
-  },
-  {
-   "source": "Matchbook (borsa)",
-   "home": "Independiente Valle del Cauca",
-   "away": "Envigado FC",
-   "kickoff_utc": "2026-11-19T22:30:00.000Z",
-   "x12": [
-    3.3995,
-    3.099,
-    2.61
-   ],
-   "ou": [
-    2.5,
-    [
-     2.6388,
-     1.6102
-    ]
-   ],
-   "fetched_utc": "2026-11-19T20:10:21+00:00",
-   "x12_spread": -0.0173,
-   "ou_spread": -0.023
-  },
-  {
-   "source": "Matchbook (borsa)",
-   "home": "Unión Magdalena",
-   "away": "Boca Juniors de Cali",
-   "kickoff_utc": "2026-11-19T22:30:00.000Z",
-   "x12": [
-    1.3756,
-    5.4951,
-    10.9821
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8426,
-     2.1868
-    ]
-   ],
-   "fetched_utc": "2026-11-19T20:10:21+00:00",
-   "x12_spread": -0.0053,
-   "ou_spread": -0.0206
-  },
-  {
-   "source": "Matchbook (borsa)",
-   "home": "Vasco da Gama",
-   "away": "SC Internacional",
-   "kickoff_utc": "2026-11-19T22:30:00.000Z",
-   "x12": [
-    1.5868,
-    4.5406,
-    6.6854
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8698,
-     2.1497
-    ]
-   ],
-   "fetched_utc": "2026-11-19T20:10:21+00:00",
-   "x12_spread": -0.0045,
-   "ou_spread": -0.0043
   },
   {
    "source": "Matchbook (borsa)",
@@ -6239,303 +6050,6 @@
   },
   {
    "source": "Smarkets (borsa)",
-   "league": "28934185",
-   "home": "Vasco",
-   "away": "Internacional",
-   "kickoff_utc": "2026-11-19T22:30:00Z",
-   "x12": [
-    1.5869,
-    4.5407,
-    6.6849
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8676,
-     2.1526
-    ]
-   ],
-   "fetched_utc": "2026-11-19T20:10:23+00:00",
-   "x12_spread": 0.0079,
-   "ou_spread": 0.0217,
-   "markets": {
-    "Both teams to score": {
-     "YES|Yes": 0.5137,
-     "NO|No": 0.4863
-    },
-    "Winner and both teams to score": {
-     "HOME_YES|Vasco / Yes": 0.2741,
-     "DRAW_YES|Draw / Yes": 0.1626,
-     "AWAY_YES|Internacional / Yes": 0.0756,
-     "HOME_NO|Vasco / No": 0.3556,
-     "DRAW_NO|Draw / No": 0.0592,
-     "AWAY_NO|Internacional / No": 0.0729
-    },
-    "Winner and over/under 1.5": {
-     "HOME_OVER|Vasco / over 1.5 goals": 0.5101,
-     "DRAW_OVER|Draw / over 1.5 goals": 0.1604,
-     "AWAY_OVER|Internacional / over 1.5 goals": 0.1031,
-     "HOME_UNDER|Vasco / under 1.5 goals": 0.1208,
-     "DRAW_UNDER|Draw / under 1.5 goals": 0.0593,
-     "AWAY_UNDER|Internacional / under 1.5 goals": 0.0463
-    },
-    "Winner and over/under 2.5": {
-     "HOME_OVER|Vasco / over 2.5 goals": 0.3964,
-     "DRAW_OVER|Draw / over 2.5 goals": 0.0577,
-     "AWAY_OVER|Internacional / over 2.5 goals": 0.0821,
-     "HOME_UNDER|Vasco / under 2.5 goals": 0.2336,
-     "DRAW_UNDER|Draw / under 2.5 goals": 0.1662,
-     "AWAY_UNDER|Internacional / under 2.5 goals": 0.064
-    },
-    "Winner and over/under 3.5": {
-     "HOME_OVER|Vasco / over 3.5 goals": 0.2179,
-     "DRAW_OVER|Draw / over 3.5 goals": 0.0566,
-     "AWAY_OVER|Internacional / over 3.5 goals": 0.0349,
-     "HOME_UNDER|Vasco / under 3.5 goals": 0.412,
-     "DRAW_UNDER|Draw / under 3.5 goals": 0.1659,
-     "AWAY_UNDER|Internacional / under 3.5 goals": 0.1127
-    },
-    "Winner and over/under 4.5": {
-     "HOME_OVER|Vasco / over 4.5 goals": 0.1208,
-     "DRAW_OVER|Draw / over 4.5 goals": 0.0108,
-     "AWAY_OVER|Internacional / over 4.5 goals": 0.023,
-     "HOME_UNDER|Vasco / under 4.5 goals": 0.5075,
-     "DRAW_UNDER|Draw / under 4.5 goals": 0.2109,
-     "AWAY_UNDER|Internacional / under 4.5 goals": 0.1269
-    },
-    "Over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.0592,
-     "OVER|Over 0.5 goals": 0.9408
-    },
-    "Over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.2295,
-     "OVER|Over 1.5 goals": 0.7705
-    },
-    "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.6898,
-     "OVER|Over 3.5 goals": 0.3102
-    },
-    "Over/under 4.5": {
-     "UNDER|Under 4.5 goals": 0.8455,
-     "OVER|Over 4.5 goals": 0.1545
-    },
-    "Over/under 5.5": {
-     "UNDER|Under 5.5 goals": 0.9371,
-     "OVER|Over 5.5 goals": 0.0629
-    },
-    "Half-time/full-time": {
-     "HOME_HOME|Vasco / Vasco": 0.3931,
-     "HOME_AWAY|Vasco / Internacional": 0.0126,
-     "HOME_DRAW|Vasco / Draw": 0.0467,
-     "AWAY_HOME|Internacional / Vasco": 0.0295,
-     "AWAY_AWAY|Internacional / Internacional": 0.0784,
-     "AWAY_DRAW|Internacional / Draw": 0.0434,
-     "DRAW_HOME|Draw / Vasco": 0.2005,
-     "DRAW_AWAY|Draw / Internacional": 0.0613,
-     "DRAW_DRAW|Draw / Draw": 0.1347
-    },
-    "Second half result": {
-     "HOME|Vasco": 0.5091,
-     "DRAW|Draw": 0.3271,
-     "AWAY|Internacional": 0.1638
-    },
-    "Half-time result": {
-     "HOME|Vasco": 0.4586,
-     "DRAW|Draw": 0.3874,
-     "AWAY|Internacional": 0.154
-    },
-    "First half winner and both teams to score": {
-     "HOME_YES|Vasco / Yes": 0.0626,
-     "DRAW_YES|Draw / Yes": 0.1102,
-     "AWAY_YES|Internacional / Yes": 0.0222,
-     "HOME_NO|Vasco / No": 0.4008,
-     "DRAW_NO|Draw / No": 0.2775,
-     "AWAY_NO|Internacional / No": 0.1267
-    },
-    "Both teams to score in First Half": {
-     "YES|Yes": 0.1931,
-     "NO|No": 0.8069
-    },
-    "Both teams to score in Second Half": {
-     "YES|Yes": 0.2627,
-     "NO|No": 0.7373
-    },
-    "Odd or even score": {
-     "ODD|Odd": 0.4987,
-     "EVEN|Even": 0.5013
-    },
-    "Goal range": {
-     "RANGE|0 - 1": 0.2275,
-     "RANGE|2 - 3": 0.466,
-     "RANGE|4 - 6": 0.2834,
-     "RANGE|7 or more goals": 0.0231
-    },
-    "First half over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.2801,
-     "OVER|Over 0.5 goals": 0.7199
-    },
-    "First half over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.6428,
-     "OVER|Over 1.5 goals": 0.3572
-    },
-    "First half over/under 2.5": {
-     "UNDER|Under 2.5 goals": 0.8647,
-     "OVER|Over 2.5 goals": 0.1353
-    },
-    "Second half over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.1957,
-     "OVER|Over 0.5 goals": 0.8043
-    },
-    "Second half over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.5287,
-     "OVER|Over 1.5 goals": 0.4713
-    }
-   }
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "28934185",
-   "home": "EC Vitória",
-   "away": "Bragantino",
-   "kickoff_utc": "2026-11-19T22:30:00Z",
-   "x12": [
-    2.7325,
-    3.528,
-    2.8524
-   ],
-   "ou": [
-    2.5,
-    [
-     1.9635,
-     2.0379
-    ]
-   ],
-   "fetched_utc": "2026-11-19T20:10:23+00:00",
-   "x12_spread": 0.004,
-   "ou_spread": 0.0192,
-   "markets": {
-    "Both teams to score": {
-     "YES|Yes": 0.5675,
-     "NO|No": 0.4325
-    },
-    "Half-time/full-time": {
-     "HOME_HOME|Vitória / Vitória": 0.2026,
-     "HOME_AWAY|Vitória / Bragantino": 0.0272,
-     "HOME_DRAW|Vitória / Draw": 0.0565,
-     "AWAY_HOME|Bragantino / Vitória": 0.0272,
-     "AWAY_AWAY|Bragantino / Bragantino": 0.2057,
-     "AWAY_DRAW|Bragantino / Draw": 0.0565,
-     "DRAW_HOME|Draw / Vitória": 0.1295,
-     "DRAW_AWAY|Draw / Bragantino": 0.1338,
-     "DRAW_DRAW|Draw / Draw": 0.161
-    },
-    "Half-time result": {
-     "HOME|Vitória": 0.2945,
-     "DRAW|Draw": 0.4209,
-     "AWAY|Bragantino": 0.2846
-    },
-    "Winner and both teams to score": {
-     "HOME_YES|Vitória / Yes": 0.1828,
-     "DRAW_YES|Draw / Yes": 0.2116,
-     "AWAY_YES|Bragantino / Yes": 0.1736,
-     "HOME_NO|Vitória / No": 0.1862,
-     "DRAW_NO|Draw / No": 0.0695,
-     "AWAY_NO|Bragantino / No": 0.1764
-    },
-    "First half winner and both teams to score": {
-     "HOME_YES|Vitória / Yes": 0.0434,
-     "DRAW_YES|Draw / Yes": 0.126,
-     "AWAY_YES|Bragantino / Yes": 0.0446,
-     "HOME_NO|Vitória / No": 0.2442,
-     "DRAW_NO|Draw / No": 0.2967,
-     "AWAY_NO|Bragantino / No": 0.245
-    },
-    "Both teams to score in First Half": {
-     "YES|Yes": 0.214,
-     "NO|No": 0.786
-    },
-    "Odd or even score": {
-     "ODD|Odd": 0.4907,
-     "EVEN|Even": 0.5093
-    },
-    "Goal range": {
-     "RANGE|0 - 1": 0.2487,
-     "RANGE|2 - 3": 0.4595,
-     "RANGE|4 - 6": 0.2716,
-     "RANGE|7 or more goals": 0.0202
-    },
-    "Winner and over/under 1.5": {
-     "HOME_OVER|Vitória / over 1.5 goals": 0.2773,
-     "DRAW_OVER|Draw / over 1.5 goals": 0.2101,
-     "AWAY_OVER|Bragantino / over 1.5 goals": 0.2677,
-     "HOME_UNDER|Vitória / under 1.5 goals": 0.0888,
-     "DRAW_UNDER|Draw / under 1.5 goals": 0.069,
-     "AWAY_UNDER|Bragantino / under 1.5 goals": 0.0872
-    },
-    "Winner and over/under 2.5": {
-     "HOME_OVER|Vitória / over 2.5 goals": 0.2211,
-     "DRAW_OVER|Draw / over 2.5 goals": 0.0804,
-     "AWAY_OVER|Bragantino / over 2.5 goals": 0.2116,
-     "HOME_UNDER|Vitória / under 2.5 goals": 0.1443,
-     "DRAW_UNDER|Draw / under 2.5 goals": 0.2006,
-     "AWAY_UNDER|Bragantino / under 2.5 goals": 0.142
-    },
-    "Winner and over/under 3.5": {
-     "HOME_OVER|Vitória / over 3.5 goals": 0.1076,
-     "DRAW_OVER|Draw / over 3.5 goals": 0.081,
-     "AWAY_OVER|Bragantino / over 3.5 goals": 0.1029,
-     "HOME_UNDER|Vitória / under 3.5 goals": 0.2566,
-     "DRAW_UNDER|Draw / under 3.5 goals": 0.2045,
-     "AWAY_UNDER|Bragantino / under 3.5 goals": 0.2474
-    },
-    "Winner and over/under 4.5": {
-     "HOME_OVER|Vitória / over 4.5 goals": 0.0657,
-     "DRAW_OVER|Draw / over 4.5 goals": 0.0148,
-     "AWAY_OVER|Bragantino / over 4.5 goals": 0.0662,
-     "HOME_UNDER|Vitória / under 4.5 goals": 0.2981,
-     "DRAW_UNDER|Draw / under 4.5 goals": 0.2659,
-     "AWAY_UNDER|Bragantino / under 4.5 goals": 0.2893
-    },
-    "Over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.0693,
-     "OVER|Over 0.5 goals": 0.9307
-    },
-    "Over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.2462,
-     "OVER|Over 1.5 goals": 0.7538
-    },
-    "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.7112,
-     "OVER|Over 3.5 goals": 0.2888
-    },
-    "Over/under 4.5": {
-     "UNDER|Under 4.5 goals": 0.8627,
-     "OVER|Over 4.5 goals": 0.1373
-    },
-    "Over/under 5.5": {
-     "UNDER|Under 5.5 goals": 0.944,
-     "OVER|Over 5.5 goals": 0.056
-    },
-    "Over/under 6.5": {
-     "UNDER|Under 6.5 goals": 0.9814,
-     "OVER|Over 6.5 goals": 0.0186
-    },
-    "First half over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.2948,
-     "OVER|Over 0.5 goals": 0.7052
-    },
-    "First half over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.6643,
-     "OVER|Over 1.5 goals": 0.3357
-    },
-    "First half over/under 2.5": {
-     "UNDER|Under 2.5 goals": 0.8791,
-     "OVER|Over 2.5 goals": 0.1209
-    }
-   }
-  },
-  {
-   "source": "Smarkets (borsa)",
    "league": "29626177",
    "home": "Western Sydney Wanderers",
    "away": "Adelaide United",
@@ -7147,28 +6661,6 @@
   {
    "source": "Smarkets (borsa)",
    "league": "42644678",
-   "home": "Independiente Valle del Cauca",
-   "away": "Envigado FC",
-   "kickoff_utc": "2026-11-19T22:30:00Z",
-   "x12": [
-    3.3935,
-    3.0785,
-    2.6283
-   ],
-   "ou": [
-    2.5,
-    [
-     2.637,
-     1.6109
-    ]
-   ],
-   "fetched_utc": "2026-11-19T20:10:23+00:00",
-   "x12_spread": 0.0308,
-   "ou_spread": 0.0349
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42644678",
    "home": "Real Cundinamarca",
    "away": "Deportes Quindío",
    "kickoff_utc": "2026-11-20T00:45:00Z",
@@ -7191,34 +6683,6 @@
     "Over/under 1.5": {
      "UNDER|Under 1.5 goals": 0.4015,
      "OVER|Over 1.5 goals": 0.5985
-    }
-   }
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42644678",
-   "home": "Unión Magdalena",
-   "away": "Boca Juniors de Cali",
-   "kickoff_utc": "2026-11-19T22:30:00Z",
-   "x12": [
-    1.38,
-    5.4431,
-    10.9126
-   ],
-   "ou": [
-    2.5,
-    [
-     1.8614,
-     2.1609
-    ]
-   ],
-   "fetched_utc": "2026-11-19T20:10:23+00:00",
-   "x12_spread": 0.0207,
-   "ou_spread": 0.0348,
-   "markets": {
-    "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.6919,
-     "OVER|Over 3.5 goals": 0.3081
     }
    }
   },
@@ -11604,6 +11068,617 @@
    "ou": null,
    "fetched_utc": "2026-11-19T20:10:23+00:00",
    "x12_spread": 0.0218
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "28934185",
+   "home": "Vasco",
+   "away": "Internacional",
+   "kickoff_utc": "2026-11-19T22:30:00Z",
+   "x12": [
+    1.5739,
+    4.6457,
+    6.6932
+   ],
+   "ou": [
+    2.5,
+    [
+     1.8238,
+     2.2139
+    ]
+   ],
+   "fetched_utc": "2026-11-19T21:10:41+00:00",
+   "x12_spread": 0.0046,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.5187,
+     "NO|No": 0.4813
+    },
+    "Half-time/full-time": {
+     "HOME_HOME|Vasco / Vasco": 0.3989,
+     "HOME_AWAY|Vasco / Internacional": 0.0126,
+     "HOME_DRAW|Vasco / Draw": 0.0468,
+     "AWAY_HOME|Internacional / Vasco": 0.0296,
+     "AWAY_AWAY|Internacional / Internacional": 0.0752,
+     "AWAY_DRAW|Internacional / Draw": 0.0435,
+     "DRAW_HOME|Draw / Vasco": 0.1989,
+     "DRAW_AWAY|Draw / Internacional": 0.0615,
+     "DRAW_DRAW|Draw / Draw": 0.133
+    },
+    "Second half result": {
+     "HOME|Vasco": 0.5091,
+     "DRAW|Draw": 0.3271,
+     "AWAY|Internacional": 0.1638
+    },
+    "Half-time result": {
+     "HOME|Vasco": 0.4602,
+     "DRAW|Draw": 0.3869,
+     "AWAY|Internacional": 0.1529
+    },
+    "Both teams to score in first half / second half": {
+     "NO_NO|No / No": 0.6012,
+     "NO_YES|No / Yes": 0.2049,
+     "YES_NO|Yes / No": 0.1443,
+     "YES_YES|Yes / Yes": 0.0496
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Vasco / Yes": 0.2748,
+     "DRAW_YES|Draw / Yes": 0.1606,
+     "AWAY_YES|Internacional / Yes": 0.077,
+     "HOME_NO|Vasco / No": 0.3555,
+     "DRAW_NO|Draw / No": 0.058,
+     "AWAY_NO|Internacional / No": 0.0741
+    },
+    "First half winner and both teams to score": {
+     "HOME_YES|Vasco / Yes": 0.0625,
+     "DRAW_YES|Draw / Yes": 0.1115,
+     "AWAY_YES|Internacional / Yes": 0.0208,
+     "HOME_NO|Vasco / No": 0.4017,
+     "DRAW_NO|Draw / No": 0.2771,
+     "AWAY_NO|Internacional / No": 0.1265
+    },
+    "Both teams to score in First Half": {
+     "YES|Yes": 0.1931,
+     "NO|No": 0.8069
+    },
+    "Both teams to score in Second Half": {
+     "YES|Yes": 0.2627,
+     "NO|No": 0.7373
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.5,
+     "EVEN|Even": 0.5
+    },
+    "First half odd or even score": {
+     "ODD|Odd": 0.461,
+     "EVEN|Even": 0.539
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.2218,
+     "RANGE|2 - 3": 0.4661,
+     "RANGE|4 - 6": 0.2884,
+     "RANGE|7 or more goals": 0.0237
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Vasco / over 1.5 goals": 0.5139,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.1596,
+     "AWAY_OVER|Internacional / over 1.5 goals": 0.1026,
+     "HOME_UNDER|Vasco / under 1.5 goals": 0.119,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.059,
+     "AWAY_UNDER|Internacional / under 1.5 goals": 0.046
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Vasco / over 2.5 goals": 0.403,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.058,
+     "AWAY_OVER|Internacional / over 2.5 goals": 0.0815,
+     "HOME_UNDER|Vasco / under 2.5 goals": 0.2319,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1611,
+     "AWAY_UNDER|Internacional / under 2.5 goals": 0.0645
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Vasco / over 3.5 goals": 0.2226,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0575,
+     "AWAY_OVER|Internacional / over 3.5 goals": 0.0348,
+     "HOME_UNDER|Vasco / under 3.5 goals": 0.4097,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1628,
+     "AWAY_UNDER|Internacional / under 3.5 goals": 0.1126
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Vasco / over 4.5 goals": 0.1255,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.01,
+     "AWAY_OVER|Internacional / over 4.5 goals": 0.0207,
+     "HOME_UNDER|Vasco / under 4.5 goals": 0.5089,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.208,
+     "AWAY_UNDER|Internacional / under 4.5 goals": 0.1269
+    },
+    "Both teams to score and over/under 2.5": {
+     "YES_OVER|Yes / Over": 0.4039,
+     "YES_UNDER|Yes / Under": 0.1032,
+     "NO_OVER|No / Over": 0.1377,
+     "NO_UNDER|No / Under": 0.3551
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0577,
+     "OVER|Over 0.5 goals": 0.9423
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.2225,
+     "OVER|Over 1.5 goals": 0.7775
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.6775,
+     "OVER|Over 3.5 goals": 0.3225
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.8437,
+     "OVER|Over 4.5 goals": 0.1563
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9343,
+     "OVER|Over 5.5 goals": 0.0657
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.2795,
+     "OVER|Over 0.5 goals": 0.7205
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.6436,
+     "OVER|Over 1.5 goals": 0.3564
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.8664,
+     "OVER|Over 2.5 goals": 0.1336
+    },
+    "Second half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.1957,
+     "OVER|Over 0.5 goals": 0.8043
+    },
+    "Second half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.5287,
+     "OVER|Over 1.5 goals": 0.4713
+    }
+   },
+   "ou_spread": 0.0205
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "28934185",
+   "home": "EC Vitória",
+   "away": "Bragantino",
+   "kickoff_utc": "2026-11-19T22:30:00Z",
+   "x12": [
+    2.7699,
+    3.5491,
+    2.7994
+   ],
+   "ou": [
+    2.5,
+    [
+     1.9539,
+     2.0483
+    ]
+   ],
+   "fetched_utc": "2026-11-19T21:10:41+00:00",
+   "x12_spread": 0.0102,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.5675,
+     "NO|No": 0.4325
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0693,
+     "OVER|Over 0.5 goals": 0.9307
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.2462,
+     "OVER|Over 1.5 goals": 0.7538
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.7112,
+     "OVER|Over 3.5 goals": 0.2888
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.8627,
+     "OVER|Over 4.5 goals": 0.1373
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.944,
+     "OVER|Over 5.5 goals": 0.056
+    },
+    "Half-time/full-time": {
+     "HOME_HOME|Vitória / Vitória": 0.2023,
+     "HOME_AWAY|Vitória / Bragantino": 0.0272,
+     "HOME_DRAW|Vitória / Draw": 0.0564,
+     "AWAY_HOME|Bragantino / Vitória": 0.0272,
+     "AWAY_AWAY|Bragantino / Bragantino": 0.2054,
+     "AWAY_DRAW|Bragantino / Draw": 0.0564,
+     "DRAW_HOME|Draw / Vitória": 0.1308,
+     "DRAW_AWAY|Draw / Bragantino": 0.1336,
+     "DRAW_DRAW|Draw / Draw": 0.1608
+    },
+    "Half-time result": {
+     "HOME|Vitória": 0.2934,
+     "DRAW|Draw": 0.4174,
+     "AWAY|Bragantino": 0.2892
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Vitória / Yes": 0.1828,
+     "DRAW_YES|Draw / Yes": 0.2116,
+     "AWAY_YES|Bragantino / Yes": 0.1736,
+     "HOME_NO|Vitória / No": 0.1862,
+     "DRAW_NO|Draw / No": 0.0695,
+     "AWAY_NO|Bragantino / No": 0.1764
+    },
+    "First half winner and both teams to score": {
+     "HOME_YES|Vitória / Yes": 0.0434,
+     "DRAW_YES|Draw / Yes": 0.126,
+     "AWAY_YES|Bragantino / Yes": 0.0446,
+     "HOME_NO|Vitória / No": 0.2442,
+     "DRAW_NO|Draw / No": 0.2967,
+     "AWAY_NO|Bragantino / No": 0.245
+    },
+    "Both teams to score in First Half": {
+     "YES|Yes": 0.214,
+     "NO|No": 0.786
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.4906,
+     "EVEN|Even": 0.5094
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.2461,
+     "RANGE|2 - 3": 0.4611,
+     "RANGE|4 - 6": 0.2726,
+     "RANGE|7 or more goals": 0.0202
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Vitória / over 1.5 goals": 0.2778,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.2105,
+     "AWAY_OVER|Bragantino / over 1.5 goals": 0.2663,
+     "HOME_UNDER|Vitória / under 1.5 goals": 0.089,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0691,
+     "AWAY_UNDER|Bragantino / under 1.5 goals": 0.0873
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Vitória / over 2.5 goals": 0.2226,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.079,
+     "AWAY_OVER|Bragantino / over 2.5 goals": 0.2105,
+     "HOME_UNDER|Vitória / under 2.5 goals": 0.1453,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1998,
+     "AWAY_UNDER|Bragantino / under 2.5 goals": 0.1429
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Vitória / over 3.5 goals": 0.1082,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0795,
+     "AWAY_OVER|Bragantino / over 3.5 goals": 0.1036,
+     "HOME_UNDER|Vitória / under 3.5 goals": 0.2581,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.2034,
+     "AWAY_UNDER|Bragantino / under 3.5 goals": 0.2472
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Vitória / over 4.5 goals": 0.0634,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0149,
+     "AWAY_OVER|Bragantino / over 4.5 goals": 0.0665,
+     "HOME_UNDER|Vitória / under 4.5 goals": 0.2994,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.2652,
+     "AWAY_UNDER|Bragantino / under 4.5 goals": 0.2906
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.9815,
+     "OVER|Over 6.5 goals": 0.0185
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.2948,
+     "OVER|Over 0.5 goals": 0.7052
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.6591,
+     "OVER|Over 1.5 goals": 0.3409
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.8803,
+     "OVER|Over 2.5 goals": 0.1197
+    }
+   },
+   "ou_spread": 0.0188
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "45393478",
+   "home": "Deportivo La Guaira",
+   "away": "Anzoategui FC",
+   "kickoff_utc": "2026-11-19T22:30:00Z",
+   "x12": [
+    1.425,
+    5.4226,
+    8.7837
+   ],
+   "ou": null,
+   "fetched_utc": "2026-11-19T21:10:41+00:00",
+   "x12_spread": 0.0294,
+   "markets": {
+    "Half-time result": {
+     "HOME|Deportivo La Guaira": 0.5091,
+     "DRAW|Draw": 0.3679,
+     "AWAY|Anzoategui FC": 0.123
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0585,
+     "OVER|Over 0.5 goals": 0.9415
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9358,
+     "OVER|Over 5.5 goals": 0.0642
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.2669,
+     "OVER|Over 0.5 goals": 0.7331
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.633,
+     "OVER|Over 1.5 goals": 0.367
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.8629,
+     "OVER|Over 2.5 goals": 0.1371
+    }
+   }
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "42644678",
+   "home": "Independiente Valle del Cauca",
+   "away": "Envigado FC",
+   "kickoff_utc": "2026-11-19T22:30:00Z",
+   "x12": [
+    3.4623,
+    3.1028,
+    2.5715
+   ],
+   "ou": [
+    2.5,
+    [
+     2.6671,
+     1.5999
+    ]
+   ],
+   "fetched_utc": "2026-11-19T21:10:41+00:00",
+   "x12_spread": 0.0252,
+   "ou_spread": 0.0312,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.4808,
+     "NO|No": 0.5192
+    },
+    "Half-time result": {
+     "HOME|Independiente Valle del Cauca": 0.2321,
+     "DRAW|Draw": 0.4709,
+     "AWAY|Envigado": 0.297
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Independiente Valle del Cauca / over 2.5 goals": 0.1329,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0575,
+     "AWAY_OVER|Envigado / over 2.5 goals": 0.1932,
+     "HOME_UNDER|Independiente Valle del Cauca / under 2.5 goals": 0.148,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.2675,
+     "AWAY_UNDER|Envigado / under 2.5 goals": 0.201
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.9328,
+     "OVER|Over 4.5 goals": 0.0672
+    }
+   }
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "42644678",
+   "home": "Unión Magdalena",
+   "away": "Boca Juniors de Cali",
+   "kickoff_utc": "2026-11-19T22:30:00Z",
+   "x12": [
+    1.3719,
+    5.5578,
+    10.97
+   ],
+   "ou": [
+    2.5,
+    [
+     1.8424,
+     2.1872
+    ]
+   ],
+   "fetched_utc": "2026-11-19T21:10:41+00:00",
+   "x12_spread": 0.0269,
+   "ou_spread": 0.0265
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "CA Boston River",
+   "away": "Deportivo Maldonado",
+   "kickoff_utc": "2026-11-19T19:30:00.000Z",
+   "x12": [
+    1.2885,
+    5.172,
+    32.7307
+   ],
+   "ou": [
+    2.5,
+    [
+     11.0572,
+     1.0994
+    ]
+   ],
+   "fetched_utc": "2026-11-19T21:10:44+00:00",
+   "x12_spread": -0.006,
+   "ou_spread": -0.02
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "CA Progreso",
+   "away": "Montevideo City Torque",
+   "kickoff_utc": "2026-11-19T19:30:00.000Z",
+   "x12": [
+    12.0502,
+    1.6698,
+    3.1433
+   ],
+   "ou": [
+    2.5,
+    [
+     2.2974,
+     1.7708
+    ]
+   ],
+   "fetched_utc": "2026-11-19T21:10:44+00:00",
+   "x12_spread": -0.0051,
+   "ou_spread": -0.0032
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Arsenal Women",
+   "away": "Olympique Lyonnais Women",
+   "kickoff_utc": "2026-11-19T20:01:00.000Z",
+   "x12": [
+    17.0731,
+    5.8764,
+    1.2966
+   ],
+   "ou": [
+    2.5,
+    [
+     1.9488,
+     2.054
+    ]
+   ],
+   "fetched_utc": "2026-11-19T21:10:44+00:00",
+   "x12_spread": -0.0035,
+   "ou_spread": -0.0026
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "S.L. Benfica Women",
+   "away": "AS Roma Women",
+   "kickoff_utc": "2026-11-19T20:01:00.000Z",
+   "x12": [
+    2.5376,
+    2.7875,
+    4.0458
+   ],
+   "ou": [
+    2.5,
+    [
+     1.2449,
+     5.0828
+    ]
+   ],
+   "fetched_utc": "2026-11-19T21:10:44+00:00",
+   "x12_spread": -0.0026,
+   "ou_spread": -0.0194
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Deportivo La Guaira",
+   "away": "Anzoategui FC",
+   "kickoff_utc": "2026-11-19T22:30:00.000Z",
+   "x12": [
+    1.4252,
+    5.3575,
+    8.9523
+   ],
+   "ou": [
+    2.5,
+    [
+     1.8224,
+     2.216
+    ]
+   ],
+   "fetched_utc": "2026-11-19T21:10:44+00:00",
+   "x12_spread": -0.0137,
+   "ou_spread": -0.0325
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "EC Vitória",
+   "away": "Red Bull Bragantino",
+   "kickoff_utc": "2026-11-19T22:30:00.000Z",
+   "x12": [
+    2.7563,
+    3.5447,
+    2.8162
+   ],
+   "ou": [
+    2.5,
+    [
+     1.9586,
+     2.0432
+    ]
+   ],
+   "fetched_utc": "2026-11-19T21:10:44+00:00",
+   "x12_spread": -0.005,
+   "ou_spread": -0.0026
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Independiente Valle del Cauca",
+   "away": "Envigado FC",
+   "kickoff_utc": "2026-11-19T22:30:00.000Z",
+   "x12": [
+    3.4861,
+    3.1134,
+    2.5513
+   ],
+   "ou": [
+    2.5,
+    [
+     2.6569,
+     1.6035
+    ]
+   ],
+   "fetched_utc": "2026-11-19T21:10:44+00:00",
+   "x12_spread": -0.0122,
+   "ou_spread": -0.017
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Unión Magdalena",
+   "away": "Boca Juniors de Cali",
+   "kickoff_utc": "2026-11-19T22:30:00.000Z",
+   "x12": [
+    1.3646,
+    5.612,
+    11.2383
+   ],
+   "ou": [
+    2.5,
+    [
+     1.8342,
+     2.1987
+    ]
+   ],
+   "fetched_utc": "2026-11-19T21:10:44+00:00",
+   "x12_spread": -0.0108,
+   "ou_spread": -0.0149
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Vasco da Gama",
+   "away": "SC Internacional",
+   "kickoff_utc": "2026-11-19T22:30:00.000Z",
+   "x12": [
+    1.5739,
+    4.6462,
+    6.6938
+   ],
+   "ou": [
+    2.5,
+    [
+     1.8258,
+     2.2109
+    ]
+   ],
+   "fetched_utc": "2026-11-19T21:10:44+00:00",
+   "x12_spread": -0.004,
+   "ou_spread": -0.003
   }
  ]
 }
