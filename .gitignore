@@ -14,3 +14,4 @@ Thumbs.db
 # Regenerable research cache and scheduler logs
 reports/research/backtest_cache*
 reports/daily/logs/
+reports/daily/*/nesine_history.jsonl

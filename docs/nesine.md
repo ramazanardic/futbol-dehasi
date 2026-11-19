@@ -72,6 +72,13 @@ kota 2.000 dk). Kapsam: ESPN'in yayınladığı ligler (Brezilya, Uruguay, MLS, 
 Denenip alınmayanlar: Polymarket ve Kalshi (erişilebilir, ama futbolda neredeyse yalnız uzun vadeli
 pazarlar), ClubElo (sunucu yurt dışından da 502 veriyor).
 
+## Borsa hareket etti, Nesine güncellemedi
+
+Her analiz çalıştırması doğrudan borsa fiyatlı seçimlerin (Nesine oranı, borsa olasılığı) bir kaydını
+`reports/daily/<tarih>/nesine_history.jsonl` dosyasına ekler (git'e girmez). Raporun ilk bölümü, son 8
+saatte borsa olasılığı **en az 3 puan artan** ama Nesine'nin **aynı oranı** vermeye devam ettiği seçimleri
+listeler: haber ya da kadro sonrası geç kalan oran. Saatlik `QuantFoot\Analiz` görevi bu kaydı biriktirir.
+
 ## Haftalık analiz
 
 ```bash

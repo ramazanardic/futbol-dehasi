@@ -489,10 +489,73 @@ def write_team_files(date: str, out: list[dict], d: Path) -> None:
     (d / "takim_dosyalari.md").write_text("\n".join(md) + "\n", encoding="utf-8")
 
 
+HISTORY_FILE = "nesine_history.jsonl"
+MIN_MOVE = 0.03  # exchange probability move (3 pts) that Nesine's unchanged price has not followed
+
+
+def _history(d: Path) -> list[dict]:
+    path = d / HISTORY_FILE
+    if not path.exists():
+        return []
+    rows = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        try:
+            rows.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue
+    return rows
+
+
+def lagging_selections(history: list[dict], out: list[dict], hours: float = 8.0) -> list[tuple[dict, dict, float, str]]:
+    """Directly quoted selections whose exchange probability rose >= MIN_MOVE since an earlier run while
+    Nesine still pays the same odds: the bookmaker has not (yet) followed the market move."""
+    now = dt.datetime.now(TSI)
+    hits = []
+    for m in out:
+        if m.get("status") != "fiyatlandı":
+            continue
+        for s in m["selections"]:
+            if not s.get("direct"):
+                continue
+            best = None
+            for snap in history:
+                ts = dt.datetime.fromisoformat(snap["ts"])
+                if now - ts > dt.timedelta(hours=hours):
+                    continue
+                rec = (snap.get("m") or {}).get(str(m["code"]))
+                if not rec or rec.get("ref_t") == m.get("ref_fetched_utc"):
+                    continue  # same exchange snapshot: nothing moved
+                then = (rec.get("s") or {}).get(s["name"])
+                if not then or abs(then[0] - s["odds"]) > 1e-9:
+                    continue  # Nesine changed its price meanwhile
+                move = s["fair_prob"] - then[1]
+                if move >= MIN_MOVE and (best is None or move > best[0]):
+                    best = (move, then[1], snap["ts"])
+            if best:
+                hits.append((m, s, best[1], best[2]))
+    hits.sort(key=lambda x: x[1]["fair_prob"] - x[2], reverse=True)
+    return hits
+
+
+def record_history(d: Path, out: list[dict]) -> None:
+    """Append this run's directly quoted prices (Nesine odds + exchange probability) for move detection."""
+    snap = {"ts": dt.datetime.now(TSI).isoformat(timespec="seconds"), "m": {}}
+    for m in out:
+        if m.get("status") != "fiyatlandı":
+            continue
+        sel = {s["name"]: [s["odds"], s["fair_prob"]] for s in m["selections"] if s.get("direct")}
+        if sel:
+            snap["m"][str(m["code"])] = {"ref_t": m.get("ref_fetched_utc"), "s": sel}
+    with (d / HISTORY_FILE).open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps(snap, ensure_ascii=False) + "\n")
+
+
 def write_report(date: str, out: list[dict], payload: dict, events: list, min_ev: float) -> None:
     priced = sum(1 for m in out if m["status"] == "fiyatlandı")
     d = DAILY / date
     d.mkdir(parents=True, exist_ok=True)
+    lagging = lagging_selections(_history(d), out)
+    record_history(d, out)
     (d / "nesine_global.json").write_text(json.dumps({"date": date, "generated_at": dt.datetime.now(TSI).isoformat(timespec="seconds"),
                                                       "nesine_margins": market_overrounds(payload, {e.code for e in events}),
                                                       "matches": out}, ensure_ascii=False, indent=2, default=str),
@@ -516,7 +579,17 @@ def write_report(date: str, out: list[dict], payload: dict, events: list, min_ev
                         f"{s['fair_odds']:.2f} | {s['ev']:+.1%} | {s['mbs']} | {m['reference'].split(' ')[0]} |")
         return rows
 
-    md += ["## Nesine'nin global adil fiyatın üstünde verdiği seçimler", ""]
+    md += ["## Borsa hareket etti, Nesine oranını güncellemedi", "",
+           "Borsada olasılığı son 8 saatte en az 3 puan artan, Nesine'nin ise aynı oranı vermeye devam ettiği seçimler "
+           "(haber / kadro sonrası geç kalan oran). Doğrudan borsa fiyatlı seçimler.", ""]
+    if lagging:
+        md += ["| Saat | Maç | Pazar | Seçim | Nesine (değişmedi) | Borsa olasılığı önce → şimdi | Şimdiki EV | İlk görülme |",
+               "|---|---|---|---|---|---|---|---|"]
+        md += [f"| {m['kickoff'][11:]} | {m['home']} - {m['away']} | {s['market']} | {s['selection']} | {s['odds']:.2f} | "
+               f"%{p0 * 100:.1f} → %{s['fair_prob'] * 100:.1f} | {s['ev']:+.1%} | {ts[11:16]} |" for m, s, p0, ts in lagging[:40]]
+    else:
+        md.append("_Şu an yok (ilk çalıştırmalarda geçmiş birikene kadar boş kalır)._")
+    md += ["", "## Nesine'nin global adil fiyatın üstünde verdiği seçimler", ""]
     md += _rows(plausible) if plausible else ["_Bugün Nesine'nin global adil fiyatın üstünde verdiği seçim yok._"]
     if suspicious:
         md += ["", f"## Referans hatası şüphesi (EV > {MAX_PLAUSIBLE_EV:+.0%}) — bahis önerisi değildir", "",

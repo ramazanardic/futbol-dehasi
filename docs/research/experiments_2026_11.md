@@ -100,3 +100,20 @@ Toplam test log-loss 4.611 → 4.554. Motora uygulandı (`tail_goals.CLUB_REGIME
 > (toplam log-loss 4.61746; ν = 1.05 için 4.61747). ν = 1.0'ın kazanması hatadan kaynaklanmıyormuş;
 > parametreler değiştirilmedi.
 README'deki "ν = 1.10 kulüp rejimi" bulgusu bu sabitlenmiş kullanımda geçerli değil.
+
+
+## 6. Gol modelinin doğrudan borsa fiyatlarına kalibrasyonu (19 Kasım)
+
+`scripts/calibrate_direct.py`: Smarkets'in tam ve likit defterlerinden (KG, tüm Alt/Üst çizgileri, İY,
+İY/MS, yarı Alt/Üst, Tek/Çift, gol aralığı, kombineler) bağımsız bir doğrulama seti. Model üretimdeki
+girdilerle (1X2 + 2,5 Alt/Üst) uydurulur, girdi olmayan seçimlerde KL(borsa || model) ölçülür; maçlar
+ikiye bölünür (seçim / test). 38 maç:
+
+- Mevcut ayar (ρ = −0.03, ν = 1.0, κ = 0, İY payı 0.44): test KL 0.00018 (~1 puan olasılık hatası).
+- En iyi ızgara noktası ν = 1.08: 0.00017. Fark çok küçük ve örneklem küçük: **parametre değişmedi**.
+- Tüm Alt/Üst çizgileri + KG'yi de girdi yapmak türev pazarları iyileştirmedi (0.00017 / 0.00019).
+- En zayıf aile İY/MS (KL ≈ 0.0005–0.0006, diğerlerinin ~3 katı).
+
+Veri her çekimle büyür; test düzenli olarak tekrarlanacak. Kaynaklar: ESPN futbol sakatlık uçları
+(lig ve takım) boş; ücretsiz resmî tek kaynak Premier Lig (FPL). `penaltyblog` (MIT) incelendi: içerdiği
+modeller ve marj yöntemleri sistemde zaten var; entegrasyon ölçülebilir kazanç getirmez.

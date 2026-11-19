@@ -158,3 +158,22 @@ def test_safest_first_adds_surest_matches_until_target():
     assert kupon.safest_first_coupon(pools, 2.0, max_legs=3) is None
     mbs3 = [[dict(pools[1][0], mbs=3)], pools[3]]
     assert kupon.safest_first_coupon(mbs3, 1.1, max_legs=5) is None  # 2 legs cannot satisfy MBS 3
+
+
+def test_lagging_nesine_price_is_detected():
+    import datetime as dt
+
+    import nesine_global as ng
+
+    earlier = (dt.datetime.now(ng.TSI) - dt.timedelta(hours=2)).isoformat(timespec="seconds")
+    history = [{"ts": earlier, "m": {"7": {"ref_t": "2026-11-19T08:00:00+00:00",
+                                          "s": {"KG Var": [1.80, 0.50], "MS 1": [2.10, 0.45], "2.5 Üst": [1.90, 0.50]}}}}]
+    match = {"status": "fiyatlandı", "code": 7, "ref_fetched_utc": "2026-11-19T11:00:00+00:00", "selections": [
+        {"name": "KG Var", "odds": 1.80, "fair_prob": 0.56, "direct": True},   # exchange +6 pts, Nesine unchanged -> hit
+        {"name": "MS 1", "odds": 1.95, "fair_prob": 0.52, "direct": True},     # Nesine already moved
+        {"name": "2.5 Üst", "odds": 1.90, "fair_prob": 0.51, "direct": True},  # move below 3 pts
+    ]}
+    hits = ng.lagging_selections(history, [match])
+    assert [(s["name"], round(p0, 2)) for _, s, p0, _ in hits] == [("KG Var", 0.50)]
+    same_snapshot = dict(match, ref_fetched_utc="2026-11-19T08:00:00+00:00")
+    assert ng.lagging_selections(history, [same_snapshot]) == []
