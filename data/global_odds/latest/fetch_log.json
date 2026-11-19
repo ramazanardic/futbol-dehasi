@@ -1,17 +1,17 @@
 {
- "started_utc": "2026-11-19T17:08:48+00:00",
+ "started_utc": "2026-11-19T17:20:17+00:00",
  "errors": [],
  "counts": {
   "fixtures.csv": 51,
   "new_league_fixtures.csv": 9,
-  "references_total": 496,
+  "references_total": 499,
   "matchbook_events": 246,
-  "matchbook_references": 217,
+  "matchbook_references": 216,
   "smarkets_events": 694,
-  "smarkets_markets": 60022,
-  "smarkets_contracts": 18466,
-  "smarkets_markets_illiquid": 4757,
-  "smarkets_references": 221
+  "smarkets_markets": 60066,
+  "smarkets_contracts": 18462,
+  "smarkets_markets_illiquid": 4726,
+  "smarkets_references": 225
  },
  "samples": {
   "fixtures.csv": {
@@ -269,12 +269,33 @@
    "in-running-flag": true,
    "allow-live-betting": true,
    "volume": 0.0,
+   "back-overround": 114.08201,
+   "lay-overround": 86.09904,
    "number-of-winners": 1,
    "runners": [
     {
      "withdrawn": false,
-     "prices": [],
-     "last-price-update-time": "2026-11-19T17:08:45.846Z",
+     "prices": [
+      {
+       "available-amount": 217.64973,
+       "currency": "USD",
+       "odds-type": "DECIMAL",
+       "odds": 1.65,
+       "decimal-odds": 1.65,
+       "side": "back",
+       "exchange-type": "back-lay"
+      },
+      {
+       "available-amount": 146.83521,
+       "currency": "USD",
+       "odds-type": "DECIMAL",
+       "odds": 2.14,
+       "decimal-odds": 2.14,
+       "side": "lay",
+       "exchange-type": "back-lay"
+      }
+     ],
+     "last-price-update-time": "2026-11-19T17:19:43.164Z",
      "event-id": 34896550327500023,
      "id": 34897073733100023,
      "market-id": 34897073732500023,
@@ -285,8 +306,27 @@
     },
     {
      "withdrawn": false,
-     "prices": [],
-     "last-price-update-time": "2026-11-19T17:08:45.846Z",
+     "prices": [
+      {
+       "available-amount": 167.39214,
+       "currency": "USD",
+       "odds-type": "DECIMAL",
+       "odds": 1.87,
+       "decimal-odds": 1.87,
+       "side": "back",
+       "exchange-type": "back-lay"
+      },
+      {
+       "available-amount": 141.47232,
+       "currency": "USD",
+       "odds-type": "DECIMAL",
+       "odds": 2.54,
+       "decimal-odds": 2.54,
+       "side": "lay",
+       "exchange-type": "back-lay"
+      }
+     ],
+     "last-price-update-time": "2026-11-19T17:19:43.164Z",
      "event-id": 34896550327500023,
      "id": 34897073733400023,
      "market-id": 34897073732500023,
@@ -298,9 +338,9 @@
    ]
   },
   "matchbook_market_names": {
-   "handicap | Handicap": 2964,
-   "total | Total": 1690,
-   "total | 1st Half Total": 674,
+   "handicap | Handicap": 2957,
+   "total | Total": 1685,
+   "total | 1st Half Total": 673,
    "other | Match Result and Total Goals": 492,
    "total | Home Team Total Goals": 330,
    "total | Away Team Total Goals": 327,
@@ -407,28 +447,28 @@
    "DOUBLE_CHANCE | Double chance": 693,
    "WINNER_DNB | Draw No Bet": 693,
    "HALF_TIME_CORRECT_SCORE | Half-time correct score": 678,
-   "HALF_FULL | Half-time/full-time": 669,
-   "SCORE_RANGE | Goal range": 669,
-   "HIGHEST_SCORING_HALF | Highest scoring half": 669,
-   "HALF_TIME_WINNER_3_WAY | Half-time result": 669,
-   "FIRST_HALF_OVER_UNDER | First half over/under 2.5": 669,
-   "ODD_EVEN | Odd or even score": 668,
-   "FIRST_HALF_OVER_UNDER | First half over/under 1.5": 668,
-   "FIRST_HALF_ODD_EVEN | First half odd or even score": 668,
-   "SECOND_HALF_WINNER_3_WAY | Second half result": 668,
-   "SECOND_HALF_ODD_EVEN | Second half odd or even score": 668,
-   "BTTS_FIRST_HALF | Both teams to score in First Half": 668,
-   "FIRST_HALF_WINNER_AND_BTTS | First half winner and both teams to score": 667,
-   "FIRST_HALF_WINNER_AND_OVER | First half winner and over/under 1.5": 667,
-   "BTTS_SECOND_HALF | Both teams to score in Second Half": 667,
-   "FIRST_HALF_OVER_UNDER | First half over/under 0.5": 666,
-   "SECOND_HALF_EXACT_GOALS | Second half exact goals": 580,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 2.5": 570,
-   "HALF_TIME_DOUBLE_CHANCE | Half-time double chance": 569,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 1.5": 569,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 0.5": 547,
-   "WINNER_AND_OVER | Winner and over/under 3.5": 499,
-   "WINNER_AND_OVER | Winner and over/under 1.5": 402,
+   "HALF_FULL | Half-time/full-time": 670,
+   "SCORE_RANGE | Goal range": 670,
+   "HIGHEST_SCORING_HALF | Highest scoring half": 670,
+   "HALF_TIME_WINNER_3_WAY | Half-time result": 670,
+   "FIRST_HALF_OVER_UNDER | First half over/under 2.5": 670,
+   "ODD_EVEN | Odd or even score": 669,
+   "FIRST_HALF_OVER_UNDER | First half over/under 1.5": 669,
+   "FIRST_HALF_ODD_EVEN | First half odd or even score": 669,
+   "SECOND_HALF_WINNER_3_WAY | Second half result": 669,
+   "SECOND_HALF_ODD_EVEN | Second half odd or even score": 669,
+   "BTTS_FIRST_HALF | Both teams to score in First Half": 669,
+   "FIRST_HALF_WINNER_AND_BTTS | First half winner and both teams to score": 668,
+   "FIRST_HALF_WINNER_AND_OVER | First half winner and over/under 1.5": 668,
+   "BTTS_SECOND_HALF | Both teams to score in Second Half": 668,
+   "FIRST_HALF_OVER_UNDER | First half over/under 0.5": 667,
+   "SECOND_HALF_EXACT_GOALS | Second half exact goals": 581,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 2.5": 571,
+   "HALF_TIME_DOUBLE_CHANCE | Half-time double chance": 570,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 1.5": 570,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 0.5": 546,
+   "WINNER_AND_OVER | Winner and over/under 3.5": 498,
+   "WINNER_AND_OVER | Winner and over/under 1.5": 404,
    "FIRST_HALF_EXACT_GOALS | First half exact goals": 377,
    "BTTS_BOTH_HALVES | Both teams to score in first half / second half": 377,
    "WINNER_AND_OVER | Winner and over/under 4.5": 253,
@@ -438,10 +478,10 @@
    "LAST_TEAM_TO_SCORE | Last team to score": 209,
    "NEXT_TEAM_TO_SCORE | Team to score first goal": 209,
    "WINNER_3_WAY_TIME_BRACKET | Winner in 1 minute to 10 minute time bracket": 209,
-   "PLAYER_AT_LEAST_GOALS | Player to score at least 2 goals": 206,
    "WIN_MARGIN | Winning margin": 205,
-   "ANYTIME_GOALSCORER | Anytime goalscorer": 203,
+   "PLAYER_AT_LEAST_GOALS | Player to score at least 2 goals": 205,
    "WHICH_TEAM_TO_SCORE | Which team to score": 202,
+   "ANYTIME_GOALSCORER | Anytime goalscorer": 202,
    "PLAYER_AT_LEAST_GOALS | Player to score a hat-trick": 202,
    "FIRST_GOALSCORER | First goalscorer": 200,
    "LAST_GOALSCORER | Last goalscorer": 200,
@@ -473,8 +513,12 @@
    "484103272": {
     "bids": [
      {
+      "price": 3759,
+      "quantity": 1169924
+     },
+     {
       "price": 3731,
-      "quantity": 1016293
+      "quantity": 645267
      },
      {
       "price": 3704,
@@ -514,5 +558,5 @@
    }
   }
  },
- "finished_utc": "2026-11-19T17:15:36+00:00"
+ "finished_utc": "2026-11-19T17:26:59+00:00"
 }
