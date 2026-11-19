@@ -42,6 +42,7 @@ jobs:
         run: pip install requests
       - name: Fetch global odds
         run: |
+          git pull -q --ff-only || true   # a light run merges into the newest snapshot, not the one at trigger time
           if [ -n "${{ github.event.inputs.light }}" ]; then
             python scripts/fetch_global_odds.py --light "${{ github.event.inputs.light }}"
           else
@@ -51,8 +52,19 @@ jobs:
         run: |
           git config user.name "global-odds-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/global_odds
-          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
-          git commit -m "data(global-odds): $(date -u +%Y-%m-%dT%H:%MZ)"
-          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
+          mkdir -p /tmp/ours && cp data/global_odds/latest/* /tmp/ours/
+          for i in 1 2 3 4; do
+            git add data/global_odds
+            if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+            git commit -q -m "data(global-odds): $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push -q && exit 0
+            # Another run pushed first. Never line-merge the JSON: start from the newest data and rebuild on it.
+            git fetch -q origin main && git reset -q --hard origin/main
+            if [ -n "${{ github.event.inputs.light }}" ]; then
+              python scripts/fetch_global_odds.py --light "${{ github.event.inputs.light }}"   # re-merge into newest
+            else
+              cp /tmp/ours/* data/global_odds/latest/   # a full fetch is a complete, newer snapshot
+            fi
+            sleep 3
+          done
           exit 1
