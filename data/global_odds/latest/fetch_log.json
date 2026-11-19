@@ -1,15 +1,15 @@
 {
- "started_utc": "2026-11-19T06:58:45+00:00",
+ "started_utc": "2026-11-19T07:17:35+00:00",
  "errors": [],
  "counts": {
   "fixtures.csv": 51,
   "new_league_fixtures.csv": 9,
-  "references_total": 112,
-  "smarkets_events": 164,
-  "smarkets_markets": 13523,
-  "smarkets_contracts": 16322,
-  "smarkets_markets_illiquid": 4214,
-  "smarkets_references": 54
+  "references_total": 117,
+  "smarkets_events": 168,
+  "smarkets_markets": 13867,
+  "smarkets_contracts": 16722,
+  "smarkets_markets_illiquid": 4333,
+  "smarkets_references": 59
  },
  "samples": {
   "fixtures.csv": {
@@ -266,7 +266,7 @@
    "hidden": false,
    "id": "45447148",
    "inplay_enabled": false,
-   "modified": "2026-11-19T03:55:22.380199Z",
+   "modified": "2026-11-19T07:01:05.778575Z",
    "name": "Lions FC vs Wollongong Wolves",
    "parent_id": "45371580",
    "seo_description": "Bet on {{ contracts.home.name }} vs {{ contracts.away.name }} on {{ event.start_datetime | date \"eeee, d MMMM\" }}.\r\n\r\nWith the Smarkets exchange, you can back or lay your bets on the clash between {{ contracts.home.name }} and {{ contracts.away.name }} on {{ event.start_datetime | date \"eeee, d MMMM\" }}. This game has {{ markets.length }} markets available to bet on. The most popular market so far is {{ markets.0.name }}.\r\n\r\nThe favourites to win the game between {{ contracts.home.name }} and {{ contracts.away.name }} as of publication are {{ contracts.fav.name }} who are priced at odds of {{ contracts.fav.anyPrice | odds }}. The odds of a draw are {{ contracts.draw.anyPrice | odds }} while the odds for {{ contracts.other.name }} to win are {{ contracts.other.anyPrice | odds }}.\r\n\r\nA {{ 10 | money }} back bet on {{ contracts.fav.name }} to win returns {{ contracts.fav.buyPrice | payout 10 }}, whereas a {{ 10 | money }} back bet on {{ contracts.other.name }} to win are {{ contracts.other.buyPrice | payout 10 }}. If you think neither side will come away with the victory, betting the same amount in a back bet on the draw would win you {{ contracts.draw.buyPrice | payout 10 }}.\r\n\r\nAs Smarkets is an exchange, you can also place lay bets on all outcomes for {{ contracts.home.name }} vs {{ contracts.away.name }}.\r\nYou can also use the bet calculator to help you calculate potential winnings.",
@@ -320,66 +320,66 @@
    "winner_count": 1
   },
   "smarkets_market_names": {
-   "WINNER_3_WAY | Full-time result": 163,
-   "CORRECT_SCORE | Correct score": 163,
-   "BTTS | Both teams to score": 163,
-   "OVER_UNDER | Over/under 0.5": 163,
-   "OVER_UNDER | Over/under 1.5": 163,
-   "OVER_UNDER | Over/under 2.5": 163,
-   "OVER_UNDER | Over/under 3.5": 163,
-   "OVER_UNDER | Over/under 4.5": 163,
-   "OVER_UNDER | Over/under 5.5": 163,
-   "OVER_UNDER | Over/under 6.5": 163,
-   "WINNER_AND_BTTS | Winner and both teams to score": 163,
-   "WINNER_AND_OVER | Winner and over/under 2.5": 163,
-   "BTTS_AND_OVER | Both teams to score and over/under 2.5": 163,
-   "DOUBLE_CHANCE | Double chance": 163,
-   "WINNER_DNB | Draw No Bet": 163,
-   "SCORE_RANGE | Goal range": 159,
-   "HALF_TIME_CORRECT_SCORE | Half-time correct score": 159,
-   "HIGHEST_SCORING_HALF | Highest scoring half": 158,
-   "ODD_EVEN | Odd or even score": 158,
-   "FIRST_HALF_OVER_UNDER | First half over/under 1.5": 158,
-   "FIRST_HALF_OVER_UNDER | First half over/under 2.5": 158,
-   "SECOND_HALF_WINNER_3_WAY | Second half result": 158,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 1.5": 158,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 2.5": 158,
-   "SECOND_HALF_EXACT_GOALS | Second half exact goals": 158,
-   "HALF_FULL | Half-time/full-time": 157,
-   "HALF_TIME_WINNER_3_WAY | Half-time result": 157,
-   "FIRST_HALF_ODD_EVEN | First half odd or even score": 157,
-   "SECOND_HALF_ODD_EVEN | Second half odd or even score": 157,
-   "HALF_TIME_DOUBLE_CHANCE | Half-time double chance": 156,
-   "FIRST_HALF_OVER_UNDER | First half over/under 0.5": 156,
-   "FIRST_HALF_WINNER_AND_BTTS | First half winner and both teams to score": 156,
-   "FIRST_HALF_WINNER_AND_OVER | First half winner and over/under 1.5": 156,
-   "BTTS_FIRST_HALF | Both teams to score in First Half": 156,
-   "BTTS_SECOND_HALF | Both teams to score in Second Half": 156,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 0.5": 142,
-   "WINNER_AND_OVER | Winner and over/under 3.5": 125,
-   "WINNER_AND_OVER | Winner and over/under 1.5": 94,
-   "FIRST_HALF_EXACT_GOALS | First half exact goals": 79,
-   "BTTS_BOTH_HALVES | Both teams to score in first half / second half": 79,
-   "WINNER_AND_OVER | Winner and over/under 4.5": 64,
-   "EXACT_GOALS | Exact goals": 38,
-   "CORNERS_WINNER_THREE_WAY | Most corners": 36,
-   "WIN_MARGIN | Winning margin": 24,
-   "TIME_OF_NEXT_GOAL | Goal 1 time bracket": 24,
-   "LAST_TEAM_TO_SCORE | Last team to score": 24,
-   "NEXT_TEAM_TO_SCORE | Team to score first goal": 24,
-   "CORNER_RANGE | Total corners in range": 24,
-   "WINNER_3_WAY_TIME_BRACKET | Winner in 1 minute to 10 minute time bracket": 24,
-   "CORNERS_OVER_UNDER | Over/under 8.5 corners": 23,
-   "CORNERS_OVER_UNDER | Over/under 9.5 corners": 23,
-   "CORNERS_OVER_UNDER | Over/under 10.5 corners": 23,
-   "FIRST_HALF_CORNERS_OVER_UNDER | First half over/under 4.5 corners": 23,
-   "FIRST_HALF_CORNERS_OVER_UNDER | First half over/under 5.5 corners": 23,
-   "ANYTIME_GOALSCORER | Anytime goalscorer": 22,
-   "FIRST_GOALSCORER | First goalscorer": 22,
-   "LAST_GOALSCORER | Last goalscorer": 22,
-   "PLAYER_AT_LEAST_GOALS | Player to score at least 2 goals": 22,
-   "PLAYER_AT_LEAST_GOALS | Player to score a hat-trick": 22,
-   "WHICH_TEAM_TO_SCORE | Which team to score": 22
+   "WINNER_3_WAY | Full-time result": 167,
+   "CORRECT_SCORE | Correct score": 167,
+   "BTTS | Both teams to score": 167,
+   "OVER_UNDER | Over/under 0.5": 167,
+   "OVER_UNDER | Over/under 1.5": 167,
+   "OVER_UNDER | Over/under 2.5": 167,
+   "OVER_UNDER | Over/under 3.5": 167,
+   "OVER_UNDER | Over/under 4.5": 167,
+   "OVER_UNDER | Over/under 5.5": 167,
+   "OVER_UNDER | Over/under 6.5": 167,
+   "WINNER_AND_BTTS | Winner and both teams to score": 167,
+   "WINNER_AND_OVER | Winner and over/under 2.5": 167,
+   "BTTS_AND_OVER | Both teams to score and over/under 2.5": 167,
+   "DOUBLE_CHANCE | Double chance": 167,
+   "WINNER_DNB | Draw No Bet": 167,
+   "SCORE_RANGE | Goal range": 163,
+   "HALF_TIME_CORRECT_SCORE | Half-time correct score": 163,
+   "HIGHEST_SCORING_HALF | Highest scoring half": 162,
+   "ODD_EVEN | Odd or even score": 162,
+   "FIRST_HALF_OVER_UNDER | First half over/under 1.5": 162,
+   "FIRST_HALF_OVER_UNDER | First half over/under 2.5": 162,
+   "SECOND_HALF_WINNER_3_WAY | Second half result": 162,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 2.5": 162,
+   "SECOND_HALF_EXACT_GOALS | Second half exact goals": 162,
+   "HALF_FULL | Half-time/full-time": 161,
+   "HALF_TIME_WINNER_3_WAY | Half-time result": 161,
+   "FIRST_HALF_ODD_EVEN | First half odd or even score": 161,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 1.5": 161,
+   "SECOND_HALF_ODD_EVEN | Second half odd or even score": 161,
+   "HALF_TIME_DOUBLE_CHANCE | Half-time double chance": 160,
+   "FIRST_HALF_OVER_UNDER | First half over/under 0.5": 160,
+   "FIRST_HALF_WINNER_AND_BTTS | First half winner and both teams to score": 160,
+   "FIRST_HALF_WINNER_AND_OVER | First half winner and over/under 1.5": 160,
+   "BTTS_FIRST_HALF | Both teams to score in First Half": 160,
+   "BTTS_SECOND_HALF | Both teams to score in Second Half": 160,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 0.5": 144,
+   "WINNER_AND_OVER | Winner and over/under 3.5": 128,
+   "WINNER_AND_OVER | Winner and over/under 1.5": 97,
+   "FIRST_HALF_EXACT_GOALS | First half exact goals": 81,
+   "BTTS_BOTH_HALVES | Both teams to score in first half / second half": 81,
+   "WINNER_AND_OVER | Winner and over/under 4.5": 65,
+   "EXACT_GOALS | Exact goals": 39,
+   "CORNERS_WINNER_THREE_WAY | Most corners": 37,
+   "WIN_MARGIN | Winning margin": 25,
+   "TIME_OF_NEXT_GOAL | Goal 1 time bracket": 25,
+   "LAST_TEAM_TO_SCORE | Last team to score": 25,
+   "NEXT_TEAM_TO_SCORE | Team to score first goal": 25,
+   "CORNER_RANGE | Total corners in range": 25,
+   "WINNER_3_WAY_TIME_BRACKET | Winner in 1 minute to 10 minute time bracket": 25,
+   "CORNERS_OVER_UNDER | Over/under 8.5 corners": 24,
+   "CORNERS_OVER_UNDER | Over/under 9.5 corners": 24,
+   "CORNERS_OVER_UNDER | Over/under 10.5 corners": 24,
+   "FIRST_HALF_CORNERS_OVER_UNDER | First half over/under 4.5 corners": 24,
+   "FIRST_HALF_CORNERS_OVER_UNDER | First half over/under 5.5 corners": 24,
+   "ANYTIME_GOALSCORER | Anytime goalscorer": 23,
+   "FIRST_GOALSCORER | First goalscorer": 23,
+   "LAST_GOALSCORER | Last goalscorer": 23,
+   "PLAYER_AT_LEAST_GOALS | Player to score at least 2 goals": 23,
+   "PLAYER_AT_LEAST_GOALS | Player to score a hat-trick": 23,
+   "WHICH_TEAM_TO_SCORE | Which team to score": 23
   },
   "smarkets_contract": {
    "competitor_id": 197988,
@@ -403,11 +403,7 @@
     "bids": [
      {
       "price": 3846,
-      "quantity": 1265018
-     },
-     {
-      "price": 3817,
-      "quantity": 72793
+      "quantity": 2443326
      },
      {
       "price": 3788,
@@ -420,6 +416,10 @@
      {
       "price": 3731,
       "quantity": 2680247
+     },
+     {
+      "price": 3704,
+      "quantity": 2699
      }
     ],
     "offers": [
@@ -429,7 +429,7 @@
      },
      {
       "price": 3968,
-      "quantity": 3315649
+      "quantity": 1587536
      },
      {
       "price": 4000,
@@ -445,7 +445,34 @@
      }
     ]
    }
+  },
+  "probes": {
+   "matchbook": {
+    "status": 200,
+    "bytes": 1070966,
+    "head": "{\"offset\":0,\"per-page\":20,\"total\":227,\"events\":[{\"id\":34895273417500023,\"name\":\"MOIK Baku vs Sabail FC\",\"sport-id\":15,\"start\":\"2026-11-19T10:00:00.000Z\",\"in-running-flag\":false,\"allow-live-betting\":true,\"category-id\":[15,410468520880009,1827447728560016,29230398123600076,34759300004900004],\"status\":\"open\",\"volume\":56.830859999999994,\"markets\":[{\"live\":false,\"event-id\":34895273417500023,\"id\":34896536010000023,\"name\":\"Match Odds\",\"product\":\"EXCHANGE\",\"start\":\"2026-11-19T10:00:00.000Z\",\"status\":\"open\",\"market-type\":\"one_x_two\",\"type\":\"multirunner\",\"handicap\":0.0,\"in-running-flag\":false,\"allow-live-betting\":true,\"volume\":0.0,\"back-overround\":104.78224,\"lay-overround\":95.21125,\"number-of-winners\":1,\"runners\":[{\"withdrawn\":false,\"prices\":[{\"available-amount\":3.94238,\"currency\":\"USD\",\"odds-type\":\"US\",\"odds\":168.00000,\"decimal-odds\":2.68000,\"side\":\"win\",\"exchange-type\":\"binary\"},{\"available-amount\":2.69397,\"currency\":\"USD\",\"odds-type\":\"US\",\"odds\":-205.00001,\"decimal-odds\":1.48780,\"side\":\"lose\",\"exchange-type\":\"binary\"}],\"last-price-update-time\":\"2026-11-19T07:22:09.674Z\",\"event-id\":34895273417500023,\"id\":34896536011401023,\"market-id\":34896536010000023,\"name\":\"MOIK Baku\",\"status\":\"open\",\"volume\":0.0,\"event-participant-id\":34895273420300023},{\"withdrawn\":false,\"prices\":[{\"available-amount\":4.78342,\"currency\":\"USD\",\"odds-type\":\"US\",\"odds\":152.00000,\"decimal-odds\":2.52000,\"side\":\"win\",\"exchange-type\":\"binary\"},{\"available-amount\":12.88789,\"currency\":\"USD\",\"odds-type\":\"US\",\"odds\":-184.00001,\"decimal-odds\":1.54347,\"side\":\"lose\",\"exchange-type\":\"binary\"}],\"last-price-update-time\":\"2026-11-19T07:22:21.867Z\",\"event-id\":34895273417500023,\"id\":34896536011700023,\"market-id\":34896536010000023,\"name\":\"Sabail FC\",\"status\":\"open\",\"volume\":0.0,\"event-participant-id\":34895273420800023},{\"withdrawn\":false,\"prices\":[{\"available-amount\":7.72566,\"currency\":\"USD\",\"odds-type\":\"US\",\"odds\":235.00000,\"decimal-odds\":3.35000,\"side\":\"win\",\"exchange-type\":\"binary\"},{\"available-amount\":75.38490,\"currency\":\"USD\",\"odds-type\":\"US\",\"odds\":-275.00001,\"decimal-odds\":1.36363,\"side\":\"lose\",\"exchange-type\":\"binary\"}],\"last-price-update-time\":\"2026-11-19T07:22:21.825Z\",\"event-id\":34895273417500023,\"id\":34896536011901023,\"market-id\":34896536010000023,\"name\":\"Draw\",\"status\":\"open\",\"volume\":0.0}]},{\"live\":false,\"event-id\":34895273417500023,\"id\":34896536010600023,\"name\":\"Total\",\"product\":\"EXCHANGE\",\"start\":\"2026-11-19T10:00:00.000Z\",\"status\":\"open\",\"market-type\":\"total\",\"type\":\"binary\",\"handicap\":0.5,\"in-running-flag\":false,\"allow-live-betting\":true,\"volume\":1.44473,\"back-overround\":104.32901,\"lay-overround\":96.46464,\"number-of-winners\":1,\"runners\":[{\"withdrawn\":false,\"prices\":[{\"available-amount\":1905.63447,\"currency\":\"USD\",\"odds-type\":\"US\",\"odds\":-2000.00000,\"decimal-odds\":1.05000,\"side\":\"win\",\"exchange-type\":\"binary\"},{\"available-amount\":5.12221,\"currency\":\"USD\",\"odds-type\":\"US\",\"odds\":999.99999,\"decimal-odds\":10.99999,\"side\":\"lose\",\"exchange-type\":\"binary\"}],\"last-price-update-time\":\"2026-11-19T"
+   },
+   "polymarket_sports": {
+    "status": 200,
+    "bytes": 157541,
+    "head": "[{\"id\":630,\"sport\":\"ufl\",\"name\":\"UFL\",\"image\":\"https://polymarket-upload.s3.us-east-2.amazonaws.com/league-icons/ufl.png\",\"resolution\":\"https://www.theufl.com/\",\"ordering\":\"away\",\"tags\":\"1,100639,1186,105925\",\"primaryTagId\":105925,\"series\":\"12553\",\"createdAt\":\"2026-08-07T21:41:19.879539Z\"},{\"id\":651,\"sport\":\"cricadt10\",\"name\":\"Abu Dhabi T10 League\",\"image\":\"https://polymarket-upload.s3.us-east-2.amazonaws.com/league-icons/cricadt10.png\",\"resolution\":\"https://ttensports.com/\",\"ordering\":\"home\",\"tags\":\"1,100639,517,105945\",\"primaryTagId\":105945,\"series\":\"12574\",\"createdAt\":\"2026-08-08T00:24:18.76281Z\"},{\"id\":642,\"sport\":\"lmp\",\"name\":\"Liga Mexicana del Pacífico\",\"image\":\"https://polymarket-upload.s3.us-east-2.amazonaws.com/league-icons/lmp.png\",\"resolution\":\"https://www.lmp.mx/\",\"ordering\":\"home\",\"tags\":\"1,100639,678,105936\",\"primaryTagId\":105936,\"series\":\"12565\",\"createdAt\":\"2026-08-08T00:24:14.02818Z\"},{\"id\":154,\"sport\":\"cricpakt20cup\",\"name\":\"National T20 Cup\",\"image\":\"https://polymarket-upload.s3.us-east-2.amazonaws.com/league-icons/cricpakt20cup.png\",\"resolution\":\"https://www.espncricinfo.com/\",\"ordering\":\"home\",\"tags\":\"1,100639,517,104074\",\"primaryTagId\":104074,\"series\":\"11278\",\"createdAt\":\"2026-03-03T18:48:37.956378Z\"},{\"id\":155,\"sport\":\"cricps\",\"name\":\"Plunket Shield\",\"image\":\"https://polymarket-upload.s3.us-east-2.amazonaws.com/league-icons/cricps.png\",\"resolution\":\"https://www.espncricinfo.com/\",\"ordering\":\"home\",\"tags\":\"1,100639,517,104073\",\"primaryTagId\":104073,\"series\":\"11279\",\"createdAt\":\"2026-03-03T18:50:35.18346Z\"},{\"id\":136,\"sport\":\"cricpsl\",\"name\":\"Pakistan Super League\",\"image\":\"https://polymarket-upload.s3.us-east-2.amazonaws.com/league-icons/cricpsl.png\",\"resolution\":\"https://www.espncricinfo.com/\",\"ordering\":\"home\",\"tags\":\"1,100639,517,103805\",\"primaryTagId\":103805,\"series\":\"11214\",\"createdAt\":\"2026-02-23T16:28:34.15181Z\"},{\"id\":142,\"sport\":\"cricsa20\",\"name\":\"SA20\",\"image\":\"https://polymarket-upload.s3.us-east-2.amazonaws.com/league-icons/cricsa20.png\",\"resolution\":\"https://www.espncricinfo.com/\",\"ordering\":\"home\",\"tags\":\"1,100639,517,103811\",\"primaryTagId\":103811,\"series\":\"10450\",\"createdAt\":\"2026-02-23T16:28:47.18083Z\"},{\"id\":140,\"sport\":\"cricsm\",\"name\":\"Super Smash\",\"image\":\"https://polymarket-upload.s3.us-east-2.amazonaws.com/league-icons/cricsm.png\",\"resolution\":\"https://www.espncricinfo.com/\",\"ordering\":\"home\",\"tags\":\"1,100639,517,103810\",\"primaryTagId\":103810,\"series\":\"11218\",\"createdAt\":\"2026-02-23T16:28:46.233028Z\"},{\"id\":153,\"sport\":\"cricss\",\"name\":\"Sheffield Shield\",\"image\":\"https://polymarket-upload.s3.us-east-2.amazonaws.com/league-icons/cricss.png\",\"resolution\":\"https://www.espncricinfo.com/\",\"ordering\":\"home\",\"tags\":\"1,100639,517,102817\",\"primaryTagId\":102817,\"series\":\"10453\",\"createdAt\":\"2026-03-03T18:48:08.264866Z\"},{\"id\":643,\"sport\":\"liiga\",\"name\":\"Liiga\",\"image\":\"https://polymarket-upload.s3.us-east-2.amazonaws.com/league-icons/liiga.png\",\"resolution\":\"https://liiga.fi/en\",\"ordering\":\"home\",\"tags\":\"1,100639,1"
+   },
+   "polymarket_soccer": {
+    "status": 200,
+    "bytes": 4036243,
+    "head": "[{\"id\":\"148347\",\"ticker\":\"will-cristiano-ronaldo-announce-his-retirement-in-2026\",\"slug\":\"will-cristiano-ronaldo-announce-his-retirement-in-2026\",\"title\":\"Will Cristiano Ronaldo announce his retirement in 2026?\",\"description\":\"This polymarket will resolve to \\\"Yes\\\" if Cristiano Ronaldo officially announces his retirement from club soccer by December 31, 2026, 11:59 PM ET. Otherwise, this market will resolve to \\\"No\\\".\\n\\nTo resolve \\\"Yes\\\", the announcement must clearly state that Ronaldo is retiring from club-level professional soccer. The announcement must come from Ronaldo himself or his official representatives.\\n\\nRetirement from international soccer alone will not qualify. \\n\\nThe retirement must be intended to take effect immediately or prior to the start of the next club season following the announcement.\\n\\nThe primary resolution source for this market will be official statements from Cristiano Ronaldo; however, a consensus of credible reporting may also be used.\",\"resolutionSource\":\"\",\"startDate\":\"2026-01-08T22:16:58.54657Z\",\"creationDate\":\"2026-01-08T22:17:35.683725Z\",\"endDate\":\"2027-01-01T04:59:00Z\",\"image\":\"https://polymarket-upload.s3.us-east-2.amazonaws.com/will-cristiano-ronaldo-announce-his-retirement-in-2026-JaWhmz2JQtUi.jpg\",\"icon\":\"https://polymarket-upload.s3.us-east-2.amazonaws.com/will-cristiano-ronaldo-announce-his-retirement-in-2026-JaWhmz2JQtUi.jpg\",\"active\":true,\"closed\":false,\"archived\":false,\"new\":false,\"featured\":false,\"restricted\":true,\"liquidity\":2696.80463,\"volume\":47870.15023,\"openInterest\":8791.190641,\"createdAt\":\"2026-01-07T02:33:59.055047Z\",\"updatedAt\":\"2026-11-19T07:21:17.80923Z\",\"competitive\":0.8448712828039757,\"enableOrderBook\":true,\"liquidityClob\":2696.80463,\"commentCount\":6,\"markets\":[{\"id\":\"1126694\",\"question\":\"Will Cristiano Ronaldo announce his retirement in 2026?\",\"conditionId\":\"0xadd6cf2f0db224d781cc89e7efe8d70e541181743a86ad2026f16dae9bce03de\",\"slug\":\"will-cristiano-ronaldo-announce-his-retirement-in-2026\",\"resolutionSource\":\"\",\"endDate\":\"2027-01-01T04:59:00Z\",\"liquidity\":\"2696.76235\",\"startDate\":\"2026-01-08T22:16:58.54657Z\",\"image\":\"https://polymarket-upload.s3.us-east-2.amazonaws.com/will-cristiano-ronaldo-announce-his-retirement-in-2026-JaWhmz2JQtUi.jpg\",\"icon\":\"https://polymarket-upload.s3.us-east-2.amazonaws.com/will-cristiano-ronaldo-announce-his-retirement-in-2026-JaWhmz2JQtUi.jpg\",\"description\":\"This polymarket will resolve to \\\"Yes\\\" if Cristiano Ronaldo officially announces his retirement from club soccer by December 31, 2026, 11:59 PM ET. Otherwise, this market will resolve to \\\"No\\\".\\n\\nTo resolve \\\"Yes\\\", the announcement must clearly state that Ronaldo is retiring from club-level professional soccer. The announcement must come from Ronaldo himself or his official representatives.\\n\\nRetirement from international soccer alone will not qualify. \\n\\nThe retirement must be intended to take effect immediately or prior to the start of the next club season following the announcement.\\n\\nThe "
+   },
+   "kalshi_sports_series": {
+    "status": 200,
+    "bytes": 6783186,
+    "head": "{\"series\":[{\"additional_prohibitions\":[\"Current players, coaches, and staff of the league, association, or organization(s) governing the event. For college leagues/associations specifically, or where otherwise appropriate (as identified by the Exchange), this applies to current players/coaches/staff of the specific sport in <event> rather than the league/association as a whole (e.g., if the Division I Gonzaga Men’s Basketball Team is playing in <event>, this prohibition will restrict trades by current players/coaches/staff on NCAA Basketball, rather than all current players/coaches/staff in any NCAA sport).\",\"Paid employees of the league and league participants\",\"Owners of teams and the league\",\"and household members and immediate family of all above\",\"Persons who are employed by any of the Source Agencies are not permitted to trade on the Contract.\",\"Persons who hold any material, non-public information on the Underlying are not permitted to trade on the Contract.\"],\"categories\":[\"Sports\"],\"category\":\"Sports\",\"contract_terms_url\":\"https://assets.kalshi.com/contract_terms/COACHOUT.pdf\",\"contract_url\":\"https://assets.kalshi.com/regulatory/product-certifications/COACHOUT.pdf\",\"exchange_index\":0,\"fee_multiplier\":1,\"fee_type\":\"quadratic\",\"frequency\":\"custom\",\"last_updated_ts\":\"2026-10-15T08:02:28.792359Z\",\"settlement_sources\":[{\"name\":\"Fox News\",\"url\":\"https://www.foxnews.com/\"},{\"name\":\"MSNBC\",\"url\":\"https://www.msnbc.com/\"},{\"name\":\"The Wall Street Journal\",\"url\":\"https://www.wsj.com/\"},{\"name\":\"Semafor\",\"url\":\"https://www.semafor.com/\"},{\"name\":\"ABC\",\"url\":\"https://abcnews.go.com/\"},{\"name\":\"The Information\",\"url\":\"https://www.theinformation.com/\"},{\"name\":\"CBS\",\"url\":\"https://www.cbsnews.com/\"},{\"name\":\"ESPN\",\"url\":\"https://www.espn.com/\"},{\"name\":\"The New York Times\",\"url\":\"https://www.nytimes.com/\"},{\"name\":\"The Washington Post\",\"url\":\"https://www.washingtonpost.com/\"},{\"name\":\"Axios\",\"url\":\"https://www.axios.com/\"},{\"name\":\"CNN\",\"url\":\"https://www.cnn.com/\"},{\"name\":\"Reuters\",\"url\":\"https://www.reuters.com/\"},{\"name\":\"the Associated Press\",\"url\":\"https://apnews.com/\"},{\"name\":\"Politico\",\"url\":\"https://www.politico.com/\"}],\"tags\":[\"Football\"],\"ticker\":\"KXCOACHOUTNCAAFB\",\"title\":\"NCAAFB Coaches Out\"},{\"additional_prohibitions\":[\"Current players, coaches, and staff of the league, association, or organization(s) governing the event. For college leagues/associations specifically, or where otherwise appropriate (as identified by the Exchange), this applies to current players/coaches/staff of the specific sport in <event> rather than the league/association as a whole (e.g., if the Division I Gonzaga Men’s Basketball Team is playing in <event>, this prohibition will restrict trades by current players/coaches/staff on NCAA Basketball, rather than all current players/coaches/staff in any NCAA sport).\",\"Paid employees of the league and league participants\",\"Owners of teams and the league\",\"and household members and immediate family of all above\",\"Persons"
+   },
+   "clubelo": {
+    "status": 502,
+    "bytes": 0,
+    "head": ""
+   }
   }
  },
- "finished_utc": "2026-11-19T07:03:39+00:00"
+ "finished_utc": "2026-11-19T07:22:23+00:00"
 }
