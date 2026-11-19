@@ -10,3 +10,7 @@ build/
 .env.*
 .DS_Store
 Thumbs.db
+
+# Regenerable research cache and scheduler logs
+reports/research/backtest_cache*
+reports/daily/logs/

@@ -324,6 +324,20 @@ def _fetch_espn_day(date_str: str) -> list[dict]:
     return resp.json().get("events", [])
 
 
+def fetch_league_slate(slug: str, date_str: str) -> tuple[str, list[LiveFixture]]:
+    """Fetch one ESPN competition's fixtures (with odds) for YYYYMMDD; returns (league name, fixtures).
+
+    Unlike the all-soccer scoreboard, the competition scoreboard tells us the league slug
+    (e.g. 'eng.1', 'uefa.wchampions'), which the goal-regime and calibration guards need.
+    """
+    resp = requests.get(f"{ESPN_LEAGUE_BASE}/{slug}/scoreboard", params={"dates": date_str}, timeout=15)
+    resp.raise_for_status()
+    payload = resp.json()
+    leagues = payload.get("leagues") or [{}]
+    name = str(leagues[0].get("name") or slug)
+    return name, _parse_espn_events(payload.get("events", []), lambda n: n)
+
+
 def fetch_espn_slate(date_str: str) -> list[LiveFixture]:
     """Fetch scheduled, live, and finished soccer fixtures with odds for YYYYMMDD."""
     return _parse_espn_events(_fetch_espn_day(date_str), normalize_international_team)

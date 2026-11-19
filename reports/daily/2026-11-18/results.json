@@ -1,0 +1,518 @@
+{
+  "tff2_2": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      0,
+      1
+    ]
+  },
+  "tff2_9": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      1,
+      0
+    ]
+  },
+  "tff2_6": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      2,
+      1
+    ],
+    "ft90": [
+      2,
+      2
+    ]
+  },
+  "tff2_1": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      0,
+      1
+    ],
+    "ft90": [
+      0,
+      2
+    ]
+  },
+  "tff2_5": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      0,
+      1
+    ],
+    "ft90": [
+      0,
+      2
+    ]
+  },
+  "tff2_8": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      0,
+      0
+    ]
+  },
+  "tff2_3": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      1,
+      1
+    ]
+  },
+  "tff2_0": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      0,
+      1
+    ]
+  },
+  "tff2_4": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      1,
+      0
+    ],
+    "ft90": [
+      1,
+      1
+    ]
+  },
+  "tff2_7": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      1,
+      0
+    ],
+    "ft90": [
+      2,
+      1
+    ]
+  },
+  "tff2_14": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      1,
+      0
+    ],
+    "ft90": [
+      2,
+      0
+    ]
+  },
+  "tff2_11": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      1,
+      1
+    ],
+    "ft90": [
+      2,
+      3
+    ]
+  },
+  "tff2_15": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      1,
+      0
+    ],
+    "ft90": [
+      2,
+      1
+    ]
+  },
+  "tff2_10": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      2,
+      1
+    ],
+    "ft90": [
+      2,
+      1
+    ]
+  },
+  "tff2_12": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      0,
+      1
+    ],
+    "ft90": [
+      0,
+      3
+    ]
+  },
+  "tff2_16": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      0,
+      2
+    ],
+    "ft90": [
+      1,
+      4
+    ]
+  },
+  "tff2_13": {
+    "completed": true,
+    "status": "manuel",
+    "ht": [
+      1,
+      0
+    ],
+    "ft90": [
+      2,
+      0
+    ]
+  },
+  "401930694": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      1,
+      2
+    ],
+    "ft90": [
+      2,
+      2
+    ]
+  },
+  "401928559": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      0,
+      1
+    ]
+  },
+  "401916982": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      0,
+      2
+    ]
+  },
+  "401916981": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      1,
+      1
+    ],
+    "ft90": [
+      3,
+      1
+    ]
+  },
+  "401928558": {
+    "completed": true,
+    "status": "FT-Pens",
+    "ht": [
+      1,
+      0
+    ],
+    "ft90": [
+      1,
+      1
+    ]
+  },
+  "401928518": {
+    "completed": true,
+    "status": "FT-Pens",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      0,
+      0
+    ]
+  },
+  "401928497": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      3
+    ],
+    "ft90": [
+      0,
+      3
+    ]
+  },
+  "401923287": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      0,
+      1
+    ]
+  },
+  "401923284": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      2,
+      0
+    ],
+    "ft90": [
+      2,
+      1
+    ]
+  },
+  "401923286": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      3
+    ],
+    "ft90": [
+      1,
+      4
+    ]
+  },
+  "401923285": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      4,
+      0
+    ],
+    "ft90": [
+      7,
+      0
+    ]
+  },
+  "401923377": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      3,
+      0
+    ]
+  },
+  "401928505": {
+    "completed": true,
+    "status": "AET",
+    "ht": [
+      1,
+      1
+    ],
+    "ft90": [
+      1,
+      1
+    ]
+  },
+  "401928532": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      3
+    ],
+    "ft90": [
+      2,
+      5
+    ]
+  },
+  "401928561": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      1
+    ],
+    "ft90": [
+      0,
+      3
+    ]
+  },
+  "401928524": {
+    "completed": true,
+    "status": "AET",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      1,
+      1
+    ]
+  },
+  "401928500": {
+    "completed": true,
+    "status": "FT-Pens",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      1,
+      1
+    ]
+  },
+  "401928690": {
+    "completed": false,
+    "status": "Sun, November 22nd at 8:00 AM EST"
+  },
+  "401886138": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      1
+    ],
+    "ft90": [
+      1,
+      1
+    ]
+  },
+  "401916980": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      1,
+      0
+    ]
+  },
+  "401916979": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      2,
+      0
+    ]
+  },
+  "401841315": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      0,
+      1
+    ]
+  },
+  "401841310": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      2,
+      0
+    ],
+    "ft90": [
+      2,
+      0
+    ]
+  },
+  "401841314": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      2,
+      1
+    ]
+  },
+  "401841313": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      2,
+      1
+    ],
+    "ft90": [
+      2,
+      1
+    ]
+  },
+  "401930226": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      2,
+      1
+    ],
+    "ft90": [
+      3,
+      1
+    ]
+  },
+  "401841316": {
+    "completed": false,
+    "status": "73'"
+  },
+  "401841312": {
+    "completed": false,
+    "status": "73'"
+  }
+}

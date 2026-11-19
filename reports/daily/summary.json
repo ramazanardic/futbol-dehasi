@@ -1,0 +1,20 @@
+{
+  "days": [
+    "2026-11-18"
+  ],
+  "n_matches_1x2": 14,
+  "pool": {
+    "n": 14,
+    "weight": 0.14,
+    "ci_low": 0.0,
+    "ci_high": 1.0,
+    "logloss_market": 0.7525641754082402,
+    "logloss_model": 0.7532774810530938,
+    "logloss_pool": 0.7525434903091494
+  },
+  "n_value_singles": 0,
+  "clv_fair": null,
+  "clv_raw": null,
+  "flat_profit": null,
+  "n_settled_singles": 0
+}

@@ -1,0 +1,406 @@
+{
+  "date": "2026-11-18",
+  "summary": {
+    "settled_matches": 42,
+    "best_pick_hits": 30,
+    "best_pick_settled": 42,
+    "n_matches_1x2": 14,
+    "pool": {
+      "n": 14,
+      "weight": 0.14,
+      "ci_low": 0.0,
+      "ci_high": 1.0,
+      "logloss_market": 0.7525641754082402,
+      "logloss_model": 0.7532774810530938,
+      "logloss_pool": 0.7525434903091494
+    },
+    "n_value_singles": 0,
+    "clv_fair": null,
+    "clv_raw": null,
+    "flat_profit": null,
+    "n_settled_singles": 0
+  },
+  "matches": [
+    {
+      "event_id": "tff2_2",
+      "match": "12 Bingölspor - Sakaryaspor",
+      "score": "0-1 (İY 0-0)",
+      "best_selection": "1.5 Üst",
+      "hit_best": false,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_9",
+      "match": "1461 Trabzon FK - Kahramanmaraş İstiklalspor",
+      "score": "1-0 (İY 0-0)",
+      "best_selection": "3.5 Alt",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_6",
+      "match": "Adana Demirspor - GMG Kastamonuspor",
+      "score": "2-2 (İY 2-1)",
+      "best_selection": "İY 0.5 Üst",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_1",
+      "match": "Ankara Demirspor - 52 Orduspor FK",
+      "score": "0-2 (İY 0-1)",
+      "best_selection": "İY 0.5 Üst",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_5",
+      "match": "Hatayspor - İnegöl Kafkas SK",
+      "score": "0-2 (İY 0-1)",
+      "best_selection": "3.5 Alt",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_8",
+      "match": "ISBAŞ Isparta 32 Spor - Somaspor",
+      "score": "0-0 (İY 0-0)",
+      "best_selection": "3.5 Alt",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_3",
+      "match": "MKE Ankaragücü - Kırklarelispor",
+      "score": "1-1 (İY 0-0)",
+      "best_selection": "3.5 Alt",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_0",
+      "match": "Serik Spor - Erzincanspor",
+      "score": "0-1 (İY 0-0)",
+      "best_selection": "3.5 Alt",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_4",
+      "match": "Seza Çimento Elazığspor - Menemen FK",
+      "score": "1-1 (İY 1-0)",
+      "best_selection": "MS 1",
+      "hit_best": false,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_7",
+      "match": "Şanlıurfaspor - Efor Çay Erbaaspor",
+      "score": "2-1 (İY 1-0)",
+      "best_selection": "3.5 Alt",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_14",
+      "match": "Aliağa Futbol A.Ş. - Sebat Gençlik Spor",
+      "score": "2-0 (İY 1-0)",
+      "best_selection": "3.5 Alt",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_11",
+      "match": "Arnavutköy Belediyesi Futbol SK - 68 Aksaray Belediyespor",
+      "score": "2-3 (İY 1-1)",
+      "best_selection": "3.5 Alt",
+      "hit_best": false,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_15",
+      "match": "Fethiyespor - Kütahyaspor",
+      "score": "2-1 (İY 1-0)",
+      "best_selection": "3.5 Alt",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_10",
+      "match": "Güzide Gebze Spor - Ankaraspor",
+      "score": "2-1 (İY 2-1)",
+      "best_selection": "İY 0.5 Üst",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_12",
+      "match": "Karacabey Belediyespor - Beyoğlu Yeni Çarşı",
+      "score": "0-3 (İY 0-1)",
+      "best_selection": "3.5 Alt",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_16",
+      "match": "Çorluspor 1947 - Muş Spor",
+      "score": "1-4 (İY 0-2)",
+      "best_selection": "3.5 Alt",
+      "hit_best": false,
+      "market_source": null
+    },
+    {
+      "event_id": "tff2_13",
+      "match": "İnegölspor - İskenderunspor A.Ş.",
+      "score": "2-0 (İY 1-0)",
+      "best_selection": "3.5 Alt",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "401930694",
+      "match": "Bengaluru United FC - Sreenidi Deccan FC",
+      "score": "2-2 (İY 1-2)",
+      "best_selection": "3.5 Alt",
+      "hit_best": false,
+      "market_source": null
+    },
+    {
+      "event_id": "401928559",
+      "match": "Levante - Eibar",
+      "score": "0-1 (İY 0-0)",
+      "best_selection": "1.5 Üst",
+      "hit_best": false,
+      "market_source": null
+    },
+    {
+      "event_id": "401916982",
+      "match": "BK Häcken - Manchester City",
+      "score": "0-2 (İY 0-0)",
+      "best_selection": "MS 2",
+      "hit_best": true,
+      "market_source": "tahmin anı"
+    },
+    {
+      "event_id": "401916981",
+      "match": "Real Madrid - Internazionale",
+      "score": "3-1 (İY 1-1)",
+      "best_selection": "MS 1",
+      "hit_best": true,
+      "market_source": "tahmin anı"
+    },
+    {
+      "event_id": "401928558",
+      "match": "CP Cacereño - Alavés",
+      "score": "1-1 (İY 1-0)",
+      "best_selection": "3.5 Alt",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "401928518",
+      "match": "Portugalete - Real Unión Irun",
+      "score": "0-0 (İY 0-0)",
+      "best_selection": "1.5 Üst",
+      "hit_best": false,
+      "market_source": "tahmin anı"
+    },
+    {
+      "event_id": "401928497",
+      "match": "Utebo - CD Sabadell",
+      "score": "0-3 (İY 0-3)",
+      "best_selection": "1.5 Üst",
+      "hit_best": true,
+      "market_source": "tahmin anı"
+    },
+    {
+      "event_id": "401923287",
+      "match": "London City Lionesses - Brighton & Hove Albion",
+      "score": "0-1 (İY 0-0)",
+      "best_selection": "1.5 Üst",
+      "hit_best": false,
+      "market_source": null
+    },
+    {
+      "event_id": "401923284",
+      "match": "Manchester United - Everton",
+      "score": "2-1 (İY 2-0)",
+      "best_selection": "İY 1.5 Alt",
+      "hit_best": false,
+      "market_source": null
+    },
+    {
+      "event_id": "401923286",
+      "match": "Nottingham Forest - Liverpool",
+      "score": "1-4 (İY 0-3)",
+      "best_selection": "3.5 Alt",
+      "hit_best": false,
+      "market_source": null
+    },
+    {
+      "event_id": "401923285",
+      "match": "Tottenham Hotspur - Leicester City",
+      "score": "7-0 (İY 4-0)",
+      "best_selection": "1.5 Üst",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "401923377",
+      "match": "West Ham United - Wolverhampton",
+      "score": "3-0 (İY 0-0)",
+      "best_selection": "1.5 Üst",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "401928505",
+      "match": "Alcoyano - Mallorca",
+      "score": "1-1 (İY 1-1)",
+      "best_selection": "1.5 Üst",
+      "hit_best": true,
+      "market_source": "tahmin anı"
+    },
+    {
+      "event_id": "401928532",
+      "match": "Badajoz - Tenerife",
+      "score": "2-5 (İY 0-3)",
+      "best_selection": "3.5 Alt",
+      "hit_best": false,
+      "market_source": null
+    },
+    {
+      "event_id": "401928561",
+      "match": "CD Samper - Valencia",
+      "score": "0-3 (İY 0-1)",
+      "best_selection": "3.5 Alt",
+      "hit_best": true,
+      "market_source": null
+    },
+    {
+      "event_id": "401928524",
+      "match": "CD Minera - FC Cartagena",
+      "score": "1-1 (İY 0-0)",
+      "best_selection": "2Y 0.5 Üst",
+      "hit_best": true,
+      "market_source": "tahmin anı"
+    },
+    {
+      "event_id": "401928500",
+      "match": "Reus FC Reddis - Barakaldo",
+      "score": "1-1 (İY 0-0)",
+      "best_selection": "İY 1.5 Alt",
+      "hit_best": true,
+      "market_source": "tahmin anı"
+    },
+    {
+      "event_id": "401886138",
+      "match": "Alianza Atlético - Melgar",
+      "score": "1-1 (İY 0-1)",
+      "best_selection": "3.5 Alt",
+      "hit_best": true,
+      "market_source": "tahmin anı"
+    },
+    {
+      "event_id": "401916980",
+      "match": "Chelsea - Paris Saint-Germain",
+      "score": "1-0 (İY 0-0)",
+      "best_selection": "MS 1",
+      "hit_best": true,
+      "market_source": "tahmin anı"
+    },
+    {
+      "event_id": "401916979",
+      "match": "Juventus - OH Leuven",
+      "score": "2-0 (İY 0-0)",
+      "best_selection": "MS 1",
+      "hit_best": true,
+      "market_source": "tahmin anı"
+    },
+    {
+      "event_id": "401841315",
+      "match": "Coritiba - Santos",
+      "score": "0-1 (İY 0-0)",
+      "best_selection": "ÇŞ 02",
+      "hit_best": true,
+      "market_source": "tahmin anı"
+    },
+    {
+      "event_id": "401841310",
+      "match": "Remo - Chapecoense",
+      "score": "2-0 (İY 2-0)",
+      "best_selection": "İY 0.5 Üst",
+      "hit_best": true,
+      "market_source": "tahmin anı"
+    },
+    {
+      "event_id": "401841314",
+      "match": "Cruzeiro - Palmeiras",
+      "score": "2-1 (İY 0-0)",
+      "best_selection": "İY 0.5 Üst",
+      "hit_best": false,
+      "market_source": "tahmin anı"
+    },
+    {
+      "event_id": "401841313",
+      "match": "Flamengo - Athletico-PR",
+      "score": "2-1 (İY 2-1)",
+      "best_selection": "MS 1",
+      "hit_best": true,
+      "market_source": "tahmin anı"
+    },
+    {
+      "event_id": "401930226",
+      "match": "Always Ready - Real Potosí",
+      "score": "3-1 (İY 2-1)",
+      "best_selection": "İY 0.5 Üst",
+      "hit_best": true,
+      "market_source": null
+    }
+  ],
+  "coupons": [
+    {
+      "title": "KUPON 1 — 3 Maçlık Çekirdek Güven Kuponu (En Düşük Varyans)",
+      "legs_hit": 3,
+      "legs": 3,
+      "status": "KAZANDI"
+    },
+    {
+      "title": "KUPON 2 — 4 Maçlık Avrupa & Brezilya İdeal Denge Kuponu",
+      "legs_hit": 4,
+      "legs": 4,
+      "status": "KAZANDI"
+    },
+    {
+      "title": "KUPON 3 — 5 Maçlık Orta Ölçekli Favori Kuponu",
+      "legs_hit": 5,
+      "legs": 5,
+      "status": "KAZANDI"
+    },
+    {
+      "title": "KUPON 4 — Hedef 10x Optimize Kupon (%100 Canlı Piyasa Oranlı)",
+      "legs_hit": 4,
+      "legs": 5,
+      "status": "KAYBETTİ"
+    },
+    {
+      "title": "KUPON 5 — Hedef 20x Optimize Kupon (%100 Canlı Piyasa Oranlı)",
+      "legs_hit": 4,
+      "legs": 7,
+      "status": "KAYBETTİ"
+    },
+    {
+      "title": "KUPON 6 — Nesine 2. Lig Gündüz (13:00 & 15:00) Kuponu",
+      "legs_hit": 2,
+      "legs": 4,
+      "status": "KAYBETTİ"
+    },
+    {
+      "title": "KUPON 7 — İlk Yarı / Maç Sonucu (İY/MS) Özel Kuponu",
+      "legs_hit": 1,
+      "legs": 4,
+      "status": "KAYBETTİ"
+    }
+  ],
+  "clv": []
+}

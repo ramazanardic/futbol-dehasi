@@ -67,4 +67,22 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
 
 # 5. Birim testler
 .\.venv\Scripts\pytest.exe -v
+
+# 6. Tek maç için 20 pazar ailesi + Bet Builder (bkz. docs/markets.md)
+.\.venv\Scripts\quantfoot.exe markets --mu-home 1.8 --mu-away 1.0 --league eng.1 --division E0 `
+  --player "Haaland;Ev;0.42;0.08;85;3.8;1.9;0.1" --builder "MS 1" "2.5 Üst" "Haaland: Gol Atar"
 ```
+
+Günlük akış (tarihe bağlı eski betiklerin yerine tek betik; çıktılar `reports/daily/<tarih>/`):
+
+```powershell
+.\.venv\Scripts\python.exe scripts\daily.py run --date 2026-11-20       # tahmin + kupon + rapor
+.\.venv\Scripts\python.exe scripts\daily.py snapshot --date 2026-11-20  # maçlardan önce: kapanış oranları (CLV için)
+.\.venv\Scripts\python.exe scripts\daily.py results --date 2026-11-20   # İY / 90' skorları
+.\.venv\Scripts\python.exe scripts\daily.py verify --date 2026-11-20    # isabet, kupon, havuz testi ve CLV
+.\.venv\Scripts\python.exe scripts\daily.py summary                     # tüm günler: model piyasaya bilgi katıyor mu?
+.\.venv\Scripts\python.exe scripts\ledger_report.py --date 2026_11_18   # gerçekten oynanan bahislerin defteri
+```
+
+Pazar modelleri, veri kalibrasyonu ve kaynaklar: [docs/markets.md](docs/markets.md) ·
+bileşen bazlı literatür taraması: [docs/research/literature_review_2026_11.md](docs/research/literature_review_2026_11.md)
