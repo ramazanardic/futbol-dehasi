@@ -75,6 +75,7 @@ def _match(event, candidates: list[dict], max_hours: float = 3.0, threshold: flo
 
 
 # ---- reference sources ------------------------------------------------------------------
+MAX_PLAUSIBLE_EV = 0.25
 SOURCE_RANK = {"Pinnacle (football-data)": 0, "Smarkets (borsa)": 1, "Betfair Borsası (football-data)": 2, "ESPN (DraftKings/ESPN BET)": 3}
 GLOBAL_FILE = ROOT / "data" / "global_odds" / "latest" / "references.json"
 
@@ -204,14 +205,25 @@ def main() -> None:
           "kalibre edilmiş ortak gol dağılımıyla hesaplanır. DraftKings keskin bir büro değildir: küçük artı EV'ler gürültü olabilir.", ""]
     value = [(m, s) for m in out if m["status"] == "fiyatlandı" for s in m["selections"] if s["ev"] >= args.min_ev]
     value.sort(key=lambda x: x[1]["ev"], reverse=True)
+    # In a liquid market an edge above +25% against a sharp price is almost always a data error
+    # (thin reference, wrong match, model extrapolation) -> listed separately, never as a pick.
+    plausible = [(m, s) for m, s in value if s["ev"] <= MAX_PLAUSIBLE_EV]
+    suspicious = [(m, s) for m, s in value if s["ev"] > MAX_PLAUSIBLE_EV]
+
+    def _rows(items: list) -> list[str]:
+        rows = ["| Saat | Maç | Pazar | Seçim | Nesine | Adil oran | EV | MBS | Referans |", "|---|---|---|---|---|---|---|---|---|"]
+        for m, s in items[:60]:
+            rows.append(f"| {m['kickoff'][11:]} | {m['home']} - {m['away']} | {s['market']} | {s['selection']} | {s['odds']:.2f} | "
+                        f"{s['fair_odds']:.2f} | {s['ev']:+.1%} | {s['mbs']} | {m['reference'].split(' ')[0]} |")
+        return rows
+
     md += ["## Nesine'nin global adil fiyatın üstünde verdiği seçimler", ""]
-    if value:
-        md += ["| Saat | Maç | Pazar | Seçim | Nesine | Adil oran | EV | MBS | Referans |", "|---|---|---|---|---|---|---|---|---|"]
-        for m, s in value[:60]:
-            md.append(f"| {m['kickoff'][11:]} | {m['home']} - {m['away']} | {s['market']} | {s['selection']} | {s['odds']:.2f} | "
-                      f"{s['fair_odds']:.2f} | {s['ev']:+.1%} | {s['mbs']} | {m['reference'].split(' ')[0]} |")
-    else:
-        md.append("_Bugün Nesine'nin global adil fiyatın üstünde verdiği seçim yok._")
+    md += _rows(plausible) if plausible else ["_Bugün Nesine'nin global adil fiyatın üstünde verdiği seçim yok._"]
+    if suspicious:
+        md += ["", f"## Referans hatası şüphesi (EV > {MAX_PLAUSIBLE_EV:+.0%}) — bahis önerisi değildir", "",
+               "Likit bir piyasada keskin fiyata karşı bu büyüklükte fark neredeyse her zaman veri hatasıdır "
+               "(ince borsa fiyatı, yanlış eşleşen maç ya da uç favorilerde model dışı bölge).", ""]
+        md += _rows(suspicious)
     md += ["", "## Fiyatlanan maçlar", "", "| Saat | Lig | Maç | Nesine 1/X/2 | Global adil 1/X/2 | Nesine MS marjı | Referans | En iyi EV |",
            "|---|---|---|---|---|---|---|---|"]
     for m in out:

@@ -105,7 +105,9 @@ def com_poisson_pmf(mu: float, nu: float = 1.0, max_goals: int = 14) -> np.ndarr
     fact = gammaln(goals + 1.0)
     target = float(min(mu, max_goals - 0.1))
     lo, hi = -8.0, 6.0
-    for _ in range(24):
+    # 60 halvings of [-8, 6] reach float precision; 24 left the pmf piecewise-constant at ~1e-6,
+    # which gave finite-difference optimisers a zero gradient (fits silently stayed at their start).
+    for _ in range(60):
         mid = 0.5 * (lo + hi)
         lp = goals * mid - nu * fact
         lp -= lp.max()
@@ -379,7 +381,7 @@ def fit_tail_rates_from_markets(
 
     x0 = np.log([init_h, init_a])
     bounds = [(np.log(0.05), np.log(9.5)), (np.log(0.05), np.log(9.5))]
-    res = minimize(_loss, x0=x0, method="L-BFGS-B", bounds=bounds)
+    res = minimize(_loss, x0=x0, method="L-BFGS-B", bounds=bounds, options={"eps": 1e-6})
     mu_h = float(np.exp(res.x[0]))
     mu_a = float(np.exp(res.x[1]))
     final_mat = negative_binomial_score_matrix(
