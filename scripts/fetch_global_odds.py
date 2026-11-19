@@ -150,26 +150,37 @@ def _chunks(items: list, n: int):
         yield items[i:i + n]
 
 
-def smarkets(days: int = 7, max_events: int = 2000, window_hours: float | None = None, direct_hours: float = 48.0) -> list[dict]:
+def smarkets(days: int = 7, max_events: int = 3000, window_hours: float | None = None, direct_hours: float = 36.0) -> list[dict]:
     now = dt.datetime.now(dt.timezone.utc)
     horizon = now + (dt.timedelta(hours=window_hours) if window_hours else dt.timedelta(days=days))
-    events, url = [], f"{SMARKETS}/events/"
-    params = {"type": "football_match", "state": "upcoming", "limit": 300, "sort": "start_datetime,id",
-              "start_datetime_max": horizon.strftime("%Y-%m-%dT%H:%M:%SZ")}
-    seen_pages: set[str] = set()
-    for _ in range(12):  # pagination (bounded)
-        r = _get(url, **params) if params else _get(url)
-        _say(f"smarkets events page: HTTP {r.status_code}")
-        if r.status_code != 200:
-            LOG["errors"].append(f"smarkets events HTTP {r.status_code}: {r.text[:200]}")
-            break
-        js = r.json()
-        events += js.get("events", [])
-        nxt = (js.get("pagination") or {}).get("next_page")
-        if not nxt or nxt in seen_pages or len(events) >= max_events:
-            break
-        seen_pages.add(nxt)
-        url, params = f"{SMARKETS}/events/{nxt}", None
+    # Query in 6-hour windows: a single sorted query stops at ~600 events, which silently dropped every
+    # match after Saturday afternoon. Each window is paginated and events are de-duplicated by id.
+    events, seen_ids = [], set()
+    start = now
+    while start < horizon and len(events) < max_events and _time_left() > 120:
+        end = min(start + dt.timedelta(hours=6), horizon)
+        url = f"{SMARKETS}/events/"
+        params = {"type": "football_match", "state": "upcoming", "limit": 300, "sort": "start_datetime,id",
+                  "start_datetime_min": start.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                  "start_datetime_max": end.strftime("%Y-%m-%dT%H:%M:%SZ")}
+        seen_pages: set[str] = set()
+        for _ in range(6):  # pagination within the window (bounded)
+            r = _get(url, **params) if params else _get(url)
+            if r.status_code != 200:
+                LOG["errors"].append(f"smarkets events HTTP {r.status_code}: {r.text[:200]}")
+                break
+            js = r.json()
+            for e in js.get("events", []):
+                if e["id"] not in seen_ids:
+                    seen_ids.add(e["id"])
+                    events.append(e)
+            nxt = (js.get("pagination") or {}).get("next_page")
+            if not nxt or nxt in seen_pages:
+                break
+            seen_pages.add(nxt)
+            url, params = f"{SMARKETS}/events/{nxt}", None
+        start = end
+    _say(f"smarkets events (6 h windows): {len(events)}")
     LOG["counts"]["smarkets_events"] = len(events)
     if events:
         LOG["samples"]["smarkets_event"] = events[0]
@@ -223,7 +234,12 @@ def smarkets(days: int = 7, max_events: int = 2000, window_hours: float | None =
     contracts, quotes = [], {}
     _say(f"smarkets markets: {len(markets)}, wanted: {len(wanted)}")
     # 1X2 and O/U 2.5 first, so a time-budget cut only ever loses the optional direct derivative markets.
-    for ids in _chunks(sorted(wanted, key=lambda k: wanted[k][1] == "direct"), 50):
+    def _order(k: str) -> tuple:
+        m, kind = wanted[k]
+        ev = by_event.get(str(m.get("event_id"))) or {}
+        return (kind == "direct", ev.get("start_datetime") or "")
+
+    for ids in _chunks(sorted(wanted, key=_order), 50):
         if _time_left() < 30:
             LOG["errors"].append("smarkets: time budget reached while fetching quotes")
             break
@@ -417,7 +433,7 @@ def main() -> None:
         return
     refs: list[dict] = []
     # Pinnacle (football-data) first: small, fast, most reliable. Saved before the exchange fetch.
-    for fn in (football_data, smarkets, matchbook):
+    for fn in (football_data, matchbook, smarkets):  # Smarkets last: it is the one trimmed by the time budget
         _say(f"--- {fn.__name__} (time left {_time_left():.0f}s)")
         try:
             refs += fn()
