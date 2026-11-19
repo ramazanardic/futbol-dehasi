@@ -127,3 +127,20 @@ Geride kalan takımın 1 farkta ikinci yarı tempo artışı **+%10.5** çıktı
 (+%10). Ancak çözüm üç parametrede sınıra dayandı ve İY/MS'li maç sayısı çok az (≈5): **üretime
 alınmadı**; `compute_omni_markets(state_mults=...)` ile parametreli hâle getirildi, veri birikince
 tekrarlanacak.
+
+## Marj temizleme yöntemleri: goto_conversion dahil (19 Kasım)
+
+`data/matches.csv`, 2015 sonrası rastgele 40.000 maç (1X2 oranları, ortalama ters oran toplamı 1,063). 1X2 log-loss:
+
+| Yöntem | Log-loss | power'a göre fark (%95) |
+|---|---|---|
+| goto_conversion (Goto; tüm ters oranlar aynı standart hata kadar indirilir) | 1.00026 | −0.00003 ± 0.00011 |
+| power (üretimde) | 1.00028 | — |
+| Shin | 1.00036 | +0.00008 ± 0.00010 |
+| odds ratio | 1.00044 | +0.00016 ± 0.00012 |
+| çarpımsal | 1.00093 | +0.00065 ± 0.00030 |
+
+goto ile power arasındaki fark istatistiksel olarak sıfır; büyük favorilerde (%75+) goto 0.5530, power 0.5534. Üretim
+`power` olarak kalır. Borsa fiyatlarında marj ~%1–2 olduğundan yöntem farkı orada daha da küçüktür.
+Not: `goto_conversion` PyPI paketi futbolla ilgisiz kod (yapay zekâ dedektörü atlatma, torch/transformers) içerdiği
+için yüklenmedi; formül 5 satır, gerekirse yerelde yazılır.
