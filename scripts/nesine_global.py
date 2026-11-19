@@ -335,6 +335,19 @@ def load_user_absences(folder: Path = ROOT / "reports") -> tuple[dict[int, dict]
     return out, label
 
 
+NESINE_ONLY_STATUS = "düşük güven — global fiyat yok, Nesine oranından (kupona alınmaz)"
+
+
+def nesine_fallback_reference(event) -> dict | None:
+    """Last-resort reference for matches no global source prices: Nesine's own 1X2 (+ O/U 2.5).
+    The margin is removed later by the same devig as for global prices; the result is low-confidence."""
+    x12 = [event.odds_of(f"MS {c}") for c in "102"]
+    if not all(x12):
+        return None
+    ou = [event.odds_of("2.5 Üst"), event.odds_of("2.5 Alt")]
+    return {"source": "Nesine (yerel, düşük güven)", "x12": x12, "ou": [2.5, ou] if all(ou) else None}
+
+
 def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated: str | None) -> None:
     """Add ESPN research (form, table, rest, line-ups, absences) to priced matches; flag stale prices."""
     pool = []
@@ -343,7 +356,7 @@ def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated
     by_code = {e.code: e for e in events}
     jobs = {}
     for rec in out:
-        if rec.get("status") != "fiyatlandı":
+        if rec.get("status") not in ("fiyatlandı", NESINE_ONLY_STATUS):
             continue
         hit, _ = _match(by_code[rec["code"]], pool)
         if hit:
@@ -428,6 +441,12 @@ def analyze_day(day: dt.date, verbose: bool = True, with_research: bool = True) 
         if ref is None:
             rec["status"] = ("borsalar birbiriyle çelişiyor (> 8 puan) — fiyatlanmadı" if contradiction
                              else "global referans bulunamadı — fiyatlanmadı")
+            local = nesine_fallback_reference(e)
+            if local is not None and not contradiction:
+                # Display-only estimate from Nesine's own margin-free odds: never used in coupons
+                # (candidates() accepts only status 'fiyatlandı').
+                rec.update(**price_event(e, local, league))
+                rec["status"] = NESINE_ONLY_STATUS
         else:
             rec.update(match_score=round(score, 2), ref_match=f"{ref['home']} - {ref['away']}", **price_event(e, ref, league))
             rec["status"] = "fiyatlandı"
@@ -457,12 +476,14 @@ def main() -> None:
 def write_week(start: dt.date, week: list[tuple[str, list[dict]]], min_ev: float) -> None:
     """One-page summary of a multi-day run: coverage per day and every plausible value selection of the week."""
     lines = [f"# Nesine haftalık analiz ({start} – {week[-1][0]})", "",
-             "| Gün | Nesine maçı | Global fiyatlı | Doğrudan borsa seçimi | Araştırma (ESPN/PL) | Uyarılı |", "|---|---|---|---|---|---|"]
+             "| Gün | Nesine maçı | Global fiyatlı | Düşük güven (Nesine) | Doğrudan borsa seçimi | Araştırma | Uyarılı |",
+             "|---|---|---|---|---|---|---|"]
     value = []
     for day, out in week:
         priced = [m for m in out if m["status"] == "fiyatlandı"]
         direct = sum(1 for m in priced for s in m["selections"] if s.get("direct"))
-        lines.append(f"| {day} | {len(out)} | {len(priced)} | {direct} | {sum(1 for m in out if m.get('research'))} | "
+        local = sum(1 for m in out if m["status"] == NESINE_ONLY_STATUS)
+        lines.append(f"| {day} | {len(out)} | {len(priced)} | {local} | {direct} | {sum(1 for m in out if m.get('research'))} | "
                      f"{sum(1 for m in out if (m.get('research') or {}).get('flags'))} |")
         value += [(m, s) for m in priced for s in m["selections"] if min_ev <= s["ev"] <= MAX_PLAUSIBLE_EV]
     value.sort(key=lambda x: x[1]["ev"], reverse=True)
@@ -622,7 +643,7 @@ def record_predictions(d: Path, out: list[dict]) -> None:
         store = {}
     now = dt.datetime.now(TSI)
     for m in out:
-        if m.get("status") != "fiyatlandı" or dt.datetime.fromisoformat(m["kickoff_iso"]) <= now:
+        if m.get("status") not in ("fiyatlandı", NESINE_ONLY_STATUS) or dt.datetime.fromisoformat(m["kickoff_iso"]) <= now:
             continue
         store[str(m["code"])] = {
             "home": m["home"], "away": m["away"], "league": m["league"], "kickoff_iso": m["kickoff_iso"],
@@ -713,7 +734,10 @@ def write_report(date: str, out: list[dict], payload: dict, events: list, min_ev
                   f"{r.get('h2h') or '-'} | {lineup} | {_absent(r, 'home')} / {_absent(r, 'away')} | "
                   f"{'; '.join(r.get('flags') or []) or '-'} |")
     md += ["", "## Global fiyatı bulunamayan maçlar (fiyatlanmadı)", ""]
-    md += [f"- {m['kickoff'][11:]} {m['league']}: {m['home']} - {m['away']}" for m in out if m["status"] != "fiyatlandı"]
+    md += [f"- {m['kickoff'][11:]} {m['league']}: {m['home']} - {m['away']}"
+           + (f" — düşük güven tahmini (Nesine): 1/X/2 %{m['fair_1x2'][0] * 100:.0f} / %{m['fair_1x2'][1] * 100:.0f} / %{m['fair_1x2'][2] * 100:.0f}"
+              if m["status"] == NESINE_ONLY_STATUS else " — fiyatlanmadı")
+           for m in out if m["status"] != "fiyatlandı"]
     (d / "nesine_global.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     write_team_files(date, out, d)
     print(f"{priced}/{len(events)} maç fiyatlandı; {len(value)} seçim EV ≥ {min_ev:+.1%}. -> {d.relative_to(ROOT)}/nesine_global.md")

@@ -234,3 +234,20 @@ def test_corner_quotes_map_and_are_direct_only():
     assert ng._direct_name("Over/under 9.5 corners", "OVER|Over 9.5 corners") == "Korner 9.5 Üst"
     assert ng._direct_name("First half over/under 4.5 corners", "UNDER|Under 4.5 corners") == "İY Korner 4.5 Alt"
     assert ng._direct_name("First half over/under 1.5", "OVER|Over 1.5 goals") == "İY 1.5 Üst"
+
+
+def test_nesine_only_estimates_never_enter_coupons():
+    import datetime as dt
+    from types import SimpleNamespace
+
+    import nesine_global as ng
+
+    odds = {"MS 1": 2.0, "MS 0": 3.3, "MS 2": 3.6, "2.5 Üst": 1.9, "2.5 Alt": 1.85}
+    ref = ng.nesine_fallback_reference(SimpleNamespace(odds_of=odds.get))
+    assert ref["x12"] == [2.0, 3.3, 3.6] and ref["ou"] == [2.5, [1.9, 1.85]]
+    assert ng.nesine_fallback_reference(SimpleNamespace(odds_of={"MS 1": 2.0}.get)) is None
+    now = dt.datetime(2026, 11, 19, 9, 0, tzinfo=dt.timezone(dt.timedelta(hours=3)))
+    m = {"status": ng.NESINE_ONLY_STATUS, "reference": "Nesine (yerel, düşük güven)", "kickoff_iso": "2026-11-19T20:00:00+03:00",
+         "kickoff": "2026-11-19 20:00", "code": 1, "league": "L", "home": "A", "away": "B",
+         "selections": [{"market": "MS", "selection": "1", "name": "MS 1", "odds": 2.0, "fair_prob": 0.46, "ev": -0.08, "mbs": 1}]}
+    assert kupon.candidates([m], now, 1.2, 0.0, True) == []

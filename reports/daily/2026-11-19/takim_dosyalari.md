@@ -175,6 +175,19 @@ Aralarında: - · Uyarı: -
 | Eksikler | - | - |
 | Sakatlar (kullanıcı dosyası) | Alexander Lyng (Sol Kanat, Darbe); Jeppe Kudsk (Stoper, Darbe) | - |
 
+## 21:00 · RC Celta de Vigo (K) - RCD Espanyol (K) (İspanya Kupası, Kadınlar)
+
+Aralarında: - · Uyarı: -
+
+| | Ev | Deplasman |
+|---|---|---|
+| Takım | Celta Vigo | Espanyol |
+| Son 5 maç | W 0-0 vs Real Avilés · W 3-1 vs Real Oviedo | L 3-1 @ Real Madrid · D 1-1 @ Real Sociedad · W 2-1 vs Dux Logroño · W 1-0 @ Granada · L 3-1 vs Tenerife |
+| Form | WW | LDWWL |
+| Dinlenme (gün) | 50.1 | 5.3 |
+| Eksikler | - | - |
+| Haber (sakatlık/ceza) | - | Barcelona's Mapi León handed two-game ban for Daniela Caracas incident - sources |
+
 ## 21:00 · ZED - Smouha SC (Mısır Kupası)
 
 Aralarında: - · Uyarı: -

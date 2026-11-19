@@ -93,6 +93,13 @@ sakatlar, cezalılar, eksik kaleci ve uyarılar; kupon gerekçelerinde de sayıl
 kendisi çekmez (kaynağın koşulları otomatik çekimi yasaklıyor); yalnızca klasöre konan dosyayı okur.
 Dosya git'e girmez.
 
+## Global fiyatı olmayan maçlar: düşük güven tahmini
+
+Hiçbir keskin kaynağın fiyatlamadığı maçlar (alt ligler, gençlik ligleri…) için olasılıklar Nesine'nin
+kendi 1X2 (+ 2,5 Alt/Üst) oranlarından marj arındırılarak hesaplanır ve **"düşük güven"** olarak
+işaretlenir. Bu tahminler yalnızca analiz içindir: **kupona hiçbir zaman girmez** (`candidates()` yalnız
+global fiyatlı maçları kabul eder). Sonuç takibinde ayrı izlenir (kaynak alanı "Nesine").
+
 ## Sonuç takibi (tahminler gerçekten doğru mu?)
 
 Her analiz, başlamamış her maçın son tahminini `reports/daily/<tarih>/takip_kayit.json` dosyasına yazar
