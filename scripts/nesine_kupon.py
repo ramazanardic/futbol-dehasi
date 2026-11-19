@@ -34,7 +34,7 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from nesine_global import DAILY, MAX_PLAUSIBLE_EV, TSI, analyze_day, selection_key  # noqa: E402
+from nesine_global import DAILY, MAX_PLAUSIBLE_EV, PRICED, TSI, analyze_day, selection_key  # noqa: E402
 
 from quantfoot.data.nesine import fetch_bulletin, parse_bulletin  # noqa: E402
 from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
@@ -81,7 +81,36 @@ def match_context(m: dict) -> str:
 def leg_reason(leg: dict) -> str:
     src = "kendi borsa fiyatı" if leg.get("direct") else "global 1X2+Alt/Üst'ten gol modeli"
     text = f"Global olasılık %{leg['p'] * 100:.0f} ({src}, {leg['reference']}); adil oran {1 / leg['p']:.2f}, Nesine {leg['odds']:.2f}"
+    if leg.get("scores"):
+        text += " · bu bacakla uyumlu en olası skorlar: " + ", ".join(f"{sc} %{p * 100:.1f}" for sc, p in leg["scores"])
     return text + (f" · {leg['context']}" if leg.get("context") else "")
+
+
+def consistent_scores(joint, name: str, top: int = 3) -> list[tuple[str, float]]:
+    """Most likely full-time scores on which the leg WINS (probability of score and leg together), so a score
+    shown next to a coupon leg can never contradict it. joint[h1, a1, h2, a2] = first / second half goals."""
+    import numpy as np
+    j = np.asarray(joint)
+    g = j.shape[0]
+    neg = name.startswith("DEĞİL(")
+    base = name[6:-1] if neg else name
+    win: dict[tuple[int, int], float] = {}
+    for h1, a1, h2, a2 in product(range(g), repeat=4):
+        p = float(j[h1, a1, h2, a2])
+        if p <= 0:
+            continue
+        ft = (h1 + h2, a1 + a2)
+        try:
+            w = settle_selection(base, (h1, a1), ft)
+        except (KeyError, ValueError):
+            return []
+        if w is None:
+            return []
+        if w != neg:
+            win[ft] = win.get(ft, 0.0) + p
+    total = float(j.sum()) or 1.0
+    best = sorted(win.items(), key=lambda kv: -kv[1])[:top]
+    return [(f"{h}-{a}", p / total) for (h, a), p in best]
 
 
 HALF_TOKENS = ("İY", "2Y", "İki Yarıda", "En Çok Gol", "Yarıyı", "Yarıda")
@@ -331,6 +360,10 @@ def main() -> None:
         used |= {leg["code"] for leg in c["legs"]}
 
     change_notes = recheck_odds(coupons) if coupons else []
+    for c in coupons:  # scores consistent with each leg (same goal distribution as the leg's probability)
+        for leg in c["legs"]:
+            priced = PRICED.get(int(leg["code"]))
+            leg["scores"] = consistent_scores(priced["joint"], leg.get("name", "")) if priced else []
     stamp = now.strftime("%H%M")
     md = [f"# {args.tarih} — Nesine {args.hedef:g} oranlık kupon ({now:%H:%M} TSİ)", "",
           "Olasılıklar global keskin fiyattan (Pinnacle / Smarkets / Matchbook / Betfair borsası), oranlar Nesine'den. "
@@ -355,11 +388,12 @@ def main() -> None:
         md += [f"## Kupon {i}: Nesine oranı **{c['nesine_odds']:.2f}** · tutma olasılığı **%{c['probability'] * 100:.1f}** "
                f"(güvenilir alt sınır %{c.get('probability_low', c['probability']) * 100:.1f}) "
                f"· global adil oranı {c['global_fair_odds']:.2f} · {len(c['legs'])} maç (MBS en az {c['min_mbs']})", "",
-               "| Saat | Maç | Pazar | Seçim | Nesine oranı | Global olasılık | Global adil oran | MBS | Referans | Fiyat | Araştırma |",
-               "|---|---|---|---|---|---|---|---|---|---|---|"]
+               "| Saat | Maç | Pazar | Seçim | Nesine oranı | Global olasılık | Global adil oran | Uyumlu skor | MBS | Referans | Fiyat | Araştırma |",
+               "|---|---|---|---|---|---|---|---|---|---|---|---|"]
         for leg in c["legs"]:
             md.append(f"| {leg['kickoff'][11:]} | {leg['match']} | {leg['market']} | {leg['selection']} | {leg['odds']:.2f} | "
-                      f"%{leg['p'] * 100:.1f} | {1 / leg['p']:.2f} | {leg['mbs']} | {leg['reference']} | "
+                      f"%{leg['p'] * 100:.1f} | {1 / leg['p']:.2f} | "
+                      f"{(leg['scores'][0][0] + ' (%' + format(leg['scores'][0][1] * 100, '.1f') + ')') if leg.get('scores') else '-'} | {leg['mbs']} | {leg['reference']} | "
                       f"{'doğrudan' if leg.get('direct') else 'model'} | {'var' if leg.get('researched') else 'yok'} |"
                       + (f" ⚠ {leg['status']}" if leg.get("status") not in (None, "kontrol edildi") else ""))
         md += ["", "**Gerekçeler**", ""]

@@ -281,3 +281,15 @@ def test_compatibility_and_reliability_ordering():
     d = kupon.leg_sigma("2.5 Üst", True, "Matchbook + Smarkets (borsa)", True, False)
     mdl = kupon.leg_sigma("2Y KG Yok", False, "Matchbook + Smarkets (borsa)", True, False)
     assert 0.68 - kupon.Z_LOW * d > 0.70 - kupon.Z_LOW * mdl
+
+
+def test_consistent_scores_never_contradict_the_leg():
+    import numpy as np
+
+    j = np.zeros((2, 2, 2, 2))
+    j[1, 0, 0, 0] = 0.4  # FT 1-0 (most likely score overall)
+    j[0, 0, 1, 1] = 0.3  # FT 1-1
+    j[0, 1, 0, 1] = 0.3  # FT 0-2
+    assert kupon.consistent_scores(j, "KG Var") == [("1-1", 0.3)]
+    assert [s for s, _ in kupon.consistent_scores(j, "KG Yok")] == ["1-0", "0-2"]
+    assert kupon.consistent_scores(j, "DEĞİL(KG Var)") == kupon.consistent_scores(j, "KG Yok")
