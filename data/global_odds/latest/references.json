@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-19T07:30:07+00:00",
+ "generated_utc": "2026-11-19T07:39:14+00:00",
  "references": [
   {
    "source": "Betfair Borsası (football-data)",
@@ -1055,7 +1055,7 @@
      1.7843
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0091,
    "ou_spread": 0.0195,
    "markets": {
@@ -1070,14 +1070,6 @@
      "HOME_NO|São Paulo / No": 0.22,
      "DRAW_NO|Draw / No": 0.0869,
      "AWAY_NO|Fluminense / No": 0.1802
-    },
-    "Winner and over/under 2.5": {
-     "HOME_OVER|São Paulo / over 2.5 goals": 0.2064,
-     "DRAW_OVER|Draw / over 2.5 goals": 0.0671,
-     "AWAY_OVER|Fluminense / over 2.5 goals": 0.1683,
-     "HOME_UNDER|São Paulo / under 2.5 goals": 0.1831,
-     "DRAW_UNDER|Draw / under 2.5 goals": 0.2274,
-     "AWAY_UNDER|Fluminense / under 2.5 goals": 0.1476
     },
     "Over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.0841,
@@ -1094,6 +1086,14 @@
     "Odd or even score": {
      "ODD|Odd": 0.4957,
      "EVEN|Even": 0.5043
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|São Paulo / over 2.5 goals": 0.2064,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0671,
+     "AWAY_OVER|Fluminense / over 2.5 goals": 0.1683,
+     "HOME_UNDER|São Paulo / under 2.5 goals": 0.1831,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.2274,
+     "AWAY_UNDER|Fluminense / under 2.5 goals": 0.1476
     }
    }
   },
@@ -1115,7 +1115,7 @@
      2.2894
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0111,
    "ou_spread": 0.0268,
    "markets": {
@@ -1145,12 +1145,12 @@
      "AWAY_UNDER|Internacional / under 2.5 goals": 0.0693
     },
     "Winner and over/under 3.5": {
-     "HOME_OVER|Vasco / over 3.5 goals": 0.2247,
-     "DRAW_OVER|Draw / over 3.5 goals": 0.0647,
-     "AWAY_OVER|Internacional / over 3.5 goals": 0.0432,
-     "HOME_UNDER|Vasco / under 3.5 goals": 0.383,
-     "DRAW_UNDER|Draw / under 3.5 goals": 0.1582,
-     "AWAY_UNDER|Internacional / under 3.5 goals": 0.1262
+     "HOME_OVER|Vasco / over 3.5 goals": 0.225,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0648,
+     "AWAY_OVER|Internacional / over 3.5 goals": 0.0433,
+     "HOME_UNDER|Vasco / under 3.5 goals": 0.3822,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1584,
+     "AWAY_UNDER|Internacional / under 3.5 goals": 0.1264
     },
     "Winner and over/under 4.5": {
      "HOME_OVER|Vasco / over 4.5 goals": 0.1281,
@@ -1204,17 +1204,13 @@
      2.153
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0099,
    "ou_spread": 0.0259,
    "markets": {
     "Both teams to score": {
      "YES|Yes": 0.5821,
      "NO|No": 0.4179
-    },
-    "Over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.0648,
-     "OVER|Over 0.5 goals": 0.9352
     },
     "Half-time/full-time": {
      "HOME_HOME|Vitória / Vitória": 0.1983,
@@ -1294,6 +1290,10 @@
      "DRAW_UNDER|Draw / under 4.5 goals": 0.2582,
      "AWAY_UNDER|Bragantino / under 4.5 goals": 0.3004
     },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0648,
+     "OVER|Over 0.5 goals": 0.9352
+    },
     "Over/under 1.5": {
      "UNDER|Under 1.5 goals": 0.2313,
      "OVER|Over 1.5 goals": 0.7687
@@ -1340,7 +1340,7 @@
     4.8561
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0232,
    "markets": {
     "Both teams to score": {
@@ -1375,7 +1375,7 @@
      2.708
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0146,
    "ou_spread": 0.0241,
    "markets": {
@@ -1403,8 +1403,8 @@
      "AWAY_NO|Real Salt Lake / No": 0.1115
     },
     "Odd or even score": {
-     "ODD|Odd": 0.4957,
-     "EVEN|Even": 0.5043
+     "ODD|Odd": 0.495,
+     "EVEN|Even": 0.505
     },
     "Goal range": {
      "RANGE|0 - 1": 0.1691,
@@ -1480,25 +1480,13 @@
      3.4898
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0063,
    "ou_spread": 0.0253,
    "markets": {
     "Both teams to score": {
-     "YES|Yes": 0.7191,
-     "NO|No": 0.2809
-    },
-    "Over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.1161,
-     "OVER|Over 1.5 goals": 0.8839
-    },
-    "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.4919,
-     "OVER|Over 3.5 goals": 0.5081
-    },
-    "Over/under 4.5": {
-     "UNDER|Under 4.5 goals": 0.6919,
-     "OVER|Over 4.5 goals": 0.3081
+     "YES|Yes": 0.7198,
+     "NO|No": 0.2802
     },
     "Half-time result": {
      "HOME|Orlando City": 0.3322,
@@ -1555,6 +1543,18 @@
      "DRAW_UNDER|Draw / under 4.5 goals": 0.1987,
      "AWAY_UNDER|Cincinnati / under 4.5 goals": 0.2331
     },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1161,
+     "OVER|Over 1.5 goals": 0.8839
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.4919,
+     "OVER|Over 3.5 goals": 0.5081
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.6919,
+     "OVER|Over 4.5 goals": 0.3081
+    },
     "Over/under 5.5": {
      "UNDER|Under 5.5 goals": 0.8359,
      "OVER|Over 5.5 goals": 0.1641
@@ -1589,7 +1589,7 @@
     3.5104
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0181,
    "markets": {
     "Over/under 1.5": {
@@ -1616,7 +1616,7 @@
      3.1181
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0223,
    "ou_spread": 0.023,
    "markets": {
@@ -1640,6 +1640,12 @@
     "Odd or even score": {
      "ODD|Odd": 0.503,
      "EVEN|Even": 0.497
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.1376,
+     "RANGE|2 - 3": 0.3958,
+     "RANGE|4 - 6": 0.4051,
+     "RANGE|7 or more goals": 0.0616
     },
     "Winner and over/under 1.5": {
      "HOME_OVER|Fredericia / over 1.5 goals": 0.6596,
@@ -1713,7 +1719,7 @@
      4.8488
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0154,
    "ou_spread": 0.0174,
    "markets": {
@@ -1722,20 +1728,15 @@
      "NO|No": 0.5013
     },
     "Half-time/full-time": {
-     "HOME_HOME|Al-Wasl / Al-Wasl": 0.6693,
-     "HOME_AWAY|Al-Wasl / Hatta": 0.0064,
+     "HOME_HOME|Al-Wasl / Al-Wasl": 0.6689,
+     "HOME_AWAY|Al-Wasl / Hatta": 0.0071,
      "HOME_DRAW|Al-Wasl / Draw": 0.0225,
      "AWAY_HOME|Hatta / Al-Wasl": 0.0357,
      "AWAY_AWAY|Hatta / Hatta": 0.0225,
      "AWAY_DRAW|Hatta / Draw": 0.0204,
-     "DRAW_HOME|Draw / Al-Wasl": 0.1633,
+     "DRAW_HOME|Draw / Al-Wasl": 0.1632,
      "DRAW_AWAY|Draw / Hatta": 0.0163,
      "DRAW_DRAW|Draw / Draw": 0.0434
-    },
-    "Half-time result": {
-     "HOME|Al-Wasl": 0.6893,
-     "DRAW|Draw": 0.2358,
-     "AWAY|Hatta": 0.0749
     },
     "Winner and both teams to score": {
      "HOME_YES|Al-Wasl / Yes": 0.3973,
@@ -1744,14 +1745,6 @@
      "HOME_NO|Al-Wasl / No": 0.4849,
      "DRAW_NO|Draw / No": 0.0134,
      "AWAY_NO|Hatta / No": 0.0151
-    },
-    "First half winner and both teams to score": {
-     "HOME_YES|Al-Wasl / Yes": 0.1136,
-     "DRAW_YES|Draw / Yes": 0.083,
-     "AWAY_YES|Hatta / Yes": 0.0149,
-     "HOME_NO|Al-Wasl / No": 0.6022,
-     "DRAW_NO|Draw / No": 0.1385,
-     "AWAY_NO|Hatta / No": 0.0477
     },
     "Goal range": {
      "RANGE|0 - 1": 0.0864,
@@ -1811,13 +1804,26 @@
      "UNDER|Under 6.5 goals": 0.8765,
      "OVER|Over 6.5 goals": 0.1235
     },
+    "Half-time result": {
+     "HOME|Al-Wasl": 0.6885,
+     "DRAW|Draw": 0.2364,
+     "AWAY|Hatta": 0.0751
+    },
+    "First half winner and both teams to score": {
+     "HOME_YES|Al-Wasl / Yes": 0.1136,
+     "DRAW_YES|Draw / Yes": 0.083,
+     "AWAY_YES|Hatta / Yes": 0.0149,
+     "HOME_NO|Al-Wasl / No": 0.6022,
+     "DRAW_NO|Draw / No": 0.1385,
+     "AWAY_NO|Hatta / No": 0.0477
+    },
     "First half over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.15,
      "OVER|Over 0.5 goals": 0.85
     },
     "First half over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.4453,
-     "OVER|Over 1.5 goals": 0.5547
+     "UNDER|Under 1.5 goals": 0.4445,
+     "OVER|Over 1.5 goals": 0.5555
     },
     "First half over/under 2.5": {
      "UNDER|Under 2.5 goals": 0.7271,
@@ -1843,113 +1849,119 @@
      4.7882
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0151,
    "ou_spread": 0.0188,
    "markets": {
     "Both teams to score": {
-     "YES|Yes": 0.5075,
-     "NO|No": 0.4925
+     "YES|Yes": 0.5118,
+     "NO|No": 0.4882
     },
     "Half-time/full-time": {
-     "HOME_HOME|Al-Ain / Al-Ain": 0.6648,
+     "HOME_HOME|Al-Ain / Al-Ain": 0.6651,
      "HOME_AWAY|Al-Ain / Al Dhafra": 0.0046,
      "HOME_DRAW|Al-Ain / Draw": 0.0256,
-     "AWAY_HOME|Al Dhafra / Al-Ain": 0.0286,
-     "AWAY_AWAY|Al Dhafra / Al Dhafra": 0.0197,
+     "AWAY_HOME|Al Dhafra / Al-Ain": 0.0292,
+     "AWAY_AWAY|Al Dhafra / Al Dhafra": 0.0202,
      "AWAY_DRAW|Al Dhafra / Draw": 0.0202,
-     "DRAW_HOME|Draw / Al-Ain": 0.169,
+     "DRAW_HOME|Draw / Al-Ain": 0.1691,
      "DRAW_AWAY|Draw / Al Dhafra": 0.0173,
-     "DRAW_DRAW|Draw / Draw": 0.0503
+     "DRAW_DRAW|Draw / Draw": 0.0487
     },
     "Half-time result": {
      "HOME|Al-Ain": 0.6823,
      "DRAW|Draw": 0.2385,
      "AWAY|Al Dhafra": 0.0792
     },
+    "Both teams to score in first half / second half": {
+     "NO_NO|No / No": 0.5546,
+     "NO_YES|No / Yes": 0.2146,
+     "YES_NO|Yes / No": 0.1615,
+     "YES_YES|Yes / Yes": 0.0692
+    },
     "Winner and both teams to score": {
-     "HOME_YES|Al-Ain / Yes": 0.4077,
+     "HOME_YES|Al-Ain / Yes": 0.4095,
      "DRAW_YES|Draw / Yes": 0.0746,
      "AWAY_YES|Al Dhafra / Yes": 0.0304,
-     "HOME_NO|Al-Ain / No": 0.4541,
+     "HOME_NO|Al-Ain / No": 0.4523,
      "DRAW_NO|Draw / No": 0.0157,
      "AWAY_NO|Al Dhafra / No": 0.0176
     },
     "First half winner and both teams to score": {
-     "HOME_YES|Al-Ain / Yes": 0.1183,
+     "HOME_YES|Al-Ain / Yes": 0.119,
      "DRAW_YES|Draw / Yes": 0.0901,
-     "AWAY_YES|Al Dhafra / Yes": 0.0172,
-     "HOME_NO|Al-Ain / No": 0.5819,
-     "DRAW_NO|Draw / No": 0.1375,
-     "AWAY_NO|Al Dhafra / No": 0.055
+     "AWAY_YES|Al Dhafra / Yes": 0.0175,
+     "HOME_NO|Al-Ain / No": 0.5813,
+     "DRAW_NO|Draw / No": 0.1385,
+     "AWAY_NO|Al Dhafra / No": 0.0535
     },
     "Odd or even score": {
-     "ODD|Odd": 0.5082,
-     "EVEN|Even": 0.4918
+     "ODD|Odd": 0.5119,
+     "EVEN|Even": 0.4881
     },
     "Goal range": {
-     "RANGE|0 - 1": 0.0835,
-     "RANGE|2 - 3": 0.3225,
-     "RANGE|4 - 6": 0.471,
-     "RANGE|7 or more goals": 0.1229
+     "RANGE|0 - 1": 0.0833,
+     "RANGE|2 - 3": 0.324,
+     "RANGE|4 - 6": 0.4674,
+     "RANGE|7 or more goals": 0.1253
     },
     "Winner and over/under 1.5": {
-     "HOME_OVER|Al-Ain / over 1.5 goals": 0.8007,
-     "DRAW_OVER|Draw / over 1.5 goals": 0.0744,
-     "AWAY_OVER|Al Dhafra / over 1.5 goals": 0.0381,
-     "HOME_UNDER|Al-Ain / under 1.5 goals": 0.0568,
-     "DRAW_UNDER|Draw / under 1.5 goals": 0.0197,
+     "HOME_OVER|Al-Ain / over 1.5 goals": 0.8013,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.0742,
+     "AWAY_OVER|Al Dhafra / over 1.5 goals": 0.038,
+     "HOME_UNDER|Al-Ain / under 1.5 goals": 0.0566,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0196,
      "AWAY_UNDER|Al Dhafra / under 1.5 goals": 0.0103
     },
     "Winner and over/under 2.5": {
-     "HOME_OVER|Al-Ain / over 2.5 goals": 0.7183,
+     "HOME_OVER|Al-Ain / over 2.5 goals": 0.7163,
      "DRAW_OVER|Draw / over 2.5 goals": 0.0354,
      "AWAY_OVER|Al Dhafra / over 2.5 goals": 0.0318,
-     "HOME_UNDER|Al-Ain / under 2.5 goals": 0.1408,
+     "HOME_UNDER|Al-Ain / under 2.5 goals": 0.1427,
      "DRAW_UNDER|Draw / under 2.5 goals": 0.0548,
-     "AWAY_UNDER|Al Dhafra / under 2.5 goals": 0.0189
+     "AWAY_UNDER|Al Dhafra / under 2.5 goals": 0.019
     },
     "Winner and over/under 3.5": {
-     "HOME_OVER|Al-Ain / over 3.5 goals": 0.5375,
+     "HOME_OVER|Al-Ain / over 3.5 goals": 0.5368,
      "DRAW_OVER|Draw / over 3.5 goals": 0.0355,
      "AWAY_OVER|Al Dhafra / over 3.5 goals": 0.0157,
-     "HOME_UNDER|Al-Ain / under 3.5 goals": 0.3243,
-     "DRAW_UNDER|Draw / under 3.5 goals": 0.0539,
+     "HOME_UNDER|Al-Ain / under 3.5 goals": 0.3248,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.054,
      "AWAY_UNDER|Al Dhafra / under 3.5 goals": 0.0331
     },
     "Winner and over/under 4.5": {
-     "HOME_OVER|Al-Ain / over 4.5 goals": 0.3777,
+     "HOME_OVER|Al-Ain / over 4.5 goals": 0.3803,
      "DRAW_OVER|Draw / over 4.5 goals": 0.0085,
      "AWAY_OVER|Al Dhafra / over 4.5 goals": 0.0112,
-     "HOME_UNDER|Al-Ain / under 4.5 goals": 0.482,
+     "HOME_UNDER|Al-Ain / under 4.5 goals": 0.4794,
      "DRAW_UNDER|Draw / under 4.5 goals": 0.0805,
      "AWAY_UNDER|Al Dhafra / under 4.5 goals": 0.0401
     },
     "Both teams to score and over/under 2.5": {
-     "YES_OVER|Yes / Over": 0.4778,
-     "YES_UNDER|Yes / Under": 0.036,
-     "NO_OVER|No / Over": 0.3116,
-     "NO_UNDER|No / Under": 0.1746
+     "YES_OVER|Yes / Over": 0.4795,
+     "YES_UNDER|Yes / Under": 0.0365,
+     "NO_OVER|No / Over": 0.3095,
+     "NO_UNDER|No / Under": 0.1744
     },
     "Over/under 1.5": {
      "UNDER|Under 1.5 goals": 0.0778,
      "OVER|Over 1.5 goals": 0.9222
     },
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.4051,
-     "OVER|Over 3.5 goals": 0.5949
+     "UNDER|Under 3.5 goals": 0.406,
+     "OVER|Over 3.5 goals": 0.594
     },
     "Over/under 4.5": {
-     "UNDER|Under 4.5 goals": 0.6002,
-     "OVER|Over 4.5 goals": 0.3998
+     "UNDER|Under 4.5 goals": 0.5995,
+     "OVER|Over 4.5 goals": 0.4005
     },
     "Over/under 5.5": {
-     "UNDER|Under 5.5 goals": 0.7669,
-     "OVER|Over 5.5 goals": 0.2331
+     "UNDER|Under 5.5 goals": 0.7642,
+     "OVER|Over 5.5 goals": 0.2358
     },
     "Over/under 6.5": {
-     "UNDER|Under 6.5 goals": 0.8785,
-     "OVER|Over 6.5 goals": 0.1215
+     "UNDER|Under 6.5 goals": 0.878,
+     "OVER|Over 6.5 goals": 0.122
     },
     "First half over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.1483,
@@ -1960,8 +1972,8 @@
      "OVER|Over 1.5 goals": 0.5598
     },
     "First half over/under 2.5": {
-     "UNDER|Under 2.5 goals": 0.7211,
-     "OVER|Over 2.5 goals": 0.2789
+     "UNDER|Under 2.5 goals": 0.7198,
+     "OVER|Over 2.5 goals": 0.2802
     }
    }
   },
@@ -1977,7 +1989,7 @@
     6.9798
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0359,
    "markets": {
     "Both teams to score": {
@@ -1985,9 +1997,9 @@
      "NO|No": 0.5061
     },
     "Half-time result": {
-     "HOME|Kashima Antlers": 0.4631,
-     "DRAW|Draw": 0.3902,
-     "AWAY|Shimizu S-Pulse": 0.1467
+     "HOME|Kashima Antlers": 0.4624,
+     "DRAW|Draw": 0.3911,
+     "AWAY|Shimizu S-Pulse": 0.1465
     },
     "Winner and both teams to score": {
      "HOME_YES|Kashima Antlers / Yes": 0.2636,
@@ -2065,7 +2077,7 @@
     8.8163
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.023,
    "markets": {
     "Odd or even score": {
@@ -2098,13 +2110,9 @@
     2.2291
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0227,
    "markets": {
-    "Over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.1453,
-     "OVER|Over 1.5 goals": 0.8547
-    },
     "Winner and both teams to score": {
      "HOME_YES|Al-Ahli / Yes": 0.1977,
      "DRAW_YES|Draw / Yes": 0.1994,
@@ -2120,6 +2128,10 @@
      "HOME_UNDER|Al-Ahli / under 2.5 goals": 0.0849,
      "DRAW_UNDER|Draw / under 2.5 goals": 0.1368,
      "AWAY_UNDER|Al-Shamal / under 2.5 goals": 0.1178
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1453,
+     "OVER|Over 1.5 goals": 0.8547
     },
     "Over/under 4.5": {
      "UNDER|Under 4.5 goals": 0.7411,
@@ -2138,28 +2150,28 @@
    "away": "Lyon (W)",
    "kickoff_utc": "2026-11-19T20:00:00Z",
    "x12": [
-    4.8721,
-    4.5302,
-    1.7421
+    4.8566,
+    4.5159,
+    1.7463
    ],
    "ou": [
     2.5,
     [
-     1.6127,
-     2.6322
+     1.6087,
+     2.6429
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
-   "x12_spread": 0.0213,
-   "ou_spread": 0.0386,
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
+   "x12_spread": 0.0264,
+   "ou_spread": 0.0349,
    "markets": {
     "Over/under 1.5": {
      "UNDER|Under 1.5 goals": 0.1686,
      "OVER|Over 1.5 goals": 0.8314
     },
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.6083,
-     "OVER|Over 3.5 goals": 0.3917
+     "UNDER|Under 3.5 goals": 0.6076,
+     "OVER|Over 3.5 goals": 0.3924
     },
     "Over/under 4.5": {
      "UNDER|Under 4.5 goals": 0.786,
@@ -2174,12 +2186,12 @@
      "OVER|Over 0.5 goals": 0.7701
     },
     "First half over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.5786,
-     "OVER|Over 1.5 goals": 0.4214
+     "UNDER|Under 1.5 goals": 0.5777,
+     "OVER|Over 1.5 goals": 0.4223
     },
     "First half over/under 2.5": {
-     "UNDER|Under 2.5 goals": 0.8314,
-     "OVER|Over 2.5 goals": 0.1686
+     "UNDER|Under 2.5 goals": 0.8293,
+     "OVER|Over 2.5 goals": 0.1707
     }
    }
   },
@@ -2190,9 +2202,9 @@
    "away": "Bayern Munich (W)",
    "kickoff_utc": "2026-11-19T17:45:00Z",
    "x12": [
-    26.842,
-    10.9389,
-    1.1477
+    26.7979,
+    11.1211,
+    1.1458
    ],
    "ou": [
     2.5,
@@ -2201,7 +2213,7 @@
      3.8825
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0229,
    "ou_spread": 0.033,
    "markets": {
@@ -2210,17 +2222,17 @@
      "OVER|Over 1.5 goals": 0.8931
     },
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.4603,
-     "OVER|Over 3.5 goals": 0.5397
+     "UNDER|Under 3.5 goals": 0.4609,
+     "OVER|Over 3.5 goals": 0.5391
+    },
+    "Half-time result": {
+     "HOME|FK Austria Wien Women": 0.0659,
+     "DRAW|Draw": 0.245,
+     "AWAY|Bayern Munich (W)": 0.6891
     },
     "Over/under 4.5": {
      "UNDER|Under 4.5 goals": 0.661,
      "OVER|Over 4.5 goals": 0.339
-    },
-    "Half-time result": {
-     "HOME|FK Austria Wien Women": 0.0661,
-     "DRAW|Draw": 0.2455,
-     "AWAY|Bayern Munich (W)": 0.6884
     }
    }
   },
@@ -2236,13 +2248,9 @@
     3.1975
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0149,
    "markets": {
-    "Both teams to score": {
-     "YES|Yes": 0.6472,
-     "NO|No": 0.3528
-    },
     "Winner and over/under 3.5": {
      "HOME_OVER|S.L. Benfica Women / over 3.5 goals": 0.199,
      "DRAW_OVER|Draw / over 3.5 goals": 0.0924,
@@ -2252,8 +2260,8 @@
      "AWAY_UNDER|Roma (W) / under 3.5 goals": 0.1898
     },
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.5884,
-     "OVER|Over 3.5 goals": 0.4116
+     "UNDER|Under 3.5 goals": 0.5844,
+     "OVER|Over 3.5 goals": 0.4156
     },
     "Over/under 5.5": {
      "UNDER|Under 5.5 goals": 0.8886,
@@ -2268,9 +2276,9 @@
    "away": "HB Køge Women",
    "kickoff_utc": "2026-11-19T17:45:00Z",
    "x12": [
-    1.6559,
-    4.6002,
-    5.5959
+    1.653,
+    4.5924,
+    5.64
    ],
    "ou": [
     2.5,
@@ -2279,8 +2287,8 @@
      2.7759
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
-   "x12_spread": 0.0128,
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
+   "x12_spread": 0.0094,
    "ou_spread": 0.0244
   },
   {
@@ -2301,9 +2309,20 @@
      1.6066
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0167,
-   "ou_spread": 0.0381
+   "ou_spread": 0.0381,
+   "markets": {
+    "Half-time result": {
+     "HOME|MC Alger": 0.4606,
+     "DRAW|Draw": 0.4381,
+     "AWAY|Olympique Akbou": 0.1013
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.7439,
+     "OVER|Over 1.5 goals": 0.2561
+    }
+   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -2317,17 +2336,17 @@
     4.0787
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0154,
    "markets": {
-    "Over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.3748,
-     "OVER|Over 1.5 goals": 0.6252
-    },
     "Half-time result": {
      "HOME|Kabylie": 0.3146,
      "DRAW|Draw": 0.4784,
      "AWAY|USM Alger": 0.207
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.3748,
+     "OVER|Over 1.5 goals": 0.6252
     }
    }
   },
@@ -2349,29 +2368,29 @@
      2.4752
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0128,
    "ou_spread": 0.0261,
    "markets": {
     "Winner and both teams to score": {
-     "HOME_YES|CA Progreso / Yes": 0.0867,
-     "DRAW_YES|Draw / Yes": 0.1588,
-     "AWAY_YES|Montevideo City Torque / Yes": 0.303,
-     "HOME_NO|CA Progreso / No": 0.0715,
-     "DRAW_NO|Draw / No": 0.0483,
-     "AWAY_NO|Montevideo City Torque / No": 0.3317
+     "HOME_YES|CA Progreso / Yes": 0.0865,
+     "DRAW_YES|Draw / Yes": 0.1585,
+     "AWAY_YES|Montevideo City Torque / Yes": 0.3045,
+     "HOME_NO|CA Progreso / No": 0.0713,
+     "DRAW_NO|Draw / No": 0.0482,
+     "AWAY_NO|Montevideo City Torque / No": 0.331
     },
     "Winner and over/under 2.5": {
-     "HOME_OVER|CA Progreso / over 2.5 goals": 0.0944,
-     "DRAW_OVER|Draw / over 2.5 goals": 0.0665,
-     "AWAY_OVER|Montevideo City Torque / over 2.5 goals": 0.4391,
-     "HOME_UNDER|CA Progreso / under 2.5 goals": 0.0634,
-     "DRAW_UNDER|Draw / under 2.5 goals": 0.1456,
-     "AWAY_UNDER|Montevideo City Torque / under 2.5 goals": 0.191
+     "HOME_OVER|CA Progreso / over 2.5 goals": 0.0946,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0667,
+     "AWAY_OVER|Montevideo City Torque / over 2.5 goals": 0.4384,
+     "HOME_UNDER|CA Progreso / under 2.5 goals": 0.0628,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.146,
+     "AWAY_UNDER|Montevideo City Torque / under 2.5 goals": 0.1914
     },
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.638,
-     "OVER|Over 3.5 goals": 0.362
+     "UNDER|Under 3.5 goals": 0.6372,
+     "OVER|Over 3.5 goals": 0.3628
     },
     "Over/under 4.5": {
      "UNDER|Under 4.5 goals": 0.8061,
@@ -2393,25 +2412,29 @@
    "ou": [
     2.5,
     [
-     2.1021,
-     1.9073
+     2.1045,
+     1.9054
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0222,
-   "ou_spread": 0.0363,
+   "ou_spread": 0.0329,
    "markets": {
     "Winner and both teams to score": {
-     "HOME_YES|Peñarol / Yes": 0.2342,
-     "DRAW_YES|Draw / Yes": 0.1401,
-     "AWAY_YES|Cerro Largo FC / Yes": 0.0513,
-     "HOME_NO|Peñarol / No": 0.4348,
-     "DRAW_NO|Draw / No": 0.0718,
-     "AWAY_NO|Cerro Largo FC / No": 0.0677
+     "HOME_YES|Peñarol / Yes": 0.2337,
+     "DRAW_YES|Draw / Yes": 0.1408,
+     "AWAY_YES|Cerro Largo FC / Yes": 0.0489,
+     "HOME_NO|Peñarol / No": 0.4345,
+     "DRAW_NO|Draw / No": 0.0741,
+     "AWAY_NO|Cerro Largo FC / No": 0.0681
     },
     "Over/under 1.5": {
      "UNDER|Under 1.5 goals": 0.2717,
      "OVER|Over 1.5 goals": 0.7283
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.7494,
+     "OVER|Over 3.5 goals": 0.2506
     }
    }
   },
@@ -2422,40 +2445,40 @@
    "away": "Deportivo Maldonado",
    "kickoff_utc": "2026-11-19T19:30:00Z",
    "x12": [
-    3.7746,
-    3.7746,
-    2.127
+    3.7727,
+    3.7492,
+    2.1357
    ],
    "ou": [
     2.5,
     [
-     1.9684,
-     2.0326
+     1.9782,
+     2.0223
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0139,
-   "ou_spread": 0.034,
+   "ou_spread": 0.0294,
    "markets": {
     "Both teams to score": {
-     "YES|Yes": 0.5473,
-     "NO|No": 0.4527
+     "YES|Yes": 0.5505,
+     "NO|No": 0.4495
     },
     "Over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.0706,
      "OVER|Over 0.5 goals": 0.9294
     },
     "Over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.2438,
-     "OVER|Over 1.5 goals": 0.7562
+     "UNDER|Under 1.5 goals": 0.2465,
+     "OVER|Over 1.5 goals": 0.7535
     },
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.7131,
-     "OVER|Over 3.5 goals": 0.2869
+     "UNDER|Under 3.5 goals": 0.714,
+     "OVER|Over 3.5 goals": 0.286
     },
     "First half over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.2914,
-     "OVER|Over 0.5 goals": 0.7086
+     "UNDER|Under 0.5 goals": 0.2928,
+     "OVER|Over 0.5 goals": 0.7072
     }
    }
   },
@@ -2477,7 +2500,7 @@
      1.6768
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0126,
    "ou_spread": 0.0296,
    "markets": {
@@ -2507,26 +2530,26 @@
    "away": "Olympic El Qanal",
    "kickoff_utc": "2026-11-19T15:00:00Z",
    "x12": [
-    1.8058,
-    3.5158,
-    6.1799
+    1.8141,
+    3.5132,
+    6.093
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
-   "x12_spread": 0.0245,
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
+   "x12_spread": 0.0277,
    "markets": {
-    "Over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.3552,
-     "OVER|Over 1.5 goals": 0.6448
-    },
     "Half-time result": {
      "HOME|Al-Mokawloon al-Arab": 0.3918,
      "DRAW|Draw": 0.4583,
      "AWAY|El Qanah FC": 0.1499
     },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.3544,
+     "OVER|Over 1.5 goals": 0.6456
+    },
     "First half over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.374,
-     "OVER|Over 0.5 goals": 0.626
+     "UNDER|Under 0.5 goals": 0.3747,
+     "OVER|Over 0.5 goals": 0.6253
     }
    }
   },
@@ -2537,21 +2560,17 @@
    "away": "Shan United",
    "kickoff_utc": "2026-11-19T12:00:00Z",
    "x12": [
-    1.1227,
-    12.4884,
-    34.2521
+    1.1251,
+    12.1876,
+    34.3259
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0395,
    "markets": {
-    "Over/under 4.5": {
-     "UNDER|Under 4.5 goals": 0.6723,
-     "OVER|Over 4.5 goals": 0.3277
-    },
-    "First half over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.4845,
-     "OVER|Over 1.5 goals": 0.5155
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1027,
+     "OVER|Over 1.5 goals": 0.8973
     }
    }
   },
@@ -2562,32 +2581,36 @@
    "away": "Port FC",
    "kickoff_utc": "2026-11-19T12:00:00Z",
    "x12": [
-    2.3355,
-    4.1592,
-    3.0175
+    2.3415,
+    4.1698,
+    3.0021
    ],
    "ou": [
     2.5,
     [
-     1.5955,
-     2.6794
+     1.5897,
+     2.6959
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0293,
-   "ou_spread": 0.0354,
+   "ou_spread": 0.033,
    "markets": {
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.5947,
-     "OVER|Over 3.5 goals": 0.4053
+     "UNDER|Under 3.5 goals": 0.5871,
+     "OVER|Over 3.5 goals": 0.4129
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.7702,
+     "OVER|Over 4.5 goals": 0.2298
     },
     "First half over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.246,
-     "OVER|Over 0.5 goals": 0.754
+     "UNDER|Under 0.5 goals": 0.2452,
+     "OVER|Over 0.5 goals": 0.7548
     },
     "First half over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.5957,
-     "OVER|Over 1.5 goals": 0.4043
+     "UNDER|Under 1.5 goals": 0.5932,
+     "OVER|Over 1.5 goals": 0.4068
     }
    }
   },
@@ -2598,13 +2621,13 @@
    "away": "Johor Darul Ta'zim",
    "kickoff_utc": "2026-11-19T12:30:00Z",
    "x12": [
-    4.6609,
-    4.4143,
-    1.7892
+    4.6862,
+    4.4409,
+    1.7812
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
-   "x12_spread": 0.0232
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
+   "x12_spread": 0.0273
   },
   {
    "source": "Smarkets (borsa)",
@@ -2624,7 +2647,7 @@
      3.2029
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0238,
    "ou_spread": 0.0294,
    "markets": {
@@ -2652,7 +2675,7 @@
      2.7204
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0237,
    "ou_spread": 0.0321,
    "markets": {
@@ -2684,46 +2707,46 @@
      1.8881
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0178,
    "ou_spread": 0.0397,
    "markets": {
     "Half-time result": {
-     "HOME|Termez Surkhon": 0.2425,
-     "DRAW|Draw": 0.4364,
-     "AWAY|FK Andijan": 0.3211
+     "HOME|Termez Surkhon": 0.2399,
+     "DRAW|Draw": 0.4365,
+     "AWAY|FK Andijan": 0.3236
     },
     "Winner and both teams to score": {
-     "HOME_YES|Termez Surkhon / Yes": 0.145,
-     "DRAW_YES|Draw / Yes": 0.1956,
-     "AWAY_YES|FK Andijan / Yes": 0.1901,
-     "HOME_NO|Termez Surkhon / No": 0.1636,
-     "DRAW_NO|Draw / No": 0.0789,
-     "AWAY_NO|FK Andijan / No": 0.2268
+     "HOME_YES|Termez Surkhon / Yes": 0.1447,
+     "DRAW_YES|Draw / Yes": 0.1994,
+     "AWAY_YES|FK Andijan / Yes": 0.1864,
+     "HOME_NO|Termez Surkhon / No": 0.1647,
+     "DRAW_NO|Draw / No": 0.0787,
+     "AWAY_NO|FK Andijan / No": 0.2262
     },
     "Winner and over/under 1.5": {
-     "HOME_OVER|Termez Surkhon / over 1.5 goals": 0.2188,
-     "DRAW_OVER|Draw / over 1.5 goals": 0.1895,
-     "AWAY_OVER|FK Andijan / over 1.5 goals": 0.3037,
-     "HOME_UNDER|Termez Surkhon / under 1.5 goals": 0.0983,
-     "DRAW_UNDER|Draw / under 1.5 goals": 0.0797,
-     "AWAY_UNDER|FK Andijan / under 1.5 goals": 0.11
+     "HOME_OVER|Termez Surkhon / over 1.5 goals": 0.2169,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.1953,
+     "AWAY_OVER|FK Andijan / over 1.5 goals": 0.3011,
+     "HOME_UNDER|Termez Surkhon / under 1.5 goals": 0.0975,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0801,
+     "AWAY_UNDER|FK Andijan / under 1.5 goals": 0.109
     },
     "Over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.0811,
      "OVER|Over 0.5 goals": 0.9189
     },
     "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.7534,
-     "OVER|Over 3.5 goals": 0.2466
+     "UNDER|Under 3.5 goals": 0.7521,
+     "OVER|Over 3.5 goals": 0.2479
     },
     "Over/under 4.5": {
      "UNDER|Under 4.5 goals": 0.8831,
      "OVER|Over 4.5 goals": 0.1169
     },
     "First half over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.6956,
-     "OVER|Over 1.5 goals": 0.3044
+     "UNDER|Under 1.5 goals": 0.6942,
+     "OVER|Over 1.5 goals": 0.3058
     }
    }
   },
@@ -2734,12 +2757,12 @@
    "away": "Envigado FC",
    "kickoff_utc": "2026-11-19T22:30:00Z",
    "x12": [
-    3.3048,
-    3.125,
-    2.6497
+    3.2997,
+    3.1202,
+    2.6564
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0369
   },
   {
@@ -2754,7 +2777,7 @@
     5.129
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0365,
    "markets": {
     "Over/under 0.5": {
@@ -2785,7 +2808,7 @@
      2.5374
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0312,
    "ou_spread": 0.0373,
    "markets": {
@@ -2794,12 +2817,12 @@
      "NO|No": 0.4067
     },
     "Winner and both teams to score": {
-     "HOME_YES|AGF Aarhus / Yes": 0.2902,
-     "DRAW_YES|Draw / Yes": 0.1819,
-     "AWAY_YES|Lyngby BK / Yes": 0.1223,
-     "HOME_NO|AGF Aarhus / No": 0.2693,
-     "DRAW_NO|Draw / No": 0.0449,
-     "AWAY_NO|Lyngby BK / No": 0.0914
+     "HOME_YES|AGF Aarhus / Yes": 0.2892,
+     "DRAW_YES|Draw / Yes": 0.1813,
+     "AWAY_YES|Lyngby BK / Yes": 0.1219,
+     "HOME_NO|AGF Aarhus / No": 0.2716,
+     "DRAW_NO|Draw / No": 0.0447,
+     "AWAY_NO|Lyngby BK / No": 0.0911
     },
     "Goal range": {
      "RANGE|0 - 1": 0.1848,
@@ -2808,12 +2831,12 @@
      "RANGE|7 or more goals": 0.036
     },
     "Winner and over/under 1.5": {
-     "HOME_OVER|AGF Aarhus / over 1.5 goals": 0.4679,
-     "DRAW_OVER|Draw / over 1.5 goals": 0.1831,
-     "AWAY_OVER|Lyngby BK / over 1.5 goals": 0.1665,
-     "HOME_UNDER|AGF Aarhus / under 1.5 goals": 0.0896,
-     "DRAW_UNDER|Draw / under 1.5 goals": 0.0452,
-     "AWAY_UNDER|Lyngby BK / under 1.5 goals": 0.0476
+     "HOME_OVER|AGF Aarhus / over 1.5 goals": 0.4701,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.1824,
+     "AWAY_OVER|Lyngby BK / over 1.5 goals": 0.1658,
+     "HOME_UNDER|AGF Aarhus / under 1.5 goals": 0.0893,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.045,
+     "AWAY_UNDER|Lyngby BK / under 1.5 goals": 0.0474
     },
     "Winner and over/under 2.5": {
      "HOME_OVER|AGF Aarhus / over 2.5 goals": 0.3902,
@@ -2864,9 +2887,9 @@
    "away": "Heidenheim",
    "kickoff_utc": "2026-11-20T17:30:00Z",
    "x12": [
-    3.4478,
-    4.1221,
-    2.1397
+    3.4423,
+    4.1428,
+    2.1362
    ],
    "ou": [
     2.5,
@@ -2875,7 +2898,7 @@
      2.6504
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0349,
    "ou_spread": 0.0386,
    "markets": {
@@ -2890,12 +2913,6 @@
      "HOME_NO|Darmstadt / No": 0.1208,
      "DRAW_NO|Draw / No": 0.0427,
      "AWAY_NO|Heidenheim / No": 0.207
-    },
-    "Goal range": {
-     "RANGE|0 - 1": 0.1689,
-     "RANGE|2 - 3": 0.4296,
-     "RANGE|4 - 6": 0.3602,
-     "RANGE|7 or more goals": 0.0412
     },
     "Winner and over/under 2.5": {
      "HOME_OVER|Darmstadt / over 2.5 goals": 0.1978,
@@ -2957,7 +2974,7 @@
      2.2736
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0297,
    "ou_spread": 0.0375
   },
@@ -2968,13 +2985,13 @@
    "away": "Dijon FCO",
    "kickoff_utc": "2026-11-20T19:00:00Z",
    "x12": [
-    1.8736,
-    4.0575,
-    4.5493
+    1.8714,
+    4.0629,
+    4.5554
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
-   "x12_spread": 0.0375
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
+   "x12_spread": 0.0348
   },
   {
    "source": "Smarkets (borsa)",
@@ -2988,7 +3005,7 @@
     3.5748
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0357
   },
   {
@@ -3003,7 +3020,7 @@
     3.7459
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0357,
    "markets": {
     "Over/under 0.5": {
@@ -3024,7 +3041,7 @@
     2.6861
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.032,
    "markets": {
     "Winner and both teams to score": {
@@ -3081,7 +3098,7 @@
     1.5455
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0382
   },
   {
@@ -3098,13 +3115,13 @@
    "ou": [
     2.5,
     [
-     1.2824,
-     4.541
+     1.2789,
+     4.586
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0323,
-   "ou_spread": 0.0381,
+   "ou_spread": 0.0361,
    "markets": {
     "Both teams to score": {
      "YES|Yes": 0.7338,
@@ -3136,7 +3153,7 @@
     2.2966
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0394
   },
   {
@@ -3146,9 +3163,9 @@
    "away": "Le Havre",
    "kickoff_utc": "2026-11-20T19:45:00Z",
    "x12": [
-    2.2855,
-    3.5558,
-    3.5558
+    2.2899,
+    3.5625,
+    3.5387
    ],
    "ou": [
     2.5,
@@ -3157,10 +3174,18 @@
      2.0536
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0159,
    "ou_spread": 0.0231,
    "markets": {
+    "Winner and both teams to score": {
+     "HOME_YES|Troyes AC / Yes": 0.2099,
+     "DRAW_YES|Draw / Yes": 0.2056,
+     "AWAY_YES|Le Havre / Yes": 0.1425,
+     "HOME_NO|Troyes AC / No": 0.2293,
+     "DRAW_NO|Draw / No": 0.0703,
+     "AWAY_NO|Le Havre / No": 0.1425
+    },
     "Odd or even score": {
      "ODD|Odd": 0.4909,
      "EVEN|Even": 0.5091
@@ -3170,6 +3195,46 @@
      "RANGE|2 - 3": 0.4631,
      "RANGE|4 - 6": 0.2721,
      "RANGE|7 or more goals": 0.0178
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Troyes AC / over 1.5 goals": 0.333,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.206,
+     "AWAY_OVER|Le Havre / over 1.5 goals": 0.2123,
+     "HOME_UNDER|Troyes AC / under 1.5 goals": 0.1014,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0711,
+     "AWAY_UNDER|Le Havre / under 1.5 goals": 0.0761
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Troyes AC / over 2.5 goals": 0.2624,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0775,
+     "AWAY_OVER|Le Havre / over 2.5 goals": 0.1661,
+     "HOME_UNDER|Troyes AC / under 2.5 goals": 0.1693,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.2052,
+     "AWAY_UNDER|Le Havre / under 2.5 goals": 0.1195
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Troyes AC / over 3.5 goals": 0.1353,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0769,
+     "AWAY_OVER|Le Havre / over 3.5 goals": 0.0769,
+     "HOME_UNDER|Troyes AC / under 3.5 goals": 0.2998,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.2036,
+     "AWAY_UNDER|Le Havre / under 3.5 goals": 0.2075
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Troyes AC / over 4.5 goals": 0.0777,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.014,
+     "AWAY_OVER|Le Havre / over 4.5 goals": 0.0461,
+     "HOME_UNDER|Troyes AC / under 4.5 goals": 0.3618,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.2632,
+     "AWAY_UNDER|Le Havre / under 4.5 goals": 0.2372
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.8619,
+     "OVER|Over 4.5 goals": 0.1381
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9444,
+     "OVER|Over 5.5 goals": 0.0556
     }
    }
   },
@@ -3185,12 +3250,45 @@
     15.9482
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0278,
    "markets": {
     "Over/under 1.5": {
      "UNDER|Under 1.5 goals": 0.0724,
      "OVER|Over 1.5 goals": 0.9276
+    }
+   }
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "25349331",
+   "home": "Al Ahli Jeddah",
+   "away": "Al-Nassr Riyadh",
+   "kickoff_utc": "2026-11-20T17:30:00Z",
+   "x12": [
+    3.5656,
+    4.4418,
+    2.0226
+   ],
+   "ou": null,
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
+   "x12_spread": 0.0353,
+   "markets": {
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1557,
+     "OVER|Over 1.5 goals": 0.8443
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.7588,
+     "OVER|Over 4.5 goals": 0.2412
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.8831,
+     "OVER|Over 5.5 goals": 0.1169
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.9479,
+     "OVER|Over 6.5 goals": 0.0521
     }
    }
   },
@@ -3212,18 +3310,13 @@
      6.549
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0083,
    "ou_spread": 0.0214,
    "markets": {
     "Both teams to score": {
      "YES|Yes": 0.495,
      "NO|No": 0.505
-    },
-    "Half-time result": {
-     "HOME|Bayern": 0.7326,
-     "DRAW|Draw": 0.2052,
-     "AWAY|Köln": 0.0623
     },
     "Winner and both teams to score": {
      "HOME_YES|Bayern / Yes": 0.4219,
@@ -3295,6 +3388,11 @@
      "UNDER|Under 6.5 goals": 0.8186,
      "OVER|Over 6.5 goals": 0.1814
     },
+    "Half-time result": {
+     "HOME|Bayern": 0.7326,
+     "DRAW|Draw": 0.2052,
+     "AWAY|Köln": 0.0623
+    },
     "First half over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.118,
      "OVER|Over 0.5 goals": 0.882
@@ -3321,7 +3419,7 @@
     2.939
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0389,
    "markets": {
     "Winner and both teams to score": {
@@ -3352,13 +3450,51 @@
      2.1414
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0045,
    "ou_spread": 0.0199,
    "markets": {
     "Both teams to score": {
      "YES|Yes": 0.4845,
      "NO|No": 0.5155
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0604,
+     "OVER|Over 0.5 goals": 0.9396
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.2309,
+     "OVER|Over 1.5 goals": 0.7691
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.6953,
+     "OVER|Over 3.5 goals": 0.3047
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.85,
+     "OVER|Over 4.5 goals": 0.15
+    },
+    "Half-time/full-time": {
+     "HOME_HOME|Athletic Bilbao / Athletic Bilbao": 0.4203,
+     "HOME_AWAY|Athletic Bilbao / Espanyol": 0.0097,
+     "HOME_DRAW|Athletic Bilbao / Draw": 0.0423,
+     "AWAY_HOME|Espanyol / Athletic Bilbao": 0.0307,
+     "AWAY_AWAY|Espanyol / Espanyol": 0.067,
+     "AWAY_DRAW|Espanyol / Draw": 0.037,
+     "DRAW_HOME|Draw / Athletic Bilbao": 0.206,
+     "DRAW_AWAY|Draw / Espanyol": 0.0564,
+     "DRAW_DRAW|Draw / Draw": 0.1307
+    },
+    "Half-time result": {
+     "HOME|Athletic Bilbao": 0.4767,
+     "DRAW|Draw": 0.3862,
+     "AWAY|Espanyol": 0.1371
+    },
+    "Both teams to score in first half / second half": {
+     "NO_NO|No / No": 0.6258,
+     "NO_YES|No / Yes": 0.1952,
+     "YES_NO|Yes / No": 0.1372,
+     "YES_YES|Yes / Yes": 0.0418
     },
     "Winner and both teams to score": {
      "HOME_YES|Athletic Bilbao / Yes": 0.2705,
@@ -3367,6 +3503,24 @@
      "HOME_NO|Athletic Bilbao / No": 0.3906,
      "DRAW_NO|Draw / No": 0.0604,
      "AWAY_NO|Espanyol / No": 0.0656
+    },
+    "First half winner and both teams to score": {
+     "HOME_YES|Athletic Bilbao / Yes": 0.0605,
+     "DRAW_YES|Draw / Yes": 0.1033,
+     "AWAY_YES|Espanyol / Yes": 0.0171,
+     "HOME_NO|Athletic Bilbao / No": 0.4209,
+     "DRAW_NO|Draw / No": 0.2835,
+     "AWAY_NO|Espanyol / No": 0.1147
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.5025,
+     "EVEN|Even": 0.4975
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.2262,
+     "RANGE|2 - 3": 0.4694,
+     "RANGE|4 - 6": 0.2835,
+     "RANGE|7 or more goals": 0.0209
     },
     "Winner and over/under 1.5": {
      "HOME_OVER|Athletic Bilbao / over 1.5 goals": 0.5343,
@@ -3412,22 +3566,6 @@
      "NO_OVER|No / Over": 0.065,
      "NO_UNDER|No / Under": 0.454
     },
-    "Over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.0604,
-     "OVER|Over 0.5 goals": 0.9396
-    },
-    "Over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.2309,
-     "OVER|Over 1.5 goals": 0.7691
-    },
-    "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.6953,
-     "OVER|Over 3.5 goals": 0.3047
-    },
-    "Over/under 4.5": {
-     "UNDER|Under 4.5 goals": 0.85,
-     "OVER|Over 4.5 goals": 0.15
-    },
     "Over/under 5.5": {
      "UNDER|Under 5.5 goals": 0.9371,
      "OVER|Over 5.5 goals": 0.0629
@@ -3435,46 +3573,6 @@
     "Over/under 6.5": {
      "UNDER|Under 6.5 goals": 0.9663,
      "OVER|Over 6.5 goals": 0.0337
-    },
-    "Half-time/full-time": {
-     "HOME_HOME|Athletic Bilbao / Athletic Bilbao": 0.4203,
-     "HOME_AWAY|Athletic Bilbao / Espanyol": 0.0097,
-     "HOME_DRAW|Athletic Bilbao / Draw": 0.0423,
-     "AWAY_HOME|Espanyol / Athletic Bilbao": 0.0307,
-     "AWAY_AWAY|Espanyol / Espanyol": 0.067,
-     "AWAY_DRAW|Espanyol / Draw": 0.037,
-     "DRAW_HOME|Draw / Athletic Bilbao": 0.206,
-     "DRAW_AWAY|Draw / Espanyol": 0.0564,
-     "DRAW_DRAW|Draw / Draw": 0.1307
-    },
-    "Half-time result": {
-     "HOME|Athletic Bilbao": 0.4767,
-     "DRAW|Draw": 0.3862,
-     "AWAY|Espanyol": 0.1371
-    },
-    "Both teams to score in first half / second half": {
-     "NO_NO|No / No": 0.6258,
-     "NO_YES|No / Yes": 0.1952,
-     "YES_NO|Yes / No": 0.1372,
-     "YES_YES|Yes / Yes": 0.0418
-    },
-    "First half winner and both teams to score": {
-     "HOME_YES|Athletic Bilbao / Yes": 0.0605,
-     "DRAW_YES|Draw / Yes": 0.1033,
-     "AWAY_YES|Espanyol / Yes": 0.0171,
-     "HOME_NO|Athletic Bilbao / No": 0.4209,
-     "DRAW_NO|Draw / No": 0.2835,
-     "AWAY_NO|Espanyol / No": 0.1147
-    },
-    "Odd or even score": {
-     "ODD|Odd": 0.5025,
-     "EVEN|Even": 0.4975
-    },
-    "Goal range": {
-     "RANGE|0 - 1": 0.2262,
-     "RANGE|2 - 3": 0.4694,
-     "RANGE|4 - 6": 0.2835,
-     "RANGE|7 or more goals": 0.0209
     },
     "First half over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.2888,
@@ -3502,7 +3600,7 @@
     3.7061
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0332
   },
   {
@@ -3523,7 +3621,7 @@
      2.9231
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0326,
    "ou_spread": 0.0371,
    "markets": {
@@ -3602,14 +3700,30 @@
    "away": "Cesena",
    "kickoff_utc": "2026-11-20T19:30:00Z",
    "x12": [
-    1.7641,
-    4.0567,
-    5.3578
+    1.7805,
+    4.0274,
+    5.2617
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
-   "x12_spread": 0.0306,
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
+   "x12_spread": 0.0345,
    "markets": {
+    "Winner and both teams to score": {
+     "HOME_YES|Verona / Yes": 0.2627,
+     "DRAW_YES|Draw / Yes": 0.1862,
+     "AWAY_YES|Cesena / Yes": 0.1022,
+     "HOME_NO|Verona / No": 0.2976,
+     "DRAW_NO|Draw / No": 0.0596,
+     "AWAY_NO|Cesena / No": 0.0916
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Verona / over 2.5 goals": 0.3671,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0715,
+     "AWAY_OVER|Cesena / over 2.5 goals": 0.1109,
+     "HOME_UNDER|Verona / under 2.5 goals": 0.198,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.173,
+     "AWAY_UNDER|Cesena / under 2.5 goals": 0.0795
+    },
     "Over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.0587,
      "OVER|Over 0.5 goals": 0.9413
@@ -3636,7 +3750,7 @@
     4.4846
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0398
   },
   {
@@ -3646,9 +3760,9 @@
    "away": "Atlético San Luis",
    "kickoff_utc": "2026-11-21T01:00:00Z",
    "x12": [
-    2.5652,
-    3.7983,
-    2.8828
+    2.5746,
+    3.7966,
+    2.872
    ],
    "ou": [
     2.5,
@@ -3657,8 +3771,8 @@
      2.2882
     ]
    ],
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
-   "x12_spread": 0.0241,
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
+   "x12_spread": 0.024,
    "ou_spread": 0.0319,
    "markets": {
     "Both teams to score": {
@@ -3732,13 +3846,13 @@
    "away": "Atlante",
    "kickoff_utc": "2026-11-21T03:10:00Z",
    "x12": [
-    1.6651,
-    4.6417,
-    5.4344
+    1.6633,
+    4.6496,
+    5.4436
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
-   "x12_spread": 0.0363,
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
+   "x12_spread": 0.0329,
    "markets": {
     "Over/under 0.5": {
      "UNDER|Under 0.5 goals": 0.049,
@@ -3766,7 +3880,7 @@
     2.1556
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0344,
    "markets": {
     "Both teams to score": {
@@ -3847,7 +3961,7 @@
     3.0236
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0385
   },
   {
@@ -3862,7 +3976,7 @@
     2.2602
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0398
   },
   {
@@ -3872,12 +3986,12 @@
    "away": "V-Varen Nagasaki",
    "kickoff_utc": "2026-11-21T05:00:00Z",
    "x12": [
-    1.5542,
-    4.536,
-    7.3464
+    1.5525,
+    4.5449,
+    7.3608
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0381
   },
   {
@@ -3887,12 +4001,12 @@
    "away": "Perth Glory",
    "kickoff_utc": "2026-11-21T06:00:00Z",
    "x12": [
-    2.9807,
-    4.04,
-    2.3982
+    2.9581,
+    4.0556,
+    2.4075
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0386
   },
   {
@@ -3907,7 +4021,7 @@
     2.2982
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0158,
    "markets": {
     "Winner and over/under 2.5": {
@@ -3948,7 +4062,7 @@
     4.3731
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0361,
    "markets": {
     "Over/under 0.5": {
@@ -3981,7 +4095,7 @@
     3.1839
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0392
   },
   {
@@ -3996,8 +4110,23 @@
     4.5357
    ],
    "ou": null,
-   "fetched_utc": "2026-11-19T07:25:18+00:00",
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
    "x12_spread": 0.0354
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "29112680",
+   "home": "Ventforet Kofu",
+   "away": "Vanraure Hachinohe",
+   "kickoff_utc": "2026-11-21T05:00:00Z",
+   "x12": [
+    3.2494,
+    3.3265,
+    2.5534
+   ],
+   "ou": null,
+   "fetched_utc": "2026-11-19T07:33:58+00:00",
+   "x12_spread": 0.0389
   },
   {
    "source": "Matchbook (borsa)",
@@ -4005,20 +4134,20 @@
    "away": "Sabail FC",
    "kickoff_utc": "2026-11-19T10:00:00.000Z",
    "x12": [
-    2.8285,
-    3.4944,
-    2.7755
+    2.8254,
+    3.4788,
+    2.7886
    ],
    "ou": [
     2.5,
     [
-     7.8953,
-     1.145
+     1.9215,
+     2.0852
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
-   "x12_spread": -0.0364,
-   "ou_spread": -0.0382
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
+   "x12_spread": -0.0207,
+   "ou_spread": -0.0572
   },
   {
    "source": "Matchbook (borsa)",
@@ -4033,13 +4162,13 @@
    "ou": [
     2.5,
     [
-     8.5727,
-     1.1321
+     2.0059,
+     1.9942
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.1042,
-   "ou_spread": -0.0601
+   "ou_spread": -0.0789
   },
   {
    "source": "Matchbook (borsa)",
@@ -4054,13 +4183,13 @@
    "ou": [
     2.5,
     [
-     4.6915,
-     1.2709
+     1.4659,
+     3.1462
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0168,
-   "ou_spread": -0.0621
+   "ou_spread": -0.0639
   },
   {
    "source": "Matchbook (borsa)",
@@ -4068,20 +4197,20 @@
    "away": "Haras El Hodood",
    "kickoff_utc": "2026-11-19T12:30:00.000Z",
    "x12": [
-    3.1255,
-    2.8923,
-    2.9912
+    3.1298,
+    2.9069,
+    2.9719
    ],
    "ou": [
     2.5,
     [
-     16.1386,
-     1.0661
+     3.0807,
+     1.4806
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
-   "x12_spread": -0.0216,
-   "ou_spread": -0.0241
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
+   "x12_spread": -0.019,
+   "ou_spread": -0.05
   },
   {
    "source": "Matchbook (borsa)",
@@ -4089,20 +4218,20 @@
    "away": "Ismaily",
    "kickoff_utc": "2026-11-19T12:30:00.000Z",
    "x12": [
-    4.1624,
-    3.0964,
-    2.2894
+    4.1519,
+    3.0779,
+    2.3028
    ],
    "ou": [
     2.5,
     [
-     13.0755,
-     1.0828
+     2.7839,
+     1.5606
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
-   "x12_spread": -0.0114,
-   "ou_spread": -0.0284
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
+   "x12_spread": -0.0187,
+   "ou_spread": -0.045
   },
   {
    "source": "Matchbook (borsa)",
@@ -4110,20 +4239,20 @@
    "away": "El Seka Elhadeed",
    "kickoff_utc": "2026-11-19T12:30:00.000Z",
    "x12": [
-    2.9678,
-    2.8121,
-    3.2527
+    2.9543,
+    2.8093,
+    3.2728
    ],
    "ou": [
     2.5,
     [
-     16.9981,
-     1.0625
+     3.2159,
+     1.4513
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
-   "x12_spread": -0.019,
-   "ou_spread": -0.0154
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
+   "x12_spread": -0.0218,
+   "ou_spread": -0.0435
   },
   {
    "source": "Matchbook (borsa)",
@@ -4138,13 +4267,13 @@
    "ou": [
     2.5,
     [
-     11.1044,
-     1.099
+     2.331,
+     1.7513
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0192,
-   "ou_spread": -0.02
+   "ou_spread": -0.0488
   },
   {
    "source": "Matchbook (borsa)",
@@ -4159,13 +4288,13 @@
    "ou": [
     2.5,
     [
-     17.4777,
-     1.0607
+     3.1555,
+     1.4639
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0151,
-   "ou_spread": -0.0145
+   "ou_spread": -0.046
   },
   {
    "source": "Matchbook (borsa)",
@@ -4184,7 +4313,7 @@
      4.7087
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.005,
    "ou_spread": -0.0372
   },
@@ -4201,13 +4330,13 @@
    "ou": [
     2.5,
     [
-     6.0408,
-     1.1984
+     1.6576,
+     2.5208
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0476,
-   "ou_spread": -0.0609
+   "ou_spread": -0.0802
   },
   {
    "source": "Matchbook (borsa)",
@@ -4222,13 +4351,13 @@
    "ou": [
     2.5,
     [
-     11.2774,
-     1.0973
+     2.3999,
+     1.7143
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.078,
-   "ou_spread": -0.035
+   "ou_spread": -0.0913
   },
   {
    "source": "Matchbook (borsa)",
@@ -4243,13 +4372,13 @@
    "ou": [
     2.5,
     [
-     14.0913,
-     1.0764
+     2.8614,
+     1.5372
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0713,
-   "ou_spread": -0.0396
+   "ou_spread": -0.0751
   },
   {
    "source": "Matchbook (borsa)",
@@ -4257,20 +4386,20 @@
    "away": "El Qanah FC",
    "kickoff_utc": "2026-11-19T15:00:00.000Z",
    "x12": [
-    1.8112,
-    3.5761,
-    5.944
+    1.8146,
+    3.5588,
+    5.9553
    ],
    "ou": [
     2.5,
     [
-     11.2354,
-     1.0977
+     2.6197,
+     1.6174
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
-   "x12_spread": -0.0117,
-   "ou_spread": -0.0602
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
+   "x12_spread": -0.0079,
+   "ou_spread": -0.0494
   },
   {
    "source": "Matchbook (borsa)",
@@ -4285,13 +4414,13 @@
    "ou": [
     2.5,
     [
-     12.8562,
-     1.0843
+     2.4579,
+     1.6859
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0087,
-   "ou_spread": -0.0425
+   "ou_spread": -0.056
   },
   {
    "source": "Matchbook (borsa)",
@@ -4306,13 +4435,13 @@
    "ou": [
     2.5,
     [
-     8.1186,
-     1.1405
+     1.9458,
+     2.0573
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0542,
-   "ou_spread": -0.0563
+   "ou_spread": -0.0839
   },
   {
    "source": "Matchbook (borsa)",
@@ -4327,13 +4456,13 @@
    "ou": [
     2.5,
     [
-     3.4959,
-     1.4007
+     1.2652,
+     4.771
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0078,
-   "ou_spread": -0.0204
+   "ou_spread": -0.035
   },
   {
    "source": "Matchbook (borsa)",
@@ -4352,7 +4481,7 @@
      3.0001
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.005,
    "ou_spread": -0.0322
   },
@@ -4369,13 +4498,13 @@
    "ou": [
     2.5,
     [
-     15.7319,
-     1.0679
+     2.9877,
+     1.5031
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0276,
-   "ou_spread": -0.0269
+   "ou_spread": -0.052
   },
   {
    "source": "Matchbook (borsa)",
@@ -4390,13 +4519,13 @@
    "ou": [
     2.5,
     [
-     13.372,
-     1.0808
+     2.5371,
+     1.6506
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0089,
-   "ou_spread": -0.0321
+   "ou_spread": -0.0525
   },
   {
    "source": "Matchbook (borsa)",
@@ -4404,20 +4533,20 @@
    "away": "FC Bayern München Women",
    "kickoff_utc": "2026-11-19T17:45:00.000Z",
    "x12": [
-    26.6937,
-    11.1224,
-    1.146
+    25.7178,
+    11.1388,
+    1.1477
    ],
    "ou": [
     2.5,
     [
-     1.3458,
-     3.8919
+     1.3433,
+     3.9128
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
-   "x12_spread": -0.0083,
-   "ou_spread": -0.0549
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
+   "x12_spread": -0.009,
+   "ou_spread": -0.0166
   },
   {
    "source": "Matchbook (borsa)",
@@ -4425,20 +4554,20 @@
    "away": "HB Køge Women",
    "kickoff_utc": "2026-11-19T17:45:00.000Z",
    "x12": [
-    1.6554,
-    4.5852,
-    5.6235
+    1.6526,
+    4.5775,
+    5.6678
    ],
    "ou": [
     2.5,
     [
-     1.5834,
-     2.7141
+     1.5613,
+     2.7815
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0073,
-   "ou_spread": -0.0325
+   "ou_spread": -0.0155
   },
   {
    "source": "Matchbook (borsa)",
@@ -4453,13 +4582,13 @@
    "ou": [
     2.5,
     [
-     8.4079,
-     1.135
+     1.9757,
+     2.0249
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0418,
-   "ou_spread": -0.0476
+   "ou_spread": -0.0511
   },
   {
    "source": "Matchbook (borsa)",
@@ -4478,7 +4607,7 @@
      1.783
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0591,
    "ou_spread": -0.0563
   },
@@ -4499,7 +4628,7 @@
      2.1878
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0548,
    "ou_spread": -0.0581
   },
@@ -4516,13 +4645,13 @@
    "ou": [
     2.5,
     [
-     12.1568,
-     1.0896
+     2.4834,
+     1.6741
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0276,
-   "ou_spread": -0.0337
+   "ou_spread": -0.0464
   },
   {
    "source": "Matchbook (borsa)",
@@ -4537,13 +4666,13 @@
    "ou": [
     2.5,
     [
-     5.0142,
-     1.2491
+     1.4594,
+     3.1768
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0089,
-   "ou_spread": -0.0641
+   "ou_spread": -0.0331
   },
   {
    "source": "Matchbook (borsa)",
@@ -4551,20 +4680,20 @@
    "away": "Smouha SC",
    "kickoff_utc": "2026-11-19T18:00:00.000Z",
    "x12": [
-    2.9962,
-    2.7531,
-    3.3001
+    3.0928,
+    2.7152,
+    3.2428
    ],
    "ou": [
     2.5,
     [
-     15.246,
-     1.0702
+     2.9972,
+     1.5007
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
-   "x12_spread": -0.0026,
-   "ou_spread": -0.0169
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
+   "x12_spread": -0.0162,
+   "ou_spread": -0.0889
   },
   {
    "source": "Matchbook (borsa)",
@@ -4583,7 +4712,7 @@
      2.176
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0551,
    "ou_spread": -0.0628
   },
@@ -4593,9 +4722,9 @@
    "away": "USM Alger",
    "kickoff_utc": "2026-11-19T19:00:00.000Z",
    "x12": [
-    2.3415,
-    3.0637,
-    4.0565
+    2.3063,
+    3.0933,
+    4.113
    ],
    "ou": [
     2.5,
@@ -4604,8 +4733,8 @@
      1.5447
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
-   "x12_spread": -0.0496,
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
+   "x12_spread": -0.0187,
    "ou_spread": -0.0584
   },
   {
@@ -4614,20 +4743,20 @@
    "away": "Deportivo Maldonado",
    "kickoff_utc": "2026-11-19T19:30:00.000Z",
    "x12": [
-    3.7526,
     3.7756,
+    3.7526,
     2.1337
    ],
    "ou": [
     2.5,
     [
-     7.8953,
-     1.145
+     1.9563,
+     2.0457
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0214,
-   "ou_spread": -0.0382
+   "ou_spread": -0.0313
   },
   {
    "source": "Matchbook (borsa)",
@@ -4642,13 +4771,13 @@
    "ou": [
     2.5,
     [
-     9.4106,
-     1.1189
+     2.1076,
+     1.9028
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.018,
-   "ou_spread": -0.0516
+   "ou_spread": -0.0225
   },
   {
    "source": "Matchbook (borsa)",
@@ -4663,13 +4792,13 @@
    "ou": [
     2.5,
     [
-     6.5883,
-     1.1789
+     1.6592,
+     2.517
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.016,
-   "ou_spread": -0.0472
+   "ou_spread": -0.0218
   },
   {
    "source": "Matchbook (borsa)",
@@ -4677,20 +4806,20 @@
    "away": "Olympique Lyonnais Women",
    "kickoff_utc": "2026-11-19T20:00:00.000Z",
    "x12": [
-    4.9471,
-    4.5466,
-    1.7304
+    4.8773,
+    4.5259,
+    1.7421
    ],
    "ou": [
     2.5,
     [
-     1.6084,
-     2.6436
+     1.5997,
+     2.6674
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
-   "x12_spread": -0.0123,
-   "ou_spread": -0.0371
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
+   "x12_spread": -0.0083,
+   "ou_spread": -0.0234
   },
   {
    "source": "Matchbook (borsa)",
@@ -4705,13 +4834,13 @@
    "ou": [
     2.5,
     [
-     1.7847,
-     2.2743
+     1.0648,
+     16.4219
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0016,
-   "ou_spread": -0.1863
+   "ou_spread": -0.0265
   },
   {
    "source": "Matchbook (borsa)",
@@ -4719,20 +4848,20 @@
    "away": "AS Roma Women",
    "kickoff_utc": "2026-11-19T20:00:00.000Z",
    "x12": [
-    2.2406,
-    4.165,
-    3.1889
+    2.2354,
+    4.1553,
+    3.2052
    ],
    "ou": [
     2.5,
     [
-     5.7412,
-     1.2109
+     1.5633,
+     2.7753
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0121,
-   "ou_spread": -0.0747
+   "ou_spread": -0.0204
   },
   {
    "source": "Matchbook (borsa)",
@@ -4747,13 +4876,13 @@
    "ou": [
     2.5,
     [
-     7.9182,
-     1.1445
+     1.8634,
+     2.1582
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0038,
-   "ou_spread": -0.0229
+   "ou_spread": -0.0086
   },
   {
    "source": "Matchbook (borsa)",
@@ -4761,20 +4890,20 @@
    "away": "SC Internacional",
    "kickoff_utc": "2026-11-19T22:30:00.000Z",
    "x12": [
-    1.6422,
-    4.4171,
-    6.0729
+    1.6441,
+    4.409,
+    6.0618
    ],
    "ou": [
     2.5,
     [
-     7.4843,
-     1.1542
+     1.7752,
+     2.29
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
-   "x12_spread": -0.0037,
-   "ou_spread": -0.0772
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
+   "x12_spread": -0.0074,
+   "ou_spread": -0.0095
   },
   {
    "source": "Matchbook (borsa)",
@@ -4782,20 +4911,20 @@
    "away": "FC Cincinnati",
    "kickoff_utc": "2026-11-20T00:30:00.000Z",
    "x12": [
-    2.5127,
-    4.2373,
-    2.7321
+    2.522,
+    4.2366,
+    2.7214
    ],
    "ou": [
     2.5,
     [
-     4.4163,
-     1.2927
+     1.3958,
+     3.5268
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
-   "x12_spread": -0.0053,
-   "ou_spread": -0.0298
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
+   "x12_spread": -0.0055,
+   "ou_spread": -0.004
   },
   {
    "source": "Matchbook (borsa)",
@@ -4803,20 +4932,20 @@
    "away": "Fluminense FC",
    "kickoff_utc": "2026-11-20T00:30:00.000Z",
    "x12": [
-    2.5673,
-    3.4462,
-    3.122
+    2.5486,
+    3.4347,
+    3.1598
    ],
    "ou": [
     2.5,
     [
-     10.6549,
-     1.1036
+     2.2808,
+     1.7807
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
-   "x12_spread": -0.0051,
-   "ou_spread": -0.0208
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
+   "x12_spread": -0.0084,
+   "ou_spread": -0.0063
   },
   {
    "source": "Matchbook (borsa)",
@@ -4831,13 +4960,13 @@
    "ou": [
     2.5,
     [
-     5.7678,
-     1.2097
+     1.589,
+     2.6978
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0048,
-   "ou_spread": -0.0529
+   "ou_spread": -0.0079
   },
   {
    "source": "Matchbook (borsa)",
@@ -4845,20 +4974,20 @@
    "away": "Adelaide United",
    "kickoff_utc": "2026-11-20T08:40:00.000Z",
    "x12": [
-    1.7218,
-    4.699,
-    4.8448
+    1.7284,
+    4.6475,
+    4.8485
    ],
    "ou": [
     2.5,
     [
-     5.1424,
-     1.2414
+     1.5316,
+     2.881
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
-   "x12_spread": -0.0181,
-   "ou_spread": -0.066
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
+   "x12_spread": -0.0213,
+   "ou_spread": -0.0264
   },
   {
    "source": "Matchbook (borsa)",
@@ -4873,13 +5002,13 @@
    "ou": [
     2.5,
     [
-     6.9203,
-     1.1689
+     1.781,
+     2.2803
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0203,
-   "ou_spread": -0.0585
+   "ou_spread": -0.0308
   },
   {
    "source": "Matchbook (borsa)",
@@ -4894,13 +5023,13 @@
    "ou": [
     2.5,
     [
-     5.6316,
-     1.2159
+     1.5999,
+     2.667
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0206,
-   "ou_spread": -0.0991
+   "ou_spread": -0.0309
   },
   {
    "source": "Matchbook (borsa)",
@@ -4915,13 +5044,13 @@
    "ou": [
     2.5,
     [
-     9.1562,
-     1.1226
+     2.1015,
+     1.9078
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0357,
-   "ou_spread": -0.0756
+   "ou_spread": -0.0405
   },
   {
    "source": "Matchbook (borsa)",
@@ -4936,13 +5065,13 @@
    "ou": [
     2.5,
     [
-     6.9144,
-     1.1691
+     1.784,
+     2.2755
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0285,
-   "ou_spread": -0.0887
+   "ou_spread": -0.0409
   },
   {
    "source": "Matchbook (borsa)",
@@ -4957,13 +5086,13 @@
    "ou": [
     2.5,
     [
-     6.2812,
-     1.1894
+     1.7225,
+     2.384
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0286,
-   "ou_spread": -0.081
+   "ou_spread": -0.0457
   },
   {
    "source": "Matchbook (borsa)",
@@ -4978,13 +5107,13 @@
    "ou": [
     2.5,
     [
-     9.0112,
-     1.1248
+     2.0305,
+     1.9704
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0325,
-   "ou_spread": -0.022
+   "ou_spread": -0.0411
   },
   {
    "source": "Matchbook (borsa)",
@@ -4999,13 +5128,13 @@
    "ou": [
     2.5,
     [
-     8.0781,
-     1.1413
+     1.9537,
+     2.0486
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.026,
-   "ou_spread": -0.0653
+   "ou_spread": -0.0429
   },
   {
    "source": "Matchbook (borsa)",
@@ -5020,13 +5149,13 @@
    "ou": [
     2.5,
     [
-     8.155,
-     1.1398
+     1.9213,
+     2.0854
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0203,
-   "ou_spread": -0.0308
+   "ou_spread": -0.0297
   },
   {
    "source": "Matchbook (borsa)",
@@ -5041,13 +5170,13 @@
    "ou": [
     2.5,
     [
-     1.326,
-     4.0672
+     1.1729,
+     6.7823
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0016,
-   "ou_spread": -0.0272
+   "ou_spread": -0.0072
   },
   {
    "source": "Matchbook (borsa)",
@@ -5055,20 +5184,20 @@
    "away": "Cesena",
    "kickoff_utc": "2026-11-20T19:30:00.000Z",
    "x12": [
-    1.7834,
-    4.0271,
-    5.2369
+    1.79,
+    4.042,
+    5.1564
    ],
    "ou": [
     2.5,
     [
-     3.5884,
-     1.3863
+     1.8285,
+     2.2069
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
-   "x12_spread": -0.0214,
-   "ou_spread": -0.0365
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
+   "x12_spread": -0.0223,
+   "ou_spread": -0.0359
   },
   {
    "source": "Matchbook (borsa)",
@@ -5083,13 +5212,13 @@
    "ou": [
     2.5,
     [
-     5.1873,
-     1.2388
+     1.524,
+     2.9084
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0308,
-   "ou_spread": -0.0298
+   "ou_spread": -0.0301
   },
   {
    "source": "Matchbook (borsa)",
@@ -5108,7 +5237,7 @@
      2.0278
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0038,
    "ou_spread": -0.0231
   },
@@ -5129,7 +5258,7 @@
      2.1465
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0032,
    "ou_spread": -0.0085
   },
@@ -5146,13 +5275,13 @@
    "ou": [
     2.5,
     [
-     5.2623,
-     1.2346
+     1.5621,
+     2.7791
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0058,
-   "ou_spread": -0.0855
+   "ou_spread": -0.0368
   },
   {
    "source": "Matchbook (borsa)",
@@ -5171,7 +5300,7 @@
      1.7056
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0178,
    "ou_spread": -0.0548
   },
@@ -5188,13 +5317,13 @@
    "ou": [
     2.5,
     [
-     6.6235,
-     1.1778
+     1.7753,
+     2.2898
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0142,
-   "ou_spread": -0.0897
+   "ou_spread": -0.0267
   },
   {
    "source": "Matchbook (borsa)",
@@ -5209,13 +5338,13 @@
    "ou": [
     2.5,
     [
-     6.7097,
-     1.1751
+     1.7779,
+     2.2855
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0228,
-   "ou_spread": -0.0351
+   "ou_spread": -0.0316
   },
   {
    "source": "Matchbook (borsa)",
@@ -5230,13 +5359,13 @@
    "ou": [
     2.5,
     [
-     6.5516,
-     1.1801
+     1.7226,
+     2.384
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0199,
-   "ou_spread": -0.0936
+   "ou_spread": -0.037
   },
   {
    "source": "Matchbook (borsa)",
@@ -5251,13 +5380,13 @@
    "ou": [
     2.5,
     [
-     7.3219,
-     1.1582
+     1.8553,
+     2.1692
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0293,
-   "ou_spread": -0.0595
+   "ou_spread": -0.0378
   },
   {
    "source": "Matchbook (borsa)",
@@ -5272,13 +5401,13 @@
    "ou": [
     2.5,
     [
-     5.6316,
-     1.2159
+     1.6192,
+     2.6149
     ]
    ],
-   "fetched_utc": "2026-11-19T07:30:04+00:00",
+   "fetched_utc": "2026-11-19T07:39:12+00:00",
    "x12_spread": -0.0239,
-   "ou_spread": -0.0991
+   "ou_spread": -0.0305
   }
  ]
 }
