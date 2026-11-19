@@ -36,6 +36,11 @@ FD_FILES = {
     "new_league_fixtures.csv": "https://www.football-data.co.uk/new_league_fixtures.csv",
 }
 SMARKETS = "https://api.smarkets.com/v3"
+# Smarkets market types stored as direct references for derivative selections (KG, other O/U lines, halves...).
+DIRECT_TYPES = {"OVER_UNDER", "BTTS", "DOUBLE_CHANCE", "ODD_EVEN", "SCORE_RANGE", "HALF_FULL", "HALF_TIME_WINNER_3_WAY",
+                "SECOND_HALF_WINNER_3_WAY", "FIRST_HALF_OVER_UNDER", "SECOND_HALF_OVER_UNDER", "BTTS_FIRST_HALF",
+                "BTTS_SECOND_HALF", "BTTS_BOTH_HALVES", "HIGHEST_SCORING_HALF", "FIRST_HALF_ODD_EVEN", "WINNER_AND_BTTS",
+                "WINNER_AND_OVER", "BTTS_AND_OVER", "HALF_TIME_DOUBLE_CHANCE", "FIRST_HALF_WINNER_AND_BTTS"}
 MAX_SPREAD = 0.04  # widest acceptable bid/offer spread (4 percentage points) for an exchange reference
 
 DEADLINE = time.monotonic() + 8 * 60  # hard time budget for the whole run (seconds)
@@ -197,12 +202,15 @@ def smarkets(days: int = 2, max_events: int = 600) -> list[dict]:
             return "1x2"
         if name in ("over/under 2.5", "over/under 2.5 goals", "total goals over/under 2.5") and "half" not in name:
             return "ou25"
+        if mtype in DIRECT_TYPES:
+            return "direct"
         return None
 
     wanted = {str(m["id"]): (m, _kind(m)) for m in markets if _kind(m)}
     contracts, quotes = [], {}
     _say(f"smarkets markets: {len(markets)}, wanted: {len(wanted)}")
-    for ids in _chunks(list(wanted), 50):
+    # 1X2 and O/U 2.5 first, so a time-budget cut only ever loses the optional direct derivative markets.
+    for ids in _chunks(sorted(wanted, key=lambda k: wanted[k][1] == "direct"), 50):
         if _time_left() < 30:
             LOG["errors"].append("smarkets: time budget reached while fetching quotes")
             break
@@ -230,14 +238,19 @@ def smarkets(days: int = 2, max_events: int = 600) -> list[dict]:
         return None
 
     per_market: dict[str, dict[str, float]] = {}
+    labelled: dict[str, dict[str, float]] = {}  # direct markets: "CONTRACT_TYPE|contract name" -> mid
     spreads: dict[str, float] = {}
+    n_contracts: dict[str, int] = {}
     for c in contracts:
+        mkt = str(c["market_id"])
+        n_contracts[mkt] = n_contracts.get(mkt, 0) + 1
         ms = _mid_and_spread(c["id"])
         if ms is None:
             continue
         ctype = str((c.get("contract_type") or {}).get("name", "") or c.get("name", "")).upper()
-        per_market.setdefault(str(c["market_id"]), {})[ctype] = ms[0]
-        spreads[str(c["market_id"])] = max(spreads.get(str(c["market_id"]), 0.0), ms[1])
+        per_market.setdefault(mkt, {})[ctype] = ms[0]
+        labelled.setdefault(mkt, {})[f"{ctype}|{c.get('name', '')}"] = ms[0]
+        spreads[mkt] = max(spreads.get(mkt, 0.0), ms[1])
     # Liquidity guard: a thin exchange book has a wide bid/offer spread and its mid is not a price.
     illiquid = {mid for mid, sp in spreads.items() if sp > MAX_SPREAD}
     LOG["counts"]["smarkets_markets_illiquid"] = len(illiquid)
@@ -266,6 +279,11 @@ def smarkets(days: int = 2, max_events: int = 600) -> list[dict]:
             s = sum(p)
             rec["ou"] = [2.5, [round(s / x, 4) for x in p]]
             rec["ou_spread"] = round(spreads[mid_id], 4)
+        if kind == "direct" and len(labelled.get(mid_id, {})) == n_contracts.get(mid_id):  # every outcome quoted
+            lab = labelled[mid_id]
+            s = sum(lab.values())
+            if 0.9 < s < 1.1:  # exchange mids of a complete book sum to ~1
+                rec.setdefault("markets", {})[m.get("name", "")] = {k: round(v / s, 4) for k, v in lab.items()}
     out = [r for r in refs.values() if r["x12"]]
     LOG["counts"]["smarkets_references"] = len(out)
     return out
