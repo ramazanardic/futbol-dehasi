@@ -463,6 +463,10 @@ def _side_rows(r: dict, side: str) -> dict[str, str]:
     for label, value in (t.get("team_stats") or {}).items():
         row[label] = value
     row["Eksikler"] = _absent(r, side)
+    if t.get("news_flags"):
+        row["Haber (sakatlık/ceza)"] = " · ".join(t["news_flags"])
+    if t.get("likely_absent"):
+        row["Muhtemel eksikler (son kadrolardan)"] = "; ".join(f"{p['name']}: {p['reason']}" for p in t["likely_absent"][:6])
     if t.get("lineup_announced"):
         miss = [p["name"] for p in t.get("missing_regulars") or []]
         row["İlk 11"] = "açıklandı" + (f"; düzenli oyunculardan yok: {', '.join(miss)}" if miss else "")

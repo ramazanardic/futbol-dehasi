@@ -94,3 +94,30 @@ def test_team_profile_and_stats(monkeypatch):
     ts = mr.team_stats("bra.1", 2026, "1")
     assert ts == {"Topla oynama": "%55.2", "Şut": "15.0 / maç", "xG (beklenen gol)": "1.57", "Pas isabeti": "%86"}
     mr.team_profile.cache_clear(); mr.team_stats.cache_clear()
+
+
+def test_likely_absentees_from_recent_squads():
+    def sq(starters, bench=(), red=()):
+        d = {p: {"name": p, "starter": True, "pos": "M", "red": int(p in red)} for p in starters}
+        d.update({p: {"name": p, "starter": False, "pos": "M", "red": 0} for p in bench})
+        return d
+    base = [f"p{i}" for i in range(11)]
+    squads = [sq(base), sq(base), sq(base), sq(base[1:], bench=["x"]), sq(base[2:] + ["y"], red=["p5"])]
+    out = {x["name"]: x["reason"] for x in mr.likely_absentees(squads)}
+    assert out["p0"].startswith("son 2 maçta")      # missing from the last two squads
+    assert out["p1"].startswith("son 1 maçta")      # missing from the latest squad only
+    assert "kırmızı" in out["p5"]                    # sent off in the latest game
+    assert "p2" not in out
+    rotation = squads[:4] + [sq(["a", "b", "c", "d", "e"] + base[5:])]
+    assert all("rotasyon" in r for n, r in ((x["name"], x["reason"]) for x in mr.likely_absentees(rotation)) if n in base[1:5])
+
+
+def test_team_news_keeps_only_injury_and_suspension_headlines(monkeypatch):
+    feed = {"articles": [{"headline": "Star ruled out for six weeks with hamstring injury"},
+                         {"headline": "Club announces new kit", "description": "Fans react"},
+                         {"headline": "Defender banned for two games after red card"}]}
+    mr.team_news.cache_clear()
+    monkeypatch.setattr(mr, "_get", lambda url, **p: feed)
+    assert mr.team_news("eng.1", "1") == ["Star ruled out for six weeks with hamstring injury",
+                                          "Defender banned for two games after red card"]
+    mr.team_news.cache_clear()

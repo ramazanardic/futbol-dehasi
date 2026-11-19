@@ -44,6 +44,45 @@ def _pull(log) -> None:
     log.write(f"\n[git pull] çıkış kodu {pull.returncode} {pull.stderr.strip()}\n")
 
 
+GLOBAL_FILE = ROOT / "data" / "global_odds" / "latest" / "references.json"
+TRIGGER_FILE = ROOT / "data" / "global_odds" / "trigger.txt"
+STALE_HOURS = 5.0   # GitHub's scheduler skipped runs if the sharp prices are older than this
+RETRIGGER_HOURS = 3.0
+
+
+def _data_age_hours() -> float | None:
+    try:
+        import json
+        gen = json.loads(GLOBAL_FILE.read_text(encoding="utf-8")).get("generated_utc")
+        return (dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(gen)).total_seconds() / 3600
+    except (OSError, ValueError, TypeError):
+        return None
+
+
+def _kick_fetch_if_stale(log) -> None:
+    """Backup for GitHub's best-effort cron: when the overseas fetch has not run for STALE_HOURS, push a
+    one-line trigger file; the workflow runs on pushes to that path (a normal git push, no extra token)."""
+    age = _data_age_hours()
+    if age is not None and age < STALE_HOURS:
+        return
+    if TRIGGER_FILE.exists():
+        try:
+            last = dt.datetime.fromisoformat(TRIGGER_FILE.read_text(encoding="utf-8").strip())
+            if dt.datetime.now(dt.timezone.utc) - last < dt.timedelta(hours=RETRIGGER_HOURS):
+                return  # already kicked recently; give that run time to finish
+        except ValueError:
+            pass
+    TRIGGER_FILE.write_text(dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds") + "\n", encoding="utf-8")
+    rel = str(TRIGGER_FILE.relative_to(ROOT))
+    steps = (["git", "add", rel], ["git", "commit", "-q", "-m", f"chore(trigger): global data {age if age is None else round(age, 1)} h old",
+                                    "--", rel], ["git", "push", "-q"])
+    for cmd in steps:
+        r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=120)
+        log.write(f"[tetik] {' '.join(cmd[:2])}: {r.returncode} {r.stderr.strip()}\n")
+        if r.returncode:
+            return
+
+
 def main() -> None:
     mode = sys.argv[1] if len(sys.argv) > 1 else ""
     today = dt.date.today()
@@ -63,6 +102,7 @@ def main() -> None:
             _run(["--date", today.isoformat()], log, ROOT / "scripts" / "nesine_global.py")
         elif mode == "analiz":
             _pull(log)
+            _kick_fetch_if_stale(log)
             # betting day runs 07:00-07:00: before 07:00 the current slate is still yesterday's
             day = today if dt.datetime.now().hour >= 7 else yesterday
             _run(["--date", day.isoformat(), "--hafta", "5"], log, ROOT / "scripts" / "nesine_global.py")

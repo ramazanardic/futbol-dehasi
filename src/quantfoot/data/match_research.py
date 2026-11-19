@@ -58,6 +58,51 @@ def _starters(summary: dict, team_id: str) -> list[dict]:
     return []
 
 
+def _squad(summary: dict, team_id: str) -> dict[str, dict]:
+    """Matchday squad (starters + bench) of one team with per-match red cards: id -> record."""
+    for r in summary.get("rosters") or []:
+        if str(r.get("team", {}).get("id")) == str(team_id):
+            out = {}
+            for p in r.get("roster", []):
+                if not p.get("athlete"):
+                    continue
+                st = {x.get("name"): x.get("value") for x in p.get("stats") or []}
+                out[str(p["athlete"]["id"])] = {"name": p["athlete"].get("displayName"), "starter": bool(p.get("starter")),
+                                                "pos": (p.get("position") or {}).get("abbreviation", ""),
+                                                "red": int(st.get("redCards") or 0)}
+            return out
+    return {}
+
+
+def likely_absentees(squads: list[dict[str, dict]]) -> list[dict]:
+    """Infer injured / suspended players before the line-up is out, from the last matchday squads
+    (oldest first): a player who started >= 3 of them but is not even on the bench in the latest one,
+    or who was sent off in the latest one."""
+    if len(squads) < 3:
+        return []
+    latest, previous = squads[-1], squads[-2]
+    starts: dict[str, int] = {}
+    info: dict[str, dict] = {}
+    for sq in squads:
+        for pid, p in sq.items():
+            info[pid] = p
+            starts[pid] = starts.get(pid, 0) + int(p["starter"])
+    out = []
+    for pid, n in starts.items():
+        p = info[pid]
+        if n >= 3 and pid not in latest:
+            gone = 2 if pid not in previous else 1
+            out.append({"name": p["name"], "pos": p["pos"], "reason": f"son {gone} maçta kadroda yok (muhtemel sakat/cezalı)",
+                        "starts": n})
+        elif pid in latest and latest[pid]["red"]:
+            out.append({"name": p["name"], "pos": p["pos"], "reason": "son maçta kırmızı kart (cezalı olabilir)", "starts": n})
+    single = [x for x in out if x["reason"].startswith("son 1 maçta")]
+    if len(single) >= 4:  # several regulars out at once in one game = rotation (cup / fixture congestion), not injuries
+        for x in single:
+            x["reason"] = "son maçta kadroda yok (rotasyon olabilir)"
+    return sorted(out, key=lambda x: -x["starts"])
+
+
 def _player_stats(athlete: dict) -> dict:
     out = {}
     for cat in (athlete.get("statistics") or {}).get("splits", {}).get("categories", []):
@@ -91,6 +136,22 @@ def team_profile(slug: str, team_id: str) -> dict | None:
               "conceded_per_game": round(k["conceded"] / k["apps"], 2) if k["apps"] else None}
     cards = sorted((p for p in players if p["yellow"] >= 4 or p["red"] > 0), key=lambda p: (-p["red"], -p["yellow"]))[:4]
     return {"top_scorers": scorers, "top_assists": assisters, "goalkeeper": gk, "cards": cards}
+
+
+_NEWS_RE = re.compile(r"injur|ruled out|out for|sidelined|suspen|ban|banned|doubt|fitness|hamstring|knee|ankle|"
+                      r"groin|calf|thigh|surgery|absence|absent|miss(?:es|ing)? (?:the|next|out)|red card|sent off", re.I)
+
+
+@lru_cache(maxsize=1024)
+def team_news(slug: str, team_id: str) -> list[str]:
+    """Latest ESPN team headlines that mention injuries, suspensions or absences."""
+    js = _get(f"{BASE}/{slug}/news", team=team_id, limit=15) or {}
+    out = []
+    for a in js.get("articles", []):
+        text = f"{a.get('headline', '')} {a.get('description', '')}"
+        if _NEWS_RE.search(text):
+            out.append(a.get("headline") or text[:120])
+    return out[:4]
 
 
 CORE = "https://sports.core.api.espn.com/v2/sports/soccer/leagues"
@@ -172,11 +233,17 @@ def research(event_id: str) -> dict | None:
             rec["rest_days"] = round((dt.datetime.fromisoformat(kickoff.replace("Z", "+00:00")) - last).total_seconds() / 86400, 1)
         # regular starters from the previous five games (same team id)
         counts: dict[str, dict] = {}
-        for g in games:
+        squads = []
+        for g in sorted(games, key=lambda x: x.get("gameDate") or ""):  # oldest first
             gs = _summary(str(g.get("id"))) if g.get("id") else None
             for p in _starters(gs, tid) if gs else []:
                 c = counts.setdefault(p["id"], {**p, "starts": 0})
                 c["starts"] += 1
+            if gs:
+                sq = _squad(gs, tid)
+                if sq:
+                    squads.append(sq)
+        rec["likely_absent"] = likely_absentees(squads)
         rec["regulars"] = [c for c in counts.values() if c["starts"] >= REGULAR_MIN_STARTS]
         today = _starters(s, tid)
         rec["lineup_announced"] = len(today) >= 11
@@ -195,6 +262,7 @@ def research(event_id: str) -> dict | None:
                          "goal_diff": season.get("goalDifference"), "played": played}
         if out["league_slug"]:
             rec["profile"] = team_profile(out["league_slug"], tid)
+            rec["news_flags"] = team_news(out["league_slug"], tid)
             year = ((s.get("header") or {}).get("season") or {}).get("year")
             if year:
                 rec["team_stats"] = team_stats(out["league_slug"], int(year), tid)
