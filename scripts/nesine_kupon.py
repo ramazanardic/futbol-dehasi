@@ -59,7 +59,7 @@ def candidates(matches: list[dict], now: dt.datetime, min_odds: float, min_prob:
                 continue  # model-derived price: no direct global quote for this selection
             legs.append({"code": m["code"], "kickoff": m["kickoff"], "league": m["league"], "match": f"{m['home']} - {m['away']}",
                          "market": s["market"], "selection": s["selection"], "odds": s["odds"], "p": s["fair_prob"],
-                         "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": m["reference"].split(" ")[0],
+                         "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": m["reference"].split(" (")[0],
                          "direct": bool(s.get("direct"))})
         legs.sort(key=lambda x: (-x["odds"], -x["p"]))
         front, best_p = [], -1.0

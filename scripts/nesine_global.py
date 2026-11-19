@@ -255,6 +255,32 @@ def price_event(event, ref: dict, league: str) -> dict:
             "nesine_ms_margin": None if margin is None else round(margin, 4), "derivatives_priced": derivatives_ok, "selections": rows}
 
 
+MAX_PAIRING_GAP = 0.15  # Nesine's own 1X2, devigged, vs the reference: a bigger gap means a wrong pairing
+
+
+def _consistent(event, ref: dict) -> bool:
+    """Sanity check of a name/time pairing: Nesine's 1X2 must tell roughly the same story as the reference."""
+    nes = [event.odds_of(f"MS {c}") for c in "102"]
+    if not all(nes) or not ref.get("x12"):
+        return True  # nothing to compare
+    pn = devig(nes, method="power").probabilities
+    pr = devig(ref["x12"], method="power").probabilities
+    return max(abs(a - b) for a, b in zip(pn, pr)) <= MAX_PAIRING_GAP
+
+
+def _owners(events: list, refs: list[dict]) -> dict[int, object]:
+    """Each reference belongs to the one Nesine event it resembles most (no reference priced twice)."""
+    best: dict[int, tuple[float, object]] = {}
+    for e in events:
+        for r in refs:
+            if abs((r["kickoff"] - e.kickoff).total_seconds()) > 3 * 3600:
+                continue
+            sc = (_sim(e.home, r["home"]) + _sim(e.away, r["away"])) / 2
+            if sc > best.get(id(r), (0.0, None))[0]:
+                best[id(r)] = (sc, e.code)
+    return {k: v[1] for k, v in best.items()}
+
+
 def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated: str | None) -> None:
     """Add ESPN research (form, table, rest, line-ups, absences) to priced matches; flag stale prices."""
     pool = []
@@ -304,18 +330,20 @@ def analyze_day(day: dt.date, verbose: bool = True, with_research: bool = True) 
         print(f"Global (Pinnacle/Smarkets/Betfair): {len(sharp)} referans (oluşturulma {generated or 'yok'})")
         print(f"ESPN: {len(espn)} maçta oran bulundu")
     refs = sharp + espn
+    owner = _owners(events, refs)
     out = []
     for e in sorted(events, key=lambda x: x.kickoff):
         league = leagues.get(e.league_code, str(e.league_code))
         ref, score = None, 0.0
+        mine = [r for r in refs if owner.get(id(r)) == e.code and _consistent(e, r)]
         for rank in sorted(set(SOURCE_RANK.values())):  # best source first
-            pool = [r for r in refs if SOURCE_RANK.get(r["source"], 9) == rank]
+            pool = [r for r in mine if SOURCE_RANK.get(r["source"], 9) == rank]
             ref, score = _match(e, pool) if pool else (None, 0.0)
             if ref is not None:
                 break
         contradiction = False
         if ref is not None and ref["source"] in EXCHANGES:
-            other, _ = _match(e, [r for r in refs if r["source"] in EXCHANGES and r["source"] != ref["source"]])
+            other, _ = _match(e, [r for r in mine if r["source"] in EXCHANGES and r["source"] != ref["source"]])
             if other is not None:
                 ref = consensus(ref, other)  # None when the two exchanges contradict each other
                 contradiction = ref is None

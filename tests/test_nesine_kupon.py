@@ -126,3 +126,23 @@ def test_contradicting_exchanges_are_not_priced():
     assert ng.consensus(a, b)["ou"] is None  # contradictory totals are dropped, 1X2 still averaged
     c = {"source": "Matchbook (borsa)", "x12": [4.0, 4.0, 2.0]}
     assert ng.consensus(a, c) is None
+
+
+def test_wrong_pairing_is_rejected_and_each_reference_used_once():
+    import datetime as dt
+    from types import SimpleNamespace
+
+    import nesine_global as ng
+
+    ko = dt.datetime(2026, 11, 19, 16, 0, tzinfo=dt.timezone.utc)
+
+    def ev(code, home, away, ms, hours=0):
+        odds = dict(zip(("MS 1", "MS 0", "MS 2"), ms))
+        return SimpleNamespace(code=code, home=home, away=away, kickoff=ko + dt.timedelta(hours=hours), odds_of=odds.get)
+
+    salt = ev(1, "AL Salt", "Al Yarmouk", (1.29, 3.62, 5.46))
+    ahli = ev(2, "AL Ahli Doha", "AL Shamal", (2.69, 3.32, 1.79), hours=2.5)
+    ref = {"home": "Al-Ahli", "away": "Al-Shamal", "kickoff": ahli.kickoff, "x12": [3.19, 4.21, 2.23]}
+    assert not ng._consistent(salt, ref)  # Nesine says ~70% home, the reference says ~31%
+    assert ng._consistent(ahli, ref)
+    assert ng._owners([salt, ahli], [ref])[id(ref)] == 2

@@ -27,6 +27,11 @@ python scripts/nesine_global.py --date 2026-11-19
    `.github/workflows/global-odds.yml`) günde 5 kez çekilip `data/global_odds/latest/` altına
    yazılır; sabah görevi önce `git pull` yapar. Hiçbir referansı olmayan maç **fiyatlanmaz**;
    adil fiyat asla Nesine'nin kendi oranından türetilmez.
+   **Eşleştirme güvenliği:** maç adı + başlama saati (±3 saat) benzerliğiyle eşlenir; her global fiyat
+   en çok benzeyen tek Nesine maçına aittir ve Nesine'nin kendi 1X2'si (marjsız) referanstan 15 puandan
+   fazla ayrışırsa eşleşme reddedilir (19 Kasım: Al Salt – Al Yarmouk, Katar'daki Al-Ahli – Al-Shamal'a
+   bağlanmıştı). İki borsa 1X2'de 8 puandan fazla ayrışırsa maç fiyatlanmaz, Alt/Üst'te ayrışırsa
+   Alt/Üst kullanılmaz.
 3. Referans 1X2 (+ varsa Alt/Üst) marjdan arındırılır (power yöntemi), gol beklentileri hiçbir
    model önseli olmadan (fund_weight = 0) bu fiyata uydurulur ve Nesine'nin her seçimi — İY/MS,
    KG, gol aralığı, handikap, kombineler, ilk gol — tek tutarlı gol dağılımından fiyatlanır
