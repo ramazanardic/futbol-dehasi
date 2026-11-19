@@ -10,6 +10,21 @@ from quantfoot.markets.omni_markets import OmniMarketBundle
 
 MIN_ALLOWED_ODDS: float = 1.20
 
+# Competitions the models were never trained or calibrated on (training data: men's leagues).
+# Model probabilities there are unreliable, so no recommendation is produced by default.
+_UNCALIBRATED_TOKENS: tuple[str, ...] = (
+    "women", "wchampions", "eng.w.", "reina", "frauen", "féminine", "feminine",
+    "femenina", "femminile", "nwsl", "w-league", "(k)", "kadın",
+)
+
+
+def is_uncalibrated_competition(league: str | None) -> bool:
+    """Return True for competitions outside the models' calibration domain (e.g. women's football)."""
+    if not league:
+        return False
+    low = league.lower()
+    return any(tok in low for tok in _UNCALIBRATED_TOKENS)
+
 
 @dataclass(frozen=True)
 class MatchRiskContext:
@@ -61,6 +76,8 @@ class CouponPlan:
     average_leg_probability: float
     legs: tuple[MarketRecommendation, ...]
     eliminated_traps: tuple[str, ...] = field(default_factory=tuple)
+    reached_target: bool = True  # False when the pool could not reach target_odds within max_legs
+    expected_value: float = 0.0  # joint_probability * achieved_odds - 1 (assumes independent legs)
 
 
 def _categorize_selection(sel: str) -> str:
@@ -215,6 +232,7 @@ def select_best_valid_bet(
     min_odds: float = MIN_ALLOWED_ODDS,
     min_prob: float = 0.54,
     specialty_mode: str | None = None,
+    allow_uncalibrated: bool = False,
 ) -> list[MarketRecommendation]:
     """Evaluate all markets for a fixture, enforce >= 1.20 odds & risk guards, and rank best valid options.
 
@@ -226,7 +244,12 @@ def select_best_valid_bet(
         - "both_halves_btts": Evaluates `1Y ve 2Y KG Var`; if unsafe for coupons, steps down to `2. Yarı KG Var / KG Var`.
         - "ht_ft": Evaluates the 9 `İY/MS` (`1/1, 0/1, 2/2, 0/2, 0/0, 1/2, 2/1...`) outcomes.
         - "goal_bands": Evaluates `0-1 Gol, 2-3 Gol, 3-5 Gol, 2-4 Gol, +6 Gol`.
+    allow_uncalibrated : bool
+        By default competitions outside the calibration domain (see `is_uncalibrated_competition`,
+        e.g. women's football) return no recommendations, because model probabilities there are unreliable.
     """
+    if not allow_uncalibrated and is_uncalibrated_competition(league):
+        return []
     odds_map = offered_odds_map or {}
     ctx = risk_ctx or MatchRiskContext()
     blocked, penalties = audit_match_risks(bundle, ctx)
@@ -270,7 +293,7 @@ def select_best_valid_bet(
     for sel in candidate_keys:
         if sel not in all_probs:
             continue
-        if sel in blocked and specialty_mode not in ("ht_ft",):
+        if sel in blocked:
             continue
 
         prob = float(all_probs[sel])
@@ -338,8 +361,15 @@ def build_target_odds_coupon(
     min_leg_odds: float = MIN_ALLOWED_ODDS,
     max_legs: int = 8,
     title: str | None = None,
+    min_leg_ev: float | None = 0.0,
 ) -> CouponPlan:
     """Build the highest-probability coupon whose combined odds reach `>= target_odds`.
+
+    Only legs with model `ev >= min_leg_ev` are eligible (default: positive expected value).
+    A parlay of independent legs is Kelly-optimal only when every leg is +EV on its own
+    (Long 2026, arXiv:2603.26620); combining -EV legs compounds the bookmaker margin.
+    Legs priced with estimated odds carry a built-in margin and are therefore excluded by
+    default. Pass `min_leg_ev=None` to disable the filter.
 
     Uses beam search over match candidates (at most 1 pick per match and 1 pick per group_id
     when provided) to maximize `prod(leg.safety_score)` and `prod(leg.probability)` subject
@@ -351,7 +381,10 @@ def build_target_odds_coupon(
 
     for item in candidates_by_match:
         opts = [item] if isinstance(item, MarketRecommendation) else list(item)
-        valid_opts = [o for o in opts if o.offered_odds >= floor - 1e-9]
+        valid_opts = [
+            o for o in opts
+            if o.offered_odds >= floor - 1e-9 and (min_leg_ev is None or o.ev >= min_leg_ev - 1e-12)
+        ]
         if valid_opts:
             valid_opts.sort(key=lambda r: (r.safety_score, r.probability), reverse=True)
             best_safe = valid_opts[0]
@@ -433,11 +466,13 @@ def build_target_odds_coupon(
     avg_p = round(sum(l.probability for l in chosen_legs) / len(chosen_legs), 4) if chosen_legs else 0.0
 
     return CouponPlan(
-        title=title or f"QuantFoot-v6 Hedef {target_odds:.0f}x Garanti Kupon",
+        title=title or f"QuantFoot-v6 Hedef {target_odds:.0f}x Kupon",
         target_odds=target_odds,
         achieved_odds=achieved,
         joint_probability=joint_p,
         average_leg_probability=avg_p,
         legs=chosen_legs,
         eliminated_traps=tuple(all_traps[:8]),
+        reached_target=best_completed is not None,
+        expected_value=round(math.exp(final_log_p + final_log_o) - 1.0, 4) if chosen_legs else 0.0,
     )

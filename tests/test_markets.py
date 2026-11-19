@@ -254,3 +254,33 @@ def test_omni_markets_bundle_identities_and_all_markets():
     assert b.top3_score_cluster["prob"] > b.top2_score_cluster["prob"] > 0.0
 
 
+
+
+@pytest.mark.parametrize("mu_h,mu_a,league", [(1.6, 1.1, "e0"), (2.4, 0.6, "fifa.friendly"), (3.0, 0.4, "u21")])
+def test_omni_htft_matches_both_ht_and_ft_marginals(mu_h, mu_a, league):
+    from quantfoot.markets.omni_markets import compute_omni_markets
+
+    b = compute_omni_markets(mu_h, mu_a, league=league)
+    for code, key in (("1", "İY 1"), ("0", "İY 0"), ("2", "İY 2")):
+        row = sum(v for k, v in b.ht_ft.items() if k.startswith(code + "/"))
+        assert row == pytest.approx(b.ht_1x2[key], abs=2e-3)
+    for code in ("1", "0", "2"):
+        col = sum(v for k, v in b.ht_ft.items() if k.endswith("/" + code))
+        assert col == pytest.approx(b.ft_1x2[code], abs=2e-3)
+
+
+def test_omni_first_half_fgm_matches_halves_btts_parametrization():
+    from quantfoot.markets.halves_btts import half_model_params
+    from quantfoot.markets.omni_markets import compute_omni_markets
+    from quantfoot.markets.tail_goals import com_poisson_pmf
+
+    mu_h, mu_a = 1.6, 1.1
+    a1, _, _, fgm_1h, _ = half_model_params("e0")
+    p_h = com_poisson_pmf(mu_h * (a1 + 0.0023), 1.10, 7)
+    p_a = com_poisson_pmf(mu_a * (a1 - 0.0023), 1.10, 7)
+    ph, pa = 1.0 - p_h[0], 1.0 - p_a[0]
+    # Same binary FGM as halves_btts: P(0-0) = p0_h*p0_a*(1 + fgm*ph*pa), marginals preserved.
+    expected_1h_00 = p_h[0] * p_a[0] * (1.0 + fgm_1h * ph * pa)
+
+    b = compute_omni_markets(mu_h, mu_a, league="e0")
+    assert b.ht_ou["İY 0.5 Alt"] == pytest.approx(expected_1h_00, abs=1e-3)

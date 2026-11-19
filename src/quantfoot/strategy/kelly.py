@@ -31,9 +31,12 @@ def baker_mchale_kelly_fraction(
     max_stake: float = 0.03,
 ) -> float:
     """Compute Baker & McHale (2013) parameter-uncertainty shrunken fractional Kelly stake."""
-    base = kelly_fraction(prob, decimal_odds, multiplier=multiplier, max_stake=max_stake)
-    if base <= 0.0 or prob_std <= 0.0:
-        return base
+    if prob_std <= 0.0:
+        return kelly_fraction(prob, decimal_odds, multiplier=multiplier, max_stake=max_stake)
+    # Shrink the uncapped fractional stake first, then apply the cap.
+    base = kelly_fraction(prob, decimal_odds, multiplier=multiplier, max_stake=float("inf"))
+    if base <= 0.0:
+        return 0.0
     edge = prob * decimal_odds - 1.0
     sigma_edge = decimal_odds * prob_std
     shrinkage = (edge * edge) / (edge * edge + sigma_edge * sigma_edge)

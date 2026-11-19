@@ -172,7 +172,8 @@ def test_quantfoot_v6_risk_guards_step_down_and_target_odds_coupon():
         bm = compute_omni_markets(1.75 + 0.05 * (idx % 3), 0.70, league="uefa.nations")
         r_list = select_best_valid_bet(
             f"M_{idx}", f"Home_{idx}", f"Away_{idx}", "UNL", "22:45", bm,
-            offered_odds_map={"MS 1": 1.52, "1.5 Üst": 1.30, "2-4 Gol": 1.46},
+            # MS 1 / 2-4 Gol priced above fair (+EV); 1.5 Üst at 1.30 is -EV and must be filtered out.
+            offered_odds_map={"MS 1": 1.72, "1.5 Üst": 1.30, "2-4 Gol": 1.85},
             risk_ctx=MatchRiskContext(group_id=f"G_{idx}"),
         )
         match_pool.append(r_list)
@@ -182,4 +183,60 @@ def test_quantfoot_v6_risk_guards_step_down_and_target_odds_coupon():
         assert plan.achieved_odds >= target
         assert len(plan.legs) >= 1
         assert all(leg.offered_odds >= 1.20 for leg in plan.legs)
+        assert all(leg.ev > 0.0 for leg in plan.legs)
+        assert plan.reached_target and plan.expected_value > 0.0
 
+
+
+def test_baker_mchale_shrinks_before_capping():
+    from quantfoot.strategy.kelly import baker_mchale_kelly_fraction
+
+    # Uncapped quarter-Kelly 0.0833 shrunk by ~0.94 is still above the 3% cap.
+    assert baker_mchale_kelly_fraction(0.6, 2.5, prob_std=0.05) == pytest.approx(0.03)
+    # Below the cap the shrinkage still applies.
+    small = baker_mchale_kelly_fraction(0.52, 2.0, prob_std=0.05, max_stake=1.0)
+    assert 0.0 < small < 0.25 * (0.52 * 2.0 - 1.0) / 1.0
+
+
+def test_ht_ft_mode_respects_complacency_blocks():
+    from quantfoot.markets.omni_markets import compute_omni_markets
+    from quantfoot.strategy.coupon_builder import MatchRiskContext, select_best_valid_bet
+
+    bundle = compute_omni_markets(0.8, 2.0, league="e0")
+    recs = select_best_valid_bet(
+        "m1", "H", "A", "e0", "", bundle,
+        risk_ctx=MatchRiskContext(away_complacent=True),
+        specialty_mode="ht_ft",
+    )
+    sels = {r.selection for r in recs}
+    assert "İY/MS 2/2" not in sels and "İY/MS 0/2" not in sels
+
+
+def test_coupon_builder_rejects_negative_ev_legs():
+    from quantfoot.markets.omni_markets import compute_omni_markets
+    from quantfoot.strategy.coupon_builder import build_target_odds_coupon, select_best_valid_bet
+
+    pool = []
+    for idx in range(6):
+        b = compute_omni_markets(1.8, 0.7, league="e0")
+        # Bookmaker-like odds below fair value: every leg is -EV.
+        pool.append(select_best_valid_bet(f"M{idx}", "H", "A", "e0", "", b, offered_odds_map={"MS 1": 1.45, "1.5 Üst": 1.28}))
+    assert all(r.ev < 0 for recs in pool for r in recs)
+    plan = build_target_odds_coupon(pool, target_odds=10.0)
+    assert plan.legs == () and plan.reached_target is False
+    # The old behaviour is still available explicitly.
+    assert build_target_odds_coupon(pool, target_odds=10.0, min_leg_ev=None).legs
+
+
+def test_uncalibrated_competitions_get_no_recommendations():
+    from quantfoot.markets.omni_markets import compute_omni_markets
+    from quantfoot.strategy.coupon_builder import is_uncalibrated_competition, select_best_valid_bet
+
+    for name in ("UEFA Women's Champions League", "uefa.wchampions", "Spanish Copa de la Reina", "Chelsea (K) - PSG (K)"):
+        assert is_uncalibrated_competition(name)
+    for name in ("UEFA Champions League", "E0", "Brazilian Serie A", None):
+        assert not is_uncalibrated_competition(name)
+
+    b = compute_omni_markets(2.7, 0.7, league="uefa.wchampions")
+    assert select_best_valid_bet("m", "Chelsea", "PSG", "UEFA Women's Champions League", "", b) == []
+    assert select_best_valid_bet("m", "Chelsea", "PSG", "UEFA Women's Champions League", "", b, allow_uncalibrated=True)

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+import re
+
 import numpy as np
 from scipy.special import gammaln, roots_genlaguerre
 
@@ -51,6 +53,8 @@ _HALF_MODEL_PROFILES: tuple[tuple[str, tuple[float, float, float, float, float]]
     ("p1", (0.445, 0.025, 0.00, 0.08, 0.00)),
 )
 
+_DIVISION_CODE = re.compile(r"[a-z]{1,2}\d?")
+
 
 @dataclass(frozen=True)
 class HalvesBttsSummary:
@@ -79,7 +83,8 @@ def half_model_params(league_slug: str | None) -> tuple[float, float, float, flo
         return (0.440, 0.025, 0.00, 0.08, 0.00)
     low = league_slug.lower()
     for token, profile in _HALF_MODEL_PROFILES:
-        if token in low:
+        # Short football-data division codes (e0, sp1, t1 ...) match exactly; slugs match as substrings.
+        if (low == token) if _DIVISION_CODE.fullmatch(token) else (token in low):
             return profile
     return (0.440, 0.025, 0.00, 0.08, 0.00)
 
