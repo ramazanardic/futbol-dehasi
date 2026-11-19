@@ -186,8 +186,9 @@ python scripts/nesine_kupon.py --hedef 10 --min-mac 4 --min-olasilik 0.55  # kom
   çoğu zaman daha olasıdır (19 Kasım, hedef 10: tek bacak %8.1, 6 bacaklı kombine %4.6).
   `--min-mac` kombine ister, ama bunun bedeli tutma olasılığıdır.
 
-- `--yontem guvenli` (varsayılan): her maçın en olası seçimi, %100'e en yakından başlanarak hedefe kadar
-  eklenir. `--yontem optimum`: hedefe ulaşanlar arasında birleşik olasılığı en yüksek kupon (kesin DP).
+- `--yontem optimum` (varsayılan, 19 Kasım kararı): hedefe ulaşanlar arasında kuponun tamamının tutma
+  olasılığı en yüksek kupon (kesin DP); en çok 7 maç, her bacak ≥ %55 ve ≥ 1.20. `--yontem guvenli`: her maçın
+  en olası seçimi, %100'e en yakından başlanarak hedefe kadar eklenir.
   19 Kasım, hedef 20: guvenli 20 maç, her biri %70–80, birleşik **%0.2**; optimum 3 maç **%4.1**.
   Her bacak tek başına güvenli görünse de 20 tane %72'lik bacağın birlikte tutma şansı %0.2'dir.
 - `--dogrudan`: yalnızca doğrudan global fiyatı olan bacaklar (model türevi hiç kullanılmaz).

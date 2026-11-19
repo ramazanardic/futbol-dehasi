@@ -1,6 +1,6 @@
 """Nesine kuponu: olasılıklar global keskin fiyattan, toplam oran Nesine oranlarından.
 
-    python scripts/nesine_kupon.py --hedef 10
+    python scripts/nesine_kupon.py --hedef 10              # en çok 7 maç, her bacak ≥ %55 ve ≥ 1.20
     python scripts/nesine_kupon.py --hedef 5 --adet 3 --max-mac 6 --min-oran 1.20
 
 Kural:
@@ -42,6 +42,7 @@ from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
 SHARP_SOURCES = ("Pinnacle", "Smarkets", "Matchbook", "Betfair")
 RES = 0.002  # log-odds bucket width
 MIN_LEG_ODDS = 1.20  # user rule: never a selection below 1.20
+MAX_LEGS = 7  # user rule (19 Nov): at most 7 matches per coupon, whatever the target
 MAX_PRICE_AGE_H = 3.0  # global price older than this may predate team news / line-ups: not used in coupons
 
 
@@ -292,14 +293,14 @@ def main() -> None:
     ap.add_argument("--hedef", type=float, required=True, help="Hedef toplam Nesine oranı (ör. 10)")
     ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
     ap.add_argument("--adet", type=int, default=3, help="Kaç alternatif kupon (maçlar birbirinden ayrı)")
-    ap.add_argument("--yontem", choices=("guvenli", "optimum"), default="guvenli",
-                    help="guvenli: en yüksek olasılıklı maçtan başlayıp hedefe kadar ekle (varsayılan); "
-                         "optimum: hedefe ulaşan kuponlar arasında birleşik olasılığı en yüksek olan")
-    ap.add_argument("--max-mac", type=int, default=None, help="En çok maç (guvenli: 30, optimum: 8)")
+    ap.add_argument("--yontem", choices=("optimum", "guvenli"), default="optimum",
+                    help="optimum: hedefe ulaşan kuponlar arasında kuponun tamamının tutma olasılığı en yüksek olan "
+                         "(varsayılan, kullanıcı kararı 19 Kasım); guvenli: en olası maçtan başlayıp hedefe kadar ekle")
+    ap.add_argument("--max-mac", type=int, default=None, help="En çok maç (varsayılan 7, kullanıcı kuralı)")
     ap.add_argument("--min-mac", type=int, default=1, help="Kupondaki en az maç sayısı (kombine için ör. 3)")
     ap.add_argument("--min-oran", type=float, default=1.20, help="Bacak başına en düşük Nesine oranı (kullanıcı kuralı: 1,20)")
     ap.add_argument("--min-olasilik", type=float, default=None,
-                    help="Bacak başına en düşük global olasılık (guvenli: 0.60, optimum: 0)")
+                    help="Bacak başına en düşük global olasılık (optimum: 0.55, guvenli: 0.60)")
     ap.add_argument("--espn", action="store_true", help="ESPN (keskin olmayan) referanslı maçları da kullan")
     ap.add_argument("--ortak-mac", action="store_true",
                     help="Kuponlar aynı maçı paylaşabilir; aynı bahis ve birbirini kesin yatıran bahis yasak")
@@ -309,7 +310,7 @@ def main() -> None:
     print(f"Global veri: {refresh_global_data()}")
     matches, _, _ = analyze_day(dt.date.fromisoformat(args.tarih), verbose=False)
     now = dt.datetime.now(TSI)
-    min_prob = args.min_olasilik if args.min_olasilik is not None else (0.60 if args.yontem == "guvenli" else 0.0)
+    min_prob = args.min_olasilik if args.min_olasilik is not None else (0.60 if args.yontem == "guvenli" else 0.55)
     pools = candidates(matches, now, args.min_oran, min_prob, args.espn, args.dogrudan)
     print(f"{sum(1 for m in matches if m.get('status') == 'fiyatlandı')} maç global fiyatlı; {len(pools)} maç kupona uygun "
           f"(başlamamış, {'ESPN dahil' if args.espn else 'yalnız keskin referans'}).")
@@ -317,7 +318,7 @@ def main() -> None:
     if stale:
         print(f"⚠ {stale} maçın global fiyatı {MAX_PRICE_AGE_H:g} saatten eski: kupona alınmadı (GitHub verisi yenilenmeli).")
 
-    max_legs = args.max_mac or (30 if args.yontem == "guvenli" else 8)
+    max_legs = args.max_mac or MAX_LEGS
     coupons, used = [], set()
     for _ in range(args.adet):
         chosen = [leg for c in coupons for leg in c["legs"]]
@@ -366,10 +367,15 @@ def main() -> None:
         md += ["", f"Kuponun tutma olasılığı %{c['probability'] * 100:.1f}: düşük oranlı bir bacak bile kesin değildir "
                    "(ör. 1,20 oranlı seçim globalde ~%75-80 ihtimal demektir; her 4-5 denemeden biri tutmaz).", ""]
     if args.yontem == "guvenli" and coupons:
-        ref = best_coupon(pools, args.hedef, 8)
+        ref = best_coupon(pools, args.hedef, max_legs)
         if ref:
             md += [f"> Karşılaştırma: aynı hedef için birleşik olasılığı en yüksek kupon {len(ref['legs'])} maçla "
                    f"%{ref['probability'] * 100:.1f} (bkz. --yontem optimum).", ""]
+    if args.yontem == "optimum" and coupons:
+        ref = safest_first_coupon(pools, args.hedef, max_legs)
+        md += [("> Karşılaştırma: en düşük oranları biriktiren eski 'güvenli' yöntem aynı hedef için "
+                f"{len(ref['legs'])} maçla %{ref['probability'] * 100:.1f}." if ref else
+                f"> Karşılaştırma: eski 'güvenli' yöntem bu hedefe {max_legs} maçla ulaşamıyor."), ""]
     md += ["> Fiyat: **doğrudan** = olasılık bu seçimin kendi global borsa fiyatından; **model** = global 1X2 ve Alt/Üst "
            "fiyatından gol modeliyle türetildi (daha az güvenilir). Yalnız doğrudan için: --dogrudan."]
     d = DAILY / args.tarih

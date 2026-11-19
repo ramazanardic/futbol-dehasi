@@ -117,7 +117,10 @@ def main() -> None:
                 _run(["results", "--date", y], log)
                 _run(["verify", "--date", y], log)
             _run(["summary"], log)
-            _run(["run", "--date", today.isoformat()], log)
+            # Old model: predictions only (CLV research); its "value" coupons are no longer written
+            # because they come from the model's own structure, not from global prices.
+            _run(["predict", "--date", today.isoformat()], log)
+            _run(["report", "--date", today.isoformat()], log)
             # Pull the sharp prices GitHub Actions fetched abroad (data/global_odds/latest), then price
             # the Nesine bulletin against them (Pinnacle -> Smarkets -> ESPN).
             _pull(log)
