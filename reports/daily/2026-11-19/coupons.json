@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-19",
+  "min_ev": 0.02,
+  "value_singles": [
+    {
+      "selection": "2.5 Alt",
+      "odds": 2.05,
+      "prob": 0.52498,
+      "ev": 0.0762,
+      "event_id": "401841308",
+      "match": "Vasco da Gama - Internacional",
+      "league": "Brazilian Serie A"
+    },
+    {
+      "selection": "3.5 Alt",
+      "odds": 2.05,
+      "prob": 0.50772,
+      "ev": 0.0408,
+      "event_id": "401933535",
+      "match": "Orlando City SC - FC Cincinnati",
+      "league": "MLS"
+    },
+    {
+      "selection": "2.5 Alt",
+      "odds": 1.952,
+      "prob": 0.53117,
+      "ev": 0.0368,
+      "event_id": "401841317",
+      "match": "Vitória - Red Bull Bragantino",
+      "league": "Brazilian Serie A"
+    }
+  ],
+  "coupons": [
+    {
+      "title": "Hedef 3x (yalnızca artı EV bacaklar)",
+      "target_odds": 3.0,
+      "reached_target": false,
+      "achieved_odds": 0.0,
+      "joint_probability": 0.0,
+      "expected_value": 0.0,
+      "legs": []
+    },
+    {
+      "title": "Hedef 5x (yalnızca artı EV bacaklar)",
+      "target_odds": 5.0,
+      "reached_target": false,
+      "achieved_odds": 0.0,
+      "joint_probability": 0.0,
+      "expected_value": 0.0,
+      "legs": []
+    },
+    {
+      "title": "Hedef 10x (yalnızca artı EV bacaklar)",
+      "target_odds": 10.0,
+      "reached_target": false,
+      "achieved_odds": 0.0,
+      "joint_probability": 0.0,
+      "expected_value": 0.0,
+      "legs": []
+    }
+  ]
+}

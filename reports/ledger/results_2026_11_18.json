@@ -1,0 +1,150 @@
+{
+  "401841310": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      2,
+      0
+    ],
+    "ft90": [
+      2,
+      0
+    ]
+  },
+  "401841312": {
+    "completed": false,
+    "status": "70'"
+  },
+  "401841313": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      2,
+      1
+    ],
+    "ft90": [
+      2,
+      1
+    ]
+  },
+  "401841314": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      2,
+      1
+    ]
+  },
+  "401841315": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      0,
+      1
+    ]
+  },
+  "401916979": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      2,
+      0
+    ]
+  },
+  "401916980": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      1,
+      0
+    ]
+  },
+  "401916981": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      1,
+      1
+    ],
+    "ft90": [
+      3,
+      1
+    ]
+  },
+  "401916982": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      0,
+      2
+    ]
+  },
+  "401928497": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      3
+    ],
+    "ft90": [
+      0,
+      3
+    ]
+  },
+  "401928505": {
+    "completed": true,
+    "status": "AET",
+    "ht": [
+      1,
+      1
+    ],
+    "ft90": [
+      1,
+      1
+    ]
+  },
+  "401928524": {
+    "completed": true,
+    "status": "AET",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      1,
+      1
+    ]
+  },
+  "401928559": {
+    "completed": true,
+    "status": "FT",
+    "ht": [
+      0,
+      0
+    ],
+    "ft90": [
+      0,
+      1
+    ]
+  }
+}

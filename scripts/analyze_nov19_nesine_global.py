@@ -1004,7 +1004,7 @@ def _write_markdown_reports(results: list[dict], coupons: list[dict], specials: 
     # Update ledger INDEX.md idempotently
     index_path = REPO_ROOT / "reports" / "ledger" / "INDEX.md"
     if index_path.exists():
-        idx_lines = [ln for ln in index_path.read_text(encoding="utf-8").splitlines() if "| **2026-11-19**" not in ln]
+        idx_lines = [ln for ln in index_path.read_text(encoding="utf-8").splitlines() if "QuantFoot-v6.1 (Global Benchmark)" not in ln]
         idx_lines.append(
             "| **2026-11-19** | `QuantFoot-v6.1 (Global Benchmark)` | 59 Maç | "
             "[today_all_59_nesine_global_2026_11_19.md](../today_all_59_nesine_global_2026_11_19.md) / "

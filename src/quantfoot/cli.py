@@ -621,6 +621,61 @@ def _cmd_slate(args: argparse.Namespace) -> None:
         print(f"Total Portfolio Exposure: {np.sum(res['fractions'])*100:.2f}% (${args.bankroll * np.sum(res['fractions']):,.2f})")
 
 
+def _parse_player(spec: str):
+    """'Ad;Ev;gol_payı;asist_payı;dakika;şut90;isabetli90;sarı90' -> PlayerProfile."""
+    from quantfoot.markets.player_markets import PlayerProfile
+
+    parts = [x.strip() for x in spec.split(";")]
+    nums = [float(x) if x else 0.0 for x in parts[2:]] + [0.0] * 6
+    return PlayerProfile(
+        name=parts[0], team=parts[1], goal_share=nums[0], assist_share=nums[1],
+        minutes=nums[2] or 90.0, shots_p90=nums[3], sot_p90=nums[4], yellow_p90=nums[5],
+    )
+
+
+def _cmd_markets(args: argparse.Namespace) -> None:
+    """Print fair probabilities / odds for all 20 market families, plus optional Bet Builder."""
+    from quantfoot.markets.bet_builder import price_bet_builder
+    from quantfoot.markets.goal_markets import Outcome
+    from quantfoot.markets.market_book import build_market_book
+
+    players = [_parse_player(p) for p in (args.player or [])]
+    book = build_market_book(
+        args.mu_home, args.mu_away, league=args.league, division=args.division,
+        corners=tuple(args.corners) if args.corners else None,
+        yellows=tuple(args.yellows) if args.yellows else None,
+        players=players or None,
+    )
+    models = book.pop("_modeller")
+    export: dict[str, dict[str, object]] = {}
+    for fam, sels in book.items():
+        if args.family and args.family.lower() not in fam.lower():
+            continue
+        print(f"\n=== {fam} ===")
+        export[fam] = {}
+        for name, val in sels.items():
+            if isinstance(val, Outcome):
+                print(f"  {name:<34} adil oran {val.fair_odds:7.2f}  (kazan {val.win:.3f} yarım+ {val.half_win:.3f} iade {val.push:.3f} yarım- {val.half_lose:.3f})")
+                export[fam][name] = {"win": val.win, "half_win": val.half_win, "push": val.push, "half_lose": val.half_lose, "fair_odds": val.fair_odds}
+            else:
+                fair = 1.0 / val if val > 1e-9 else float("inf")
+                print(f"  {name:<34} %{val * 100:6.2f}   adil oran {fair:8.2f}")
+                export[fam][name] = val
+    if args.builder:
+        q = price_bet_builder(
+            args.builder, models["joint"], players={p.name: p for p in players},
+            corners=models["corners"], cards=models["cards"], timing=models["timing"], offered_odds=args.builder_odds,
+        )
+        print("\n=== Bet Builder ===")
+        print(f"  Seçimler: {' & '.join(q.selections)}")
+        print(f"  Olasılık %{q.probability * 100:.2f} | adil oran {q.fair_odds:.2f} | bağımsız çarpım %{q.independent_product * 100:.2f} | korelasyon oranı {q.correlation_ratio:.3f}")
+        if q.ev is not None:
+            print(f"  Verilen oran {q.offered_odds:.2f} -> EV {q.ev:+.1%}")
+    if args.json:
+        Path(args.json).write_text(json.dumps(export, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"\nJSON: {args.json}")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="quantfoot", description="Quantitative Football Betting Engine")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -670,6 +725,21 @@ def build_parser() -> argparse.ArgumentParser:
     p_sl.add_argument("--kelly-mult", type=float, default=0.25)
     p_sl.add_argument("--bankroll", type=float, default=1000.0)
     p_sl.set_defaults(func=_cmd_slate)
+
+    p_mk = sub.add_parser("markets", help="Price all 20 market families (and an optional Bet Builder) for one match")
+    p_mk.add_argument("--mu-home", type=float, required=True, help="Expected home goals")
+    p_mk.add_argument("--mu-away", type=float, required=True, help="Expected away goals")
+    p_mk.add_argument("--league", default=None, help="Competition slug for goal regimes (e.g. eng.1, uefa.nations)")
+    p_mk.add_argument("--division", default=None, help="Division code for corner/card baselines (e.g. E0, T1)")
+    p_mk.add_argument("--corners", nargs=2, type=float, default=None, metavar=("HOME", "AWAY"), help="Expected corners")
+    p_mk.add_argument("--yellows", nargs=2, type=float, default=None, metavar=("HOME", "AWAY"), help="Expected yellow cards")
+    p_mk.add_argument("--player", action="append", default=None,
+                      help="'Ad;Ev|Dep;gol_payı;asist_payı;dakika;şut90;isabetli90;sarı90' (repeatable)")
+    p_mk.add_argument("--family", default=None, help="Only print families whose name contains this text")
+    p_mk.add_argument("--builder", nargs="+", default=None, help="Bet Builder selections, e.g. 'MS 1' '2.5 Üst' 'Kane: Gol Atar'")
+    p_mk.add_argument("--builder-odds", type=float, default=None, help="Offered Bet Builder odds (for EV)")
+    p_mk.add_argument("--json", default=None, help="Write all probabilities to this JSON file")
+    p_mk.set_defaults(func=_cmd_markets)
 
     return parser
 

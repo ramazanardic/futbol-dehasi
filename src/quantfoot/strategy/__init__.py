@@ -8,6 +8,7 @@ from quantfoot.strategy.coupon_builder import (
     MatchRiskContext,
     audit_match_risks,
     build_target_odds_coupon,
+    is_uncalibrated_competition,
     select_best_valid_bet,
 )
 from quantfoot.strategy.kelly import (
@@ -38,6 +39,7 @@ __all__ = [
     "evaluate_1x2_value",
     "evaluate_halves_btts_value",
     "evaluate_multimarket_value",
+    "is_uncalibrated_competition",
     "kelly_fraction",
     "maclean_doubling_before_halving",
     "optimize_correlated_kelly",
