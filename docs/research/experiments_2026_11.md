@@ -117,3 +117,13 @@ ikiye bölünür (seçim / test). 38 maç:
 Veri her çekimle büyür; test düzenli olarak tekrarlanacak. Kaynaklar: ESPN futbol sakatlık uçları
 (lig ve takım) boş; ücretsiz resmî tek kaynak Premier Lig (FPL). `penaltyblog` (MIT) incelendi: içerdiği
 modeller ve marj yöntemleri sistemde zaten var; entegrasyon ölçülebilir kazanç getirmez.
+
+## 7. İlk yarı / oyun durumu kalibrasyonu (19 Kasım)
+
+`scripts/calibrate_halves.py`: ilk yarı gol payı ve ikinci yarı oyun durumu çarpanları (0-0, gollü
+beraberlik, 1 ve 2+ farkla önde / geride) doğrudan kote edilen yarı pazarlarına (İY/MS, İY sonucu,
+İY Alt/Üst, İY KG, 2Y…) uyduruldu, maçların yarısında test edildi. Test KL 0.00028 → 0.00026 (%7).
+Geride kalan takımın 1 farkta ikinci yarı tempo artışı **+%10.5** çıktı: Maia vd. (2023) ile birebir
+(+%10). Ancak çözüm üç parametrede sınıra dayandı ve İY/MS'li maç sayısı çok az (≈5): **üretime
+alınmadı**; `compute_omni_markets(state_mults=...)` ile parametreli hâle getirildi, veri birikince
+tekrarlanacak.
