@@ -37,13 +37,26 @@ FD_FILES = {
 }
 SMARKETS = "https://api.smarkets.com/v3"
 
+DEADLINE = time.monotonic() + 8 * 60  # hard time budget for the whole run (seconds)
+
+
+def _say(msg: str) -> None:
+    print(msg, flush=True)
+
+
+def _time_left() -> float:
+    return DEADLINE - time.monotonic()
+
+
 LOG: dict = {"started_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"), "errors": [], "counts": {}, "samples": {}}
 
 
 def _get(url: str, **params) -> requests.Response:
     for attempt in range(3):
+        if _time_left() < 5:
+            raise TimeoutError("time budget exhausted")
         try:
-            r = requests.get(url, params=params or None, headers=UA, timeout=30)
+            r = requests.get(url, params=params or None, headers=UA, timeout=(10, 20))
             if r.status_code == 429:
                 time.sleep(5 * (attempt + 1))
                 continue
@@ -122,29 +135,37 @@ def _chunks(items: list, n: int):
         yield items[i:i + n]
 
 
-def smarkets(days: int = 3) -> list[dict]:
+def smarkets(days: int = 2, max_events: int = 600) -> list[dict]:
     now = dt.datetime.now(dt.timezone.utc)
     events, url = [], f"{SMARKETS}/events/"
     params = {"type": "football_match", "state": "upcoming", "limit": 300, "sort": "start_datetime,id",
               "start_datetime_max": (now + dt.timedelta(days=days)).strftime("%Y-%m-%dT%H:%M:%SZ")}
-    for _ in range(20):  # pagination
+    seen_pages: set[str] = set()
+    for _ in range(10):  # pagination (bounded)
         r = _get(url, **params) if params else _get(url)
+        _say(f"smarkets events page: HTTP {r.status_code}")
         if r.status_code != 200:
             LOG["errors"].append(f"smarkets events HTTP {r.status_code}: {r.text[:200]}")
             break
         js = r.json()
         events += js.get("events", [])
         nxt = (js.get("pagination") or {}).get("next_page")
-        if not nxt:
+        if not nxt or nxt in seen_pages or len(events) >= max_events:
             break
+        seen_pages.add(nxt)
         url, params = f"{SMARKETS}/events/{nxt}", None
     LOG["counts"]["smarkets_events"] = len(events)
     if events:
         LOG["samples"]["smarkets_event"] = events[0]
+    events = events[:max_events]
+    _say(f"smarkets events: {len(events)}")
     by_event = {str(e["id"]): e for e in events}
 
     markets = []
     for ids in _chunks(list(by_event), 50):
+        if _time_left() < 60:
+            LOG["errors"].append("smarkets: time budget reached while fetching markets")
+            break
         r = _get(f"{SMARKETS}/events/{','.join(ids)}/markets/")
         if r.status_code == 200:
             markets += r.json().get("markets", [])
@@ -165,7 +186,11 @@ def smarkets(days: int = 3) -> list[dict]:
 
     wanted = {str(m["id"]): (m, _kind(m)) for m in markets if _kind(m)}
     contracts, quotes = [], {}
+    _say(f"smarkets markets: {len(markets)}, wanted: {len(wanted)}")
     for ids in _chunks(list(wanted), 50):
+        if _time_left() < 30:
+            LOG["errors"].append("smarkets: time budget reached while fetching quotes")
+            break
         rc = _get(f"{SMARKETS}/markets/{','.join(ids)}/contracts/")
         if rc.status_code == 200:
             contracts += rc.json().get("contracts", [])
@@ -220,20 +245,27 @@ def smarkets(days: int = 3) -> list[dict]:
     return out
 
 
-def main() -> None:
-    OUT.mkdir(parents=True, exist_ok=True)
-    refs: list[dict] = []
-    for fn in (smarkets, football_data):
-        try:
-            refs += fn()
-        except Exception as exc:  # keep the other source if one fails
-            LOG["errors"].append(f"{fn.__name__}: {type(exc).__name__}: {exc}")
+def _write(refs: list[dict]) -> None:
     LOG["counts"]["references_total"] = len(refs)
     LOG["finished_utc"] = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
     (OUT / "references.json").write_text(json.dumps({"generated_utc": LOG["finished_utc"], "references": refs},
                                                     ensure_ascii=False, indent=1), encoding="utf-8")
     (OUT / "fetch_log.json").write_text(json.dumps(LOG, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
-    print(json.dumps(LOG["counts"]), "errors:", len(LOG["errors"]))
+    _say(json.dumps(LOG["counts"]) + f" errors: {len(LOG['errors'])}")
+
+
+def main() -> None:
+    OUT.mkdir(parents=True, exist_ok=True)
+    refs: list[dict] = []
+    # Pinnacle (football-data) first: small, fast, most reliable. Saved before the exchange fetch.
+    for fn in (football_data, smarkets):
+        _say(f"--- {fn.__name__} (time left {_time_left():.0f}s)")
+        try:
+            refs += fn()
+        except Exception as exc:  # keep the other source if one fails
+            LOG["errors"].append(f"{fn.__name__}: {type(exc).__name__}: {exc}")
+            _say(f"{fn.__name__} failed: {type(exc).__name__}: {exc}")
+        _write(refs)
 
 
 if __name__ == "__main__":
