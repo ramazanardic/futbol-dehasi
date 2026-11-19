@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import numpy as np
 
 from quantfoot.markets.halves_btts import compute_halves_btts, half_model_params
 from quantfoot.markets.tail_goals import (
+    _apply_dixon_coles_low_scores,
     com_poisson_pmf,
     league_tail_regime,
     regime_score_matrix,
@@ -60,6 +61,10 @@ class OmniMarketBundle:
     top2_score_cluster: dict[str, float | list[str]]
     top3_score_cluster: dict[str, float | list[str]]
     score_entropy: float
+    # Coherent joint goal distribution J[h1, a1, h2, a2] (1st-half and 2nd-half goals per team).
+    # Its full-time score marginal equals the FT matrix and its 1H marginal equals the HT matrix,
+    # so every goal-based market and same-game combination can be priced exactly from it.
+    joint: np.ndarray | None = field(default=None, repr=False, compare=False)
 
     def all_probabilities(self) -> dict[str, float]:
         """Return a flat dictionary of all market selection probabilities."""
@@ -79,6 +84,40 @@ class OmniMarketBundle:
         out.update(self.btts)
         out.update(self.combos)
         return out
+
+
+def rake_joint_to_margins(
+    joint: np.ndarray,
+    target_ft: np.ndarray,
+    target_ht: np.ndarray,
+    max_iter: int = 300,
+    tol: float = 1e-10,
+) -> np.ndarray:
+    """Iterative proportional fitting of J[h1, a1, h2, a2] to a full-time and a half-time score margin.
+
+    The FT margin is the distribution of (h1 + h2, a1 + a2); the HT margin is (h1, a1).
+    `target_ft` must be (2G-1) x (2G-1) for a G x G x G x G joint.
+    """
+    g = joint.shape[0]
+    n = 2 * g - 1
+    if target_ft.shape != (n, n):
+        raise ValueError(f"target_ft must have shape {(n, n)}, got {target_ft.shape}")
+    i1, j1, i2, j2 = np.indices(joint.shape)
+    ft_idx = ((i1 + i2) * n + (j1 + j2)).ravel()
+    ht_idx = (i1 * g + j1).ravel()
+    tgt_ft = (target_ft / target_ft.sum()).ravel()
+    tgt_ht = (target_ht / target_ht.sum()).ravel()
+    flat = joint.ravel().astype(float).copy()
+    flat /= flat.sum()
+    for _ in range(max_iter):
+        cur_ft = np.bincount(ft_idx, flat, minlength=n * n)
+        flat *= np.divide(tgt_ft, cur_ft, out=np.zeros_like(tgt_ft), where=cur_ft > 0)[ft_idx]
+        cur_ht = np.bincount(ht_idx, flat, minlength=g * g)
+        flat *= np.divide(tgt_ht, cur_ht, out=np.zeros_like(tgt_ht), where=cur_ht > 0)[ht_idx]
+        if np.max(np.abs(np.bincount(ft_idx, flat, minlength=n * n) - tgt_ft)) < tol:
+            break
+    flat /= flat.sum()
+    return flat.reshape(joint.shape)
 
 
 def compute_omni_markets(
@@ -137,8 +176,9 @@ def compute_omni_markets(
     p1_a = com_poisson_pmf(lam1_a, nu_half, max_half_goals)
     mat_1h = np.outer(p1_h, p1_a)
     if abs(fgm_1h) > 1e-6:
-        s1_h = np.where(np.arange(max_half_goals + 1) == 0, -1.0, p1_h[0] / max(1e-6, 1.0 - p1_h[0]))
-        s1_a = np.where(np.arange(max_half_goals + 1) == 0, -1.0, p1_a[0] / max(1e-6, 1.0 - p1_a[0]))
+        # Binary FGM scores matching halves_btts: P(both score) = ph*pa*(1 + fgm*p0_h*p0_a)
+        s1_h = np.where(np.arange(max_half_goals + 1) == 0, -(1.0 - p1_h[0]), p1_h[0])
+        s1_a = np.where(np.arange(max_half_goals + 1) == 0, -(1.0 - p1_a[0]), p1_a[0])
         cop1 = np.clip(1.0 + fgm_1h * np.outer(s1_h, s1_a), 0.25, 2.5)
         mat_1h = mat_1h * cop1
     mat_1h /= mat_1h.sum()
@@ -181,21 +221,15 @@ def compute_omni_markets(
         l2a = lam2_a_base * ma * norm_a
         p2h = com_poisson_pmf(l2h, nu_half, max_half_goals)
         p2a = com_poisson_pmf(l2a, nu_half, max_half_goals)
-        m2 = np.outer(p2h, p2a)
-        m2[0, 0] *= max(0.2, 1.0 - l2h * l2a * dc_2h)
-        m2[1, 0] *= max(0.2, 1.0 + l2h * dc_2h)
-        m2[0, 1] *= max(0.2, 1.0 + l2a * dc_2h)
-        m2[1, 1] *= max(0.2, 1.0 - dc_2h)
+        # Dixon-Coles: tau(1,0) = 1 + mu_away*rho, tau(0,1) = 1 + mu_home*rho (shared implementation)
+        m2 = _apply_dixon_coles_low_scores(np.outer(p2h, p2a), l2h, l2a, dc_2h)
         m2 /= m2.sum()
         mats_2h[sk] = m2
 
-    htft_raw = np.zeros((3, 3), dtype=float)
-    mat_2h = np.zeros_like(mat_1h)
+    # Joint J[h1, a1, h2, a2] = P(1H score) * P(2H score | 1H game state)
+    joint = np.zeros((G, G, G, G), dtype=float)
     for i1 in range(G):
         for j1 in range(G):
-            p1 = float(mat_1h[i1, j1])
-            if p1 < 1e-12:
-                continue
             if i1 == 0 and j1 == 0:
                 sk = "00"
             elif i1 == j1:
@@ -208,25 +242,28 @@ def compute_omni_markets(
                 sk = "h_plus2"
             else:
                 sk = "a_plus2"
-            m2 = mats_2h[sk]
-            mat_2h += p1 * m2
-            ht_i = _outcome_idx(i1, j1)
-            for i2 in range(G):
-                for j2 in range(G):
-                    ft_i = _outcome_idx(i1 + i2, j1 + j2)
-                    htft_raw[ht_i, ft_i] += p1 * float(m2[i2, j2])
+            joint[i1, j1] = float(mat_1h[i1, j1]) * mats_2h[sk]
 
-    mat_2h /= mat_2h.sum()
-    htft_raw /= htft_raw.sum()
+    # Rake the joint so its FT score margin equals mat_ft and its 1H margin equals mat_1h.
+    n_ft = 2 * G - 1
+    target_ft = np.zeros((n_ft, n_ft), dtype=float)
+    k_ft = min(n_ft, mat_ft.shape[0], mat_ft.shape[1])
+    target_ft[:k_ft, :k_ft] = mat_ft[:k_ft, :k_ft]
+    joint = rake_joint_to_margins(joint, target_ft, mat_1h)
 
-    # Align HT/FT column marginals smoothly with mat_ft 1X2 probabilities via 1-step IPF raking
+    mat_2h = joint.sum(axis=(0, 1))
+    i1g, j1g, i2g, j2g = np.indices(joint.shape)
+    ht_code = np.sign(i1g - j1g)
+    ft_code = np.sign((i1g + i2g) - (j1g + j2g))
+    order = (1, 0, -1)  # rows/cols: '1', '0', '2'
+    htft_aligned = np.array(
+        [[float(joint[(ht_code == r) & (ft_code == c)].sum()) for c in order] for r in order]
+    )
+    # FT markets below read the raked joint's FT margin (identical to mat_ft up to truncation).
+    mat_ft = target_ft / target_ft.sum()
     p_ft_1 = float(np.sum(np.tril(mat_ft, k=-1)))
     p_ft_0 = float(np.trace(mat_ft))
     p_ft_2 = float(np.sum(np.triu(mat_ft, k=1)))
-    target_ft = np.array([p_ft_1, p_ft_0, p_ft_2], dtype=float)
-    col_sums = np.maximum(htft_raw.sum(axis=0), 1e-9)
-    htft_aligned = htft_raw * (target_ft[None, :] / col_sums[None, :])
-    htft_aligned /= htft_aligned.sum()
 
     # 4. Extract 1X2, Double Chance, HT 1X2, 2H 1X2, and HT/FT
     ft_1x2 = {
@@ -409,4 +446,5 @@ def compute_omni_markets(
         top2_score_cluster=top2_cluster,
         top3_score_cluster=top3_cluster,
         score_entropy=round(entropy, 4),
+        joint=joint,
     )
