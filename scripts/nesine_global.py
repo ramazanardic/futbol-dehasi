@@ -3,10 +3,11 @@
     python scripts/nesine_global.py --date 2026-11-19            # writes reports/daily/<date>/nesine_global.{json,md}
     python scripts/nesine_global.py --date 2026-11-19 --min-ev 0.0
 
-Reference hierarchy per match (first available wins):
-  1. Pinnacle (the global sharp reference) via The Odds API — needs ODDS_API_KEY (free key at the-odds-api.com).
-  2. ESPN odds feed (DraftKings / ESPN BET) — free, but a recreational book, so weaker.
-  3. None — the match is listed but NOT priced (fair prices are never derived from Nesine's own odds).
+Reference price: ESPN's public odds feed (DraftKings) — free, no key, no quota. Sources were
+chosen to stay free and durable: football-data.co.uk (Pinnacle odds), Polymarket and Kalshi are
+blocked in Turkey, Pinnacle has no free official feed, and odds aggregators (Sofascore,
+Flashscore, OddsPortal) forbid automated collection. Matches without an ESPN price are listed
+but NOT priced (fair prices are never derived from Nesine's own odds).
 
 From the reference 1X2 (+ O/U when quoted) the margin is removed (power method), goal rates are
 fitted with no model prior (fund_weight = 0) and every Nesine market — İY/MS, KG, gol aralığı,
@@ -23,12 +24,9 @@ import argparse
 import datetime as dt
 import difflib
 import json
-import os
 from pathlib import Path
 import re
 import unicodedata
-
-import requests
 
 from quantfoot.data.live_espn import fetch_espn_slate
 from quantfoot.data.nesine import TSI, fetch_bulletin, league_names, market_overrounds, parse_bulletin
@@ -41,7 +39,6 @@ from quantfoot.strategy.coupon_builder import is_uncalibrated_competition
 
 ROOT = Path(__file__).resolve().parents[1]
 DAILY = ROOT / "reports" / "daily"
-ODDS_API = "https://api.the-odds-api.com/v4"
 _STOP = r"\b(fc|cf|sc|ac|sk|fk|nk|cd|ca|club|de|da|the|utd|united|k|w|women|kadinlar|u\d+|bk|if|ik|afc|scc|sp|ba)\b"
 
 
@@ -91,34 +88,6 @@ def espn_references(dates: list[str]) -> list[dict]:
     return refs
 
 
-def pinnacle_references(api_key: str) -> list[dict]:
-    """All soccer competitions The Odds API lists, Pinnacle prices only (h2h + totals)."""
-    sports = requests.get(f"{ODDS_API}/sports", params={"apiKey": api_key}, timeout=20).json()
-    keys = [s["key"] for s in sports if s.get("group") == "Soccer" and s.get("active") and not s.get("has_outrights")]
-    refs = []
-    for key in keys:
-        r = requests.get(f"{ODDS_API}/sports/{key}/odds", timeout=20, params={
-            "apiKey": api_key, "bookmakers": "pinnacle", "markets": "h2h,totals", "oddsFormat": "decimal"})
-        if r.status_code != 200:
-            continue
-        for ev in r.json():
-            pin = next((b for b in ev.get("bookmakers", []) if b["key"] == "pinnacle"), None)
-            if not pin:
-                continue
-            x12, ou = None, None
-            for mk in pin.get("markets", []):
-                oc = {o["name"]: o for o in mk.get("outcomes", [])}
-                if mk["key"] == "h2h" and {ev["home_team"], ev["away_team"], "Draw"} <= set(oc):
-                    x12 = [oc[ev["home_team"]]["price"], oc["Draw"]["price"], oc[ev["away_team"]]["price"]]
-                if mk["key"] == "totals" and "Over" in oc and "Under" in oc and float(oc["Over"]["point"]) % 1 == 0.5:
-                    ou = (float(oc["Over"]["point"]), [oc["Over"]["price"], oc["Under"]["price"]])
-            if x12:
-                refs.append({"source": "Pinnacle", "home": ev["home_team"], "away": ev["away_team"],
-                             "kickoff": dt.datetime.fromisoformat(ev["commence_time"].replace("Z", "+00:00")), "x12": x12, "ou": ou})
-        print(f"  {key}: kalan istek {r.headers.get('x-requests-remaining')}")
-    return refs
-
-
 # ---- pricing ----------------------------------------------------------------------------
 def price_event(event, ref: dict, league: str) -> dict:
     p1x2 = devig(ref["x12"], method="power").probabilities
@@ -161,7 +130,6 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--date", default=dt.datetime.now(TSI).date().isoformat())
     ap.add_argument("--min-ev", type=float, default=0.0)
-    ap.add_argument("--api-key", default=None, help="The Odds API anahtarı (yoksa ODDS_API_KEY ortam değişkeni)")
     args = ap.parse_args()
     day = dt.date.fromisoformat(args.date)
     nxt = day + dt.timedelta(days=1)
@@ -172,22 +140,13 @@ def main() -> None:
               if e.kickoff.date() == day or (e.kickoff.date() == nxt and e.kickoff.hour < 7)]
     print(f"Nesine {args.date}: {len(events)} futbol maçı")
 
-    refs: list[dict] = []
-    key = args.api_key or os.environ.get("ODDS_API_KEY")
-    if key:
-        print("Pinnacle (The Odds API) çekiliyor…")
-        refs += pinnacle_references(key)
-    else:
-        print("ODDS_API_KEY yok: Pinnacle kullanılamıyor, ESPN yedek kaynak kullanılacak.")
-    refs += espn_references([day.isoformat(), nxt.isoformat()])
+    refs = espn_references([day.isoformat(), nxt.isoformat()])
+    print(f"ESPN: {len(refs)} maçta oran bulundu")
 
     out, priced = [], 0
     for e in sorted(events, key=lambda x: x.kickoff):
         league = leagues.get(e.league_code, str(e.league_code))
-        pin = [r for r in refs if r["source"] == "Pinnacle"]
-        ref, score = _match(e, pin) if pin else (None, 0.0)
-        if ref is None:
-            ref, score = _match(e, [r for r in refs if r["source"] != "Pinnacle"])
+        ref, score = _match(e, refs)
         rec = {"code": e.code, "kickoff": e.kickoff.strftime("%Y-%m-%d %H:%M"), "league": league, "home": e.home, "away": e.away,
                "nesine_ms": [e.odds_of(f"MS {c}") for c in "102"], "n_nesine_selections": len(e.selections)}
         if ref is None:
@@ -201,14 +160,14 @@ def main() -> None:
     d = DAILY / args.date
     d.mkdir(parents=True, exist_ok=True)
     (d / "nesine_global.json").write_text(json.dumps({"date": args.date, "generated_at": dt.datetime.now(TSI).isoformat(timespec="seconds"),
-                                                      "pinnacle": bool(key), "nesine_margins": market_overrounds(payload, {e.code for e in events}),
+                                                      "nesine_margins": market_overrounds(payload, {e.code for e in events}),
                                                       "matches": out}, ensure_ascii=False, indent=2, default=str),
                                           encoding="utf-8")
     md = [f"# {args.date} — Nesine bülteni, global referans fiyatına göre", "",
-          f"Kaynak: {'Pinnacle (The Odds API) + ' if key else ''}ESPN yedek. {len(events)} maçın {priced}'i fiyatlandı; "
+          f"Referans: ESPN (DraftKings; ücretsiz, anahtarsız). {len(events)} maçın {priced}'i fiyatlandı; "
           "global fiyatı olmayan maçlar Nesine oranından türetilmez, fiyatlanmaz.", "",
           "> EV = global adil olasılık × Nesine oranı − 1. Türev pazarlar (İY/MS, KG, aralık, kombine…) referans 1X2 + Alt/Üst'ten "
-          "kalibre edilmiş ortak gol dağılımıyla hesaplanır. ESPN referansı keskin değildir; Pinnacle anahtarı eklenince güven artar.", ""]
+          "kalibre edilmiş ortak gol dağılımıyla hesaplanır. DraftKings keskin bir büro değildir: küçük artı EV'ler gürültü olabilir.", ""]
     value = [(m, s) for m in out if m["status"] == "fiyatlandı" for s in m["selections"] if s["ev"] >= args.min_ev]
     value.sort(key=lambda x: x[1]["ev"], reverse=True)
     md += ["## Nesine'nin global adil fiyatın üstünde verdiği seçimler", ""]

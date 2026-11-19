@@ -49,8 +49,9 @@ adil CLV +5.6%.
 %9.9 üstünde — eski / limitli fiyatlar içeriyor olabilir. (c) Kazanan hesaplar kısıtlanır
 (Kaunitz ve ark. 2017). (d) Yalnızca yaşadığın yerde yasal olan bürolarla oynanmalı.
 
-Canlı uygulama: `scripts/sharp_scan.py` (The Odds API anahtarı gerekir) ve kendi büronun oranlarını
-Pinnacle'a karşı kontrol etmek için `sharp_scan.py check --my-odds`.
+Canlı uygulama: ücretsiz, anahtarsız ve Türkiye'den erişilebilir bir Pinnacle kaynağı bulunamadı
+(football-data.co.uk, Polymarket ve Kalshi erişime engelli; oran toplayıcıları otomatik toplamayı yasaklıyor).
+Canlı karşılaştırma ESPN (DraftKings) ile yapılır: `scripts/nesine_global.py`.
 
 ## 4. Türev pazarların kalibrasyonu (piyasaya sabitlenmiş motor)
 

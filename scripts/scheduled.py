@@ -49,7 +49,7 @@ def main() -> None:
                 _run(["verify", "--date", y], log)
             _run(["summary"], log)
             _run(["run", "--date", today.isoformat()], log)
-            # Nesine bulletin priced against the global reference (Pinnacle when ODDS_API_KEY is set).
+            # Nesine bulletin priced against the free global reference (ESPN / DraftKings).
             _run(["--date", today.isoformat()], log, ROOT / "scripts" / "nesine_global.py")
         elif mode == "snapshot":
             for day in (yesterday, today):

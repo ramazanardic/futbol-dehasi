@@ -253,7 +253,7 @@ def cmd_coupons(args: argparse.Namespace) -> None:
           "> **Bu liste bahis önerisi değildir.** Gol beklentisi bu büronun oranlarına uydurulduğu için buradaki "
           "artı EV, modelin gol dağılımı ile piyasanın yapısal farkıdır. Geçmiş testte (16.423 maç, 2021–2026) repodaki "
           "15 modelin hiçbiri Bet365 fiyatına bilgi katmadı (havuz ağırlığı w = 0.00; `reports/research/pooling_test.md`). "
-          "Kanıtı olan tek yöntem keskin–yumuşak oran farkıdır: `scripts/sharp_scan.py`.", ""]
+          "Nesine için global referans karşılaştırması: `scripts/nesine_global.py`.", ""]
     md += ["## Artı EV tekiller", ""]
     if singles:
         md += ["| Maç | Seçim | Oran | Model P | EV |", "|---|---|---|---|---|"]

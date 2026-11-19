@@ -8,11 +8,11 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
   fiyatına bilgi katmadı (havuz ağırlığı w = 0.00). Aşağıdaki eski bulgular (ör. "16/16 %100") örneklem
   içidir. Ayrıntı: [docs/research/experiments_2026_11.md](docs/research/experiments_2026_11.md).
 - **Kanıtı olan yöntem keskin–yumuşak oran farkıdır** (Pinnacle marjsız fiyatı vs yumuşak büro):
-  pozitif CLV ve ROI. Canlı tarama: `scripts/sharp_scan.py`.
+  pozitif CLV ve ROI (geçmiş veride). Ücretsiz ve erişilebilir bir Pinnacle kaynağı olmadığı için canlıda ESPN kullanılır.
 - **20 pazar ailesi + Bet Builder** tek tutarlı dağılımdan: [docs/markets.md](docs/markets.md). Kulüp gol
   rejimi piyasaya sabitlenmiş türev pazarlarda yeniden kalibre edildi (ν = 1.0, ρ = −0.03).
 - **Günlük akış:** `scripts/daily.py` (CLV ve havuz testi dahil), zamanlanmış görevler `scripts/scheduled.py`.
-- **Nesine analizi:** bültenin her seçimi global referans fiyatına (Pinnacle; yoksa ESPN) göre fiyatlanır:
+- **Nesine analizi:** bültenin her seçimi ücretsiz global referans fiyatına (ESPN / DraftKings) göre fiyatlanır:
   `scripts/nesine_global.py`, [docs/nesine.md](docs/nesine.md). İlk ölçüm: Nesine marjı pazarların çoğunda %19–23.
 - Yol haritası: [docs/research/roadmap_2026_11.md](docs/research/roadmap_2026_11.md).
 

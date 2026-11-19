@@ -13,11 +13,8 @@ python scripts/nesine_global.py --date 2026-11-19
    (`quantfoot.data.nesine`). Pazar kodları (MTID) Nesine'nin kendi tanım tablosuyla çözülür
    (`src/quantfoot/data/nesine_markets.json`, sitenin `CCAll.min.js` dosyasından; 599 pazar) —
    tahmin edilmez.
-2. **Global referans fiyat** (sırayla):
-   - **Pinnacle** — dünyada "keskin" referans kabul edilen büro; The Odds API üzerinden.
-     `ODDS_API_KEY` gerekir.
-   - **ESPN** (DraftKings / ESPN BET) — ücretsiz yedek; keskin değil.
-   - Referans yoksa maç **fiyatlanmaz**. Adil fiyat asla Nesine'nin kendi oranından türetilmez.
+2. **Global referans fiyat:** ESPN'in herkese açık oran akışı (DraftKings) — ücretsiz, anahtarsız,
+   kotasız. Referansı olmayan maç **fiyatlanmaz**; adil fiyat asla Nesine'nin kendi oranından türetilmez.
 3. Referans 1X2 (+ varsa Alt/Üst) marjdan arındırılır (power yöntemi), gol beklentileri hiçbir
    model önseli olmadan (fund_weight = 0) bu fiyata uydurulur ve Nesine'nin her seçimi — İY/MS,
    KG, gol aralığı, handikap, kombineler, ilk gol — tek tutarlı gol dağılımından fiyatlanır
@@ -37,17 +34,20 @@ python scripts/nesine_global.py --date 2026-11-19
 Sonuç: Nesine'de kalıcı avantaj ancak tek tek yanlış fiyatlanmış seçimlerde ve keskin bir referansla
 ölçülerek aranabilir. Her gün raporun ilk tablosu tam olarak bunu listeler.
 
-## Pinnacle anahtarı ekleme
+## Neden Pinnacle değil? (kaynak seçimi)
 
-1. [the-odds-api.com](https://the-odds-api.com) üzerinden ücretsiz anahtar alın (hesabı sizin açmanız gerekir).
-2. Windows'ta kalıcı ortam değişkeni olarak kaydedin (yeni açılan terminallerde ve zamanlanmış
-   görevlerde geçerli olur):
+Sistemin ileride bozulmaması için yalnızca **ücretsiz, anahtarsız, kotasız ve Türkiye'den
+erişilebilir** kaynaklar kullanılır. 19 Kasım 2026'da denenenler:
 
-```bash
-setx ODDS_API_KEY "anahtarınız"
-```
+| Kaynak | Durum |
+|---|---|
+| football-data.co.uk (Pinnacle oranlı fikstür dosyaları) | Türkiye'de erişime engelli |
+| Polymarket, Kalshi (açık tahmin piyasası verisi) | Türkiye'den erişilemiyor (sertifika hatası) |
+| Pinnacle | Ücretsiz resmi veri akışı yok |
+| The Odds API vb. | Anahtar ve kota gerektiriyor (kaldırıldı) |
+| Sofascore / Flashscore / OddsPortal | Yalnızca kazıma ile; kullanım koşulları otomatik toplamayı yasaklıyor ve yapı değişince bozulur |
+| **ESPN (DraftKings)** | **Ücretsiz, anahtarsız, erişilebilir — kullanılan kaynak** |
 
-**Kredi notu:** Betik, The Odds API'nin listelediği bütün futbol yarışmalarını Pinnacle fiyatıyla
-çeker; her yarışma isteği yaklaşık 2 kredi harcar. Ücretsiz plan (aylık 500 kredi) günlük tam tarama
-için yetmeyebilir; düzenli kullanım için ücretli plan gerekir. The Odds API Pinnacle'ın listelediği
-her ligi kapsamaz (ör. Zambiya, Uganda); bu maçlar fiyatlanmadan listelenir.
+Sınırlamalar: ESPN küçük ligleri (ör. Mısır 2. Lig, Zambiya, Uganda, Irak) kapsamıyor; 19 Kasım'da
+61 Nesine maçının 9'u fiyatlanabildi. DraftKings keskin bir büro değildir, bu yüzden küçük artı
+EV'ler gürültü olabilir; asıl güçlü sinyal Nesine'nin yüksek marjıdır.
