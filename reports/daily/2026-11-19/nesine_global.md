@@ -1,6 +1,6 @@
 # 2026-11-19 — Nesine bülteni, global referans fiyatına göre
 
-Referans: ESPN (DraftKings; ücretsiz, anahtarsız). 61 maçın 9'i fiyatlandı; global fiyatı olmayan maçlar Nesine oranından türetilmez, fiyatlanmaz.
+Referans önceliği: Pinnacle → Smarkets borsası → ESPN. 60 maçın 9'i fiyatlandı; global fiyatı olmayan maçlar Nesine oranından türetilmez, fiyatlanmaz.
 
 > EV = global adil olasılık × Nesine oranı − 1. Türev pazarlar (İY/MS, KG, aralık, kombine…) referans 1X2 + Alt/Üst'ten kalibre edilmiş ortak gol dağılımıyla hesaplanır. DraftKings keskin bir büro değildir: küçük artı EV'ler gürültü olabilir.
 
@@ -16,15 +16,15 @@ Referans: ESPN (DraftKings; ücretsiz, anahtarsız). 61 maçın 9'i fiyatlandı;
 
 | Saat | Lig | Maç | Nesine 1/X/2 | Global adil 1/X/2 | Nesine MS marjı | Referans | En iyi EV |
 |---|---|---|---|---|---|---|---|
-| 20:45 | UEFA Şamp. Ligi Kadınlar  | FK Austria Wien (K) - B. Münih (K) | 15.60/7.85/- | 29.50/12.48/1.13 | - | ESPN | 3,5 Gol Alt/Üst: 3,5 Üst -18.2% |
+| 20:45 | UEFA Şamp. Ligi Kadınlar  | FK Austria Wien (K) - B. Münih (K) | 17.35/9.46/- | 29.50/12.48/1.13 | - | ESPN | 3,5 Gol Alt/Üst: 3,5 Alt -9.4% |
 | 20:45 | UEFA Şamp. Ligi Kadınlar  | Paris (K) - HB Koege (K) | 1.39/3.73/4.09 | 1.65/4.80/5.38 | %23.2 | ESPN | Maç Sonucu: 1 -15.9% |
-| 22:30 | Uruguay Prmr Ligi, Kapanış | CA Progreso - Torque | 4.71/3.72/1.33 | 6.38/5.10/1.55 | %23.3 | ESPN | 2,5 Gol Alt/Üst: 2,5 Alt -12.9% |
-| 23:00 | UEFA Şamp. Ligi Kadınlar  | Arsenal (K) - O. Lyon (K) | 3.65/3.50/1.48 | 4.56/4.28/1.83 | %23.5 | ESPN | 2,5 Gol Alt/Üst: 2,5 Üst -17.5% |
+| 22:30 | Uruguay Prmr Ligi, Kapanış | CA Progreso - Torque | 5.47/3.96/1.25 | 6.38/5.10/1.55 | %23.5 | ESPN | 1. Yarı Sonucu: X -11.7% |
+| 23:00 | UEFA Şamp. Ligi Kadınlar  | Arsenal (K) - O. Lyon (K) | 3.65/3.50/1.48 | 4.56/4.28/1.83 | %23.5 | ESPN | Maç Sonucu: 1 -17.9% |
 | 01:30 | Brezilya Serie A | Vitoria BA - Bragantino | 2.36/3.07/2.28 | 2.79/3.63/2.73 | %18.8 | ESPN | İlk Golü Hangi Takım Atar?: Olmaz +4.4% |
-| 01:30 | Brezilya Serie A | Vasco Da G. - Internacional | 1.42/3.70/4.70 | 1.62/4.59/6.12 | %18.7 | ESPN | İlk Golü Hangi Takım Atar?: Olmaz -12.4% |
-| 03:30 | Brezilya Serie A | Sao Paulo SP - Fluminense | 2.15/2.86/2.68 | 2.52/3.47/3.18 | %18.8 | ESPN | 1. Yarı / 2. Yarı Karşılıklı Gol: Evet/Evet -6.2% |
-| 03:30 | ABD Major Lig Playoff | Orlando City - Cincinnati | 2.19/3.53/2.24 | 2.57/4.17/2.69 | %18.6 | ESPN | 1. Yarı / 2. Yarı Karşılıklı Gol: Evet/Evet -11.4% |
-| 06:00 | ABD Major Lig Playoff | S. Sounders - Real Salt Lake | 1.74/3.44/3.14 | 2.02/4.26/3.71 | %18.4 | ESPN | 1. Yarı / 2. Yarı Karşılıklı Gol: Evet/Evet -12.7% |
+| 01:30 | Brezilya Serie A | Vasco Da G. - Internacional | 1.47/3.58/4.41 | 1.62/4.59/6.12 | %18.6 | ESPN | Deplasman 0,5 Gol Alt/Üst: 0,5 Alt -11.2% |
+| 03:30 | Brezilya Serie A | Sao Paulo SP - Fluminense | 2.15/2.86/2.68 | 2.52/3.47/3.18 | %18.8 | ESPN | 1. Yarı / 2. Yarı Karşılıklı Gol: Evet/Evet -10.8% |
+| 03:30 | ABD Major Lig Playoff | Orlando City - Cincinnati | 2.15/3.64/2.24 | 2.57/4.17/2.69 | %18.6 | ESPN | Maç Sonucu ve Karşılıklı Gol: X & Yok -5.8% |
+| 06:00 | ABD Major Lig Playoff | S. Sounders - Real Salt Lake | 1.74/3.44/3.14 | 2.02/4.26/3.71 | %18.4 | ESPN | 1. Yarı / 2. Yarı Karşılıklı Gol: Evet/Evet -10.2% |
 
 ## Nesine marjları (bugünkü maçlar, tam seçenek setleri)
 
@@ -32,68 +32,68 @@ Marj = oranların tersleri toplamı − 1. Pinnacle'da maç sonucu marjı tipik 
 
 | Pazar | Maç | Ortalama marj |
 |---|---|---|
-| Deplasman Herhangi Bir Yarıyı Kazanır | 5 | %18.7 |
+| Deplasman Herhangi Bir Yarıyı Kazanır | 5 | %18.6 |
 | Ev Sahibi Herhangi Bir Yarıyı Kazanır | 5 | %18.8 |
-| İlk Golü Hangi Takım Atar? | 11 | %21.3 |
-| Deplasman İki Yarıda da Gol | 11 | %22.0 |
+| İlk Golü Hangi Takım Atar? | 12 | %21.6 |
 | 1. Yarı Korner Handikap  (X) | 5 | %22.0 |
-| Her İki Yarıda da X Alt | 18 | %22.0 |
-| Ev Sahibi İki Yarıda da Gol | 17 | %22.0 |
 | Korner Handikap (X) | 15 | %22.1 |
-| Deplasman X Korner Alt/Üst | 6 | %22.1 |
+| Deplasman İki Yarıda da Gol | 11 | %22.1 |
+| Ev Sahibi İki Yarıda da Gol | 17 | %22.1 |
+| 1. Yarı X Korner Alt/Üst | 16 | %22.1 |
+| 1. Yarı Karşılıklı Gol | 17 | %22.1 |
 | X Kart Puanı Alt/Üst | 9 | %22.2 |
-| 1. Yarı X Korner Alt/Üst | 16 | %22.2 |
+| Deplasman X Korner Alt/Üst | 6 | %22.2 |
+| Her İki Yarıda da X Alt | 17 | %22.2 |
+| 3,5 Gol Alt/Üst | 23 | %22.2 |
 | X Korner Alt/Üst | 25 | %22.2 |
+| Ev Sahibi 2,5 Gol Alt/Üst | 13 | %22.2 |
 | Korner Tek/Çift | 5 | %22.3 |
+| Ev Sahibi X Korner Alt/Üst | 6 | %22.3 |
 | 1. Yarı En Çok Korner | 5 | %22.3 |
-| Ev Sahibi 2,5 Gol Alt/Üst | 13 | %22.3 |
-| 3,5 Gol Alt/Üst | 24 | %22.3 |
-| Deplasman Hangi Yarıda Daha Çok Gol Atar? | 23 | %22.3 |
 | Ev Sahibi Hangi Yarıda Daha Çok Gol Atar? | 23 | %22.3 |
-| Ev Sahibi X Korner Alt/Üst | 6 | %22.4 |
-| 2. Yarı Karşılıklı Gol | 27 | %22.4 |
-| 1. Yarı Karşılıklı Gol | 20 | %22.4 |
-| 1. Yarı 0,5 Gol Alt/Üst | 27 | %22.5 |
+| Deplasman Hangi Yarıda Daha Çok Gol Atar? | 23 | %22.4 |
+| 2. Yarı Karşılıklı Gol | 27 | %22.5 |
+| Deplasman 2,5 Gol Alt/Üst | 6 | %22.5 |
+| Deplasman 1,5 Gol Alt/Üst | 28 | %22.5 |
 | En Çok Gol Olacak Yarı | 24 | %22.5 |
-| 1. Yarı 2,5 Gol Alt/Üst | 6 | %22.5 |
-| 1,5 Gol Alt/Üst | 17 | %22.6 |
-| Deplasman 1,5 Gol Alt/Üst | 30 | %22.6 |
-| 1. Yarı 1,5 Gol Alt/Üst | 32 | %22.6 |
-| Deplasman 2,5 Gol Alt/Üst | 7 | %22.6 |
+| 1. Yarı 0,5 Gol Alt/Üst | 24 | %22.6 |
+| 1. Yarı 2,5 Gol Alt/Üst | 7 | %22.6 |
+| 1. Yarı 1,5 Gol Alt/Üst | 30 | %22.6 |
 | Ev Sahibi 1,5 Gol Alt/Üst | 30 | %22.6 |
-| Her İki Yarı da X Üst | 13 | %22.7 |
-| 2. Yarı Sonucu | 43 | %22.8 |
-| 1. Yarı Sonucu | 46 | %22.8 |
-| 1. Yarı Tek/Çift | 44 | %22.8 |
-| Deplasman 0,5 Gol Alt/Üst | 36 | %22.8 |
-| Deplasman 1.Y X Gol Alt/Üst | 41 | %22.8 |
-| 2,5 Gol Alt/Üst | 48 | %22.9 |
-| Ev Sahibi 1.Y X Gol Alt/Üst | 45 | %22.9 |
-| X Gol Alt/Üst | 18 | %22.9 |
+| Her İki Yarı da X Üst | 14 | %22.6 |
+| 1,5 Gol Alt/Üst | 18 | %22.6 |
+| X Gol Alt/Üst | 18 | %22.6 |
+| Deplasman 1.Y X Gol Alt/Üst | 40 | %22.7 |
+| 2. Yarı Sonucu | 40 | %22.7 |
+| 1. Yarı Sonucu | 43 | %22.8 |
+| Ev Sahibi 1.Y X Gol Alt/Üst | 42 | %22.8 |
+| 1. Yarı Tek/Çift | 41 | %22.8 |
+| 2,5 Gol Alt/Üst | 46 | %22.8 |
+| Deplasman 0,5 Gol Alt/Üst | 36 | %22.9 |
+| Tek/Çift | 54 | %22.9 |
 | Maç Sonucu | 54 | %22.9 |
-| Tek/Çift | 57 | %23.0 |
-| Karşılıklı Gol | 59 | %23.0 |
-| Ev Sahibi 0,5 Gol Alt/Üst | 29 | %23.0 |
-| Ev Sahibi 3,5 Gol Alt/Üst | 5 | %23.2 |
+| Karşılıklı Gol | 56 | %22.9 |
+| Ev Sahibi 0,5 Gol Alt/Üst | 26 | %23.0 |
+| Ev Sahibi 3,5 Gol Alt/Üst | 5 | %23.5 |
 | En Çok Korner | 5 | %23.8 |
-| 1. Yarı Korner Aralığı | 5 | %25.6 |
+| 1. Yarı Korner Aralığı | 5 | %25.7 |
 | Toplam Korner Aralığı | 5 | %25.7 |
-| 2,5 Alt/Üst ve Karşılıklı Gol | 23 | %25.7 |
+| 2,5 Alt/Üst ve Karşılıklı Gol | 23 | %25.8 |
 | 1. Yarı / 2. Yarı Karşılıklı Gol | 23 | %25.8 |
-| Toplam Gol Aralığı | 24 | %26.1 |
+| Toplam Gol Aralığı | 24 | %26.2 |
 | İlk Korner | 5 | %26.2 |
 | Maç Sonucu ve 1,5 Alt/Üst | 16 | %27.3 |
 | Maç Sonucu ve 2,5 Alt/Üst | 17 | %27.5 |
-| Maç Sonucu ve X Alt/Üst | 31 | %27.7 |
-| 1.Y Sonucu ve 1.Y X Alt/Üst | 23 | %27.9 |
+| Maç Sonucu ve X Alt/Üst | 30 | %27.7 |
+| 1.Y Sonucu ve 1.Y X Alt/Üst | 23 | %28.0 |
 | Maç Sonucu ve Karşılıklı Gol | 23 | %28.0 |
 | 1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol | 23 | %28.2 |
-| Handikaplı Maç Sonucu (X) | 76 | %28.5 |
+| Handikaplı Maç Sonucu (X) | 72 | %28.4 |
 | İlk Yarı/Maç Sonucu | 7 | %32.0 |
-| Hangi Takım Kaç Farkla Kazanır? | 7 | %55.0 |
-| İlk Yarı / Maç Skoru | 7 | %58.0 |
-| 1. Yarı Çifte Şans | 17 | %144.5 |
-| Çifte Şans | 31 | %145.5 |
+| Hangi Takım Kaç Farkla Kazanır? | 7 | %54.9 |
+| İlk Yarı / Maç Skoru | 7 | %58.2 |
+| 1. Yarı Çifte Şans | 15 | %144.3 |
+| Çifte Şans | 28 | %145.3 |
 
 ## Global fiyatı bulunamayan maçlar (fiyatlanmadı)
 
@@ -121,7 +121,6 @@ Marj = oranların tersleri toplamı − 1. Pinnacle'da maç sonucu marjı tipik 
 - 16:00 Uganda Premier Ligi: Gaddafi - Kataka
 - 16:00 Ürdün Kupası: AL Salt - Al Yarmouk
 - 16:00 İran Pro Ligi: Malavan Bandar Anzali - GOL Gohar
-- 16:45 Irak Ligi: Diyala - AL Kahraba
 - 18:00 Mısır Kupası: Al Mokawloon - Alqana
 - 18:00 Mısır Kupası: Al Masry - Asyut Petroleum
 - 18:00 Bulgaristan 2. Lig: Dobrudzha Dobrich - Fratria Varna

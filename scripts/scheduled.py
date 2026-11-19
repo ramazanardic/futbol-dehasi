@@ -49,7 +49,11 @@ def main() -> None:
                 _run(["verify", "--date", y], log)
             _run(["summary"], log)
             _run(["run", "--date", today.isoformat()], log)
-            # Nesine bulletin priced against the free global reference (ESPN / DraftKings).
+            # Pull the sharp prices GitHub Actions fetched abroad (data/global_odds/latest), then price
+            # the Nesine bulletin against them (Pinnacle -> Smarkets -> ESPN).
+            pull = subprocess.run(["git", "pull", "--rebase", "--autostash", "-q"], cwd=ROOT,
+                                  capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=300)
+            log.write(f"\n[git pull] çıkış kodu {pull.returncode} {pull.stderr.strip()}\n")
             _run(["--date", today.isoformat()], log, ROOT / "scripts" / "nesine_global.py")
         elif mode == "snapshot":
             for day in (yesterday, today):

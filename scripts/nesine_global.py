@@ -3,11 +3,14 @@
     python scripts/nesine_global.py --date 2026-11-19            # writes reports/daily/<date>/nesine_global.{json,md}
     python scripts/nesine_global.py --date 2026-11-19 --min-ev 0.0
 
-Reference price: ESPN's public odds feed (DraftKings) — free, no key, no quota. Sources were
-chosen to stay free and durable: football-data.co.uk (Pinnacle odds), Polymarket and Kalshi are
-blocked in Turkey, Pinnacle has no free official feed, and odds aggregators (Sofascore,
-Flashscore, OddsPortal) forbid automated collection. Matches without an ESPN price are listed
-but NOT priced (fair prices are never derived from Nesine's own odds).
+Reference price, best available per match (all free, no key, no quota):
+  1. Pinnacle — from football-data.co.uk fixture files
+  2. Smarkets exchange — bid/offer mid
+     (1 and 2 are not reachable from Turkey; GitHub Actions fetches them abroad into
+      data/global_odds/latest/references.json, see .github/workflows/global-odds.yml)
+  3. ESPN odds feed (DraftKings) — fetched locally, weakest reference.
+Matches without any reference are listed but NOT priced (fair prices are never derived from
+Nesine's own odds).
 
 From the reference 1X2 (+ O/U when quoted) the margin is removed (power method), goal rates are
 fitted with no model prior (fund_weight = 0) and every Nesine market — İY/MS, KG, gol aralığı,
@@ -72,6 +75,29 @@ def _match(event, candidates: list[dict], max_hours: float = 3.0, threshold: flo
 
 
 # ---- reference sources ------------------------------------------------------------------
+SOURCE_RANK = {"Pinnacle (football-data)": 0, "Smarkets (borsa)": 1, "ESPN (DraftKings/ESPN BET)": 2}
+GLOBAL_FILE = ROOT / "data" / "global_odds" / "latest" / "references.json"
+
+
+def global_references(max_age_hours: float = 30.0) -> tuple[list[dict], str | None]:
+    """Sharp references fetched abroad by GitHub Actions (empty if missing or stale)."""
+    if not GLOBAL_FILE.exists():
+        return [], None
+    data = json.loads(GLOBAL_FILE.read_text(encoding="utf-8"))
+    generated = data.get("generated_utc")
+    if generated:
+        age = dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(generated)
+        if age.total_seconds() > max_age_hours * 3600:
+            return [], generated
+    refs = []
+    for r in data.get("references", []):
+        try:
+            refs.append({**r, "kickoff": dt.datetime.fromisoformat(r["kickoff_utc"].replace("Z", "+00:00"))})
+        except (KeyError, TypeError, ValueError):
+            continue
+    return refs, generated
+
+
 def espn_references(dates: list[str]) -> list[dict]:
     refs = []
     for d in dates:
@@ -140,13 +166,21 @@ def main() -> None:
               if e.kickoff.date() == day or (e.kickoff.date() == nxt and e.kickoff.hour < 7)]
     print(f"Nesine {args.date}: {len(events)} futbol maçı")
 
-    refs = espn_references([day.isoformat(), nxt.isoformat()])
-    print(f"ESPN: {len(refs)} maçta oran bulundu")
+    sharp, generated = global_references()
+    print(f"Global (Pinnacle/Smarkets): {len(sharp)} referans (oluşturulma {generated or 'yok'})")
+    espn = espn_references([day.isoformat(), nxt.isoformat()])
+    print(f"ESPN: {len(espn)} maçta oran bulundu")
+    refs = sharp + espn
 
     out, priced = [], 0
     for e in sorted(events, key=lambda x: x.kickoff):
         league = leagues.get(e.league_code, str(e.league_code))
-        ref, score = _match(e, refs)
+        ref, score = None, 0.0
+        for rank in sorted(set(SOURCE_RANK.values())):  # best source first
+            pool = [r for r in refs if SOURCE_RANK.get(r["source"], 9) == rank]
+            ref, score = _match(e, pool) if pool else (None, 0.0)
+            if ref is not None:
+                break
         rec = {"code": e.code, "kickoff": e.kickoff.strftime("%Y-%m-%d %H:%M"), "league": league, "home": e.home, "away": e.away,
                "nesine_ms": [e.odds_of(f"MS {c}") for c in "102"], "n_nesine_selections": len(e.selections)}
         if ref is None:
@@ -164,7 +198,7 @@ def main() -> None:
                                                       "matches": out}, ensure_ascii=False, indent=2, default=str),
                                           encoding="utf-8")
     md = [f"# {args.date} — Nesine bülteni, global referans fiyatına göre", "",
-          f"Referans: ESPN (DraftKings; ücretsiz, anahtarsız). {len(events)} maçın {priced}'i fiyatlandı; "
+          f"Referans önceliği: Pinnacle → Smarkets borsası → ESPN. {len(events)} maçın {priced}'i fiyatlandı; "
           "global fiyatı olmayan maçlar Nesine oranından türetilmez, fiyatlanmaz.", "",
           "> EV = global adil olasılık × Nesine oranı − 1. Türev pazarlar (İY/MS, KG, aralık, kombine…) referans 1X2 + Alt/Üst'ten "
           "kalibre edilmiş ortak gol dağılımıyla hesaplanır. DraftKings keskin bir büro değildir: küçük artı EV'ler gürültü olabilir.", ""]
