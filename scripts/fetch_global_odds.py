@@ -41,7 +41,8 @@ SMARKETS = "https://api.smarkets.com/v3"
 DIRECT_TYPES = {"OVER_UNDER", "BTTS", "DOUBLE_CHANCE", "ODD_EVEN", "SCORE_RANGE", "HALF_FULL", "HALF_TIME_WINNER_3_WAY",
                 "SECOND_HALF_WINNER_3_WAY", "FIRST_HALF_OVER_UNDER", "SECOND_HALF_OVER_UNDER", "BTTS_FIRST_HALF",
                 "BTTS_SECOND_HALF", "BTTS_BOTH_HALVES", "HIGHEST_SCORING_HALF", "FIRST_HALF_ODD_EVEN", "WINNER_AND_BTTS",
-                "WINNER_AND_OVER", "BTTS_AND_OVER", "HALF_TIME_DOUBLE_CHANCE", "FIRST_HALF_WINNER_AND_BTTS"}
+                "WINNER_AND_OVER", "BTTS_AND_OVER", "HALF_TIME_DOUBLE_CHANCE", "FIRST_HALF_WINNER_AND_BTTS",
+                "CORNERS_OVER_UNDER", "FIRST_HALF_CORNERS_OVER_UNDER"}
 MAX_SPREAD = 0.04  # widest acceptable bid/offer spread (4 percentage points) for an exchange reference
 
 DEADLINE = time.monotonic() + 11 * 60  # hard time budget for the whole run (seconds)

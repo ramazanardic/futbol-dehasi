@@ -226,3 +226,11 @@ def test_recheck_odds_updates_changed_and_flags_missing(monkeypatch):
     assert [leg["status"] for leg in coupon["legs"]] == ["oran değişti", "kontrol edildi", "bültende yok / askıda"]
     assert coupon["legs"][0]["odds"] == 1.50 and coupon["nesine_odds"] == round(1.50 * 1.80, 2)
     assert len(notes) == 2
+
+
+def test_corner_quotes_map_and_are_direct_only():
+    import nesine_global as ng
+
+    assert ng._direct_name("Over/under 9.5 corners", "OVER|Over 9.5 corners") == "Korner 9.5 Üst"
+    assert ng._direct_name("First half over/under 4.5 corners", "UNDER|Under 4.5 corners") == "İY Korner 4.5 Alt"
+    assert ng._direct_name("First half over/under 1.5", "OVER|Over 1.5 goals") == "İY 1.5 Üst"

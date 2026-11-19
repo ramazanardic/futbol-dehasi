@@ -93,6 +93,38 @@ sakatlar, cezalılar, eksik kaleci ve uyarılar; kupon gerekçelerinde de sayıl
 kendisi çekmez (kaynağın koşulları otomatik çekimi yasaklıyor); yalnızca klasöre konan dosyayı okur.
 Dosya git'e girmez.
 
+## Sonuç takibi (tahminler gerçekten doğru mu?)
+
+Her analiz, başlamamış her maçın son tahminini `reports/daily/<tarih>/takip_kayit.json` dosyasına yazar
+(tüm seçimler: global olasılık, Nesine oranı, doğrudan/model). Sabah görevi dünü sonuçlandırır:
+
+```bash
+python scripts/nesine_takip.py sonuc --date 2026-11-19   # ESPN'den İY ve 90' skor, her seçim tuttu/tutmadı
+python scripts/nesine_takip.py rapor                      # reports/takip/ozet.md
+```
+
+Rapor: olasılık bandına göre tahmin vs gerçekleşen (kalibrasyon), Brier skoru, doğrudan fiyat vs model,
+bahis ailesine göre, maç başına en güvenilir tercih ve üretilen her kuponun sonucu. ESPN'de olmayan
+maçlar sonuçlanamaz.
+
+## Sistem durumu ve uyarı
+
+Her saatlik / kadro çalışması `reports/DURUM.md` yazar (global veri yaşı, son yedek tetikleme). Veri 8
+saatten eskiyse bilgisayarda Windows uyarı penceresi açılır.
+
+## İlk 11 saati
+
+`QuantFoot\Kadro10` ve `QuantFoot\Kadro30` görevleri her saatin 10. ve 30. dakikasında bugünü yeniden
+analiz eder (saatlik `Analiz` :50'de): kadrolar maçtan ~1 saat önce açıklandığında eksik kilit oyuncu ve
+geç kalan fiyat 20 dakika içinde rapora ve kupon filtresine yansır.
+
+## Yeni bahis aileleri (19 Kasım)
+
+1. Yarı Çifte Şans; ev / deplasman 1. yarı gol Alt/Üst; herhangi bir yarıyı kazanır; deplasman her iki
+yarıyı kazanır; takımın en çok gol attığı yarı; kaç farkla kazanır; 1. yarı / 2. yarı KG'nin dört sonucu;
+İlk Yarı / Maç Skoru. Hepsi aynı ortak gol dağılımından; tutarlılık testleri `tests/test_full_markets.py`.
+**Korner** Alt/Üst (maç ve 1. yarı) yalnızca borsanın kendi korner fiyatı olan maçlarda fiyatlanır.
+
 ## Haftalık analiz
 
 ```bash

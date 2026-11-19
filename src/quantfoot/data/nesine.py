@@ -96,8 +96,38 @@ def translate(mtid: int, outcome: int, sov: float | None, defs: dict[int, dict])
         return f"İY KG {label}", False
     if mtid == 599:
         return f"2Y KG {label}", False
-    if mtid == 801 and label == "Evet/Evet":
-        return "İki Yarıda KG Var", False
+    if mtid == 801:
+        if label == "Evet/Evet":
+            return "İki Yarıda KG Var", False
+        a, b = label.split("/")
+        yn = {"Evet": "Var", "Hayır": "Yok"}
+        return f"İY KG {yn[a]} & 2Y KG {yn[b]}", False
+    if mtid in (216, 217, 218, 219):  # total corners O/U (line from SOV)
+        if L is None or au is None:
+            return None
+        return f"{'İY ' if mtid in (218, 219) else ''}Korner {L} {au}", False
+    if mtid in (8, 62, 641):  # first-half double chance
+        return {"1-X": "İY ÇŞ 1X", "1-2": "İY ÇŞ 12", "X-2": "İY ÇŞ X2"}[label], False
+    if mtid in (455, 456, 644, 457, 458, 645):  # one team's first-half goals
+        if L is None or au is None:
+            return None
+        return f"{'Ev' if mtid in (455, 456, 644) else 'Dep'} İY {L} {au}", False
+    if mtid in (584, 585):
+        return f"{'Ev' if mtid == 584 else 'Dep'} En Az Bir Yarıyı Kazanır", label == "Hayır"
+    if mtid == 592:
+        return "Dep Her İki Yarıyı Kazanır", label == "Hayır"
+    if mtid in (586, 587):
+        return f"{'Ev' if mtid == 586 else 'Dep'} En Çok Gol " + {"1.": "1Y", "2.": "2Y", "Eşit": "Eşit"}[label], False
+    if mtid in (588, 594):  # winning margin: 'Ev. 3+', 'Dep. 1', '0'
+        if label == "0":
+            return "Fark 0", False
+        side, n = label.split(". ")
+        return f"Fark {'Ev' if side == 'Ev' else 'Dep'} {n}", False
+    if mtid == 571:  # half-time / full-time correct score '1:0 / 2:1'
+        if "+" in label:
+            return None
+        ht, ft = (x.strip().replace(":", "-") for x in label.split("/"))
+        return f"İY Skor {ht} & Skor {ft}", False
     if mtid == 49:
         return label, False
     if mtid == 450:

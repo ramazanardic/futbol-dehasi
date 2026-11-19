@@ -36,7 +36,7 @@ OUT = ROOT / "reports" / "research" / "direct_calibration.md"
 
 def snapshots() -> list[dict]:
     """Latest Smarkets record per match across the git history of references.json."""
-    shas = subprocess.run(["git", "log", "--format=%H", "--since=7 days ago", "--", REF], cwd=ROOT,
+    shas = subprocess.run(["git", "log", "--format=%H", "--since=120 days ago", "--", REF], cwd=ROOT,
                           capture_output=True, text=True).stdout.split()
     best: dict[tuple, dict] = {}
     for sha in reversed(shas):  # oldest first, later snapshots overwrite

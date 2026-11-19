@@ -1,6 +1,6 @@
 # 2026-11-19 — Nesine bülteni, global referans fiyatına göre
 
-**Global veri 51 dakika önce çekildi**. (yurt dışı sunucu: günde 5 tam çekim + maç öncesi saatlik yenileme)
+**Global veri 65 dakika önce çekildi**. (yurt dışı sunucu: günde 5 tam çekim + maç öncesi saatlik yenileme)
 
 Referans önceliği: Pinnacle → Smarkets / Matchbook (ikisi varsa ortalaması) → Betfair → ESPN. 37 maçın 30'i fiyatlandı; global fiyatı olmayan maçlar Nesine oranından türetilmez, fiyatlanmaz.
 
@@ -39,15 +39,15 @@ _Bugün Nesine'nin global adil fiyatın üstünde verdiği seçim yok._
 | 22:45 | Fransa Ulusal Lig | Amiens - Caen | 1.91/2.83/2.82 | 2.30/3.50/3.58 | Smarkets | Maç Sonucu: 1 -17.0% |
 | 23:00 | UEFA Şamp. Ligi Kadınlar  | Arsenal (K) - O. Lyon (K) | 3.96/3.72/1.41 | 5.13/4.56/1.71 | Matchbook | Gol Alt/Üst: 4.5 Alt -15.8% |
 | 23:00 | UEFA Şamp. Ligi Kadınlar  | Barcelona (K) - Servette (K) | -/17.35/17.35 | 1.02/84.03/172.41 | Matchbook | Maç Sonucu: X -73.3% |
-| 23:00 | UEFA Şamp. Ligi Kadınlar  | Benfica (K) - AS Roma (K) | 1.81/3.30/2.64 | 2.22/4.16/3.23 | Matchbook | 1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst -15.7% |
-| 01:30 | Brezilya Serie A | Vitoria BA - Bragantino | 2.42/3.07/2.23 | 2.85/3.66/2.67 | Matchbook | 1. Yarı / 2. Yarı Karşılıklı Gol: Evet/Evet -8.4% |
+| 23:00 | UEFA Şamp. Ligi Kadınlar  | Benfica (K) - AS Roma (K) | 1.78/3.31/2.71 | 2.22/4.16/3.23 | Matchbook | Maç Sonucu: 2 -13.7% |
+| 01:30 | Brezilya Serie A | Vitoria BA - Bragantino | 2.36/3.08/2.28 | 2.85/3.66/2.67 | Matchbook | 1. Yarı / 2. Yarı Karşılıklı Gol: Evet/Evet -8.4% |
 | 01:30 | Brezilya Serie A | Vasco Da G. - Internacional | 1.38/3.86/4.97 | 1.61/4.42/6.54 | Matchbook | İlk Golü Hangi Takım Atar?: Olmaz -12.5% |
 | 01:30 | Venezuela Kupası, Eleme Turu | Dep. La Gua. - Academia Anzoategui | 1.19/4.28/6.28 | 1.38/5.47/10.89 | Matchbook | Deplasman 0,5 Gol Alt/Üst: 0,5 Alt -13.0% |
 | 01:30 | Kolombiya Prmr B Kapanış, Yük. Gr A | U. Magdalena - Boca Juniors (Kol) | 1.21/3.91/6.67 | 1.46/4.87/9.12 | Matchbook | 2. Yarı Sonucu: 1 -15.9% |
 | 01:30 | Kolombiya Prmr B Kapanış, Yük. Gr A | Independiente Yumbo - Envigado | 2.55/2.60/2.19 | 3.34/3.11/2.64 | Matchbook | Maç Sonucu: 2 -15.2% |
 | 03:30 | Brezilya Serie A | Sao Paulo SP - Fluminense | 2.20/2.83/2.64 | 2.61/3.38/3.11 | Matchbook | 1. Yarı / 2. Yarı Karşılıklı Gol: Evet/Evet -11.3% |
 | 03:30 | ABD Major Lig Playoff | Orlando City - Cincinnati | 2.19/3.52/2.24 | 2.53/4.24/2.71 | Matchbook | 1. Yarı / 2. Yarı Karşılıklı Gol: Evet/Evet -11.1% |
-| 03:45 | Kolombiya Prmr B Kapanış, Yük. Gr B | Real Cartagena - Tigres (Kol) | 1.16/4.10/7.89 | 1.38/5.21/12.29 | Matchbook | 2. Yarı Sonucu: 1 -14.1% |
+| 03:45 | Kolombiya Prmr B Kapanış, Yük. Gr B | Real Cartagena - Tigres (Kol) | 1.14/4.25/8.36 | 1.38/5.21/12.29 | Matchbook | 2. Yarı Sonucu: 1 -15.2% |
 | 03:45 | Kolombiya Prmr B Kapanış, Yük. Gr B | R. Soacha Cundinamarca - Deportes Quindio | 2.92/2.48/2.05 | 3.95/3.02/2.41 | Matchbook | Maç Sonucu: 2 -14.8% |
 | 06:00 | ABD Major Lig Playoff | S. Sounders - Real Salt Lake | 1.77/3.35/3.11 | 2.05/4.05/3.76 | Matchbook | 1. Yarı / 2. Yarı Karşılıklı Gol: Evet/Evet -12.2% |
 

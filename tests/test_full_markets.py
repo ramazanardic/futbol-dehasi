@@ -167,3 +167,20 @@ def test_corner_card_ratings_learn_team_effects():
     e = r.expected("Güçlü", "Zayıf", "E0")
     assert e["corners_home"] > 7 and e["corners_away"] < 3.5
     assert e["yellow_away"] > e["yellow_home"]
+
+
+def test_new_nesine_families_are_consistent():
+    from quantfoot.markets.goal_markets import goal_probability
+    from quantfoot.markets.omni_markets import compute_omni_markets
+
+    j = compute_omni_markets(1.8, 1.1).joint
+    p = lambda n: goal_probability(n, j)  # noqa: E731
+    margins = sum(p(f"Fark {side} {k}") for side in ("Ev", "Dep") for k in (1, 2)) + p("Fark Ev 3+") + p("Fark Dep 3+") + p("Fark 0")
+    assert abs(margins - 1.0) < 1e-9
+    assert abs(p("Fark 0") - p("MS 0")) < 1e-9
+    assert abs(p("İY ÇŞ 1X") - (p("İY 1") + p("İY 0"))) < 1e-9
+    assert abs(p("Ev İY 0.5 Üst") + p("Ev İY 0.5 Alt") - 1.0) < 1e-9
+    assert abs(sum(p(f"Ev En Çok Gol {h}") for h in ("1Y", "2Y", "Eşit")) - 1.0) < 1e-9
+    kg = [p(f"İY KG {a} & 2Y KG {b}") for a in ("Var", "Yok") for b in ("Var", "Yok")]
+    assert abs(sum(kg) - 1.0) < 1e-9 and abs(kg[0] - p("İki Yarıda KG Var")) < 1e-9
+    assert p("Ev En Az Bir Yarıyı Kazanır") >= p("Ev Her İki Yarıyı Kazanır")

@@ -1,50 +1,50 @@
 {
   "date": "2026-11-19",
-  "generated_at": "2026-11-19T16:37:39+03:00",
+  "generated_at": "2026-11-19T16:51:38+03:00",
   "nesine_margins": {
     "1. Yarı Tek/Çift": {
       "n": 31,
-      "margin": 0.22524774283886334
+      "margin": 0.22534459645237478
     },
     "Maç Sonucu ve 1,5 Alt/Üst": {
       "n": 12,
-      "margin": 0.26755026858552694
+      "margin": 0.2675117671308838
     },
     "Deplasman 0,5 Gol Alt/Üst": {
       "n": 22,
-      "margin": 0.22418223269168946
+      "margin": 0.22493046083732066
     },
     "Maç Sonucu": {
       "n": 33,
-      "margin": 0.2263974929460687
+      "margin": 0.2263252560256503
     },
     "Deplasman Hangi Yarıda Daha Çok Gol Atar?": {
       "n": 16,
-      "margin": 0.2188577514309039
+      "margin": 0.2186097174765344
     },
     "Handikaplı Maç Sonucu (X)": {
-      "n": 50,
-      "margin": 0.2802601120774231
+      "n": 51,
+      "margin": 0.2807130988525291
     },
     "Maç Sonucu ve Karşılıklı Gol": {
       "n": 16,
-      "margin": 0.2739404712387231
+      "margin": 0.273910987793307
     },
     "1. Yarı Sonucu": {
       "n": 33,
-      "margin": 0.2269463707190957
+      "margin": 0.22676396432867116
     },
     "Deplasman 1.Y X Gol Alt/Üst": {
       "n": 29,
-      "margin": 0.22579812897547852
+      "margin": 0.2252539719446174
     },
     "En Çok Gol Olacak Yarı": {
       "n": 17,
-      "margin": 0.22218583478974427
+      "margin": 0.22226865916727762
     },
     "Karşılıklı Gol": {
       "n": 36,
-      "margin": 0.22711765057782105
+      "margin": 0.22716221395680883
     },
     "Her İki Yarıda da X Alt": {
       "n": 14,
@@ -52,19 +52,19 @@
     },
     "2. Yarı Sonucu": {
       "n": 30,
-      "margin": 0.22556823845445315
+      "margin": 0.22555024079858374
     },
     "1.Y Sonucu ve 1.Y X Alt/Üst": {
       "n": 17,
-      "margin": 0.27774369723994546
+      "margin": 0.2777220197005807
     },
     "Ev Sahibi 1.Y X Gol Alt/Üst": {
       "n": 32,
-      "margin": 0.22635534620936498
+      "margin": 0.2264173525926565
     },
     "Çifte Şans": {
       "n": 18,
-      "margin": 1.4456949799819274
+      "margin": 1.444950020544565
     },
     "1,5 Gol Alt/Üst": {
       "n": 11,
@@ -72,27 +72,27 @@
     },
     "2,5 Alt/Üst ve Karşılıklı Gol": {
       "n": 16,
-      "margin": 0.2539310681369401
+      "margin": 0.25371311512467254
     },
     "Ev Sahibi Hangi Yarıda Daha Çok Gol Atar?": {
       "n": 17,
-      "margin": 0.21980678634290202
+      "margin": 0.21978494266145288
     },
     "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol": {
       "n": 16,
-      "margin": 0.27576369284415525
+      "margin": 0.2758153202659771
     },
     "1. Yarı / 2. Yarı Karşılıklı Gol": {
       "n": 16,
-      "margin": 0.25325433475243475
+      "margin": 0.2531870420701687
     },
     "2,5 Gol Alt/Üst": {
       "n": 34,
-      "margin": 0.2265827651102261
+      "margin": 0.22667438917840527
     },
     "Tek/Çift": {
       "n": 34,
-      "margin": 0.22737033703581974
+      "margin": 0.227256160930595
     },
     "Toplam Gol Aralığı": {
       "n": 17,
@@ -100,35 +100,35 @@
     },
     "1. Yarı 0,5 Gol Alt/Üst": {
       "n": 22,
-      "margin": 0.22315985542353375
+      "margin": 0.22326591945828067
     },
     "Ev Sahibi 1,5 Gol Alt/Üst": {
       "n": 22,
-      "margin": 0.22260962711768328
+      "margin": 0.2228679772223563
     },
     "Deplasman 1,5 Gol Alt/Üst": {
       "n": 19,
-      "margin": 0.22164932226571912
+      "margin": 0.22198532777627916
     },
     "Ev Sahibi 0,5 Gol Alt/Üst": {
       "n": 14,
-      "margin": 0.22679920913301185
+      "margin": 0.22632723495943866
     },
     "Deplasman İki Yarıda da Gol": {
       "n": 8,
-      "margin": 0.2142063262158663
+      "margin": 0.2145951028582602
     },
     "Maç Sonucu ve X Alt/Üst": {
       "n": 25,
-      "margin": 0.2713625527172308
+      "margin": 0.2713739819777008
     },
     "Maç Sonucu ve 2,5 Alt/Üst": {
       "n": 14,
-      "margin": 0.27130885235909313
+      "margin": 0.27127813502760195
     },
     "Ev Sahibi İki Yarıda da Gol": {
       "n": 12,
-      "margin": 0.2141951114854839
+      "margin": 0.21383059055996068
     },
     "1. Yarı Karşılıklı Gol": {
       "n": 12,
@@ -136,11 +136,11 @@
     },
     "1. Yarı 1,5 Gol Alt/Üst": {
       "n": 23,
-      "margin": 0.2232737714526733
+      "margin": 0.22339744382970583
     },
     "Ev Sahibi Herhangi Bir Yarıyı Kazanır": {
       "n": 5,
-      "margin": 0.1878063215405203
+      "margin": 0.18805763497012826
     },
     "3,5 Gol Alt/Üst": {
       "n": 16,
@@ -148,27 +148,27 @@
     },
     "Hangi Takım Kaç Farkla Kazanır?": {
       "n": 7,
-      "margin": 0.5511960036988324
+      "margin": 0.5512816697934756
     },
     "İlk Golü Hangi Takım Atar?": {
       "n": 11,
-      "margin": 0.2122367868045816
+      "margin": 0.21234943694145558
     },
     "İlk Yarı/Maç Sonucu": {
       "n": 7,
-      "margin": 0.3211836689849933
+      "margin": 0.3211746451346483
     },
     "İlk Yarı / Maç Skoru": {
       "n": 7,
-      "margin": 0.5764376358956963
+      "margin": 0.5772284522099544
     },
     "Deplasman Herhangi Bir Yarıyı Kazanır": {
       "n": 5,
-      "margin": 0.18764241529944795
+      "margin": 0.1864444518373336
     },
     "1. Yarı Çifte Şans": {
       "n": 12,
-      "margin": 1.4367387510189253
+      "margin": 1.4368687592583296
     },
     "2. Yarı Karşılıklı Gol": {
       "n": 18,
@@ -187,16 +187,16 @@
       "margin": 0.22250486308544076
     },
     "1. Yarı X Kart Puanı Alt/Üst": {
-      "n": 3,
-      "margin": 0.22252271380808444
+      "n": 5,
+      "margin": 0.2227532265631864
     },
     "1. Yarı Korner Handikap  (X)": {
       "n": 5,
       "margin": 0.2198894894639598
     },
     "X Kart Puanı Alt/Üst": {
-      "n": 10,
-      "margin": 0.22120836803254207
+      "n": 16,
+      "margin": 0.22135655757060985
     },
     "Ev Sahibi X Korner Alt/Üst": {
       "n": 6,
@@ -223,8 +223,8 @@
       "margin": 0.25726307242519997
     },
     "Hangi Takım Daha Çok Kart Puanı Alır?": {
-      "n": 3,
-      "margin": 0.2212735103043796
+      "n": 5,
+      "margin": 0.22167791450687768
     },
     "1. Yarı En Çok Korner": {
       "n": 5,
@@ -240,7 +240,7 @@
     },
     "Ev Sahibi 2,5 Gol Alt/Üst": {
       "n": 10,
-      "margin": 0.21877949016102666
+      "margin": 0.2186568037792326
     },
     "Deplasman 3,5 Gol Alt/Üst": {
       "n": 1,
@@ -824,18 +824,6 @@
           "direct": true
         },
         {
-          "key": "9|2Y 1|0",
-          "market": "2. Yarı Sonucu",
-          "selection": "1",
-          "name": "2Y 1",
-          "odds": 1.8,
-          "fair_prob": 0.48065,
-          "fair_odds": 2.081,
-          "ev": -0.1348,
-          "mbs": 3,
-          "direct": false
-        },
-        {
           "key": "1|MS 1|0",
           "market": "Maç Sonucu",
           "selection": "1",
@@ -848,38 +836,38 @@
           "direct": true
         },
         {
-          "key": "20|Ev 1.5 Üst|0",
-          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
-          "selection": "1,5 Üst",
-          "name": "Ev 1.5 Üst",
-          "odds": 1.68,
-          "fair_prob": 0.50824,
-          "fair_odds": 1.968,
-          "ev": -0.1462,
+          "key": "9|2Y 1|0",
+          "market": "2. Yarı Sonucu",
+          "selection": "1",
+          "name": "2Y 1",
+          "odds": 1.79,
+          "fair_prob": 0.48065,
+          "fair_odds": 2.081,
+          "ev": -0.1396,
           "mbs": 3,
           "direct": false
         },
         {
-          "key": "12|2.5 Üst|0",
-          "market": "2,5 Gol Alt/Üst",
-          "selection": "2,5 Üst",
-          "name": "2.5 Üst",
-          "odds": 1.93,
-          "fair_prob": 0.43214,
-          "fair_odds": 2.314,
-          "ev": -0.166,
+          "key": "20|Ev 1.5 Üst|0",
+          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
+          "selection": "1,5 Üst",
+          "name": "Ev 1.5 Üst",
+          "odds": 1.67,
+          "fair_prob": 0.50824,
+          "fair_odds": 1.968,
+          "ev": -0.1512,
           "mbs": 3,
-          "direct": true
+          "direct": false
         },
         {
           "key": "209|İY 0.5 Üst|0",
           "market": "1. Yarı 0,5 Gol Alt/Üst",
           "selection": "0,5 Üst",
           "name": "İY 0.5 Üst",
-          "odds": 1.27,
+          "odds": 1.26,
           "fair_prob": 0.6554,
           "fair_odds": 1.526,
-          "ev": -0.1676,
+          "ev": -0.1742,
           "mbs": 3,
           "direct": true
         },
@@ -888,10 +876,10 @@
           "market": "Handikaplı Maç Sonucu",
           "selection": "Hnd(-1) 1",
           "name": "Hnd(-1) 1",
-          "odds": 2.39,
+          "odds": 2.38,
           "fair_prob": 0.3466,
           "fair_odds": 2.885,
-          "ev": -0.1716,
+          "ev": -0.1751,
           "mbs": 3,
           "direct": false
         },
@@ -908,6 +896,42 @@
           "direct": false
         },
         {
+          "key": "256|Dep 0.5 Alt|0",
+          "market": "Deplasman 0,5 Gol Alt/Üst",
+          "selection": "0,5 Alt",
+          "name": "Dep 0.5 Alt",
+          "odds": 1.67,
+          "fair_prob": 0.49273,
+          "fair_odds": 2.03,
+          "ev": -0.1771,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "key": "7|İY 0|0",
+          "market": "1. Yarı Sonucu",
+          "selection": "X",
+          "name": "İY 0",
+          "odds": 1.88,
+          "fair_prob": 0.4368,
+          "fair_odds": 2.289,
+          "ev": -0.1788,
+          "mbs": 3,
+          "direct": true
+        },
+        {
+          "key": "12|2.5 Üst|0",
+          "market": "2,5 Gol Alt/Üst",
+          "selection": "2,5 Üst",
+          "name": "2.5 Üst",
+          "odds": 1.9,
+          "fair_prob": 0.43214,
+          "fair_odds": 2.314,
+          "ev": -0.1789,
+          "mbs": 3,
+          "direct": true
+        },
+        {
           "key": "450|İY Çift|0",
           "market": "1. Yarı Tek/Çift",
           "selection": "Çift",
@@ -920,38 +944,14 @@
           "direct": false
         },
         {
-          "key": "256|Dep 0.5 Alt|0",
-          "market": "Deplasman 0,5 Gol Alt/Üst",
-          "selection": "0,5 Alt",
-          "name": "Dep 0.5 Alt",
-          "odds": 1.66,
-          "fair_prob": 0.49273,
-          "fair_odds": 2.03,
-          "ev": -0.1821,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "key": "7|İY 0|0",
-          "market": "1. Yarı Sonucu",
-          "selection": "X",
-          "name": "İY 0",
-          "odds": 1.87,
-          "fair_prob": 0.4368,
-          "fair_odds": 2.289,
-          "ev": -0.1832,
-          "mbs": 3,
-          "direct": true
-        },
-        {
-          "key": "38|KG Var|0",
+          "key": "38|KG Yok|0",
           "market": "Karşılıklı Gol",
-          "selection": "Var",
-          "name": "KG Var",
-          "odds": 1.94,
-          "fair_prob": 0.42101,
-          "fair_odds": 2.375,
-          "ev": -0.1832,
+          "selection": "Yok",
+          "name": "KG Yok",
+          "odds": 1.41,
+          "fair_prob": 0.57899,
+          "fair_odds": 1.727,
+          "ev": -0.1836,
           "mbs": 3,
           "direct": false
         },
@@ -992,62 +992,26 @@
           "direct": true
         },
         {
-          "key": "38|KG Yok|0",
-          "market": "Karşılıklı Gol",
-          "selection": "Yok",
-          "name": "KG Yok",
-          "odds": 1.4,
-          "fair_prob": 0.57899,
-          "fair_odds": 1.727,
-          "ev": -0.1894,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "key": "256|Dep 0.5 Üst|0",
-          "market": "Deplasman 0,5 Gol Alt/Üst",
-          "selection": "0,5 Üst",
-          "name": "Dep 0.5 Üst",
-          "odds": 1.59,
-          "fair_prob": 0.50727,
-          "fair_odds": 1.971,
-          "ev": -0.1934,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "key": "450|İY Tek|0",
-          "market": "1. Yarı Tek/Çift",
-          "selection": "Tek",
-          "name": "İY Tek",
-          "odds": 1.83,
-          "fair_prob": 0.43801,
-          "fair_odds": 2.283,
-          "ev": -0.1984,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "key": "599|2Y KG Var|0",
-          "market": "2. Yarı Karşılıklı Gol",
-          "selection": "Var",
-          "name": "2Y KG Var",
-          "odds": 3.92,
-          "fair_prob": 0.20433,
-          "fair_odds": 4.894,
-          "ev": -0.199,
-          "mbs": 3,
-          "direct": false
-        },
-        {
           "key": "9|2Y 0|0",
           "market": "2. Yarı Sonucu",
           "selection": "X",
           "name": "2Y 0",
-          "odds": 2.15,
+          "odds": 2.17,
           "fair_prob": 0.37219,
           "fair_odds": 2.687,
-          "ev": -0.1998,
+          "ev": -0.1924,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "key": "38|KG Var|0",
+          "market": "Karşılıklı Gol",
+          "selection": "Var",
+          "name": "KG Var",
+          "odds": 1.91,
+          "fair_prob": 0.42101,
+          "fair_odds": 2.375,
+          "ev": -0.1959,
           "mbs": 3,
           "direct": false
         },
@@ -1056,10 +1020,58 @@
           "market": "2,5 Gol Alt/Üst",
           "selection": "2,5 Alt",
           "name": "2.5 Alt",
-          "odds": 1.4,
+          "odds": 1.41,
           "fair_prob": 0.56786,
           "fair_odds": 1.761,
-          "ev": -0.205,
+          "ev": -0.1993,
+          "mbs": 3,
+          "direct": true
+        },
+        {
+          "key": "450|İY Tek|0",
+          "market": "1. Yarı Tek/Çift",
+          "selection": "Tek",
+          "name": "İY Tek",
+          "odds": 1.82,
+          "fair_prob": 0.43801,
+          "fair_odds": 2.283,
+          "ev": -0.2028,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "key": "256|Dep 0.5 Üst|0",
+          "market": "Deplasman 0,5 Gol Alt/Üst",
+          "selection": "0,5 Üst",
+          "name": "Dep 0.5 Üst",
+          "odds": 1.57,
+          "fair_prob": 0.50727,
+          "fair_odds": 1.971,
+          "ev": -0.2036,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "key": "599|2Y KG Var|0",
+          "market": "2. Yarı Karşılıklı Gol",
+          "selection": "Var",
+          "name": "2Y KG Var",
+          "odds": 3.84,
+          "fair_prob": 0.20433,
+          "fair_odds": 4.894,
+          "ev": -0.2154,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "key": "209|İY 0.5 Alt|0",
+          "market": "1. Yarı 0,5 Gol Alt/Üst",
+          "selection": "0,5 Alt",
+          "name": "İY 0.5 Alt",
+          "odds": 2.27,
+          "fair_prob": 0.3446,
+          "fair_odds": 2.902,
+          "ev": -0.2178,
           "mbs": 3,
           "direct": true
         },
@@ -1068,24 +1080,36 @@
           "market": "1. Yarı Sonucu",
           "selection": "2",
           "name": "İY 2",
-          "odds": 5.48,
+          "odds": 5.44,
           "fair_prob": 0.1429,
           "fair_odds": 6.998,
-          "ev": -0.2169,
+          "ev": -0.2226,
           "mbs": 3,
           "direct": true
         },
         {
-          "key": "209|İY 0.5 Alt|0",
-          "market": "1. Yarı 0,5 Gol Alt/Üst",
-          "selection": "0,5 Alt",
-          "name": "İY 0.5 Alt",
-          "odds": 2.25,
-          "fair_prob": 0.3446,
-          "fair_odds": 2.902,
-          "ev": -0.2247,
+          "key": "20|Ev 1.5 Alt|0",
+          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
+          "selection": "1,5 Alt",
+          "name": "Ev 1.5 Alt",
+          "odds": 1.58,
+          "fair_prob": 0.49176,
+          "fair_odds": 2.034,
+          "ev": -0.223,
           "mbs": 3,
-          "direct": true
+          "direct": false
+        },
+        {
+          "key": "268|Hnd(-1) 0|0",
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(-1) 0",
+          "name": "Hnd(-1) 0",
+          "odds": 2.91,
+          "fair_prob": 0.26533,
+          "fair_odds": 3.769,
+          "ev": -0.2279,
+          "mbs": 3,
+          "direct": false
         },
         {
           "key": "1|MS 0|0",
@@ -1100,30 +1124,6 @@
           "direct": true
         },
         {
-          "key": "268|Hnd(-1) 0|0",
-          "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(-1) 0",
-          "name": "Hnd(-1) 0",
-          "odds": 2.9,
-          "fair_prob": 0.26533,
-          "fair_odds": 3.769,
-          "ev": -0.2305,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "key": "20|Ev 1.5 Alt|0",
-          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
-          "selection": "1,5 Alt",
-          "name": "Ev 1.5 Alt",
-          "odds": 1.56,
-          "fair_prob": 0.49176,
-          "fair_odds": 2.034,
-          "ev": -0.2329,
-          "mbs": 3,
-          "direct": false
-        },
-        {
           "key": "268|Hnd(-1) 2|0",
           "market": "Handikaplı Maç Sonucu",
           "selection": "Hnd(-1) 2",
@@ -1132,18 +1132,6 @@
           "fair_prob": 0.38808,
           "fair_odds": 2.577,
           "ev": -0.2627,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "key": "452|İY KG Var|0",
-          "market": "1. Yarı Karşılıklı Gol",
-          "selection": "Var",
-          "name": "İY KG Var",
-          "odds": 4.85,
-          "fair_prob": 0.14636,
-          "fair_odds": 6.832,
-          "ev": -0.2902,
           "mbs": 3,
           "direct": false
         },
@@ -1172,14 +1160,26 @@
           "direct": true
         },
         {
+          "key": "452|İY KG Var|0",
+          "market": "1. Yarı Karşılıklı Gol",
+          "selection": "Var",
+          "name": "İY KG Var",
+          "odds": 4.76,
+          "fair_prob": 0.14636,
+          "fair_odds": 6.832,
+          "ev": -0.3033,
+          "mbs": 3,
+          "direct": false
+        },
+        {
           "key": "9|2Y 2|0",
           "market": "2. Yarı Sonucu",
           "selection": "2",
           "name": "2Y 2",
-          "odds": 4.73,
+          "odds": 4.69,
           "fair_prob": 0.14717,
           "fair_odds": 6.795,
-          "ev": -0.3039,
+          "ev": -0.3098,
           "mbs": 3,
           "direct": false
         },
@@ -13131,9 +13131,9 @@
       "home": "Benfica (K)",
       "away": "AS Roma (K)",
       "nesine_ms": [
-        1.81,
-        3.3,
-        2.64
+        1.78,
+        3.31,
+        2.71
       ],
       "n_nesine_selections": 107,
       "match_score": 0.89,
@@ -13160,9 +13160,21 @@
         0.2406,
         0.3097
       ],
-      "nesine_ms_margin": 0.2343,
+      "nesine_ms_margin": 0.2329,
       "derivatives_priced": false,
       "selections": [
+        {
+          "key": "1|MS 2|0",
+          "market": "Maç Sonucu",
+          "selection": "2",
+          "name": "MS 2",
+          "odds": 2.71,
+          "fair_prob": 0.3183,
+          "fair_odds": 3.142,
+          "ev": -0.1374,
+          "mbs": 1,
+          "direct": true
+        },
         {
           "key": "209|İY 0.5 Üst|0",
           "market": "1. Yarı 0,5 Gol Alt/Üst",
@@ -13172,18 +13184,6 @@
           "fair_prob": 0.7737,
           "fair_odds": 1.292,
           "ev": -0.1567,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "1|MS 2|0",
-          "market": "Maç Sonucu",
-          "selection": "2",
-          "name": "MS 2",
-          "odds": 2.64,
-          "fair_prob": 0.3183,
-          "fair_odds": 3.142,
-          "ev": -0.1597,
           "mbs": 1,
           "direct": true
         },
@@ -13200,6 +13200,18 @@
           "direct": true
         },
         {
+          "key": "7|İY 2|0",
+          "market": "1. Yarı Sonucu",
+          "selection": "2",
+          "name": "İY 2",
+          "odds": 3.11,
+          "fair_prob": 0.2696,
+          "fair_odds": 3.709,
+          "ev": -0.1615,
+          "mbs": 1,
+          "direct": true
+        },
+        {
           "key": "12|2.5 Üst|0",
           "market": "2,5 Gol Alt/Üst",
           "selection": "2,5 Üst",
@@ -13212,26 +13224,14 @@
           "direct": true
         },
         {
-          "key": "1|MS 1|0",
-          "market": "Maç Sonucu",
-          "selection": "1",
-          "name": "MS 1",
-          "odds": 1.81,
-          "fair_prob": 0.45839,
-          "fair_odds": 2.182,
-          "ev": -0.1703,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "7|İY 2|0",
-          "market": "1. Yarı Sonucu",
-          "selection": "2",
-          "name": "İY 2",
-          "odds": 3.05,
-          "fair_prob": 0.2696,
-          "fair_odds": 3.709,
-          "ev": -0.1777,
+          "key": "414|MS 2 & KG Yok|0",
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "2 & Yok",
+          "name": "MS 2 & KG Yok",
+          "odds": 6.48,
+          "fair_prob": 0.127,
+          "fair_odds": 7.874,
+          "ev": -0.177,
           "mbs": 1,
           "direct": true
         },
@@ -13248,14 +13248,26 @@
           "direct": true
         },
         {
-          "key": "7|İY 1|0",
-          "market": "1. Yarı Sonucu",
+          "key": "414|MS 2 & KG Var|0",
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "2 & Var",
+          "name": "MS 2 & KG Var",
+          "odds": 4.33,
+          "fair_prob": 0.1889,
+          "fair_odds": 5.294,
+          "ev": -0.1821,
+          "mbs": 1,
+          "direct": true
+        },
+        {
+          "key": "1|MS 1|0",
+          "market": "Maç Sonucu",
           "selection": "1",
-          "name": "İY 1",
-          "odds": 2.26,
-          "fair_prob": 0.3585,
-          "fair_odds": 2.789,
-          "ev": -0.1898,
+          "name": "MS 1",
+          "odds": 1.78,
+          "fair_prob": 0.45839,
+          "fair_odds": 2.182,
+          "ev": -0.1841,
           "mbs": 1,
           "direct": true
         },
@@ -13272,74 +13284,26 @@
           "direct": true
         },
         {
-          "key": "414|MS 2 & KG Yok|0",
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "2 & Yok",
-          "name": "MS 2 & KG Yok",
-          "odds": 6.31,
-          "fair_prob": 0.127,
-          "fair_odds": 7.874,
-          "ev": -0.1986,
-          "mbs": 1,
-          "direct": true
-        },
-        {
           "key": "7|İY 0|0",
           "market": "1. Yarı Sonucu",
           "selection": "X",
           "name": "İY 0",
-          "odds": 2.15,
+          "odds": 2.16,
           "fair_prob": 0.3719,
           "fair_odds": 2.689,
-          "ev": -0.2004,
+          "ev": -0.1967,
           "mbs": 1,
           "direct": true
         },
         {
-          "key": "414|MS 2 & KG Var|0",
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "2 & Var",
-          "name": "MS 2 & KG Var",
-          "odds": 4.22,
-          "fair_prob": 0.1889,
-          "fair_odds": 5.294,
-          "ev": -0.2028,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "414|MS 1 & KG Var|0",
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "1 & Var",
-          "name": "MS 1 & KG Var",
-          "odds": 2.99,
-          "fair_prob": 0.2597,
-          "fair_odds": 3.851,
-          "ev": -0.2235,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "414|MS 1 & KG Yok|0",
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "1 & Yok",
-          "name": "MS 1 & KG Yok",
-          "odds": 4.1,
-          "fair_prob": 0.1889,
-          "fair_odds": 5.294,
-          "ev": -0.2255,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "38|KG Yok|0",
-          "market": "Karşılıklı Gol",
-          "selection": "Yok",
-          "name": "KG Yok",
+          "key": "7|İY 1|0",
+          "market": "1. Yarı Sonucu",
+          "selection": "1",
+          "name": "İY 1",
           "odds": 2.23,
-          "fair_prob": 0.3442,
-          "fair_odds": 2.905,
-          "ev": -0.2324,
+          "fair_prob": 0.3585,
+          "fair_odds": 2.789,
+          "ev": -0.2005,
           "mbs": 1,
           "direct": true
         },
@@ -13360,10 +13324,46 @@
           "market": "Maç Sonucu ve Karşılıklı Gol",
           "selection": "X & Var",
           "name": "MS 0 & KG Var",
-          "odds": 3.83,
+          "odds": 3.86,
           "fair_prob": 0.1981,
           "fair_odds": 5.048,
-          "ev": -0.2413,
+          "ev": -0.2353,
+          "mbs": 1,
+          "direct": true
+        },
+        {
+          "key": "38|KG Yok|0",
+          "market": "Karşılıklı Gol",
+          "selection": "Yok",
+          "name": "KG Yok",
+          "odds": 2.22,
+          "fair_prob": 0.3442,
+          "fair_odds": 2.905,
+          "ev": -0.2359,
+          "mbs": 1,
+          "direct": true
+        },
+        {
+          "key": "414|MS 1 & KG Var|0",
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "1 & Var",
+          "name": "MS 1 & KG Var",
+          "odds": 2.94,
+          "fair_prob": 0.2597,
+          "fair_odds": 3.851,
+          "ev": -0.2365,
+          "mbs": 1,
+          "direct": true
+        },
+        {
+          "key": "414|MS 1 & KG Yok|0",
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "1 & Yok",
+          "name": "MS 1 & KG Yok",
+          "odds": 4.0,
+          "fair_prob": 0.1889,
+          "fair_odds": 5.294,
+          "ev": -0.2444,
           "mbs": 1,
           "direct": true
         },
@@ -13372,10 +13372,10 @@
           "market": "Maç Sonucu",
           "selection": "X",
           "name": "MS 0",
-          "odds": 3.3,
+          "odds": 3.31,
           "fair_prob": 0.22331,
           "fair_odds": 4.478,
-          "ev": -0.2631,
+          "ev": -0.2608,
           "mbs": 1,
           "direct": true
         },
@@ -13396,10 +13396,10 @@
           "market": "Maç Sonucu ve Karşılıklı Gol",
           "selection": "X & Yok",
           "name": "MS 0 & KG Yok",
-          "odds": 17.8,
+          "odds": 17.85,
           "fair_prob": 0.0373,
           "fair_odds": 26.81,
-          "ev": -0.3361,
+          "ev": -0.3342,
           "mbs": 1,
           "direct": true
         }
@@ -13768,9 +13768,9 @@
       "home": "Vitoria BA",
       "away": "Bragantino",
       "nesine_ms": [
-        2.42,
-        3.07,
-        2.23
+        2.36,
+        3.08,
+        2.28
       ],
       "n_nesine_selections": 124,
       "match_score": 0.91,
@@ -13797,7 +13797,7 @@
         0.2735,
         0.375
       ],
-      "nesine_ms_margin": 0.1874,
+      "nesine_ms_margin": 0.187,
       "derivatives_priced": true,
       "selections": [
         {
@@ -13849,28 +13849,28 @@
           "direct": true
         },
         {
-          "key": "1|MS 1|0",
-          "market": "Maç Sonucu",
-          "selection": "1",
-          "name": "MS 1",
-          "odds": 2.42,
-          "fair_prob": 0.35655,
-          "fair_odds": 2.805,
-          "ev": -0.1371,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "295|Ev İki Yarıda Gol|0",
-          "market": "Ev Sahibi İki Yarıda da Gol",
+          "key": "296|Dep İki Yarıda Gol|0",
+          "market": "Deplasman İki Yarıda da Gol",
           "selection": "Atar",
-          "name": "Ev İki Yarıda Gol",
-          "odds": 3.45,
-          "fair_prob": 0.24986,
-          "fair_odds": 4.002,
-          "ev": -0.138,
+          "name": "Dep İki Yarıda Gol",
+          "odds": 3.3,
+          "fair_prob": 0.2627,
+          "fair_odds": 3.807,
+          "ev": -0.1331,
           "mbs": 1,
           "direct": false
+        },
+        {
+          "key": "1|MS 2|0",
+          "market": "Maç Sonucu",
+          "selection": "2",
+          "name": "MS 2",
+          "odds": 2.28,
+          "fair_prob": 0.38014,
+          "fair_odds": 2.631,
+          "ev": -0.1333,
+          "mbs": 1,
+          "direct": true
         },
         {
           "key": "3|ÇŞ 12|0",
@@ -13892,18 +13892,6 @@
           "odds": 1.89,
           "fair_prob": 0.45306,
           "fair_odds": 2.207,
-          "ev": -0.1437,
-          "mbs": 1,
-          "direct": false
-        },
-        {
-          "key": "291|İlk Gol Ev|0",
-          "market": "İlk Golü Hangi Takım Atar?",
-          "selection": "1",
-          "name": "İlk Gol Ev",
-          "odds": 1.86,
-          "fair_prob": 0.46038,
-          "fair_odds": 2.172,
           "ev": -0.1437,
           "mbs": 1,
           "direct": false
@@ -13957,6 +13945,30 @@
           "direct": true
         },
         {
+          "key": "7|İY 2|0",
+          "market": "1. Yarı Sonucu",
+          "selection": "2",
+          "name": "İY 2",
+          "odds": 2.85,
+          "fair_prob": 0.2998,
+          "fair_odds": 3.336,
+          "ev": -0.1456,
+          "mbs": 1,
+          "direct": true
+        },
+        {
+          "key": "29|Dep 1.5 Üst|0",
+          "market": "Deplasman 1,5 Gol Alt/Üst",
+          "selection": "1,5 Üst",
+          "name": "Dep 1.5 Üst",
+          "odds": 2.03,
+          "fair_prob": 0.42057,
+          "fair_odds": 2.378,
+          "ev": -0.1463,
+          "mbs": 1,
+          "direct": false
+        },
+        {
           "key": "12|2.5 Üst|0",
           "market": "2,5 Gol Alt/Üst",
           "selection": "2,5 Üst",
@@ -13965,18 +13977,6 @@
           "fair_prob": 0.53342,
           "fair_odds": 1.875,
           "ev": -0.1465,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "7|İY 1|0",
-          "market": "1. Yarı Sonucu",
-          "selection": "1",
-          "name": "İY 1",
-          "odds": 2.99,
-          "fair_prob": 0.2849,
-          "fair_odds": 3.51,
-          "ev": -0.1481,
           "mbs": 1,
           "direct": true
         },
@@ -13993,26 +13993,14 @@
           "direct": true
         },
         {
-          "key": "296|Dep İki Yarıda Gol|0",
-          "market": "Deplasman İki Yarıda da Gol",
-          "selection": "Atar",
-          "name": "Dep İki Yarıda Gol",
-          "odds": 3.24,
-          "fair_prob": 0.2627,
-          "fair_odds": 3.807,
-          "ev": -0.1489,
-          "mbs": 1,
-          "direct": false
-        },
-        {
-          "key": "20|Ev 1.5 Üst|0",
-          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
-          "selection": "1,5 Üst",
-          "name": "Ev 1.5 Üst",
-          "odds": 2.11,
-          "fair_prob": 0.40284,
-          "fair_odds": 2.482,
-          "ev": -0.15,
+          "key": "291|İlk Gol Dep|0",
+          "market": "İlk Golü Hangi Takım Atar?",
+          "selection": "2",
+          "name": "İlk Gol Dep",
+          "odds": 1.79,
+          "fair_prob": 0.47471,
+          "fair_odds": 2.107,
+          "ev": -0.1503,
           "mbs": 1,
           "direct": false
         },
@@ -14041,18 +14029,6 @@
           "direct": true
         },
         {
-          "key": "1|MS 2|0",
-          "market": "Maç Sonucu",
-          "selection": "2",
-          "name": "MS 2",
-          "odds": 2.23,
-          "fair_prob": 0.38014,
-          "fair_odds": 2.631,
-          "ev": -0.1523,
-          "mbs": 1,
-          "direct": true
-        },
-        {
           "key": "459|İY 0 & İY 1.5 Üst|0",
           "market": "1.Y Sonucu ve 1.Y Alt/Üst",
           "selection": "İY 0 & İY 1.5 Üst",
@@ -14077,18 +14053,6 @@
           "direct": true
         },
         {
-          "key": "29|Dep 1.5 Alt|0",
-          "market": "Deplasman 1,5 Gol Alt/Üst",
-          "selection": "1,5 Alt",
-          "name": "Dep 1.5 Alt",
-          "odds": 1.46,
-          "fair_prob": 0.57943,
-          "fair_odds": 1.726,
-          "ev": -0.154,
-          "mbs": 1,
-          "direct": false
-        },
-        {
           "key": "450|İY Tek|0",
           "market": "1. Yarı Tek/Çift",
           "selection": "Tek",
@@ -14097,6 +14061,30 @@
           "fair_prob": 0.45451,
           "fair_odds": 2.2,
           "ev": -0.1546,
+          "mbs": 1,
+          "direct": false
+        },
+        {
+          "key": "295|Ev İki Yarıda Gol|0",
+          "market": "Ev Sahibi İki Yarıda da Gol",
+          "selection": "Atar",
+          "name": "Ev İki Yarıda Gol",
+          "odds": 3.38,
+          "fair_prob": 0.24986,
+          "fair_odds": 4.002,
+          "ev": -0.1555,
+          "mbs": 1,
+          "direct": false
+        },
+        {
+          "key": "9|2Y 2|0",
+          "market": "2. Yarı Sonucu",
+          "selection": "2",
+          "name": "2Y 2",
+          "odds": 2.57,
+          "fair_prob": 0.32838,
+          "fair_odds": 3.045,
+          "ev": -0.1561,
           "mbs": 1,
           "direct": false
         },
@@ -14125,6 +14113,18 @@
           "direct": true
         },
         {
+          "key": "272|MS 0 & 3.5 Üst|0",
+          "market": "Maç Sonucu ve Alt/Üst",
+          "selection": "MS 0 & 3.5 Üst",
+          "name": "MS 0 & 3.5 Üst",
+          "odds": 10.05,
+          "fair_prob": 0.0838,
+          "fair_odds": 11.933,
+          "ev": -0.1578,
+          "mbs": 1,
+          "direct": true
+        },
+        {
           "key": "20|Ev 1.5 Alt|0",
           "market": "Ev Sahibi 1,5 Gol Alt/Üst",
           "selection": "1,5 Alt",
@@ -14137,28 +14137,16 @@
           "direct": false
         },
         {
-          "key": "29|Dep 1.5 Üst|0",
-          "market": "Deplasman 1,5 Gol Alt/Üst",
-          "selection": "1,5 Üst",
-          "name": "Dep 1.5 Üst",
-          "odds": 2.0,
-          "fair_prob": 0.42057,
-          "fair_odds": 2.378,
-          "ev": -0.1589,
+          "key": "1|MS 1|0",
+          "market": "Maç Sonucu",
+          "selection": "1",
+          "name": "MS 1",
+          "odds": 2.36,
+          "fair_prob": 0.35655,
+          "fair_odds": 2.805,
+          "ev": -0.1585,
           "mbs": 1,
-          "direct": false
-        },
-        {
-          "key": "296|Dep İki Yarıda Gol|1",
-          "market": "Deplasman İki Yarıda da Gol",
-          "selection": "Atamaz",
-          "name": "DEĞİL(Dep İki Yarıda Gol)",
-          "odds": 1.14,
-          "fair_prob": 0.7373,
-          "fair_odds": 1.356,
-          "ev": -0.1595,
-          "mbs": 1,
-          "direct": false
+          "direct": true
         },
         {
           "key": "48|En Çok Gol 1Y|0",
@@ -14173,13 +14161,13 @@
           "direct": false
         },
         {
-          "key": "291|İlk Gol Dep|0",
-          "market": "İlk Golü Hangi Takım Atar?",
-          "selection": "2",
-          "name": "İlk Gol Dep",
-          "odds": 1.77,
-          "fair_prob": 0.47471,
-          "fair_odds": 2.107,
+          "key": "295|Ev İki Yarıda Gol|1",
+          "market": "Ev Sahibi İki Yarıda da Gol",
+          "selection": "Atamaz",
+          "name": "DEĞİL(Ev İki Yarıda Gol)",
+          "odds": 1.12,
+          "fair_prob": 0.75014,
+          "fair_odds": 1.333,
           "ev": -0.1598,
           "mbs": 1,
           "direct": false
@@ -14209,28 +14197,40 @@
           "direct": true
         },
         {
-          "key": "272|MS 0 & 3.5 Üst|0",
-          "market": "Maç Sonucu ve Alt/Üst",
-          "selection": "MS 0 & 3.5 Üst",
-          "name": "MS 0 & 3.5 Üst",
-          "odds": 10.0,
-          "fair_prob": 0.0838,
-          "fair_odds": 11.933,
-          "ev": -0.162,
+          "key": "291|İlk Gol Ev|0",
+          "market": "İlk Golü Hangi Takım Atar?",
+          "selection": "1",
+          "name": "İlk Gol Ev",
+          "odds": 1.82,
+          "fair_prob": 0.46038,
+          "fair_odds": 2.172,
+          "ev": -0.1621,
+          "mbs": 1,
+          "direct": false
+        },
+        {
+          "key": "414|MS 2 & KG Var|0",
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "2 & Var",
+          "name": "MS 2 & KG Var",
+          "odds": 4.35,
+          "fair_prob": 0.1924,
+          "fair_odds": 5.198,
+          "ev": -0.1631,
           "mbs": 1,
           "direct": true
         },
         {
-          "key": "7|İY 2|0",
-          "market": "1. Yarı Sonucu",
-          "selection": "2",
-          "name": "İY 2",
-          "odds": 2.79,
-          "fair_prob": 0.2998,
-          "fair_odds": 3.336,
-          "ev": -0.1636,
+          "key": "3|ÇŞ X2|0",
+          "market": "Çifte Şans",
+          "selection": "X-2",
+          "name": "ÇŞ X2",
+          "odds": 1.3,
+          "fair_prob": 0.64345,
+          "fair_odds": 1.554,
+          "ev": -0.1635,
           "mbs": 1,
-          "direct": true
+          "direct": false
         },
         {
           "key": "343|MS 0 & 2.5 Üst|0",
@@ -14245,26 +14245,50 @@
           "direct": true
         },
         {
-          "key": "414|MS 1 & KG Var|0",
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "1 & Var",
-          "name": "MS 1 & KG Var",
-          "odds": 4.59,
-          "fair_prob": 0.1819,
-          "fair_odds": 5.498,
-          "ev": -0.1651,
+          "key": "343|MS 2 & 2.5 Üst|0",
+          "market": "Maç Sonucu ve 2,5 Alt/Üst",
+          "selection": "2 & Üst",
+          "name": "MS 2 & 2.5 Üst",
+          "odds": 3.57,
+          "fair_prob": 0.2341,
+          "fair_odds": 4.272,
+          "ev": -0.1643,
           "mbs": 1,
           "direct": true
         },
         {
-          "key": "295|Ev İki Yarıda Gol|1",
-          "market": "Ev Sahibi İki Yarıda da Gol",
+          "key": "29|Dep 1.5 Alt|0",
+          "market": "Deplasman 1,5 Gol Alt/Üst",
+          "selection": "1,5 Alt",
+          "name": "Dep 1.5 Alt",
+          "odds": 1.44,
+          "fair_prob": 0.57943,
+          "fair_odds": 1.726,
+          "ev": -0.1656,
+          "mbs": 1,
+          "direct": false
+        },
+        {
+          "key": "20|Ev 1.5 Üst|0",
+          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
+          "selection": "1,5 Üst",
+          "name": "Ev 1.5 Üst",
+          "odds": 2.07,
+          "fair_prob": 0.40284,
+          "fair_odds": 2.482,
+          "ev": -0.1661,
+          "mbs": 1,
+          "direct": false
+        },
+        {
+          "key": "296|Dep İki Yarıda Gol|1",
+          "market": "Deplasman İki Yarıda da Gol",
           "selection": "Atamaz",
-          "name": "DEĞİL(Ev İki Yarıda Gol)",
-          "odds": 1.11,
-          "fair_prob": 0.75014,
-          "fair_odds": 1.333,
-          "ev": -0.1673,
+          "name": "DEĞİL(Dep İki Yarıda Gol)",
+          "odds": 1.13,
+          "fair_prob": 0.7373,
+          "fair_odds": 1.356,
+          "ev": -0.1669,
           "mbs": 1,
           "direct": false
         },
@@ -14281,16 +14305,64 @@
           "direct": true
         },
         {
-          "key": "3|ÇŞ 1X|0",
-          "market": "Çifte Şans",
-          "selection": "1-X",
-          "name": "ÇŞ 1X",
-          "odds": 1.34,
-          "fair_prob": 0.61986,
-          "fair_odds": 1.613,
-          "ev": -0.1694,
+          "key": "342|MS 2 & 1.5 Üst|0",
+          "market": "Maç Sonucu ve 1,5 Alt/Üst",
+          "selection": "2 & Üst",
+          "name": "MS 2 & 1.5 Üst",
+          "odds": 2.85,
+          "fair_prob": 0.2919,
+          "fair_odds": 3.426,
+          "ev": -0.1681,
           "mbs": 1,
-          "direct": false
+          "direct": true
+        },
+        {
+          "key": "7|İY 1|0",
+          "market": "1. Yarı Sonucu",
+          "selection": "1",
+          "name": "İY 1",
+          "odds": 2.92,
+          "fair_prob": 0.2849,
+          "fair_odds": 3.51,
+          "ev": -0.1681,
+          "mbs": 1,
+          "direct": true
+        },
+        {
+          "key": "342|MS 2 & 1.5 Alt|0",
+          "market": "Maç Sonucu ve 1,5 Alt/Üst",
+          "selection": "2 & Alt",
+          "name": "MS 2 & 1.5 Alt",
+          "odds": 9.76,
+          "fair_prob": 0.0852,
+          "fair_odds": 11.737,
+          "ev": -0.1684,
+          "mbs": 1,
+          "direct": true
+        },
+        {
+          "key": "272|MS 2 & 4.5 Alt|0",
+          "market": "Maç Sonucu ve Alt/Üst",
+          "selection": "MS 2 & 4.5 Alt",
+          "name": "MS 2 & 4.5 Alt",
+          "odds": 2.72,
+          "fair_prob": 0.3057,
+          "fair_odds": 3.271,
+          "ev": -0.1685,
+          "mbs": 1,
+          "direct": true
+        },
+        {
+          "key": "272|MS 2 & 3.5 Alt|0",
+          "market": "Maç Sonucu ve Alt/Üst",
+          "selection": "MS 2 & 3.5 Alt",
+          "name": "MS 2 & 3.5 Alt",
+          "odds": 3.26,
+          "fair_prob": 0.2549,
+          "fair_odds": 3.923,
+          "ev": -0.169,
+          "mbs": 1,
+          "direct": true
         },
         {
           "key": "12|2.5 Alt|0",
@@ -14301,18 +14373,6 @@
           "fair_prob": 0.46658,
           "fair_odds": 2.143,
           "ev": -0.1695,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "342|MS 1 & 1.5 Alt|0",
-          "market": "Maç Sonucu ve 1,5 Alt/Üst",
-          "selection": "1 & Alt",
-          "name": "MS 1 & 1.5 Alt",
-          "odds": 10.15,
-          "fair_prob": 0.0817,
-          "fair_odds": 12.24,
-          "ev": -0.1707,
           "mbs": 1,
           "direct": true
         },
@@ -14377,40 +14437,28 @@
           "direct": true
         },
         {
-          "key": "9|2Y 1|0",
-          "market": "2. Yarı Sonucu",
-          "selection": "1",
-          "name": "2Y 1",
-          "odds": 2.69,
-          "fair_prob": 0.30765,
-          "fair_odds": 3.25,
-          "ev": -0.1724,
+          "key": "416|İY 2 & İY KG Yok|0",
+          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+          "selection": "2 & Yok",
+          "name": "İY 2 & İY KG Yok",
+          "odds": 3.27,
+          "fair_prob": 0.253,
+          "fair_odds": 3.953,
+          "ev": -0.1727,
           "mbs": 1,
-          "direct": false
+          "direct": true
         },
         {
-          "key": "9|2Y 2|0",
-          "market": "2. Yarı Sonucu",
-          "selection": "2",
-          "name": "2Y 2",
-          "odds": 2.52,
-          "fair_prob": 0.32838,
-          "fair_odds": 3.045,
-          "ev": -0.1725,
+          "key": "414|MS 2 & KG Yok|0",
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "2 & Yok",
+          "name": "MS 2 & KG Yok",
+          "odds": 4.46,
+          "fair_prob": 0.1853,
+          "fair_odds": 5.397,
+          "ev": -0.1736,
           "mbs": 1,
-          "direct": false
-        },
-        {
-          "key": "459|İY 1 & İY 1.5 Alt|0",
-          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
-          "selection": "İY 1 & İY 1.5 Alt",
-          "name": "İY 1 & İY 1.5 Alt",
-          "odds": 4.73,
-          "fair_prob": 0.17468,
-          "fair_odds": 5.725,
-          "ev": -0.1738,
-          "mbs": 1,
-          "direct": false
+          "direct": true
         },
         {
           "key": "43|6+ Gol|0",
@@ -14425,10 +14473,10 @@
           "direct": false
         },
         {
-          "key": "268|Hnd(+1) 1|0",
-          "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(+1) 1",
-          "name": "Hnd(+1) 1",
+          "key": "3|ÇŞ 1X|0",
+          "market": "Çifte Şans",
+          "selection": "1-X",
+          "name": "ÇŞ 1X",
           "odds": 1.33,
           "fair_prob": 0.61986,
           "fair_odds": 1.613,
@@ -14437,10 +14485,10 @@
           "direct": false
         },
         {
-          "key": "3|ÇŞ X2|0",
-          "market": "Çifte Şans",
-          "selection": "X-2",
-          "name": "ÇŞ X2",
+          "key": "268|Hnd(-1) 2|0",
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(-1) 2",
+          "name": "Hnd(-1) 2",
           "odds": 1.28,
           "fair_prob": 0.64345,
           "fair_odds": 1.554,
@@ -14449,40 +14497,16 @@
           "direct": false
         },
         {
-          "key": "416|İY 1 & İY KG Yok|0",
-          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
-          "selection": "1 & Yok",
-          "name": "İY 1 & İY KG Yok",
-          "odds": 3.44,
-          "fair_prob": 0.2392,
-          "fair_odds": 4.181,
-          "ev": -0.1772,
+          "key": "328|Dep 2.5 Üst|0",
+          "market": "Deplasman 2,5 Gol Alt/Üst",
+          "selection": "2,5 Üst",
+          "name": "Dep 2.5 Üst",
+          "odds": 4.7,
+          "fair_prob": 0.1752,
+          "fair_odds": 5.708,
+          "ev": -0.1765,
           "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "272|MS 1 & 3.5 Alt|0",
-          "market": "Maç Sonucu ve Alt/Üst",
-          "selection": "MS 1 & 3.5 Alt",
-          "name": "MS 1 & 3.5 Alt",
-          "odds": 3.44,
-          "fair_prob": 0.2389,
-          "fair_odds": 4.186,
-          "ev": -0.1782,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "342|MS 2 & 1.5 Alt|0",
-          "market": "Maç Sonucu ve 1,5 Alt/Üst",
-          "selection": "2 & Alt",
-          "name": "MS 2 & 1.5 Alt",
-          "odds": 9.63,
-          "fair_prob": 0.0852,
-          "fair_odds": 11.737,
-          "ev": -0.1795,
-          "mbs": 1,
-          "direct": true
+          "direct": false
         },
         {
           "key": "48|En Çok Gol Eşit|0",
@@ -14497,50 +14521,50 @@
           "direct": false
         },
         {
-          "key": "272|MS 1 & 4.5 Alt|0",
+          "key": "272|MS 2 & 3.5 Üst|0",
           "market": "Maç Sonucu ve Alt/Üst",
-          "selection": "MS 1 & 4.5 Alt",
-          "name": "MS 1 & 4.5 Alt",
-          "odds": 2.88,
-          "fair_prob": 0.2843,
-          "fair_odds": 3.517,
-          "ev": -0.1812,
+          "selection": "MS 2 & 3.5 Üst",
+          "name": "MS 2 & 3.5 Üst",
+          "odds": 6.79,
+          "fair_prob": 0.1207,
+          "fair_odds": 8.285,
+          "ev": -0.1804,
           "mbs": 1,
           "direct": true
         },
         {
-          "key": "414|MS 2 & KG Var|0",
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "2 & Var",
-          "name": "MS 2 & KG Var",
-          "odds": 4.25,
-          "fair_prob": 0.1924,
-          "fair_odds": 5.198,
-          "ev": -0.1823,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "268|Hnd(-1) 2|0",
-          "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(-1) 2",
-          "name": "Hnd(-1) 2",
-          "odds": 1.27,
-          "fair_prob": 0.64345,
-          "fair_odds": 1.554,
-          "ev": -0.1828,
+          "key": "212|Ev 0.5 Alt|0",
+          "market": "Ev Sahibi 0,5 Gol Alt/Üst",
+          "selection": "0,5 Alt",
+          "name": "Ev 0.5 Alt",
+          "odds": 3.29,
+          "fair_prob": 0.249,
+          "fair_odds": 4.016,
+          "ev": -0.1808,
           "mbs": 1,
           "direct": false
         },
         {
-          "key": "343|MS 1 & 2.5 Üst|0",
+          "key": "459|İY 2 & İY 1.5 Alt|0",
+          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
+          "selection": "İY 2 & İY 1.5 Alt",
+          "name": "İY 2 & İY 1.5 Alt",
+          "odds": 4.56,
+          "fair_prob": 0.1795,
+          "fair_odds": 5.571,
+          "ev": -0.1815,
+          "mbs": 1,
+          "direct": false
+        },
+        {
+          "key": "343|MS 2 & 2.5 Alt|0",
           "market": "Maç Sonucu ve 2,5 Alt/Üst",
-          "selection": "1 & Üst",
-          "name": "MS 1 & 2.5 Üst",
-          "odds": 3.81,
-          "fair_prob": 0.2145,
-          "fair_odds": 4.662,
-          "ev": -0.1828,
+          "selection": "2 & Alt",
+          "name": "MS 2 & 2.5 Alt",
+          "odds": 5.75,
+          "fair_prob": 0.1421,
+          "fair_odds": 7.037,
+          "ev": -0.1829,
           "mbs": 1,
           "direct": true
         },
@@ -14557,14 +14581,14 @@
           "direct": false
         },
         {
-          "key": "343|MS 1 & 2.5 Alt|0",
-          "market": "Maç Sonucu ve 2,5 Alt/Üst",
-          "selection": "1 & Alt",
-          "name": "MS 1 & 2.5 Alt",
-          "odds": 6.05,
-          "fair_prob": 0.1349,
-          "fair_odds": 7.413,
-          "ev": -0.1839,
+          "key": "342|MS 0 & 1.5 Üst|0",
+          "market": "Maç Sonucu ve 1,5 Alt/Üst",
+          "selection": "X & Üst",
+          "name": "MS 0 & 1.5 Üst",
+          "odds": 3.9,
+          "fair_prob": 0.2092,
+          "fair_odds": 4.78,
+          "ev": -0.1841,
           "mbs": 1,
           "direct": true
         },
@@ -14581,112 +14605,52 @@
           "direct": true
         },
         {
-          "key": "342|MS 1 & 1.5 Üst|0",
+          "key": "342|MS 1 & 1.5 Alt|0",
           "market": "Maç Sonucu ve 1,5 Alt/Üst",
-          "selection": "1 & Üst",
-          "name": "MS 1 & 1.5 Üst",
-          "odds": 3.04,
-          "fair_prob": 0.2683,
-          "fair_odds": 3.727,
-          "ev": -0.1844,
+          "selection": "1 & Alt",
+          "name": "MS 1 & 1.5 Alt",
+          "odds": 9.98,
+          "fair_prob": 0.0817,
+          "fair_odds": 12.24,
+          "ev": -0.1846,
           "mbs": 1,
           "direct": true
         },
         {
-          "key": "326|Ev 2.5 Üst|0",
-          "market": "Ev Sahibi 2,5 Gol Alt/Üst",
-          "selection": "2,5 Üst",
-          "name": "Ev 2.5 Üst",
-          "odds": 5.01,
-          "fair_prob": 0.16268,
-          "fair_odds": 6.147,
-          "ev": -0.185,
-          "mbs": 1,
-          "direct": false
-        },
-        {
-          "key": "342|MS 0 & 1.5 Üst|0",
-          "market": "Maç Sonucu ve 1,5 Alt/Üst",
-          "selection": "X & Üst",
-          "name": "MS 0 & 1.5 Üst",
-          "odds": 3.89,
-          "fair_prob": 0.2092,
-          "fair_odds": 4.78,
-          "ev": -0.1862,
+          "key": "414|MS 1 & KG Var|0",
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "1 & Var",
+          "name": "MS 1 & KG Var",
+          "odds": 4.48,
+          "fair_prob": 0.1819,
+          "fair_odds": 5.498,
+          "ev": -0.1851,
           "mbs": 1,
           "direct": true
         },
         {
-          "key": "256|Dep 0.5 Alt|0",
-          "market": "Deplasman 0,5 Gol Alt/Üst",
-          "selection": "0,5 Alt",
-          "name": "Dep 0.5 Alt",
-          "odds": 3.44,
-          "fair_prob": 0.23648,
-          "fair_odds": 4.229,
-          "ev": -0.1865,
-          "mbs": 1,
-          "direct": false
-        },
-        {
-          "key": "272|MS 2 & 4.5 Alt|0",
-          "market": "Maç Sonucu ve Alt/Üst",
-          "selection": "MS 2 & 4.5 Alt",
-          "name": "MS 2 & 4.5 Alt",
-          "odds": 2.66,
-          "fair_prob": 0.3057,
-          "fair_odds": 3.271,
-          "ev": -0.1868,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "272|MS 2 & 3.5 Alt|0",
-          "market": "Maç Sonucu ve Alt/Üst",
-          "selection": "MS 2 & 3.5 Alt",
-          "name": "MS 2 & 3.5 Alt",
-          "odds": 3.19,
-          "fair_prob": 0.2549,
-          "fair_odds": 3.923,
-          "ev": -0.1869,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "459|İY 1 & İY 1.5 Üst|0",
+          "key": "459|İY 1 & İY 1.5 Alt|0",
           "market": "1.Y Sonucu ve 1.Y Alt/Üst",
-          "selection": "İY 1 & İY 1.5 Üst",
-          "name": "İY 1 & İY 1.5 Üst",
-          "odds": 7.33,
-          "fair_prob": 0.11082,
-          "fair_odds": 9.023,
-          "ev": -0.1877,
+          "selection": "İY 1 & İY 1.5 Alt",
+          "name": "İY 1 & İY 1.5 Alt",
+          "odds": 4.66,
+          "fair_prob": 0.17468,
+          "fair_odds": 5.725,
+          "ev": -0.186,
           "mbs": 1,
           "direct": false
         },
         {
-          "key": "343|MS 2 & 2.5 Üst|0",
-          "market": "Maç Sonucu ve 2,5 Alt/Üst",
-          "selection": "2 & Üst",
-          "name": "MS 2 & 2.5 Üst",
-          "odds": 3.47,
-          "fair_prob": 0.2341,
-          "fair_odds": 4.272,
-          "ev": -0.1877,
+          "key": "9|2Y 1|0",
+          "market": "2. Yarı Sonucu",
+          "selection": "1",
+          "name": "2Y 1",
+          "odds": 2.64,
+          "fair_prob": 0.30765,
+          "fair_odds": 3.25,
+          "ev": -0.1878,
           "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "416|İY 2 & İY KG Yok|0",
-          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
-          "selection": "2 & Yok",
-          "name": "İY 2 & İY KG Yok",
-          "odds": 3.21,
-          "fair_prob": 0.253,
-          "fair_odds": 3.953,
-          "ev": -0.1879,
-          "mbs": 1,
-          "direct": true
+          "direct": false
         },
         {
           "key": "414|MS 0 & KG Var|0",
@@ -14697,6 +14661,18 @@
           "fair_prob": 0.2081,
           "fair_odds": 4.805,
           "ev": -0.1884,
+          "mbs": 1,
+          "direct": true
+        },
+        {
+          "key": "1|MS 0|0",
+          "market": "Maç Sonucu",
+          "selection": "X",
+          "name": "MS 0",
+          "odds": 3.08,
+          "fair_prob": 0.2633,
+          "fair_odds": 3.798,
+          "ev": -0.189,
           "mbs": 1,
           "direct": true
         },
@@ -14725,52 +14701,40 @@
           "direct": true
         },
         {
-          "key": "342|MS 2 & 1.5 Üst|0",
-          "market": "Maç Sonucu ve 1,5 Alt/Üst",
-          "selection": "2 & Üst",
-          "name": "MS 2 & 1.5 Üst",
-          "odds": 2.77,
-          "fair_prob": 0.2919,
-          "fair_odds": 3.426,
-          "ev": -0.1914,
+          "key": "416|İY 1 & İY KG Yok|0",
+          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+          "selection": "1 & Yok",
+          "name": "İY 1 & İY KG Yok",
+          "odds": 3.37,
+          "fair_prob": 0.2392,
+          "fair_odds": 4.181,
+          "ev": -0.1939,
           "mbs": 1,
           "direct": true
         },
         {
-          "key": "1|MS 0|0",
-          "market": "Maç Sonucu",
-          "selection": "X",
-          "name": "MS 0",
-          "odds": 3.07,
-          "fair_prob": 0.2633,
-          "fair_odds": 3.798,
-          "ev": -0.1917,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "459|İY 2 & İY 1.5 Alt|0",
-          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
-          "selection": "İY 2 & İY 1.5 Alt",
-          "name": "İY 2 & İY 1.5 Alt",
-          "odds": 4.49,
-          "fair_prob": 0.1795,
-          "fair_odds": 5.571,
+          "key": "272|MS 2 & 4.5 Üst|0",
+          "market": "Maç Sonucu ve Alt/Üst",
+          "selection": "MS 2 & 4.5 Üst",
+          "name": "MS 2 & 4.5 Üst",
+          "odds": 11.4,
+          "fair_prob": 0.0707,
+          "fair_odds": 14.144,
           "ev": -0.194,
           "mbs": 1,
-          "direct": false
+          "direct": true
         },
         {
-          "key": "414|MS 2 & KG Yok|0",
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "2 & Yok",
-          "name": "MS 2 & KG Yok",
-          "odds": 4.34,
-          "fair_prob": 0.1853,
-          "fair_odds": 5.397,
-          "ev": -0.1958,
+          "key": "268|Hnd(+1) 1|0",
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(+1) 1",
+          "name": "Hnd(+1) 1",
+          "odds": 1.3,
+          "fair_prob": 0.61986,
+          "fair_odds": 1.613,
+          "ev": -0.1942,
           "mbs": 1,
-          "direct": true
+          "direct": false
         },
         {
           "key": "459|İY 0 & İY 1.5 Alt|0",
@@ -14797,28 +14761,16 @@
           "direct": true
         },
         {
-          "key": "414|MS 1 & KG Yok|0",
-          "market": "Maç Sonucu ve Karşılıklı Gol",
-          "selection": "1 & Yok",
-          "name": "MS 1 & KG Yok",
-          "odds": 4.76,
-          "fair_prob": 0.1686,
-          "fair_odds": 5.931,
-          "ev": -0.1975,
+          "key": "272|MS 1 & 3.5 Alt|0",
+          "market": "Maç Sonucu ve Alt/Üst",
+          "selection": "MS 1 & 3.5 Alt",
+          "name": "MS 1 & 3.5 Alt",
+          "odds": 3.36,
+          "fair_prob": 0.2389,
+          "fair_odds": 4.186,
+          "ev": -0.1973,
           "mbs": 1,
           "direct": true
-        },
-        {
-          "key": "212|Ev 0.5 Alt|0",
-          "market": "Ev Sahibi 0,5 Gol Alt/Üst",
-          "selection": "0,5 Alt",
-          "name": "Ev 0.5 Alt",
-          "odds": 3.22,
-          "fair_prob": 0.249,
-          "fair_odds": 4.016,
-          "ev": -0.1982,
-          "mbs": 1,
-          "direct": false
         },
         {
           "key": "272|MS 0 & 3.5 Alt|0",
@@ -14833,42 +14785,6 @@
           "direct": true
         },
         {
-          "key": "343|MS 2 & 2.5 Alt|0",
-          "market": "Maç Sonucu ve 2,5 Alt/Üst",
-          "selection": "2 & Alt",
-          "name": "MS 2 & 2.5 Alt",
-          "odds": 5.64,
-          "fair_prob": 0.1421,
-          "fair_odds": 7.037,
-          "ev": -0.1986,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "272|MS 1 & 3.5 Üst|0",
-          "market": "Maç Sonucu ve Alt/Üst",
-          "selection": "MS 1 & 3.5 Üst",
-          "name": "MS 1 & 3.5 Üst",
-          "odds": 7.35,
-          "fair_prob": 0.109,
-          "fair_odds": 9.174,
-          "ev": -0.1989,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "328|Dep 2.5 Üst|0",
-          "market": "Deplasman 2,5 Gol Alt/Üst",
-          "selection": "2,5 Üst",
-          "name": "Dep 2.5 Üst",
-          "odds": 4.57,
-          "fair_prob": 0.1752,
-          "fair_odds": 5.708,
-          "ev": -0.1993,
-          "mbs": 1,
-          "direct": false
-        },
-        {
           "key": "43|4-5 Gol|0",
           "market": "Toplam Gol Aralığı",
           "selection": "4-5 Gol",
@@ -14879,6 +14795,30 @@
           "ev": -0.2009,
           "mbs": 1,
           "direct": false
+        },
+        {
+          "key": "272|MS 1 & 4.5 Alt|0",
+          "market": "Maç Sonucu ve Alt/Üst",
+          "selection": "MS 1 & 4.5 Alt",
+          "name": "MS 1 & 4.5 Alt",
+          "odds": 2.81,
+          "fair_prob": 0.2843,
+          "fair_odds": 3.517,
+          "ev": -0.2011,
+          "mbs": 1,
+          "direct": true
+        },
+        {
+          "key": "343|MS 1 & 2.5 Alt|0",
+          "market": "Maç Sonucu ve 2,5 Alt/Üst",
+          "selection": "1 & Alt",
+          "name": "MS 1 & 2.5 Alt",
+          "odds": 5.92,
+          "fair_prob": 0.1349,
+          "fair_odds": 7.413,
+          "ev": -0.2014,
+          "mbs": 1,
+          "direct": true
         },
         {
           "key": "291|İlk Gol Yok|0",
@@ -14893,14 +14833,50 @@
           "direct": false
         },
         {
-          "key": "272|MS 1 & 4.5 Üst|0",
-          "market": "Maç Sonucu ve Alt/Üst",
-          "selection": "MS 1 & 4.5 Üst",
-          "name": "MS 1 & 4.5 Üst",
-          "odds": 12.3,
-          "fair_prob": 0.0648,
-          "fair_odds": 15.432,
+          "key": "256|Dep 0.5 Alt|0",
+          "market": "Deplasman 0,5 Gol Alt/Üst",
+          "selection": "0,5 Alt",
+          "name": "Dep 0.5 Alt",
+          "odds": 3.37,
+          "fair_prob": 0.23648,
+          "fair_odds": 4.229,
           "ev": -0.203,
+          "mbs": 1,
+          "direct": false
+        },
+        {
+          "key": "459|İY 2 & İY 1.5 Üst|0",
+          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
+          "selection": "İY 2 & İY 1.5 Üst",
+          "name": "İY 2 & İY 1.5 Üst",
+          "odds": 6.85,
+          "fair_prob": 0.11631,
+          "fair_odds": 8.598,
+          "ev": -0.2033,
+          "mbs": 1,
+          "direct": false
+        },
+        {
+          "key": "268|Hnd(+1) 0|0",
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(+1) 0",
+          "name": "Hnd(+1) 0",
+          "odds": 3.94,
+          "fair_prob": 0.20218,
+          "fair_odds": 4.946,
+          "ev": -0.2034,
+          "mbs": 1,
+          "direct": false
+        },
+        {
+          "key": "5|İY/MS 0/2|0",
+          "market": "İlk Yarı/Maç Sonucu",
+          "selection": "X/2",
+          "name": "İY/MS 0/2",
+          "odds": 5.76,
+          "fair_prob": 0.1383,
+          "fair_odds": 7.231,
+          "ev": -0.2034,
           "mbs": 1,
           "direct": true
         },
@@ -14929,50 +14905,86 @@
           "direct": true
         },
         {
-          "key": "272|MS 2 & 3.5 Üst|0",
-          "market": "Maç Sonucu ve Alt/Üst",
-          "selection": "MS 2 & 3.5 Üst",
-          "name": "MS 2 & 3.5 Üst",
-          "odds": 6.57,
-          "fair_prob": 0.1207,
-          "fair_odds": 8.285,
-          "ev": -0.207,
+          "key": "343|MS 1 & 2.5 Üst|0",
+          "market": "Maç Sonucu ve 2,5 Alt/Üst",
+          "selection": "1 & Üst",
+          "name": "MS 1 & 2.5 Üst",
+          "odds": 3.7,
+          "fair_prob": 0.2145,
+          "fair_odds": 4.662,
+          "ev": -0.2063,
           "mbs": 1,
           "direct": true
         },
         {
-          "key": "416|İY 1 & İY KG Var|0",
-          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
-          "selection": "1 & Var",
-          "name": "İY 1 & İY KG Var",
-          "odds": 17.85,
-          "fair_prob": 0.0444,
-          "fair_odds": 22.523,
-          "ev": -0.2075,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "268|Hnd(-1) 0|0",
-          "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(-1) 0",
-          "name": "Hnd(-1) 0",
-          "odds": 4.06,
-          "fair_prob": 0.19459,
-          "fair_odds": 5.139,
-          "ev": -0.21,
+          "key": "326|Ev 2.5 Üst|0",
+          "market": "Ev Sahibi 2,5 Gol Alt/Üst",
+          "selection": "2,5 Üst",
+          "name": "Ev 2.5 Üst",
+          "odds": 4.87,
+          "fair_prob": 0.16268,
+          "fair_odds": 6.147,
+          "ev": -0.2077,
           "mbs": 1,
           "direct": false
         },
         {
-          "key": "268|Hnd(+1) 0|0",
+          "key": "268|Hnd(+1) 2|0",
           "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(+1) 0",
-          "name": "Hnd(+1) 0",
-          "odds": 3.9,
-          "fair_prob": 0.20218,
-          "fair_odds": 4.946,
-          "ev": -0.2115,
+          "selection": "Hnd(+1) 2",
+          "name": "Hnd(+1) 2",
+          "odds": 4.45,
+          "fair_prob": 0.17796,
+          "fair_odds": 5.619,
+          "ev": -0.2081,
+          "mbs": 1,
+          "direct": false
+        },
+        {
+          "key": "342|MS 1 & 1.5 Üst|0",
+          "market": "Maç Sonucu ve 1,5 Alt/Üst",
+          "selection": "1 & Üst",
+          "name": "MS 1 & 1.5 Üst",
+          "odds": 2.95,
+          "fair_prob": 0.2683,
+          "fair_odds": 3.727,
+          "ev": -0.2085,
+          "mbs": 1,
+          "direct": true
+        },
+        {
+          "key": "5|İY/MS 2/2|0",
+          "market": "İlk Yarı/Maç Sonucu",
+          "selection": "2/2",
+          "name": "İY/MS 2/2",
+          "odds": 3.67,
+          "fair_prob": 0.2155,
+          "fair_odds": 4.64,
+          "ev": -0.2091,
+          "mbs": 1,
+          "direct": true
+        },
+        {
+          "key": "416|İY 2 & İY KG Var|0",
+          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+          "selection": "2 & Var",
+          "name": "İY 2 & İY KG Var",
+          "odds": 17.0,
+          "fair_prob": 0.0465,
+          "fair_odds": 21.505,
+          "ev": -0.2095,
+          "mbs": 1,
+          "direct": true
+        },
+        {
+          "key": "459|İY 1 & İY 1.5 Üst|0",
+          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
+          "selection": "İY 1 & İY 1.5 Üst",
+          "name": "İY 1 & İY 1.5 Üst",
+          "odds": 7.12,
+          "fair_prob": 0.11082,
+          "fair_odds": 9.023,
+          "ev": -0.2109,
           "mbs": 1,
           "direct": false
         },
@@ -14989,40 +15001,16 @@
           "direct": true
         },
         {
-          "key": "268|Hnd(-1) 1|0",
+          "key": "268|Hnd(-1) 0|0",
           "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(-1) 1",
-          "name": "Hnd(-1) 1",
-          "odds": 4.84,
-          "fair_prob": 0.16196,
-          "fair_odds": 6.174,
-          "ev": -0.2161,
+          "selection": "Hnd(-1) 0",
+          "name": "Hnd(-1) 0",
+          "odds": 4.01,
+          "fair_prob": 0.19459,
+          "fair_odds": 5.139,
+          "ev": -0.2197,
           "mbs": 1,
           "direct": false
-        },
-        {
-          "key": "5|İY/MS 0/2|0",
-          "market": "İlk Yarı/Maç Sonucu",
-          "selection": "X/2",
-          "name": "İY/MS 0/2",
-          "odds": 5.66,
-          "fair_prob": 0.1383,
-          "fair_odds": 7.231,
-          "ev": -0.2172,
-          "mbs": 1,
-          "direct": true
-        },
-        {
-          "key": "272|MS 2 & 4.5 Üst|0",
-          "market": "Maç Sonucu ve Alt/Üst",
-          "selection": "MS 2 & 4.5 Üst",
-          "name": "MS 2 & 4.5 Üst",
-          "odds": 11.05,
-          "fair_prob": 0.0707,
-          "fair_odds": 14.144,
-          "ev": -0.2188,
-          "mbs": 1,
-          "direct": true
         },
         {
           "key": "155|4.5 Üst|0",
@@ -15037,38 +15025,38 @@
           "direct": true
         },
         {
-          "key": "416|İY 2 & İY KG Var|0",
-          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
-          "selection": "2 & Var",
-          "name": "İY 2 & İY KG Var",
-          "odds": 16.7,
-          "fair_prob": 0.0465,
-          "fair_odds": 21.505,
-          "ev": -0.2235,
+          "key": "414|MS 1 & KG Yok|0",
+          "market": "Maç Sonucu ve Karşılıklı Gol",
+          "selection": "1 & Yok",
+          "name": "MS 1 & KG Yok",
+          "odds": 4.62,
+          "fair_prob": 0.1686,
+          "fair_odds": 5.931,
+          "ev": -0.2211,
           "mbs": 1,
           "direct": true
         },
         {
-          "key": "459|İY 2 & İY 1.5 Üst|0",
-          "market": "1.Y Sonucu ve 1.Y Alt/Üst",
-          "selection": "İY 2 & İY 1.5 Üst",
-          "name": "İY 2 & İY 1.5 Üst",
-          "odds": 6.66,
-          "fair_prob": 0.11631,
-          "fair_odds": 8.598,
-          "ev": -0.2254,
+          "key": "416|İY 1 & İY KG Var|0",
+          "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+          "selection": "1 & Var",
+          "name": "İY 1 & İY KG Var",
+          "odds": 17.45,
+          "fair_prob": 0.0444,
+          "fair_odds": 22.523,
+          "ev": -0.2252,
           "mbs": 1,
-          "direct": false
+          "direct": true
         },
         {
-          "key": "5|İY/MS 1/1|0",
-          "market": "İlk Yarı/Maç Sonucu",
-          "selection": "1/1",
-          "name": "İY/MS 1/1",
-          "odds": 3.94,
-          "fair_prob": 0.1964,
-          "fair_odds": 5.092,
-          "ev": -0.2262,
+          "key": "272|MS 1 & 3.5 Üst|0",
+          "market": "Maç Sonucu ve Alt/Üst",
+          "selection": "MS 1 & 3.5 Üst",
+          "name": "MS 1 & 3.5 Üst",
+          "odds": 7.1,
+          "fair_prob": 0.109,
+          "fair_odds": 9.174,
+          "ev": -0.2261,
           "mbs": 1,
           "direct": true
         },
@@ -15097,28 +15085,16 @@
           "direct": false
         },
         {
-          "key": "5|İY/MS 2/2|0",
-          "market": "İlk Yarı/Maç Sonucu",
-          "selection": "2/2",
-          "name": "İY/MS 2/2",
-          "odds": 3.57,
-          "fair_prob": 0.2155,
-          "fair_odds": 4.64,
-          "ev": -0.2307,
+          "key": "272|MS 1 & 4.5 Üst|0",
+          "market": "Maç Sonucu ve Alt/Üst",
+          "selection": "MS 1 & 4.5 Üst",
+          "name": "MS 1 & 4.5 Üst",
+          "odds": 11.9,
+          "fair_prob": 0.0648,
+          "fair_odds": 15.432,
+          "ev": -0.2289,
           "mbs": 1,
           "direct": true
-        },
-        {
-          "key": "268|Hnd(+1) 2|0",
-          "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(+1) 2",
-          "name": "Hnd(+1) 2",
-          "odds": 4.3,
-          "fair_prob": 0.17796,
-          "fair_odds": 5.619,
-          "ev": -0.2348,
-          "mbs": 1,
-          "direct": false
         },
         {
           "key": "414|MS 0 & KG Yok|0",
@@ -15133,14 +15109,14 @@
           "direct": true
         },
         {
-          "key": "5|İY/MS 0/1|0",
-          "market": "İlk Yarı/Maç Sonucu",
-          "selection": "X/1",
-          "name": "İY/MS 0/1",
-          "odds": 6.03,
-          "fair_prob": 0.1262,
-          "fair_odds": 7.924,
-          "ev": -0.239,
+          "key": "15|İY 2.5 Üst|0",
+          "market": "1. Yarı 2,5 Gol Alt/Üst",
+          "selection": "2,5 Üst",
+          "name": "İY 2.5 Üst",
+          "odds": 5.9,
+          "fair_prob": 0.1288,
+          "fair_odds": 7.764,
+          "ev": -0.2401,
           "mbs": 1,
           "direct": true
         },
@@ -15157,18 +15133,6 @@
           "direct": true
         },
         {
-          "key": "15|İY 2.5 Üst|0",
-          "market": "1. Yarı 2,5 Gol Alt/Üst",
-          "selection": "2,5 Üst",
-          "name": "İY 2.5 Üst",
-          "odds": 5.89,
-          "fair_prob": 0.1288,
-          "fair_odds": 7.764,
-          "ev": -0.2414,
-          "mbs": 1,
-          "direct": true
-        },
-        {
           "key": "342|MS 0 & 1.5 Alt|0",
           "market": "Maç Sonucu ve 1,5 Alt/Üst",
           "selection": "X & Alt",
@@ -15179,6 +15143,18 @@
           "ev": -0.242,
           "mbs": 1,
           "direct": true
+        },
+        {
+          "key": "268|Hnd(-1) 1|0",
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(-1) 1",
+          "name": "Hnd(-1) 1",
+          "odds": 4.67,
+          "fair_prob": 0.16196,
+          "fair_odds": 6.174,
+          "ev": -0.2436,
+          "mbs": 1,
+          "direct": false
         },
         {
           "key": "5|İY/MS 0/0|0",
@@ -15193,26 +15169,38 @@
           "direct": true
         },
         {
-          "key": "591|Ev Her İki Yarıyı Kazanır|0",
-          "market": "Ev Sahibi Her İki Yarıyı da Kazanır",
-          "selection": "Evet",
-          "name": "Ev Her İki Yarıyı Kazanır",
-          "odds": 8.76,
-          "fair_prob": 0.08493,
-          "fair_odds": 11.775,
-          "ev": -0.256,
+          "key": "5|İY/MS 1/1|0",
+          "market": "İlk Yarı/Maç Sonucu",
+          "selection": "1/1",
+          "name": "İY/MS 1/1",
+          "odds": 3.82,
+          "fair_prob": 0.1964,
+          "fair_odds": 5.092,
+          "ev": -0.2498,
           "mbs": 1,
-          "direct": false
+          "direct": true
+        },
+        {
+          "key": "5|İY/MS 0/1|0",
+          "market": "İlk Yarı/Maç Sonucu",
+          "selection": "X/1",
+          "name": "İY/MS 0/1",
+          "odds": 5.91,
+          "fair_prob": 0.1262,
+          "fair_odds": 7.924,
+          "ev": -0.2542,
+          "mbs": 1,
+          "direct": true
         },
         {
           "key": "5|İY/MS 1/2|0",
           "market": "İlk Yarı/Maç Sonucu",
           "selection": "1/2",
           "name": "İY/MS 1/2",
-          "odds": 26.5,
+          "odds": 27.0,
           "fair_prob": 0.0275,
           "fair_odds": 36.364,
-          "ev": -0.2712,
+          "ev": -0.2575,
           "mbs": 1,
           "direct": true
         },
@@ -15221,22 +15209,34 @@
           "market": "İlk Yarı/Maç Sonucu",
           "selection": "1/X",
           "name": "İY/MS 1/0",
-          "odds": 12.85,
+          "odds": 12.8,
           "fair_prob": 0.0562,
           "fair_odds": 17.794,
-          "ev": -0.2778,
+          "ev": -0.2806,
           "mbs": 1,
           "direct": true
+        },
+        {
+          "key": "591|Ev Her İki Yarıyı Kazanır|0",
+          "market": "Ev Sahibi Her İki Yarıyı da Kazanır",
+          "selection": "Evet",
+          "name": "Ev Her İki Yarıyı Kazanır",
+          "odds": 8.45,
+          "fair_prob": 0.08493,
+          "fair_odds": 11.775,
+          "ev": -0.2824,
+          "mbs": 1,
+          "direct": false
         },
         {
           "key": "5|İY/MS 2/0|0",
           "market": "İlk Yarı/Maç Sonucu",
           "selection": "2/X",
           "name": "İY/MS 2/0",
-          "odds": 12.7,
+          "odds": 12.75,
           "fair_prob": 0.0562,
           "fair_odds": 17.794,
-          "ev": -0.2863,
+          "ev": -0.2834,
           "mbs": 1,
           "direct": true
         },
@@ -15245,10 +15245,10 @@
           "market": "Handikaplı Maç Sonucu",
           "selection": "Hnd(+2) 0",
           "name": "Hnd(+2) 0",
-          "odds": 6.22,
+          "odds": 6.36,
           "fair_prob": 0.11245,
           "fair_odds": 8.893,
-          "ev": -0.3006,
+          "ev": -0.2848,
           "mbs": 1,
           "direct": false
         },
@@ -15257,10 +15257,10 @@
           "market": "Handikaplı Maç Sonucu",
           "selection": "Hnd(+2) 2",
           "name": "Hnd(+2) 2",
-          "odds": 10.15,
+          "odds": 10.6,
           "fair_prob": 0.06551,
           "fair_odds": 15.266,
-          "ev": -0.3351,
+          "ev": -0.3056,
           "mbs": 1,
           "direct": false
         },
@@ -15269,10 +15269,10 @@
           "market": "0,5 Gol Alt/Üst",
           "selection": "0,5 Alt",
           "name": "0.5 Alt",
-          "odds": 10.3,
+          "odds": 10.4,
           "fair_prob": 0.0629,
           "fair_odds": 15.898,
-          "ev": -0.3521,
+          "ev": -0.3458,
           "mbs": 1,
           "direct": true
         },
@@ -23357,11 +23357,11 @@
       "home": "Real Cartagena",
       "away": "Tigres (Kol)",
       "nesine_ms": [
-        1.16,
-        4.1,
-        7.89
+        1.14,
+        4.25,
+        8.36
       ],
-      "n_nesine_selections": 29,
+      "n_nesine_selections": 32,
       "match_score": 1.0,
       "ref_match": "Real Cartagena - Tigres FC",
       "mu_home": 2.119,
@@ -23386,7 +23386,7 @@
         0.1919,
         0.0814
       ],
-      "nesine_ms_margin": 0.2327,
+      "nesine_ms_margin": 0.2321,
       "derivatives_priced": true,
       "selections": [
         {
@@ -23394,34 +23394,22 @@
           "market": "2. Yarı Sonucu",
           "selection": "1",
           "name": "2Y 1",
-          "odds": 1.48,
+          "odds": 1.46,
           "fair_prob": 0.58058,
           "fair_odds": 1.722,
-          "ev": -0.1407,
+          "ev": -0.1524,
           "mbs": 3,
           "direct": false
         },
         {
-          "key": "1|MS 1|0",
-          "market": "Maç Sonucu",
-          "selection": "1",
-          "name": "MS 1",
-          "odds": 1.16,
-          "fair_prob": 0.72978,
-          "fair_odds": 1.37,
-          "ev": -0.1535,
-          "mbs": 3,
-          "direct": true
-        },
-        {
-          "key": "20|Ev 1.5 Üst|0",
-          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
-          "selection": "1,5 Üst",
-          "name": "Ev 1.5 Üst",
-          "odds": 1.34,
-          "fair_prob": 0.62372,
-          "fair_odds": 1.603,
-          "ev": -0.1642,
+          "key": "7|İY 0|0",
+          "market": "1. Yarı Sonucu",
+          "selection": "X",
+          "name": "İY 0",
+          "odds": 2.19,
+          "fair_prob": 0.38343,
+          "fair_odds": 2.608,
+          "ev": -0.1603,
           "mbs": 3,
           "direct": false
         },
@@ -23438,26 +23426,26 @@
           "direct": false
         },
         {
-          "key": "7|İY 0|0",
-          "market": "1. Yarı Sonucu",
-          "selection": "X",
-          "name": "İY 0",
-          "odds": 2.17,
-          "fair_prob": 0.38343,
-          "fair_odds": 2.608,
+          "key": "1|MS 1|0",
+          "market": "Maç Sonucu",
+          "selection": "1",
+          "name": "MS 1",
+          "odds": 1.14,
+          "fair_prob": 0.72978,
+          "fair_odds": 1.37,
           "ev": -0.168,
           "mbs": 3,
-          "direct": false
+          "direct": true
         },
         {
-          "key": "256|Dep 0.5 Alt|0",
-          "market": "Deplasman 0,5 Gol Alt/Üst",
-          "selection": "0,5 Alt",
-          "name": "Dep 0.5 Alt",
-          "odds": 1.49,
-          "fair_prob": 0.55641,
-          "fair_odds": 1.797,
-          "ev": -0.1709,
+          "key": "20|Ev 1.5 Üst|0",
+          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
+          "selection": "1,5 Üst",
+          "name": "Ev 1.5 Üst",
+          "odds": 1.33,
+          "fair_prob": 0.62372,
+          "fair_odds": 1.603,
+          "ev": -0.1705,
           "mbs": 3,
           "direct": false
         },
@@ -23474,18 +23462,6 @@
           "direct": false
         },
         {
-          "key": "38|KG Yok|0",
-          "market": "Karşılıklı Gol",
-          "selection": "Yok",
-          "name": "KG Yok",
-          "odds": 1.36,
-          "fair_prob": 0.60556,
-          "fair_odds": 1.651,
-          "ev": -0.1764,
-          "mbs": 3,
-          "direct": false
-        },
-        {
           "key": "12|2.5 Üst|0",
           "market": "2,5 Gol Alt/Üst",
           "selection": "2,5 Üst",
@@ -23498,38 +23474,74 @@
           "direct": true
         },
         {
-          "key": "268|Hnd(-1) 1|0",
-          "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(-1) 1",
-          "name": "Hnd(-1) 1",
-          "odds": 1.7,
-          "fair_prob": 0.47922,
-          "fair_odds": 2.087,
-          "ev": -0.1853,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "key": "7|İY 1|0",
-          "market": "1. Yarı Sonucu",
-          "selection": "1",
-          "name": "İY 1",
-          "odds": 1.56,
-          "fair_prob": 0.52148,
-          "fair_odds": 1.918,
-          "ev": -0.1865,
-          "mbs": 3,
-          "direct": false
-        },
-        {
           "key": "49|Çift|0",
           "market": "Tek/Çift",
           "selection": "Çift",
           "name": "Çift",
-          "odds": 1.6,
+          "odds": 1.61,
           "fair_prob": 0.50729,
           "fair_odds": 1.971,
-          "ev": -0.1883,
+          "ev": -0.1833,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "key": "38|KG Var|0",
+          "market": "Karşılıklı Gol",
+          "selection": "Var",
+          "name": "KG Var",
+          "odds": 2.07,
+          "fair_prob": 0.39444,
+          "fair_odds": 2.535,
+          "ev": -0.1835,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "key": "256|Dep 0.5 Üst|0",
+          "market": "Deplasman 0,5 Gol Alt/Üst",
+          "selection": "0,5 Üst",
+          "name": "Dep 0.5 Üst",
+          "odds": 1.84,
+          "fair_prob": 0.44359,
+          "fair_odds": 2.254,
+          "ev": -0.1838,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "key": "268|Hnd(-2) 2|0",
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(-2) 2",
+          "name": "Hnd(-2) 2",
+          "odds": 1.56,
+          "fair_prob": 0.52078,
+          "fair_odds": 1.92,
+          "ev": -0.1876,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "key": "38|KG Yok|0",
+          "market": "Karşılıklı Gol",
+          "selection": "Yok",
+          "name": "KG Yok",
+          "odds": 1.34,
+          "fair_prob": 0.60556,
+          "fair_odds": 1.651,
+          "ev": -0.1886,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "key": "256|Dep 0.5 Alt|0",
+          "market": "Deplasman 0,5 Gol Alt/Üst",
+          "selection": "0,5 Alt",
+          "name": "Dep 0.5 Alt",
+          "odds": 1.45,
+          "fair_prob": 0.55641,
+          "fair_odds": 1.797,
+          "ev": -0.1932,
           "mbs": 3,
           "direct": false
         },
@@ -23541,6 +23553,18 @@
           "odds": 1.63,
           "fair_prob": 0.49271,
           "fair_odds": 2.03,
+          "ev": -0.1969,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "key": "7|İY 1|0",
+          "market": "1. Yarı Sonucu",
+          "selection": "1",
+          "name": "İY 1",
+          "odds": 1.54,
+          "fair_prob": 0.52148,
+          "fair_odds": 1.918,
           "ev": -0.1969,
           "mbs": 3,
           "direct": false
@@ -23558,14 +23582,38 @@
           "direct": true
         },
         {
-          "key": "38|KG Var|0",
-          "market": "Karşılıklı Gol",
+          "key": "268|Hnd(-1) 1|0",
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(-1) 1",
+          "name": "Hnd(-1) 1",
+          "odds": 1.66,
+          "fair_prob": 0.47922,
+          "fair_odds": 2.087,
+          "ev": -0.2045,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "key": "599|2Y KG Var|0",
+          "market": "2. Yarı Karşılıklı Gol",
           "selection": "Var",
-          "name": "KG Var",
-          "odds": 2.01,
-          "fair_prob": 0.39444,
-          "fair_odds": 2.535,
-          "ev": -0.2072,
+          "name": "2Y KG Var",
+          "odds": 4.03,
+          "fair_prob": 0.19738,
+          "fair_odds": 5.066,
+          "ev": -0.2045,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "key": "9|2Y 0|0",
+          "market": "2. Yarı Sonucu",
+          "selection": "X",
+          "name": "2Y 0",
+          "odds": 2.48,
+          "fair_prob": 0.31957,
+          "fair_odds": 3.129,
+          "ev": -0.2075,
           "mbs": 3,
           "direct": false
         },
@@ -23582,50 +23630,26 @@
           "direct": false
         },
         {
-          "key": "256|Dep 0.5 Üst|0",
-          "market": "Deplasman 0,5 Gol Alt/Üst",
-          "selection": "0,5 Üst",
-          "name": "Dep 0.5 Üst",
-          "odds": 1.78,
-          "fair_prob": 0.44359,
-          "fair_odds": 2.254,
-          "ev": -0.2104,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "key": "9|2Y 0|0",
-          "market": "2. Yarı Sonucu",
+          "key": "1|MS 0|0",
+          "market": "Maç Sonucu",
           "selection": "X",
-          "name": "2Y 0",
-          "odds": 2.46,
-          "fair_prob": 0.31957,
-          "fair_odds": 3.129,
-          "ev": -0.2139,
+          "name": "MS 0",
+          "odds": 4.25,
+          "fair_prob": 0.18601,
+          "fair_odds": 5.376,
+          "ev": -0.2095,
           "mbs": 3,
-          "direct": false
+          "direct": true
         },
         {
           "key": "20|Ev 1.5 Alt|0",
           "market": "Ev Sahibi 1,5 Gol Alt/Üst",
           "selection": "1,5 Alt",
           "name": "Ev 1.5 Alt",
-          "odds": 2.06,
+          "odds": 2.09,
           "fair_prob": 0.37628,
           "fair_odds": 2.658,
-          "ev": -0.2249,
-          "mbs": 3,
-          "direct": false
-        },
-        {
-          "key": "599|2Y KG Var|0",
-          "market": "2. Yarı Karşılıklı Gol",
-          "selection": "Var",
-          "name": "2Y KG Var",
-          "odds": 3.91,
-          "fair_prob": 0.19738,
-          "fair_odds": 5.066,
-          "ev": -0.2282,
+          "ev": -0.2136,
           "mbs": 3,
           "direct": false
         },
@@ -23642,26 +23666,14 @@
           "direct": false
         },
         {
-          "key": "1|MS 0|0",
-          "market": "Maç Sonucu",
-          "selection": "X",
-          "name": "MS 0",
-          "odds": 4.1,
-          "fair_prob": 0.18601,
-          "fair_odds": 5.376,
-          "ev": -0.2374,
-          "mbs": 3,
-          "direct": true
-        },
-        {
-          "key": "268|Hnd(-1) 0|0",
-          "market": "Handikaplı Maç Sonucu",
-          "selection": "Hnd(-1) 0",
-          "name": "Hnd(-1) 0",
-          "odds": 3.03,
-          "fair_prob": 0.25057,
-          "fair_odds": 3.991,
-          "ev": -0.2408,
+          "key": "7|İY 2|0",
+          "market": "1. Yarı Sonucu",
+          "selection": "2",
+          "name": "İY 2",
+          "odds": 8.0,
+          "fair_prob": 0.09509,
+          "fair_odds": 10.516,
+          "ev": -0.2393,
           "mbs": 3,
           "direct": false
         },
@@ -23670,46 +23682,46 @@
           "market": "Handikaplı Maç Sonucu",
           "selection": "Hnd(-1) 2",
           "name": "Hnd(-1) 2",
-          "odds": 2.69,
+          "odds": 2.81,
           "fair_prob": 0.27022,
           "fair_odds": 3.701,
-          "ev": -0.2731,
+          "ev": -0.2407,
           "mbs": 3,
           "direct": false
         },
         {
-          "key": "7|İY 2|0",
-          "market": "1. Yarı Sonucu",
-          "selection": "2",
-          "name": "İY 2",
-          "odds": 7.6,
-          "fair_prob": 0.09509,
-          "fair_odds": 10.516,
-          "ev": -0.2773,
+          "key": "268|Hnd(-1) 0|0",
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(-1) 0",
+          "name": "Hnd(-1) 0",
+          "odds": 3.02,
+          "fair_prob": 0.25057,
+          "fair_odds": 3.991,
+          "ev": -0.2433,
           "mbs": 3,
           "direct": false
         },
         {
-          "key": "452|İY KG Var|0",
-          "market": "1. Yarı Karşılıklı Gol",
-          "selection": "Var",
-          "name": "İY KG Var",
-          "odds": 4.76,
-          "fair_prob": 0.14218,
-          "fair_odds": 7.033,
-          "ev": -0.3232,
+          "key": "268|Hnd(-2) 0|0",
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(-2) 0",
+          "name": "Hnd(-2) 0",
+          "odds": 3.33,
+          "fair_prob": 0.22353,
+          "fair_odds": 4.474,
+          "ev": -0.2557,
           "mbs": 3,
           "direct": false
         },
         {
-          "key": "9|2Y 2|0",
-          "market": "2. Yarı Sonucu",
-          "selection": "2",
-          "name": "2Y 2",
-          "odds": 6.66,
-          "fair_prob": 0.09985,
-          "fair_odds": 10.015,
-          "ev": -0.335,
+          "key": "268|Hnd(-2) 1|0",
+          "market": "Handikaplı Maç Sonucu",
+          "selection": "Hnd(-2) 1",
+          "name": "Hnd(-2) 1",
+          "odds": 2.85,
+          "fair_prob": 0.25569,
+          "fair_odds": 3.911,
+          "ev": -0.2713,
           "mbs": 3,
           "direct": false
         },
@@ -23718,22 +23730,46 @@
           "market": "Maç Sonucu",
           "selection": "2",
           "name": "MS 2",
-          "odds": 7.89,
+          "odds": 8.36,
           "fair_prob": 0.08421,
           "fair_odds": 11.875,
-          "ev": -0.3356,
+          "ev": -0.296,
           "mbs": 3,
           "direct": true
+        },
+        {
+          "key": "9|2Y 2|0",
+          "market": "2. Yarı Sonucu",
+          "selection": "2",
+          "name": "2Y 2",
+          "odds": 7.04,
+          "fair_prob": 0.09985,
+          "fair_odds": 10.015,
+          "ev": -0.297,
+          "mbs": 3,
+          "direct": false
+        },
+        {
+          "key": "452|İY KG Var|0",
+          "market": "1. Yarı Karşılıklı Gol",
+          "selection": "Var",
+          "name": "İY KG Var",
+          "odds": 4.88,
+          "fair_prob": 0.14218,
+          "fair_odds": 7.033,
+          "ev": -0.3061,
+          "mbs": 3,
+          "direct": false
         },
         {
           "key": "3|ÇŞ X2|0",
           "market": "Çifte Şans",
           "selection": "X-2",
           "name": "ÇŞ X2",
-          "odds": 2.45,
+          "odds": 2.54,
           "fair_prob": 0.27022,
           "fair_odds": 3.701,
-          "ev": -0.338,
+          "ev": -0.3137,
           "mbs": 3,
           "direct": false
         }

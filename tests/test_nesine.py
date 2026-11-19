@@ -39,7 +39,8 @@ def test_every_translation_is_priceable():
         for oc in d["outcomes"]:
             for sov in (0.0, 0.5, 1.5, 2.5, -1.0):
                 tr = translate(mtid, oc, sov, DEFS)
-                if tr and not tr[0].startswith("İlk Gol"):
+                # corners are priced only from direct exchange quotes, never from the goal grid
+                if tr and not tr[0].startswith("İlk Gol") and "Korner" not in tr[0]:
                     goal_probability(tr[0], joint)  # must not raise
 
 

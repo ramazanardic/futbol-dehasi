@@ -118,11 +118,17 @@ def goal_event_mask(name: str, g: GoalGrid) -> np.ndarray:
     m = re.fullmatch(r"İY/MS ([10X2x])/([10X2x])", s)
     if m:
         return (_sign(g.h1 - g.a1) == _DRAW_ALIASES[m.group(1)]) & (_sign(g.fh - g.fa) == _DRAW_ALIASES[m.group(2)])
-    m = re.fullmatch(r"ÇŞ (1X|10|12|X2|02)", s)
+    m = re.fullmatch(r"(?:(İY|2Y) )?ÇŞ (1X|10|12|X2|02)", s)
     if m:
-        res = _sign(g.fh - g.fa)
-        a, b = _DC[m.group(1)]
+        h, a_ = _half(g, m.group(1) or "MS")
+        res = _sign(h - a_)
+        a, b = _DC[m.group(2)]
         return (res == a) | (res == b)
+    m = re.fullmatch(r"(Ev|Dep) (İY|2Y) (\d+\.5) (Üst|Alt)", s)
+    if m:  # one team's goals in one half
+        s1, _, s2, _ = _team(g, m.group(1))
+        over = (s1 if m.group(2) == "İY" else s2) > float(m.group(3))
+        return over if m.group(4) == "Üst" else ~over
     m = re.fullmatch(r"(?:(İY|2Y|Ev|Dep) )?(\d+\.5) (Üst|Alt)", s)
     if m:
         scope = m.group(1)
@@ -175,10 +181,21 @@ def goal_event_mask(name: str, g: GoalGrid) -> np.ndarray:
         if kind == "Her İki Yarıyı Kazanır":
             return (s1 > c1) & (s2 > c2)
         return (s1 > c1) | (s2 > c2)
-    m = re.fullmatch(r"En Çok Gol (1Y|2Y|Eşit)", s)
+    m = re.fullmatch(r"(?:(Ev|Dep) )?En Çok Gol (1Y|2Y|Eşit)", s)
     if m:
-        t1, t2 = g.h1 + g.a1, g.h2 + g.a2
-        return {"1Y": t1 > t2, "2Y": t2 > t1, "Eşit": t1 == t2}[m.group(1)]
+        if m.group(1):
+            t1, _, t2, _ = _team(g, m.group(1))
+        else:
+            t1, t2 = g.h1 + g.a1, g.h2 + g.a2
+        return {"1Y": t1 > t2, "2Y": t2 > t1, "Eşit": t1 == t2}[m.group(2)]
+    m = re.fullmatch(r"Fark (?:(Ev|Dep) (\d+)(\+)?|0)", s)
+    if m:  # winning margin
+        diff = g.fh - g.fa
+        if not m.group(1):
+            return diff == 0
+        d = diff if m.group(1) == "Ev" else -diff
+        n = int(m.group(2))
+        return d >= n if m.group(3) else d == n
     raise KeyError(f"Bilinmeyen gol pazarı seçimi: {name!r}")
 
 

@@ -118,6 +118,7 @@ def test_team_news_keeps_only_injury_and_suspension_headlines(monkeypatch):
                          {"headline": "Defender banned for two games after red card"}]}
     mr.team_news.cache_clear()
     monkeypatch.setattr(mr, "_get", lambda url, **p: feed)
+    assert mr._NEWS_RE.search("Two-match ban for striker") and not mr._NEWS_RE.search("Banana kit launch")
     assert mr.team_news("eng.1", "1") == ["Star ruled out for six weeks with hamstring injury",
                                           "Defender banned for two games after red card"]
     mr.team_news.cache_clear()

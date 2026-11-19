@@ -3,6 +3,7 @@
     python scripts/scheduled.py morning    # 09:00: settle yesterday (results + verify + summary), run today,
                                            #        then price the Nesine bulletin against the global reference
     python scripts/scheduled.py snapshot   # every 30 min: record pre-kickoff odds for today and yesterday
+    python scripts/scheduled.py kadro      # at :10 and :30: re-analyse today (line-ups published ~1 h before kick-off)
     python scripts/scheduled.py analiz     # hourly at :50: pull the fresh global prices (Actions refreshes at :40)
                                            #        and re-run the Nesine analysis for the next 5 betting days
 
@@ -83,6 +84,27 @@ def _kick_fetch_if_stale(log) -> None:
             return
 
 
+STATUS_FILE = ROOT / "reports" / "DURUM.md"
+ALERT_HOURS = 8.0  # data this old even after the backup trigger -> pop-up warning on this PC
+
+
+def _write_status(log, note: str) -> None:
+    """One-page health report (data age, last runs); a Windows pop-up when the sharp data is very stale."""
+    age = _data_age_hours()
+    last_trigger = TRIGGER_FILE.read_text(encoding="utf-8").strip() if TRIGGER_FILE.exists() else "-"
+    lines = ["# QuantFoot sistem durumu", "",
+             f"- Son kontrol: {dt.datetime.now().isoformat(timespec='minutes')} ({note})",
+             f"- Global veri yaşı: {'bilinmiyor' if age is None else f'{age:.1f} saat'}"
+             + ("" if age is None or age < STALE_HOURS else " ⚠ ESKİ"),
+             f"- Son yedek tetikleme: {last_trigger}",
+             f"- Günlük kayıt: reports/daily/logs/{dt.date.today().isoformat()}.log", ""]
+    STATUS_FILE.write_text("\n".join(lines), encoding="utf-8")
+    if age is not None and age >= ALERT_HOURS:
+        msg = f"QuantFoot: global fiyatlar {age:.0f} saattir yenilenmedi. Kupon oynamadan önce kontrol edin."
+        subprocess.run(["msg", os.environ.get("USERNAME", "*"), "/TIME:600", msg], capture_output=True, timeout=30)
+        log.write(f"[uyarı] {msg}\n")
+
+
 def main() -> None:
     mode = sys.argv[1] if len(sys.argv) > 1 else ""
     today = dt.date.today()
@@ -100,18 +122,27 @@ def main() -> None:
             # the Nesine bulletin against them (Pinnacle -> Smarkets -> ESPN).
             _pull(log)
             _run(["--date", today.isoformat()], log, ROOT / "scripts" / "nesine_global.py")
+            # settle yesterday's Nesine predictions and refresh the cumulative hit-rate report
+            _run(["sonuc", "--date", y], log, ROOT / "scripts" / "nesine_takip.py")
+            _run(["rapor"], log, ROOT / "scripts" / "nesine_takip.py")
+        elif mode == "kadro":
+            _pull(log)
+            day = today if dt.datetime.now().hour >= 7 else yesterday
+            _run(["--date", day.isoformat()], log, ROOT / "scripts" / "nesine_global.py")
+            _write_status(log, "kadro")
         elif mode == "analiz":
             _pull(log)
             _kick_fetch_if_stale(log)
             # betting day runs 07:00-07:00: before 07:00 the current slate is still yesterday's
             day = today if dt.datetime.now().hour >= 7 else yesterday
             _run(["--date", day.isoformat(), "--hafta", "5"], log, ROOT / "scripts" / "nesine_global.py")
+            _write_status(log, "saatlik analiz")
         elif mode == "snapshot":
             for day in (yesterday, today):
                 if (ROOT / "reports" / "daily" / day.isoformat() / "predictions.json").exists():
                     _run(["snapshot", "--date", day.isoformat()], log)
         else:
-            raise SystemExit("Kullanım: scheduled.py morning|snapshot|analiz")
+            raise SystemExit("Kullanım: scheduled.py morning|snapshot|kadro|analiz")
 
 
 if __name__ == "__main__":

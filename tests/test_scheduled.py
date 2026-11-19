@@ -52,3 +52,18 @@ def test_retriggers_after_cooldown(tmp_path, monkeypatch):
     calls = _setup(tmp_path, monkeypatch, age_hours=8, last_trigger_hours=4)
     sched._kick_fetch_if_stale(io.StringIO())
     assert [c[1] for c in calls] == ["add", "commit", "push"]
+
+
+def test_status_file_and_alert(tmp_path, monkeypatch):
+    calls = _setup(tmp_path, monkeypatch, age_hours=9)
+    monkeypatch.setattr(sched, "STATUS_FILE", tmp_path / "DURUM.md")
+    log = io.StringIO()
+    sched._write_status(log, "test")
+    text = (tmp_path / "DURUM.md").read_text(encoding="utf-8")
+    assert "ESKİ" in text and calls and calls[0][0] == "msg" and "[uyarı]" in log.getvalue()
+    calls.clear()
+    (tmp_path / "fresh").mkdir()
+    _setup(tmp_path / "fresh", monkeypatch, age_hours=1)
+    monkeypatch.setattr(sched, "STATUS_FILE", tmp_path / "DURUM2.md")
+    sched._write_status(io.StringIO(), "test")
+    assert "ESKİ" not in (tmp_path / "DURUM2.md").read_text(encoding="utf-8")

@@ -138,7 +138,7 @@ def team_profile(slug: str, team_id: str) -> dict | None:
     return {"top_scorers": scorers, "top_assists": assisters, "goalkeeper": gk, "cards": cards}
 
 
-_NEWS_RE = re.compile(r"injur|ruled out|out for|sidelined|suspen|ban|banned|doubt|fitness|hamstring|knee|ankle|"
+_NEWS_RE = re.compile(r"injur|ruled out|out for|sidelined|suspen|\bban\b|banned|doubt|fitness|hamstring|knee|ankle|"
                       r"groin|calf|thigh|surgery|absence|absent|miss(?:es|ing)? (?:the|next|out)|red card|sent off", re.I)
 
 

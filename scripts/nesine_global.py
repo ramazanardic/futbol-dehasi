@@ -169,6 +169,10 @@ def _direct_name(market: str, label: str) -> str | None:
     ctype, _, cname = label.partition("|")
     parts = ctype.split("_")
     mk, line = market.lower(), _line(market)
+    if mk.startswith("first half over/under") and "corner" in mk and line and ctype in _OU:
+        return f"İY Korner {line} {_OU[ctype]}"
+    if mk.startswith("over/under") and "corner" in mk and line and ctype in _OU:
+        return f"Korner {line} {_OU[ctype]}"
     if mk.startswith("over/under") and line and ctype in _OU:
         return f"{line} {_OU[ctype]}"
     if mk.startswith("first half over/under") and line and ctype in _OU:
@@ -243,6 +247,8 @@ def price_event(event, ref: dict, league: str) -> dict:
             continue  # derivative distribution not calibrated for this competition
         if not direct and not totals_known and not (s.name.startswith(("MS ", "ÇŞ ")) and "&" not in s.name):
             continue  # goal-count market with no global total to anchor it
+        if "Korner" in s.name and s.name not in quoted:
+            continue  # corners are priced only from a direct exchange quote (no goal-model extrapolation)
         if s.name in quoted:
             p = quoted[s.name]
         elif s.name.startswith("İlk Gol"):
@@ -319,7 +325,14 @@ def load_user_absences(folder: Path = ROOT / "reports") -> tuple[dict[int, dict]
         return {}, None
     out = {int(m["code"]): m["absences"] for m in data.get("matches", [])
            if (m.get("absences") or {}).get("covered") and m.get("code") is not None}
-    return out, f"{files[-1].name} ({data.get('generated_tsi', '?')[:16].replace('T', ' ')})"
+    label = f"{files[-1].name} ({data.get('generated_tsi', '?')[:16].replace('T', ' ')})"
+    try:
+        age_h = (dt.datetime.now(TSI) - dt.datetime.fromisoformat(data["generated_tsi"])).total_seconds() / 3600
+        if age_h > 24:
+            label += f" — ⚠ {age_h / 24:.1f} gün önce üretildi, sakatlık/ceza bilgisi eskimiş olabilir"
+    except (KeyError, ValueError, TypeError):
+        pass
+    return out, label
 
 
 def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated: str | None) -> None:
@@ -524,6 +537,8 @@ def write_team_files(date: str, out: list[dict], d: Path) -> None:
         h["Takım"] = h["Takım"] if h["Takım"] != "-" else m["home"]
         a["Takım"] = a["Takım"] if a["Takım"] != "-" else m["away"]
         alerts = (r.get("user_absences") or {}).get("alerts") or []
+        if r.get("user_absences", {}).get("source") and "⚠" in r["user_absences"]["source"] and "⚠ dosya" not in md[3]:
+            md.insert(3, f"> ⚠ dosya: {r['user_absences']['source']}")
         md += [f"## {m['kickoff'][11:]} · {m['home']} - {m['away']} ({m['league']})", "",
                f"Aralarında: {r.get('h2h') or '-'} · Uyarı: {'; '.join((r.get('flags') or []) + alerts) or '-'}", "",
                "| | Ev | Deplasman |", "|---|---|---|"]
@@ -594,12 +609,37 @@ def record_history(d: Path, out: list[dict]) -> None:
         fh.write(json.dumps(snap, ensure_ascii=False) + "\n")
 
 
+PREDICTIONS_FILE = "takip_kayit.json"
+
+
+def record_predictions(d: Path, out: list[dict]) -> None:
+    """Keep the last pre-kick-off prediction of every priced match (for settlement and hit-rate tracking).
+    Matches that already started keep the record written before kick-off."""
+    path = d / PREDICTIONS_FILE
+    try:
+        store = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    except json.JSONDecodeError:
+        store = {}
+    now = dt.datetime.now(TSI)
+    for m in out:
+        if m.get("status") != "fiyatlandı" or dt.datetime.fromisoformat(m["kickoff_iso"]) <= now:
+            continue
+        store[str(m["code"])] = {
+            "home": m["home"], "away": m["away"], "league": m["league"], "kickoff_iso": m["kickoff_iso"],
+            "reference": m["reference"], "espn_event": (m.get("research") or {}).get("espn_event"),
+            "recorded": now.isoformat(timespec="seconds"),
+            "s": {s["name"]: [round(s["fair_prob"], 4), s["odds"], int(bool(s.get("direct")))] for s in m["selections"]},
+        }
+    path.write_text(json.dumps(store, ensure_ascii=False), encoding="utf-8")
+
+
 def write_report(date: str, out: list[dict], payload: dict, events: list, min_ev: float) -> None:
     priced = sum(1 for m in out if m["status"] == "fiyatlandı")
     d = DAILY / date
     d.mkdir(parents=True, exist_ok=True)
     lagging = lagging_selections(_history(d), out)
     record_history(d, out)
+    record_predictions(d, out)
     (d / "nesine_global.json").write_text(json.dumps({"date": date, "generated_at": dt.datetime.now(TSI).isoformat(timespec="seconds"),
                                                       "nesine_margins": market_overrounds(payload, {e.code for e in events}),
                                                       "matches": out}, ensure_ascii=False, indent=2, default=str),
