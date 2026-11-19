@@ -64,9 +64,10 @@ kullanılır. Transfermarkt kullanım koşulları otomatik veri toplamayı yasak
 
 Olasılık yine global fiyattan gelir (piyasa bu haberleri dakikalar içinde fiyatlar). Araştırmanın
 işi **eski fiyat koruması**dır: önemli bir eksik varsa ve global fiyat 75 dakikadan eskiyse maç
-kupona alınmaz. Bunu kısaltmak için Actions saatte bir (12:40–06:40 TSİ) yalnız önümüzdeki 3 saatte
-başlayacak maçları yeniler (~1 dk; tam çekim günde 5 kez, ~5 dk; toplam ayda ~1.200 dk, ücretsiz
-kota 2.000 dk). Kapsam: ESPN'in yayınladığı ligler (Brezilya, Uruguay, MLS, Avrupa ligleri, kadın
+kupona alınmaz. Kupon ayrıca 3 saatten eski global fiyatı hiç kullanmaz. Bunu kısaltmak için
+bilgisayar, Nesine'de fiyatlı bir maç 40–100 dakika sonra başlayacaksa `gh workflow run` ile yalnız
+önümüzdeki 2 saatin maçlarını yeniletir (kadro saati, en çok 50 dakikada bir). Depo herkese açık olduğu
+için Actions dakikası sınırsız ve ücretsiz. Kapsam: ESPN'in yayınladığı ligler (Brezilya, Uruguay, MLS, Avrupa ligleri, kadın
 Şampiyonlar Ligi…); küçük liglerde veri yok.
 
 Denenip alınmayanlar: Polymarket ve Kalshi (erişilebilir, ama futbolda neredeyse yalnız uzun vadeli
@@ -79,12 +80,13 @@ Her analiz çalıştırması doğrudan borsa fiyatlı seçimlerin (Nesine oranı
 saatte borsa olasılığı **en az 3 puan artan** ama Nesine'nin **aynı oranı** vermeye devam ettiği seçimleri
 listeler: haber ya da kadro sonrası geç kalan oran. Saatlik `QuantFoot\Analiz` görevi bu kaydı biriktirir.
 
-## Yedek tetikleyici (GitHub zamanlayıcısı atlarsa)
+## Tetikleme (GitHub zamanlayıcısı çalışmıyor)
 
-GitHub'ın ücretsiz zamanlayıcısı "en iyi çaba" ile çalışır; 19 Kasım'da hiçbir zamanlanmış çalışma başlamadı.
-Saatlik yerel görev (`scheduled.py analiz`) global verinin yaşına bakar: 5 saatten eskiyse
-`data/global_odds/trigger.txt` dosyasını güncelleyip normal bir `git push` yapar; iş akışı bu dosyaya
-gelen gönderimle hemen çalışır. En fazla 3 saatte bir tetikler. Raporların başında verinin yaşı yazar.
+GitHub'ın zamanlayıcısı bu depo için hiç çalışmadı (19 Kasım). Yerel görevler (`scheduled.py analiz` ve
+`kadro`) son **tam** çekimin yaşına bakar: 2,5 saatten eskiyse `gh workflow run global-odds.yml` ile tam
+çekimi başlatır (en çok 1,5 saatte bir); `gh` başarısız olursa `data/global_odds/trigger.txt` dosyasını
+gönderip iş akışını öyle tetikler. Aynı anda biten iki çalıştırma JSON dosyalarını satır satır birleştirmez:
+geç kalan, en yeni veriyi alıp kendi sonucunu onun üzerine yeniden kurar. Raporların başında verinin yaşı yazar.
 
 ## Sizin sağladığınız sakatlık / ceza dosyası
 
