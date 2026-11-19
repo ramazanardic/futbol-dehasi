@@ -240,3 +240,109 @@ def test_uncalibrated_competitions_get_no_recommendations():
     b = compute_omni_markets(2.7, 0.7, league="uefa.wchampions")
     assert select_best_valid_bet("m", "Chelsea", "PSG", "UEFA Women's Champions League", "", b) == []
     assert select_best_valid_bet("m", "Chelsea", "PSG", "UEFA Women's Champions League", "", b, allow_uncalibrated=True)
+
+
+def test_v7_blowout_kg_yok_phantom_ev_and_btts_joint_fit():
+    from quantfoot.markets import compute_omni_markets, devig, fit_tail_rates_from_markets, league_tail_regime
+    from quantfoot.strategy import MatchRiskContext, audit_match_risks
+
+    # Replay Nov 19 AL Ain - AL Dhafra (1.09 fav, O/U 3.5=[1.82,1.85], 2-way BTTS=[1.69,1.56] -> P(BTTS)=47.9%)
+    p1x2 = devig([1.09, 7.30, 14.70], method="power").probabilities
+    p25 = float(devig([1.30, 2.97], method="power").probabilities[0])
+    p35 = float(devig([1.82, 1.85], method="power").probabilities[0])
+    p_btts_mkt = float(devig([1.69, 1.56], method="power").probabilities[0])
+    com_nu, alpha_nb, kappa = league_tail_regime("uae.1")
+
+    # 1. Without BTTS anchor, 1X2+O/U underestimates underdog rate -> audit_match_risks Layer 6 blocks phantom KG Yok!
+    mh_raw, ma_raw, _ = fit_tail_rates_from_markets(
+        p_1x2=p1x2, ou_lines=[(2.5, p25), (3.5, p35)],
+        seed_rates=(2.9, 0.4), alpha_nb=alpha_nb, shared_kappa=kappa, com_nu=com_nu, fund_weight=0.04,
+    )
+    b_raw = compute_omni_markets(mh_raw, ma_raw, league="uae.1")
+    blocked, _ = audit_match_risks(b_raw, MatchRiskContext(btts_market_prob=p_btts_mkt))
+    assert "KG Yok" in blocked
+
+    # 2. With p_btts supplied, joint fit raises underdog rate so model BTTS aligns near market!
+    mh_fit, ma_fit, _ = fit_tail_rates_from_markets(
+        p_1x2=p1x2, ou_lines=[(2.5, p25), (3.5, p35)], p_btts=p_btts_mkt,
+        seed_rates=(2.9, 0.4), alpha_nb=alpha_nb, shared_kappa=kappa, com_nu=com_nu, fund_weight=0.04,
+    )
+    assert ma_fit > ma_raw + 0.08
+    b_fit = compute_omni_markets(mh_fit, ma_fit, league="uae.1")
+    assert abs(b_fit.btts["KG Var"] - p_btts_mkt) < 0.06
+
+
+def test_v7_knockout_90min_draw_missing_ou_and_high_draw_cs12_guards():
+    from quantfoot.markets import compute_omni_markets
+    from quantfoot.strategy import MatchRiskContext, audit_match_risks
+
+    # Knockout medium favorite (Roltek Dob 1-1 Bistrica, p_fav ~ 57%) -> MS blocked, goals/BTTS allowed
+    b_ko = compute_omni_markets(1.04, 1.92, league="svn.cup")
+    blocked_ko, _ = audit_match_risks(b_ko, MatchRiskContext(is_knockout=True))
+    assert "MS 2" in blocked_ko
+    assert "MS 2 & 1.5 Üst" in blocked_ko
+    assert "KG Var" not in blocked_ko
+
+    # Knockout mega-favorite (Beltinci 1-3 NK Celje, p_fav ~ 73%) -> MS allowed with slight penalty
+    b_mega = compute_omni_markets(0.80, 2.55, league="svn.cup")
+    blocked_mega, pen_mega = audit_match_risks(b_mega, MatchRiskContext(is_knockout=True))
+    assert "MS 2" not in blocked_mega
+    assert pen_mega["MS 2"] < 1.0
+
+    # High draw probability -> ÇŞ 12 blocked
+    b_draw = compute_omni_markets(1.05, 0.95, league="egy.cup")
+    blocked_draw, _ = audit_match_risks(b_draw, MatchRiskContext(is_knockout=True))
+    assert "ÇŞ 12" in blocked_draw
+
+    # Missing global O/U anchor (Gaddafi 2-2, Farco 2-1) -> KG/goals blocked
+    b_no_ou = compute_omni_markets(2.30, 0.30, league="uga.1")
+    blocked_no_ou, _ = audit_match_risks(b_no_ou, MatchRiskContext(has_ou_market=False))
+    assert "KG Yok" in blocked_no_ou
+    assert "1.5 Üst" in blocked_no_ou
+
+
+def test_v7_diversified_portfolio_enforces_zero_repeats_exposure_cap_and_mbs():
+    from quantfoot.markets import compute_omni_markets
+    from quantfoot.strategy import (
+        MatchRiskContext,
+        PortfolioCouponSpec,
+        build_diversified_portfolio,
+        select_best_valid_bet,
+    )
+
+    pool = []
+    for idx in range(14):
+        b = compute_omni_markets(1.85 + 0.04 * (idx % 4), 0.75 + 0.05 * (idx % 3), league="e0")
+        recs = select_best_valid_bet(
+            f"M_{idx}", f"Home_{idx}", f"Away_{idx}", "E0", "20:00", b,
+            offered_odds_map={
+                "MS 1": 1.65,
+                "1.5 Üst": 1.32,
+                "2.5 Üst": 2.05,
+                "MS 1 & 1.5 Üst": 2.15,
+                "2-4 Gol": 1.75,
+            },
+            risk_ctx=MatchRiskContext(group_id=f"G_{idx}"),
+            mbs=3 if idx % 2 == 0 else 1,
+        )
+        pool.append(recs)
+
+    specs = [
+        PortfolioCouponSpec(title="C1", target_odds=10.0, max_legs=6, min_leg_ev=None),
+        PortfolioCouponSpec(title="C2", target_odds=10.0, max_legs=6, min_leg_ev=None),
+        PortfolioCouponSpec(title="C3", target_odds=10.0, max_legs=6, min_leg_ev=None),
+    ]
+    plans = build_diversified_portfolio(pool, specs, max_selection_reuse=1, max_match_reuse=2)
+    assert len(plans) == 3
+
+    seen_pairs: set[tuple[str, str]] = set()
+    match_hits: dict[str, int] = {}
+    for p in plans:
+        assert p.reached_target and p.achieved_odds >= 10.0
+        assert len(p.legs) >= max(l.mbs for l in p.legs)
+        for l in p.legs:
+            pair = (l.match_id, l.selection)
+            assert pair not in seen_pairs
+            seen_pairs.add(pair)
+            match_hits[l.match_id] = match_hits.get(l.match_id, 0) + 1
+    assert max(match_hits.values()) <= 2

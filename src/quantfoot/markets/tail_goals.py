@@ -41,6 +41,20 @@ _DEFAULT_LEAGUE_REGIMES: tuple[tuple[str, tuple[float, float, float]], ...] = (
     ("bol.", (1.08, 0.00, 0.01)),
     ("col.", (1.10, 0.00, 0.00)),
     ("ind.2", (1.08, 0.00, 0.01)),
+    # Open-tempo Gulf, Oceania, MLS, ASEAN & domestic cup regimes (Nov 19 post-mortem)
+    ("uae.", (1.00, 0.06, 0.05)),
+    ("qat.", (1.00, 0.05, 0.04)),
+    ("aus.", (1.00, 0.06, 0.05)),
+    ("usa.", (1.00, 0.05, 0.04)),
+    ("afc.cup", (1.00, 0.06, 0.04)),
+    ("svk.cup", (1.00, 0.07, 0.05)),
+    ("svn.cup", (1.00, 0.06, 0.05)),
+    ("jor.cup", (1.00, 0.07, 0.05)),
+    # Tight defensive club regimes
+    ("egy.", (1.10, 0.00, 0.00)),
+    ("alg.", (1.10, 0.00, 0.00)),
+    ("irn.", (1.10, 0.00, 0.00)),
+    ("zam.", (1.10, 0.00, 0.00)),
 )
 _CLUB_CODES: frozenset[str] = frozenset(
     {"e0", "e1", "e2", "e3", "ec", "sp1", "sp2", "d1", "d2", "i1", "i2", "f1", "f2", "t1", "n1", "p1", "b1", "sc0", "sc1", "sc2", "sc3"}
@@ -340,7 +354,10 @@ def fit_tail_rates_from_markets(
             kl_b = t_btts * np.log(t_btts / m_btts) + (1.0 - t_btts) * np.log(
                 (1.0 - t_btts) / (1.0 - m_btts)
             )
-            loss_val += 2.0 * float(kl_b)
+            # In lopsided blowouts (max 1X2 >= 0.72), 1X2+O/U cannot uniquely separate
+            # underdog scoring rate; weight BTTS more strongly so mu_underdog stays anchored.
+            btts_w = 4.5 if (p1x2_arr is not None and float(np.max(p1x2_arr)) >= 0.72) else 2.5
+            loss_val += btts_w * float(kl_b)
 
         # Log-space regularization toward domain-calibrated seed rates.
         loss_val += prior_w * (
