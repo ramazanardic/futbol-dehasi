@@ -7,4 +7,4 @@ Bu dizin, oluşturulan tüm günlük maç tahminlerini, kupon portföylerini ve 
 | Tarih | Motor Sürümü | Maç Sayısı | Kupon / Rapor Dosyaları | Doğrulama Durumu |
 | :---: | :--- | :---: | :--- | :--- |
 | **2026-11-17** | `QuantFoot-v5 -> v6 Post-Mortem` | 16 Ana Maç | [quantfoot_v6_omni_upgrade_report.md](../quantfoot_v6_omni_upgrade_report.md) / [verify_v6_on_nov17_coupons.py](../../scripts/verify_v6_on_nov17_coupons.py) | `v6 Geriye Dönük Test: 16/16 (%100)` |
-| **2026-11-18** | `QuantFoot-v6 (OmniMarketBundle)` | 45 Maç | [coupons_2026_11_18.md](coupons_2026_11_18.md) / [coupons_2026_11_18.json](coupons_2026_11_18.json) / [today_all_45_matches_v6_2026_11_18.md](../today_all_45_matches_v6_2026_11_18.md) | `7 Kupon Kaydedildi (Beklemede)` |
+| **2026-11-18** | `QuantFoot-v6 (OmniMarketBundle)` | 45 Maç | [nov18_audit_results.md](nov18_audit_results.md) / [coupons_2026_11_18.md](coupons_2026_11_18.md) / [coupons_2026_11_18.json](coupons_2026_11_18.json) | `Ana Kuponlar K1/K2/K3: 0 Yatan (Flamengo Canlı 2-1 Önde) | Genel İsabet: 29/41 (%70.7)` |

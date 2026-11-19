@@ -16,7 +16,7 @@
       "total_odds": 2.03,
       "joint_probability": 0.4489,
       "average_leg_probability": 0.7662,
-      "status": "PENDING_VERIFICATION",
+      "status": "LIVE_LEADING (2/3 Bitti, 1 Canlı Önde)",
       "legs": [
         {
           "event_id": "401916981",
@@ -37,7 +37,8 @@
             "1-0"
           ],
           "note": "Günün en yüksek tekil olasılığı (%79.2); 2.5 Alt tuzağı engellendi.",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 3-1 (İY 1-1)"
         },
         {
           "event_id": "401841313",
@@ -58,7 +59,8 @@
             "1-0"
           ],
           "note": "Brezilya Série A iç saha dominasyonu (23G-7B-4M, xG 2.52-0.68).",
-          "result": null
+          "result": "CANLI (70': 2-1) -> ŞU AN TUTUYOR ✅",
+          "actual_score": "MS 2-1 (İY 2-1)"
         },
         {
           "event_id": "401916982",
@@ -79,9 +81,11 @@
             "0-3"
           ],
           "note": "Manchester City Kadınlar deplasman kalite farkı (xG 0.91-2.87).",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 0-2 (İY 0-0)"
         }
-      ]
+      ],
+      "summary_result": "2 Tuttu, 0 Yattı, 1 Canlı"
     },
     {
       "coupon_id": "2026_11_18_C2_BALANCED_4LEG",
@@ -94,7 +98,7 @@
       "total_odds": 2.85,
       "joint_probability": 0.3101,
       "average_leg_probability": 0.7465,
-      "status": "PENDING_VERIFICATION",
+      "status": "LIVE_LEADING (3/4 Bitti, 1 Canlı Önde)",
       "legs": [
         {
           "event_id": "401916980",
@@ -115,7 +119,8 @@
             "3-0"
           ],
           "note": "UEFA Kadınlar ŞL iç saha üstünlüğü (xG 2.77-0.72).",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 1-0 (İY 0-0)"
         },
         {
           "event_id": "401916979",
@@ -136,7 +141,8 @@
             "3-0"
           ],
           "note": "OH Leuven karşısında net kalite farkı (xG 2.65-0.76).",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 2-0 (İY 0-0)"
         },
         {
           "event_id": "401916982",
@@ -157,7 +163,8 @@
             "0-3"
           ],
           "note": "Man City deplasmanda maç başı 2.87 gol beklentisi üretiyor.",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 0-2 (İY 0-0)"
         },
         {
           "event_id": "401841313",
@@ -178,9 +185,11 @@
             "1-0"
           ],
           "note": "Athletico-PR karşısında %77.8 kazanma olasılığı.",
-          "result": null
+          "result": "CANLI (70': 2-1) -> ŞU AN TUTUYOR ✅",
+          "actual_score": "MS 2-1 (İY 2-1)"
         }
-      ]
+      ],
+      "summary_result": "3 Tuttu, 0 Yattı, 1 Canlı"
     },
     {
       "coupon_id": "2026_11_18_C3_VALUE_5LEG",
@@ -193,7 +202,7 @@
       "total_odds": 5.28,
       "joint_probability": 0.1556,
       "average_leg_probability": 0.6934,
-      "status": "PENDING_VERIFICATION",
+      "status": "LIVE_LEADING (4/5 Bitti, 1 Canlı Önde)",
       "legs": [
         {
           "event_id": "401841313",
@@ -214,7 +223,8 @@
             "1-0"
           ],
           "note": "Ev sahibi net favori (%77.8).",
-          "result": null
+          "result": "CANLI (70': 2-1) -> ŞU AN TUTUYOR ✅",
+          "actual_score": "MS 2-1 (İY 2-1)"
         },
         {
           "event_id": "401916980",
@@ -235,7 +245,8 @@
             "3-0"
           ],
           "note": "Ev sahibi net favori (%75.2).",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 1-0 (İY 0-0)"
         },
         {
           "event_id": "401916979",
@@ -256,7 +267,8 @@
             "3-0"
           ],
           "note": "Ev sahibi net favori (%72.8).",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 2-0 (İY 0-0)"
         },
         {
           "event_id": "401928497",
@@ -277,7 +289,8 @@
             "1-1"
           ],
           "note": "Kral Kupası alt lig ev sahibi (0G-0B-4M) vs Sabadell (xG 0.82-1.91).",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 0-3 (İY 0-3)"
         },
         {
           "event_id": "401841310",
@@ -298,9 +311,11 @@
             "2-0"
           ],
           "note": "Chapecoense deplasmanda çok kırılgan (xG 2.04-1.01).",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 2-0 (İY 2-0)"
         }
-      ]
+      ],
+      "summary_result": "4 Tuttu, 0 Yattı, 1 Canlı"
     },
     {
       "coupon_id": "2026_11_18_C4_TARGET_10X",
@@ -313,7 +328,7 @@
       "total_odds": 10.08,
       "joint_probability": 0.0803,
       "average_leg_probability": 0.6072,
-      "status": "PENDING_VERIFICATION",
+      "status": "LOST (3/5)",
       "legs": [
         {
           "event_id": "401916982",
@@ -334,7 +349,8 @@
             "0-3"
           ],
           "note": "Man City deplasman bankosu (%72.8).",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 0-2 (İY 0-0)"
         },
         {
           "event_id": "401928524",
@@ -355,7 +371,8 @@
             "0-1"
           ],
           "note": "Simetrik düşük xG (1.13-1.18, toplam 2.31); İY 0 yerine maç geneli 2.5 Alt.",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 1-1 (İY 0-0) (90' Normal Süre: 1-1, Uzatma Sonu: 1-2)"
         },
         {
           "event_id": "401841310",
@@ -376,7 +393,8 @@
             "2-0"
           ],
           "note": "Ev sahibi xG üstünlüğü (2.04 vs 1.01, %60.8).",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 2-0 (İY 2-0)"
         },
         {
           "event_id": "401841315",
@@ -397,7 +415,8 @@
             "0-1"
           ],
           "note": "Toplam xG 2.88 (2-4 gol olasılığı %64.1, KG Var %59.7).",
-          "result": null
+          "result": "YATTI ❌",
+          "actual_score": "MS 0-1 (İY 0-0)"
         },
         {
           "event_id": "401841314",
@@ -418,9 +437,11 @@
             "2-1"
           ],
           "note": "Açık geçiş maçı (xG 1.40-1.44 = 2.84, KG Var %60.0).",
-          "result": null
+          "result": "CANLI (71': 0-1) -> DEVAM EDİYOR ⏳",
+          "actual_score": "MS 0-1 (İY 0-0)"
         }
-      ]
+      ],
+      "summary_result": "3 Tuttu, 1 Yattı, 1 Canlı"
     },
     {
       "coupon_id": "2026_11_18_C5_TARGET_20X",
@@ -433,7 +454,7 @@
       "total_odds": 21.08,
       "joint_probability": 0.033,
       "average_leg_probability": 0.6182,
-      "status": "PENDING_VERIFICATION",
+      "status": "LOST (4/7)",
       "legs": [
         {
           "event_id": "401916981",
@@ -454,7 +475,8 @@
             "1-0"
           ],
           "note": "En yüksek olasılıklı favori (%79.2).",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 3-1 (İY 1-1)"
         },
         {
           "event_id": "401928497",
@@ -475,7 +497,8 @@
             "1-1"
           ],
           "note": "Sabadell tur favorisi (%60.1).",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 0-3 (İY 0-3)"
         },
         {
           "event_id": "401928505",
@@ -496,7 +519,8 @@
             "0-0"
           ],
           "note": "La Liga ekibi Mallorca'nın alt lig deplasmanı (%59.9).",
-          "result": null
+          "result": "YATTI ❌",
+          "actual_score": "MS 1-1 (İY 1-1) (90' Normal Süre: 1-1, Uzatma Sonu: 1-3)"
         },
         {
           "event_id": "401928524",
@@ -517,7 +541,8 @@
             "0-1"
           ],
           "note": "Dengeli düşük tempo kupa maçı (%60.3).",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 1-1 (İY 0-0) (90' Normal Süre: 1-1, Uzatma Sonu: 1-2)"
         },
         {
           "event_id": "401841310",
@@ -538,7 +563,8 @@
             "2-0"
           ],
           "note": "Ev sahibi %60.8.",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MS 2-0 (İY 2-0)"
         },
         {
           "event_id": "401841315",
@@ -559,7 +585,8 @@
             "0-1"
           ],
           "note": "2.5 Üst (%55.3, canlı piyasa favorisi).",
-          "result": null
+          "result": "YATTI ❌",
+          "actual_score": "MS 0-1 (İY 0-0)"
         },
         {
           "event_id": "401841312",
@@ -580,9 +607,11 @@
             "1-2"
           ],
           "note": "Toplam xG 2.95 (KG Var %61.7, 2.5 Üst %57.0).",
-          "result": null
+          "result": "CANLI (32': 0-0) -> DEVAM EDİYOR ⏳",
+          "actual_score": "MS 0-0 (İY 0-0)"
         }
-      ]
+      ],
+      "summary_result": "4 Tuttu, 2 Yattı, 1 Canlı"
     },
     {
       "coupon_id": "2026_11_18_C6_TUR3_DAYTIME",
@@ -595,7 +624,7 @@
       "total_odds": 2.3,
       "joint_probability": 0.2657,
       "average_leg_probability": 0.7183,
-      "status": "PENDING_VERIFICATION",
+      "status": "LOST (2/4)",
       "legs": [
         {
           "event_id": "tff2_4",
@@ -616,7 +645,8 @@
             "2-1"
           ],
           "note": "2. Lig bülteninin en net iç saha favorisi (xG 2.17-0.76, %69.9).",
-          "result": null
+          "result": "YATTI ❌",
+          "actual_score": "Seza Çimento Elazığspor 1-1 Menemen FK"
         },
         {
           "event_id": "tff2_2",
@@ -637,7 +667,8 @@
             "1-2"
           ],
           "note": "Sakaryaspor deplasmanı; 1.5 Üst olasılığı %74.1.",
-          "result": null
+          "result": "YATTI ❌",
+          "actual_score": "12 Bingölspor 0-1 Sakaryaspor"
         },
         {
           "event_id": "tff2_3",
@@ -658,7 +689,8 @@
             "2-1"
           ],
           "note": "Kontrollü 2. Lig temposu (xG 1.56-1.03, 3.5 Alt %74.2).",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "MKE Ankaragücü 1-1 Kırklarelispor"
         },
         {
           "event_id": "tff2_10",
@@ -679,9 +711,11 @@
             "1-0"
           ],
           "note": "Gebzespor erken baskı profili (1Y xG 1.23, İY 0.5 Üst %69.2).",
-          "result": null
+          "result": "TUTTU ✅",
+          "actual_score": "Güzide Gebze Spor 2-1 Ankaraspor (İY 2-1, 6' 32' 43')"
         }
-      ]
+      ],
+      "summary_result": "2 Tuttu, 2 Yattı, 0 Canlı"
     },
     {
       "coupon_id": "2026_11_18_C7_HTFT_SPECIAL",
@@ -694,7 +728,7 @@
       "total_odds": 10.16,
       "joint_probability": 0.0762,
       "average_leg_probability": 0.5261,
-      "status": "PENDING_VERIFICATION",
+      "status": "LOST (0/4)",
       "legs": [
         {
           "event_id": "401916981",
@@ -715,7 +749,8 @@
             "1-0"
           ],
           "note": "1. Yarı xG 1.40-0.33; İY/MS 1/1 olasılığı %57.2 (Adil 1.75).",
-          "result": null
+          "result": "YATTI ❌",
+          "actual_score": "MS 3-1 (İY 1-1)"
         },
         {
           "event_id": "401916980",
@@ -736,7 +771,8 @@
             "3-0"
           ],
           "note": "1. Yarı xG 1.23-0.32; İY/MS 1/1 olasılığı %52.0 (Adil 1.92).",
-          "result": null
+          "result": "YATTI ❌",
+          "actual_score": "MS 1-0 (İY 0-0)"
         },
         {
           "event_id": "401841313",
@@ -757,7 +793,8 @@
             "1-0"
           ],
           "note": "1. Yarı xG 1.06-0.28; İY/MS 1/1 olasılığı %51.3 (Adil 1.95).",
-          "result": null
+          "result": "CANLI (70': 2-1) -> ŞU AN TUTUYOR ✅",
+          "actual_score": "MS 2-1 (İY 2-1)"
         },
         {
           "event_id": "401916982",
@@ -778,9 +815,17 @@
             "0-3"
           ],
           "note": "1. Yarı xG 0.40-1.27; İY/MS 2/2 olasılığı %49.9 (Adil 2.01).",
-          "result": null
+          "result": "YATTI ❌",
+          "actual_score": "MS 0-2 (İY 0-0)"
         }
-      ]
+      ],
+      "summary_result": "0 Tuttu, 3 Yattı, 1 Canlı"
     }
-  ]
+  ],
+  "audit_summary": {
+    "best_bet_accuracy": "29/41 (%70.7)",
+    "live_priced_accuracy": "11/13 (%84.6)",
+    "unpriced_accuracy": "18/28 (%64.3)",
+    "top3_score_cluster_hits": "15/39 (%38.5)"
+  }
 }
