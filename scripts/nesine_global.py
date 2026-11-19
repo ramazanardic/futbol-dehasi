@@ -221,6 +221,9 @@ def direct_probabilities(ref: dict) -> dict[str, float]:
     return out
 
 
+PRICED: dict[int, dict] = {}  # Nesine code -> goal distribution + direct quotes of the last analysis (match dossiers)
+
+
 def price_event(event, ref: dict, league: str) -> dict:
     p1x2 = devig(ref["x12"], method="power").probabilities
     ou_line, p_over = None, None
@@ -233,6 +236,8 @@ def price_event(event, ref: dict, league: str) -> dict:
                                                 alpha_nb=alpha, shared_kappa=kappa, com_nu=nu, fund_weight=0.0)
     joint = compute_omni_markets(mu_h, mu_a, league=regime_key).joint
     timing = GoalTimingModel.from_joint(joint).markets()["İlk Golü Atan Takım"]
+    inputs = {"MS 1", "MS 0", "MS 2"} | ({f"{ou_line:.1f} Üst", f"{ou_line:.1f} Alt"} if ou_line is not None else set())
+    PRICED[event.code] = {"joint": joint, "timing": timing, "quoted": direct_probabilities(ref), "inputs": inputs}
     derivatives_ok = not is_uncalibrated_competition(league)
     quoted = direct_probabilities(ref)
     # Without any quoted total the goal level is extrapolated from 1X2 alone (it overshoots for big favourites):

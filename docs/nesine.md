@@ -132,6 +132,20 @@ yarıyı kazanır; takımın en çok gol attığı yarı; kaç farkla kazanır; 
 İlk Yarı / Maç Skoru. Hepsi aynı ortak gol dağılımından; tutarlılık testleri `tests/test_full_markets.py`.
 **Korner** Alt/Üst (maç ve 1. yarı) yalnızca borsanın kendi korner fiyatı olan maçlarda fiyatlanır.
 
+## Maç dosyası (her bahis ailesi, en garantiden aşağıya + skorlar)
+
+```bash
+python scripts/mac_dosyasi.py --mac "Vasco"          # tek maç
+python scripts/mac_dosyasi.py --tarih 2026-11-21     # günün tüm başlamamış maçları
+```
+
+Her maç için: araştırma (form, son maçlar, puan durumu, golcüler, asistler, kaleci, kartlar, takım
+istatistikleri, sakat/cezalı, kadroda olmayanlar, haberler), **tüm bahis ailelerinin her sonucu yüzdesiyle**
+(maç sonucu, çifte şans, tüm Alt/Üst çizgileri, KG, İY/2Y sonuç-Alt/Üst-KG, İY/MS, kaç farkla, handikap,
+takım golleri, yarı bahisleri, kombineler, ilk gol) en yüksekten düşüğe sıralı; kaynağı (doğrudan borsa /
+model) ve Nesine'de varsa oranı; maç sonu, ilk yarı ve İY/MS skor olasılıkları. Çıktı:
+`reports/daily/<tarih>/mac_dosyalari/<kod>.md`.
+
 ## Haftalık analiz
 
 ```bash
