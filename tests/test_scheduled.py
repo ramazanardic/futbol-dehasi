@@ -85,6 +85,14 @@ def test_lineup_refresh_only_near_nesine_kickoffs(tmp_path, monkeypatch):
     assert calls == []  # cooldown
 
 
+def test_age_counts_from_last_full_fetch(tmp_path, monkeypatch):
+    _setup(tmp_path, monkeypatch, age_hours=0.1)
+    full = dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=4)
+    data = json.loads(sched.GLOBAL_FILE.read_text(encoding="utf-8"))
+    sched.GLOBAL_FILE.write_text(json.dumps({**data, "full_utc": full.isoformat()}), encoding="utf-8")
+    assert 3.9 < sched._data_age_hours() < 4.1  # a light run 6 min ago does not make the whole snapshot fresh
+
+
 def test_status_file_and_alert(tmp_path, monkeypatch):
     calls = _setup(tmp_path, monkeypatch, age_hours=9)
     monkeypatch.setattr(sched, "STATUS_FILE", tmp_path / "DURUM.md")

@@ -393,10 +393,13 @@ def matchbook(window_hours: float = 7 * 24.0) -> list[dict]:
     return out
 
 
-def _write(refs: list[dict]) -> None:
+def _write(refs: list[dict], full_utc: str | None = None) -> None:
+    """full_utc: time of the last FULL fetch (a light run keeps the previous one, so the PC still sees how old
+    the prices outside the light window are)."""
     LOG["counts"]["references_total"] = len(refs)
     LOG["finished_utc"] = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
-    (OUT / "references.json").write_text(json.dumps({"generated_utc": LOG["finished_utc"], "references": refs},
+    (OUT / "references.json").write_text(json.dumps({"generated_utc": LOG["finished_utc"],
+                                                     "full_utc": full_utc or LOG["finished_utc"], "references": refs},
                                                     ensure_ascii=False, indent=1), encoding="utf-8")
     (OUT / "fetch_log.json").write_text(json.dumps(LOG, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
     _say(json.dumps(LOG["counts"]) + f" errors: {len(LOG['errors'])}")
@@ -409,9 +412,10 @@ def _key(r: dict) -> tuple:
 def light(window_hours: float) -> None:
     """Pre-kick-off refresh: re-fetch Smarkets (all stored markets) only for matches starting within the window
     and merge them into the last full snapshot, so line-up news is priced in without a full 5-minute run."""
-    old = []
+    old, full_utc = [], None
     if (OUT / "references.json").exists():
-        old = json.loads((OUT / "references.json").read_text(encoding="utf-8")).get("references", [])
+        prev = json.loads((OUT / "references.json").read_text(encoding="utf-8"))
+        old, full_utc = prev.get("references", []), prev.get("full_utc") or prev.get("generated_utc")
     LOG["mode"] = f"light ({window_hours:g} h)"
     try:
         fresh = smarkets(window_hours=window_hours)
@@ -423,7 +427,7 @@ def light(window_hours: float) -> None:
     except Exception as exc:
         LOG["errors"].append(f"light matchbook: {type(exc).__name__}: {exc}")
     keys = {_key(r) for r in fresh}
-    _write([r for r in old if _key(r) not in keys] + fresh)
+    _write([r for r in old if _key(r) not in keys] + fresh, full_utc=full_utc)
 
 
 def main() -> None:

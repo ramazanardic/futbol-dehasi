@@ -56,7 +56,8 @@ RETRIGGER_HOURS = 1.5
 def _data_age_hours() -> float | None:
     try:
         import json
-        gen = json.loads(GLOBAL_FILE.read_text(encoding="utf-8")).get("generated_utc")
+        data = json.loads(GLOBAL_FILE.read_text(encoding="utf-8"))
+        gen = data.get("full_utc") or data.get("generated_utc")  # light runs refresh only kick-offs within 2 h
         return (dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(gen)).total_seconds() / 3600
     except (OSError, ValueError, TypeError):
         return None
