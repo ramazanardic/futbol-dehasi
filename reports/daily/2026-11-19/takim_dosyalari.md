@@ -1,6 +1,91 @@
 # 2026-11-19 — Takım dosyaları
 
-Kaynak: ESPN (form, son maçlar, puan durumu, sezon golleri, golcüler, kaleci, kartlar, ilk 11) ve Premier Lig resmî sakat/cezalı listesi. Olasılıklar bu bilgilerden değil global borsa fiyatından gelir; bu dosya bağlam ve kontrol içindir.
+Kaynak: ESPN (form, son maçlar, puan durumu, sezon golleri, golcüler, kaleci, kartlar, ilk 11), Premier Lig resmî sakat/cezalı listesi ve varsa sizin sağladığınız sakatlık/ceza dosyası. Olasılıklar bu bilgilerden değil global borsa fiyatından gelir; bu dosya bağlam ve kontrol içindir.
+
+## 18:00 · Al Mokawloon - Alqana (Mısır Kupası)
+
+Aralarında: - · Uyarı: -
+
+| | Ev | Deplasman |
+|---|---|---|
+| Takım | Al Mokawloon | Alqana |
+| Son 5 maç | - | - |
+| Form | - | - |
+| Dinlenme (gün) | - | - |
+| Eksikler | - | - |
+
+## 18:00 · Al Masry - Asyut Petroleum (Mısır Kupası)
+
+Aralarında: - · Uyarı: -
+
+| | Ev | Deplasman |
+|---|---|---|
+| Takım | Al Masry | Asyut Petroleum |
+| Son 5 maç | - | - |
+| Form | - | - |
+| Dinlenme (gün) | - | - |
+| Eksikler | - | - |
+
+## 18:00 · Dobrudzha Dobrich - Fratria Varna (Bulgaristan 2. Lig)
+
+Aralarında: - · Uyarı: -
+
+| | Ev | Deplasman |
+|---|---|---|
+| Takım | Dobrudzha Dobrich | Fratria Varna |
+| Son 5 maç | - | - |
+| Form | - | - |
+| Dinlenme (gün) | - | - |
+| Eksikler | - | - |
+
+## 18:25 · AL Ain - AL Dhafra Scc (BAE - Arap Körfez Ligi)
+
+Aralarında: - · Uyarı: -
+
+| | Ev | Deplasman |
+|---|---|---|
+| Takım | AL Ain | AL Dhafra Scc |
+| Son 5 maç | - | - |
+| Form | - | - |
+| Dinlenme (gün) | - | - |
+| Eksikler | - | - |
+
+## 18:30 · AL Ahli Doha - AL Shamal (Katar Yıldızlar Ligi)
+
+Aralarında: - · Uyarı: -
+
+| | Ev | Deplasman |
+|---|---|---|
+| Takım | AL Ahli Doha | AL Shamal |
+| Son 5 maç | - | - |
+| Form | - | - |
+| Dinlenme (gün) | - | - |
+| Eksikler | - | - |
+| Sakatlar (kullanıcı dosyası) | - | Ibrahima Coulibaly (Santrafor, Diz ameliyatı) |
+
+## 19:45 · MB Rouisset - CR Belouizdad (Cezayir 1. Lig)
+
+Aralarında: - · Uyarı: -
+
+| | Ev | Deplasman |
+|---|---|---|
+| Takım | MB Rouisset | CR Belouizdad |
+| Son 5 maç | - | - |
+| Form | - | - |
+| Dinlenme (gün) | - | - |
+| Eksikler | - | - |
+
+## 19:45 · MC Alger - Olympique Akbou (Cezayir 1. Lig)
+
+Aralarında: - · Uyarı: -
+
+| | Ev | Deplasman |
+|---|---|---|
+| Takım | MC Alger | Olympique Akbou |
+| Son 5 maç | - | - |
+| Form | - | - |
+| Dinlenme (gün) | - | - |
+| Eksikler | - | - |
 
 ## 20:45 · FK Austria Wien (K) - B. Münih (K) (UEFA Şamp. Ligi Kadınlar )
 
@@ -37,6 +122,8 @@ Aralarında: - · Uyarı: -
 | İç sahada gol | 2 | 4 |
 | Deplasmanda gol | 1 | 5 |
 | Eksikler | - | - |
+| Muhtemel eksikler (son kadrolardan) | Jasmin Pal: son maçta kırmızı kart (cezalı olabilir); Modesta Uka: son 1 maçta kadroda yok (muhtemel sakat/cezalı); Louise Schöffel: son 2 maçta kadroda yok (muhtemel sakat/cezalı) | Vanessa Gilles: son 1 maçta kadroda yok (muhtemel sakat/cezalı) |
+| Haber (sakatlık/ceza) | - | UWCL talking points: Should a flare have ruled out a Man City goal? Why can't Arsenal score more goals? |
 
 ## 20:45 · Paris (K) - HB Koege (K) (UEFA Şamp. Ligi Kadınlar )
 
@@ -73,10 +160,49 @@ Aralarında: - · Uyarı: -
 | İç sahada gol | 3 | 5 |
 | Deplasmanda gol | 2 | 1 |
 | Eksikler | - | - |
+| Muhtemel eksikler (son kadrolardan) | Melween N'Dongala: son 1 maçta kadroda yok (muhtemel sakat/cezalı) | - |
+
+## 21:00 · Fredericia - Hilleroed (Danimarka 1. Lig)
+
+Aralarında: - · Uyarı: -
+
+| | Ev | Deplasman |
+|---|---|---|
+| Takım | Fredericia | Hilleroed |
+| Son 5 maç | - | - |
+| Form | - | - |
+| Dinlenme (gün) | - | - |
+| Eksikler | - | - |
+| Sakatlar (kullanıcı dosyası) | Alexander Lyng (Sol Kanat, Darbe); Jeppe Kudsk (Stoper, Darbe) | - |
+
+## 21:00 · ZED - Smouha SC (Mısır Kupası)
+
+Aralarında: - · Uyarı: -
+
+| | Ev | Deplasman |
+|---|---|---|
+| Takım | ZED | Smouha SC |
+| Son 5 maç | - | - |
+| Form | - | - |
+| Dinlenme (gün) | - | - |
+| Eksikler | - | - |
+| Sakatlar (kullanıcı dosyası) | Maata Magassa (Merkez Orta Saha, Yüz kırığı); Ahmed Castelo (Stoper, Bilinmeyen sakatlık); Mohamed Ashraf (Sol Bek, Çapraz bağlarda çekme) | - |
+
+## 22:00 · JS Kabylie - USM Alger (Cezayir 1. Lig)
+
+Aralarında: - · Uyarı: -
+
+| | Ev | Deplasman |
+|---|---|---|
+| Takım | JS Kabylie | USM Alger |
+| Son 5 maç | - | - |
+| Form | - | - |
+| Dinlenme (gün) | - | - |
+| Eksikler | - | - |
 
 ## 22:30 · CA Progreso - Torque (Uruguay Prmr Ligi, Kapanış)
 
-Aralarında: MCT leads series 4-1 · Uyarı: -
+Aralarında: MCT leads series 4-1 · Uyarı: Ev KALECİ EKSİK (Agustín Requena); Dep 2 KART CEZALISI
 
 | | Ev | Deplasman |
 |---|---|---|
@@ -86,10 +212,13 @@ Aralarında: MCT leads series 4-1 · Uyarı: -
 | Dinlenme (gün) | 6.9 | 6.0 |
 | Puan durumu | 8./16 · 20 p · 6G 2B 6M | 2./16 · 29 p · 9G 2B 3M |
 | Eksikler | - | - |
+| Sakatlar (kullanıcı dosyası) | Nahuel Acosta (Sağ Kanat, Kas yaralanması); Agustín Requena (Kaleci, Çapraz bağ yırtığı); Santino Bruschi (Sağ Kanat, Çapraz bağ yırtığı) | - |
+| Kaleci | ⚠ kullanıcı dosyası: kaleci eksik | - |
+| Cezalılar (kullanıcı dosyası) | - | Franco Pizzichillo (Merkez Orta Saha, Sarı kart cezalısı); Kevin Silva (Stoper, Kırmızı kart cezalısı) |
 
 ## 22:30 · Penarol - Cerro Largo (Uruguay Prmr Ligi, Kapanış)
 
-Aralarında: PEN leads series 3-1-1 · Uyarı: -
+Aralarında: PEN leads series 3-1-1 · Uyarı: Ev KALECİ EKSİK (Washington Aguerre); Ev 3 KART CEZALISI; Dep 1 kart cezalısı (Sebastián Assís)
 
 | | Ev | Deplasman |
 |---|---|---|
@@ -99,6 +228,10 @@ Aralarında: PEN leads series 3-1-1 · Uyarı: -
 | Dinlenme (gün) | 3.9 | 6.9 |
 | Puan durumu | 4./16 · 23 p · 6G 6B 2M | 15./16 · 10 p · 1G 7B 6M |
 | Eksikler | - | - |
+| Sakatlar (kullanıcı dosyası) | Leonardo Fernández (On Numara, Çapraz bağ yırtığı, dönüş 30 Kas 2026); Diego Laxalt (Sol Bek, Bilinmeyen sakatlık); Franco Romero (Stoper, Kas yırtığı); Brandon Álvarez (Sol Kanat, Sporcu kasığı) | - |
+| Cezalılar (kullanıcı dosyası) | Eric Remedi (Ön Libero, Sarı kart cezalısı); Washington Aguerre (Kaleci, Sarı kart cezalısı); Luis Angulo (Sol Kanat, Kırmızı kart cezalısı) | Sebastián Assís (Merkez Orta Saha, Sarı-kırmızı kart cezalısı) |
+| Kaleci | ⚠ kullanıcı dosyası: kaleci eksik | - |
+| Haber (sakatlık/ceza) | Failed Panenka, then injury! Cristian Zavala 'had a problem,' says boss | 'Haaland celebration' sees Uruguay keeper sent off, team concedes two late goals |
 
 ## 22:30 · Boston River - D. Maldonado (Uruguay Prmr Ligi, Kapanış)
 
@@ -112,6 +245,21 @@ Aralarında: BOS leads series 3-2 · Uyarı: -
 | Dinlenme (gün) | 5.3 | 5.0 |
 | Puan durumu | 11./16 · 15 p · 4G 3B 7M | 5./16 · 22 p · 6G 4B 4M |
 | Eksikler | - | - |
+| Sakatlar (kullanıcı dosyası) | Kevin Rodríguez (Sağ Bek, Ayak sakatlığı) | - |
+| Haber (sakatlık/ceza) | Colten Moore on the Road 2 Recovery · Jossi Wells Returns | - |
+
+## 22:45 · Amiens - Caen (Fransa Ulusal Lig)
+
+Aralarında: - · Uyarı: -
+
+| | Ev | Deplasman |
+|---|---|---|
+| Takım | Amiens | Caen |
+| Son 5 maç | - | - |
+| Form | - | - |
+| Dinlenme (gün) | - | - |
+| Eksikler | - | - |
+| Sakatlar (kullanıcı dosyası) | Alvin Doucet (Santrafor, Çapraz bağ yırtığı) | Nassim Titebah (Sağ Bek, Uyluk çarpması); Mohamed-Amine El Idrissi (Merkez Orta Saha, Çapraz bağ yırtığı) |
 
 ## 23:00 · Arsenal (K) - O. Lyon (K) (UEFA Şamp. Ligi Kadınlar )
 
@@ -147,6 +295,8 @@ Aralarında: LYON leads series 3-2 · Uyarı: -
 | İç sahada gol | 4 | 6 |
 | Deplasmanda gol | 3 | 14 |
 | Eksikler | - | - |
+| Haber (sakatlık/ceza) | English FA and WSL launch landmark study into ACL injuries in women's football | Caroline Weir aims to heal OL Lyonnes' Champions League heartbreak |
+| Muhtemel eksikler (son kadrolardan) | - | Maria Luisa Grohs: son maçta kadroda yok (rotasyon olabilir); Wendie Renard: son maçta kadroda yok (rotasyon olabilir); Damaris Egurrola: son maçta kadroda yok (rotasyon olabilir); Tabitha Chawinga: son maçta kadroda yok (rotasyon olabilir); Marie-Antoinette Katoto: son maçta kadroda yok (rotasyon olabilir); Elma Junttila Nelhage: son maçta kırmızı kart (cezalı olabilir) |
 
 ## 23:00 · Barcelona (K) - Servette (K) (UEFA Şamp. Ligi Kadınlar )
 
@@ -182,6 +332,7 @@ Aralarında: - · Uyarı: -
 | İç sahada gol | 6 | 5 |
 | Deplasmanda gol | 14 | 2 |
 | Eksikler | - | - |
+| Muhtemel eksikler (son kadrolardan) | Caroline Graham Hansen: son 1 maçta kadroda yok (muhtemel sakat/cezalı) | - |
 
 ## 23:00 · Benfica (K) - AS Roma (K) (UEFA Şamp. Ligi Kadınlar )
 
@@ -220,7 +371,7 @@ Aralarında: - · Uyarı: -
 
 ## 01:30 · Vitoria BA - Bragantino (Brezilya Serie A)
 
-Aralarında: BRA leads series 3-2 · Uyarı: -
+Aralarında: BRA leads series 3-2 · Uyarı: Ev sakatlık krizi (6 sakat, 6.7M€); Dep KALECİ EKSİK (Fabrício); Dep sakatlık krizi (5 sakat, 12.0M€)
 
 | | Ev | Deplasman |
 |---|---|---|
@@ -232,7 +383,7 @@ Aralarında: BRA leads series 3-2 · Uyarı: -
 | Sezon gol (at / ye) | 35 / 51 (1.03 / 1.50 maç başı) | 44 / 39 (1.29 / 1.15 maç başı) |
 | Golcüler | Renê 10G 1A, Erick 5G 6A, Matheus 5G 4A | Lucas Barbosa 7G 3A, Isidro Pitta 5G 3A, Juninho Capixaba 3G 2A |
 | Asist yapanlar | Erick 6A 5G, Matheus 4A 5G, Gabriel Baralhas 3A 2G | Henry Mosquera 5A 1G, Lucas Barbosa 3A 7G, Isidro Pitta 3A 5G |
-| Kaleci | Lucas Arcanjo (30 maç, %73 kurtarış, maç başı 1.37 gol) | Tiago Volpi (26 maç, %74 kurtarış, maç başı 1.19 gol) |
+| Kaleci | Lucas Arcanjo (30 maç, %73 kurtarış, maç başı 1.37 gol) | Tiago Volpi (26 maç, %74 kurtarış, maç başı 1.19 gol) · ⚠ kullanıcı dosyası: kaleci eksik |
 | Kart riski | Cacá 6S 1K, Luan Cândido 3S 1K, Edenilson 2S 1K, Marinho 1S 1K | Fabinho 0S 2K, Alix Vinicius 7S 1K, Agustín Sant'Anna 4S 1K, Wallace Yan 0S 1K |
 | Topla oynama | %44.8 | %49.4 |
 | Şut | 11.8 / maç | 16.9 / maç |
@@ -253,10 +404,13 @@ Aralarında: BRA leads series 3-2 · Uyarı: -
 | İç sahada gol | 23 | 29 |
 | Deplasmanda gol | 12 | 15 |
 | Eksikler | - | - |
+| Sakatlar (kullanıcı dosyası) | Ramon (Sol Bek, Bacak sakatlığı); Fabiano (Sağ Bek, Diz sakatlığı); Nathan Mendes (Sağ Bek, Dizde bağ iltabı); Edu Ribeiro (Stoper, Aşil tendonu yırtığı); Dudu (Ön Libero, Omurga sakatlığı); Camutanga (Stoper, Ayak kırığı) | Rodriguinho (On Numara, Diz sorunu); José Andrés Hurtado (Sağ Bek, Adductor sakatlığı); Patrick (Ön Libero, Bademcik iltihabı); Davi Gomes (Sol Kanat, Çapraz bağ yırtığı); Fabrício (Kaleci, Ayak bileğinde sakatlık) |
+| Haber (sakatlık/ceza) | Derby between Vitoria and Bahia stopped after ninth red card | Brazilian player Marques banned 12 games for sexism toward ref · Klopp is back with exec role at Red Bull, but for how long? |
+| Muhtemel eksikler (son kadrolardan) | Emanuel Britez: son 1 maçta kadroda yok (muhtemel sakat/cezalı) | Fernando: son 1 maçta kadroda yok (muhtemel sakat/cezalı) |
 
 ## 01:30 · Vasco Da G. - Internacional (Brezilya Serie A)
 
-Aralarında: Series tied 2-2-1 · Uyarı: -
+Aralarında: Series tied 2-2-1 · Uyarı: Ev sakatlık krizi (6 sakat, 31.8M€); Dep KALECİ EKSİK (Anthoni, Sergio Rochet); Dep sakatlık krizi (6 sakat, 12.6M€)
 
 | | Ev | Deplasman |
 |---|---|---|
@@ -268,7 +422,7 @@ Aralarında: Series tied 2-2-1 · Uyarı: -
 | Sezon gol (at / ye) | 45 / 50 (1.32 / 1.47 maç başı) | 38 / 42 (1.12 / 1.24 maç başı) |
 | Golcüler | Andrés Gómez 5G 3A, Thiago Mendes 5G 1A, David 4G 2A | Johan Carbonero 7G 4A, Alan Patrick 6G 2A, Alexander Bernabei 5G 1A |
 | Asist yapanlar | José Luis Rodríguez 5A 3G, Cuiabano 4A 1G, Andrés Gómez 3A 5G | Alerrando 5A 4G, Johan Carbonero 4A 7G, Vitinho 3A 4G |
-| Kaleci | Léo Jardim (34 maç, %64 kurtarış, maç başı 1.47 gol) | Anthoni (13 maç, %66 kurtarış, maç başı 1.38 gol) |
+| Kaleci | Léo Jardim (34 maç, %64 kurtarış, maç başı 1.47 gol) | Anthoni (13 maç, %66 kurtarış, maç başı 1.38 gol) · ⚠ kullanıcı dosyası: kaleci eksik |
 | Kart riski | Cauan Barros 4S 1K, Carlos Cuesta 1S 1K, Andrés Gómez 9S, Thiago Mendes 8S | Alexander Bernabei 8S 1K, Victor Gabriel 6S 1K, Matheus Bahia 4S 1K, Guillermo Maripán 2S 1K |
 | Topla oynama | %54.7 | %46.5 |
 | Şut | 17.5 / maç | 14.8 / maç |
@@ -289,10 +443,13 @@ Aralarında: Series tied 2-2-1 · Uyarı: -
 | İç sahada gol | 25 | 22 |
 | Deplasmanda gol | 20 | 16 |
 | Eksikler | - | - |
+| Sakatlar (kullanıcı dosyası) | Santiago Sosa (Ön Libero, Uyluk problemi); Carlos Cuesta (Stoper, Kalça flexörü problemleri); Nuno Moreira (Sağ Kanat, Uyluk problemi); Cauan Barros (Ön Libero, Kesik yarası); Thiago Mendes (Ön Libero, Sırt problemleri); Tchê Tchê (Merkez Orta Saha, Tendinit) | Kayky (Sağ Kanat, Bilek sakatlığı); Anthoni (Kaleci, Diz sorunu); Alan Patrick (On Numara, Kas yaralanması); Antonio Sanabria (Santrafor, Alt baldır sakatlığı); Sergio Rochet (Kaleci, Lomber sorunları); Benjamin (Ön Libero, Uyluk sakatlığı) |
+| Muhtemel eksikler (son kadrolardan) | Thiago Mendes: son 1 maçta kadroda yok (muhtemel sakat/cezalı); Santiago Sosa: son 1 maçta kadroda yok (muhtemel sakat/cezalı) | Alan Patrick: son 1 maçta kadroda yok (muhtemel sakat/cezalı); Guillermo Maripán: son maçta kırmızı kart (cezalı olabilir) |
+| Haber (sakatlık/ceza) | - | Internacional defender banned until Gabriel Pec returns from broken leg · Brazil to resume championship matches in June after flooding · Brazil sports leader wants all league play halted amid floods · USMNT's Cardoso out vs. Trinidad due to ankle injury |
 
 ## 03:30 · Sao Paulo SP - Fluminense (Brezilya Serie A)
 
-Aralarında: FLU leads series 3-2 · Uyarı: -
+Aralarında: FLU leads series 3-2 · Uyarı: Ev sakatlık krizi (5 sakat, 17.3M€); Dep sakatlık krizi (5 sakat, 34.8M€)
 
 | | Ev | Deplasman |
 |---|---|---|
@@ -325,6 +482,9 @@ Aralarında: FLU leads series 3-2 · Uyarı: -
 | İç sahada gol | 25 | 31 |
 | Deplasmanda gol | 14 | 24 |
 | Eksikler | - | - |
+| Sakatlar (kullanıcı dosyası) | Marcos Antônio (Merkez Orta Saha, Ayak bileğinde sakatlık); Aurélio Buta (Sağ Bek, Diz sorunu); Sabino (Stoper, Diz ameliyatı); Domingos Duarte (Stoper, Diz bağlarında kısmi yırtık); Nicolas (Sol Bek, Menisküs sakatlığı) | Martinelli (Ön Libero, Diz sakatlığı); John Kennedy (Santrafor, Çapraz bağlarda kısmi yırtık, dönüş 30 Haz 2027); Julián Millán (Stoper, Uyluk problemi); Alisson (Merkez Orta Saha, Kalça flexörü problemleri); Matheus Reis (Sol Kanat, Dizde bağ iltabı) |
+| Haber (sakatlık/ceza) | Ex-Chelsea midfielder Oscar in hospital after abnormal fitness test | - |
+| Muhtemel eksikler (son kadrolardan) | - | Ignácio: son 1 maçta kadroda yok (muhtemel sakat/cezalı) |
 
 ## 03:30 · Orlando City - Cincinnati (ABD Major Lig Playoff)
 
@@ -355,6 +515,8 @@ Aralarında: CIN leads series 2-1-2 · Uyarı: -
 | İç sahada gol | 33 | 39 |
 | Deplasmanda gol | 30 | 28 |
 | Eksikler | - | - |
+| Sakatlar (kullanıcı dosyası) | Robin Jansson (Stoper, Ayak ameliyatı) | - |
+| Muhtemel eksikler (son kadrolardan) | Iago Teodoro: son 1 maçta kadroda yok (muhtemel sakat/cezalı) | Nick Hagglund: son 1 maçta kadroda yok (muhtemel sakat/cezalı) |
 
 ## 06:00 · S. Sounders - Real Salt Lake (ABD Major Lig Playoff)
 
@@ -385,4 +547,7 @@ Aralarında: series tied 2-2-1 · Uyarı: -
 | İç sahada gol | 26 | 33 |
 | Deplasmanda gol | 18 | 20 |
 | Eksikler | - | - |
+| Sakatlar (kullanıcı dosyası) | Pedro de la Vega (Sağ Kanat, Uyluk sakatlığı); Nikola Petković (Merkez Orta Saha, Çapraz bağ yırtığı) | Diego Luna (Orta Saha Sol, Diz sakatlığı) |
+| Muhtemel eksikler (son kadrolardan) | Alex Roldan: son 1 maçta kadroda yok (muhtemel sakat/cezalı) | Dominik Marczuk: son 1 maçta kadroda yok (muhtemel sakat/cezalı) |
+| Haber (sakatlık/ceza) | - | USMNT, RSL midfielder Diego Luna (knee) set to be out for months |
 
