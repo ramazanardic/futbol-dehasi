@@ -42,6 +42,12 @@ _DEFAULT_LEAGUE_REGIMES: tuple[tuple[str, tuple[float, float, float]], ...] = (
     ("col.", (1.10, 0.00, 0.00)),
     ("ind.2", (1.08, 0.00, 0.01)),
 )
+# Club regime re-calibrated on market-anchored FT derivative markets (calibration 2019-22, test 2022+,
+# 6,000 matches): nu=1.0 / rho=-0.03 beat the earlier nu=1.10 / rho=-0.07 on every market line
+# (total log-loss 4.611 -> 4.554; KG Var mean 48.1% -> 51.3% vs 52.8% observed).
+# See reports/research/regime_calibration.md.
+CLUB_REGIME: tuple[float, float, float] = (1.00, 0.00, 0.00)
+DEFAULT_RHO: float = -0.03
 _CLUB_CODES: frozenset[str] = frozenset(
     {"e0", "e1", "e2", "e3", "ec", "sp1", "sp2", "d1", "d2", "i1", "i2", "f1", "f2", "t1", "n1", "p1", "b1", "sc0", "sc1", "sc2", "sc3"}
 )
@@ -73,11 +79,11 @@ def league_tail_regime(league_slug: str | None) -> tuple[float, float, float]:
         return (1.05, 0.00, 0.02)
     slug = league_slug.lower()
     if slug in _CLUB_CODES:
-        return (1.10, 0.00, 0.00)
+        return CLUB_REGIME
     for token, params in _DEFAULT_LEAGUE_REGIMES:
         if token in slug:
             return params
-    return (1.08, 0.00, 0.01)
+    return CLUB_REGIME
 
 
 def league_tail_params(league_slug: str | None) -> tuple[float, float]:
@@ -177,7 +183,7 @@ def negative_binomial_score_matrix(
     mu_h: float,
     mu_a: float,
     alpha_nb: float = 0.10,
-    rho: float = -0.07,
+    rho: float = DEFAULT_RHO,
     shared_kappa: float = 0.10,
     max_goals: int = 14,
     com_nu: float = 1.0,
@@ -274,7 +280,7 @@ def fit_tail_rates_from_markets(
     ou_lines: Iterable[tuple[float, float]] | None = None,
     seed_rates: tuple[float, float] = (1.4, 1.1),
     alpha_nb: float = 0.10,
-    rho: float = -0.07,
+    rho: float = DEFAULT_RHO,
     shared_kappa: float = 0.10,
     max_goals: int = 14,
     fund_weight: float = 0.15,

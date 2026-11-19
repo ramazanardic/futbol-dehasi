@@ -76,4 +76,17 @@ bkz. §5.
 
 `research_experiments.py calibrate-regime` · ayrıntı: [regime_calibration.md](../../reports/research/regime_calibration.md)
 
-(sonuç aşağıda)
+ν (COM-Poisson) × ρ (Dixon-Coles) × κ (ortak tempo) ızgarası yalnızca kalibrasyon döneminde
+(2019-07 – 2022-07, 2.500 maç) tarandı; en iyisi **ν = 1.0, ρ = −0.03, κ = 0** (eski: 1.10 / −0.07 / 0).
+Bağımsız test (2022-07+, 6.000 maç) — her satırda iyileşme:
+
+| Pazar | Gerçekleşen | Eski | Yeni |
+|---|---|---|---|
+| KG Var | %52.8 | %48.1 | %51.3 |
+| 3.5 Üst | %28.7 | %24.0 | %29.1 |
+| 4.5 Üst | %13.3 | %10.5 | %14.4 |
+| Dep 0.5 Üst | %69.4 | %65.0 | %68.0 |
+| Skor 0-0 | %7.6 | %8.3 | %7.4 |
+
+Toplam test log-loss 4.611 → 4.554. Motora uygulandı (`tail_goals.CLUB_REGIME`, `DEFAULT_RHO`).
+README'deki "ν = 1.10 kulüp rejimi" bulgusu bu sabitlenmiş kullanımda geçerli değil.

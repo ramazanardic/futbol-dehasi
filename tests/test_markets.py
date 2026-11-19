@@ -272,12 +272,12 @@ def test_omni_htft_matches_both_ht_and_ft_marginals(mu_h, mu_a, league):
 def test_omni_first_half_fgm_matches_halves_btts_parametrization():
     from quantfoot.markets.halves_btts import half_model_params
     from quantfoot.markets.omni_markets import compute_omni_markets
-    from quantfoot.markets.tail_goals import com_poisson_pmf
+    from quantfoot.markets.tail_goals import com_poisson_pmf, league_tail_regime
 
     mu_h, mu_a = 1.6, 1.1
     a1, _, _, fgm_1h, _ = half_model_params("e0")
-    p_h = com_poisson_pmf(mu_h * (a1 + 0.0023), 1.10, 7)
-    p_a = com_poisson_pmf(mu_a * (a1 - 0.0023), 1.10, 7)
+    p_h = com_poisson_pmf(mu_h * (a1 + 0.0023), league_tail_regime("e0")[0], 7)
+    p_a = com_poisson_pmf(mu_a * (a1 - 0.0023), league_tail_regime("e0")[0], 7)
     ph, pa = 1.0 - p_h[0], 1.0 - p_a[0]
     # Same binary FGM as halves_btts: P(0-0) = p0_h*p0_a*(1 + fgm*ph*pa), marginals preserved.
     expected_1h_00 = p_h[0] * p_a[0] * (1.0 + fgm_1h * ph * pa)

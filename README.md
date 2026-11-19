@@ -2,6 +2,18 @@
 
 Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power & Rimella JRSS-C 2024; Baker & McHale; Constantinou & Fenton) ve **238.858+ tarihsel kulüp maçı** (`matches.csv` + canlı ESPN 2026-27 senkronizasyonu) + **10.660 uluslararası milli maç** (2016–2026) + **7.348 Pinnacle 2026 açılış/kapanış oran verisi** üzerinde sıfır veri sızıntısı (*zero look-ahead leakage*, genişleyen *walk-forward*) ile araştırılmış, kalibre edilmiş ve doğrulanmış kantitatif futbol tahmin ve bahis motoru.
 
+## Güncel Durum (19 Kasım 2026) — önce bunu okuyun
+
+- **Modeller piyasayı yenmiyor.** 16.423 maçlık ileri-yürüyen testte 15 modelin hiçbiri Bet365'in marjsız
+  fiyatına bilgi katmadı (havuz ağırlığı w = 0.00). Aşağıdaki eski bulgular (ör. "16/16 %100") örneklem
+  içidir. Ayrıntı: [docs/research/experiments_2026_11.md](docs/research/experiments_2026_11.md).
+- **Kanıtı olan yöntem keskin–yumuşak oran farkıdır** (Pinnacle marjsız fiyatı vs yumuşak büro):
+  pozitif CLV ve ROI. Canlı tarama: `scripts/sharp_scan.py`.
+- **20 pazar ailesi + Bet Builder** tek tutarlı dağılımdan: [docs/markets.md](docs/markets.md). Kulüp gol
+  rejimi piyasaya sabitlenmiş türev pazarlarda yeniden kalibre edildi (ν = 1.0, ρ = −0.03).
+- **Günlük akış:** `scripts/daily.py` (CLV ve havuz testi dahil), zamanlanmış görevler `scripts/scheduled.py`.
+- Yol haritası: [docs/research/roadmap_2026_11.md](docs/research/roadmap_2026_11.md).
+
 ---
 
 ## Araştırma Bulguları ve v6 / v5 / v4 Yükseltmeleri (Ampirik Kanıtlar)

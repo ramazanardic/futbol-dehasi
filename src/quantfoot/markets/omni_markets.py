@@ -7,6 +7,7 @@ import numpy as np
 
 from quantfoot.markets.halves_btts import compute_halves_btts, half_model_params
 from quantfoot.markets.tail_goals import (
+    DEFAULT_RHO,
     _apply_dixon_coles_low_scores,
     com_poisson_pmf,
     league_tail_regime,
@@ -164,7 +165,7 @@ def compute_omni_markets(
             mu_h,
             mu_a,
             alpha_nb=alpha_nb,
-            rho=-0.07,
+            rho=DEFAULT_RHO,
             shared_kappa=shared_kappa,
             com_nu=com_nu,
             max_goals=max_ft_goals,
