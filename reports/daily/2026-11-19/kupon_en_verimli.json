@@ -1,0 +1,142 @@
+{
+ "coupons": [
+  {
+   "legs": [
+    {
+     "code": 3307411,
+     "kickoff": "2026-11-19 20:45",
+     "league": "UEFA Şamp. Ligi Kadınlar ",
+     "match": "FK Austria Wien (K) - B. Münih (K)",
+     "market": "Gol Alt/Üst",
+     "selection": "4.5 Alt",
+     "odds": 1.41,
+     "p": 0.634,
+     "ev": -0.1061,
+     "mbs": 1,
+     "reference": "Matchbook + Smarkets",
+     "direct": true,
+     "context": "Ev: form WLDLL, 18./18, son kadroda yok: Jasmin Pal, Modesta Uka · Dep: form LDWDW, 7./18, son kadroda yok: Vanessa Gilles",
+     "key": "155|4.5 Alt|0",
+     "researched": true,
+     "status": "kontrol edildi"
+    },
+    {
+     "code": 3386737,
+     "kickoff": "2026-11-20 03:30",
+     "league": "ABD Major Lig Playoff",
+     "match": "Orlando City - Cincinnati",
+     "market": "Maç Sonucu",
+     "selection": "1",
+     "odds": 2.13,
+     "p": 0.40406,
+     "ev": -0.1393,
+     "mbs": 1,
+     "reference": "Matchbook + Smarkets",
+     "direct": true,
+     "context": "Ev: form WDDLW, 1 sakat, 0 cezalı, son kadroda yok: Iago Teodoro · Dep: form WWDWL, son kadroda yok: Nick Hagglund",
+     "key": "1|MS 1|0",
+     "researched": true,
+     "status": "kontrol edildi"
+    }
+   ],
+   "nesine_odds": 3.0,
+   "probability": 0.25617404,
+   "global_fair_odds": 3.9,
+   "ev": -0.2306325056680001,
+   "min_mbs": 1,
+   "odds_checked_at": "18:52:50"
+  },
+  {
+   "legs": [
+    {
+     "code": 3307411,
+     "kickoff": "2026-11-19 20:45",
+     "league": "UEFA Şamp. Ligi Kadınlar ",
+     "match": "FK Austria Wien (K) - B. Münih (K)",
+     "market": "Gol Alt/Üst",
+     "selection": "4.5 Alt",
+     "odds": 1.41,
+     "p": 0.634,
+     "ev": -0.1061,
+     "mbs": 1,
+     "reference": "Matchbook + Smarkets",
+     "direct": true,
+     "context": "Ev: form WLDLL, 18./18, son kadroda yok: Jasmin Pal, Modesta Uka · Dep: form LDWDW, 7./18, son kadroda yok: Vanessa Gilles",
+     "key": "155|4.5 Alt|0",
+     "researched": true,
+     "status": "kontrol edildi"
+    },
+    {
+     "code": 3304862,
+     "kickoff": "2026-11-20 01:30",
+     "league": "Brezilya Serie A",
+     "match": "Vitoria BA - Bragantino",
+     "market": "1. Yarı Sonucu",
+     "selection": "1",
+     "odds": 2.92,
+     "p": 0.2948,
+     "ev": -0.1392,
+     "mbs": 1,
+     "reference": "Matchbook + Smarkets",
+     "direct": true,
+     "context": "Ev: form LDDLL, 16./20, 6 sakat, 0 cezalı, son kadroda yok: Emanuel Britez · Dep: form WDLWW, 9./20, 5 sakat, 0 cezalı (kaleci yok), son kadroda yok: Fernando",
+     "key": "7|İY 1|0",
+     "researched": true,
+     "status": "kontrol edildi"
+    }
+   ],
+   "nesine_odds": 4.12,
+   "probability": 0.1869032,
+   "global_fair_odds": 5.35,
+   "ev": -0.23048214496000008,
+   "min_mbs": 1,
+   "odds_checked_at": "18:52:52"
+  },
+  {
+   "legs": [
+    {
+     "code": 3307411,
+     "kickoff": "2026-11-19 20:45",
+     "league": "UEFA Şamp. Ligi Kadınlar ",
+     "match": "FK Austria Wien (K) - B. Münih (K)",
+     "market": "Gol Alt/Üst",
+     "selection": "4.5 Alt",
+     "odds": 1.41,
+     "p": 0.634,
+     "ev": -0.1061,
+     "mbs": 1,
+     "reference": "Matchbook + Smarkets",
+     "direct": true,
+     "context": "Ev: form WLDLL, 18./18, son kadroda yok: Jasmin Pal, Modesta Uka · Dep: form LDWDW, 7./18, son kadroda yok: Vanessa Gilles",
+     "key": "155|4.5 Alt|0",
+     "researched": true,
+     "status": "kontrol edildi"
+    },
+    {
+     "code": 3386736,
+     "kickoff": "2026-11-20 06:00",
+     "league": "ABD Major Lig Playoff",
+     "match": "S. Sounders - Real Salt Lake",
+     "market": "1. Yarı Sonucu",
+     "selection": "2",
+     "odds": 3.69,
+     "p": 0.2384,
+     "ev": -0.1203,
+     "mbs": 1,
+     "reference": "Matchbook + Smarkets",
+     "direct": true,
+     "context": "Ev: form DDLLW, 2 sakat, 0 cezalı, son kadroda yok: Alex Roldan · Dep: form WWWLW, 1 sakat, 0 cezalı, son kadroda yok: Dominik Marczuk",
+     "key": "7|İY 2|0",
+     "researched": true,
+     "status": "kontrol edildi"
+    }
+   ],
+   "nesine_odds": 5.2,
+   "probability": 0.1511456,
+   "global_fair_odds": 6.62,
+   "ev": -0.2136045577600001,
+   "min_mbs": 1,
+   "odds_checked_at": "18:52:53"
+  }
+ ]
+}
