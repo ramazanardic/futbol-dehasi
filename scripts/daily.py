@@ -280,8 +280,9 @@ def _update_index(date: str, n_matches: int, n_singles: int, n_coupons: int) -> 
         "# QuantFoot Tahmin ve Kupon Arşivi", "", "| Tarih | Motor | Maç Sayısı | Dosyalar | Durum |",
         "| :---: | :--- | :---: | :--- | :--- |"]
     lines = [ln for ln in lines if not ln.startswith(f"| **{date}** | `daily.py`")]
-    last_row = max((i for i, ln in enumerate(lines) if ln.startswith("| **")), default=len(lines) - 1)
-    lines.insert(last_row + 1, row)
+    rows = sorted([ln for ln in lines if ln.startswith("| **")] + [row])  # chronological (ISO dates sort lexically)
+    first = next((i for i, ln in enumerate(lines) if ln.startswith("| **")), len(lines))
+    lines = [ln for ln in lines[:first] if not ln.startswith("| **")] + rows + [ln for ln in lines[first:] if not ln.startswith("| **")]
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
