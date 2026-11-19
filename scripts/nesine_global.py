@@ -116,6 +116,69 @@ def espn_references(dates: list[str]) -> list[dict]:
 
 
 # ---- pricing ----------------------------------------------------------------------------
+_SIDE = {"HOME": "1", "DRAW": "0", "AWAY": "2"}
+_KG = {"YES": "KG Var", "NO": "KG Yok"}
+_OU = {"OVER": "Üst", "UNDER": "Alt"}
+
+
+def _line(market: str) -> str | None:
+    m = re.search(r"(\d+\.5)", market)
+    return f"{float(m.group(1)):.1f}" if m else None
+
+
+def _direct_name(market: str, label: str) -> str | None:
+    """Smarkets market name + "CONTRACT_TYPE|contract name" -> canonical selection name (goal_markets syntax)."""
+    ctype, _, cname = label.partition("|")
+    parts = ctype.split("_")
+    mk, line = market.lower(), _line(market)
+    if mk.startswith("over/under") and line and ctype in _OU:
+        return f"{line} {_OU[ctype]}"
+    if mk.startswith("first half over/under") and line and ctype in _OU:
+        return f"İY {line} {_OU[ctype]}"
+    if mk.startswith("second half over/under") and line and ctype in _OU:
+        return f"2Y {line} {_OU[ctype]}"
+    if mk == "both teams to score" and ctype in _KG:
+        return _KG[ctype]
+    if mk == "both teams to score in first half" and ctype in _KG:
+        return f"İY {_KG[ctype]}"
+    if mk == "both teams to score in second half" and ctype in _KG:
+        return f"2Y {_KG[ctype]}"
+    if mk == "both teams to score in first half / second half" and ctype == "YES_YES":
+        return "İki Yarıda KG Var"
+    if mk.startswith("both teams to score and over/under") and line and len(parts) == 2 and parts[0] in _KG and parts[1] in _OU:
+        return f"{line} {_OU[parts[1]]} & {_KG[parts[0]]}"
+    if mk == "half-time result" and ctype in _SIDE:
+        return f"İY {_SIDE[ctype]}"
+    if mk == "second half result" and ctype in _SIDE:
+        return f"2Y {_SIDE[ctype]}"
+    if mk == "half-time/full-time" and len(parts) == 2 and all(x in _SIDE for x in parts):
+        return f"İY/MS {_SIDE[parts[0]]}/{_SIDE[parts[1]]}"
+    if mk == "odd or even score" and ctype in ("ODD", "EVEN"):
+        return "Tek" if ctype == "ODD" else "Çift"
+    if mk == "first half odd or even score" and ctype in ("ODD", "EVEN"):
+        return "İY Tek" if ctype == "ODD" else "İY Çift"
+    if mk == "goal range" and cname.replace(" ", "") in ("0-1", "2-3"):  # Nesine bands 4-5 / 6+ differ from 4-6 / 7+
+        return f"{cname.replace(' ', '')} Gol"
+    if mk == "winner and both teams to score" and len(parts) == 2 and parts[0] in _SIDE and parts[1] in _KG:
+        return f"MS {_SIDE[parts[0]]} & {_KG[parts[1]]}"
+    if mk.startswith("winner and over/under") and line and len(parts) == 2 and parts[0] in _SIDE and parts[1] in _OU:
+        return f"MS {_SIDE[parts[0]]} & {line} {_OU[parts[1]]}"
+    if mk == "first half winner and both teams to score" and len(parts) == 2 and parts[0] in _SIDE and parts[1] in _KG:
+        return f"İY {_SIDE[parts[0]]} & İY {_KG[parts[1]]}"
+    return None
+
+
+def direct_probabilities(ref: dict) -> dict[str, float]:
+    """Margin-free probabilities quoted directly by the global source for individual selections."""
+    out: dict[str, float] = {}
+    for market, contracts in (ref.get("markets") or {}).items():
+        for label, p in contracts.items():
+            name = _direct_name(market, label)
+            if name:
+                out[name] = float(p)
+    return out
+
+
 def price_event(event, ref: dict, league: str) -> dict:
     p1x2 = devig(ref["x12"], method="power").probabilities
     ou_line, p_over = None, None
@@ -129,12 +192,17 @@ def price_event(event, ref: dict, league: str) -> dict:
     joint = compute_omni_markets(mu_h, mu_a, league=regime_key).joint
     timing = GoalTimingModel.from_joint(joint).markets()["İlk Golü Atan Takım"]
     derivatives_ok = not is_uncalibrated_competition(league)
+    quoted = direct_probabilities(ref)
     rows = []
     for s in event.selections:
         direct = s.name in ("MS 1", "MS 0", "MS 2") or (ou_line is not None and s.name in (f"{ou_line:.1f} Üst", f"{ou_line:.1f} Alt"))
+        if s.name in quoted:
+            direct = True  # the global source prices this exact selection: use its own price, not the model
         if not direct and not derivatives_ok:
             continue  # derivative distribution not calibrated for this competition
-        if s.name.startswith("İlk Gol"):
+        if s.name in quoted:
+            p = quoted[s.name]
+        elif s.name.startswith("İlk Gol"):
             p = timing.get(s.name)
         else:
             p = goal_probability(s.name, joint)

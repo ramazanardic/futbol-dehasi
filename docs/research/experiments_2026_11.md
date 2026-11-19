@@ -96,4 +96,7 @@ Toplam test log-loss 4.611 → 4.554. Motora uygulandı (`tail_goals.CLUB_REGIME
 > adımı çok kaba olduğu için sayısal gradyan sıfırdı). Yani ν = 1.10 seçenekleri piyasaya hiç
 > uydurulmadan puanlandı; ν = 1.0'ın kazanması kısmen bu yüzden olabilir. Hata düzeltildi ve
 > kalibrasyon yeniden çalıştırıldı (sonuç: `reports/research/regime_calibration.md`).
+> **Yeniden çalıştırma sonucu:** düzeltilmiş uydurucuyla da en iyi rejim ν = 1.0, ρ = −0.03, κ = 0
+> (toplam log-loss 4.61746; ν = 1.05 için 4.61747). ν = 1.0'ın kazanması hatadan kaynaklanmıyormuş;
+> parametreler değiştirilmedi.
 README'deki "ν = 1.10 kulüp rejimi" bulgusu bu sabitlenmiş kullanımda geçerli değil.

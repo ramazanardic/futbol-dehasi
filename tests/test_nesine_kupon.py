@@ -88,3 +88,17 @@ def test_candidates_keep_only_non_dominated_legs():
     pools = kupon.candidates([match, espn], now, min_odds=1.15, min_prob=0.0, allow_espn=False)
     assert len(pools) == 1
     assert {(leg["market"], leg["odds"]) for leg in pools[0]} == {("MS", 1.50), ("AÜ", 1.90)}
+
+
+def test_direct_quote_names_map_to_nesine_selections():
+    import nesine_global as ng
+
+    assert ng._direct_name("Over/under 3.5", "OVER|Over 3.5 goals") == "3.5 Üst"
+    assert ng._direct_name("Both teams to score", "NO|No") == "KG Yok"
+    assert ng._direct_name("First half over/under 0.5", "UNDER|Under 0.5 goals") == "İY 0.5 Alt"
+    assert ng._direct_name("Half-time/full-time", "DRAW_HOME|Draw / Amiens") == "İY/MS 0/1"
+    assert ng._direct_name("Winner and over/under 1.5", "HOME_OVER|Amiens / over 1.5 goals") == "MS 1 & 1.5 Üst"
+    assert ng._direct_name("Both teams to score and over/under 2.5", "YES_UNDER|Yes / Under") == "2.5 Alt & KG Var"
+    assert ng._direct_name("Goal range", "RANGE|2 - 3") == "2-3 Gol"
+    assert ng._direct_name("Goal range", "RANGE|4 - 6") is None  # Nesine's 4-5 band is a different event
+    assert ng._direct_name("Correct score", "X|1-0") is None

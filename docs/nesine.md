@@ -29,6 +29,13 @@ python scripts/nesine_global.py --date 2026-11-19
    KG, gol aralığı, handikap, kombineler, ilk gol — tek tutarlı gol dağılımından fiyatlanır
    ([markets.md](markets.md)). Kulüp gol rejimi bu kullanım için yeniden kalibre edildi
    ([research/experiments_2026_11.md](research/experiments_2026_11.md) §4–5).
+   **Doğrudan fiyat önceliği:** Smarkets bir seçimin kendisini de fiyatlıyorsa (KG, 0,5–6,5 tüm
+   Alt/Üst çizgileri, İY sonucu, İY/MS, İY Alt/Üst, Tek/Çift, 0-1 / 2-3 gol aralığı, MS & KG,
+   MS & Alt/Üst, KG & Alt/Üst) olasılık modelden değil o borsa fiyatından alınır; yalnızca tüm
+   sonuçları kote edilmiş ve alış-satış farkı ≤ 4 puan olan defterler kullanılır. Raporda/kuponda
+   bu bacaklar "doğrudan", diğerleri "model" olarak işaretlenir. 19 Kasım: 1.622 seçimin 577'si
+   doğrudan; model ile doğrudan fiyat arasındaki ortalama fark 0,6 puan (384 seçim), en büyük
+   fark 7 puan (Amiens 1,5 Üst).
 4. **EV = global adil olasılık × Nesine oranı − 1.** EV'si +%25'i aşan seçimler öneri listesine
    alınmaz, "referans hatası şüphesi" tablosunda ayrıca gösterilir.
    Kalibre edilmemiş yarışmalarda (kadın
@@ -51,6 +58,8 @@ python scripts/nesine_kupon.py --hedef 10 --min-mac 4 --min-olasilik 0.55  # kom
 - **Önemli:** her ek maç Nesine marjını (~%20) yeniden ekler. Bu yüzden aynı hedef için az maçlı kupon
   çoğu zaman daha olasıdır (19 Kasım, hedef 10: tek bacak %8.1, 6 bacaklı kombine %4.6).
   `--min-mac` kombine ister, ama bunun bedeli tutma olasılığıdır.
+
+- `--dogrudan`: yalnızca doğrudan global fiyatı olan bacaklar (model türevi hiç kullanılmaz).
 
 Çıktı: `reports/daily/<tarih>/kupon_<hedef>x_<SSDD>.md` ve `.json`.
 

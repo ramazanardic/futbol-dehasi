@@ -38,7 +38,8 @@ SHARP_SOURCES = ("Pinnacle", "Smarkets", "Betfair")
 RES = 0.002  # log-odds bucket width
 
 
-def candidates(matches: list[dict], now: dt.datetime, min_odds: float, min_prob: float, allow_espn: bool) -> list[list[dict]]:
+def candidates(matches: list[dict], now: dt.datetime, min_odds: float, min_prob: float, allow_espn: bool,
+               direct_only: bool = False) -> list[list[dict]]:
     """Per match: non-dominated legs (higher Nesine odds AND higher global probability dominates)."""
     pools = []
     for m in matches:
@@ -52,9 +53,12 @@ def candidates(matches: list[dict], now: dt.datetime, min_odds: float, min_prob:
         for s in m["selections"]:
             if s["odds"] < min_odds or s["fair_prob"] < min_prob or s["ev"] > MAX_PLAUSIBLE_EV:
                 continue
+            if direct_only and not s.get("direct"):
+                continue  # model-derived price: no direct global quote for this selection
             legs.append({"code": m["code"], "kickoff": m["kickoff"], "league": m["league"], "match": f"{m['home']} - {m['away']}",
                          "market": s["market"], "selection": s["selection"], "odds": s["odds"], "p": s["fair_prob"],
-                         "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": m["reference"].split(" ")[0]})
+                         "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": m["reference"].split(" ")[0],
+                         "direct": bool(s.get("direct"))})
         legs.sort(key=lambda x: (-x["odds"], -x["p"]))
         front, best_p = [], -1.0
         for leg in legs:  # descending odds: keep a leg only if no higher-odds leg has a higher probability
@@ -111,11 +115,12 @@ def main() -> None:
     ap.add_argument("--min-oran", type=float, default=1.15, help="Bacak başına en düşük Nesine oranı")
     ap.add_argument("--min-olasilik", type=float, default=0.0, help="Bacak başına en düşük global olasılık")
     ap.add_argument("--espn", action="store_true", help="ESPN (keskin olmayan) referanslı maçları da kullan")
+    ap.add_argument("--dogrudan", action="store_true", help="Yalnızca doğrudan global fiyatı olan seçimler (model türevi yok)")
     args = ap.parse_args()
 
     matches, _, _ = analyze_day(dt.date.fromisoformat(args.tarih), verbose=False)
     now = dt.datetime.now(TSI)
-    pools = candidates(matches, now, args.min_oran, args.min_olasilik, args.espn)
+    pools = candidates(matches, now, args.min_oran, args.min_olasilik, args.espn, args.dogrudan)
     print(f"{sum(1 for m in matches if m.get('status') == 'fiyatlandı')} maç global fiyatlı; {len(pools)} maç kupona uygun "
           f"(başlamamış, {'ESPN dahil' if args.espn else 'yalnız keskin referans'}).")
 
@@ -137,14 +142,17 @@ def main() -> None:
     for i, c in enumerate(coupons, 1):
         md += [f"## Kupon {i}: Nesine oranı **{c['nesine_odds']:.2f}** · tutma olasılığı **%{c['probability'] * 100:.1f}** "
                f"· global adil oranı {c['global_fair_odds']:.2f} · beklenen değer {c['ev']:+.1%} · en az {c['min_mbs']} maç (MBS)", "",
-               "| Saat | Maç | Pazar | Seçim | Nesine oranı | Global olasılık | Global adil oran | MBS | Referans |",
-               "|---|---|---|---|---|---|---|---|---|"]
+               "| Saat | Maç | Pazar | Seçim | Nesine oranı | Global olasılık | Global adil oran | MBS | Referans | Fiyat |",
+               "|---|---|---|---|---|---|---|---|---|---|"]
         for leg in c["legs"]:
             md.append(f"| {leg['kickoff'][11:]} | {leg['match']} | {leg['market']} | {leg['selection']} | {leg['odds']:.2f} | "
-                      f"%{leg['p'] * 100:.1f} | {1 / leg['p']:.2f} | {leg['mbs']} | {leg['reference']} |")
+                      f"%{leg['p'] * 100:.1f} | {1 / leg['p']:.2f} | {leg['mbs']} | {leg['reference']} | "
+                      f"{'doğrudan' if leg.get('direct') else 'model'} |")
         md.append("")
     md += ["> Beklenen değer = tutma olasılığı × Nesine oranı − 1. Negatifse uzun vadede kaybettirir; araç bu kaybı en aza "
-           "indiren bacakları seçer ama kazanç garanti etmez."]
+           "indiren bacakları seçer ama kazanç garanti etmez.",
+           "> Fiyat: **doğrudan** = olasılık bu seçimin kendi global borsa fiyatından; **model** = global 1X2 ve Alt/Üst "
+           "fiyatından gol modeliyle türetildi (daha az güvenilir). Yalnız doğrudan için: --dogrudan."]
     d = DAILY / args.tarih
     d.mkdir(parents=True, exist_ok=True)
     base = d / f"kupon_{args.hedef:g}x_{stamp}"
