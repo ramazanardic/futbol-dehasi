@@ -36,6 +36,7 @@ FD_FILES = {
     "new_league_fixtures.csv": "https://www.football-data.co.uk/new_league_fixtures.csv",
 }
 SMARKETS = "https://api.smarkets.com/v3"
+MAX_SPREAD = 0.04  # widest acceptable bid/offer spread (4 percentage points) for an exchange reference
 
 DEADLINE = time.monotonic() + 8 * 60  # hard time budget for the whole run (seconds)
 
@@ -218,24 +219,33 @@ def smarkets(days: int = 2, max_events: int = 600) -> list[dict]:
         k = next(iter(quotes))
         LOG["samples"]["smarkets_quote"] = {k: quotes[k]}
 
-    def _mid_prob(cid: str) -> float | None:
+    def _mid_and_spread(cid: str) -> tuple[float, float] | None:
+        """Bid/offer mid probability and spread (both in probability units, prices are basis points)."""
         q = quotes.get(str(cid)) or {}
         bids = [b["price"] for b in q.get("bids", []) if b.get("price")]
         offers = [o["price"] for o in q.get("offers", []) if o.get("price")]
         if bids and offers:
-            return (max(bids) + min(offers)) / 2 / 10000.0
+            hi_bid, lo_offer = max(bids) / 10000.0, min(offers) / 10000.0
+            return (hi_bid + lo_offer) / 2, lo_offer - hi_bid
         return None
 
     per_market: dict[str, dict[str, float]] = {}
+    spreads: dict[str, float] = {}
     for c in contracts:
-        mid = _mid_prob(c["id"])
-        if mid is None:
+        ms = _mid_and_spread(c["id"])
+        if ms is None:
             continue
         ctype = str((c.get("contract_type") or {}).get("name", "") or c.get("name", "")).upper()
-        per_market.setdefault(str(c["market_id"]), {})[ctype] = mid
+        per_market.setdefault(str(c["market_id"]), {})[ctype] = ms[0]
+        spreads[str(c["market_id"])] = max(spreads.get(str(c["market_id"]), 0.0), ms[1])
+    # Liquidity guard: a thin exchange book has a wide bid/offer spread and its mid is not a price.
+    illiquid = {mid for mid, sp in spreads.items() if sp > MAX_SPREAD}
+    LOG["counts"]["smarkets_markets_illiquid"] = len(illiquid)
 
     refs: dict[str, dict] = {}
     for mid_id, probs in per_market.items():
+        if mid_id in illiquid:
+            continue
         m, kind = wanted[mid_id]
         ev = by_event.get(str(m["event_id"]))
         if not ev:
@@ -250,10 +260,12 @@ def smarkets(days: int = 2, max_events: int = 600) -> list[dict]:
             p = [probs["HOME"], probs["DRAW"], probs["AWAY"]]
             s = sum(p)
             rec["x12"] = [round(s / x, 4) for x in p]  # margin-free odds from the exchange mid
+            rec["x12_spread"] = round(spreads[mid_id], 4)
         if kind == "ou25" and {"OVER", "UNDER"} <= set(probs):
             p = [probs["OVER"], probs["UNDER"]]
             s = sum(p)
             rec["ou"] = [2.5, [round(s / x, 4) for x in p]]
+            rec["ou_spread"] = round(spreads[mid_id], 4)
     out = [r for r in refs.values() if r["x12"]]
     LOG["counts"]["smarkets_references"] = len(out)
     return out
