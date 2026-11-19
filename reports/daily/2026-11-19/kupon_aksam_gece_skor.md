@@ -20,9 +20,11 @@
 | 03:30 | Orlando - Cincinnati | İY KG Yok | 1.25 | %68.1 | doğrudan |
 | 06:00 | Sounders - Real Salt Lake | 2. yarı KG Yok | 1.25 | %66.1 | model |
 
-## 3. Skor (İlk Yarı / Maç Skoru) — en olası skorlar
-| Saat | Maç | Skor | Nesine | Olasılık |
-|---|---|---|---|---|
-| 03:30 | São Paulo - Fluminense | İY 0-0 / MS 0-0 | 7.11 | %9.4 |
-| 22:45 | Amiens - Caen | İY 0-0 / MS 0-0 | 7.98 | %7.8 |
-| 01:30 | Vitória - Bragantino | İY 0-0 / MS 0-0 | 10.40 | %6.6 |
+## 3. Skor (İlk Yarı / Maç Skoru) — diğer iki kuponla uyumlu en olası skorlar (düzeltildi)
+| Saat | Maç | Skor | Nesine | Olasılık | Uyumlu olduğu tercih |
+|---|---|---|---|---|---|
+| 03:30 | São Paulo - Fluminense | İY 0-0 / MS 1-0 | 11.30 | %6.2 | Çifte şans 1-2 |
+| 01:30 | Vasco - Internacional | İY 0-0 / MS 1-0 | 12.15 | %6.2 | 3,5 Alt |
+| 06:00 | Sounders - Real Salt Lake | İY 0-0 / MS 0-0 | 13.90 | %4.8 | 2. yarı KG Yok |
+
+İlk sürümdeki São Paulo, Amiens ve Vitória 0-0/0-0 skorları akşam/gece kuponlarıyla çelişiyordu (kuponlar birbirine karşı oynuyordu); kaldırıldı.
