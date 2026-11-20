@@ -28,6 +28,7 @@ sys.path.insert(0, str(dr.ROOT / "src"))
 from quantfoot.markets.goal_markets import goal_probability  # noqa: E402
 
 MIN_GAMES, MIN_TEAM = 40, 4
+XG_RANGE = (0.25, 4.5)
 XI = 0.0065
 HT_SHARE = 0.44
 G = 9
@@ -97,6 +98,9 @@ def match_view(m: dict) -> tuple[np.ndarray, dict] | None:
         p = model.predict(home, away)
     except ValueError:  # a poorly identified fit (small league sample) gives an invalid score matrix: no view
         return None
+    xh, xa = float(p.home_goal_expectation), float(p.away_goal_expectation)
+    if not (XG_RANGE[0] <= xh <= XG_RANGE[1] and XG_RANGE[0] <= xa <= XG_RANGE[1]):
+        return None  # implausible rate (thin or lopsided season sample, e.g. 0.05 goals): not a usable view
     joint = half_joint(np.asarray(p.goal_matrix, dtype=float))
     return joint, {"source": src, "home": home, "away": away,
                    "xg": [round(float(p.home_goal_expectation), 2), round(float(p.away_goal_expectation), 2)]}
