@@ -180,15 +180,27 @@ def test_families_leg_limits_and_groups():
     assert kupon.coupon_group(Path("kupon_5x_iyms_1030.json")) == ("5x", "iyms")
 
 
-def test_prior_legs_only_from_same_family(tmp_path, monkeypatch):
+def test_prior_legs_cover_all_families_of_the_current_set(tmp_path, monkeypatch):
     monkeypatch.setattr(kupon, "CLAUDE_AREA", tmp_path)
     day = tmp_path / "2026-11-20"
     day.mkdir()
-    for name, code in (("kupon_5x_1000", 1), ("kupon_10x_1001", 2), ("kupon_5x_ms12_1002", 3)):
-        (day / f"{name}.json").write_text(json.dumps({"coupons": [{"legs": [{"code": code, "key": "k"}]}]}))
-    assert sorted(x["code"] for x in kupon.prior_coupon_legs("2026-11-20", 20)) == [1, 2]
-    assert [x["code"] for x in kupon.prior_coupon_legs("2026-11-20", 10, "ms12")] == [3]
-    assert kupon.prior_coupon_legs("2026-11-20", 5, "ms12") == []
+
+    def write(name, code, created):
+        (day / f"{name}.json").write_text(json.dumps(
+            {"created": created, "coupons": [{"legs": [{"code": code, "key": "k"}]}]}))
+
+    write("kupon_5x_0900", 9, "2026-11-20T09:00:00+03:00")        # earlier set: ignored
+    write("kupon_5x_1000", 1, "2026-11-20T10:00:00+03:00")
+    write("kupon_10x_1001", 2, "2026-11-20T10:01:00+03:00")
+    write("kupon_5x_ms12_1002", 3, "2026-11-20T10:02:00+03:00")
+    (day / kupon.SET_FILE).write_text("2026-11-20T09:59:00+03:00\n")
+    assert sorted(x["code"] for x in kupon.prior_coupon_legs("2026-11-20", 20)) == [1, 2, 3]
+    assert sorted(x["code"] for x in kupon.prior_coupon_legs("2026-11-20", 5, "ms12")) == [1, 2]
+    assert sorted(x["code"] for x in kupon.prior_coupon_legs("2026-11-20", 5)) == [2, 3]  # 5x karma being rebuilt
+    (day / kupon.SET_FILE).unlink()
+    write("kupon_5x_1000", 9, "2026-11-20T09:00:00+03:00")
+    assert 9 in [x["code"] for x in kupon.prior_coupon_legs("2026-11-20", 10)]  # no set marker: every latest file
+
 
 
 def test_check_uses_live_odds_over_analysis_odds(tmp_path, monkeypatch):
@@ -228,3 +240,16 @@ def test_scheduler_recovers_from_autostash_conflict_on_generated_files(tmp_path,
     sched._recover(SimpleNamespace(write=log.append))
     assert git("diff", "--name-only", "--diff-filter=U").stdout.strip() == ""
     assert f.read_text() == "pc-latest\n" and any("çakışma çözüldü" in x for x in log)
+
+
+def test_set_rule_same_match_other_selection_at_most_twice():
+    # mirrors the coupon loop: never the same selection, a match in at most mac_limit coupons
+    pools = [[{"code": 1, "key": "a", "name": "3.5 Alt"}, {"code": 1, "key": "b", "name": "MS 1"},
+              {"code": 1, "key": "c", "name": "KG Yok"}], [{"code": 2, "key": "d", "name": "MS 2"}]]
+    chosen = [{"code": 1, "key": "a", "name": "3.5 Alt"}]
+    n = {1: 1}
+    free = kupon.drop_conflicts([p for p in pools if n.get(p[0]["code"], 0) < 2], chosen)
+    assert {x["name"] for x in free[0]} == {"MS 1", "KG Yok"}   # 3,5 Alt never again, other bets on the match allowed
+    n = {1: 2}
+    free = kupon.drop_conflicts([p for p in pools if n.get(p[0]["code"], 0) < 2], chosen + [{"code": 1, "key": "b", "name": "MS 1"}])
+    assert [p[0]["code"] for p in free] == [2]                  # third coupon: the match is used up

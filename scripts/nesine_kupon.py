@@ -418,20 +418,35 @@ def prior_coupon_codes(date: str, target: float, family: str = "karma") -> set:
     return codes
 
 
+SET_FILE = "kupon_seti.txt"  # created time of the first coupon of the current set (--yeni-set)
+
+
+def _set_start(date: str) -> str:
+    try:
+        return (CLAUDE_AREA / date / SET_FILE).read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
+
+
 def prior_coupon_legs(date: str, target: float, family: str = "karma") -> list[dict]:
-    """Every leg of today's latest coupon file for each OTHER target (all its coupons): those exact selections are
-    not repeated in new coupons (user rule, 20 Nov), but the same match with another compatible selection is."""
+    """Every leg of the current set's other coupons — the latest file of every OTHER (target, family) group, of ALL
+    families — so a selection is never repeated in any coupon (user rule, 20 Nov: "ben ekstra istemediğim sürece
+    asla kuponlarda aynı tercihler olmayacak"); the same match with another compatible selection is allowed.
+    Files older than the current set (``--yeni-set``) are ignored."""
+    start = _set_start(date)
     latest: dict[tuple[str, str], Path] = {}
     for f in sorted((CLAUDE_AREA / date).glob("kupon_*x_*.json")):
         latest[coupon_group(f)] = f
     legs = []
     for (tgt, fam), f in latest.items():
         try:
-            if fam != family or abs(float(tgt.rstrip("x")) - target) < 1e-9:
-                continue  # other families are separate coupon sets; the same group is being rebuilt
+            if fam == family and abs(float(tgt.rstrip("x")) - target) < 1e-9:
+                continue  # the group being rebuilt
             data = json.loads(f.read_text(encoding="utf-8"))
         except (ValueError, OSError):
             continue
+        if start and (data.get("created") or "") < start:
+            continue  # belongs to an earlier set
         legs += [leg for c in data.get("coupons", []) for leg in c.get("legs", [])]
     return legs
 
@@ -537,6 +552,13 @@ def main() -> None:
     ap.add_argument("--espn", action="store_true", help="Keskin olmayan global büro/ESPN referanslı maçları da kullan")
     ap.add_argument("--aile", choices=tuple(FAMILIES), default="karma",
                     help="Kupon ailesi: " + "; ".join(f"{k} = {v}" for k, v in FAMILIES.items()))
+    ap.add_argument("--tampon", type=float, default=0.05,
+                    help="Kupon minimumun bu oranda üstüne kurulur (varsayılan 0.05 = %%5: 5x için en az 5,25); "
+                         "minimumun altı yine asla verilmez")
+    ap.add_argument("--mac-limit", type=int, default=2,
+                    help="Bir maç setin en çok kaç kuponunda yer alabilir (her seferinde farklı tercihle; varsayılan 2)")
+    ap.add_argument("--tekrar-serbest", action="store_true",
+                    help="Yalnız kullanıcı açıkça isterse: bugünkü öteki kuponlardaki tercihler bu kuponda tekrar edilebilir")
     ap.add_argument("--yeni-set", action="store_true",
                     help="Yeni bir kupon setinin ilk kuponu: bugünkü önceki kuponların tercihleri yasaklanmaz "
                          "(setin sonraki kuponları bu kuponu ve birbirini dikkate alır)")
@@ -557,6 +579,8 @@ def main() -> None:
                          "varsayılan; aynı tercih zaten hiçbir kuponda tekrar edilmez)")
     ap.add_argument("--no-pull", action="store_true", help="Kupon öncesi git pull adımını atla (CI / bulut ortamı)")
     args = ap.parse_args()
+    if args.ayri_mac:
+        args.mac_limit = 1  # old behaviour: every match in one coupon only
 
     if not args.no_pull:
         print(f"Global veri: {refresh_global_data()}")
@@ -575,6 +599,9 @@ def main() -> None:
     live, _ = read_bulletin_odds()
     apply_live_odds(matches, live)
     rebuilt = False
+    # Build with a margin over the minimum: Nesine lowers odds towards kick-off and flickers between two prices
+    # (20 Nov: coupons built at 5.00-5.04 were 4.86-4.93 minutes later). The minimum itself stays the hard floor.
+    build_target = args.hedef * (1 + max(args.tampon, 0.0))
     for attempt in range(MAX_BUILD_ATTEMPTS):
         pools = candidates(
             matches,
@@ -601,17 +628,25 @@ def main() -> None:
         prior = prior_coupon_codes(args.tarih, args.hedef, args.aile) if args.max_ortak >= 0 else set()
         if prior and attempt == 0:
             print(f"Bugünkü diğer kuponlarda {len(prior)} maç var: her kupon bunlardan en çok {args.max_ortak} tanesini paylaşır.")
-        earlier = [] if (args.ayri_mac or args.yeni_set) else prior_coupon_legs(args.tarih, args.hedef, args.aile)
+        earlier = [] if (args.yeni_set or args.tekrar_serbest) else prior_coupon_legs(
+            args.tarih, args.hedef, args.aile)
         if earlier and attempt == 0:
-            print(f"Bugünkü diğer kuponlardaki {len(earlier)} tercih tekrar kullanılmaz (aynı maçta başka tercih serbest).")
+            print(f"Setin diğer kuponlarında {len(earlier)} tercih ({len({x['code'] for x in earlier})} maç) var: aynı tercih "
+                  f"tekrar edilmez; bir maç setin en çok {args.mac_limit} kuponunda, farklı tercihle yer alabilir.")
         coupons, used = [], set()
         for _ in range(args.adet):
             chosen = earlier + [leg for c in coupons for leg in c["legs"]]
-            free = [p for p in pools if p[0]["code"] not in used] if args.ayri_mac else drop_conflicts(pools, chosen)
+            # User rule (20 Nov): never the same selection twice; the same match may come back with another compatible
+            # selection (e.g. 3,5 Alt in one coupon, MS 1 or KG in another), but at most --mac-limit coupons per match
+            # so the set is spread over the ~200 matches of the day.
+            n_used: dict = {}
+            for leg in chosen:
+                n_used[leg["code"]] = n_used.get(leg["code"], 0) + 1
+            free = drop_conflicts([p for p in pools if n_used.get(p[0]["code"], 0) < args.mac_limit], chosen)
 
             def build(pl):
-                return (safest_first_coupon(pl, args.hedef, max_legs, partial=not coupons) if args.yontem == "guvenli"
-                        else best_coupon(pl, args.hedef, max_legs, args.min_mac))
+                return (safest_first_coupon(pl, build_target, max_legs, partial=not coupons) if args.yontem == "guvenli"
+                        else best_coupon(pl, build_target, max_legs, args.min_mac))
 
             c = build(free)
             shared = [leg for leg in (c or {}).get("legs", []) if leg["code"] in prior]
@@ -697,6 +732,8 @@ def main() -> None:
     d.mkdir(parents=True, exist_ok=True)
     base = d / (f"kupon_{args.hedef:g}x_{stamp}" if args.aile == "karma" else f"kupon_{args.hedef:g}x_{args.aile}_{stamp}")
     base.with_suffix(".md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    if args.yeni_set:
+        (d / SET_FILE).write_text(now.isoformat(timespec="seconds") + "\n", encoding="utf-8")
     base.with_suffix(".json").write_text(json.dumps({"target": args.hedef, "family": args.aile, "created": now.isoformat(timespec="seconds"),
                                                      "coupons": coupons}, ensure_ascii=False, indent=2), encoding="utf-8")
     print("\n".join(md))

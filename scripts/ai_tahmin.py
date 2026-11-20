@@ -96,7 +96,7 @@ def match_rows(date: str, matches: list[dict], frozen: dict[str, dict] | None = 
     # a frozen (started) match that dropped out of the bulletin keeps its pre-kick-off row
     seen = {str(r["nesine_kodu"]) for r in rows}
     rows += [r for code, r in frozen.items() if code not in seen]
-    return sorted(rows, key=lambda r: (r["tarih"], r["saat"]))
+    return sorted(rows, key=lambda r: (r.get("tarih") or "", r.get("saat") or ""))
 
 
 def coupon_files(date: str, area: Path = AREA) -> list[Path]:
