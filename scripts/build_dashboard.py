@@ -199,17 +199,27 @@ def build_day_payload(day_dir: Path) -> dict[str, Any] | None:
     }
 
 
+
+def current_betting_day(now: dt.datetime | None = None) -> str:
+    """The Nesine betting day runs 07:00-07:00 TSİ; before 07:00 the current slate is still yesterday's."""
+    now = now or dt.datetime.now(TSI)
+    return (now.date() if now.hour >= 7 else now.date() - dt.timedelta(days=1)).isoformat()
+
 def build_dashboard_data(
     *,
     daily_dir: Path = DAILY,
     calibration_path: Path = ROOT / "data" / "calibration" / "live_calibration.json",
     out_dir: Path = ROOT / "docs" / "data",
     max_days: int = 7,
+    open_from: str | None = None,
 ) -> Path:
     """Export per-day compact JSON files + main ``docs/data/dashboard.json`` index for GitHub Pages."""
     out_dir.mkdir(parents=True, exist_ok=True)
+    # Only settled betting days are published (user, 20 Nov): today's and future predictions must not be visible on
+    # GitHub, where other AIs look; a day appears here once the next morning's settlement has run.
+    open_from = open_from or current_betting_day()
     day_dirs = sorted(
-        [p for p in daily_dir.iterdir() if p.is_dir() and (p / "nesine_global.json").exists()],
+        [p for p in daily_dir.iterdir() if p.is_dir() and (p / "nesine_global.json").exists() and p.name < open_from],
         reverse=True,
     ) if daily_dir.exists() else []
 
@@ -228,11 +238,6 @@ def build_dashboard_data(
         if latest_payload is None:
             latest_payload = day_payload
 
-    # Prefer today's TSİ slate as the default view when present (instead of a future day from --hafta 5)
-    today_tsi = dt.datetime.now(TSI).date().isoformat()
-    today_file = out_dir / f"{today_tsi}.json"
-    if today_file.exists():
-        latest_payload = json.loads(today_file.read_text(encoding="utf-8"))
 
     calibration = {}
     if calibration_path.exists():

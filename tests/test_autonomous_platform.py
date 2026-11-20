@@ -222,7 +222,8 @@ def test_telegram_and_dashboard_builder(tmp_path, monkeypatch):
     # Test dashboard builder
     bd = _load_script("build_dashboard")
     out_dir = tmp_path / "docs_data"
-    dash_path = bd.build_dashboard_data(daily_dir=daily, calibration_path=tmp_path / "none.json", out_dir=out_dir)
+    dash_path = bd.build_dashboard_data(daily_dir=daily, calibration_path=tmp_path / "none.json", out_dir=out_dir,
+                                        open_from="2026-11-21")  # the 20th is a settled day here
     dash = json.loads(dash_path.read_text(encoding="utf-8"))
     assert dash["default_date"] == "2026-11-20"
     assert dash["latest"]["summary"]["keskin"] == 1

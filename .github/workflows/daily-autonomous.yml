@@ -161,8 +161,16 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           MODE="${{ steps.ctx.outputs.mode }}"
           TODAY="${{ steps.ctx.outputs.today }}"
+          # Today's and future betting days stay off GitHub until settled (user rule, 20 Nov: other AIs look here).
+          # The betting day runs 07:00-07:00 TSİ.
+          if [ "$(TZ=Europe/Istanbul date +%H)" -lt 7 ]; then OPEN_FROM=$(TZ=Europe/Istanbul date -d yesterday +%F); else OPEN_FROM=$(TZ=Europe/Istanbul date +%F); fi
           for i in 1 2 3 4; do
             git add data/global_odds data/calibration reports/daily reports/takip reports/weekly docs/data || true
+            for p in reports/daily/20* docs/data/20*.json; do
+              [ -e "$p" ] || continue
+              d=$(basename "$p" .json)
+              if [ ! "$d" \< "$OPEN_FROM" ]; then git reset -q -- "$p" || true; fi
+            done
             if git diff --cached --quiet; then
               echo "No repository changes to publish."
               exit 0

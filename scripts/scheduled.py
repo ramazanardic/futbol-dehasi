@@ -190,10 +190,34 @@ PUBLISH_PATHS = ["reports/daily", "reports/takip", "reports/ledger", "reports/we
                  "tahminler/claudetahmin"]
 
 
+DATED_DIRS = ("reports/daily", "tahminler/claudetahmin")
+
+
+def _betting_day(now: dt.datetime | None = None) -> str:
+    now = now or dt.datetime.now()
+    return (now.date() if now.hour >= 7 else now.date() - dt.timedelta(days=1)).isoformat()
+
+
+def _unsettled_excludes(now: dt.datetime | None = None) -> list[str]:
+    """Git pathspecs that keep today's and future betting days off GitHub (user, 20 Nov: other AIs look there and
+    must not be influenced). A day is published by the morning job once it has been settled."""
+    open_from = _betting_day(now)
+    out = []
+    for base in DATED_DIRS:
+        root = ROOT / base
+        if root.exists():
+            out += [f":(exclude){base}/{p.name}" for p in root.iterdir()
+                    if p.is_dir() and p.name[:4].isdigit() and p.name >= open_from]
+    data = ROOT / "docs" / "data"
+    if data.exists():
+        out += [f":(exclude)docs/data/{p.name}" for p in data.glob("20*.json") if p.stem >= open_from]
+    return out
+
+
 def _publish(log, message: str, paths: list[str] | None = None) -> None:
-    """Keep every prediction and result on GitHub as well (user request, 20 Nov): commit the report folders
-    (git-ignored files such as logs stay local) and push. Nothing to commit = nothing happens."""
-    paths = paths or PUBLISH_PATHS
+    """Keep every prediction and result on GitHub as well (user request, 20 Nov) — but only for settled days:
+    today's and future predictions stay local (user, 20 Nov). Nothing to commit = nothing happens."""
+    paths = [*(paths or PUBLISH_PATHS), *_unsettled_excludes()]
     steps = (["git", "add", "--", *paths],
              ["git", "commit", "-q", "-m", message + "\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>", "--", *paths],
              ["git", "pull", "--rebase", "--autostash", "-q"], ["git", "push", "-q"])
@@ -270,9 +294,9 @@ def main() -> None:
             _run(["--date", day.isoformat()], log, ROOT / "scripts" / "nesine_global.py")
             # coupon legs vs the line-up re-analysis: warn before kick-off, record the closing price (CLV)
             _run(["kontrol", "--date", day.isoformat()], log, ROOT / "scripts" / "kupon_kontrol.py")
-            # Claude's area of the AI comparison must be on GitHub before kick-off (commit time = proof)
+            # Claude's area is kept up to date locally; it reaches GitHub only after the day is settled (morning
+            # job), so other AIs cannot see today's predictions (user, 20 Nov)
             _run(["--tarih", day.isoformat()], log, ROOT / "scripts" / "ai_tahmin.py")
-            _publish(log, f"data(claudetahmin): {day.isoformat()} predictions", paths=["tahminler/claudetahmin"])
             _write_status(log, "kadro")
         elif mode == "analiz":
             _pull(log)

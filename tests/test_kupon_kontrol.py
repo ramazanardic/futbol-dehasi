@@ -253,3 +253,25 @@ def test_set_rule_same_match_other_selection_at_most_twice():
     n = {1: 2}
     free = kupon.drop_conflicts([p for p in pools if n.get(p[0]["code"], 0) < 2], chosen + [{"code": 1, "key": "b", "name": "MS 1"}])
     assert [p[0]["code"] for p in free] == [2]                  # third coupon: the match is used up
+
+
+def test_unsettled_days_are_kept_off_github(tmp_path, monkeypatch):
+    sched = _load("scheduled")
+    monkeypatch.setattr(sched, "ROOT", tmp_path)
+    for d in ("2026-11-19", "2026-11-20", "2026-11-21"):
+        (tmp_path / "reports" / "daily" / d).mkdir(parents=True)
+        (tmp_path / "tahminler" / "claudetahmin" / d).mkdir(parents=True, exist_ok=True)
+    (tmp_path / "docs" / "data").mkdir(parents=True)
+    for d in ("2026-11-19", "2026-11-20", "dashboard"):
+        (tmp_path / "docs" / "data" / f"{d}.json").write_text("{}")
+    ex = sched._unsettled_excludes(dt.datetime(2026, 11, 21, 3, 0))  # 03:00: betting day is still the 20th
+    assert ":(exclude)reports/daily/2026-11-20" in ex and ":(exclude)reports/daily/2026-11-21" in ex
+    assert ":(exclude)tahminler/claudetahmin/2026-11-20" in ex and ":(exclude)docs/data/2026-11-20.json" in ex
+    assert not any("2026-11-19" in x for x in ex) and not any("dashboard" in x for x in ex)
+    assert not any("2026-11-20" in x for x in sched._unsettled_excludes(dt.datetime(2026, 11, 21, 9, 0)))
+
+
+def test_dashboard_publishes_settled_days_only(tmp_path, monkeypatch):
+    dash = _load("build_dashboard")
+    assert dash.current_betting_day(dt.datetime(2026, 11, 21, 6, 59, tzinfo=TSI)) == "2026-11-20"
+    assert dash.current_betting_day(dt.datetime(2026, 11, 21, 7, 0, tzinfo=TSI)) == "2026-11-21"
