@@ -444,17 +444,14 @@ def test_deep_research_refreshes_a_summary_cached_before_kickoff(monkeypatch):
     assert dr.half_scores("nor.1", "9") == {"1": (1, 0, "home", "A"), "2": (0, 2, "away", "B")}
 
 
-def test_kupon_kur_rejects_warned_and_clustered_legs(monkeypatch):
+def test_kupon_kur_rejects_warned_legs(monkeypatch):
     kk = _load("kupon_kur")
     legs = [{"code": i, "key": f"k{i}", "match": f"M{i}", "market": "Maç Sonucu", "selection": "1", "name": "MS 1",
-             "p": 0.6 + i / 100, "p_low": 0.55 + i / 100, "odds": 1.5, "league": "J1" if i < 3 else f"L{i}",
-             "kickoff": "2026-11-20 13:00" if i < 3 else f"2026-11-20 2{i}:00"} for i in range(5)]
-    worst = kk.clustered(legs, 2)
-    assert [x["code"] for x in worst] == [0, 0]          # 3 legs in J1 at 13:00 -> the least reliable one goes
-    assert kk.clustered(legs[2:], 2) == []
+             "p": 0.6, "odds": 1.5} for i in range(5)]
     monkeypatch.setattr(kk.dr, "research_match", lambda m, l: {"legs": [{"verdict": "⚠ geçmiş desteklemiyor" if m["code"] == 4 else "✓", "mean": 0.3}]})
     bad, rows = kk.check(legs, {str(i): {"code": i} for i in range(5)})
     assert [b[0]["code"] for b in bad] == [4] and len(rows) == 5
+    assert not hasattr(kk, "clustered")   # no league / kick-off limit (user decision, 20 Nov)
 
 
 def test_closed_nesine_markets_are_not_offered():
