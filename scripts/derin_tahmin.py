@@ -40,9 +40,11 @@ def candidates(m: dict, n: int) -> list[dict]:
 
 
 def choose(legs: list[dict]) -> dict | None:
-    """Most probable candidate the teams' history does not contradict."""
+    """The best-evidenced candidate the teams' history does not contradict: ✓ before ~ before untested, then the most
+    probable (21 Nov: same evidence order as the coupon rule; untested picks lost most often)."""
     ok = [x for x in legs if not x["verdict"].startswith("⚠")]
-    return max(ok, key=lambda x: x["p"]) if ok else None
+    rank = lambda x: 0 if x["verdict"].startswith("✓") else 1 if x["verdict"].startswith("~") else 2  # noqa: E731
+    return min(ok, key=lambda x: (rank(x), -x["p"])) if ok else None
 
 
 def research_day(date: str, n_cand: int, workers: int = 2) -> list[dict]:

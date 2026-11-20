@@ -31,6 +31,7 @@ def test_choose_skips_warned_legs():
             {"p": 0.65, "verdict": "✓ geçmiş destekliyor"}]
     assert dt_.choose(legs)["p"] == 0.65
     assert dt_.choose([legs[0]]) is None
+    assert dt_.choose([{"p": 0.75, "verdict": "geçmiş yetersiz"}, {"p": 0.58, "verdict": "~ geçmiş zayıf destekliyor"}])["p"] == 0.58
 
 
 def test_results_matrix_and_crosstable():
