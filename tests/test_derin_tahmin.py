@@ -65,3 +65,26 @@ def test_wiki_leg_history_full_time_only():
     assert (hist["home_n"], hist["away_n"]) == (2, 2) and hist["home_rate"] == 1.0 and hist["away_rate"] == 0.5
     assert wg.leg_history("İY 0.5 Üst", hg, ag)["mean"] is None   # no half-time scores on Wikipedia
     assert wg.verdict(0.7, hist) == "geçmiş yetersiz"        # fewer than 4 home / 4 away games
+
+
+def test_simulation_matches_poisson_and_judges_three_views():
+    sim = _load("simulasyon")
+    from quantfoot.markets.goal_markets import goal_probability
+    joint, top = sim.simulate(1.5, 1.0, 40000, seed=1)
+    import math
+    p_under = sum(math.exp(-2.5) * 2.5 ** k / math.factorial(k) for k in range(3))   # total ~ Poisson(2.5)
+    assert abs(goal_probability("2.5 Alt", joint) - p_under) < 0.01
+    assert abs(joint.sum() - 1) < 1e-9 and len(top) == 5
+    assert sim.judge(0.65, 0.66, 0.70)[0] == "üçlü onay"
+    assert sim.judge(0.65, 0.50, 0.70)[0] == "çelişki"
+    assert sim.judge(0.65, 0.62, None)[0] == "eksik kanıt"
+    assert sim.history({"verdict": "✓ geçmiş destekliyor", "mean": 0.70, "web": "son 6+6 maç %58"}) - 0.64 < 1e-9
+    assert sim.history({"verdict": "geçmiş yetersiz", "mean": None}) is None
+
+
+def test_simulation_rates_blend_form_and_absences():
+    sim = _load("simulasyon")
+    row = {"teams": {"home": {"gf": 2.0, "ga": 1.0, "n": 10, "top_scorer_out": True}, "away": {"gf": 1.0, "ga": 2.0, "n": 10}}}
+    mh, ma, why = sim.rates(row, {"mu_home": 1.5, "mu_away": 1.0, "research": {"flags": ["Dep: düzenli kaleci ilk 11'de yok"]}})
+    assert abs(mh - (0.65 * 1.5 + 0.35 * 2.0) * 0.92 * 1.08) < 1e-9 and abs(ma - (0.65 * 1.0 + 0.35 * 1.0)) < 1e-9
+    assert any("golcüsü" in w for w in why) and any("kalecisi" in w for w in why)
