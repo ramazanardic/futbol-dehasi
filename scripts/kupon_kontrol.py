@@ -26,8 +26,8 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-DAILY = ROOT / "reports" / "daily"
-AREA = ROOT / "tahminler" / "claudetahmin"  # Claude's coupons, checks and CLV live in its own area
+AREA = ROOT / "tahminler" / os.environ.get("QUANTFOOT_AI", "claudetahmin")  # the asking AI's own folder
+DAILY = AREA  # analysis, coupons, checks and CLV all live there
 TSI = dt.timezone(dt.timedelta(hours=3))
 MIN_PROB = 0.55     # coupon leg floor (user rule)
 MIN_ODDS = 1.20

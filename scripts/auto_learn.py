@@ -10,6 +10,7 @@ Reads all settled days in ``reports/daily/*/takip_kayit.json`` + ``takip_sonuc.j
 from __future__ import annotations
 
 import argparse
+import os
 from pathlib import Path
 
 from quantfoot.evaluation.auto_learn import run_auto_learn
@@ -19,9 +20,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--daily-dir", type=Path, default=ROOT / "reports" / "daily")
+    ap.add_argument("--daily-dir", type=Path, default=ROOT / "tahminler" / os.environ.get("QUANTFOOT_AI", "claudetahmin"))
     ap.add_argument("--calibration-out", type=Path, default=ROOT / "data" / "calibration" / "live_calibration.json")
-    ap.add_argument("--report-out", type=Path, default=ROOT / "reports" / "takip" / "ogrenme_raporu.md")
+    ap.add_argument("--report-out", type=Path, default=None)
     args = ap.parse_args()
 
     snap = run_auto_learn(
@@ -39,7 +40,7 @@ def main() -> None:
         f"uyarı={len(adj['auto_blocked_families'])}"
     )
     print(f"-> {args.calibration_out}")
-    print(f"-> {args.report_out}")
+    print(f"-> {args.report_out or args.daily_dir / 'takip' / 'ogrenme_raporu.md'}")
 
 
 if __name__ == "__main__":

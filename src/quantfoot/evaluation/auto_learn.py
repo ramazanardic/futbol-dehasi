@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import os
 import math
 from pathlib import Path
 from typing import Any
@@ -130,9 +131,14 @@ def _sigma_delta_from_group(
 
 def analyze_settled_history(daily_dir: Path) -> dict[str, Any]:
     """Scan all settled days under ``daily_dir`` and build a full calibration & learning snapshot."""
-    day_dirs = sorted(
-        [p for p in daily_dir.iterdir() if p.is_dir() and (p / "takip_sonuc.json").exists() and (p / "takip_kayit.json").exists()]
-    ) if daily_dir.exists() else []
+    # the AI's own folder (tahminler/<ai>) plus the old shared archive (reports/daily, days up to 19 Nov)
+    found: dict[str, Path] = {}
+    for base in (daily_dir.parents[1] / "reports" / "daily", daily_dir):
+        if base.exists():
+            for p in base.iterdir():
+                if p.is_dir() and (p / "takip_sonuc.json").exists() and (p / "takip_kayit.json").exists():
+                    found[p.name] = p  # the own folder wins for the same day
+    day_dirs = [found[k] for k in sorted(found)]
 
     all_rows: list[tuple[float, bool]] = []
     bettable_rows: list[tuple[float, bool]] = []  # odds >= 1.20 and p >= 0.50 (coupon-relevant zone)
@@ -231,7 +237,7 @@ def analyze_settled_history(daily_dir: Path) -> dict[str, Any]:
                 }
             )
 
-        claude_dir = daily_dir.parents[1] / "tahminler" / "claudetahmin" / day_name  # Claude's coupons (20 Nov+)
+        claude_dir = daily_dir / day_name  # the AI's own coupons (20 Nov+)
         for kf in sorted([*d.glob("kupon_*.json"), *claude_dir.glob("kupon_*x_*.json")]):
             try:
                 kdata = json.loads(kf.read_text(encoding="utf-8"))
@@ -454,9 +460,9 @@ def run_auto_learn(
 ) -> dict[str, Any]:
     """Run the end-to-end self-learning pass and persist JSON + Markdown outputs."""
     repo = root or Path(__file__).resolve().parents[3]
-    d_dir = daily_dir or (repo / "reports" / "daily")
+    d_dir = daily_dir or (repo / "tahminler" / os.environ.get("QUANTFOOT_AI", "claudetahmin"))
     cal_out = calibration_path or (repo / "data" / "calibration" / "live_calibration.json")
-    rep_out = report_path or (repo / "reports" / "takip" / "ogrenme_raporu.md")
+    rep_out = report_path or (d_dir / "takip" / "ogrenme_raporu.md")
 
     snapshot = analyze_settled_history(d_dir)
     cal_out.parent.mkdir(parents=True, exist_ok=True)

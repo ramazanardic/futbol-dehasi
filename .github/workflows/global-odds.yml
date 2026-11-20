@@ -4,11 +4,8 @@ name: global-odds
 # servers, because these sources are not reachable from Turkey. Results are committed to
 # data/global_odds/latest/ and read locally by scripts/nesine_global.py after `git pull`.
 
+# Runs ONLY on request (user rule, 20 Nov): the AI that is asked starts it with `gh workflow run global-odds.yml`.
 on:
-  schedule:
-    - cron: "10 4,8,12,16,20 * * *"   # full fetch: 07:10, 11:10, 15:10, 19:10, 23:10 TSİ
-  # GitHub never fired these schedules for this repo (19 Nov): the PC dispatches runs with `gh workflow run`
-  # (scripts/scheduled.py) — full when the data is stale, light ~1 h before Nesine kick-offs (line-ups).
   workflow_dispatch:
     inputs:
       light:
@@ -18,8 +15,6 @@ on:
   push:
     branches: [main]
     paths:
-      - ".github/workflows/global-odds.yml"
-      - "scripts/fetch_global_odds.py"
       - "data/global_odds/trigger.txt"   # backup trigger pushed by scheduled.py when the cron skipped runs
 
 permissions:

@@ -22,15 +22,22 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from nesine_global import DAILY, PREDICTIONS_FILE, TSI, _match  # noqa: E402
+from nesine_global import DAILY, LEGACY_DAILY, PREDICTIONS_FILE, TSI, _match  # noqa: E402
 
 from quantfoot.data.match_research import espn_events  # noqa: E402
 from quantfoot.data.nesine import fetch_results as fetch_nesine_results  # noqa: E402
 from quantfoot.evaluation.settlement import fetch_espn_result, settle_selection  # noqa: E402
 
 RESULTS_FILE = "takip_sonuc.json"
-OUT = ROOT / "reports" / "takip" / "ozet.md"
+OUT = DAILY / "takip" / "ozet.md"  # the AI's own folder
 
+
+
+
+def day_dir(day: str) -> Path:
+    """The AI's own folder for the day; days up to 19 Nov 2026 were written to the old shared reports/daily."""
+    own = DAILY / day
+    return own if own.exists() or not (LEGACY_DAILY / day).exists() else LEGACY_DAILY / day
 
 def _event_ids(day: str, store: dict) -> dict[str, str]:
     """ESPN event id per recorded match: from the research, else by name/kick-off matching."""
@@ -49,7 +56,7 @@ def _event_ids(day: str, store: dict) -> dict[str, str]:
 
 
 def settle_day(day: str) -> dict:
-    d = DAILY / day
+    d = day_dir(day)
     path = d / PREDICTIONS_FILE
     if not path.exists():
         return {}
@@ -108,7 +115,7 @@ def _rows(days: list[str]) -> tuple[list[tuple], list[dict]]:
     """(p, won, family, direct, is_safest_pick) per settled selection, and settled coupons."""
     rows, coupons = [], []
     for day in days:
-        d = DAILY / day
+        d = day_dir(day)
         if not (d / RESULTS_FILE).exists():
             continue
         store = json.loads((d / PREDICTIONS_FILE).read_text(encoding="utf-8"))
@@ -123,7 +130,7 @@ def _rows(days: list[str]) -> tuple[list[tuple], list[dict]]:
                 p, odds, direct = sels[name]
                 rows.append((p, bool(won), _family(name), bool(direct), name == safest, odds))
         # older days: shared reports; from 20 Nov Claude's coupons live only in tahminler/claudetahmin/<day>
-        for f in sorted([*d.glob("kupon_*.json"), *(ROOT / "tahminler" / "claudetahmin" / day).glob("kupon_*x_*.json")]):
+        for f in sorted({*d.glob("kupon_*.json"), *(DAILY / day).glob("kupon_*x_*.json")}):
             data = json.loads(f.read_text(encoding="utf-8"))
             for c in data.get("coupons", []):
                 status = []
@@ -162,7 +169,7 @@ def _system_prob(code: str, sel: str, kickoff: str) -> float | None:
     except ValueError:
         return None
     day = (ko.date() if ko.hour >= 7 else ko.date() - dt.timedelta(days=1)).isoformat()
-    path = DAILY / day / PREDICTIONS_FILE
+    path = day_dir(day) / PREDICTIONS_FILE
     if not code or not path.exists():
         return None
     rec = json.loads(path.read_text(encoding="utf-8")).get(code) or {}
@@ -290,7 +297,7 @@ def _score_section(days: list[str]) -> list[str]:
     sign = lambda h, a: "1" if h > a else ("0" if h == a else "2")  # noqa: E731
     rows = {"ft": [], "ht": [], "htft": []}
     for day in days:
-        d = DAILY / day
+        d = day_dir(day)
         store = json.loads((d / PREDICTIONS_FILE).read_text(encoding="utf-8"))
         results = json.loads((d / RESULTS_FILE).read_text(encoding="utf-8"))
         for code, res in results.items():
@@ -323,7 +330,7 @@ def _score_section(days: list[str]) -> list[str]:
 
 def _surprises(day: str, top: int = 12) -> list[str]:
     """The day's biggest misses: confident predictions that failed and unlikely ones that happened."""
-    d = DAILY / day
+    d = day_dir(day)
     store = json.loads((d / PREDICTIONS_FILE).read_text(encoding="utf-8"))
     results = json.loads((d / RESULTS_FILE).read_text(encoding="utf-8"))
     rows = []
@@ -362,7 +369,7 @@ def _calib_table(rows: list[tuple]) -> list[str]:
 
 
 def report() -> None:
-    days = sorted(p.name for p in DAILY.iterdir() if (p / RESULTS_FILE).exists())
+    days = sorted({p.name for base in (DAILY, LEGACY_DAILY) if base.exists() for p in base.iterdir() if (p / RESULTS_FILE).exists()})
     rows, coupons = _rows(days)
     lines = ["# Nesine tahminleri — sonuç takibi", "",
              f"Günler: {', '.join(days) or '-'} · sonuçlanan seçim: {len(rows)}", "",

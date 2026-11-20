@@ -28,6 +28,7 @@ from concurrent.futures import ThreadPoolExecutor
 import datetime as dt
 import difflib
 import json
+import os
 from pathlib import Path
 import re
 import unicodedata
@@ -53,7 +54,11 @@ from quantfoot.markets.tail_goals import fit_tail_rates_from_markets, league_tai
 from quantfoot.strategy.coupon_builder import is_uncalibrated_competition
 
 ROOT = Path(__file__).resolve().parents[1]
-DAILY = ROOT / "reports" / "daily"
+# Every AI writes its predictions only into its own folder (user rule, 20 Nov): tahminler/<ai>/<date>/.
+# QUANTFOOT_AI selects the folder (default claudetahmin). Days up to 19 Nov live in the old shared reports/daily.
+AI_NAME = os.environ.get("QUANTFOOT_AI", "claudetahmin")
+DAILY = ROOT / "tahminler" / AI_NAME
+LEGACY_DAILY = ROOT / "reports" / "daily"
 _STOP = r"\b(fc|cf|sc|ac|sk|fk|nk|cd|ca|club|de|da|the|utd|united|k|w|women|kadinlar|u\d+|bk|if|ik|afc|scc|sp|ba)\b"
 
 
@@ -792,7 +797,7 @@ def write_week(start: dt.date, week: list[tuple[str, list[dict]]], min_ev: float
     lines += [f"| {m['kickoff']} | {m['home']} - {m['away']} | {s['market']} | {s['selection']} | {s['odds']:.2f} | "
               f"%{s['fair_prob'] * 100:.1f} | {s['ev']:+.1%} | {'doğrudan' if s.get('direct') else 'model'} | "
               f"{m['reference'].split(' (')[0]} |" for m, s in value[:100]] or ["_Yok._"]
-    path = ROOT / "reports" / "weekly" / f"{start}_nesine_hafta.md"
+    path = DAILY / "hafta" / f"{start}_nesine_hafta.md"  # the AI's own folder (user rule, 20 Nov)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"-> {path.relative_to(ROOT)}")

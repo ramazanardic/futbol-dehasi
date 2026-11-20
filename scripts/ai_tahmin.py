@@ -33,7 +33,7 @@ import nesine_global as ng  # noqa: E402
 
 TSI = ng.TSI
 ROOT = Path(__file__).resolve().parents[1]
-AREA = ROOT / "tahminler" / "claudetahmin"
+AREA = ng.DAILY  # tahminler/<ai> (QUANTFOOT_AI, default claudetahmin)
 
 MATCH_COLS = ["tarih", "saat", "lig", "mac", "nesine_kodu", "olasilik_1", "olasilik_X", "olasilik_2",
               "beklenen_gol_ev", "beklenen_gol_dep", "en_olasi_skor", "ana_secim_pazar", "ana_secim",

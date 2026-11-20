@@ -7,11 +7,8 @@ name: daily-autonomous
 # - Intraday (14:00 & 19:00 TSI / 11:00 & 16:00 UTC): light refresh, closing odds snapshot, steam/injury alerts.
 # - Night Settle (01:30 TSI / 22:30 UTC): settle completed matches, update learning calibration & dashboard.
 
+# Runs ONLY when started on request (user rule, 20 Nov: "ben sorduğum zaman sistem çalışsın") — no schedule.
 on:
-  schedule:
-    - cron: "30 5 * * *"      # 08:30 TSI — morning full cycle
-    - cron: "0 11,16 * * *"   # 14:00 & 19:00 TSI — intraday refresh & closing odds
-    - cron: "30 22 * * *"     # 01:30 TSI — night settle & self-learning
   workflow_dispatch:
     inputs:
       mode:

@@ -397,7 +397,7 @@ def safest_first_coupon(pools: list[list[dict]], target: float, max_legs: int, p
     return None
 
 
-CLAUDE_AREA = Path(__file__).resolve().parents[1] / "tahminler" / "claudetahmin"  # Claude's own coupons
+CLAUDE_AREA = DAILY  # the asking AI's own folder (nesine_global.DAILY = tahminler/<ai>)
 
 
 def prior_coupon_codes(date: str, target: float, family: str = "karma") -> set:

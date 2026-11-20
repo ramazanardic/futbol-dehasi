@@ -275,3 +275,15 @@ def test_dashboard_publishes_settled_days_only(tmp_path, monkeypatch):
     dash = _load("build_dashboard")
     assert dash.current_betting_day(dt.datetime(2026, 11, 21, 6, 59, tzinfo=TSI)) == "2026-11-20"
     assert dash.current_betting_day(dt.datetime(2026, 11, 21, 7, 0, tzinfo=TSI)) == "2026-11-21"
+
+
+def test_settlement_reads_own_folder_first_then_legacy_archive(tmp_path, monkeypatch):
+    takip = _load("nesine_takip")
+    own, legacy = tmp_path / "tahminler" / "claudetahmin", tmp_path / "reports" / "daily"
+    monkeypatch.setattr(takip, "DAILY", own)
+    monkeypatch.setattr(takip, "LEGACY_DAILY", legacy)
+    (legacy / "2026-11-19").mkdir(parents=True)
+    (own / "2026-11-20").mkdir(parents=True)
+    assert takip.day_dir("2026-11-19") == legacy / "2026-11-19"   # days up to 19 Nov: old shared archive
+    assert takip.day_dir("2026-11-20") == own / "2026-11-20"
+    assert takip.day_dir("2026-11-22") == own / "2026-11-22"      # new days always go to the AI's own folder
