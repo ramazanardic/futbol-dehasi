@@ -69,6 +69,33 @@ Brier skoru (tüm seçimler): 0.1642
 | 2026-11-19/kupon_en_verimli.json | 4.12 | %18.7 | TUTTU | 2/2 |
 | 2026-11-19/kupon_iki_ayri_10x.json | 11.07 | %4.7 | yattı | 3/5 |
 
+## Skor ve İY/MS tahmin kalitesi (temel çizgiye karşı)
+
+Temel çizgi: 87,967 geçmiş maçta her sonucun sıklığı. Log skor farkı > 0 ise model temel çizgiden iyidir.
+
+| Tahmin | Maç | Model log skoru | Temel çizgi | Fark | En olası tuttu (beklenen) | İlk 3 tuttu (beklenen) |
+|---|---|---|---|---|---|---|
+| Maç sonu skoru | 48 | -2.829 | -3.108 | +0.279 | 5/48 (%12) | 15/48 (%34) |
+| İlk yarı skoru | 48 | -2.130 | -2.280 | +0.150 | 14/48 (%31) | 27/48 (%67) |
+| İY/MS | 48 | -1.812 | -1.899 | +0.086 | 21/48 (%37) | 29/48 (%70) |
+
+## 2026-11-19: en büyük hatalar (%55+ verilip tutmayan, en emin olunandan başlayarak)
+
+| Maç | Tahmin | Olasılık | Fiyat kaynağı | Skor (İY / MS) |
+|---|---|---|---|---|
+| MC Alger - Olympique Akbou | Dep En Çok Gol Eşit | %88 | düşük güven (Nesine) | 0-1 / 0-1 |
+| MC Alger - Olympique Akbou | Dep 0.5 Alt | %88 | düşük güven (Nesine) | 0-1 / 0-1 |
+| MC Alger - Olympique Akbou | MS 1 | %86 | düşük güven (Nesine) | 0-1 / 0-1 |
+| RC Celta de Vigo (K) - RCD Espanyol (K) | MS 2 | %80 | düşük güven (Nesine) | 1-1 / 2-1 |
+| Al Garaf - AL Jawiya | İY ÇŞ X2 | %80 | düşük güven (Nesine) | 2-1 / 2-3 |
+| MC Alger - Olympique Akbou | MS 1 & KG Yok | %78 | düşük güven (Nesine) | 0-1 / 0-1 |
+| AL Ahli Doha - AL Shamal | İY 0.5 Üst | %78 | Matchbook + Smarkets | 0-0 / 1-1 |
+| U. Magdalena - Boca Juniors (Kol) | 2Y KG Yok | %78 | Matchbook + Smarkets | 0-0 / 1-2 |
+| Fredericia - Hilleroed | İY KG Yok | %77 | Matchbook + Smarkets | 3-1 / 4-1 |
+| Independiente Yumbo - Envigado | İY ÇŞ X2 | %77 | Matchbook + Smarkets | 1-0 / 1-1 |
+| AL Ahli Doha - AL Shamal | ÇŞ 12 | %77 | Matchbook + Smarkets | 0-0 / 1-1 |
+| MFK Lokomotiva Zvolen - FK Kosice | MS 2 | %77 | Matchbook + Smarkets | 1-0 / 2-2 |
+
 ## Oynanan kuponlar (gerçek para)
 
 Kaynak: reports/ledger/placed_bets_*.csv (Nesine ekran görüntülerinden). Kazanç = tutar × toplam oran.
