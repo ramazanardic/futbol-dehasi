@@ -88,14 +88,15 @@ def update_table(date: str, rows: list[dict]) -> int:
         pk = r["pick"]
         if pk:
             hist = "-" if pk.get("mean") is None else f"%{100 * pk['mean']:.0f}"
-            t.update({"ana_secim_pazar": pk["market"], "ana_secim": pk["sel"], "nesine_oran": pk["odds"],
+            t.update({"ana_secim_pazar": pk["market"], "ana_secim": pk["sel"], "nesine_oran": pk["odds"], "secim_adi": pk["name"],
                       "olasilik": f"{pk['p']:.4f}", "not": f"derin araştırma: {pk['verdict']} (takım geçmişi {hist})"})
         else:
-            t.update({"ana_secim_pazar": "", "ana_secim": "", "nesine_oran": "", "olasilik": "",
+            t.update({"ana_secim_pazar": "", "ana_secim": "", "nesine_oran": "", "olasilik": "", "secim_adi": "",
                       "not": "derin araştırma: uygun borsa fiyatlı tercih yok ya da geçmiş çürüttü"})
         n += 1
     with path.open("w", encoding="utf-8-sig", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=list(table[0]))
+        cols = list(table[0]) + ([] if "secim_adi" in table[0] else ["secim_adi"])
+        w = csv.DictWriter(fh, fieldnames=cols)
         w.writeheader()
         w.writerows(table)
     return n
@@ -134,6 +135,8 @@ def main() -> None:
     (out / "derin_tahminler.md").write_text(to_markdown(args.tarih, rows), encoding="utf-8")
     (out / "derin_tahminler_ayrinti.md").write_text(dr.to_markdown(args.tarih, [r for r in rows if r["legs"]]), encoding="utf-8")
     n = update_table(args.tarih, rows)
+    import bahis_aileleri
+    bahis_aileleri.build_day(args.tarih)  # every bet family of every match, with probabilities -> bahis_aileleri.md
     print(f"{len(rows)} maç araştırıldı, {sum(1 for r in rows if r['pick'])} ana tercih; mac_tahminleri.csv'de {n} satır "
           f"güncellendi -> {out / 'derin_tahminler.md'}")
 

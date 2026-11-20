@@ -62,6 +62,7 @@ Her gün için `tahminler/<klasör>/<YYYY-AA-GG>/` altında iki CSV (UTF-8, virg
 | ana_secim_pazar, ana_secim | Maç için tek ana tercih (Nesine pazar ve seçim adıyla, örn. `2,5 Gol Alt/Üst`, `2,5 Üst`) |
 | nesine_oran, olasilik | Ana tercihin Nesine oranı ve tahmin edilen olasılığı (0–1) |
 | fiyat_kaynagi, guven, not | Serbest |
+| secim_adi | İsteğe bağlı ama önerilir (21 Kasım): tercihin sonuçlandırma adı (örn. `Dep İY 0.5 Alt`, `MS 1 & 2.5 Üst`, `2Y KG Yok`). Doluysa değerlendirme bunu kullanır; boşsa pazar/seçim adından çıkarmaya çalışır ve takım golü, yarı KG, kombine gibi pazarlarda başarısız olabilir |
 
 **`kuponlar.csv`** — kupon bacağı başına bir satır
 
@@ -70,6 +71,7 @@ Her gün için `tahminler/<klasör>/<YYYY-AA-GG>/` altında iki CSV (UTF-8, virg
 | tarih, kupon_turu, kupon, kupon_no | Kupon ailesi (`karma`, `iyms`, `altust`, `kg`, `ms12`), dosya adı ve sıra no |
 | kupon_toplam_oran, kupon_tutma_olasiligi | Nesine toplam oranı ve tahmin edilen tutma olasılığı (0–1) |
 | saat, mac, nesine_kodu, pazar, secim, nesine_oran, olasilik | Bacak bilgisi |
+| secim_adi | Bacağın sonuçlandırma adı (yukarıdaki gibi, önerilir) |
 
 Karşılaştırmada ölçütler: ana tercih isabeti (%), olasılık kalitesi (Brier / log-loss, 1X2), tutan kupon / bacak
 oranı ve 1 birim sabit bahisle kâr/zarar (ROI).

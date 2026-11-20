@@ -249,6 +249,7 @@ def research_match(m: dict, legs: list[dict]) -> dict:
             seen = {g["event"]: g for g in games["home"] if g["opp_id"] == ids["away"]}
             out["h2h"] = [f"{g['date']}: {out['teams']['home']['name']} {sum(g['for'])}-{sum(g['against'])} "
                           f"(İY {g['for'][0]}-{g['against'][0]})" for g in seen.values()]
+    out["games"] = games  # both teams' recent games (half scores), reused by the bet-family table
     for leg in legs:
         hist = leg_history(leg["name"], games["home"], games["away"])
         out["legs"].append({"selection": leg.get("label") or leg["name"], "name": leg["name"], "p": leg.get("p"),

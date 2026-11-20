@@ -136,3 +136,28 @@ def test_watcher_lineup_check_only_near_kickoff_and_kept(tmp_path, monkeypatch):
     assert calls == [1] and "ilk 11: Ev: düzenli kaleci ilk 11'de yok" in rows[0]["warn"]  # kept, not fetched again
     rows, _ = kc.check("2026-11-20", near, {1: {"k": 1.4}}, lineups=lineups, active={"another"})
     assert calls == [1]                                                                    # coupon not in force
+
+
+def test_family_table_lists_suitable_selections_per_family():
+    ba = _load("bahis_aileleri")
+    sel = lambda name, p, o, d=True: {"name": name, "market": "M", "selection": name, "fair_prob": p, "odds": o, "direct": d}  # noqa: E731
+    m = {"selections": [sel("MS 1", 0.62, 1.45), sel("MS 2", 0.15, 6.0), sel("2.5 Alt", 0.58, 1.55), sel("2.5 Üst", 0.42, 2.1),
+                        sel("KG Var", 0.45, 1.8), sel("1.5 Üst", 0.80, 1.10)]}
+    games = {"home": [{"for": (1, 1), "against": (0, 0), "side": "home"}] * 6,
+             "away": [{"for": (0, 0), "against": (1, 0), "side": "away"}] * 6}
+    t = {f["family"]: f for f in ba.family_table(m, games)}
+    assert [r["name"] for r in t["Maç sonucu"]["suitable"]] == ["MS 1"]
+    assert t["Maç sonucu"]["suitable"][0]["hist"] == 1.0 and t["Maç sonucu"]["suitable"][0]["verdict"].startswith("✓")
+    assert [r["name"] for r in t["Alt/Üst"]["suitable"]] == ["2.5 Alt"]          # 1.5 Üst: odds under 1.20
+    assert t["Karşılıklı gol"]["suitable"] == [] and t["Karşılıklı gol"]["best_other"]["p"] == 0.45
+    assert ba.best_families(list(t.values()))[0][0] in ("Maç sonucu", "Alt/Üst")
+
+
+def test_evaluation_row_name_prefers_column_then_label_then_raw():
+    g = _load("gun_degerlendirme")
+    assert g.row_name({"secim_adi": "Dep İY 0.5 Alt", "ana_secim_pazar": "x", "ana_secim": "y"}, "ana_secim_pazar", "ana_secim", None) == "Dep İY 0.5 Alt"
+    assert g.row_name({"ana_secim_pazar": "2,5 Gol Alt/Üst", "ana_secim": "2,5 Üst"}, "ana_secim_pazar", "ana_secim", None) == "2.5 Üst"
+    assert g.row_name({"ana_secim_pazar": "Ev Sahibi 1.Y Gol Alt/Üst", "ana_secim": "Ev İY 0.5 Alt"}, "ana_secim_pazar", "ana_secim", None) == "Ev İY 0.5 Alt"
+    assert g.row_name({"ana_secim_pazar": "Bilinmeyen", "ana_secim": "Hayır"}, "ana_secim_pazar", "ana_secim", None) is None
+    lk = {("Deplasman 0,5 Gol Alt/Üst", "0,5 Üst"): "Dep 0.5 Üst"}
+    assert g.row_name({"ana_secim_pazar": " Deplasman 0,5 Gol Alt/Üst ", "ana_secim": "0,5 Üst"}, "ana_secim_pazar", "ana_secim", lk) == "Dep 0.5 Üst"

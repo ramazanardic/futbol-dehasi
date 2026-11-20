@@ -37,9 +37,9 @@ AREA = ng.DAILY  # tahminler/<ai> (QUANTFOOT_AI, default claudetahmin)
 
 MATCH_COLS = ["tarih", "saat", "lig", "mac", "nesine_kodu", "olasilik_1", "olasilik_X", "olasilik_2",
               "beklenen_gol_ev", "beklenen_gol_dep", "en_olasi_skor", "ana_secim_pazar", "ana_secim",
-              "nesine_oran", "olasilik", "fiyat_kaynagi", "guven", "not"]
+              "nesine_oran", "olasilik", "fiyat_kaynagi", "guven", "not", "secim_adi"]
 COUPON_COLS = ["tarih", "kupon_turu", "kupon", "kupon_no", "kupon_toplam_oran", "kupon_tutma_olasiligi", "saat", "mac",
-               "nesine_kodu", "pazar", "secim", "nesine_oran", "olasilik"]
+               "nesine_kodu", "pazar", "secim", "nesine_oran", "olasilik", "secim_adi"]
 
 
 def _pct(x) -> str:
@@ -92,6 +92,7 @@ def match_rows(date: str, matches: list[dict], frozen: dict[str, dict] | None = 
             "fiyat_kaynagi": (m.get("reference") or "") if priced else "",
             "guven": {"keskin": "yüksek", "global_buro": "orta", "dusuk_guven": "düşük"}.get(tier, ""),
             "not": "" if pick and not why else (why or ""),
+            "secim_adi": pick.get("name", "") if pick else "",  # settlement name, read by gun_degerlendirme.py
         })
     # a frozen (started) match that dropped out of the bulletin keeps its pre-kick-off row
     seen = {str(r["nesine_kodu"]) for r in rows}
@@ -121,7 +122,8 @@ def coupon_rows(date: str, area: Path = AREA) -> list[dict]:
                 rows.append({"tarih": date, "kupon_turu": _group(f)[1], "kupon": f.stem, "kupon_no": i, "kupon_toplam_oran": c["nesine_odds"],
                              "kupon_tutma_olasiligi": _pct(c["probability"]), "saat": leg["kickoff"][11:16],
                              "mac": leg["match"], "nesine_kodu": leg["code"], "pazar": leg["market"],
-                             "secim": leg["selection"], "nesine_oran": leg["odds"], "olasilik": _pct(leg["p"])})
+                             "secim": leg["selection"], "nesine_oran": leg["odds"], "olasilik": _pct(leg["p"]),
+                             "secim_adi": leg.get("name", "")})
     return rows
 
 

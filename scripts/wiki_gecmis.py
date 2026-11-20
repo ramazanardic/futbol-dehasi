@@ -258,6 +258,7 @@ def research(row: dict, m: dict) -> bool:
         return False
     hg, ag = team_games(hc, names, games), team_games(ac, names, games)
     row["wiki"] = {"title": title, "home": names[hc], "away": names[ac]}
+    row["games"], row["games_ft_only"] = {"home": hg, "away": ag}, True
     row["teams"].setdefault("home", {}).update(profile(hg))
     row["teams"].setdefault("away", {}).update(profile(ag))
     row["h2h"] = [f"sezon: {names[x[0]]} {x[2]}-{x[3]} {names[x[1]]}" for x in games if {x[0], x[1]} == {hc, ac}]

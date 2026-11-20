@@ -145,6 +145,7 @@ def research(row: dict, m: dict, fixtures: list[dict]) -> bool:
     if not hg or not ag:
         return False
     row["api_football"] = {"fixture": fx["fixture"]["id"], "league": (fx.get("league") or {}).get("name")}
+    row["games"] = {"home": hg, "away": ag}
     row.setdefault("teams", {}).setdefault("home", {}).update(dr.profile(hg))
     row["teams"].setdefault("away", {}).update(dr.profile(ag))
     away_id = fx["teams"]["away"]["id"]
