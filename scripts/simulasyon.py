@@ -119,6 +119,8 @@ def run(date: str, n: int) -> list[dict]:
     rows = json.loads((out_dir / "derin_tahminler.json").read_text(encoding="utf-8"))
     ms = {str(m["code"]): m for m in json.loads((out_dir / "nesine_global.json").read_text(encoding="utf-8"))["matches"]}
     now = dt.datetime.now(dr.TSI)
+    import datalake_lig as dl
+    lig = dl.table()  # league base rates from the Global Football Data Lake (data/lig_oranlari.csv)
     res = []
     for row in rows:
         m = ms.get(str(row["code"]))
@@ -145,7 +147,8 @@ def run(date: str, n: int) -> list[dict]:
         bets.sort(key=lambda b: (b["verdict"] != "üçlü onay", -b["low"]))
         res.append({"code": row["code"], "kickoff": row["kickoff"], "match": row["match"], "league": row["league"],
                     "xg": [round(mh, 2), round(ma, 2)], "why": why, "top_scores": top, "bets": bets,
-                    "dc": dc[1] if dc else None, "elo": (elo or {}).get("_clubs")})
+                    "dc": dc[1] if dc else None, "elo": (elo or {}).get("_clubs"),
+                    "league_rates": dl.league_rates(row["league"], lig)})
     return sorted(res, key=lambda r: r["kickoff"])
 
 
@@ -172,7 +175,11 @@ def to_markdown(date: str, res: list[dict], n: int) -> str:
         md += [f"### {r['kickoff'][11:16]} {r['match']} — {r['league']}", "",
                f"Simülasyon xG {r['xg'][0]}-{r['xg'][1]} ({'; '.join(r['why'])}). En olası skorlar: {sc}."
                + (f" Lig modeli ({r['dc']['source']}) xG {r['dc']['xg'][0]}-{r['dc']['xg'][1]}." if r.get("dc") else "")
-               + (f" Club Elo: {r['elo']}." if r.get("elo") else ""), "",
+               + (f" Club Elo: {r['elo']}." if r.get("elo") else "")
+               + (f" Lig ortalaması (Data Lake, {lr['n']} maç): {lr['goals']} gol, KG %{100 * float(lr['btts']):.0f}, "
+                  f"2,5 üst %{100 * float(lr['over25']):.0f}, 3,5 üst %{100 * float(lr['over35']):.0f}, ev/ber/dep "
+                  f"%{100 * float(lr['home']):.0f}/%{100 * float(lr['draw']):.0f}/%{100 * float(lr['away']):.0f}."
+                  if (lr := r.get("league_rates")) else ""), "",
                "| Bahis | Oran | Piyasa | Simülasyon | Geçmiş | Model | Elo | Sonuç |", "|---|---|---|---|---|---|---|---|"]
         md += [f"| {b['label']} | {b['odds']:.2f} | {pct(b['market'])} | {pct(b['sim'])} | {pct(b['hist'])} | {pct(b.get('dc'))} | "
                f"{pct(b.get('elo'))} | {b['verdict']} |" for b in r["bets"]]

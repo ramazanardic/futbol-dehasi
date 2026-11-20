@@ -152,3 +152,13 @@ def test_footballcharts_games_with_half_scores():
     assert g[0]["for"] == (1, 1) and g[0]["against"] == (0, 1) and g[1]["for"] == (1, 0) and g[1]["against"] == (0, 3)
     assert fc.leagues_for("Çekya 2. Lig") == ("czech2",) and fc.leagues_for("İtalya Serie C, A Grubu") == ("italy3a", "italy3b")
     assert fc.leagues_for("Almanya Bundesliga 2") == ("germany2",) and fc.leagues_for("Bilinmeyen") == ()
+
+
+def test_datalake_league_rates_mapping():
+    dl = _load("datalake_lig")
+    rows = [{"country": "Wales", "league": "Premier League", "n": "391", "goals": "2.9"},
+            {"country": "Northern-Ireland", "league": "Championship", "n": "458", "goals": "3.1"},
+            {"country": "Northern-Ireland", "league": "Premiership", "n": "500", "goals": "2.7"}]
+    assert dl.league_rates("Galler Premier Lig", rows)["league"] == "Premier League"
+    assert dl.league_rates("Kuzey İrlanda Championship", rows)["league"] == "Championship"
+    assert dl.league_rates("Portekiz Kupası", rows) is None and dl.league_rates("Bilinmeyen Lig", rows) is None
