@@ -1,6 +1,6 @@
 """Günlük QuantFoot akışı — tarihe bağlı eski betiklerin tek, parametreli karşılığı.
 
-Alt komutlar (hepsi --date YYYY-MM-DD alır; çıktılar reports/daily/<tarih>/ altına yazılır):
+Alt komutlar (hepsi --date YYYY-MM-DD alır; çıktılar tahminler/<yapay zekâ>/<tarih>/ altına yazılır):
 
     predict   ESPN'den maçları + canlı oranları çeker, gol beklentisini piyasaya uydurur,
               tüm gol pazarlarını fiyatlar               -> predictions.json
@@ -37,6 +37,7 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor
 import datetime as dt
 import json
+import os
 from pathlib import Path
 
 import numpy as np
@@ -56,7 +57,7 @@ from quantfoot.strategy.coupon_builder import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-DAILY = ROOT / "reports" / "daily"
+DAILY = ROOT / "tahminler" / os.environ.get("QUANTFOOT_AI", "claudetahmin")  # the AI's own folder (20 Nov)
 LEDGER = ROOT / "reports" / "ledger"
 
 DEFAULT_SLUGS: tuple[str, ...] = (

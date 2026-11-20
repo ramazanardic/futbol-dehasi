@@ -4,8 +4,8 @@
 python scripts/nesine_global.py --date 2026-11-19
 ```
 
-Çıktı: `reports/daily/<tarih>/nesine_global.md` ve `.json`. Her sabah 09:00'da zamanlanmış görev
-(`scripts/scheduled.py morning`) bunu otomatik çalıştırır.
+Çıktı: `tahminler/<yapay zekâ>/<tarih>/nesine_global.md` ve `.json` (`QUANTFOOT_AI`, Claude için `claudetahmin`).
+Yalnız kullanıcı istediğinde çalıştırılır (20 Kasım: zamanlanmış görev yok); ayrıntı: [../AGENTS.md](../AGENTS.md).
 
 ## Nasıl çalışır
 
@@ -78,16 +78,15 @@ pazarlar), ClubElo (sunucu yurt dışından da 502 veriyor).
 ## Borsa hareket etti, Nesine güncellemedi
 
 Her analiz çalıştırması doğrudan borsa fiyatlı seçimlerin (Nesine oranı, borsa olasılığı) bir kaydını
-`reports/daily/<tarih>/nesine_history.jsonl` dosyasına ekler (git'e girmez). Raporun ilk bölümü, son 8
+`tahminler/<yapay zekâ>/<tarih>/nesine_history.jsonl` dosyasına ekler (git'e girmez). Raporun ilk bölümü, son 8
 saatte borsa olasılığı **en az 3 puan artan** ama Nesine'nin **aynı oranı** vermeye devam ettiği seçimleri
 listeler: haber ya da kadro sonrası geç kalan oran. Saatlik `QuantFoot\Analiz` görevi bu kaydı biriktirir.
 
-## Tetikleme (GitHub zamanlayıcısı çalışmıyor)
+## Tetikleme (istek üzerine)
 
-GitHub'ın zamanlayıcısı bu depo için hiç çalışmadı (19 Kasım). Yerel görevler (`scheduled.py analiz` ve
-`kadro`) son **tam** çekimin yaşına bakar: 2,5 saatten eskiyse `gh workflow run global-odds.yml` ile tam
-çekimi başlatır (en çok 1,5 saatte bir); `gh` başarısız olursa `data/global_odds/trigger.txt` dosyasını
-gönderip iş akışını öyle tetikler. Aynı anda biten iki çalıştırma JSON dosyalarını satır satır birleştirmez:
+Global çekim yalnız istek üzerine çalışır: analizden önce `gh workflow run global-odds.yml` (bitince `git pull`);
+`gh` çalışmazsa `data/global_odds/trigger.txt` dosyasını göndermek de iş akışını tetikler. Kupon 3 saatten eski
+global fiyatı kullanmaz. Aynı anda biten iki çalıştırma JSON dosyalarını satır satır birleştirmez:
 geç kalan, en yeni veriyi alıp kendi sonucunu onun üzerine yeniden kurar. Raporların başında verinin yaşı yazar.
 
 ## Sizin sağladığınız sakatlık / ceza dosyası
@@ -106,12 +105,13 @@ global fiyatlı maçları kabul eder). Sonuç takibinde ayrı izlenir (kaynak al
 
 ## Sonuç takibi (tahminler gerçekten doğru mu?)
 
-Her analiz, başlamamış her maçın son tahminini `reports/daily/<tarih>/takip_kayit.json` dosyasına yazar
-(tüm seçimler: global olasılık, Nesine oranı, doğrudan/model). Sabah görevi dünü sonuçlandırır:
+Her analiz, başlamamış her maçın son tahminini `tahminler/<yapay zekâ>/<tarih>/takip_kayit.json` dosyasına yazar
+(tüm seçimler: global olasılık, Nesine oranı, doğrudan/model). Dünü istek üzerine sonuçlandırmak için:
 
 ```bash
 python scripts/nesine_takip.py sonuc --date 2026-11-19   # ESPN'den İY ve 90' skor, her seçim tuttu/tutmadı
-python scripts/nesine_takip.py rapor                      # reports/takip/ozet.md
+python scripts/nesine_takip.py rapor                      # tahminler/<yapay zekâ>/takip/ozet.md
+python scripts/gun_degerlendirme.py --tarih 2026-11-19     # bütün yapay zekâlar → ortak degerlendirme/<gün>.md
 ```
 
 Rapor: olasılık bandına göre tahmin vs gerçekleşen (kalibrasyon), Brier skoru, doğrudan fiyat vs model,
@@ -120,8 +120,8 @@ maçlar sonuçlanamaz.
 
 ## Sistem durumu ve uyarı
 
-Her saatlik / kadro çalışması `reports/DURUM.md` yazar (global veri yaşı, son yedek tetikleme). Veri 8
-saatten eskiyse bilgisayarda Windows uyarı penceresi açılır.
+Zamanlanmış görevler kapalıyken (20 Kasım) durum dosyası yazılmaz; analiz raporunun başında global verinin
+yaşı yazar, kupon 3 saatten eski fiyatı kullanmaz.
 
 ## İlk 11 saati
 
@@ -148,15 +148,15 @@ istatistikleri, sakat/cezalı, kadroda olmayanlar, haberler), **tüm bahis ailel
 (maç sonucu, çifte şans, tüm Alt/Üst çizgileri, KG, İY/2Y sonuç-Alt/Üst-KG, İY/MS, kaç farkla, handikap,
 takım golleri, yarı bahisleri, kombineler, ilk gol) en yüksekten düşüğe sıralı; kaynağı (doğrudan borsa /
 model) ve Nesine'de varsa oranı; maç sonu, ilk yarı ve İY/MS skor olasılıkları. Çıktı:
-`reports/daily/<tarih>/mac_dosyalari/<kod>.md`.
+`tahminler/<yapay zekâ>/<tarih>/mac_dosyalari/<kod>.md`.
 
 ## Haftalık analiz
 
 ```bash
-python scripts/nesine_global.py --date 2026-11-19 --hafta 7
+python scripts/nesine_global.py --date 2026-11-19 --hafta 7 --haftalik   # yalnız kullanıcı isterse
 ```
 
-Her bahis günü (07:00–07:00 TSİ) için ayrı rapor + `reports/weekly/<başlangıç>_nesine_hafta.md` özeti
+Her bahis günü (07:00–07:00 TSİ) için ayrı rapor + `tahminler/<yapay zekâ>/hafta/<başlangıç>_nesine_hafta.md` özeti
 (gün başına kapsam ve haftanın Nesine'nin global adil fiyatın üstünde ödediği seçimleri). Global çekim
 1X2 ve Alt/Üst için 7 gün, türev pazarlar için 48 saat ileriye bakar; maç öncesi saatlik yenileme tüm
 pazarları tazeler.
@@ -190,12 +190,12 @@ davranışı: `--ayri-mac`. İsteğe bağlı `--max-ortak N`: öteki hedefin ana
 `apply_live_odds`), kurulduktan sonra yine iki okumayla kontrol edilir; bir kupon hedefin altına düşerse güncel
 oranlarla bir kez yeniden kurulur.
 
-**Maç öncesi kontrol ve CLV (20 Kasım):** `scheduled.py kadro` (:10 ve :30, ilk 11'ler açıklandıktan sonraki yeniden
-analiz) ardından `scripts/kupon_kontrol.py kontrol` günün bütün kupon bacaklarını yeni analizle karşılaştırır:
+**Maç öncesi kontrol ve CLV (20 Kasım, istek üzerine):** ilk 11'ler açıklandıktan sonra yeni bir analizin
+ardından `scripts/kupon_kontrol.py kontrol` günün bütün kupon bacaklarını yeni analizle ve canlı oranlarla karşılaştırır:
 olasılık %55 altı ya da 5+ puan düşüş, askıya alınan seçim, 1,20 altı oran, sonradan açıklanan önemli eksik ve
-risk/steam uyarısı → `tahminler/claudetahmin/<tarih>/kupon_kontrol.md` + Windows/Telegram uyarısı (her uyarı bir kez).
+risk/steam uyarısı → `tahminler/<yapay zekâ>/<tarih>/kupon_kontrol.md` (+ isteğe bağlı Windows/Telegram uyarısı).
 Aynı adım başlama öncesi son global olasılığı (kapanış) `kupon_clv.json`'a yazar; CLV = kapanış − kupon anı.
-`kupon_kontrol.py ozet` bütün günleri `tahminler/claudetahmin/clv.md`'de toplar (sabah işi çalıştırır).
+`kupon_kontrol.py ozet` bütün günleri `tahminler/<yapay zekâ>/clv.md`'de toplar.
 
 
 ```bash
@@ -221,7 +221,7 @@ python scripts/nesine_kupon.py --hedef 10 --min-mac 4 --min-olasilik 0.55  # kom
   Her bacak tek başına güvenli görünse de 20 tane %72'lik bacağın birlikte tutma şansı %0.2'dir.
 - `--dogrudan`: yalnızca doğrudan global fiyatı olan bacaklar (model türevi hiç kullanılmaz).
 
-Çıktı: `reports/daily/<tarih>/kupon_<hedef>x_<SSDD>.md` ve `.json`.
+Çıktı: `tahminler/<yapay zekâ>/<tarih>/kupon_<hedef>x_<SSDD>.md` ve `.json` (yalnız o yapay zekânın bilgisayarında).
 
 ## İlk bulgu: Nesine marjı (19 Kasım 2026, 60 maç)
 

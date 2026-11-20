@@ -2,7 +2,22 @@
 
 Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power & Rimella JRSS-C 2024; Baker & McHale; Constantinou & Fenton) ve **238.858+ tarihsel kulüp maçı** (`matches.csv` + canlı ESPN 2026-27 senkronizasyonu) + **10.660 uluslararası milli maç** (2016–2026) + **7.348 Pinnacle 2026 açılış/kapanış oran verisi** üzerinde sıfır veri sızıntısı (*zero look-ahead leakage*, genişleyen *walk-forward*) ile araştırılmış, kalibre edilmiş ve doğrulanmış kantitatif futbol tahmin ve bahis motoru.
 
-## Güncel Durum (19 Kasım 2026) — önce bunu okuyun
+## Çalışma düzeni (20 Kasım 2026) — önce bunu okuyun
+
+- **Sistem yalnız kullanıcı sorduğunda çalışır.** Zamanlanmış görev yoktur (Windows `QuantFoot\*` görevleri devre
+  dışı, GitHub iş akışlarında zamanlama yok; `gh workflow run global-odds.yml` ile istek üzerine çalışır).
+- **Her yapay zekâ yalnız kendi klasörüne yazar:** `tahminler/<klasör>/<tarih>/` (Claude `claudetahmin`, Gemini
+  `geminitahmin`, Antigravity `antigravitytahmin`, ChatGPT `chatgbttahmin`). Kod bunu `QUANTFOOT_AI=<klasör>` ile
+  yapar. Başka bir yapay zekânın klasörü açılmaz, okunmaz; bağlayıcı kural: [AGENTS.md](AGENTS.md).
+- **Tahminler gizlidir:** analiz, maç dosyaları, tahminler, kuponlar, kontroller ve isteğe bağlı haftalık rapor
+  (`--haftalik`) yalnız o yapay zekânın bilgisayarında kalır; GitHub'a gönderilmez (`.gitignore`: `tahminler/*/*`).
+  Ortak alanlara (`reports/`, `docs/data/`) tahmin yazılmaz; 19 Kasım ve öncesinin eski kayıtları `reports/daily/`'de.
+- **Değerlendirme ortaktır:** ertesi gün, istek üzerine `scripts/gun_degerlendirme.py --tarih <gün>` bütün yapay
+  zekâların bitmiş maçlardaki tahminlerini puanlar → herkese açık `degerlendirme/<gün>.md`.
+- **Derin araştırma standarttır:** `scripts/derin_arastirma.py` her aday/bacak için takımların son maçlarının
+  yarı yarı skorlarını, aynı bahsin geçmişte tutma sıklığını ve Avrupa/rotasyon programını çıkarır.
+
+## Güncel Durum (19 Kasım 2026)
 
 - **Modeller piyasayı yenmiyor.** 16.423 maçlık ileri-yürüyen testte 15 modelin hiçbiri Bet365'in marjsız
   fiyatına bilgi katmadı (havuz ağırlığı w = 0.00). Aşağıdaki eski bulgular (ör. "16/16 %100") örneklem
@@ -11,12 +26,12 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
   pozitif CLV ve ROI (geçmiş veride). Canlıda keskin referans: Smarkets + Matchbook borsaları (GitHub Actions, yurt dışı).
 - **20 pazar ailesi + Bet Builder** tek tutarlı dağılımdan: [docs/markets.md](docs/markets.md). Kulüp gol
   rejimi piyasaya sabitlenmiş türev pazarlarda yeniden kalibre edildi (ν = 1.0, ρ = −0.03).
-- **Günlük akış:** `scripts/daily.py` (CLV ve havuz testi dahil), zamanlanmış görevler `scripts/scheduled.py`.
+- **Günlük akış:** `scripts/daily.py` (CLV ve havuz testi dahil), istek üzerine; `scripts/scheduled.py` eski zamanlanmış görev girişi (görevler kapalı).
 - **Nesine analizi:** bültenin her seçimi keskin global fiyata göre fiyatlanır (Smarkets ve Matchbook borsaları,
   ikisi varsa ortalaması; doğrudan kote edilen KG, Alt/Üst, İY… pazarları doğrudan): `scripts/nesine_global.py
-  --hafta 5`, [docs/nesine.md](docs/nesine.md). Her maç için ESPN takım dosyası (form, son maçlar, puan durumu,
+  --date <gün>`, [docs/nesine.md](docs/nesine.md). Her maç için ESPN takım dosyası (form, son maçlar, puan durumu,
   golcüler, asist, kaleci, kartlar, xG ve sezon istatistikleri, ilk 11) ve Premier Lig resmî sakat/cezalı listesi.
-  Windows görevi `QuantFoot\Analiz` saatte bir yeniden analiz eder.
+  Yalnız istek üzerine çalışır; çıktı `tahminler/<yapay zekâ>/<tarih>/`.
 - **Nesine kuponu:** `scripts/nesine_kupon.py --hedef 10` — olasılık keskin global fiyattan, hedef oran
   Nesine oranlarından (Nesine'de oynanınca hedef tutar). `--yontem optimum|guvenli`, `--min-mac`, `--min-olasilik`, `--dogrudan`.
 - Yol haritası: [docs/research/roadmap_2026_11.md](docs/research/roadmap_2026_11.md).
@@ -103,7 +118,7 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
 .\.venv\Scripts\python.exe scripts\nesine_kupon.py --hedef 5 --kupasiz --ana-pazar --oddsmath --tm
 ```
 
-Günlük akış (tarihe bağlı eski betiklerin yerine tek betik; çıktılar `reports/daily/<tarih>/`):
+Günlük akış (tarihe bağlı eski betiklerin yerine tek betik; çıktılar `tahminler/<yapay zekâ>/<tarih>/`):
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\daily.py run --date 2026-11-20       # tahmin + kupon + rapor
