@@ -24,6 +24,7 @@ def test_settle_and_report(tmp_path, monkeypatch):
     monkeypatch.setattr(takip, "DAILY", tmp_path)
     monkeypatch.setattr(takip, "OUT", tmp_path / "ozet.md")
     monkeypatch.setattr(takip, "fetch_espn_result", lambda eid: {"completed": True, "ht": [1, 0], "ft90": [2, 0]})
+    monkeypatch.setattr(takip, "fetch_nesine_results", lambda dates: {})
     res = takip.settle_day("2026-11-19")
     won = res["7"]["won"]
     assert won["MS 1"] is True and won["2.5 Üst"] is False and won["İY/MS 1/1"] is True
@@ -35,3 +36,30 @@ def test_settle_and_report(tmp_path, monkeypatch):
     takip.report()
     text = (tmp_path / "ozet.md").read_text(encoding="utf-8")
     assert "Olasılık bandına göre" in text and "yattı" in text
+
+
+def test_nesine_results_feed_is_parsed_on_90_minutes():
+    from quantfoot.data.nesine import parse_results
+
+    payload = {"d": [
+        {"C": 1, "ST": "MS", "ES": [{"T": 1, "H": 3, "A": 0}, {"T": 2, "H": 2, "A": 0}, {"T": 3, "H": 3, "A": 0}]},
+        {"C": 2, "ST": "PEN", "ES": [{"T": 1, "H": 1, "A": 1}, {"T": 2, "H": 1, "A": 0}, {"T": 3, "H": 1, "A": 1},
+                                    {"T": 9, "H": 5, "A": 3}]},
+        {"C": 3, "ST": "Başlamadı.", "ES": []},
+        {"C": 4, "ST": "Ksl.", "ES": [{"T": 2, "H": 0, "A": 0}, {"T": 3, "H": 0, "A": 0}]}]}
+    r = parse_results(payload)
+    assert r[1] == {"completed": True, "status": "MS", "ht": [2, 0], "ft90": [3, 0]}
+    assert r[2]["ft90"] == [1, 1]  # penalties do not count
+    assert not r[3]["completed"] and not r[4]["completed"]  # not started / abandoned stay open
+
+
+def test_nesine_results_settle_matches_espn_does_not_list(tmp_path, monkeypatch):
+    day = tmp_path / "2026-11-19"
+    day.mkdir()
+    store = {"9": {"home": "ZED", "away": "Smouha", "league": "Mısır Kupası", "kickoff_iso": "2026-11-19T21:00:00+03:00",
+                   "reference": "Matchbook", "espn_event": None, "s": {"KG Yok": [0.6, 1.4, 0]}}}
+    (day / "takip_kayit.json").write_text(json.dumps(store), encoding="utf-8")
+    monkeypatch.setattr(takip, "DAILY", tmp_path)
+    monkeypatch.setattr(takip, "fetch_nesine_results", lambda dates: {9: {"completed": True, "ht": [0, 0], "ft90": [1, 0]}})
+    monkeypatch.setattr(takip, "espn_events", lambda d: [])
+    assert takip.settle_day("2026-11-19")["9"]["won"] == {"KG Yok": True}

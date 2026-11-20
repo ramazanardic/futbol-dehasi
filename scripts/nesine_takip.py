@@ -4,8 +4,8 @@
     python scripts/nesine_takip.py rapor                      # cumulative hit-rate / calibration report
 
 Inputs: reports/daily/<date>/takip_kayit.json (last pre-kick-off prediction per match, written by
-nesine_global.py) and the coupons in reports/daily/<date>/kupon_*.json. Results come from ESPN (HT and
-90-minute score); matches ESPN does not list stay unsettled. Output: takip_sonuc.json per day and
+nesine_global.py) and the coupons in reports/daily/<date>/kupon_*.json. Results (HT and 90-minute score) come
+from Nesine's public live-score feed by event code, ESPN as fallback. Output: takip_sonuc.json per day and
 reports/takip/ozet.md (calibration by probability band, by market family, direct vs model, the safest pick
 per match, and every coupon built).
 """
@@ -25,6 +25,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from nesine_global import DAILY, PREDICTIONS_FILE, TSI, _match  # noqa: E402
 
 from quantfoot.data.match_research import espn_events  # noqa: E402
+from quantfoot.data.nesine import fetch_results as fetch_nesine_results  # noqa: E402
 from quantfoot.evaluation.settlement import fetch_espn_result, settle_selection  # noqa: E402
 
 RESULTS_FILE = "takip_sonuc.json"
@@ -55,9 +56,15 @@ def settle_day(day: str) -> dict:
     store = json.loads(path.read_text(encoding="utf-8"))
     res_path = d / RESULTS_FILE
     results = json.loads(res_path.read_text(encoding="utf-8")) if res_path.exists() else {}
-    ids = _event_ids(day, {c: r for c, r in store.items() if not (results.get(c) or {}).get("completed")})
-    for code, eid in ids.items():
-        r = fetch_espn_result(eid)
+    # Nesine's own results first (keyed by the same event code: covers every Nesine match), ESPN for the rest.
+    d0 = dt.date.fromisoformat(day)
+    nesine = fetch_nesine_results([d0.isoformat(), (d0 + dt.timedelta(days=1)).isoformat()])
+    fetched = {c: nesine[int(c)] for c in store if not (results.get(c) or {}).get("completed") and int(c) in nesine}
+    left = {c: r for c, r in store.items() if not (results.get(c) or {}).get("completed")
+            and not (fetched.get(c) or {}).get("completed")}
+    for code, eid in _event_ids(day, left).items():
+        fetched[code] = fetch_espn_result(eid)
+    for code, r in fetched.items():
         if not r.get("completed"):
             results[code] = {"completed": False, "status": r.get("status")}
             continue

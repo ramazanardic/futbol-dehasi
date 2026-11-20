@@ -19,6 +19,8 @@ from pathlib import Path
 import requests
 
 BULLETIN_URL = "https://cdnbulten.nesine.com/api/bulten/getprebultenfull"
+RESULTS_URL = "https://ls.nesine.com/api/v2/LiveScore/GetUnliveMatches"  # public feed of Nesine's live-score page
+FINISHED = {"MS", "UZT", "PEN"}  # full time, after extra time, after penalties (Ksl. = abandoned: not settled)
 MARKETS_FILE = Path(__file__).with_name("nesine_markets.json")
 TSI = dt.timezone(dt.timedelta(hours=3))
 
@@ -245,3 +247,34 @@ def market_overrounds(payload: dict, codes: set[int] | None = None, defs: dict[i
                 continue
             acc.setdefault(d["title"].replace("{{handicap}}", "X"), []).append(sum(1.0 / float(o["O"]) for o in oca) - 1.0)
     return {k: {"n": len(v), "margin": sum(v) / len(v)} for k, v in acc.items()}
+
+
+def parse_results(payload: dict) -> dict[int, dict]:
+    """Nesine event code -> {'completed', 'status', 'ht', 'ft90'} from the live-score feed.
+    Score types: 2 = half time, 3 = 90 minutes (what Nesine settles on), 1 = final incl. extra time."""
+    out: dict[int, dict] = {}
+    for m in payload.get("d") or []:
+        try:
+            code = int(m["C"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        sc = {e.get("T"): (int(e.get("H", 0)), int(e.get("A", 0))) for e in m.get("ES") or []}
+        rec = {"completed": False, "status": m.get("ST")}
+        if m.get("ST") in FINISHED and 2 in sc and (3 in sc or 1 in sc):
+            rec.update(completed=True, ht=list(sc[2]), ft90=list(sc.get(3, sc.get(1))))
+        out[code] = rec
+    return out
+
+
+def fetch_results(dates: list[str], timeout: float = 30.0) -> dict[int, dict]:
+    """Finished football matches of the given calendar dates (YYYY-MM-DD), keyed by Nesine event code."""
+    out: dict[int, dict] = {}
+    for d in dates:
+        try:
+            r = requests.get(RESULTS_URL, params={"sportType": 1, "date": d}, timeout=timeout,
+                             headers={"User-Agent": "Mozilla/5.0"})
+            r.raise_for_status()
+            out.update(parse_results(r.json()))
+        except (requests.RequestException, ValueError):
+            continue
+    return out
