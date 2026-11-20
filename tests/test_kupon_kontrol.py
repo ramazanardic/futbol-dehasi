@@ -442,3 +442,16 @@ def test_deep_research_refreshes_a_summary_cached_before_kickoff(monkeypatch):
         {"team": {"id": "2", "displayName": "B"}, "homeAway": "away", "linescores": [{"displayValue": "0"}, {"displayValue": "2"}]}]}]}}
     monkeypatch.setattr(dr, "espn", lambda path, ttl=None, **kw: pre if ttl is None else post)
     assert dr.half_scores("nor.1", "9") == {"1": (1, 0, "home", "A"), "2": (0, 2, "away", "B")}
+
+
+def test_kupon_kur_rejects_warned_and_clustered_legs(monkeypatch):
+    kk = _load("kupon_kur")
+    legs = [{"code": i, "key": f"k{i}", "match": f"M{i}", "market": "Maç Sonucu", "selection": "1", "name": "MS 1",
+             "p": 0.6 + i / 100, "p_low": 0.55 + i / 100, "odds": 1.5, "league": "J1" if i < 3 else f"L{i}",
+             "kickoff": "2026-11-20 13:00" if i < 3 else f"2026-11-20 2{i}:00"} for i in range(5)]
+    worst = kk.clustered(legs, 2)
+    assert [x["code"] for x in worst] == [0, 0]          # 3 legs in J1 at 13:00 -> the least reliable one goes
+    assert kk.clustered(legs[2:], 2) == []
+    monkeypatch.setattr(kk.dr, "research_match", lambda m, l: {"legs": [{"verdict": "⚠ geçmiş desteklemiyor" if m["code"] == 4 else "✓", "mean": 0.3}]})
+    bad, rows = kk.check(legs, {str(i): {"code": i} for i in range(5)})
+    assert [b[0]["code"] for b in bad] == [4] and len(rows) == 5

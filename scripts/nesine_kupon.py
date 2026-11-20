@@ -580,7 +580,13 @@ def main() -> None:
     ap.add_argument("--ayri-mac", action="store_true",
                     help="Eski kural: her maç yalnız bir kuponda. Varsayılan (kullanıcı kuralı 20 Kasım): bir maç birden "
                          "çok kuponda olabilir ama AYNI tercihle asla; birbirini kesin yatıran tercihler de yasak")
-    ap.add_argument("--dogrudan", action="store_true", help="Yalnızca doğrudan global fiyatı olan seçimler (model türevi yok)")
+    ap.add_argument("--dogrudan", action="store_true", default=True,
+                    help="Yalnızca doğrudan global fiyatı olan seçimler (VARSAYILAN, 20 Kasım: kupon bölgesinde model türevi "
+                         "seçimler %63 tahmin / %52 gerçekleşti, kupon bacaklarında 2/6)")
+    ap.add_argument("--model-bacak", action="store_true",
+                    help="Model türevi (doğrudan global fiyatı olmayan) bacaklara da izin ver")
+    ap.add_argument("--haric", nargs="*", default=[],
+                    help="Kupona alınmayacak seçimler: '<Nesine kodu>|<seçim anahtarı>' (derin araştırma yeniden kurulumu)")
     ap.add_argument("--kupasiz", action="store_true", help="Kupa, eleme ve playoff maçlarını kupon havuzundan çıkar")
     ap.add_argument("--ana-pazar", action="store_true", help="Yalnızca ana pazarlar (MS, ÇŞ, 1.5/2.5/3.5 Alt/Üst, KG)")
     ap.add_argument("--oddsmath", action="store_true", help="OddsMath referanslarını açıkça etkinleştir (varsayılan açık)")
@@ -611,6 +617,12 @@ def main() -> None:
     live_cal = load_live_calibration()
     # Build on the LOWER of two bulletin reads (the feed can serve two prices for one selection), re-read after
     # building, and rebuild once if a coupon fell under the target on the re-read odds.
+    if args.model_bacak:
+        args.dogrudan = False
+    if args.haric:  # selections ruled out by the deep-research check (scripts/kupon_kur.py)
+        drop = {tuple(x.split("|", 1)) for x in args.haric if "|" in x}
+        for m in matches:
+            m["selections"] = [x for x in m.get("selections") or [] if (str(m["code"]), x.get("key")) not in drop]
     live, _ = read_bulletin_odds()
     apply_live_odds(matches, live)
     rebuilt = False
