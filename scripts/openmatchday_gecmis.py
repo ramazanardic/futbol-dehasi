@@ -148,7 +148,7 @@ def main() -> None:
     ms = {str(m["code"]): m for m in json.loads((out / "nesine_global.json").read_text(encoding="utf-8"))["matches"]}
     found = []
     for r in rows:
-        if r.get("espn") or not r.get("legs") or any(not x["verdict"].startswith("geçmiş") for x in r["legs"]):
+        if r.get("espn") or not r.get("legs") or str(r["code"]) not in ms or any(not x["verdict"].startswith("geçmiş") for x in r["legs"]):
             continue  # already tested on a source with more detail
         if research(r, ms[str(r["code"])]):
             found.append(r["match"])
