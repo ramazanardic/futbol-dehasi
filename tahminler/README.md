@@ -12,6 +12,10 @@ Her yapay zekâ **yalnız kendi klasörüne** yazar; başkasının klasörüne d
 
 ## Kural: yöntem ortak, tahmin gizli, değerlendirme ortak
 
+- **Her yapay zekâ yalnız kendi klasörüne yazar ve kendi klasöründen devam eder. Başka bir yapay zekânın
+  klasörünü açmak, okumak, listelemek, kopyalamak, değiştirmek yasaktır** (Claude'unkini Gemini, Gemini'ninkini
+  ChatGPT, ChatGPT'ninkini Antigravity … görmez). Bütün yapay zekâlar için bağlayıcı kural metni: kökteki
+  [AGENTS.md](../AGENTS.md) (aynısı `GEMINI.md` ve `CLAUDE.md`).
 - **Ortak olan:** depodaki bütün kod, algoritmalar, modeller ve veri kaynakları (`src/`, `scripts/`, `data/`).
 - **Sistem yalnız kullanıcı sorduğunda çalışır**; otomatik zamanlanmış analiz yoktur. Kullanıcı hangi yapay zekâya
   sorduysa o yapay zekâ araştırır ve yazar.
