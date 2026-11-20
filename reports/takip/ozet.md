@@ -1,20 +1,20 @@
 # Nesine tahminleri — sonuç takibi
 
-Günler: 2026-11-19 · sonuçlanan seçim: 2881
+Günler: 2026-11-19 · sonuçlanan seçim: 2894
 
 Doğru kalibre bir sistemde 'gerçekleşen' sütunu 'ortalama tahmin'e yakın olmalıdır.
 
-Brier skoru (tüm seçimler): 0.1645
+Brier skoru (tüm seçimler): 0.1642
 
 ## Olasılık bandına göre
 
 | Tahmin edilen olasılık | Seçim | Ortalama tahmin | Gerçekleşen | Fark |
 |---|---|---|---|---|
-| %0–20 | 1010 | %8.6 | %6.5 | -2.1 puan |
-| %20–40 | 793 | %29.1 | %30.9 | +1.8 puan |
-| %40–50 | 372 | %45.0 | %43.5 | -1.4 puan |
+| %0–20 | 1017 | %8.6 | %6.5 | -2.1 puan |
+| %20–40 | 794 | %29.1 | %30.9 | +1.7 puan |
+| %40–50 | 376 | %45.0 | %43.6 | -1.4 puan |
 | %50–60 | 319 | %54.9 | %55.8 | +0.9 puan |
-| %60–70 | 227 | %65.1 | %61.2 | -3.9 puan |
+| %60–70 | 228 | %65.1 | %61.4 | -3.7 puan |
 | %70–80 | 149 | %74.2 | %83.2 | +9.0 puan |
 | %80–90 | 11 | %83.3 | %63.6 | -19.7 puan |
 
@@ -23,7 +23,7 @@ Brier skoru (tüm seçimler): 0.1645
 | Kaynak | Seçim | Ortalama tahmin | Gerçekleşen |
 |---|---|---|---|
 | Doğrudan borsa fiyatı | 890 | %29.6 | %29.3 |
-| Gol modeli | 1991 | %33.4 | %33.1 |
+| Gol modeli | 2004 | %33.3 | %33.1 |
 
 ## Bahis ailesine göre
 
@@ -44,6 +44,7 @@ Brier skoru (tüm seçimler): 0.1645
 | İY karşılıklı gol | 45 | %33.8 | %33.3 | 0.1286 |
 | İY/MS | 54 | %11.1 | %11.1 | 0.0748 |
 | İkinci yarı | 96 | %33.3 | %33.3 | 0.2205 |
+| İlk gol | 13 | %26.1 | %23.1 | 0.1030 |
 | İlk yarı | 355 | %45.3 | %44.8 | 0.2167 |
 
 ## Maç başına en güvenilir tercih (oran ≥ 1,20)
