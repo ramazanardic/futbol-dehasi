@@ -244,7 +244,7 @@ Yalnızca **ücretsiz, anahtarsız ve kotasız** kaynaklar kullanılır (19 Kas�
 | Smarkets borsası (açık API) | Türkiye'den erişilemiyor → GitHub Actions ile yurt dışından çekilir |
 | Betfair, Matchbook, Pinnacle'ın kendi akışı | Hesap / anahtar gerektiriyor |
 | The Odds API vb. | Anahtar ve kota gerektiriyor (kullanılmıyor) |
-| Sofascore / Flashscore / OddsPortal | Kullanım koşulları otomatik toplamayı yasaklıyor (kullanılmıyor) |
+| Sofascore / Flashscore / OddsPortal / soccerstats | Kullanım koşulları otomatik toplamayı yasaklıyor (kullanılmıyor) |
 | ESPN (DraftKings) | Yerelde erişilebilir; yedek |
 
 GitHub Actions gizli depolarda aylık 2.000 dakika ücretsiz; bu iş çalışma başına ~1 dakika,

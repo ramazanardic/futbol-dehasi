@@ -369,3 +369,34 @@ def test_deep_research_caches_espn_and_throttles(tmp_path, monkeypatch):
     assert dr.espn("nor.1/summary", None, event="1") == {"ok": 1}
     assert dr.espn("nor.1/summary", None, event="1") == {"ok": 1}   # second time from the cache
     assert len(calls) == 1
+
+
+def test_evaluation_scores_research_verdicts_and_accumulates(tmp_path, monkeypatch):
+    ev = _load("gun_degerlendirme")
+    monkeypatch.setattr(ev, "TAHMIN", tmp_path / "tahminler")
+    monkeypatch.setattr(ev, "OUT", tmp_path / "degerlendirme")
+    d = tmp_path / "tahminler" / "claudetahmin" / "2026-11-20"
+    d.mkdir(parents=True)
+    (d / "derin_arastirma.json").write_text(json.dumps([
+        {"code": 1, "legs": [{"name": "2.5 Üst", "p": 0.6, "mean": 0.65, "verdict": "✓ geçmiş destekliyor"},
+                             {"name": "MS 2", "p": 0.55, "mean": 0.25, "verdict": "⚠ geçmiş desteklemiyor"}]},
+        {"code": 2, "legs": [{"name": "KG Var", "p": 0.58, "mean": None, "verdict": "geçmiş yetersiz"}]}]), encoding="utf-8")
+    v = ev.research_verdicts(d, {1: {"completed": True, "ht": [1, 0], "ft90": [2, 1]}, 2: {"completed": False}})
+    assert v["✓"]["n"] == 1 and v["✓"]["won"] == 1 and v["⚠"]["won"] == 0 and "?" not in v   # open match 2 not scored
+    out = tmp_path / "degerlendirme"
+    out.mkdir()
+    (out / "2026-11-20.json").write_text(json.dumps({"date": "2026-11-20", "ais": {"claudetahmin": {"research_verdicts": v}}}))
+    (out / "2026-11-21.json").write_text(json.dumps({"date": "2026-11-21", "ais": {"claudetahmin": {"research_verdicts": v}}}))
+    md = ev.cumulative_verdicts(out)
+    assert "| ⚠ geçmiş desteklemiyor | 2 | 0 | %0.0 |" in md and "| ✓ geçmiş destekliyor | 2 | 2 | %100.0 |" in md
+
+
+def test_deep_research_links_unlinked_match_by_league_time_and_name(monkeypatch):
+    dr = _load("derin_arastirma")
+    board = {"events": [{"id": "77", "date": "2026-11-20T11:30Z", "competitions": [{"competitors": [
+        {"homeAway": "home", "team": {"displayName": "East Bengal"}}, {"homeAway": "away", "team": {"displayName": "Sporting Club Delhi"}}]}]}]}
+    monkeypatch.setattr(dr, "espn", lambda path, ttl=None, **kw: board if path == "ind.1/scoreboard" else None)
+    m = {"league": "Hindistan Süper Ligi", "home": "SC East Bengal", "away": "Hyderabad", "kickoff_iso": "2026-11-20T14:30:00+03:00"}
+    assert dr.find_espn_event(m) == ("ind.1", "77")
+    assert dr.find_espn_event({**m, "kickoff_iso": "2026-11-20T18:30:00+03:00"}) is None   # other kick-off time
+    assert dr.find_espn_event({**m, "league": "Etiyopya Premier Lig"}) is None              # league not on ESPN

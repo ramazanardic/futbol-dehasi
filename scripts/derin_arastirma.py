@@ -5,7 +5,7 @@
 
 Per match (Nesine code, from the AI's own analysis file tahminler/<ai>/<date>/nesine_global.json):
 
-* **team profiles** from ESPN — the last ~15 completed matches of each team with HALF scores (match summaries):
+* **team profiles** from ESPN (also for matches the analysis could not link: league slug + kick-off + home name) — the last ~15 completed matches of each team with HALF scores (match summaries):
   form, goals for/against, scoring / conceding in the 1st and 2nd half, BTTS, 2,5 Üst, both-halves BTTS;
 * **leg test** — the leg's own bet settled on each team's past matches (oriented so the team keeps its side), i.e.
   how often this exact bet would have won in these teams' recent games, next to the model probability;
@@ -183,6 +183,32 @@ def european_fixture(team_id: str, kickoff: dt.datetime, days: int = 6) -> str |
     return None
 
 
+# Nesine league name prefix -> ESPN slug, for matches the analysis could not link to ESPN (e.g. renamed clubs:
+# Hyderabad FC is "Sporting Club Delhi" on ESPN). Only slugs that ESPN actually serves with fixtures.
+LEAGUE_SLUGS = {"Hindistan Süper Ligi": "ind.1", "İngiltere Ulusal Lig": "eng.5", "Hollanda 1. Lig": "ned.2",
+                "Norveç Eliteserien": "nor.1", "İsviçre Challenge Ligi": "sui.2", "Romanya 1. Lig": "rou.1",
+                "Kuzey İrlanda Premiership": "nir.1", "Türkiye 1. Lig": "tur.2", "Galler Premier Lig": "wal.1"}
+
+
+def _tokens(name: str) -> set[str]:
+    return {t for t in name.lower().replace(".", " ").replace("-", " ").split() if len(t) > 3}
+
+
+def find_espn_event(m: dict) -> tuple[str, str] | None:
+    """(slug, event id) by league slug, kick-off time (±20 min) and a shared word in the home team's name."""
+    slug = next((v for k, v in LEAGUE_SLUGS.items() if m["league"].startswith(k)), None)
+    if not slug:
+        return None
+    kick = dt.datetime.fromisoformat(m["kickoff_iso"])
+    sb = espn(f"{slug}/scoreboard", 1.0, dates=kick.astimezone(dt.timezone.utc).strftime("%Y%m%d")) or {}
+    for e in sb.get("events") or []:
+        t = dt.datetime.fromisoformat(e["date"].replace("Z", "+00:00"))
+        home = next((c["team"]["displayName"] for c in e["competitions"][0]["competitors"] if c["homeAway"] == "home"), "")
+        if abs((t - kick).total_seconds()) <= 1200 and _tokens(home) & _tokens(m["home"]):
+            return slug, e["id"]
+    return None
+
+
 def research_match(m: dict, legs: list[dict]) -> dict:
     r = m.get("research") or {}
     out = {"code": m["code"], "match": f"{m['home']} - {m['away']}", "kickoff": m["kickoff"], "league": m["league"],
@@ -196,8 +222,10 @@ def research_match(m: dict, legs: list[dict]) -> dict:
                               "absent": [x["name"] for x in t.get("likely_absent") or []][:4],
                               "gk1_out": bool(tm.get("gk1_out")), "top_scorer_out": bool(tm.get("top_scorer_out"))}
     games = {"home": [], "away": []}
-    if out["espn"]:
-        slug, ev = r["league_slug"], r["espn_event"]
+    link = (r["league_slug"], r["espn_event"]) if out["espn"] else find_espn_event(m)
+    out["espn"] = bool(link)
+    if link:
+        slug, ev = link
         s = espn(f"{slug}/summary", SCHEDULE_TTL_H, event=ev) or {}
         comps = ((s.get("header") or {}).get("competitions") or [{}])[0].get("competitors") or []
         ids = {c["homeAway"]: c["team"]["id"] for c in comps}
