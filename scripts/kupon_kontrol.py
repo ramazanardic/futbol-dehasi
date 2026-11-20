@@ -3,16 +3,16 @@
     python scripts/kupon_kontrol.py kontrol --date 2026-11-20   # after nesine_global.py (scheduled.py kadro)
     python scripts/kupon_kontrol.py ozet                         # all days: does the pick beat the closing price?
 
-`kontrol` compares each not-started leg of the day's coupons (reports/daily/<date>/kupon_*x_*.json) with the
+`kontrol` compares each not-started leg of the day's coupons (tahminler/claudetahmin/<date>/kupon_*x_*.json) with the
 newest analysis (nesine_global.json, re-run with line-ups ~1 h before kick-off) and warns when a leg should be
 replaced: global probability under the 55 % leg floor or down >= 5 points, Nesine selection suspended, Nesine
 odds under 1.20, an important absence announced after the price (research_block) or a new risk/steam flag.
-Output: reports/daily/<date>/kupon_kontrol.md (+ Windows pop-up / Telegram for new warnings).
+Output: tahminler/claudetahmin/<date>/kupon_kontrol.md (+ Windows pop-up / Telegram for new warnings).
 
 The same run keeps, per leg, the last global probability seen before kick-off (kupon_clv.json). That is the
 closing price: CLV = closing probability - probability when the coupon was built. A system that picks well
 sees the sharp market move towards its picks (positive CLV) long before results prove anything.
-`ozet` aggregates every day into reports/takip/clv.md.
+`ozet` aggregates every day into tahminler/claudetahmin/clv.md.
 """
 
 from __future__ import annotations
@@ -27,6 +27,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 DAILY = ROOT / "reports" / "daily"
+AREA = ROOT / "tahminler" / "claudetahmin"  # Claude's coupons, checks and CLV live in its own area
 TSI = dt.timezone(dt.timedelta(hours=3))
 MIN_PROB = 0.55     # coupon leg floor (user rule)
 MIN_ODDS = 1.20
@@ -43,7 +44,7 @@ def _load(path: Path):
 def coupon_legs(date: str) -> dict[str, dict]:
     """Every leg of the day's coupon files, keyed by code|key (a leg in several coupons is checked once)."""
     legs: dict[str, dict] = {}
-    for f in sorted((DAILY / date).glob("kupon_*x_*.json")):
+    for f in sorted((AREA / date).glob("kupon_*x_*.json")):
         data = _load(f) or {}
         for i, c in enumerate(data.get("coupons", []), 1):
             for leg in c.get("legs", []):
@@ -57,7 +58,7 @@ def check(date: str, now: dt.datetime | None = None) -> tuple[list[dict], dict]:
     now = now or dt.datetime.now(TSI)
     analysis = _load(DAILY / date / "nesine_global.json") or {}
     by_code = {int(m["code"]): m for m in analysis.get("matches", [])}
-    clv_path = DAILY / date / "kupon_clv.json"
+    clv_path = AREA / date / "kupon_clv.json"
     clv = _load(clv_path) or {}
     rows = []
     for lid, leg in coupon_legs(date).items():
@@ -156,7 +157,7 @@ def cmd_kontrol(date: str, notify: bool = True) -> None:
         md.append(f"| {leg['kickoff'][-5:]} | {leg['match']} | {leg['market']}: {leg['selection']} | {odds} | {prob} | "
                   f"{durum} | {', '.join(leg['coupons'])} |")
     md += ["", f"**Kapanış fiyatı (CLV), bugün:** {_fmt_stats(clv_stats(clv, now))}", ""]
-    out = DAILY / date / "kupon_kontrol.md"
+    out = AREA / date / "kupon_kontrol.md"
     out.write_text("\n".join(md), encoding="utf-8")
     fresh = [r for r in rows if r["new_warn"] and not r["started"]]
     print(f"{len(rows)} bacak kontrol edildi, {sum(1 for r in rows if r['warn'] and not r['started'])} uyarı "
@@ -173,14 +174,14 @@ def cmd_ozet() -> None:
           "Sürekli pozitif CLV, sonuçlar kanıtlamadan önce seçimlerin piyasadan önde olduğunu gösterir.", "",
           "| Gün | Bacak | Ortalama CLV | Lehimize | Aleyhimize |", "|---|---|---|---|---|"]
     allc: dict = {}
-    for d in sorted(p.parent.name for p in DAILY.glob("*/kupon_clv.json")):
-        clv = _load(DAILY / d / "kupon_clv.json") or {}
+    for d in sorted(p.parent.name for p in AREA.glob("*/kupon_clv.json")):
+        clv = _load(AREA / d / "kupon_clv.json") or {}
         st = clv_stats(clv, now)
         allc.update({f"{d}|{k}": v for k, v in clv.items()})
         if st["n"]:
             md.append(f"| {d} | {st['n']} | {100 * st['mean']:+.1f} puan | {st['pos']} | {st['neg']} |")
     md += ["", f"**Toplam:** {_fmt_stats(clv_stats(allc, now))}", ""]
-    out = ROOT / "reports" / "takip" / "clv.md"
+    out = AREA / "clv.md"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(md), encoding="utf-8")
     print(f"-> {out}")

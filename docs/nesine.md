@@ -169,6 +169,9 @@ gol modeli 2,5 puan, yarı pazarları (İY/2Y, en çok gol olan yarı…) 3,5 pu
 +1, kadro/haber uyarısı +2 puan. Böylece "en garanti" tercih, en yüksek olasılık değil, en kötü ihtimalle
 bile en yüksek kalan olasılıktır. Rapor hem olasılığı hem güvenilir alt sınırı gösterir.
 
+**Kuponların yeri (20 Kasım):** Claude'un kuponları yalnız `tahminler/claudetahmin/<tarih>/` altına yazılır
+(yapay zekâ yarışması, [tahminler/README.md](../tahminler/README.md)); 19 Kasım ve öncesi `reports/daily/` altında kalır.
+
 **Kuponlar arası tutarlılık (varsayılan, kullanıcı kuralı 20 Kasım):** kuponlar aynı maçı paylaşabilir ama aynı bahsi ve
 birbirini kesin yatıran bahisleri (hiçbir İY/MS skorunda ikisinin birden tutmadığı çiftler, ör. "Çifte şans
 1-2" ile "İY 0-0 / MS 0-0") alamaz (`compatible()`, `drop_conflicts()`).
@@ -185,9 +188,9 @@ oranlarla bir kez yeniden kurulur.
 **Maç öncesi kontrol ve CLV (20 Kasım):** `scheduled.py kadro` (:10 ve :30, ilk 11'ler açıklandıktan sonraki yeniden
 analiz) ardından `scripts/kupon_kontrol.py kontrol` günün bütün kupon bacaklarını yeni analizle karşılaştırır:
 olasılık %55 altı ya da 5+ puan düşüş, askıya alınan seçim, 1,20 altı oran, sonradan açıklanan önemli eksik ve
-risk/steam uyarısı → `reports/daily/<tarih>/kupon_kontrol.md` + Windows/Telegram uyarısı (her uyarı bir kez).
+risk/steam uyarısı → `tahminler/claudetahmin/<tarih>/kupon_kontrol.md` + Windows/Telegram uyarısı (her uyarı bir kez).
 Aynı adım başlama öncesi son global olasılığı (kapanış) `kupon_clv.json`'a yazar; CLV = kapanış − kupon anı.
-`kupon_kontrol.py ozet` bütün günleri `reports/takip/clv.md`'de toplar (sabah işi çalıştırır).
+`kupon_kontrol.py ozet` bütün günleri `tahminler/claudetahmin/clv.md`'de toplar (sabah işi çalıştırır).
 
 
 ```bash

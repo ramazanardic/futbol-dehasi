@@ -231,7 +231,8 @@ def analyze_settled_history(daily_dir: Path) -> dict[str, Any]:
                 }
             )
 
-        for kf in sorted(d.glob("kupon_*.json")):
+        claude_dir = daily_dir.parents[1] / "tahminler" / "claudetahmin" / day_name  # Claude's coupons (20 Nov+)
+        for kf in sorted([*d.glob("kupon_*.json"), *claude_dir.glob("kupon_*x_*.json")]):
             try:
                 kdata = json.loads(kf.read_text(encoding="utf-8"))
             except (OSError, json.JSONDecodeError):

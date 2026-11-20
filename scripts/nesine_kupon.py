@@ -358,11 +358,14 @@ def safest_first_coupon(pools: list[list[dict]], target: float, max_legs: int, p
     return None
 
 
+CLAUDE_AREA = Path(__file__).resolve().parents[1] / "tahminler" / "claudetahmin"  # Claude's own coupons
+
+
 def prior_coupon_codes(date: str, target: float) -> set:
     """Match codes in the main coupon (Kupon 1) of today's latest coupon for each OTHER target: a 10x built after a 5x should not
     stack the same matches, because one losing shared leg would sink both coupons."""
     latest: dict[str, Path] = {}
-    for f in sorted((DAILY / date).glob("kupon_*x_*.json")):
+    for f in sorted((CLAUDE_AREA / date).glob("kupon_*x_*.json")):
         tgt = f.name.split("_")[1]
         latest[tgt] = f  # sorted by HHMM: last one wins
     codes = set()
@@ -381,7 +384,7 @@ def prior_coupon_legs(date: str, target: float) -> list[dict]:
     """Every leg of today's latest coupon file for each OTHER target (all its coupons): those exact selections are
     not repeated in new coupons (user rule, 20 Nov), but the same match with another compatible selection is."""
     latest: dict[str, Path] = {}
-    for f in sorted((DAILY / date).glob("kupon_*x_*.json")):
+    for f in sorted((CLAUDE_AREA / date).glob("kupon_*x_*.json")):
         latest[f.name.split("_")[1]] = f
     legs = []
     for tgt, f in latest.items():
@@ -636,7 +639,7 @@ def main() -> None:
                 f"> Karşılaştırma: eski 'güvenli' yöntem bu hedefe {max_legs} maçla ulaşamıyor."), ""]
     md += ["> Fiyat: **doğrudan** = olasılık bu seçimin kendi global borsa fiyatından; **model** = global 1X2 ve Alt/Üst "
            "fiyatından gol modeliyle türetildi (daha az güvenilir). Yalnız doğrudan için: --dogrudan."]
-    d = DAILY / args.tarih
+    d = CLAUDE_AREA / args.tarih  # Claude's coupons live only in its own area of the AI comparison (user rule)
     d.mkdir(parents=True, exist_ok=True)
     base = d / f"kupon_{args.hedef:g}x_{stamp}"
     base.with_suffix(".md").write_text("\n".join(md) + "\n", encoding="utf-8")
@@ -646,8 +649,6 @@ def main() -> None:
     print(f"\n-> {base.with_suffix('.md').relative_to(DAILY.parents[1])}")
     try:  # keep Claude's area of the AI comparison (tahminler/claudetahmin) in step with the new coupons
         import ai_tahmin  # noqa: PLC0415
-        if coupons:
-            ai_tahmin.save_coupons(args.tarih, args.hedef, coupons)
         ai_tahmin.export(args.tarih, matches)  # this run's own analysis, not the shared report files
     except Exception as exc:  # noqa: BLE001 - the coupon itself is already written
         print(f"⚠ claudetahmin güncellenemedi: {exc}")

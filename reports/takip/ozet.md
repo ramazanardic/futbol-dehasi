@@ -109,12 +109,12 @@ Temel çizgi: 87,967 geçmiş maçta her sonucun sıklığı. Log skor farkı > 
 
 Kaynak: reports/ledger/placed_bets_*.csv (Nesine ekran görüntülerinden). Kazanç = tutar × toplam oran.
 
-**Toplam:** 27 kupon · yatırılan 2,519 TL · dönen 2,073.00 TL · net **-446.00 TL** · tutan 2
+**Toplam:** 28 kupon · yatırılan 2,569 TL · dönen 2,073.00 TL · net **-496.00 TL** · tutan 2
 
 | Gün | Kupon | Yatırılan | Dönen | Net | Tutan |
 |---|---|---|---|---|---|
 | 2026-11-18 | 17 | 1,489 TL | 0.00 TL | -1,489.00 TL | 0 |
-| 2026-11-19 | 10 | 1,030 TL | 2,073.00 TL | +1,043.00 TL | 2 |
+| 2026-11-19 | 11 | 1,080 TL | 2,073.00 TL | +993.00 TL | 2 |
 
 ### Toplam orana göre
 
@@ -122,7 +122,7 @@ Kaynak: reports/ledger/placed_bets_*.csv (Nesine ekran görüntülerinden). Kaza
 |---|---|---|---|---|
 | ≤ 7 | 6 | 2 | 769 TL | +1,304.00 TL |
 | 7–15 | 7 | 0 | 700 TL | -700.00 TL |
-| 15–50 | 5 | 0 | 500 TL | -500.00 TL |
+| 15–50 | 6 | 0 | 550 TL | -550.00 TL |
 | > 50 | 9 | 0 | 550 TL | -550.00 TL |
 
 ### Kupon kupon
@@ -150,14 +150,14 @@ Kaynak: reports/ledger/placed_bets_*.csv (Nesine ekran görüntülerinden). Kaza
 | 2026-11-19 | P02 | 11:23 | 6.39 | 200.0 | %8.32 | TUTTU | 5/5 | - |
 | 2026-11-19 | P05 | 13:31 | ? | ? | - | bekliyor | 0/6 | - |
 | 2026-11-19 | P06 | 16:36 | 5.3 | 150.0 | %8.22 | TUTTU | 5/5 | - |
-| 2026-11-19 | P07 | 17:27 | 24.55 | 50.0 | %1.26 | bekliyor | 5/6 | - |
+| 2026-11-19 | P07 | 17:27 | 24.55 | 50.0 | %1.26 | yattı | 5/6 | S. Sounders - Real Salt Lake MS 1 & 1.5 Üst |
 | 2026-11-19 | P11 | 20:44 | 566.8 | 50.0 | %0.05 | yattı | 0/3 | Amiens - Caen İY Skor 0-0 & Skor 0-0; Vitoria BA - Bragantino İY Skor 0-0 & Skor 0-0; Sao Paulo SP - Fluminense İY Skor 0-0 & Skor 0-0 |
 | 2026-11-19 | P12 | 20:48 | 160.36 | 50.0 | %0.19 | yattı | 1/5 | Amiens - Caen MS 0; Vitoria BA - Bragantino MS 0; Sao Paulo SP - Fluminense MS 0; R. Soacha Cundinamarca - Deportes Quindio MS 0 |
-| 2026-11-19 | P13 | 20:51 | 10.05 | 100.0 | %3.74 | yattı | 3/6 | Penarol - Cerro Largo 2.5 Alt; Orlando City - Cincinnati Ev 1.5 Üst |
+| 2026-11-19 | P13 | 20:51 | 10.05 | 100.0 | %3.74 | yattı | 4/6 | Penarol - Cerro Largo 2.5 Alt; Orlando City - Cincinnati Ev 1.5 Üst |
 | 2026-11-19 | P03 | ? | 10.86 | 100.0 | - | yattı | 6/7 | Maroons - NEC KG Yok |
 | 2026-11-19 | P04 | ? | ? | ? | - | yattı | 5/7 | Queensland Lions - Woll. Wolves MS 1; Maroons - NEC KG Yok |
 | 2026-11-19 | P08 | ? | 13.87 | 50.0 | %2.17 | yattı | 5/7 | Farco - Entag Harby KG Yok; Boston River - D. Maldonado MS 2 |
 | 2026-11-19 | P09 | ? | 19.71 | 50.0 | - | yattı | 6/7 | Boston River - D. Maldonado MS 2 |
-| 2026-11-19 | P10 | ? | 23.94 | 200.0 | %1.80 | yattı | 1/7 | MB Rouisset - CR Belouizdad MS 2; MC Alger - Olympique Akbou MS 1; Vasco Da G. - Internacional 2Y 1; Dep. La Gua. - Academia Anzoategui Dep 0.5 Alt; Sao Paulo SP - Fluminense KG Var |
+| 2026-11-19 | P10 | ? | 23.94 | 200.0 | %1.80 | yattı | 1/7 | MB Rouisset - CR Belouizdad MS 2; MC Alger - Olympique Akbou MS 1; Vasco Da G. - Internacional 2Y 1; Dep. La Gua. - Academia Anzoategui Dep 0.5 Alt; Sao Paulo SP - Fluminense KG Var; S. Sounders - Real Salt Lake DEĞİL(Dep En Az Bir Yarıyı Kazanır) |
 
-Sistemin olasılığı bilinen 60 oynanan bacak: ortalama tahmin %53.1, tutan %65.0.
+Sistemin olasılığı bilinen 63 oynanan bacak: ortalama tahmin %52.9, tutan %63.5.

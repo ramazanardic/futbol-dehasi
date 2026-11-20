@@ -8,13 +8,13 @@ from the shared reports (reports/daily, which other AIs' runs also write). Inste
 
   * the match predictions come from a fresh analysis run made here (nesine_global.analyze_day: live Nesine bulletin,
     sharp global prices, research), and
-  * the coupons are the ones Claude builds with scripts/nesine_kupon.py, which hands them over directly
-    (save_coupons) and keeps its own copy in this area (kupon_<target>x.json).
+  * the coupons are the ones Claude builds with scripts/nesine_kupon.py, which writes them ONLY into this area
+    (kupon_<target>x_<HHMM>.json/.md, one file per build), never into the shared reports.
 
 Output per day, in the common format of tahminler/README.md:
   mac_tahminleri.csv  one row per Nesine match: 1X2 probabilities, expected goals, most likely score and the main
                       pick (the most probable bettable selection under the coupon rules, gunluk_analiz.best_pick)
-  kuponlar.csv        one row per coupon leg of Claude's latest coupons for each target
+  kuponlar.csv        one row per coupon leg of Claude's latest coupon file for each target
 Rows of matches that have kicked off are frozen, so later runs never change a prediction after the fact.
 """
 
@@ -99,19 +99,17 @@ def match_rows(date: str, matches: list[dict], frozen: dict[str, dict] | None = 
     return sorted(rows, key=lambda r: (r["tarih"], r["saat"]))
 
 
-def save_coupons(date: str, target: float, coupons: list[dict], area: Path = AREA) -> None:
-    """Called by nesine_kupon.py after Claude builds coupons: Claude's own copy, latest per target."""
-    out = area / date
-    out.mkdir(parents=True, exist_ok=True)
-    (out / f"kupon_{target:g}x.json").write_text(
-        json.dumps({"target": target, "created": dt.datetime.now(TSI).isoformat(timespec="seconds"), "coupons": coupons},
-                   ensure_ascii=False, indent=1), encoding="utf-8")
+def coupon_files(date: str, area: Path = AREA) -> list[Path]:
+    """Claude's coupon files of the day (written by nesine_kupon.py into this area), latest per target."""
+    latest: dict[str, Path] = {}
+    for f in sorted((area / date).glob("kupon_*x_*.json")):
+        latest[f.name.split("_")[1]] = f  # HHMM order: latest file per target wins
+    return [latest[k] for k in sorted(latest, key=lambda t: float(t.rstrip("x")))]
 
 
 def coupon_rows(date: str, area: Path = AREA) -> list[dict]:
     rows = []
-    files = sorted((area / date).glob("kupon_*x.json"), key=lambda f: float(f.stem.split("_")[1].rstrip("x")))
-    for f in files:
+    for f in coupon_files(date, area):
         data = json.loads(f.read_text(encoding="utf-8"))
         for i, c in enumerate(data.get("coupons", []), 1):
             for leg in c["legs"]:

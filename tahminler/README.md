@@ -16,9 +16,13 @@ Her yapay zekâ **yalnız kendi klasörüne** yazar; başkasının klasörüne d
   yapay zekâ bunları kullanabilir ve geliştirebilir.
 - **Bağımsız olan:** tahminin kendisi. Her yapay zekâ kendi klasörünü **kendi çalıştırmasıyla** üretir; ortak
   raporlardan (`reports/daily/`, `reports/takip/` …) ya da başka bir yapay zekânın klasöründen kopyalamaz.
+- **Kuponlar yalnız kuran yapay zekânın klasörüne yazılır** (ortak `reports/` klasörlerine değil). Her kupon kurulumu
+  ayrı dosyadır; aynı hedefin son dosyası geçerli kupondur. Dosyalar hem bilgisayardaki depoda hem GitHub'da
+  (`futbol-dehasi`) bulunur.
 - Claude'un alanı: `scripts/ai_tahmin.py` her seferinde analizi kendisi yeniden çalıştırır (canlı Nesine bülteni,
-  global keskin fiyatlar, araştırma); kuponlar Claude'un `scripts/nesine_kupon.py` ile kurduğu kuponlardır ve
-  klasörde kendi kopyası tutulur (`kupon_<hedef>x.json`).
+  global keskin fiyatlar, araştırma); `scripts/nesine_kupon.py` kuponları doğrudan bu klasöre yazar
+  (`kupon_<hedef>x_<SSDD>.json/.md`), maç öncesi kontrol ve kapanış fiyatı da buradadır (`kupon_kontrol.md`,
+  `kupon_clv.json`, `clv.md`).
 
 ## Ortak biçim
 

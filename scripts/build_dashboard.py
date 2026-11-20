@@ -160,7 +160,8 @@ def build_day_payload(day_dir: Path) -> dict[str, Any] | None:
         )
 
     coupons_out: list[dict[str, Any]] = []
-    for kf in sorted(day_dir.glob("kupon_*.json"), reverse=True)[:8]:
+    claude_dir = ROOT / "tahminler" / "claudetahmin" / day_dir.name  # Claude's coupons (20 Nov+)
+    for kf in sorted([*day_dir.glob("kupon_*.json"), *claude_dir.glob("kupon_*x_*.json")], key=lambda f: f.name, reverse=True)[:8]:
         try:
             kd = json.loads(kf.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):

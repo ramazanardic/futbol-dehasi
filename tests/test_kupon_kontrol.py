@@ -40,7 +40,7 @@ def test_double_read_keeps_lowest_odds_and_reports_flicker(monkeypatch):
 
 
 def test_prior_codes_use_latest_main_coupon_of_other_targets(tmp_path, monkeypatch):
-    monkeypatch.setattr(kupon, "DAILY", tmp_path)
+    monkeypatch.setattr(kupon, "CLAUDE_AREA", tmp_path)
     day = tmp_path / "2026-11-20"
     day.mkdir()
 
@@ -67,6 +67,7 @@ def _day(tmp_path, kick_iso, p_now, odds_now=1.50, flags=None):
 
 def test_check_warns_on_probability_drop_and_records_closing_price(tmp_path, monkeypatch):
     monkeypatch.setattr(kontrol, "DAILY", tmp_path)
+    monkeypatch.setattr(kontrol, "AREA", tmp_path)
     _day(tmp_path, "2026-11-20T22:00:00+03:00", p_now=0.56)
     now = dt.datetime(2026, 11, 20, 21, 0, tzinfo=TSI)
     rows, clv = kontrol.check("2026-11-20", now)
@@ -81,6 +82,7 @@ def test_check_warns_on_probability_drop_and_records_closing_price(tmp_path, mon
 
 def test_check_floor_odds_and_flags(tmp_path, monkeypatch):
     monkeypatch.setattr(kontrol, "DAILY", tmp_path)
+    monkeypatch.setattr(kontrol, "AREA", tmp_path)
     _day(tmp_path, "2026-11-20T22:00:00+03:00", p_now=0.50, odds_now=1.18, flags=["TM: golcü eksik"])
     rows, _ = kontrol.check("2026-11-20", dt.datetime(2026, 11, 20, 21, 0, tzinfo=TSI))
     w = rows[0]["warn"]
@@ -89,6 +91,7 @@ def test_check_floor_odds_and_flags(tmp_path, monkeypatch):
 
 def test_closing_price_frozen_after_kickoff_and_clv_stats(tmp_path, monkeypatch):
     monkeypatch.setattr(kontrol, "DAILY", tmp_path)
+    monkeypatch.setattr(kontrol, "AREA", tmp_path)
     _day(tmp_path, "2026-11-20T22:00:00+03:00", p_now=0.65)
     kontrol.check("2026-11-20", dt.datetime(2026, 11, 20, 21, 40, tzinfo=TSI))
     _day(tmp_path, "2026-11-20T22:00:00+03:00", p_now=0.40)  # in-play price after kick-off must not count
@@ -114,7 +117,7 @@ def test_apply_live_odds_lowers_and_drops_suspended():
 
 
 def test_prior_legs_block_same_selection_but_allow_other_selection_on_same_match(tmp_path, monkeypatch):
-    monkeypatch.setattr(kupon, "DAILY", tmp_path)
+    monkeypatch.setattr(kupon, "CLAUDE_AREA", tmp_path)
     day = tmp_path / "2026-11-20"
     day.mkdir()
     leg = {"code": 1, "key": "1|MS 1|0", "name": "MS 1"}
@@ -140,10 +143,13 @@ def test_claudetahmin_uses_own_run_and_own_coupons_and_freezes_started(tmp_path,
 
     leg = {"code": 1, "kickoff": "2026-11-20 20:00", "match": "A - B", "market": "Maç Sonucu", "selection": "1",
            "odds": 1.5, "p": 0.6}
-    ai.save_coupons("2026-11-20", 5, [{"nesine_odds": 5.01, "probability": 0.12, "legs": [leg]}], area)
+    (area / "2026-11-20").mkdir(parents=True)
+    for name, odds in (("kupon_5x_0800", 4.9), ("kupon_5x_0926", 5.01)):  # latest build per target counts
+        (area / "2026-11-20" / f"{name}.json").write_text(json.dumps(
+            {"coupons": [{"nesine_odds": odds, "probability": 0.12, "legs": [leg]}]}), encoding="utf-8")
     ai.export("2026-11-20", analysis(0.60), area, now=dt.datetime(2026, 11, 20, 19, 0, tzinfo=TSI))
     ai.export("2026-11-20", analysis(0.70), area, now=dt.datetime(2026, 11, 20, 21, 0, tzinfo=TSI))
     rows = ai._read(area / "2026-11-20" / "mac_tahminleri.csv")
     assert len(rows) == 1 and rows[0]["olasilik_1"] == "0.6000" and rows[0]["ana_secim"] == "1"
     c = ai._read(area / "2026-11-20" / "kuponlar.csv")
-    assert [(r["kupon"], r["kupon_toplam_oran"], r["secim"]) for r in c] == [("kupon_5x", "5.01", "1")]
+    assert [(r["kupon"], r["kupon_toplam_oran"], r["secim"]) for r in c] == [("kupon_5x_0926", "5.01", "1")]
