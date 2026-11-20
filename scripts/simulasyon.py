@@ -30,6 +30,7 @@ import sys
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import dc_model  # noqa: E402
 import derin_arastirma as dr  # noqa: E402
 
 sys.path.insert(0, str(dr.ROOT / "src"))
@@ -101,6 +102,17 @@ def judge(market: float, sim: float | None, hist: float | None) -> tuple[str, fl
     return "kısmi onay", low
 
 
+def with_model(verdict: str, low: float, market: float, dc: float | None) -> tuple[str, float]:
+    """Fourth view (penaltyblog Dixon-Coles league model, scripts/dc_model.py): a triple-confirmed bet the league
+    model prices more than 10 points under the market is only partly confirmed; the pessimistic view includes it."""
+    if dc is None:
+        return verdict, low
+    low = min(low, dc)
+    if verdict == "üçlü onay" and dc < market - 0.10:
+        return "kısmi onay", low
+    return verdict, low
+
+
 def run(date: str, n: int) -> list[dict]:
     out_dir = dr.AREA / date
     rows = json.loads((out_dir / "derin_tahminler.json").read_text(encoding="utf-8"))
@@ -113,6 +125,7 @@ def run(date: str, n: int) -> list[dict]:
             continue
         mh, ma, why = rates(row, m)
         joint, top = simulate(mh, ma, n, seed=int(row["code"]) % 2**32)
+        dc = dc_model.match_view(m)
         bets = []
         for x in row["legs"]:
             try:
@@ -121,11 +134,14 @@ def run(date: str, n: int) -> list[dict]:
                 sim = None
             hist = history(x)
             verdict, low = judge(x["p"], sim, hist)
-            bets.append({"label": x["label"], "odds": x["odds"], "market": x["p"], "sim": sim, "hist": hist,
+            dcp = dc_model.bet_probability(x["name"], dc[0]) if dc else None
+            verdict, low = with_model(verdict, low, x["p"], dcp)
+            bets.append({"label": x["label"], "odds": x["odds"], "market": x["p"], "sim": sim, "hist": hist, "dc": dcp,
                          "research": x["verdict"], "verdict": verdict, "low": low})
         bets.sort(key=lambda b: (b["verdict"] != "üçlü onay", -b["low"]))
         res.append({"code": row["code"], "kickoff": row["kickoff"], "match": row["match"], "league": row["league"],
-                    "xg": [round(mh, 2), round(ma, 2)], "why": why, "top_scores": top, "bets": bets})
+                    "xg": [round(mh, 2), round(ma, 2)], "why": why, "top_scores": top, "bets": bets,
+                    "dc": dc[1] if dc else None})
     return sorted(res, key=lambda r: r["kickoff"])
 
 
@@ -138,19 +154,21 @@ def to_markdown(date: str, res: list[dict], n: int) -> str:
           "formu + eksikler ile oynatılan maçlar), **geçmiş** (aynı bahsin iki takımın son maçlarında tutma oranı). "
           "'Üçlü onay': üçü de %55 ve üstü, simülasyon ve geçmiş piyasanın 5 puan altına düşmüyor. 'En düşük' sütunu "
           "üç görüşün en kötümseridir; plan yaparken bu sayıya bakın. Simülasyon sonucu bilemez, bu tür maçlarda "
-          "bahsin ne sıklıkla tuttuğunu söyler.", "",
+          "bahsin ne sıklıkla tuttuğunu söyler. **Model** (dördüncü görüş): ligin bu sezonki maçlarıyla kurulan "
+          "Dixon-Coles gol modeli (penaltyblog); piyasanın 10 puandan fazla altındaysa üçlü onay kısmi onaya düşer.", "",
           f"## Üçlü onaylı bahisler ({len(best)})", "",
-          "| Saat | Maç | Bahis | Oran | Piyasa | Simülasyon | Geçmiş | En düşük |", "|---|---|---|---|---|---|---|---|"]
+          "| Saat | Maç | Bahis | Oran | Piyasa | Simülasyon | Geçmiş | Model | En düşük |", "|---|---|---|---|---|---|---|---|---|"]
     md += [f"| {b['kickoff'][11:16]} | {b['match']} | {b['label']} | {b['odds']:.2f} | {pct(b['market'])} | {pct(b['sim'])} | "
-           f"{pct(b['hist'])} | **{pct(b['low'])}** |" for b in best]
+           f"{pct(b['hist'])} | {pct(b.get('dc'))} | **{pct(b['low'])}** |" for b in best]
     md += ["", "## Maç maç", ""]
     for r in res:
         sc = ", ".join(f"{k} {pct(v)}" for k, v in r["top_scores"].items())
         md += [f"### {r['kickoff'][11:16]} {r['match']} — {r['league']}", "",
-               f"Simülasyon xG {r['xg'][0]}-{r['xg'][1]} ({'; '.join(r['why'])}). En olası skorlar: {sc}.", "",
-               "| Bahis | Oran | Piyasa | Simülasyon | Geçmiş | Sonuç |", "|---|---|---|---|---|---|"]
-        md += [f"| {b['label']} | {b['odds']:.2f} | {pct(b['market'])} | {pct(b['sim'])} | {pct(b['hist'])} | {b['verdict']} |"
-               for b in r["bets"]]
+               f"Simülasyon xG {r['xg'][0]}-{r['xg'][1]} ({'; '.join(r['why'])}). En olası skorlar: {sc}."
+               + (f" Lig modeli ({r['dc']['source']}) xG {r['dc']['xg'][0]}-{r['dc']['xg'][1]}." if r.get("dc") else ""), "",
+               "| Bahis | Oran | Piyasa | Simülasyon | Geçmiş | Model | Sonuç |", "|---|---|---|---|---|---|---|"]
+        md += [f"| {b['label']} | {b['odds']:.2f} | {pct(b['market'])} | {pct(b['sim'])} | {pct(b['hist'])} | {pct(b.get('dc'))} | "
+               f"{b['verdict']} |" for b in r["bets"]]
         md.append("")
     return "\n".join(md)
 

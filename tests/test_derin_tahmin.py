@@ -88,3 +88,34 @@ def test_simulation_rates_blend_form_and_absences():
     mh, ma, why = sim.rates(row, {"mu_home": 1.5, "mu_away": 1.0, "research": {"flags": ["Dep: düzenli kaleci ilk 11'de yok"]}})
     assert abs(mh - (0.65 * 1.5 + 0.35 * 2.0) * 0.92 * 1.08) < 1e-9 and abs(ma - (0.65 * 1.0 + 0.35 * 1.0)) < 1e-9
     assert any("golcüsü" in w for w in why) and any("kalecisi" in w for w in why)
+
+
+def test_openfootball_games_keep_half_scores():
+    of = _load("openfootball_gecmis")
+    import datetime as dt
+    ms = [{"date": "2026-08-21", "team1": "Arsenal FC", "team2": "Coventry City FC", "score": {"ht": [2, 0], "ft": [3, 0]}},
+          {"date": "2026-08-29", "team1": "Coventry City FC", "team2": "Arsenal FC", "score": {"ht": [1, 1], "ft": [1, 2]}},
+          {"date": "2026-12-01", "team1": "Arsenal FC", "team2": "X", "score": {}}]
+    games = of.played(ms, dt.date(2026, 11, 20))
+    g = of.team_games("Arsenal FC", games)
+    assert [x["side"] for x in g] == ["home", "away"]
+    assert g[0]["for"] == (2, 1) and g[0]["against"] == (0, 0) and g[1]["for"] == (1, 1) and g[1]["against"] == (1, 0)
+    assert of.season_of(dt.date(2026, 11, 20)) == "2026-27" and of.season_of(dt.date(2027, 3, 1)) == "2026-27"
+    assert of.league_file("Bilinmeyen Lig", dt.date(2026, 11, 20)) == []
+
+
+def test_dc_half_joint_keeps_full_time_matrix():
+    dc = _load("dc_model")
+    import numpy as np
+    ft = np.zeros((15, 15)); ft[1, 0], ft[2, 2], ft[0, 0] = 0.5, 0.3, 0.2
+    j = dc.half_joint(ft)
+    assert abs(j.sum() - 1) < 1e-12
+    assert abs(dc.bet_probability("MS 1", j) - 0.5) < 1e-9 and abs(dc.bet_probability("2.5 Üst", j) - 0.3) < 1e-9
+    assert abs(dc.bet_probability("İY 0.5 Alt", j) - (0.2 + 0.5 * 0.56 + 0.3 * 0.56 ** 4)) < 1e-9
+
+
+def test_model_view_only_downgrades_large_disagreement():
+    sim = _load("simulasyon")
+    assert sim.with_model("üçlü onay", 0.65, 0.66, 0.60) == ("üçlü onay", 0.60)
+    assert sim.with_model("üçlü onay", 0.65, 0.66, 0.50) == ("kısmi onay", 0.50)
+    assert sim.with_model("kısmi onay", 0.60, 0.66, None) == ("kısmi onay", 0.60)

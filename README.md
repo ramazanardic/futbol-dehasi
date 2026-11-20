@@ -22,6 +22,11 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
   yarı yarı skorlarını, aynı bahsin geçmişte tutma sıklığını ve Avrupa/rotasyon programını çıkarır.
   Takım geçmişi sırasıyla ESPN → API-Football (`scripts/api_gecmis.py`, anahtar git'e girmeyen `.env`'de) →
   Wikipedia sezon tablosu (`scripts/wiki_gecmis.py`, yalnız maç sonu) kaynaklarından gelir.
+  Büyük liglerde (İngiltere 1-2, Almanya, İspanya, Fransa, İtalya, Hollanda, Portekiz) openfootball/football.json
+  (CC0, ilk yarı skorlu; `scripts/openfootball_gecmis.py`) ESPN'den sonra ikinci kaynaktır. `scripts/simulasyon.py`
+  her bahsi piyasa / simülasyon / takım geçmişi / lig modeli (penaltyblog Dixon-Coles, `scripts/dc_model.py`) olarak
+  dört görüşle karşılaştırır. Değerlendirilip eklenmeyenler (21 Kasım): socceraction (numpy 2 ile çalışmıyor),
+  StatsBomb açık verisi ve kloppy (2025 sonrası kulüp sezonu yok).
 - **Kupon (21 Kasım):** `scripts/kupon_kur.py` yalnız takım geçmişiyle test edilmiş (✓ / ~) bacak alır
   (`--kanitsiz` ile gevşer); ertesi gün ölçümünde (`data/calibration/verdict_stats.json`) ~ bacaklar fiyatın 5 puan
   altında kalırsa yalnız ✓ alınır. Bacak olasılıkları bitmiş günlerden öğrenilen düzeltmeyle (`prob_shift`, doğrudan /

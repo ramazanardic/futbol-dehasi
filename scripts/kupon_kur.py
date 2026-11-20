@@ -31,6 +31,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import api_gecmis as af  # noqa: E402
 import derin_arastirma as dr  # noqa: E402
+import openfootball_gecmis as of  # noqa: E402
 import wiki_gecmis as wg  # noqa: E402
 
 AREA = dr.AREA
@@ -74,6 +75,8 @@ def research_leg(m: dict, leg: dict, fixtures: list[dict] | None) -> dict:
                 af.research(row, m, fixtures)
             except af.ApiError:
                 pass
+        if row["legs"][0]["verdict"].startswith("geçmiş yetersiz"):
+            of.research(row, m)  # openfootball: top divisions with half scores
         if row["legs"][0]["verdict"].startswith("geçmiş yetersiz"):
             wg.research(row, m)
     return row

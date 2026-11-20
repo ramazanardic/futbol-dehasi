@@ -17,6 +17,7 @@ dependencies = [
     "matplotlib>=3.9",
     "requests>=2.32",
     "beautifulsoup4>=4.12",
+    "penaltyblog>=1.13",
 ]
 
 [project.optional-dependencies]
