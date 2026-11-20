@@ -428,6 +428,19 @@ def _set_start(date: str) -> str:
         return ""
 
 
+def all_coupon_legs_today(date: str) -> list[dict]:
+    """Every leg of every coupon file written today (all builds, all sets, all families): for a coupon that must be
+    entirely new (user, 20 Nov: "daha önce bugün hiç oluşturmadığın bir kupon")."""
+    legs = []
+    for f in sorted((CLAUDE_AREA / date).glob("kupon_*x_*.json")):
+        try:
+            data = json.loads(f.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            continue
+        legs += [leg for c in data.get("coupons", []) for leg in c.get("legs", [])]
+    return legs
+
+
 def prior_coupon_legs(date: str, target: float, family: str = "karma") -> list[dict]:
     """Every leg of the current set's other coupons — the latest file of every OTHER (target, family) group, of ALL
     families — so a selection is never repeated in any coupon (user rule, 20 Nov: "ben ekstra istemediğim sürece
@@ -557,6 +570,8 @@ def main() -> None:
                          "minimumun altı yine asla verilmez")
     ap.add_argument("--mac-limit", type=int, default=2,
                     help="Bir maç setin en çok kaç kuponunda yer alabilir (her seferinde farklı tercihle; varsayılan 2)")
+    ap.add_argument("--hic-kullanilmamis", action="store_true",
+                    help="Bugün kurulan BÜTÜN kuponlardaki tercihler yasak; bugün --mac-limit kez kullanılmış maçlar da girmez")
     ap.add_argument("--tekrar-serbest", action="store_true",
                     help="Yalnız kullanıcı açıkça isterse: bugünkü öteki kuponlardaki tercihler bu kuponda tekrar edilebilir")
     ap.add_argument("--yeni-set", action="store_true",
@@ -628,7 +643,7 @@ def main() -> None:
         prior = prior_coupon_codes(args.tarih, args.hedef, args.aile) if args.max_ortak >= 0 else set()
         if prior and attempt == 0:
             print(f"Bugünkü diğer kuponlarda {len(prior)} maç var: her kupon bunlardan en çok {args.max_ortak} tanesini paylaşır.")
-        earlier = [] if (args.yeni_set or args.tekrar_serbest) else prior_coupon_legs(
+        earlier = all_coupon_legs_today(args.tarih) if args.hic_kullanilmamis else [] if (args.yeni_set or args.tekrar_serbest) else prior_coupon_legs(
             args.tarih, args.hedef, args.aile)
         if earlier and attempt == 0:
             print(f"Setin diğer kuponlarında {len(earlier)} tercih ({len({x['code'] for x in earlier})} maç) var: aynı tercih "

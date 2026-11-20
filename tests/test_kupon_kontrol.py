@@ -423,3 +423,12 @@ def test_bulletin_fetch_retries_a_dropped_connection(monkeypatch):
     monkeypatch.setattr(nesine.requests, "get", get)
     monkeypatch.setattr(nesine.time, "sleep", lambda s: None)
     assert nesine.fetch_bulletin() == {"sg": {}} and len(calls) == 2
+
+
+def test_all_coupon_legs_today_covers_every_build(tmp_path, monkeypatch):
+    monkeypatch.setattr(kupon, "CLAUDE_AREA", tmp_path)
+    day = tmp_path / "2026-11-20"
+    day.mkdir()
+    for name, code in (("kupon_5x_0851", 1), ("kupon_5x_0926", 2), ("kupon_10x_kg_1141", 3)):
+        (day / f"{name}.json").write_text(json.dumps({"coupons": [{"legs": [{"code": code, "key": "k"}]}]}))
+    assert sorted(x["code"] for x in kupon.all_coupon_legs_today("2026-11-20")) == [1, 2, 3]  # old builds too
