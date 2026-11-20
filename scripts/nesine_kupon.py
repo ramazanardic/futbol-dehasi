@@ -28,6 +28,7 @@ import argparse
 import datetime as dt
 import json
 import math
+import re
 from functools import lru_cache
 from itertools import product
 from pathlib import Path
@@ -59,7 +60,42 @@ def _has_full_research(m: dict) -> bool:
     return bool((teams.get("home") and teams.get("away")) or (tm.get("home") and tm.get("away")) or r.get("user_absences"))
 RES = 0.002  # log-odds bucket width
 MIN_LEG_ODDS = 1.20  # user rule: never a selection below 1.20
-MAX_LEGS = 7  # user rule (19 Nov): at most 7 matches per coupon, whatever the target
+MAX_LEGS = 7  # user rule (19 Nov): at most 7 matches per coupon
+HIGH_TARGET = 20.0   # user rule (20 Nov): from a 20x minimum upwards a coupon may have up to 8 matches
+MAX_LEGS_HIGH = 8
+
+# Single-family coupons (user request, 20 Nov): only that bet family, each coupon still >= its minimum odds.
+FAMILIES = {
+    "karma": "bütün bahis aileleri karışık",
+    "iyms": "yalnız İlk Yarı / Maç Sonucu (1/1, 1/0, 1/2, 0/1, 0/0, 0/2, 2/1, 2/0, 2/2)",
+    "altust": "yalnız maç sonu toplam gol Alt/Üst (0,5 – 6,5)",
+    "kg": "yalnız Karşılıklı Gol Var / Yok",
+    "ms12": "yalnız Maç Sonucu 1 ya da 2 (beraberlik yok)",
+}
+_ALTUST = re.compile(r"^\d\.5 (Alt|Üst)$")
+FAMILY_MIN_PROB = {"iyms": 0.30}  # an HT/FT leg is rarely above 55 %; the coupon still maximises the joint probability
+
+
+def in_family(name: str, family: str) -> bool:
+    if family == "iyms":
+        return name.startswith("İY/MS ")
+    if family == "altust":
+        return bool(_ALTUST.match(name))
+    if family == "kg":
+        return name in ("KG Var", "KG Yok")
+    if family == "ms12":
+        return name in ("MS 1", "MS 2")
+    return True
+
+
+def max_legs_for(target: float) -> int:
+    return MAX_LEGS_HIGH if target >= HIGH_TARGET - 1e-9 else MAX_LEGS
+
+
+def coupon_group(path: Path) -> tuple[str, str]:
+    """('5x', 'karma') from kupon_5x_0926.json, ('5x', 'iyms') from kupon_5x_iyms_1030.json."""
+    parts = path.stem.split("_")
+    return parts[1], (parts[2] if len(parts) >= 4 else "karma")
 MAX_PRICE_AGE_H = 3.0  # global price older than this may predate team news / line-ups: not used in coupons
 
 
@@ -185,6 +221,7 @@ def candidates(
     exclude_cups: bool = False,
     main_markets_only: bool = False,
     allow_mid_researched: bool = True,
+    family: str = "karma",
     calibration: dict | None = None,
 ) -> list[list[dict]]:
     """Per match: non-dominated legs (higher Nesine odds AND higher global probability dominates)."""
@@ -223,9 +260,11 @@ def candidates(
                 continue
             if direct_only and not s.get("direct"):
                 continue  # model-derived price: no direct global quote for this selection
+            if not in_family(s.get("name", ""), family):
+                continue  # single-family coupon (--aile)
             if main_markets_only and not is_main_market_selection(s.get("name", "")):
                 continue  # core main markets only (--ana-pazar)
-            if not s.get("direct") and s.get("name", "").startswith(("İY/MS", "2Y 0", "2Y 1", "2Y 2")):
+            if family != "iyms" and not s.get("direct") and s.get("name", "").startswith(("İY/MS", "2Y 0", "2Y 1", "2Y 2")):
                 # model HT/FT is the weakest derived market (calibration: ~3x the error); model second-half result
                 # legs went 1/5 in the 19 Nov coupons (favourites: 46 % hit vs 62 % predicted): direct quotes only
                 continue
@@ -361,17 +400,16 @@ def safest_first_coupon(pools: list[list[dict]], target: float, max_legs: int, p
 CLAUDE_AREA = Path(__file__).resolve().parents[1] / "tahminler" / "claudetahmin"  # Claude's own coupons
 
 
-def prior_coupon_codes(date: str, target: float) -> set:
+def prior_coupon_codes(date: str, target: float, family: str = "karma") -> set:
     """Match codes in the main coupon (Kupon 1) of today's latest coupon for each OTHER target: a 10x built after a 5x should not
     stack the same matches, because one losing shared leg would sink both coupons."""
-    latest: dict[str, Path] = {}
+    latest: dict[tuple[str, str], Path] = {}
     for f in sorted((CLAUDE_AREA / date).glob("kupon_*x_*.json")):
-        tgt = f.name.split("_")[1]
-        latest[tgt] = f  # sorted by HHMM: last one wins
+        latest[coupon_group(f)] = f  # sorted by HHMM: last one wins
     codes = set()
-    for tgt, f in latest.items():
+    for (tgt, fam), f in latest.items():
         try:
-            if abs(float(tgt.rstrip("x")) - target) < 1e-9:
+            if fam != family or abs(float(tgt.rstrip("x")) - target) < 1e-9:
                 continue
             data = json.loads(f.read_text(encoding="utf-8"))
         except (ValueError, OSError):
@@ -380,17 +418,17 @@ def prior_coupon_codes(date: str, target: float) -> set:
     return codes
 
 
-def prior_coupon_legs(date: str, target: float) -> list[dict]:
+def prior_coupon_legs(date: str, target: float, family: str = "karma") -> list[dict]:
     """Every leg of today's latest coupon file for each OTHER target (all its coupons): those exact selections are
     not repeated in new coupons (user rule, 20 Nov), but the same match with another compatible selection is."""
-    latest: dict[str, Path] = {}
+    latest: dict[tuple[str, str], Path] = {}
     for f in sorted((CLAUDE_AREA / date).glob("kupon_*x_*.json")):
-        latest[f.name.split("_")[1]] = f
+        latest[coupon_group(f)] = f
     legs = []
-    for tgt, f in latest.items():
+    for (tgt, fam), f in latest.items():
         try:
-            if abs(float(tgt.rstrip("x")) - target) < 1e-9:
-                continue
+            if fam != family or abs(float(tgt.rstrip("x")) - target) < 1e-9:
+                continue  # other families are separate coupon sets; the same group is being rebuilt
             data = json.loads(f.read_text(encoding="utf-8"))
         except (ValueError, OSError):
             continue
@@ -497,6 +535,11 @@ def main() -> None:
     ap.add_argument("--min-olasilik", type=float, default=None,
                     help="Bacak başına en düşük global olasılık (optimum: 0.55, guvenli: 0.60)")
     ap.add_argument("--espn", action="store_true", help="Keskin olmayan global büro/ESPN referanslı maçları da kullan")
+    ap.add_argument("--aile", choices=tuple(FAMILIES), default="karma",
+                    help="Kupon ailesi: " + "; ".join(f"{k} = {v}" for k, v in FAMILIES.items()))
+    ap.add_argument("--yeni-set", action="store_true",
+                    help="Yeni bir kupon setinin ilk kuponu: bugünkü önceki kuponların tercihleri yasaklanmaz "
+                         "(setin sonraki kuponları bu kuponu ve birbirini dikkate alır)")
     ap.add_argument("--ayri-mac", action="store_true",
                     help="Eski kural: her maç yalnız bir kuponda. Varsayılan (kullanıcı kuralı 20 Kasım): bir maç birden "
                          "çok kuponda olabilir ama AYNI tercihle asla; birbirini kesin yatıran tercihler de yasak")
@@ -524,7 +567,8 @@ def main() -> None:
         use_tm=not args.no_tm,
     )
     now = dt.datetime.now(TSI)
-    min_prob = args.min_olasilik if args.min_olasilik is not None else (0.60 if args.yontem == "guvenli" else 0.55)
+    min_prob = args.min_olasilik if args.min_olasilik is not None else (
+        FAMILY_MIN_PROB.get(args.aile, 0.60 if args.yontem == "guvenli" else 0.55))
     live_cal = load_live_calibration()
     # Build on the LOWER of two bulletin reads (the feed can serve two prices for one selection), re-read after
     # building, and rebuild once if a coupon fell under the target on the re-read odds.
@@ -542,6 +586,7 @@ def main() -> None:
             exclude_cups=args.kupasiz,
             main_markets_only=args.ana_pazar,
             allow_mid_researched=not args.yalniz_keskin,
+            family=args.aile,
             calibration=live_cal or None,
         )
         n_mid_pools = sum(1 for p in pools if p[0].get("tier") == "orta")
@@ -552,11 +597,11 @@ def main() -> None:
         if stale and attempt == 0:
             print(f"⚠ {stale} maçın global fiyatı {MAX_PRICE_AGE_H:g} saatten eski: kupona alınmadı (GitHub verisi yenilenmeli).")
 
-        max_legs = args.max_mac or MAX_LEGS
-        prior = prior_coupon_codes(args.tarih, args.hedef) if args.max_ortak >= 0 else set()
+        max_legs = args.max_mac or max_legs_for(args.hedef)
+        prior = prior_coupon_codes(args.tarih, args.hedef, args.aile) if args.max_ortak >= 0 else set()
         if prior and attempt == 0:
             print(f"Bugünkü diğer kuponlarda {len(prior)} maç var: her kupon bunlardan en çok {args.max_ortak} tanesini paylaşır.")
-        earlier = [] if args.ayri_mac else prior_coupon_legs(args.tarih, args.hedef)
+        earlier = [] if (args.ayri_mac or args.yeni_set) else prior_coupon_legs(args.tarih, args.hedef, args.aile)
         if earlier and attempt == 0:
             print(f"Bugünkü diğer kuponlardaki {len(earlier)} tercih tekrar kullanılmaz (aynı maçta başka tercih serbest).")
         coupons, used = [], set()
@@ -599,7 +644,8 @@ def main() -> None:
             priced = PRICED.get(int(leg["code"]))
             leg["scores"] = consistent_scores(priced["joint"], leg.get("name", "")) if priced else []
     stamp = now.strftime("%H%M")
-    md = [f"# {args.tarih} — Nesine en az {args.hedef:g} oranlık kupon ({now:%H:%M} TSİ)", "",
+    fam_txt = "" if args.aile == "karma" else f" — {FAMILIES[args.aile]}"
+    md = [f"# {args.tarih} — Nesine en az {args.hedef:g} oranlık kupon{fam_txt} ({now:%H:%M} TSİ)", "",
           "Olasılıklar global keskin fiyattan (Pinnacle / Smarkets / Matchbook / Betfair borsası), oranlar Nesine'den. "
           + ("Yöntem: her maçın en olası seçimi alınır, maçlar **%100'e en yakından** başlayarak sıralanır ve Nesine "
              "oranı hedefe ulaşana kadar eklenir." if args.yontem == "guvenli" else
@@ -649,9 +695,9 @@ def main() -> None:
            "fiyatından gol modeliyle türetildi (daha az güvenilir). Yalnız doğrudan için: --dogrudan."]
     d = CLAUDE_AREA / args.tarih  # Claude's coupons live only in its own area of the AI comparison (user rule)
     d.mkdir(parents=True, exist_ok=True)
-    base = d / f"kupon_{args.hedef:g}x_{stamp}"
+    base = d / (f"kupon_{args.hedef:g}x_{stamp}" if args.aile == "karma" else f"kupon_{args.hedef:g}x_{args.aile}_{stamp}")
     base.with_suffix(".md").write_text("\n".join(md) + "\n", encoding="utf-8")
-    base.with_suffix(".json").write_text(json.dumps({"target": args.hedef, "created": now.isoformat(timespec="seconds"),
+    base.with_suffix(".json").write_text(json.dumps({"target": args.hedef, "family": args.aile, "created": now.isoformat(timespec="seconds"),
                                                      "coupons": coupons}, ensure_ascii=False, indent=2), encoding="utf-8")
     print("\n".join(md))
     print(f"\n-> {base.with_suffix('.md').relative_to(DAILY.parents[1])}")

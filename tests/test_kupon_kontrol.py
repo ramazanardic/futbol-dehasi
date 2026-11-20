@@ -167,3 +167,36 @@ def test_coupon_total_under_minimum_is_flagged(tmp_path, monkeypatch):
     rows, _ = kontrol.check("2026-11-20", dt.datetime(2026, 11, 20, 21, 0, tzinfo=TSI))
     t = kontrol.coupon_totals("2026-11-20", rows)
     assert t == [{"coupon": "kupon_5x_0851 #1", "target": 5.0, "built": 5.10, "now": 4.76, "below": True, "missing": False}]
+
+
+def test_families_leg_limits_and_groups():
+    assert kupon.in_family("İY/MS 1/1", "iyms") and not kupon.in_family("İY 1.5 Alt", "iyms")
+    assert kupon.in_family("2.5 Üst", "altust") and kupon.in_family("4.5 Alt", "altust")
+    assert not kupon.in_family("İY 1.5 Alt", "altust") and not kupon.in_family("Ev 1.5 Alt", "altust")
+    assert kupon.in_family("KG Yok", "kg") and not kupon.in_family("2.5 Alt & KG Yok", "kg")
+    assert kupon.in_family("MS 2", "ms12") and not kupon.in_family("MS 0", "ms12")
+    assert kupon.max_legs_for(5) == 7 and kupon.max_legs_for(10) == 7 and kupon.max_legs_for(20) == 8
+    assert kupon.coupon_group(Path("kupon_5x_0926.json")) == ("5x", "karma")
+    assert kupon.coupon_group(Path("kupon_5x_iyms_1030.json")) == ("5x", "iyms")
+
+
+def test_prior_legs_only_from_same_family(tmp_path, monkeypatch):
+    monkeypatch.setattr(kupon, "CLAUDE_AREA", tmp_path)
+    day = tmp_path / "2026-11-20"
+    day.mkdir()
+    for name, code in (("kupon_5x_1000", 1), ("kupon_10x_1001", 2), ("kupon_5x_ms12_1002", 3)):
+        (day / f"{name}.json").write_text(json.dumps({"coupons": [{"legs": [{"code": code, "key": "k"}]}]}))
+    assert sorted(x["code"] for x in kupon.prior_coupon_legs("2026-11-20", 20)) == [1, 2]
+    assert [x["code"] for x in kupon.prior_coupon_legs("2026-11-20", 10, "ms12")] == [3]
+    assert kupon.prior_coupon_legs("2026-11-20", 5, "ms12") == []
+
+
+def test_check_uses_live_odds_over_analysis_odds(tmp_path, monkeypatch):
+    monkeypatch.setattr(kontrol, "DAILY", tmp_path)
+    monkeypatch.setattr(kontrol, "AREA", tmp_path)
+    _day(tmp_path, "2026-11-20T22:00:00+03:00", p_now=0.62, odds_now=1.40)  # stale analysis odds
+    now = dt.datetime(2026, 11, 20, 21, 0, tzinfo=TSI)
+    rows, _ = kontrol.check("2026-11-20", now, live={1: {"13|3.5 Alt|0": 1.55}})
+    assert rows[0]["odds_now"] == 1.55 and not rows[0]["warn"]
+    rows, _ = kontrol.check("2026-11-20", now, live={1: {}})  # suspended on Nesine now
+    assert "Nesine'de yok / askıda" in rows[0]["warn"]

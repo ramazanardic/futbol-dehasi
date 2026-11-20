@@ -38,7 +38,7 @@ AREA = ROOT / "tahminler" / "claudetahmin"
 MATCH_COLS = ["tarih", "saat", "lig", "mac", "nesine_kodu", "olasilik_1", "olasilik_X", "olasilik_2",
               "beklenen_gol_ev", "beklenen_gol_dep", "en_olasi_skor", "ana_secim_pazar", "ana_secim",
               "nesine_oran", "olasilik", "fiyat_kaynagi", "guven", "not"]
-COUPON_COLS = ["tarih", "kupon", "kupon_no", "kupon_toplam_oran", "kupon_tutma_olasiligi", "saat", "mac",
+COUPON_COLS = ["tarih", "kupon_turu", "kupon", "kupon_no", "kupon_toplam_oran", "kupon_tutma_olasiligi", "saat", "mac",
                "nesine_kodu", "pazar", "secim", "nesine_oran", "olasilik"]
 
 
@@ -101,10 +101,15 @@ def match_rows(date: str, matches: list[dict], frozen: dict[str, dict] | None = 
 
 def coupon_files(date: str, area: Path = AREA) -> list[Path]:
     """Claude's coupon files of the day (written by nesine_kupon.py into this area), latest per target."""
-    latest: dict[str, Path] = {}
+    latest: dict[tuple[str, str], Path] = {}
     for f in sorted((area / date).glob("kupon_*x_*.json")):
-        latest[f.name.split("_")[1]] = f  # HHMM order: latest file per target wins
-    return [latest[k] for k in sorted(latest, key=lambda t: float(t.rstrip("x")))]
+        latest[_group(f)] = f  # HHMM order: latest file per (target, family) wins
+    return [latest[k] for k in sorted(latest, key=lambda g: (g[1] != "karma", g[1], float(g[0].rstrip("x"))))]
+
+
+def _group(f: Path) -> tuple[str, str]:
+    parts = f.stem.split("_")  # kupon_5x_0926 / kupon_5x_iyms_1030
+    return parts[1], (parts[2] if len(parts) >= 4 else "karma")
 
 
 def coupon_rows(date: str, area: Path = AREA) -> list[dict]:
@@ -113,7 +118,7 @@ def coupon_rows(date: str, area: Path = AREA) -> list[dict]:
         data = json.loads(f.read_text(encoding="utf-8"))
         for i, c in enumerate(data.get("coupons", []), 1):
             for leg in c["legs"]:
-                rows.append({"tarih": date, "kupon": f.stem, "kupon_no": i, "kupon_toplam_oran": c["nesine_odds"],
+                rows.append({"tarih": date, "kupon_turu": _group(f)[1], "kupon": f.stem, "kupon_no": i, "kupon_toplam_oran": c["nesine_odds"],
                              "kupon_tutma_olasiligi": _pct(c["probability"]), "saat": leg["kickoff"][11:16],
                              "mac": leg["match"], "nesine_kodu": leg["code"], "pazar": leg["market"],
                              "secim": leg["selection"], "nesine_oran": leg["odds"], "olasilik": _pct(leg["p"])})

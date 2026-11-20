@@ -54,7 +54,19 @@ def coupon_legs(date: str) -> dict[str, dict]:
     return legs
 
 
-def check(date: str, now: dt.datetime | None = None) -> tuple[list[dict], dict]:
+def live_odds() -> dict[int, dict[str, float]] | None:
+    """Live Nesine odds (lower of two bulletin reads). The analysis file can be older than the coupons: on 20 Nov a
+    older analysis showed a leg at 1.44 while the coupon was built and re-checked live at 1.61-1.64."""
+    try:
+        sys.path.insert(0, str(ROOT / "scripts"))
+        from nesine_kupon import read_bulletin_odds  # noqa: PLC0415
+        return read_bulletin_odds()[0]
+    except Exception:  # noqa: BLE001 - fall back to the analysis odds
+        return None
+
+
+def check(date: str, now: dt.datetime | None = None, live: dict | None = None) -> tuple[list[dict], dict]:
+    """``live``: {code: {key: odds}} from the Nesine bulletin now; None = odds of the analysis file."""
     now = now or dt.datetime.now(TSI)
     analysis = _load(DAILY / date / "nesine_global.json") or {}
     by_code = {int(m["code"]): m for m in analysis.get("matches", [])}
@@ -75,10 +87,14 @@ def check(date: str, now: dt.datetime | None = None) -> tuple[list[dict], dict]:
             res = m.get("research") or {}
             if m.get("status") != "fiyatlandı":
                 row["warn"].append("global fiyat yok")
-            if s is None:
+            odds = s["odds"] if s else None
+            if live is not None:
+                odds = (live.get(int(leg["code"])) or {}).get(leg.get("key"))
+            if s is None or odds is None:
                 row["warn"].append("Nesine'de yok / askıda")
             else:
-                row["p_now"], row["odds_now"] = s["fair_prob"], s["odds"]
+                s = {**s, "odds": odds}
+                row["p_now"], row["odds_now"] = s["fair_prob"], odds
                 if m.get("status") == "fiyatlandı":
                     rec.update(p_close=s["fair_prob"], odds_close=s["odds"],
                                close_seen=now.isoformat(timespec="minutes"), close_ref=m.get("reference"))
@@ -155,7 +171,7 @@ def _notify(text: str) -> None:
 
 def cmd_kontrol(date: str, notify: bool = True) -> None:
     now = dt.datetime.now(TSI)
-    rows, clv = check(date, now)
+    rows, clv = check(date, now, live_odds())
     if not rows:
         print(f"{date}: kupon yok")
         return

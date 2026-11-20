@@ -24,6 +24,24 @@ Her yapay zekâ **yalnız kendi klasörüne** yazar; başkasının klasörüne d
   (`kupon_<hedef>x_<SSDD>.json/.md`), maç öncesi kontrol ve kapanış fiyatı da buradadır (`kupon_kontrol.md`,
   `kupon_clv.json`, `clv.md`).
 
+## Günlük standart kupon talebi (20 Kasım'dan itibaren, her yapay zekâ aynısını yapar)
+
+| Kupon | Aile | En az toplam oran | En çok maç |
+|---|---|---|---|
+| Karma 5x, 10x | bütün bahis aileleri | 5, 10 | 7 |
+| Karma 20x, 30x, 50x | bütün bahis aileleri | 20, 30, 50 | 8 |
+| İY/MS kuponu | yalnız İlk Yarı / Maç Sonucu (1/1, 1/0, 1/2, 0/1, 0/0, 0/2, 2/1, 2/0, 2/2) | 5 | 7 |
+| Alt/Üst kuponu | yalnız maç sonu toplam gol Alt/Üst | 5 | 7 |
+| KG kuponu | yalnız Karşılıklı Gol Var / Yok | 5 | 7 |
+| MS 1-2 kuponu | yalnız Maç Sonucu 1 ya da 2 | 5 | 7 |
+
+Kurallar (hepsi için): toplam Nesine oranı **en az** hedef kadar (fazlası olabilir, altı asla); hedefe daha az
+maçla ulaşılabiliyorsa daha az maç; bacak başına Nesine oranı ≥ 1,20; karma kuponlarda bir tercih iki kuponda
+tekrar edilmez (aynı maçta başka tercih serbest). Amaç: kuponun tamamının tutma olasılığı en yüksek olsun.
+
+Dosya adları: karma `kupon_<hedef>x_<SSDD>.json/.md`, tek aile `kupon_<hedef>x_<aile>_<SSDD>.json/.md`
+(aile: `iyms`, `altust`, `kg`, `ms12`). Aynı hedef ve ailenin en son dosyası geçerli kupondur.
+
 ## Ortak biçim
 
 Her gün için `tahminler/<klasör>/<YYYY-AA-GG>/` altında iki CSV (UTF-8, virgülle ayrılmış, ondalık nokta):
@@ -46,7 +64,7 @@ Her gün için `tahminler/<klasör>/<YYYY-AA-GG>/` altında iki CSV (UTF-8, virg
 
 | Sütun | Açıklama |
 |---|---|
-| tarih, kupon, kupon_no | Kupon dosyası/adı ve sıra numarası |
+| tarih, kupon_turu, kupon, kupon_no | Kupon ailesi (`karma`, `iyms`, `altust`, `kg`, `ms12`), dosya adı ve sıra no |
 | kupon_toplam_oran, kupon_tutma_olasiligi | Nesine toplam oranı ve tahmin edilen tutma olasılığı (0–1) |
 | saat, mac, nesine_kodu, pazar, secim, nesine_oran, olasilik | Bacak bilgisi |
 
