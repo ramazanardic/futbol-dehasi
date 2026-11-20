@@ -324,3 +324,13 @@ def test_next_day_evaluation_reveals_finished_matches_only(tmp_path, monkeypatch
     assert list(rep["matches"]) == ["1"]                       # the open match 2 is never written
     md = ev.to_markdown(rep)
     assert "C - D" not in md and "✓ 2,5 Gol Alt/Üst: 2,5 Üst" in md
+
+
+def test_weekly_report_only_on_request_and_into_own_folder(tmp_path, monkeypatch):
+    ng = _load("nesine_global")
+    monkeypatch.setattr(ng, "DAILY", tmp_path / "tahminler" / "claudetahmin")
+    monkeypatch.setattr(ng, "ROOT", tmp_path)
+    ng.write_week(dt.date(2026, 11, 20), [("2026-11-20", [])], 0.0)
+    assert (tmp_path / "tahminler" / "claudetahmin" / "hafta" / "2026-11-20_nesine_hafta.md").exists()
+    src = (SCRIPTS / "nesine_global.py").read_text(encoding="utf-8")
+    assert "if args.haftalik:" in src and '"--haftalik"' in src  # never written without the flag

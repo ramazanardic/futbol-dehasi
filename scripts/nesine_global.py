@@ -750,6 +750,8 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--date", default=dt.datetime.now(TSI).date().isoformat())
     ap.add_argument("--min-ev", type=float, default=0.0)
+    ap.add_argument("--haftalik", action="store_true",
+                    help="Yalnız kullanıcı isterse: haftalık tahmin raporu (tahminler/<ai>/hafta/); --hafta 7 ile birlikte")
     ap.add_argument("--hafta", type=int, default=1, help="Kaç gün analiz edilsin (ör. 7: bugünden itibaren bütün hafta)")
     ap.add_argument("--oddsmath", action="store_true", help="OddsMath referanslarını açıkça etkinleştir (varsayılan açık)")
     ap.add_argument("--no-oddsmath", action="store_true", help="OddsMath canlı referans/steam çekimini kapat")
@@ -758,6 +760,7 @@ def main() -> None:
     ap.add_argument("--no-weather", action="store_true", help="Open-Meteo maç saati şiddetli hava kontrolünü kapat")
     args = ap.parse_args()
     start = dt.date.fromisoformat(args.date)
+    week = []
     for k in range(args.hafta):
         day = (start + dt.timedelta(days=k)).isoformat()
         # Multi-day scans run OddsMath for today/tomorrow and TM/weather for today unless explicitly forced, keeping hourly runs fast.
@@ -772,7 +775,36 @@ def main() -> None:
             use_weather=run_wx,
         )
         write_report(day, out, payload, events, args.min_ev)
-    # no weekly prediction report (user, 20 Nov: "haftalık tahmini direkt sil")
+        week.append((day, out))
+    if args.haftalik:  # weekly prediction only on request (user, 20 Nov: "ben istersem yaparsın")
+        write_week(start, week, args.min_ev)
+
+
+def write_week(start: dt.date, week: list[tuple[str, list[dict]]], min_ev: float) -> None:
+    """Weekly prediction report, ONLY when the user asks (--haftalik): coverage per day and every plausible
+    value selection of the week, written to the AI's own private folder (tahminler/<ai>/hafta/)."""
+    lines = [f"# Nesine haftalık analiz ({start} – {week[-1][0]})", "",
+             "| Gün | Nesine maçı | Global fiyatlı | Düşük güven (Nesine) | Doğrudan borsa seçimi | Araştırma | Uyarılı |",
+             "|---|---|---|---|---|---|---|"]
+    value = []
+    for day, out in week:
+        priced = [m for m in out if m["status"] == "fiyatlandı"]
+        direct = sum(1 for m in priced for s in m["selections"] if s.get("direct"))
+        local = sum(1 for m in out if m["status"] == NESINE_ONLY_STATUS)
+        lines.append(f"| {day} | {len(out)} | {len(priced)} | {local} | {direct} | {sum(1 for m in out if m.get('research'))} | "
+                     f"{sum(1 for m in out if (m.get('research') or {}).get('flags'))} |")
+        value += [(m, s) for m in priced for s in m["selections"] if min_ev <= s["ev"] <= MAX_PLAUSIBLE_EV]
+    value.sort(key=lambda x: x[1]["ev"], reverse=True)
+    lines += ["", "## Haftanın değerli seçimleri (Nesine oranı > global adil oran)", "",
+              "| Gün saat | Maç | Pazar | Seçim | Nesine | Global olasılık | EV | Fiyat | Referans |", "|---|---|---|---|---|---|---|---|---|"]
+    lines += [f"| {m['kickoff']} | {m['home']} - {m['away']} | {s['market']} | {s['selection']} | {s['odds']:.2f} | "
+              f"%{s['fair_prob'] * 100:.1f} | {s['ev']:+.1%} | {'doğrudan' if s.get('direct') else 'model'} | "
+              f"{m['reference'].split(' (')[0]} |" for m, s in value[:100]] or ["_Yok._"]
+    path = DAILY / "hafta" / f"{start}_nesine_hafta.md"  # the AI's own folder (user rule, 20 Nov)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"-> {path.relative_to(ROOT)}")
+
 
 
 def _side_rows(r: dict, side: str) -> dict[str, str]:
