@@ -164,6 +164,41 @@ def _count(out: dict[str, dict], legs: list[dict], res: dict | None) -> None:
             g["h_sum"] += leg["mean"]; g["h_n"] += 1
 
 
+def clv_of(ai_dir: Path) -> dict | None:
+    """Closing-price summary of the AI's main picks (tahmin_clv.json, written by scripts/ai_tahmin.py)."""
+    path = ai_dir / "tahmin_clv.json"
+    if not path.exists():
+        return None
+    d = [v["p_close"] - v["p_pick"] for v in json.loads(path.read_text(encoding="utf-8")).values()
+         if v.get("p_close") is not None and v.get("p_pick") is not None]
+    return {"n": len(d), "mean": sum(d) / len(d) if d else None, "positive": sum(1 for x in d if x > 0)} if d else None
+
+
+SIM_CLASSES = ("üçlü onay", "kısmi onay", "çelişki", "eksik kanıt")
+
+
+def simulation_verdicts(ai_dir: Path, results: dict[int, dict]) -> dict[str, dict]:
+    """Settled bets of the AI's simulation file (scripts/simulasyon.py) by verdict: do triple-confirmed bets really
+    win as often as priced, and do 'çelişki' bets lose more?"""
+    path = ai_dir / "simulasyon.json"
+    out: dict[str, dict] = {}
+    if not path.exists():
+        return out
+    for row in json.loads(path.read_text(encoding="utf-8")):
+        res = results.get(int(row["code"])) if str(row.get("code", "")).isdigit() else None
+        for b in row.get("bets") or []:
+            won = _settle(b.get("name"), res or {})
+            if won is None:
+                continue
+            g = out.setdefault(b["verdict"], {"n": 0, "won": 0, "p_sum": 0.0, "p_n": 0, "h_sum": 0.0, "h_n": 0})
+            g["n"] += 1
+            g["won"] += int(won)
+            g["p_sum"] += b["market"]; g["p_n"] += 1
+            if b.get("sim") is not None:
+                g["h_sum"] += b["sim"]; g["h_n"] += 1
+    return out
+
+
 def evaluate(date: str, results: dict[int, dict] | None = None) -> dict:
     ais = sorted(p.name for p in TAHMIN.iterdir() if (p / date).is_dir()) if TAHMIN.exists() else []
     files = {ai: (_read(TAHMIN / ai / date / "mac_tahminleri.csv"), _read(TAHMIN / ai / date / "kuponlar.csv")) for ai in ais}
@@ -222,6 +257,8 @@ def evaluate(date: str, results: dict[int, dict] | None = None) -> dict:
             "coupons_open": len(coupons) - len(settled),
             "biggest_misses": [{"p": p, "match": m, "pick": s, "score": sc} for p, m, s, sc in sorted(misses, reverse=True)[:10]],
             "research_verdicts": research_verdicts(TAHMIN / ai / date, results),
+            "simulation_verdicts": simulation_verdicts(TAHMIN / ai / date, results),
+            "clv": clv_of(TAHMIN / ai / date),
         }
     return report
 
@@ -243,6 +280,10 @@ def to_markdown(rep: dict) -> str:
     md += ["", "Brier ve log-loss: düşük olan daha iyi. Sabit bahis: her ana tercihe 1 birim, Nesine oranıyla.", ""]
     for ai, a in rep["ais"].items():
         md += [f"## {ai}", ""]
+        if a.get("clv"):
+            c = a["clv"]
+            md += [f"Kapanış fiyatı (CLV): {c['n']} ana tercih, ortalama {100 * c['mean']:+.1f} puan, "
+                   f"{c['positive']}/{c['n']} tercihte piyasa tercihe doğru kaydı.", ""]
         if a["coupons"]:
             md += ["| Kupon | Tür | Oran | Tahmini tutma | Sonuç | Tutan bacak | Yatan bacaklar |", "|---|---|---|---|---|---|---|"]
             md += [f"| {c['coupon']} | {c['type']} | {c['odds'] or '-'} | {pct(c['p'])} | {'✓ tuttu' if c['won'] else '✗ yattı'} | "
@@ -252,6 +293,11 @@ def to_markdown(rep: dict) -> str:
             md += ["Derin araştırma işaretleri (bacağın kendi bahsi, takımların son maçlarına göre):", "",
                    "| İşaret | Bacak | Tutan | İsabet | Model ortalaması | Geçmiş ortalaması |", "|---|---|---|---|---|---|"]
             md += _verdict_rows(a["research_verdicts"])
+            md.append("")
+        if a.get("simulation_verdicts"):
+            md += ["Simülasyon kararları (piyasa / simülasyon / geçmiş / model karşılaştırması):", "",
+                   "| Karar | Bahis | Tutan | İsabet | Piyasa ortalaması | Simülasyon ortalaması |", "|---|---|---|---|---|---|"]
+            md += _sim_rows(a["simulation_verdicts"])
             md.append("")
         if a["biggest_misses"]:
             md += ["En güvenilen ama tutmayan ana tercihler:", "", "| Olasılık | Maç | Tercih | İY / MS |", "|---|---|---|---|"]
@@ -280,6 +326,13 @@ def _verdict_rows(v: dict[str, dict]) -> list[str]:
     return rows
 
 
+def _sim_rows(v: dict[str, dict]) -> list[str]:
+    pct = lambda x: "-" if x is None else f"%{100 * x:.1f}"  # noqa: E731
+    return [f"| {c} | {v[c]['n']} | {v[c]['won']} | {pct(v[c]['won'] / v[c]['n'])} | "
+            f"{pct(v[c]['p_sum'] / v[c]['p_n'] if v[c]['p_n'] else None)} | {pct(v[c]['h_sum'] / v[c]['h_n'] if v[c]['h_n'] else None)} |"
+            for c in SIM_CLASSES if v.get(c) and v[c]["n"]]
+
+
 def verdict_totals(out_dir: Path = OUT) -> tuple[list[str], dict[str, dict[str, dict]]]:
     """(evaluated days, {ai: {verdict class: counts}}) over every evaluated day."""
     total: dict[str, dict[str, dict]] = {}
@@ -288,7 +341,8 @@ def verdict_totals(out_dir: Path = OUT) -> tuple[list[str], dict[str, dict[str, 
         rep = json.loads(f.read_text(encoding="utf-8"))
         days.append(rep["date"])
         for ai, a in rep.get("ais", {}).items():
-            for c, g in (a.get("research_verdicts") or {}).items():
+            sims = {f"sim:{c}": g for c, g in (a.get("simulation_verdicts") or {}).items()}
+            for c, g in {**(a.get("research_verdicts") or {}), **sims}.items():
                 t = total.setdefault(ai, {}).setdefault(c, {"n": 0, "won": 0, "p_sum": 0.0, "p_n": 0, "h_sum": 0.0, "h_n": 0})
                 for k in t:
                     t[k] += g.get(k, 0)
@@ -304,6 +358,10 @@ def cumulative_verdicts(out_dir: Path = OUT) -> str:
     for ai, v in total.items():
         md += [f"## {ai}", "", "| İşaret | Bacak | Tutan | İsabet | Model ortalaması | Geçmiş ortalaması |", "|---|---|---|---|---|---|",
                *_verdict_rows(v), ""]
+        sim = {c[4:]: x for c, x in v.items() if c.startswith("sim:")}
+        if sim:
+            md += ["| Simülasyon kararı | Bahis | Tutan | İsabet | Piyasa ortalaması | Simülasyon ortalaması |",
+                   "|---|---|---|---|---|---|", *_sim_rows(sim), ""]
     return "\n".join(md) + "\n"
 
 

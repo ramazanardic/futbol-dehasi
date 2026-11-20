@@ -135,12 +135,44 @@ def _write(path: Path, cols: list[str], rows: list[dict]) -> None:
         w.writerows(rows)
 
 
+def record_clv(out: Path, picks: list[dict], matches: list[dict], now: dt.datetime) -> dict:
+    """Closing price of every main pick (user, 21 Nov: CLV for all predictions, not only coupon legs).
+
+    Each analysis run before kick-off updates the pick's last seen global probability; the first one stays as the
+    probability the pick was made at. CLV = closing - pick probability: a sharp market moving towards our picks
+    (positive CLV) is evidence of skill long before results are. -> tahmin_clv.json in the AI's day folder."""
+    path = out / "tahmin_clv.json"
+    clv = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    by = {str(m["code"]): m for m in matches}
+    for r in picks:
+        name, code = (r.get("secim_adi") or "").strip(), str(r.get("nesine_kodu") or "")
+        m = by.get(code)
+        if not name or not m or not r.get("olasilik") or dt.datetime.fromisoformat(m["kickoff_iso"]) <= now:
+            continue
+        s = next((x for x in m.get("selections") or [] if x.get("name") == name), None)
+        rec = clv.setdefault(f"{code}|{name}", {"match": r.get("mac"), "pick": name, "p_pick": float(r["olasilik"]),
+                                                "first_seen": now.isoformat(timespec="minutes")})
+        if s and m.get("status") == "fiyatlandı":
+            rec.update(p_close=s["fair_prob"], close_seen=now.isoformat(timespec="minutes"))
+    out.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(clv, ensure_ascii=False, indent=1), encoding="utf-8")
+    return clv
+
+
+def clv_summary(clv: dict) -> dict:
+    d = [v["p_close"] - v["p_pick"] for v in clv.values() if v.get("p_close") is not None]
+    return {"n": len(d), "mean": sum(d) / len(d) if d else None, "positive": sum(1 for x in d if x > 0)}
+
+
 def export(date: str, matches: list[dict] | None = None, area: Path = AREA,
            now: dt.datetime | None = None) -> tuple[int, int]:
     """``matches``: an analysis Claude just ran (e.g. inside nesine_kupon.py); None = run one now."""
     out = area / date
-    frozen = {r["nesine_kodu"]: r for r in _read(out / "mac_tahminleri.csv")}
-    m = match_rows(date, own_analysis(date) if matches is None else matches, frozen, now)
+    before = _read(out / "mac_tahminleri.csv")
+    frozen = {r["nesine_kodu"]: r for r in before}
+    matches = own_analysis(date) if matches is None else matches
+    record_clv(out, before, matches, now or dt.datetime.now(TSI))
+    m = match_rows(date, matches, frozen, now)
     c = coupon_rows(date, area)
     _write(out / "mac_tahminleri.csv", MATCH_COLS, m)
     _write(out / "kuponlar.csv", COUPON_COLS, c)

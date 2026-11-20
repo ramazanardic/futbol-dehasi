@@ -37,7 +37,8 @@ FD_FILES = {
     "new_league_fixtures.csv": "https://www.football-data.co.uk/new_league_fixtures.csv",
 }
 SEASON_DIVISIONS: tuple[str, ...] = (
-    "E0", "E1", "E2", "SP1", "SP2", "D1", "D2", "I1", "I2", "F1", "F2", "T1", "N1", "P1", "B1", "SC0", "G1",
+    "E0", "E1", "E2", "E3", "EC", "SP1", "SP2", "D1", "D2", "I1", "I2", "F1", "F2", "T1", "N1", "P1", "B1", "SC0", "SC1",
+    "SC2", "SC3", "G1",
 )
 FD_SEASON_URL = "https://www.football-data.co.uk/mmz4281/{season}/{div}.csv"
 SMARKETS = "https://api.smarkets.com/v3"

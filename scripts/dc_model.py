@@ -1,4 +1,5 @@
-"""Independent goal model per league with penaltyblog's Dixon-Coles (MIT-style open source, pip install penaltyblog;
+"""Independent goal model per league with penaltyblog (Dixon-Coles for dated openfootball seasons, hierarchical Bayesian
+for undated / thin Wikipedia tables) (MIT-style open source, pip install penaltyblog;
 user request, 21 Nov): a fourth view next to market, simulation and team history.
 
 The model is fitted on the league's own played games of this season — openfootball (with dates, so recent games weigh
@@ -53,10 +54,14 @@ def _fit(league: str, day: dt.date):
     rows, src = league_results(league, day)
     if len(rows) < MIN_GAMES:
         return None, src, {}
-    w = [np.exp(-XI * (day - d).days) if d else 1.0 for d, *_ in rows]
-    model = pb.models.DixonColesGoalModel([r[3] for r in rows], [r[4] for r in rows], [r[1] for r in rows],
-                                          [r[2] for r in rows], weights=w)
-    model.fit()
+    gh, ga, th, ta = [r[3] for r in rows], [r[4] for r in rows], [r[1] for r in rows], [r[2] for r in rows]
+    if src == "openfootball":  # dated games: Dixon-Coles with time decay
+        model = pb.models.DixonColesGoalModel(gh, ga, th, ta, weights=[np.exp(-XI * (day - d).days) for d, *_ in rows])
+        model.fit()
+    else:  # undated season table, often thin: hierarchical Bayesian model shrinks thin teams towards the league
+        model = pb.models.HierarchicalBayesianGoalModel(gh, ga, th, ta)
+        model.fit(n_samples=2000, burn=1000, n_chains=2)
+        src += " · Bayes"
     counts: dict[str, int] = {}
     for _, h, a, *_ in rows:
         counts[h] = counts.get(h, 0) + 1

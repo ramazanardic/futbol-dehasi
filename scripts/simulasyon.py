@@ -31,6 +31,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import dc_model  # noqa: E402
+import elo_gorus  # noqa: E402
 import derin_arastirma as dr  # noqa: E402
 
 sys.path.insert(0, str(dr.ROOT / "src"))
@@ -126,6 +127,7 @@ def run(date: str, n: int) -> list[dict]:
         mh, ma, why = rates(row, m)
         joint, top = simulate(mh, ma, n, seed=int(row["code"]) % 2**32)
         dc = dc_model.match_view(m)
+        elo = elo_gorus.match_view(m)
         bets = []
         for x in row["legs"]:
             try:
@@ -136,12 +138,14 @@ def run(date: str, n: int) -> list[dict]:
             verdict, low = judge(x["p"], sim, hist)
             dcp = dc_model.bet_probability(x["name"], dc[0]) if dc else None
             verdict, low = with_model(verdict, low, x["p"], dcp)
-            bets.append({"label": x["label"], "odds": x["odds"], "market": x["p"], "sim": sim, "hist": hist, "dc": dcp,
+            elp = (elo or {}).get(x["name"])
+            verdict, low = with_model(verdict, low, x["p"], elp)  # Club Elo: 1X2 / double chance only
+            bets.append({"label": x["label"], "name": x["name"], "odds": x["odds"], "market": x["p"], "sim": sim, "hist": hist, "dc": dcp, "elo": elp,
                          "research": x["verdict"], "verdict": verdict, "low": low})
         bets.sort(key=lambda b: (b["verdict"] != "üçlü onay", -b["low"]))
         res.append({"code": row["code"], "kickoff": row["kickoff"], "match": row["match"], "league": row["league"],
                     "xg": [round(mh, 2), round(ma, 2)], "why": why, "top_scores": top, "bets": bets,
-                    "dc": dc[1] if dc else None})
+                    "dc": dc[1] if dc else None, "elo": (elo or {}).get("_clubs")})
     return sorted(res, key=lambda r: r["kickoff"])
 
 
@@ -155,7 +159,9 @@ def to_markdown(date: str, res: list[dict], n: int) -> str:
           "'Üçlü onay': üçü de %55 ve üstü, simülasyon ve geçmiş piyasanın 5 puan altına düşmüyor. 'En düşük' sütunu "
           "üç görüşün en kötümseridir; plan yaparken bu sayıya bakın. Simülasyon sonucu bilemez, bu tür maçlarda "
           "bahsin ne sıklıkla tuttuğunu söyler. **Model** (dördüncü görüş): ligin bu sezonki maçlarıyla kurulan "
-          "Dixon-Coles gol modeli (penaltyblog); piyasanın 10 puandan fazla altındaysa üçlü onay kısmi onaya düşer.", "",
+          "Dixon-Coles / Bayes gol modeli (penaltyblog); **Elo**: Club Elo puan farkından, arşivdeki 240 bin maçta ölçülen "
+          "1/X/2 sıklıkları (yalnız maç sonucu ve çifte şans). İkisinden biri piyasanın 10 puandan fazla altındaysa üçlü "
+          "onay kısmi onaya düşer.", "",
           f"## Üçlü onaylı bahisler ({len(best)})", "",
           "| Saat | Maç | Bahis | Oran | Piyasa | Simülasyon | Geçmiş | Model | En düşük |", "|---|---|---|---|---|---|---|---|---|"]
     md += [f"| {b['kickoff'][11:16]} | {b['match']} | {b['label']} | {b['odds']:.2f} | {pct(b['market'])} | {pct(b['sim'])} | "
@@ -165,10 +171,11 @@ def to_markdown(date: str, res: list[dict], n: int) -> str:
         sc = ", ".join(f"{k} {pct(v)}" for k, v in r["top_scores"].items())
         md += [f"### {r['kickoff'][11:16]} {r['match']} — {r['league']}", "",
                f"Simülasyon xG {r['xg'][0]}-{r['xg'][1]} ({'; '.join(r['why'])}). En olası skorlar: {sc}."
-               + (f" Lig modeli ({r['dc']['source']}) xG {r['dc']['xg'][0]}-{r['dc']['xg'][1]}." if r.get("dc") else ""), "",
-               "| Bahis | Oran | Piyasa | Simülasyon | Geçmiş | Model | Sonuç |", "|---|---|---|---|---|---|---|"]
+               + (f" Lig modeli ({r['dc']['source']}) xG {r['dc']['xg'][0]}-{r['dc']['xg'][1]}." if r.get("dc") else "")
+               + (f" Club Elo: {r['elo']}." if r.get("elo") else ""), "",
+               "| Bahis | Oran | Piyasa | Simülasyon | Geçmiş | Model | Elo | Sonuç |", "|---|---|---|---|---|---|---|---|"]
         md += [f"| {b['label']} | {b['odds']:.2f} | {pct(b['market'])} | {pct(b['sim'])} | {pct(b['hist'])} | {pct(b.get('dc'))} | "
-               f"{b['verdict']} |" for b in r["bets"]]
+               f"{pct(b.get('elo'))} | {b['verdict']} |" for b in r["bets"]]
         md.append("")
     return "\n".join(md)
 

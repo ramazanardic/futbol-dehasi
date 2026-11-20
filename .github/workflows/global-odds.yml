@@ -43,6 +43,8 @@ jobs:
           else
             python scripts/fetch_global_odds.py
           fi
+      - name: Club Elo ratings
+        run: pip install numpy && python scripts/elo_gorus.py --cek || echo "Club Elo unavailable"
       - name: Commit data
         run: |
           git config user.name "global-odds-bot"
