@@ -284,7 +284,7 @@ def to_markdown(date: str, rows: list[dict]) -> str:
                f"Fiyat: {r['reference']} · gol beklentisi {r['mu'][0]}-{r['mu'][1]}"
                + (f" · ⚠ {'; '.join(r['flags'])}" if r["flags"] else ""), ""]
         if not r["espn"]:
-            md += ["_ESPN takım verisi yok: soccerstats gibi ikinci bir kaynakla elle bakılmalı._", ""]
+            md += ["_ESPN takım verisi yok; koşulları otomatik veriye izin veren ücretsiz başka kaynak da yok — bu bacak yalnız piyasa fiyatına ve analizdeki araştırmaya dayanıyor._", ""]
         else:
             md += ["| Takım | Maç | Form | Puan/maç | Attı/Yedi | İY atar / yer | 2Y atar / yer | KG | 2,5Ü | İki yarı KG |",
                    "|---|---|---|---|---|---|---|---|---|---|"]
