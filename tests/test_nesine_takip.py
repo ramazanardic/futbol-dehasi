@@ -63,3 +63,27 @@ def test_nesine_results_settle_matches_espn_does_not_list(tmp_path, monkeypatch)
     monkeypatch.setattr(takip, "fetch_nesine_results", lambda dates: {9: {"completed": True, "ht": [0, 0], "ft90": [1, 0]}})
     monkeypatch.setattr(takip, "espn_events", lambda d: [])
     assert takip.settle_day("2026-11-19")["9"]["won"] == {"KG Yok": True}
+
+
+def test_played_coupons_settle_from_nesine_and_screen(tmp_path, monkeypatch):
+    ledger = tmp_path / "ledger"
+    ledger.mkdir()
+    (ledger / "placed_bets_2026_11_19.csv").write_text(
+        "coupon_id,placed_at,stake_tl,total_odds,n_legs,event_id,match,selection,odds,source,note,nesine_code,kickoff,leg_screen,coupon_screen,payout_tl\n"
+        "W,2026-11-19 11:00,100,3.00,2,,A - B,MS 1,1.50,ekran,,11,2026-11-19 20:00,,KAZANDI,300\n"
+        "W,2026-11-19 11:00,100,3.00,2,,C - D,İlk Gol Ev,2.00,ekran,,12,2026-11-19 21:00,✓,KAZANDI,300\n"
+        "L,2026-11-19 12:00,50,10.0,2,,A - B,MS 2,4.00,ekran,,11,2026-11-19 20:00,,yattı,0\n"
+        "L,2026-11-19 12:00,50,10.0,2,,E - F,KG Var,2.50,ekran,,13,2026-11-19 22:00,,yattı,0\n", encoding="utf-8")
+    day = tmp_path / "daily" / "2026-11-19"
+    day.mkdir(parents=True)
+    (day / "takip_kayit.json").write_text(json.dumps({"11": {"s": {"MS 1": [0.6, 1.5, 1], "MS 2": [0.2, 4.0, 1]}}}), encoding="utf-8")
+    monkeypatch.setattr(takip, "LEDGER", ledger)
+    monkeypatch.setattr(takip, "NESINE_CACHE", ledger / "results_nesine.json")
+    monkeypatch.setattr(takip, "DAILY", tmp_path / "daily")
+    monkeypatch.setattr(takip, "fetch_nesine_results", lambda dates: {11: {"completed": True, "ht": [1, 0], "ft90": [2, 1]},
+                                                                      13: {"completed": False}})
+    out = {c["id"]: c for c in takip.played_coupons()}
+    assert out["W"]["status"] == "TUTTU" and out["W"]["payout"] == 300.0  # 'İlk Gol' leg settled from the screen
+    assert out["L"]["status"] == "yattı" and out["L"]["p"] is None  # MS 2 lost; KG Var leg unknown to the system
+    lines = "\n".join(takip._played_section())
+    assert "net **+150.00 TL**" in lines

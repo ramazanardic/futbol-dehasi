@@ -154,6 +154,22 @@ def _kick_fetch_if_stale(log) -> None:
             return
 
 
+PUBLISH_PATHS = ["reports/daily", "reports/takip", "reports/ledger", "reports/weekly"]
+
+
+def _publish(log, message: str) -> None:
+    """Keep every prediction and result on GitHub as well (user request, 20 Nov): commit the report folders
+    (git-ignored files such as logs stay local) and push. Nothing to commit = nothing happens."""
+    steps = (["git", "add", "--", *PUBLISH_PATHS],
+             ["git", "commit", "-q", "-m", message + "\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>", "--", *PUBLISH_PATHS],
+             ["git", "pull", "--rebase", "--autostash", "-q"], ["git", "push", "-q"])
+    for cmd in steps:
+        r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=300)
+        log.write(f"[yayın] {' '.join(cmd[:2])}: {r.returncode} {(r.stdout + r.stderr).strip()[:200]}\n")
+        if r.returncode:
+            return  # e.g. "nothing to commit": stop quietly
+
+
 STATUS_FILE = ROOT / "reports" / "DURUM.md"
 ALERT_HOURS = 8.0  # data this old even after the backup trigger -> pop-up warning on this PC
 
@@ -199,6 +215,7 @@ def main() -> None:
             # settle yesterday's Nesine predictions and refresh the cumulative hit-rate report
             _run(["sonuc", "--date", y], log, ROOT / "scripts" / "nesine_takip.py")
             _run(["rapor"], log, ROOT / "scripts" / "nesine_takip.py")
+            _publish(log, f"data(takip): {y} predictions, results, coupons and played-coupon ledger")
         elif mode == "kadro":
             _kick_lineup_refresh(log)
             _kick_fetch_if_stale(log)
