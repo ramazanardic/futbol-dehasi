@@ -586,8 +586,9 @@ def main() -> None:
                          "seçimler %63 tahmin / %52 gerçekleşti, kupon bacaklarında 2/6)")
     ap.add_argument("--model-bacak", action="store_true",
                     help="Model türevi (doğrudan global fiyatı olmayan) bacaklara da izin ver")
-    ap.add_argument("--haric", nargs="*", default=[],
-                    help="Kupona alınmayacak seçimler: '<Nesine kodu>|<seçim anahtarı>' (derin araştırma yeniden kurulumu)")
+    ap.add_argument("--haric", nargs="*", action="extend", default=[],
+                    help="Kupona alınmayacaklar: '<Nesine kodu>|<seçim anahtarı>' (tek seçim, derin araştırma yeniden "
+                         "kurulumu) ya da yalnız '<Nesine kodu>' (maçın tamamı, ör. kullanıcının zaten oynadığı maçlar)")
     ap.add_argument("--kupasiz", action="store_true", help="Kupa, eleme ve playoff maçlarını kupon havuzundan çıkar")
     ap.add_argument("--ana-pazar", action="store_true", help="Yalnızca ana pazarlar (MS, ÇŞ, 1.5/2.5/3.5 Alt/Üst, KG)")
     ap.add_argument("--oddsmath", action="store_true", help="OddsMath referanslarını açıkça etkinleştir (varsayılan açık)")
@@ -622,8 +623,9 @@ def main() -> None:
         args.dogrudan = False
     if args.haric:  # selections ruled out by the deep-research check (scripts/kupon_kur.py)
         drop = {tuple(x.split("|", 1)) for x in args.haric if "|" in x}
+        whole = {x.strip() for x in args.haric if "|" not in x}
         for m in matches:
-            m["selections"] = [x for x in m.get("selections") or [] if (str(m["code"]), x.get("key")) not in drop]
+            m["selections"] = [] if str(m["code"]) in whole else                 [x for x in m.get("selections") or [] if (str(m["code"]), x.get("key")) not in drop]
     live, _ = read_bulletin_odds()
     apply_live_odds(matches, live)
     rebuilt = False
