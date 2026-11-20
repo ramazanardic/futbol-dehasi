@@ -293,3 +293,78 @@ def test_consistent_scores_never_contradict_the_leg():
     assert kupon.consistent_scores(j, "KG Var") == [("1-1", 0.3)]
     assert [s for s, _ in kupon.consistent_scores(j, "KG Yok")] == ["1-0", "0-2"]
     assert kupon.consistent_scores(j, "DEĞİL(KG Var)") == kupon.consistent_scores(j, "KG Yok")
+
+
+def test_consensus_merges_both_exchange_direct_markets_and_drops_contradictions():
+    import nesine_global as ng
+
+    mb = {
+        "source": "Matchbook (borsa)",
+        "x12": [2.0, 3.6, 3.8],
+        "ou": [2.5, [1.9, 1.95]],
+        "markets": {"Both teams to score": {"YES|Yes": 0.54, "NO|No": 0.46}},
+    }
+    sm = {
+        "source": "Smarkets (borsa)",
+        "x12": [2.05, 3.55, 3.75],
+        "ou": [2.5, [1.92, 1.93]],
+        "markets": {
+            "Both teams to score": {"YES|Yes": 0.56, "NO|No": 0.44},
+            "Over/under 3.5": {"OVER|Over 3.5 goals": 0.31},
+            "Over/under 1.5": {"OVER|Over 1.5 goals": 0.78},
+        },
+    }
+    c = ng.consensus(mb, sm)
+    assert c is not None
+    assert c["markets"]["Both teams to score"]["YES|Yes"] == pytest.approx(0.55, abs=1e-4)
+    assert c["markets"]["Over/under 3.5"]["OVER|Over 3.5 goals"] == pytest.approx(0.31)
+    assert c["markets"]["Over/under 1.5"]["OVER|Over 1.5 goals"] == pytest.approx(0.78)
+
+
+def test_price_event_uses_exact_1x2_for_double_chance_and_multi_line_btts_fit():
+    from types import SimpleNamespace
+    import nesine_global as ng
+    from quantfoot.markets.devig import devig
+
+    sels = [
+        SimpleNamespace(market_id=1, market_title="MS", label="1", name="MS 1", odds=1.40, negate=False, mbs=1),
+        SimpleNamespace(market_id=1, market_title="MS", label="X", name="MS 0", odds=4.20, negate=False, mbs=1),
+        SimpleNamespace(market_id=1, market_title="MS", label="2", name="MS 2", odds=6.50, negate=False, mbs=1),
+        SimpleNamespace(market_id=2, market_title="ÇŞ", label="1-X", name="ÇŞ 10", odds=1.10, negate=False, mbs=1),
+        SimpleNamespace(market_id=3, market_title="KG", label="Yok", name="KG Yok", odds=1.55, negate=False, mbs=1),
+    ]
+    ev = SimpleNamespace(
+        code=999999,
+        selections=sels,
+        odds_of=lambda n: next((s.odds for s in sels if s.name == n), None),
+    )
+    ref = {
+        "source": "Matchbook + Smarkets (borsa)",
+        "x12": [1.50, 4.40, 6.80],
+        "ou": [2.5, [1.55, 2.50]],
+        "markets": {
+            "Over/under 3.5": {"OVER|Over 3.5 goals": 0.42},
+            "Both teams to score": {"YES|Yes": 0.48, "NO|No": 0.52},
+        },
+    }
+    priced = ng.price_event(ev, ref, "BAE Arap Körfez Ligi")
+    by_name = {r["name"]: r for r in priced["selections"]}
+    p1x2 = devig(ref["x12"], method="power").probabilities
+    assert by_name["MS 1"]["direct"] is True
+    assert by_name["MS 1"]["fair_prob"] == pytest.approx(float(p1x2[0]), abs=1e-4)
+    assert by_name["ÇŞ 10"]["direct"] is True
+    assert by_name["ÇŞ 10"]["fair_prob"] == pytest.approx(float(p1x2[0] + p1x2[1]), abs=1e-4)
+    assert by_name["KG Yok"]["direct"] is True
+    assert by_name["KG Yok"]["fair_prob"] == pytest.approx(0.52, abs=1e-4)
+
+
+def test_drop_conflicts_blocks_directional_double_chance_hedges():
+    a = {"code": 10, "key": "k1", "name": "ÇŞ 10"}
+    pools = [[
+        {"code": 10, "key": "k2", "name": "ÇŞ 02"},
+        {"code": 10, "key": "k3", "name": "MS 2"},
+        {"code": 10, "key": "k4", "name": "2.5 Üst"},
+    ]]
+    left = kupon.drop_conflicts(pools, [a])
+    assert [x["name"] for x in left[0]] == ["2.5 Üst"]
+

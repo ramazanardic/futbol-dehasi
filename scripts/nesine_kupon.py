@@ -38,6 +38,7 @@ from nesine_global import DAILY, MAX_PLAUSIBLE_EV, PRICED, TSI, analyze_day, sel
 
 from quantfoot.data.nesine import fetch_bulletin, parse_bulletin  # noqa: E402
 from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
+from quantfoot.strategy.coupon_builder import _conflicting_selections  # noqa: E402
 
 SHARP_SOURCES = ("Pinnacle", "Smarkets", "Matchbook", "Betfair")
 RES = 0.002  # log-odds bucket width
@@ -245,15 +246,23 @@ def compatible(a: str, b: str) -> bool:
 
 
 def drop_conflicts(pools: list[list[dict]], chosen: list[dict]) -> list[list[dict]]:
-    """Remove legs that repeat a chosen bet or can never win together with a chosen leg on the same match."""
+    """Remove legs that repeat a chosen bet, contradict its direction, or can never win together on the same match."""
     by_code: dict = {}
     for leg in chosen:
         by_code.setdefault(leg["code"], []).append(leg)
     out = []
     for pool in pools:
         taken = by_code.get(pool[0]["code"], [])
-        keep = [x for x in pool if all(x.get("key") != t.get("key") and compatible(x.get("name", ""), t.get("name", ""))
-                                       for t in taken)]
+        keep = [
+            x for x in pool
+            if all(
+                x.get("key") != t.get("key")
+                and x.get("name", "") not in _conflicting_selections(t.get("name", ""))
+                and t.get("name", "") not in _conflicting_selections(x.get("name", ""))
+                and compatible(x.get("name", ""), t.get("name", ""))
+                for t in taken
+            )
+        ]
         if keep:
             out.append(keep)
     return out

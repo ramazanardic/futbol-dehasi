@@ -106,10 +106,39 @@ def consensus(a: dict, b: dict) -> dict | None:
         out["ou"] = [a["ou"][0], _avg(a["ou"][1], b["ou"][1])] if _gap(a["ou"][1], b["ou"][1]) <= MAX_CONSENSUS_GAP else None
     else:
         out["ou"] = a.get("ou") or b.get("ou")
-    out["markets"] = a.get("markets") or b.get("markets")
+    out["markets"] = _merge_direct_markets(a.get("markets"), b.get("markets"))
     out["fetched_utc"] = min(filter(None, [a.get("fetched_utc"), b.get("fetched_utc")]), default=None)
     out["consensus_gap"] = round(_gap(a["x12"], b["x12"]), 4)
     return out
+
+
+def _merge_direct_markets(ma: dict | None, mb: dict | None) -> dict:
+    """Merge direct exchange market probability dicts; average agreeing overlaps and drop contradicting ones."""
+    if not ma:
+        return dict(mb or {})
+    if not mb:
+        return dict(ma)
+    merged: dict[str, dict[str, float]] = {}
+    for mkt in set(ma) | set(mb):
+        ca, cb = ma.get(mkt), mb.get(mkt)
+        if not ca:
+            merged[mkt] = dict(cb)
+        elif not cb:
+            merged[mkt] = dict(ca)
+        else:
+            out_c: dict[str, float] = {}
+            for k in set(ca) | set(cb):
+                if k in ca and k in cb:
+                    pa, pb = float(ca[k]), float(cb[k])
+                    if abs(pa - pb) <= MAX_CONSENSUS_GAP:
+                        out_c[k] = round(0.5 * (pa + pb), 5)
+                elif k in ca:
+                    out_c[k] = float(ca[k])
+                else:
+                    out_c[k] = float(cb[k])
+            if out_c:
+                merged[mkt] = out_c
+    return merged
 GLOBAL_FILE = ROOT / "data" / "global_odds" / "latest" / "references.json"
 
 
@@ -224,30 +253,102 @@ def direct_probabilities(ref: dict) -> dict[str, float]:
 PRICED: dict[int, dict] = {}  # Nesine code -> goal distribution + direct quotes of the last analysis (match dossiers)
 
 
+def _nesine_league_regime_key(league: str) -> str:
+    """Map a Turkish Nesine league name to a calibrated tail_goals regime token."""
+    s = league.replace("İ", "i").replace("I", "i").lower()
+    if is_uncalibrated_competition(league):
+        return "wchampions" if ("şamp" in s or "champions" in s) else "women"
+    if "u17" in s:
+        return "u17"
+    if "u19" in s:
+        return "u19"
+    if "u21" in s:
+        return "u21"
+    if "bae" in s or "arap körfez" in s:
+        return "uae.1"
+    if "katar" in s:
+        return "qat.1"
+    if "avustralya" in s:
+        return "aus.1"
+    if "abd" in s or "major lig" in s:
+        return "usa.1"
+    if "asean" in s:
+        return "afc.cup"
+    if "mısır" in s:
+        return "egy.1"
+    if "cezayir" in s:
+        return "alg.1"
+    if "iran" in s:
+        return "irn.1"
+    if "zambiya" in s:
+        return "zam.1"
+    if "brezilya" in s:
+        return "bra.1"
+    if "kolombiya" in s:
+        return "col.2"
+    return "e0"  # empirically optimal CLUB_REGIME (nu=1.0, alpha=0.0, kappa=0.0)
+
+
 def price_event(event, ref: dict, league: str) -> dict:
     p1x2 = devig(ref["x12"], method="power").probabilities
+    quoted = direct_probabilities(ref)
+
     ou_line, p_over = None, None
+    ou_lines_map: dict[float, float] = {}
     if ref.get("ou"):
-        ou_line = ref["ou"][0]
+        ou_line = float(ref["ou"][0])
         p_over = float(devig(ref["ou"][1], method="power").probabilities[0])
-    regime_key = "women" if is_uncalibrated_competition(league) else None
+        ou_lines_map[ou_line] = p_over
+    for line_val in (1.5, 2.5, 3.5, 4.5):
+        over_key = f"{line_val:.1f} Üst"
+        under_key = f"{line_val:.1f} Alt"
+        if over_key in quoted and line_val not in ou_lines_map:
+            ou_lines_map[line_val] = float(quoted[over_key])
+        elif under_key in quoted and line_val not in ou_lines_map:
+            ou_lines_map[line_val] = max(0.0, min(1.0, 1.0 - float(quoted[under_key])))
+    ou_lines = sorted(ou_lines_map.items())
+    p_btts_direct = quoted.get("KG Var")
+    if p_btts_direct is None and "KG Yok" in quoted:
+        p_btts_direct = max(0.0, min(1.0, 1.0 - float(quoted["KG Yok"])))
+
+    regime_key = _nesine_league_regime_key(league)
     nu, alpha, kappa = league_tail_regime(regime_key)
-    mu_h, mu_a, _ = fit_tail_rates_from_markets(p_1x2=p1x2, ou_line=ou_line, p_over=p_over, seed_rates=(1.45, 1.15),
-                                                alpha_nb=alpha, shared_kappa=kappa, com_nu=nu, fund_weight=0.0)
+    mu_h, mu_a, _ = fit_tail_rates_from_markets(
+        p_1x2=p1x2,
+        ou_lines=ou_lines or None,
+        p_btts=p_btts_direct,
+        seed_rates=(1.45, 1.15),
+        alpha_nb=alpha,
+        shared_kappa=kappa,
+        com_nu=nu,
+        fund_weight=0.0,
+    )
     joint = compute_omni_markets(mu_h, mu_a, league=regime_key).joint
     timing = GoalTimingModel.from_joint(joint).markets()["İlk Golü Atan Takım"]
-    inputs = {"MS 1", "MS 0", "MS 2"} | ({f"{ou_line:.1f} Üst", f"{ou_line:.1f} Alt"} if ou_line is not None else set())
-    PRICED[event.code] = {"joint": joint, "timing": timing, "quoted": direct_probabilities(ref), "inputs": inputs}
+
+    exact_direct: dict[str, float] = {
+        "MS 1": float(p1x2[0]),
+        "MS 0": float(p1x2[1]),
+        "MS 2": float(p1x2[2]),
+        "ÇŞ 10": float(p1x2[0] + p1x2[1]),
+        "ÇŞ 12": float(p1x2[0] + p1x2[2]),
+        "ÇŞ 02": float(p1x2[1] + p1x2[2]),
+    }
+    if ou_line is not None and p_over is not None:
+        exact_direct[f"{ou_line:.1f} Üst"] = p_over
+        exact_direct[f"{ou_line:.1f} Alt"] = 1.0 - p_over
+
+    inputs = {"MS 1", "MS 0", "MS 2", "ÇŞ 10", "ÇŞ 12", "ÇŞ 02"} | (
+        {f"{ou_line:.1f} Üst", f"{ou_line:.1f} Alt"} if ou_line is not None else set()
+    )
+    PRICED[event.code] = {"joint": joint, "timing": timing, "quoted": quoted, "inputs": inputs}
     derivatives_ok = not is_uncalibrated_competition(league)
-    quoted = direct_probabilities(ref)
     # Without any quoted total the goal level is extrapolated from 1X2 alone (it overshoots for big favourites):
     # then only pure result markets are priced from the model.
-    totals_known = ou_line is not None or any("Üst" in k or "Alt" in k for k in quoted)
+    totals_known = bool(ou_lines) or any("Üst" in k or "Alt" in k for k in quoted)
     rows = []
     for s in event.selections:
-        direct = s.name in ("MS 1", "MS 0", "MS 2") or (ou_line is not None and s.name in (f"{ou_line:.1f} Üst", f"{ou_line:.1f} Alt"))
-        if s.name in quoted:
-            direct = True  # the global source prices this exact selection: use its own price, not the model
+        direct = s.name in exact_direct or s.name in quoted
         if not direct and not derivatives_ok:
             continue  # derivative distribution not calibrated for this competition
         if not direct and not totals_known and not (s.name.startswith(("MS ", "ÇŞ ")) and "&" not in s.name):
@@ -256,6 +357,8 @@ def price_event(event, ref: dict, league: str) -> dict:
             continue  # corners are priced only from a direct exchange quote (no goal-model extrapolation)
         if s.name in quoted:
             p = quoted[s.name]
+        elif s.name in exact_direct:
+            p = exact_direct[s.name]
         elif s.name.startswith("İlk Gol"):
             p = timing.get(s.name)
         else:

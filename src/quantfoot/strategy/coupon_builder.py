@@ -68,6 +68,12 @@ class MarketRecommendation:
     blocked_traps: tuple[str, ...] = ()
     group_id: str | None = None
     mbs: int = 1
+    prob_sigma: float = 0.0  # estimation uncertainty (0 for exact/unspecified; >=0.01 direct, >=0.025 model)
+
+    @property
+    def reliable_probability(self) -> float:
+        """One-sided ~90% lower-bound probability (penalises noisier model derivatives vs direct exchange quotes)."""
+        return max(0.001, self.probability - 1.28 * max(0.0, self.prob_sigma))
 
 
 @dataclass(frozen=True)
@@ -628,7 +634,7 @@ def build_target_odds_coupon(
                 if opt.group_id and opt.group_id in used_groups:
                     continue
                 nl_saf = log_saf + math.log(max(opt.safety_score, 1e-6))
-                nl_p = log_p + math.log(max(opt.probability, 1e-6))
+                nl_p = log_p + math.log(max(opt.reliable_probability, 1e-6))
                 nl_o = log_o + math.log(max(opt.offered_odds, 1.01))
                 n_legs = legs + (opt,)
                 n_groups = used_groups | ({opt.group_id} if opt.group_id else frozenset())
@@ -674,7 +680,8 @@ def build_target_odds_coupon(
         final_log_o = 0.0
 
     achieved = round(math.exp(final_log_o), 2) if chosen_legs else 0.0
-    joint_p = round(math.exp(final_log_p), 4) if chosen_legs else 0.0
+    exact_joint_p = math.prod(l.probability for l in chosen_legs) if chosen_legs else 0.0
+    joint_p = round(exact_joint_p, 4) if chosen_legs else 0.0
     avg_p = round(sum(l.probability for l in chosen_legs) / len(chosen_legs), 4) if chosen_legs else 0.0
 
     return CouponPlan(
@@ -686,7 +693,7 @@ def build_target_odds_coupon(
         legs=chosen_legs,
         eliminated_traps=tuple(all_traps[:8]),
         reached_target=best_completed is not None,
-        expected_value=round(math.exp(final_log_p + final_log_o) - 1.0, 4) if chosen_legs else 0.0,
+        expected_value=round(exact_joint_p * math.exp(final_log_o) - 1.0, 4) if chosen_legs else 0.0,
     )
 
 
