@@ -1,0 +1,204 @@
+"""Pre-kick-off check of every coupon leg, and closing-price (CLV) record.
+
+    python scripts/kupon_kontrol.py kontrol --date 2026-11-20   # after nesine_global.py (scheduled.py kadro)
+    python scripts/kupon_kontrol.py ozet                         # all days: does the pick beat the closing price?
+
+`kontrol` compares each not-started leg of the day's coupons (reports/daily/<date>/kupon_*x_*.json) with the
+newest analysis (nesine_global.json, re-run with line-ups ~1 h before kick-off) and warns when a leg should be
+replaced: global probability under the 55 % leg floor or down >= 5 points, Nesine selection suspended, Nesine
+odds under 1.20, an important absence announced after the price (research_block) or a new risk/steam flag.
+Output: reports/daily/<date>/kupon_kontrol.md (+ Windows pop-up / Telegram for new warnings).
+
+The same run keeps, per leg, the last global probability seen before kick-off (kupon_clv.json). That is the
+closing price: CLV = closing probability - probability when the coupon was built. A system that picks well
+sees the sharp market move towards its picks (positive CLV) long before results prove anything.
+`ozet` aggregates every day into reports/takip/clv.md.
+"""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+DAILY = ROOT / "reports" / "daily"
+TSI = dt.timezone(dt.timedelta(hours=3))
+MIN_PROB = 0.55     # coupon leg floor (user rule)
+MIN_ODDS = 1.20
+DROP_ALERT = 0.05   # global probability fell this much since the coupon was built
+
+
+def _load(path: Path):
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+
+
+def coupon_legs(date: str) -> dict[str, dict]:
+    """Every leg of the day's coupon files, keyed by code|key (a leg in several coupons is checked once)."""
+    legs: dict[str, dict] = {}
+    for f in sorted((DAILY / date).glob("kupon_*x_*.json")):
+        data = _load(f) or {}
+        for i, c in enumerate(data.get("coupons", []), 1):
+            for leg in c.get("legs", []):
+                lid = f"{leg['code']}|{leg.get('key')}"
+                e = legs.setdefault(lid, {**leg, "coupons": []})
+                e["coupons"].append(f"{f.stem} #{i}")
+    return legs
+
+
+def check(date: str, now: dt.datetime | None = None) -> tuple[list[dict], dict]:
+    now = now or dt.datetime.now(TSI)
+    analysis = _load(DAILY / date / "nesine_global.json") or {}
+    by_code = {int(m["code"]): m for m in analysis.get("matches", [])}
+    clv_path = DAILY / date / "kupon_clv.json"
+    clv = _load(clv_path) or {}
+    rows = []
+    for lid, leg in coupon_legs(date).items():
+        m = by_code.get(int(leg["code"]))
+        kick = dt.datetime.fromisoformat(m["kickoff_iso"]) if m else None
+        rec = clv.setdefault(lid, {"match": leg["match"], "market": leg["market"], "selection": leg["selection"],
+                                   "kickoff": leg["kickoff"], "p_pick": leg["p"], "odds_pick": leg["odds"],
+                                   "direct": leg.get("direct"), "reference": leg.get("reference"), "alerted": []})
+        rec["coupons"] = leg["coupons"]
+        started = kick is None or kick <= now
+        s = next((x for x in (m or {}).get("selections", []) if x.get("key") == leg.get("key")), None)
+        row = {"lid": lid, "leg": leg, "started": started, "p_now": None, "odds_now": None, "warn": []}
+        if not started:
+            res = m.get("research") or {}
+            if m.get("status") != "fiyatlandı":
+                row["warn"].append("global fiyat yok")
+            if s is None:
+                row["warn"].append("Nesine'de yok / askıda")
+            else:
+                row["p_now"], row["odds_now"] = s["fair_prob"], s["odds"]
+                if m.get("status") == "fiyatlandı":
+                    rec.update(p_close=s["fair_prob"], odds_close=s["odds"],
+                               close_seen=now.isoformat(timespec="minutes"), close_ref=m.get("reference"))
+                if s["fair_prob"] < MIN_PROB:
+                    row["warn"].append(f"olasılık %{100 * s['fair_prob']:.0f}: %55 altına düştü")
+                elif leg["p"] - s["fair_prob"] >= DROP_ALERT:
+                    row["warn"].append(f"olasılık {100 * (leg['p'] - s['fair_prob']):.0f} puan düştü")
+                if s["odds"] < MIN_ODDS:
+                    row["warn"].append(f"Nesine oranı {s['odds']:.2f}: 1,20 altında")
+            if m.get("research_block"):
+                row["warn"].append(f"önemli eksik: {m['research_block']}")
+            for fl in res.get("flags") or []:
+                row["warn"].append(f"uyarı: {fl}")
+        row["new_warn"] = [w for w in row["warn"] if w not in rec["alerted"]]
+        rec["alerted"] = sorted(set(rec["alerted"]) | set(row["warn"]))
+        rows.append(row)
+    clv_path.write_text(json.dumps(clv, ensure_ascii=False, indent=1), encoding="utf-8")
+    return rows, clv
+
+
+def clv_stats(clv: dict, now: dt.datetime) -> dict:
+    """Legs whose match has started and whose closing probability was seen."""
+    done = []
+    for r in clv.values():
+        try:
+            kick = dt.datetime.fromisoformat(r["kickoff"]).replace(tzinfo=TSI)
+        except (KeyError, ValueError):
+            continue
+        if kick <= now and r.get("p_close") is not None:
+            done.append(r["p_close"] - r["p_pick"])
+    n = len(done)
+    return {"n": n, "mean": sum(done) / n if n else None, "pos": sum(d > 0.0005 for d in done),
+            "neg": sum(d < -0.0005 for d in done)}
+
+
+def _fmt_stats(st: dict) -> str:
+    if not st["n"]:
+        return "henüz kapanış fiyatı görülen başlamış maç yok"
+    return (f"{st['n']} bacak · ortalama CLV **{100 * st['mean']:+.1f} puan** · lehimize {st['pos']}, "
+            f"aleyhimize {st['neg']}, değişmeyen {st['n'] - st['pos'] - st['neg']}")
+
+
+def _notify(text: str) -> None:
+    try:
+        sys.path.insert(0, str(ROOT / "scripts"))
+        from notify_telegram import send_telegram_message  # noqa: PLC0415
+        send_telegram_message(text)
+    except Exception:  # noqa: BLE001 - optional channel
+        pass
+    if os.name == "nt":
+        subprocess.run(["msg", os.environ.get("USERNAME", "*"), "/TIME:900", text[:250]], capture_output=True, timeout=30)
+
+
+def cmd_kontrol(date: str, notify: bool = True) -> None:
+    now = dt.datetime.now(TSI)
+    rows, clv = check(date, now)
+    if not rows:
+        print(f"{date}: kupon yok")
+        return
+    md = [f"# {date} — kupon bacakları maç öncesi kontrol ({now:%H:%M} TSİ)", "",
+          "İlk 11'ler ~1 saat önce açıklandıktan sonra yeniden yapılan analizle karşılaştırma. "
+          "⚠ olan bacağı oynamadan önce değiştirin.", "",
+          "| Saat | Maç | Seçim | Oran (kupon → şimdi) | Olasılık (kupon → şimdi) | Durum | Kupon |",
+          "|---|---|---|---|---|---|---|"]
+    for r in sorted(rows, key=lambda x: x["leg"]["kickoff"]):
+        leg = r["leg"]
+        if r["started"]:
+            rec = clv.get(r["lid"], {})
+            pc = rec.get("p_close")
+            durum = "başladı" + (f" · kapanış %{100 * pc:.1f} (CLV {100 * (pc - leg['p']):+.1f})" if pc is not None else "")
+            odds, prob = f"{leg['odds']:.2f}", f"%{100 * leg['p']:.1f}"
+        else:
+            durum = "⚠ " + "; ".join(r["warn"]) if r["warn"] else "✓ uygun"
+            odds = f"{leg['odds']:.2f} → {r['odds_now']:.2f}" if r["odds_now"] else f"{leg['odds']:.2f} → -"
+            prob = f"%{100 * leg['p']:.1f} → %{100 * r['p_now']:.1f}" if r["p_now"] is not None else f"%{100 * leg['p']:.1f} → -"
+        md.append(f"| {leg['kickoff'][-5:]} | {leg['match']} | {leg['market']}: {leg['selection']} | {odds} | {prob} | "
+                  f"{durum} | {', '.join(leg['coupons'])} |")
+    md += ["", f"**Kapanış fiyatı (CLV), bugün:** {_fmt_stats(clv_stats(clv, now))}", ""]
+    out = DAILY / date / "kupon_kontrol.md"
+    out.write_text("\n".join(md), encoding="utf-8")
+    fresh = [r for r in rows if r["new_warn"] and not r["started"]]
+    print(f"{len(rows)} bacak kontrol edildi, {sum(1 for r in rows if r['warn'] and not r['started'])} uyarı "
+          f"({len(fresh)} yeni) -> {out}")
+    if fresh and notify:
+        _notify("QuantFoot kupon uyarısı: " + " | ".join(
+            f"{r['leg']['kickoff'][-5:]} {r['leg']['match']} {r['leg']['selection']}: {'; '.join(r['new_warn'])}" for r in fresh))
+
+
+def cmd_ozet() -> None:
+    now = dt.datetime.now(TSI)
+    md = ["# Kupon bacakları — kapanış fiyatı (CLV) takibi", "",
+          "CLV = maç başlamadan önce görülen son global olasılık − kupon kurulurkenki global olasılık. "
+          "Sürekli pozitif CLV, sonuçlar kanıtlamadan önce seçimlerin piyasadan önde olduğunu gösterir.", "",
+          "| Gün | Bacak | Ortalama CLV | Lehimize | Aleyhimize |", "|---|---|---|---|---|"]
+    allc: dict = {}
+    for d in sorted(p.parent.name for p in DAILY.glob("*/kupon_clv.json")):
+        clv = _load(DAILY / d / "kupon_clv.json") or {}
+        st = clv_stats(clv, now)
+        allc.update({f"{d}|{k}": v for k, v in clv.items()})
+        if st["n"]:
+            md.append(f"| {d} | {st['n']} | {100 * st['mean']:+.1f} puan | {st['pos']} | {st['neg']} |")
+    md += ["", f"**Toplam:** {_fmt_stats(clv_stats(allc, now))}", ""]
+    out = ROOT / "reports" / "takip" / "clv.md"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text("\n".join(md), encoding="utf-8")
+    print(f"-> {out}")
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    sub = ap.add_subparsers(dest="cmd", required=True)
+    k = sub.add_parser("kontrol")
+    k.add_argument("--date", default=dt.datetime.now(TSI).date().isoformat())
+    k.add_argument("--sessiz", action="store_true", help="Pop-up / Telegram uyarısı gönderme")
+    sub.add_parser("ozet")
+    args = ap.parse_args()
+    if args.cmd == "kontrol":
+        cmd_kontrol(args.date, notify=not args.sessiz)
+    else:
+        cmd_ozet()
+
+
+if __name__ == "__main__":
+    main()

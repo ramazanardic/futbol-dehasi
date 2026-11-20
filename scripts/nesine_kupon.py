@@ -358,16 +358,85 @@ def safest_first_coupon(pools: list[list[dict]], target: float, max_legs: int, p
     return None
 
 
-def recheck_odds(coupons: list[dict]) -> list[str]:
+def prior_coupon_codes(date: str, target: float) -> set:
+    """Match codes in the main coupon (Kupon 1) of today's latest coupon for each OTHER target: a 10x built after a 5x should not
+    stack the same matches, because one losing shared leg would sink both coupons."""
+    latest: dict[str, Path] = {}
+    for f in sorted((DAILY / date).glob("kupon_*x_*.json")):
+        tgt = f.name.split("_")[1]
+        latest[tgt] = f  # sorted by HHMM: last one wins
+    codes = set()
+    for tgt, f in latest.items():
+        try:
+            if abs(float(tgt.rstrip("x")) - target) < 1e-9:
+                continue
+            data = json.loads(f.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            continue
+        codes |= {leg["code"] for c in data.get("coupons", [])[:1] for leg in c.get("legs", [])}  # main coupon
+    return codes
+
+
+RECHECK_READS = 2
+RECHECK_GAP_S = 4.0
+
+
+def read_bulletin_odds(reads: int = RECHECK_READS, gap_s: float = RECHECK_GAP_S
+                       ) -> tuple[dict[int, dict[str, float]], dict[tuple[int, str], tuple[float, float]]]:
+    """Read the Nesine bulletin several times and keep the LOWEST odds per selection: on 20 Nov the feed served
+    1.65 and 1.71 for the same selection within minutes, so one read can overstate a coupon's total odds.
+    Returns (odds by code and key, {(code, key): (low, high)} for selections whose reads disagreed)."""
+    import time
+    low: dict[int, dict[str, float]] = {}
+    high: dict[tuple[int, str], float] = {}
+    for r in range(reads):
+        if r:
+            time.sleep(gap_s)
+        for e in parse_bulletin(fetch_bulletin()):
+            book = low.setdefault(int(e.code), {})
+            for s in e.selections:
+                k = selection_key(s)
+                if k in book or r == 0:
+                    book[k] = min(book.get(k, s.odds), s.odds)
+                high[(int(e.code), k)] = max(high.get((int(e.code), k), s.odds), s.odds)
+    flicker = {ck: (low[ck[0]][ck[1]], hi) for ck, hi in high.items()
+               if ck[1] in low.get(ck[0], {}) and hi - low[ck[0]][ck[1]] > 1e-9}
+    return low, flicker
+
+
+def apply_live_odds(matches: list[dict], live: dict[int, dict[str, float]]) -> None:
+    """Lower each selection's odds to the live (lowest-read) bulletin odds and drop selections that are no longer
+    offered, so the optimiser never reaches the target on a price Nesine is not paying now."""
+    for m in matches:
+        book = live.get(int(m["code"]))
+        if book is None:
+            continue
+        kept = []
+        for s in m.get("selections", []):
+            o = book.get(s.get("key")) if s.get("key") else s["odds"]
+            if o is None:
+                continue  # suspended / withdrawn since the analysis
+            if o < s["odds"]:
+                s["odds"], s["ev"] = o, s["fair_prob"] * o - 1
+            kept.append(s)
+        m["selections"] = kept
+
+
+def recheck_odds(coupons: list[dict], current: dict | None = None, flicker: dict | None = None) -> list[str]:
     """Fetch the Nesine bulletin again and compare every leg's odds; update legs and coupon totals in place.
     Returns human-readable change notes (empty = all odds unchanged)."""
-    current: dict[int, dict[str, float]] = {}
-    for e in parse_bulletin(fetch_bulletin()):
-        current[int(e.code)] = {selection_key(s): s.odds for s in e.selections}
+    if current is None:
+        current, flicker = read_bulletin_odds()
+    flicker = flicker or {}
     notes = []
     for i, c in enumerate(coupons, 1):
         for leg in c["legs"]:
             now_odds = current.get(int(leg["code"]), {}).get(leg.get("key"))
+            pair = flicker.get((int(leg["code"]), leg.get("key")))
+            if pair:
+                leg["flicker"] = list(pair)
+                notes.append(f"Kupon {i}: {leg['match']} {leg['selection']} — Nesine iki okumada farklı oran verdi "
+                             f"({pair[0]:.2f} / {pair[1]:.2f}): düşük olan esas alındı")
             if now_odds is None:
                 leg["status"] = "bültende yok / askıda"
                 notes.append(f"Kupon {i}: {leg['match']} {leg['selection']} — Nesine'de şu an yok ya da askıda")
@@ -417,6 +486,9 @@ def main() -> None:
     ap.add_argument("--no-tm", action="store_true", help="Transfermarkt canlı sakat/cezalı çekimini kapat")
     ap.add_argument("--yalniz-keskin", action="store_true",
                     help="Araştırmalı orta güven global büroları (Marathonbet/1XBET) kupon havuzundan çıkar")
+    ap.add_argument("--max-ortak", type=int, default=1,
+                    help="Bugünkü farklı hedefli kuponlarla paylaşılabilecek en çok maç (varsayılan 1; -1 = sınırsız). "
+                         "Ortak maç yatarsa iki kupon birden yatar.")
     ap.add_argument("--no-pull", action="store_true", help="Kupon öncesi git pull adımını atla (CI / bulut ortamı)")
     args = ap.parse_args()
 
@@ -431,38 +503,65 @@ def main() -> None:
     now = dt.datetime.now(TSI)
     min_prob = args.min_olasilik if args.min_olasilik is not None else (0.60 if args.yontem == "guvenli" else 0.55)
     live_cal = load_live_calibration()
-    pools = candidates(
-        matches,
-        now,
-        args.min_oran,
-        min_prob,
-        args.espn,
-        args.dogrudan,
-        exclude_cups=args.kupasiz,
-        main_markets_only=args.ana_pazar,
-        allow_mid_researched=not args.yalniz_keskin,
-        calibration=live_cal or None,
-    )
-    n_mid_pools = sum(1 for p in pools if p[0].get("tier") == "orta")
-    print(f"{sum(1 for m in matches if m.get('status') == 'fiyatlandı')} maç global fiyatlı; {len(pools)} maç kupona uygun "
-          f"({len(pools) - n_mid_pools} keskin + {n_mid_pools} araştırmalı orta güven).")
-    stale = sum(1 for m in matches if m.get("status") == "fiyatlandı" and (price_age_hours(m, now) or 0) > MAX_PRICE_AGE_H)
-    if stale:
-        print(f"⚠ {stale} maçın global fiyatı {MAX_PRICE_AGE_H:g} saatten eski: kupona alınmadı (GitHub verisi yenilenmeli).")
+    # Build on the LOWER of two bulletin reads (the feed can serve two prices for one selection), re-read after
+    # building, and rebuild once if a coupon fell under the target on the re-read odds.
+    live, _ = read_bulletin_odds()
+    apply_live_odds(matches, live)
+    rebuilt = False
+    for attempt in range(2):
+        pools = candidates(
+            matches,
+            now,
+            args.min_oran,
+            min_prob,
+            args.espn,
+            args.dogrudan,
+            exclude_cups=args.kupasiz,
+            main_markets_only=args.ana_pazar,
+            allow_mid_researched=not args.yalniz_keskin,
+            calibration=live_cal or None,
+        )
+        n_mid_pools = sum(1 for p in pools if p[0].get("tier") == "orta")
+        if attempt == 0:
+            print(f"{sum(1 for m in matches if m.get('status') == 'fiyatlandı')} maç global fiyatlı; {len(pools)} maç kupona uygun "
+                  f"({len(pools) - n_mid_pools} keskin + {n_mid_pools} araştırmalı orta güven).")
+        stale = sum(1 for m in matches if m.get("status") == "fiyatlandı" and (price_age_hours(m, now) or 0) > MAX_PRICE_AGE_H)
+        if stale and attempt == 0:
+            print(f"⚠ {stale} maçın global fiyatı {MAX_PRICE_AGE_H:g} saatten eski: kupona alınmadı (GitHub verisi yenilenmeli).")
 
-    max_legs = args.max_mac or MAX_LEGS
-    coupons, used = [], set()
-    for _ in range(args.adet):
-        chosen = [leg for c in coupons for leg in c["legs"]]
-        free = drop_conflicts(pools, chosen) if args.ortak_mac else [p for p in pools if p[0]["code"] not in used]
-        c = (safest_first_coupon(free, args.hedef, max_legs, partial=not coupons) if args.yontem == "guvenli"
-             else best_coupon(free, args.hedef, max_legs, args.min_mac))
-        if c is None:
-            break
-        coupons.append(c)
-        used |= {leg["code"] for leg in c["legs"]}
+        max_legs = args.max_mac or MAX_LEGS
+        prior = prior_coupon_codes(args.tarih, args.hedef) if args.max_ortak >= 0 else set()
+        if prior and attempt == 0:
+            print(f"Bugünkü diğer kuponlarda {len(prior)} maç var: her kupon bunlardan en çok {args.max_ortak} tanesini paylaşır.")
+        coupons, used = [], set()
+        for _ in range(args.adet):
+            chosen = [leg for c in coupons for leg in c["legs"]]
+            free = drop_conflicts(pools, chosen) if args.ortak_mac else [p for p in pools if p[0]["code"] not in used]
 
-    change_notes = recheck_odds(coupons) if coupons else []
+            def build(pl):
+                return (safest_first_coupon(pl, args.hedef, max_legs, partial=not coupons) if args.yontem == "guvenli"
+                        else best_coupon(pl, args.hedef, max_legs, args.min_mac))
+
+            c = build(free)
+            shared = [leg for leg in (c or {}).get("legs", []) if leg["code"] in prior]
+            if c is not None and len(shared) > args.max_ortak:
+                # keep the most reliable shared legs' matches, drop the other earlier-coupon matches and rebuild
+                keep = {leg["code"] for leg in sorted(shared, key=lambda x: -x["p_low"])[:args.max_ortak]}
+                c = build([p for p in free if p[0]["code"] not in prior or p[0]["code"] in keep])
+            if c is None:
+                break
+            coupons.append(c)
+            used |= {leg["code"] for leg in c["legs"]}
+
+        live, flicker = read_bulletin_odds() if coupons else ({}, {})
+        change_notes = recheck_odds(coupons, live, flicker) if coupons else []
+        if attempt == 0 and any(c["nesine_odds"] < args.hedef - 1e-9 for c in coupons):
+            apply_live_odds(matches, live)
+            rebuilt = True
+            continue
+        break
+    if rebuilt:
+        change_notes.insert(0, "Son okumada bir kupon hedefin altına düştü: kupon güncel oranlarla yeniden kuruldu")
     for c in coupons:  # scores consistent with each leg (same goal distribution as the leg's probability)
         for leg in c["legs"]:
             priced = PRICED.get(int(leg["code"]))

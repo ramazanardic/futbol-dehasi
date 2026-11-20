@@ -173,6 +173,21 @@ bile en yüksek kalan olasılıktır. Rapor hem olasılığı hem güvenilir alt
 birbirini kesin yatıran bahisleri (hiçbir İY/MS skorunda ikisinin birden tutmadığı çiftler, ör. "Çifte şans
 1-2" ile "İY 0-0 / MS 0-0") alamaz (`compatible()`, `drop_conflicts()`).
 
+**Farklı hedefli kuponlar (20 Kasım):** 10x, aynı gün kurulmuş 5x'in ana kuponuyla en çok `--max-ortak` (varsayılan
+1) maç paylaşır; ortak maç yatarsa iki kupon birden yatar. `-1` sınırı kaldırır.
+
+**Oran okuma (20 Kasım):** Nesine bülteni aynı seçime dakikalar içinde iki fiyat verebiliyor (bir seçimde
+1.65 / 1.71 okundu). Kupon, bülten iki kez okunup **düşük** oran esas alınarak kurulur (`read_bulletin_odds`,
+`apply_live_odds`), kurulduktan sonra yine iki okumayla kontrol edilir; bir kupon hedefin altına düşerse güncel
+oranlarla bir kez yeniden kurulur.
+
+**Maç öncesi kontrol ve CLV (20 Kasım):** `scheduled.py kadro` (:10 ve :30, ilk 11'ler açıklandıktan sonraki yeniden
+analiz) ardından `scripts/kupon_kontrol.py kontrol` günün bütün kupon bacaklarını yeni analizle karşılaştırır:
+olasılık %55 altı ya da 5+ puan düşüş, askıya alınan seçim, 1,20 altı oran, sonradan açıklanan önemli eksik ve
+risk/steam uyarısı → `reports/daily/<tarih>/kupon_kontrol.md` + Windows/Telegram uyarısı (her uyarı bir kez).
+Aynı adım başlama öncesi son global olasılığı (kapanış) `kupon_clv.json`'a yazar; CLV = kapanış − kupon anı.
+`kupon_kontrol.py ozet` bütün günleri `reports/takip/clv.md`'de toplar (sabah işi çalıştırır).
+
 
 ```bash
 python scripts/nesine_kupon.py --hedef 10                                   # matematiksel en iyi

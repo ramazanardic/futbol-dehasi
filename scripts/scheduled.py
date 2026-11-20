@@ -4,7 +4,8 @@
                                            #        then price the Nesine bulletin against the global reference
     python scripts/scheduled.py snapshot   # every 30 min: record pre-kickoff odds for today and yesterday
     python scripts/scheduled.py kadro      # at :10 and :30: light exchange refresh for kick-offs in 40-100 min
-                                           #        (gh workflow run), re-analyse today (line-ups ~1 h before)
+                                           #        (gh workflow run), re-analyse today (line-ups ~1 h before),
+                                           #        then check every coupon leg + record closing prices (CLV)
     python scripts/scheduled.py analiz     # hourly at :50: pull the fresh global prices (Actions refreshes at :40)
                                            #        and re-run the Nesine analysis for the next 5 betting days
 
@@ -218,6 +219,8 @@ def main() -> None:
             # settle yesterday's Nesine predictions, refresh cumulative report, self-learning calibration & dashboard
             _run(["sonuc", "--date", y], log, ROOT / "scripts" / "nesine_takip.py")
             _run(["rapor"], log, ROOT / "scripts" / "nesine_takip.py")
+            _run(["kontrol", "--date", y, "--sessiz"], log, ROOT / "scripts" / "kupon_kontrol.py")
+            _run(["ozet"], log, ROOT / "scripts" / "kupon_kontrol.py")
             _run([], log, ROOT / "scripts" / "auto_learn.py")
             _run([], log, ROOT / "scripts" / "build_dashboard.py")
             _run(["--date", today.isoformat(), "--mode", "morning"], log, ROOT / "scripts" / "notify_telegram.py")
@@ -228,6 +231,8 @@ def main() -> None:
             _pull(log)
             day = today if dt.datetime.now().hour >= 7 else yesterday
             _run(["--date", day.isoformat()], log, ROOT / "scripts" / "nesine_global.py")
+            # coupon legs vs the line-up re-analysis: warn before kick-off, record the closing price (CLV)
+            _run(["kontrol", "--date", day.isoformat()], log, ROOT / "scripts" / "kupon_kontrol.py")
             _write_status(log, "kadro")
         elif mode == "analiz":
             _pull(log)
