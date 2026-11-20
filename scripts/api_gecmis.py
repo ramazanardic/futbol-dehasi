@@ -10,7 +10,7 @@ tomorrow — no team history, no "last", no past seasons. So the history is buil
 
 The games come out in scripts/derin_arastirma.py's form, so its leg test and verdicts apply unchanged.
 
-    python scripts/api_gecmis.py --arsiv                 # store yesterday + today (run once a day, 2 requests)
+    python scripts/api_gecmis.py --arsiv                 # store yesterday (1 request once; the 15-minute watcher runs it)
     python scripts/api_gecmis.py --tarih 2026-11-20      # fill the day's derin_tahminler.json where history is missing
 """
 
@@ -170,18 +170,20 @@ def main() -> None:
     import derin_tahmin as dtah
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--tarih", default=dt.datetime.now(dr.TSI).date().isoformat())
-    ap.add_argument("--arsiv", action="store_true", help="Dünü ve bugünü arşive al (2 istek)")
+    ap.add_argument("--arsiv", action="store_true", help="Dünü arşive al (bir kez 1 istek; arşivdeyse istek yok)")
     args = ap.parse_args()
     if args.arsiv:
         today = dt.datetime.now(dr.TSI).date()
-        for d in (today - dt.timedelta(days=1), today):
+        for d in (today - dt.timedelta(days=1),):
+            if (DAYS / f"{d}.json").exists():
+                continue  # already archived: no request
             try:
                 n = len(archive_day(d.isoformat()))
             except ApiError as e:
                 print(f"{d}: API-Football kullanılamıyor: {e}")
                 continue
             kept = (DAYS / f"{d}.json").exists()
-            print(f"{d}: {n} maç" + (" — arşive yazıldı" if kept else " — gün bitmedi, yarın arşivlenecek"))
+            print(f"{d}: {n} maç" + (" — arşive yazıldı" if kept else " — arşive yazılamadı"))
         print(f"Arşiv: {len(list(DAYS.glob('*.json'))) if DAYS.exists() else 0} gün, {len(archived())} maç")
         return
     out = dr.AREA / args.tarih
