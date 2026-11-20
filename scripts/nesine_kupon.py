@@ -377,6 +377,24 @@ def prior_coupon_codes(date: str, target: float) -> set:
     return codes
 
 
+def prior_coupon_legs(date: str, target: float) -> list[dict]:
+    """Every leg of today's latest coupon file for each OTHER target (all its coupons): those exact selections are
+    not repeated in new coupons (user rule, 20 Nov), but the same match with another compatible selection is."""
+    latest: dict[str, Path] = {}
+    for f in sorted((DAILY / date).glob("kupon_*x_*.json")):
+        latest[f.name.split("_")[1]] = f
+    legs = []
+    for tgt, f in latest.items():
+        try:
+            if abs(float(tgt.rstrip("x")) - target) < 1e-9:
+                continue
+            data = json.loads(f.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            continue
+        legs += [leg for c in data.get("coupons", []) for leg in c.get("legs", [])]
+    return legs
+
+
 RECHECK_READS = 2
 RECHECK_GAP_S = 4.0
 
@@ -475,8 +493,9 @@ def main() -> None:
     ap.add_argument("--min-olasilik", type=float, default=None,
                     help="Bacak başına en düşük global olasılık (optimum: 0.55, guvenli: 0.60)")
     ap.add_argument("--espn", action="store_true", help="Keskin olmayan global büro/ESPN referanslı maçları da kullan")
-    ap.add_argument("--ortak-mac", action="store_true",
-                    help="Kuponlar aynı maçı paylaşabilir; aynı bahis ve birbirini kesin yatıran bahis yasak")
+    ap.add_argument("--ayri-mac", action="store_true",
+                    help="Eski kural: her maç yalnız bir kuponda. Varsayılan (kullanıcı kuralı 20 Kasım): bir maç birden "
+                         "çok kuponda olabilir ama AYNI tercihle asla; birbirini kesin yatıran tercihler de yasak")
     ap.add_argument("--dogrudan", action="store_true", help="Yalnızca doğrudan global fiyatı olan seçimler (model türevi yok)")
     ap.add_argument("--kupasiz", action="store_true", help="Kupa, eleme ve playoff maçlarını kupon havuzundan çıkar")
     ap.add_argument("--ana-pazar", action="store_true", help="Yalnızca ana pazarlar (MS, ÇŞ, 1.5/2.5/3.5 Alt/Üst, KG)")
@@ -486,9 +505,9 @@ def main() -> None:
     ap.add_argument("--no-tm", action="store_true", help="Transfermarkt canlı sakat/cezalı çekimini kapat")
     ap.add_argument("--yalniz-keskin", action="store_true",
                     help="Araştırmalı orta güven global büroları (Marathonbet/1XBET) kupon havuzundan çıkar")
-    ap.add_argument("--max-ortak", type=int, default=1,
-                    help="Bugünkü farklı hedefli kuponlarla paylaşılabilecek en çok maç (varsayılan 1; -1 = sınırsız). "
-                         "Ortak maç yatarsa iki kupon birden yatar.")
+    ap.add_argument("--max-ortak", type=int, default=-1,
+                    help="İsteğe bağlı: bugünkü farklı hedefli ana kuponla paylaşılabilecek en çok maç (-1 = sınır yok, "
+                         "varsayılan; aynı tercih zaten hiçbir kuponda tekrar edilmez)")
     ap.add_argument("--no-pull", action="store_true", help="Kupon öncesi git pull adımını atla (CI / bulut ortamı)")
     args = ap.parse_args()
 
@@ -533,10 +552,13 @@ def main() -> None:
         prior = prior_coupon_codes(args.tarih, args.hedef) if args.max_ortak >= 0 else set()
         if prior and attempt == 0:
             print(f"Bugünkü diğer kuponlarda {len(prior)} maç var: her kupon bunlardan en çok {args.max_ortak} tanesini paylaşır.")
+        earlier = [] if args.ayri_mac else prior_coupon_legs(args.tarih, args.hedef)
+        if earlier and attempt == 0:
+            print(f"Bugünkü diğer kuponlardaki {len(earlier)} tercih tekrar kullanılmaz (aynı maçta başka tercih serbest).")
         coupons, used = [], set()
         for _ in range(args.adet):
-            chosen = [leg for c in coupons for leg in c["legs"]]
-            free = drop_conflicts(pools, chosen) if args.ortak_mac else [p for p in pools if p[0]["code"] not in used]
+            chosen = earlier + [leg for c in coupons for leg in c["legs"]]
+            free = [p for p in pools if p[0]["code"] not in used] if args.ayri_mac else drop_conflicts(pools, chosen)
 
             def build(pl):
                 return (safest_first_coupon(pl, args.hedef, max_legs, partial=not coupons) if args.yontem == "guvenli"

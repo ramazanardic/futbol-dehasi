@@ -111,3 +111,17 @@ def test_apply_live_odds_lowers_and_drops_suspended():
     assert sel["b"]["odds"] == 1.30          # a higher live price is not used
     assert "c" not in sel                    # no longer offered
     assert matches[1]["selections"][0]["odds"] == 1.5  # match not in the bulletin (started): untouched
+
+
+def test_prior_legs_block_same_selection_but_allow_other_selection_on_same_match(tmp_path, monkeypatch):
+    monkeypatch.setattr(kupon, "DAILY", tmp_path)
+    day = tmp_path / "2026-11-20"
+    day.mkdir()
+    leg = {"code": 1, "key": "1|MS 1|0", "name": "MS 1"}
+    (day / "kupon_5x_0926.json").write_text(json.dumps({"coupons": [{"legs": [leg]}]}), encoding="utf-8")
+    prior = kupon.prior_coupon_legs("2026-11-20", 10)
+    assert prior == [leg] and kupon.prior_coupon_legs("2026-11-20", 5) == []
+    pool = [[{"code": 1, "key": "1|MS 1|0", "name": "MS 1"}, {"code": 1, "key": "12|2.5 Üst|0", "name": "2.5 Üst"},
+             {"code": 1, "key": "1|MS 2|0", "name": "MS 2"}]]
+    left = {x["name"] for x in kupon.drop_conflicts(pool, prior)[0]}
+    assert left == {"2.5 Üst"}  # same bet and the contradicting MS 2 are gone, a compatible bet stays

@@ -169,12 +169,13 @@ gol modeli 2,5 puan, yarı pazarları (İY/2Y, en çok gol olan yarı…) 3,5 pu
 +1, kadro/haber uyarısı +2 puan. Böylece "en garanti" tercih, en yüksek olasılık değil, en kötü ihtimalle
 bile en yüksek kalan olasılıktır. Rapor hem olasılığı hem güvenilir alt sınırı gösterir.
 
-**Kuponlar arası tutarlılık:** `--ortak-mac` ile kuponlar aynı maçı paylaşabilir ama aynı bahsi ve
+**Kuponlar arası tutarlılık (varsayılan, kullanıcı kuralı 20 Kasım):** kuponlar aynı maçı paylaşabilir ama aynı bahsi ve
 birbirini kesin yatıran bahisleri (hiçbir İY/MS skorunda ikisinin birden tutmadığı çiftler, ör. "Çifte şans
 1-2" ile "İY 0-0 / MS 0-0") alamaz (`compatible()`, `drop_conflicts()`).
 
-**Farklı hedefli kuponlar (20 Kasım):** 10x, aynı gün kurulmuş 5x'in ana kuponuyla en çok `--max-ortak` (varsayılan
-1) maç paylaşır; ortak maç yatarsa iki kupon birden yatar. `-1` sınırı kaldırır.
+Örn. `--adet 10`: 1. kuponda "MS 1" seçilen maç, 2. kuponda uygunsa "2,5 Üst" ya da "KG Var" ile yer alabilir, "MS 1"
+ile asla. Bu kural aynı günün öteki hedefli kuponlarındaki (son dosya) tercihleri de kapsar. Eski "her maç tek kupon"
+davranışı: `--ayri-mac`. İsteğe bağlı `--max-ortak N`: öteki hedefin ana kuponuyla en çok N maç paylaşılır.
 
 **Oran okuma (20 Kasım):** Nesine bülteni aynı seçime dakikalar içinde iki fiyat verebiliyor (bir seçimde
 1.65 / 1.71 okundu). Kupon, bülten iki kez okunup **düşük** oran esas alınarak kurulur (`read_bulletin_odds`,
