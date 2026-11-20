@@ -172,7 +172,7 @@ bile en yüksek kalan olasılıktır. Rapor hem olasılığı hem güvenilir alt
 **Hedef = en az oran (kullanıcı kuralı 20 Kasım):** "5 oranlık" en az 5 demektir; 6–7 olabilir, 5'in altı asla.
 Optimizasyon zaten Π oran ≥ hedef koşuluyla tutma olasılığını en yükseğe çıkarır. Canlı oranla yeniden okunduğunda
 hedefin altına düşen kupon en çok 3 denemede güncel oranlarla yeniden kurulur, yine altındaysa hiç verilmez;
-`kupon_kontrol.md` her kuponun canlı toplam oranını gösterir ve minimumun altına düşeni bir kez uyarır.
+`kupon_kontrol.md` her kuponun canlı toplam oranını bilgi için gösterir; verilen kupon sonradan yeniden kurulmaz ve bunun için uyarı gönderilmez (kullanıcı kararı 20 Kasım).
 
 **Kuponların yeri (20 Kasım):** Claude'un kuponları yalnız `tahminler/claudetahmin/<tarih>/` altına yazılır
 (yapay zekâ yarışması, [tahminler/README.md](../tahminler/README.md)); 19 Kasım ve öncesi `reports/daily/` altında kalır.

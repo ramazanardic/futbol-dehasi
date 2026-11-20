@@ -195,7 +195,7 @@ def cmd_kontrol(date: str, notify: bool = True) -> None:
                   f"{durum} | {', '.join(leg['coupons'])} |")
     totals = coupon_totals(date, rows)
     if totals:
-        md += ["", "**Kupon toplam oranları (canlı oranlarla; hedef en az oran, altı oynanmaz):**", "",
+        md += ["", "**Kupon toplam oranları (bilgi için; kupon kurulduğu andaki oranlarla verildi, sonradan yeniden kurulmaz):**", "",
                "| Kupon | En az | Kurulduğunda | Şimdi | Durum |", "|---|---|---|---|---|"]
         md += [f"| {t['coupon']} | {t['target']:g} | {t['built']:.2f} | {t['now']:.2f} | "
                + ("⚠ minimumun altına düştü" if t["below"] else "✓") + (" · askıda bacak var" if t["missing"] else "") + " |"
@@ -206,14 +206,8 @@ def cmd_kontrol(date: str, notify: bool = True) -> None:
     fresh = [r for r in rows if r["new_warn"] and not r["started"]]
     print(f"{len(rows)} bacak kontrol edildi, {sum(1 for r in rows if r['warn'] and not r['started'])} uyarı "
           f"({len(fresh)} yeni) -> {out}")
-    seen_path = AREA / date / "kupon_alarm.json"  # each under-minimum coupon is announced once
-    seen = set(_load(seen_path) or [])
-    below = [t for t in totals if t["below"] and t["coupon"] not in seen]
-    if below:
-        seen_path.write_text(json.dumps(sorted(seen | {t["coupon"] for t in below}), ensure_ascii=False), encoding="utf-8")
-    if below and notify:
-        _notify("QuantFoot: minimum oranın altına düşen kupon: " + " | ".join(
-            f"{t['coupon']} {t['now']:.2f} < {t['target']:g}" for t in below))
+    # Odds drifting after a coupon was given is not important to the user (20 Nov): coupons are not rebuilt and no
+    # pop-up is sent for it; the live totals stay in the report for information only.
     if fresh and notify:
         _notify("QuantFoot kupon uyarısı: " + " | ".join(
             f"{r['leg']['kickoff'][-5:]} {r['leg']['match']} {r['leg']['selection']}: {'; '.join(r['new_warn'])}" for r in fresh))
