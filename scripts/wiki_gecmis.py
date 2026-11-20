@@ -216,11 +216,9 @@ def leg_history(name: str, home_games: list[dict], away_games: list[dict]) -> di
 
 
 def verdict(p: float | None, hist: dict) -> str:
-    """derin_arastirma's thresholds, but 4 home / 4 away games suffice (a season's results matrix, not last 15)."""
-    n = min(hist.get("home_n") or 0, hist.get("away_n") or 0)
-    if hist.get("mean") is None or p is None or n < 4:
-        return "geçmiş yetersiz"
-    return dr.verdict(p, {**hist, "home_n": max(n, 6), "away_n": max(n, 6)})
+    """The same standard as every other history source (21 Nov): derin_arastirma's thresholds and at least 6 home
+    games of the home team and 6 away games of the away team."""
+    return dr.verdict(p, hist)
 
 
 def profile(games: list[dict]) -> dict:

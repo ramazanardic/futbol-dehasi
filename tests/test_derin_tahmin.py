@@ -22,7 +22,7 @@ def test_candidates_direct_only_and_thresholds():
     sel = lambda n, p, o, d=True: {"name": n, "market": "M", "selection": n, "fair_prob": p, "odds": o, "direct": d}  # noqa: E731
     m = {"selections": [sel("a", 0.70, 1.30), sel("b", 0.80, 1.15), sel("c", 0.75, 1.40, False), sel("d", 0.54, 1.80),
                         sel("e", 0.60, 1.50)]}
-    assert [c["name"] for c in dt_.candidates(m, 5)] == ["a", "e"]   # odds < 1.20, model-derived and p < 55 % left out
+    assert [c["name"] for c in dt_.candidates(m, 5, calibration={})] == ["a", "e"]   # odds < 1.20, model-derived and p < 55 % left out
 
 
 def test_choose_skips_warned_legs():
@@ -85,9 +85,31 @@ def test_simulation_matches_poisson_and_judges_three_views():
 def test_simulation_rates_blend_form_and_absences():
     sim = _load("simulasyon")
     row = {"teams": {"home": {"gf": 2.0, "ga": 1.0, "n": 10, "top_scorer_out": True}, "away": {"gf": 1.0, "ga": 2.0, "n": 10}}}
-    mh, ma, why = sim.rates(row, {"mu_home": 1.5, "mu_away": 1.0, "research": {"flags": ["Dep: düzenli kaleci ilk 11'de yok"]}})
-    assert abs(mh - (0.65 * 1.5 + 0.35 * 2.0) * 0.92 * 1.08) < 1e-9 and abs(ma - (0.65 * 1.0 + 0.35 * 1.0)) < 1e-9
+    m = {"mu_home": 1.5, "mu_away": 1.0, "research": {"flags": ["Dep: düzenli kaleci ilk 11'de yok"]}}
+    mh, ma, why = sim.rates(row, m, {"xg": [1.0, 1.0]})   # market xG is NOT used: league model and form only
+    assert abs(mh - (1.0 + 2.0) / 2 * 0.92 * 1.08) < 1e-9 and abs(ma - (1.0 + 1.0) / 2) < 1e-9
     assert any("golcüsü" in w for w in why) and any("kalecisi" in w for w in why)
+    assert sim.rates({"teams": {}}, m) == (None, None, ["bağımsız veri yok (yalnız piyasa)"])
+    games = {"home": [{"for": (2, 0), "against": (0, 0)}], "away": [{"for": (None, 1), "against": (None, 0)}]}
+    assert abs(sim.half_share({"games": games}) - (2 + 0.44 * 20) / (2 + 20)) < 1e-9
+
+
+def test_single_pick_rule_and_kept_notes():
+    dt_ = _load("derin_tahmin")
+    old = [{"code": 1, "onizleme": "son 10 maç …", "legs": [{"label": "A", "verdict": "✓ geçmiş destekliyor", "mean": 0.7,
+                                                         "web": "son 6+6 maç %70", "p": 0.6}]}]
+    new = [{"code": 1, "legs": [{"label": "A", "verdict": "geçmiş yetersiz", "mean": None, "p": 0.6}]}]
+    assert dt_.keep_notes(old, new) == 1
+    assert new[0]["legs"][0]["verdict"].startswith("✓") and new[0]["onizleme"] and new[0]["pick"]["label"] == "A"
+
+
+def test_coupon_drops_simulation_contradiction(monkeypatch):
+    kk = _load("kupon_kur")
+    legs = [{"code": 7, "key": "k", "match": "M", "market": "Maç Sonucu", "selection": "1", "name": "MS 1", "p": 0.6, "odds": 1.5}]
+    monkeypatch.setattr(kk, "research_leg", lambda m, leg, fx: {"legs": [{"verdict": "✓ geçmiş destekliyor", "mean": 0.7}]})
+    bad, _ = kk.check(legs, {"7": {"code": 7}}, sim={("7", "Maç Sonucu: 1"): "çelişki"})
+    assert len(bad) == 1 and "simülasyon" in bad[0][1]
+    assert kk.check(legs, {"7": {"code": 7}}, sim={})[0] == []
 
 
 def test_openfootball_games_keep_half_scores():

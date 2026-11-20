@@ -38,21 +38,41 @@ sys.path.insert(0, str(dr.ROOT / "src"))
 from quantfoot.markets.goal_markets import goal_probability  # noqa: E402
 
 HT_SHARE = 0.44        # first-half share of goals (184k matches in the repo's archive, docs/markets.md)
-W_MARKET = 0.65        # weight of the market's expected goals against the teams' recent form
+HT_PRIOR = 20.0        # goals of prior weight when a match's own first-half share is estimated
 ABSENCE = 0.08
 FLOOR, MAX_GAP = 0.55, 0.05
 G = 9                  # goals per team per half kept in the joint grid
 
 
-def rates(row: dict, m: dict) -> tuple[float, float, list[str]]:
-    """Blended expected goals (home, away) and the reasons for each adjustment."""
-    mh, ma = (m.get("mu_home") or 1.3), (m.get("mu_away") or 1.1)
-    why = [f"piyasa xG {mh:.2f}-{ma:.2f}"]
+def half_share(row: dict) -> float:
+    """First-half share of goals in both teams' recent games (half scores), shrunk towards the 44 % league norm."""
+    g1 = gt = 0
+    for side in ("home", "away"):
+        for g in ((row.get("games") or {}).get(side) or []):
+            f, a = g.get("for") or (None, None), g.get("against") or (None, None)
+            if None in (f[0], a[0]):
+                continue  # full-time-only source (Wikipedia)
+            g1 += f[0] + a[0]
+            gt += f[0] + f[1] + a[0] + a[1]
+    return (g1 + HT_SHARE * HT_PRIOR) / (gt + HT_PRIOR)
+
+
+def rates(row: dict, m: dict, league: dict | None = None) -> tuple[float | None, float | None, list[str]]:
+    """Expected goals (home, away) WITHOUT the market (21 Nov: the market is one of the views, so the simulation must
+    not lean on it): the league model's xG and the teams' own form, averaged when both exist, then the absences.
+    (None, None) when neither exists — the simulation then gives no independent view."""
+    why, views = [], []
+    if league:
+        views.append(tuple(league["xg"]))
+        why.append(f"lig modeli xG {league['xg'][0]:.2f}-{league['xg'][1]:.2f}")
     th, ta = (row.get("teams") or {}).get("home") or {}, (row.get("teams") or {}).get("away") or {}
-    if th.get("gf") is not None and ta.get("gf") is not None and th.get("n", 0) >= 4 and ta.get("n", 0) >= 4:
+    if th.get("gf") is not None and ta.get("gf") is not None and th.get("n", 0) >= 6 and ta.get("n", 0) >= 6:
         fh, fa = (th["gf"] + ta["ga"]) / 2, (ta["gf"] + th["ga"]) / 2
-        mh, ma = W_MARKET * mh + (1 - W_MARKET) * fh, W_MARKET * ma + (1 - W_MARKET) * fa
+        views.append((fh, fa))
         why.append(f"form xG {fh:.2f}-{fa:.2f}")
+    if not views:
+        return None, None, ["bağımsız veri yok (yalnız piyasa)"]
+    mh, ma = sum(v[0] for v in views) / len(views), sum(v[1] for v in views) / len(views)
     flags = " ".join((m.get("research") or {}).get("flags") or []) + " " + " ".join(row.get("flags") or [])
     for side, me in (("home", "Ev"), ("away", "Dep")):
         t = th if side == "home" else ta
@@ -65,11 +85,11 @@ def rates(row: dict, m: dict) -> tuple[float, float, list[str]]:
     return mh, ma, why
 
 
-def simulate(mh: float, ma: float, n: int, seed: int) -> tuple[np.ndarray, dict]:
+def simulate(mh: float, ma: float, n: int, seed: int, share: float = HT_SHARE) -> tuple[np.ndarray, dict]:
     """Joint (h1, a1, h2, a2) distribution from n simulated matches, and the most common final scores."""
     rng = np.random.default_rng(seed)
-    h1, a1 = rng.poisson(mh * HT_SHARE, n), rng.poisson(ma * HT_SHARE, n)
-    h2, a2 = rng.poisson(mh * (1 - HT_SHARE), n), rng.poisson(ma * (1 - HT_SHARE), n)
+    h1, a1 = rng.poisson(mh * share, n), rng.poisson(ma * share, n)
+    h2, a2 = rng.poisson(mh * (1 - share), n), rng.poisson(ma * (1 - share), n)
     c = lambda x: np.minimum(x, G - 1)  # noqa: E731
     joint = np.zeros((G, G, G, G))
     np.add.at(joint, (c(h1), c(a1), c(h2), c(a2)), 1.0)
@@ -126,14 +146,16 @@ def run(date: str, n: int) -> list[dict]:
         m = ms.get(str(row["code"]))
         if not m or dt.datetime.fromisoformat(m["kickoff_iso"]) <= now or not row.get("legs"):
             continue
-        mh, ma, why = rates(row, m)
-        joint, top = simulate(mh, ma, n, seed=int(row["code"]) % 2**32)
         dc = dc_model.match_view(m)
+        mh, ma, why = rates(row, m, dc[1] if dc else None)
+        share = half_share(row)
+        joint, top = simulate(mh, ma, n, seed=int(row["code"]) % 2**32, share=share) if mh is not None else (None, {})
+        why.append(f"ilk yarı gol payı %{100 * share:.0f}")
         elo = elo_gorus.match_view(m)
         bets = []
         for x in row["legs"]:
             try:
-                sim = float(goal_probability(x["name"], joint))
+                sim = float(goal_probability(x["name"], joint)) if joint is not None else None
             except (KeyError, ValueError):
                 sim = None
             hist = history(x)
@@ -146,7 +168,7 @@ def run(date: str, n: int) -> list[dict]:
                          "research": x["verdict"], "verdict": verdict, "low": low})
         bets.sort(key=lambda b: (b["verdict"] != "üçlü onay", -b["low"]))
         res.append({"code": row["code"], "kickoff": row["kickoff"], "match": row["match"], "league": row["league"],
-                    "xg": [round(mh, 2), round(ma, 2)], "why": why, "top_scores": top, "bets": bets,
+                    "xg": [round(mh, 2), round(ma, 2)] if mh is not None else None, "why": why, "top_scores": top, "bets": bets,
                     "dc": dc[1] if dc else None, "elo": (elo or {}).get("_clubs"),
                     "league_rates": dl.league_rates(row["league"], lig)})
     return sorted(res, key=lambda r: r["kickoff"])
@@ -157,8 +179,8 @@ def to_markdown(date: str, res: list[dict], n: int) -> str:
     best = sorted((b | {"match": r["match"], "kickoff": r["kickoff"]} for r in res for b in r["bets"]
                    if b["verdict"] == "üçlü onay"), key=lambda b: -b["low"])
     md = [f"# {date} — maç simülasyonu ({dt.datetime.now(dr.TSI):%H:%M} TSİ, maç başına {n:,} simülasyon)", "",
-          "Her bahis üç bağımsız açıdan: **piyasa** (keskin global fiyat), **simülasyon** (piyasa xG + takımların son "
-          "formu + eksikler ile oynatılan maçlar), **geçmiş** (aynı bahsin iki takımın son maçlarında tutma oranı). "
+          "Her bahis üç bağımsız açıdan: **piyasa** (keskin global fiyat), **simülasyon** (piyasadan BAĞIMSIZ: lig "
+          "modeli xG + takımların son formu + eksikler + maçın kendi ilk yarı gol payı ile oynatılan maçlar), **geçmiş** (aynı bahsin iki takımın son maçlarında tutma oranı). "
           "'Üçlü onay': üçü de %55 ve üstü, simülasyon ve geçmiş piyasanın 5 puan altına düşmüyor. 'En düşük' sütunu "
           "üç görüşün en kötümseridir; plan yaparken bu sayıya bakın. Simülasyon sonucu bilemez, bu tür maçlarda "
           "bahsin ne sıklıkla tuttuğunu söyler. **Model** (dördüncü görüş): ligin bu sezonki maçlarıyla kurulan "
@@ -173,7 +195,8 @@ def to_markdown(date: str, res: list[dict], n: int) -> str:
     for r in res:
         sc = ", ".join(f"{k} {pct(v)}" for k, v in r["top_scores"].items())
         md += [f"### {r['kickoff'][11:16]} {r['match']} — {r['league']}", "",
-               f"Simülasyon xG {r['xg'][0]}-{r['xg'][1]} ({'; '.join(r['why'])}). En olası skorlar: {sc}."
+               (f"Simülasyon xG {r['xg'][0]}-{r['xg'][1]} ({'; '.join(r['why'])}). En olası skorlar: {sc}." if r.get("xg")
+                else f"Simülasyon yok: {'; '.join(r['why'])}.")
                + (f" Lig modeli ({r['dc']['source']}) xG {r['dc']['xg'][0]}-{r['dc']['xg'][1]}." if r.get("dc") else "")
                + (f" Club Elo: {r['elo']}." if r.get("elo") else "")
                + (f" Lig ortalaması (Data Lake, {lr['n']} maç): {lr['goals']} gol, KG %{100 * float(lr['btts']):.0f}, "

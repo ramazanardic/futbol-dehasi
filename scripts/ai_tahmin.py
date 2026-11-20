@@ -176,7 +176,23 @@ def export(date: str, matches: list[dict] | None = None, area: Path = AREA,
     c = coupon_rows(date, area)
     _write(out / "mac_tahminleri.csv", MATCH_COLS, m)
     _write(out / "kuponlar.csv", COUPON_COLS, c)
+    if area == AREA:
+        apply_research_picks(date)
     return len(m), len(c)
+
+
+def apply_research_picks(date: str) -> None:
+    """One main-pick rule whatever runs last (21 Nov): simulation's best triple-confirmed bet, else the deep-research
+    pick, else the most probable selection written above. A fresh export must not undo the research."""
+    out = AREA / date
+    if not (out / "derin_tahminler.json").exists():
+        return
+    import derin_tahmin as dtah
+    import simulasyon
+    if (out / "simulasyon.json").exists():
+        simulasyon.update_picks(date, json.loads((out / "simulasyon.json").read_text(encoding="utf-8")))
+    else:
+        dtah.update_table(date, json.loads((out / "derin_tahminler.json").read_text(encoding="utf-8")))
 
 
 def main() -> None:

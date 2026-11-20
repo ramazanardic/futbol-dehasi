@@ -27,16 +27,27 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import derin_arastirma as dr  # noqa: E402
 
+sys.path.insert(0, str(dr.ROOT / "src"))
+
 AREA = dr.AREA
 TSI = dr.TSI
 MIN_ODDS, MIN_PROB = 1.20, 0.55
 
 
-def candidates(m: dict, n: int) -> list[dict]:
-    sels = [s for s in m.get("selections") or [] if s.get("direct") and s["odds"] >= MIN_ODDS and s["fair_prob"] >= MIN_PROB]
-    sels.sort(key=lambda s: -s["fair_prob"])
+def candidates(m: dict, n: int, calibration: dict | None = None) -> list[dict]:
+    """Direct-price selections at the leg floor; probability = the global one corrected by the settled-history
+    calibration, the same number the coupon builder and the family table use (21 Nov)."""
+    from quantfoot.evaluation.auto_learn import calibrated_probability
+    cal = calibration if calibration is not None else _calibration()
+    sels = [(s, calibrated_probability(s["fair_prob"], True, cal)) for s in m.get("selections") or [] if s.get("direct")]
+    sels = sorted([x for x in sels if x[0]["odds"] >= MIN_ODDS and x[1] >= MIN_PROB], key=lambda x: -x[1])
     return [{"name": s["name"], "label": f"{s['market']}: {s['selection']}", "market": s["market"], "selection": s["selection"],
-             "p": s["fair_prob"], "odds": s["odds"], "coupons": []} for s in sels[:n]]
+             "p": p, "odds": s["odds"], "coupons": []} for s, p in sels[:n]]
+
+
+def _calibration() -> dict:
+    from quantfoot.evaluation.auto_learn import load_live_calibration
+    return load_live_calibration() or {}
 
 
 def choose(legs: list[dict]) -> dict | None:
@@ -72,6 +83,28 @@ def research_day(date: str, n_cand: int, workers: int = 2) -> list[dict]:
             if i % 10 == 0:
                 print(f"{i}/{len(todo)} maç araştırıldı", flush=True)
     return sorted(rows, key=lambda r: r["kickoff"])
+
+
+def keep_notes(old_rows: list[dict], rows: list[dict]) -> int:
+    """Carry the hand-made research (web / preview notes and the verdicts they set) into a fresh run, so a rerun
+    never erases it (21 Nov). A note's verdict is kept only when the new run could not test the bet itself."""
+    old = {(str(r["code"]), x["label"]): (r, x) for r in old_rows for x in r.get("legs") or [] if x.get("web")}
+    n = 0
+    for r in rows:
+        for x in r.get("legs") or []:
+            hit = old.get((str(r["code"]), x["label"]))
+            if not hit:
+                continue
+            orow, ox = hit
+            x["web"] = ox["web"]
+            if x["verdict"].startswith("geçmiş"):
+                x["verdict"], x["mean"] = ox["verdict"], ox.get("mean")
+            r["web"] = True
+            if orow.get("onizleme"):
+                r["onizleme"] = orow["onizleme"]
+            n += 1
+        r["pick"], r["dropped"] = choose(r.get("legs") or []), [x for x in r.get("legs") or [] if x["verdict"].startswith("⚠")]
+    return n
 
 
 def update_table(date: str, rows: list[dict]) -> int:
@@ -143,6 +176,8 @@ def main() -> None:
             if fc.research(r, m) or om.research(r, m) or wg.research(r, m):
                 r["pick"], r["dropped"] = choose(r["legs"]), [x for x in r["legs"] if x["verdict"].startswith("⚠")]
     out = AREA / args.tarih
+    if (out / "derin_tahminler.json").exists():  # hand-made research of an earlier run survives the rerun
+        keep_notes(json.loads((out / "derin_tahminler.json").read_text(encoding="utf-8")), rows)
     (out / "derin_tahminler.json").write_text(json.dumps(rows, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
     (out / "derin_tahminler.md").write_text(to_markdown(args.tarih, rows), encoding="utf-8")
     (out / "derin_tahminler_ayrinti.md").write_text(dr.to_markdown(args.tarih, [r for r in rows if r["legs"]]), encoding="utf-8")

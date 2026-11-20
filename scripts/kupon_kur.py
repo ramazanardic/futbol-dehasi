@@ -88,14 +88,27 @@ def research_leg(m: dict, leg: dict, fixtures: list[dict] | None) -> dict:
     return row
 
 
+def simulation_verdicts(date: str) -> dict[tuple[str, str], str]:
+    """(match code, bet label) -> simulation verdict of the day (scripts/simulasyon.py), empty when not run."""
+    path = AREA / date / "simulasyon.json"
+    if not path.exists():
+        return {}
+    return {(str(r["code"]), b["label"]): b["verdict"] for r in json.loads(path.read_text(encoding="utf-8")) for b in r["bets"]}
+
+
 def check(legs: list[dict], analysis: dict[str, dict], evidence: bool = True,
-          fixtures: list[dict] | None = None, allow_weak: bool = True) -> tuple[list[tuple[dict, str]], list[dict]]:
+          fixtures: list[dict] | None = None, allow_weak: bool = True,
+          sim: dict[tuple[str, str], str] | None = None) -> tuple[list[tuple[dict, str]], list[dict]]:
     """(rejected legs with the reason, research rows)."""
     bad, rows = [], []
+    sim = sim or {}
     ok_marks = ("✓", "~") if allow_weak else ("✓",)
     for leg in legs:
         m = analysis.get(str(leg["code"]))
         if not m:
+            continue
+        if sim.get((str(leg["code"]), f"{leg['market']}: {leg['selection']}")) == "çelişki":
+            bad.append((leg, "simülasyon çelişki: piyasa, simülasyon ve takım geçmişi uyuşmuyor"))
             continue
         row = research_leg(m, leg, fixtures)
         rows.append(row)
@@ -124,6 +137,7 @@ def main() -> None:
     except (af.ApiError, OSError, ValueError) as e:
         fixtures = None
         print(f"API-Football kullanılamıyor ({e}); ESPN + Wikipedia ile devam")
+    sims = simulation_verdicts(args.tarih)
     allow_weak = weak_legs_allowed()
     if not allow_weak:
         print("Ölçüm: ~ işaretli bacaklar fiyatın belirgin altında tuttu; yalnız ✓ bacaklar alınıyor")
@@ -138,7 +152,8 @@ def main() -> None:
                 f.unlink(); f.with_suffix(".md").unlink(missing_ok=True)
             return
         legs = data["coupons"][0]["legs"]
-        bad, rows = check(legs, analysis, evidence=not args.kanitsiz, fixtures=fixtures, allow_weak=allow_weak)
+        bad, rows = check(legs, analysis, evidence=not args.kanitsiz, fixtures=fixtures, allow_weak=allow_weak,
+                          sim=sims)
         if not bad:
             (f.parent / f"{f.stem}_derin.md").write_text(dr.to_markdown(args.tarih, rows), encoding="utf-8")
             print(f"Tur {rnd}: kupon temiz -> {f.with_suffix('.md').relative_to(ROOT)} (+ {f.stem}_derin.md)")

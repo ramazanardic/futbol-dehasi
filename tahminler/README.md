@@ -19,6 +19,8 @@ Her yapay zekâ **yalnız kendi klasörüne** yazar; başkasının klasörüne d
 - **Ortak olan:** depodaki bütün kod, algoritmalar, modeller ve veri kaynakları (`src/`, `scripts/`, `data/`).
 - **Sistem yalnız kullanıcı sorduğunda çalışır**; otomatik zamanlanmış analiz yoktur. Kullanıcı hangi yapay zekâya
   sorduysa o yapay zekâ araştırır ve yazar.
+  Onaylı tek zamanlanmış görev `QuantFoot\KuponIzle`: kupon bacaklarını kontrol eder, dünün API-Football sonuçlarını
+  arşive ekler; analiz yapmaz.
 - **Tahminler gizlidir:** her yapay zekâ analizini, tahminlerini ve kuponlarını yalnız kendi klasörüne
   (`tahminler/<klasör>/<tarih>/`) ve yalnız kendi bilgisayarına yazar. Bu klasörler GitHub'a **hiç** gönderilmez
   (`.gitignore`: `tahminler/*/*`, yalnız README'ler izlenir); ortak alanlara (`reports/`, `docs/data/`) tahmin yazılmaz.

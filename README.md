@@ -32,6 +32,10 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
   Arşiv `scripts/arsiv_guncelle.py` ile güncellenir (yalnız yeni maçlar sona eklenir). Her ana tercihin kapanış fiyatı
   (CLV) `tahmin_clv.json`'a, simülasyon kararlarının (üçlü onay / çelişki …) isabeti ertesi gün değerlendirmesine
   yazılır.
+  Ana tercih tek kuraldır (hangi araç en son çalışırsa çalışsın): simülasyonun üçlü onaylı en sağlam bahsi, yoksa
+  derin araştırma tercihi. Simülasyon piyasadan bağımsızdır (lig modeli + form + eksikler + maçın ilk yarı gol payı);
+  kupon kurucu simülasyonun "çelişki" dediği bacağı almaz. Tarayıcıyla elle okunan maç önizleme sitelerinin kullanım
+  koşulları doğrulanmadığı için bunlar otomatik toplanmaz; yalnız elle, notu tahmin dosyasına yazılarak kullanılır.
 - **Kupon (21 Kasım):** `scripts/kupon_kur.py` yalnız takım geçmişiyle test edilmiş (✓ / ~) bacak alır
   (`--kanitsiz` ile gevşer); ertesi gün ölçümünde (`data/calibration/verdict_stats.json`) ~ bacaklar fiyatın 5 puan
   altında kalırsa yalnız ✓ alınır. Bacak olasılıkları bitmiş günlerden öğrenilen düzeltmeyle (`prob_shift`, doğrudan /

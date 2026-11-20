@@ -20,6 +20,8 @@ Bu depoda dört yapay zekâ çalışır ve tahminleri yarıştırılır. Kullan�
    (`.gitignore`: `tahminler/*/*`). Sistemi kendi klasörünüze yazdırmak için: `QUANTFOOT_AI=<klasörünüz>`.
 5. **Sistem yalnız kullanıcı sorduğunda çalışır**; kullanıcı hangi yapay zekâya sorduysa yalnız o yapay zekâ
    araştırır ve kendi klasörüne yazar.
+   Kullanıcının onayladığı tek zamanlanmış görev: Windows `QuantFoot\KuponIzle` (15 dakikada bir geçerli kuponların
+   bacaklarını Nesine'de kontrol eder ve günde bir kez dünün API-Football sonuçlarını yerel arşive ekler); analiz yapmaz.
 6. **Tek istisna — ertesi gün değerlendirmesi:** kullanıcı isteyince önceki günün tahminleri yalnız
    `scripts/gun_degerlendirme.py --tarih <gün>` ile, bitmiş maçlar üzerinden değerlendirilir ve sonuç ortak
    `degerlendirme/<gün>.md` dosyasına yazılır. Bu araç dışında öteki klasörlerin içeriği açılmaz.
