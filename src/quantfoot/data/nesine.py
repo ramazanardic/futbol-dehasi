@@ -16,6 +16,8 @@ import datetime as dt
 import json
 from pathlib import Path
 
+import time
+
 import requests
 
 BULLETIN_URL = "https://cdnbulten.nesine.com/api/bulten/getprebultenfull"
@@ -60,10 +62,20 @@ def load_market_definitions() -> dict[int, dict]:
     return {int(k): {"title": v["title"], "outcomes": {int(i): t for i, t in v["outcomes"].items()}} for k, v in raw.items()}
 
 
-def fetch_bulletin(timeout: float = 60.0) -> dict:
-    resp = requests.get(BULLETIN_URL, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"}, timeout=timeout)
-    resp.raise_for_status()
-    return resp.json()
+def fetch_bulletin(timeout: float = 60.0, attempts: int = 3, backoff_s: float = 5.0) -> dict:
+    """The live Nesine bulletin; a transient connection error is retried (20 Nov: one dropped connection stopped a
+    whole analysis run while the very next request succeeded)."""
+    for i in range(attempts):
+        try:
+            resp = requests.get(BULLETIN_URL, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"},
+                                timeout=timeout)
+            resp.raise_for_status()
+            return resp.json()
+        except (requests.ConnectionError, requests.Timeout):
+            if i == attempts - 1:
+                raise
+            time.sleep(backoff_s * (i + 1))
+    raise RuntimeError("unreachable")
 
 
 def _line(sov: float | None) -> str:

@@ -400,3 +400,26 @@ def test_deep_research_links_unlinked_match_by_league_time_and_name(monkeypatch)
     assert dr.find_espn_event(m) == ("ind.1", "77")
     assert dr.find_espn_event({**m, "kickoff_iso": "2026-11-20T18:30:00+03:00"}) is None   # other kick-off time
     assert dr.find_espn_event({**m, "league": "Etiyopya Premier Lig"}) is None              # league not on ESPN
+
+
+def test_bulletin_fetch_retries_a_dropped_connection(monkeypatch):
+    import requests
+    from quantfoot.data import nesine
+    calls = []
+
+    class R:
+        def raise_for_status(self):
+            pass
+
+        def json(self):
+            return {"sg": {}}
+
+    def get(*a, **k):
+        calls.append(1)
+        if len(calls) == 1:
+            raise requests.ConnectionError("dropped")
+        return R()
+
+    monkeypatch.setattr(nesine.requests, "get", get)
+    monkeypatch.setattr(nesine.time, "sleep", lambda s: None)
+    assert nesine.fetch_bulletin() == {"sg": {}} and len(calls) == 2

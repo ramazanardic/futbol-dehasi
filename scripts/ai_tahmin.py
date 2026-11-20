@@ -150,7 +150,7 @@ def main() -> None:
     ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
     args = ap.parse_args()
     n_m, n_c = export(args.tarih)
-    print(f"claudetahmin {args.tarih}: {n_m} maç tahmini (kendi analiz çalıştırması), {n_c} kupon bacağı -> {AREA / args.tarih}")
+    print(f"{ng.AI_NAME} {args.tarih}: {n_m} maç tahmini (kendi analiz çalıştırması), {n_c} kupon bacağı -> {AREA / args.tarih}")
 
 
 if __name__ == "__main__":
