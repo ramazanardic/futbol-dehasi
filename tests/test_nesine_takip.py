@@ -87,3 +87,25 @@ def test_played_coupons_settle_from_nesine_and_screen(tmp_path, monkeypatch):
     assert out["L"]["status"] == "yattı" and out["L"]["p"] is None  # MS 2 lost; KG Var leg unknown to the system
     lines = "\n".join(takip._played_section())
     assert "net **+150.00 TL**" in lines
+
+
+def test_score_distributions_and_quality_section(tmp_path, monkeypatch):
+    import numpy as np
+
+    import nesine_global as ng
+
+    j = np.zeros((3, 3, 3, 3))
+    j[1, 0, 1, 0] = 0.5  # HT 1-0, FT 2-0
+    j[0, 0, 1, 1] = 0.5  # HT 0-0, FT 1-1
+    dist = ng.score_distributions(j)
+    assert dist["ft"] == {"2-0": 0.5, "1-1": 0.5} and dist["htft"] == {"1/1": 0.5, "0/0": 0.5}
+    day = tmp_path / "2026-11-19"
+    day.mkdir()
+    (day / "takip_kayit.json").write_text(json.dumps({"7": {"home": "A", "away": "B", "reference": "Smarkets", "s": {"MS 1": [0.6, 1.5, 1]},
+                                                        "dist": dist}}), encoding="utf-8")
+    (day / "takip_sonuc.json").write_text(json.dumps({"7": {"completed": True, "ht": [1, 0], "ft90": [2, 0], "won": {"MS 1": True}}}),
+                                          encoding="utf-8")
+    monkeypatch.setattr(takip, "DAILY", tmp_path)
+    monkeypatch.setattr(takip, "score_baseline", lambda: {"n": 10, "ft": {"2-0": 0.1}, "ht": {"1-0": 0.3}, "htft": {"1/1": 0.3}})
+    text = "\n".join(takip._score_section(["2026-11-19"]))
+    assert "| Maç sonu skoru | 1 |" in text and "+1.609" in text  # log(0.5) - log(0.1)

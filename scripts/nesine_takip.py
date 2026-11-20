@@ -261,6 +261,94 @@ def _played_section() -> list[str]:
     return lines
 
 
+BASELINE_FILE = ROOT / "reports" / "research" / "score_baseline.json"
+
+
+def score_baseline() -> dict:
+    """Naive benchmark: historical frequency of every FT score, HT score and HT/FT result (data/matches.csv,
+    2015 onwards). A prediction is only good if it beats this."""
+    if BASELINE_FILE.exists():
+        return json.loads(BASELINE_FILE.read_text(encoding="utf-8"))
+    import pandas as pd
+    df = pd.read_csv(ROOT / "data" / "matches.csv", usecols=["MatchDate", "FTHome", "FTAway", "HTHome", "HTAway"]).dropna()
+    df = df[df.MatchDate >= "2015-01-01"].astype({"FTHome": int, "FTAway": int, "HTHome": int, "HTAway": int})
+    sign = lambda h, a: "1" if h > a else ("0" if h == a else "2")  # noqa: E731
+    out = {"n": int(len(df)),
+           "ft": (df.FTHome.astype(str) + "-" + df.FTAway.astype(str)).value_counts(normalize=True).round(5).to_dict(),
+           "ht": (df.HTHome.astype(str) + "-" + df.HTAway.astype(str)).value_counts(normalize=True).round(5).to_dict(),
+           "htft": pd.Series([f"{sign(a, b)}/{sign(c, d)}" for a, b, c, d in zip(df.HTHome, df.HTAway, df.FTHome, df.FTAway)])
+           .value_counts(normalize=True).round(5).to_dict()}
+    BASELINE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    BASELINE_FILE.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    return out
+
+
+def _score_section(days: list[str]) -> list[str]:
+    """Correct-score, HT-score and HT/FT quality against the naive benchmark (log score, top-1 / top-3 hits)."""
+    base = score_baseline()
+    sign = lambda h, a: "1" if h > a else ("0" if h == a else "2")  # noqa: E731
+    rows = {"ft": [], "ht": [], "htft": []}
+    for day in days:
+        d = DAILY / day
+        store = json.loads((d / PREDICTIONS_FILE).read_text(encoding="utf-8"))
+        results = json.loads((d / RESULTS_FILE).read_text(encoding="utf-8"))
+        for code, res in results.items():
+            dist = (store.get(code) or {}).get("dist")
+            if not res.get("completed") or not dist:
+                continue
+            (h1, a1), (h, a) = res["ht"], res["ft90"]
+            actual = {"ft": f"{h}-{a}", "ht": f"{h1}-{a1}", "htft": f"{sign(h1, a1)}/{sign(h, a)}"}
+            for k in rows:
+                pred = dist[k]
+                ranked = list(pred)
+                p = pred.get(actual[k], 0.002)
+                b = base[k].get(actual[k], 0.002)
+                rows[k].append((np.log(p), np.log(b), actual[k] == ranked[0], actual[k] in ranked[:3],
+                                pred[ranked[0]], sum(pred[x] for x in ranked[:3])))
+    if not rows["ft"]:
+        return []
+    lines = ["", "## Skor ve İY/MS tahmin kalitesi (temel çizgiye karşı)", "",
+             f"Temel çizgi: {base['n']:,} geçmiş maçta her sonucun sıklığı. Log skor farkı > 0 ise model temel çizgiden iyidir.", "",
+             "| Tahmin | Maç | Model log skoru | Temel çizgi | Fark | En olası tuttu (beklenen) | İlk 3 tuttu (beklenen) |",
+             "|---|---|---|---|---|---|---|"]
+    for k, lab in (("ft", "Maç sonu skoru"), ("ht", "İlk yarı skoru"), ("htft", "İY/MS")):
+        r = rows[k]
+        n = len(r)
+        lm, lb = np.mean([x[0] for x in r]), np.mean([x[1] for x in r])
+        lines.append(f"| {lab} | {n} | {lm:.3f} | {lb:.3f} | {lm - lb:+.3f} | {sum(x[2] for x in r)}/{n} "
+                     f"(%{np.mean([x[4] for x in r]) * 100:.0f}) | {sum(x[3] for x in r)}/{n} (%{np.mean([x[5] for x in r]) * 100:.0f}) |")
+    return lines
+
+
+def _surprises(day: str, top: int = 12) -> list[str]:
+    """The day's biggest misses: confident predictions that failed and unlikely ones that happened."""
+    d = DAILY / day
+    store = json.loads((d / PREDICTIONS_FILE).read_text(encoding="utf-8"))
+    results = json.loads((d / RESULTS_FILE).read_text(encoding="utf-8"))
+    rows = []
+    for code, res in results.items():
+        if not res.get("completed") or code not in store:
+            continue
+        rec = store[code]
+        for name, won in res["won"].items():
+            p = rec["s"][name][0]
+            if 0.55 <= p and not won:
+                src = "düşük güven (Nesine)" if str(rec.get("reference", "")).startswith("Nesine") else str(rec.get("reference", "")).split(" (")[0]
+                rows.append((-np.log(1 - p), f"{rec['home']} - {rec['away']}", name, p, src, res))
+    rows.sort(key=lambda x: -x[0])
+    if not rows:
+        return []
+    lines = ["", f"## {day}: en büyük hatalar (%55+ verilip tutmayan, en emin olunandan başlayarak)", "",
+             "| Maç | Tahmin | Olasılık | Fiyat kaynağı | Skor (İY / MS) |", "|---|---|---|---|---|"]
+    seen = set()
+    for _, match, name, p, src, res in rows:
+        if (match, name) in seen or len(seen) >= top:
+            continue
+        seen.add((match, name))
+        lines.append(f"| {match} | {name} | %{p * 100:.0f} | {src} | {res['ht'][0]}-{res['ht'][1]} / {res['ft90'][0]}-{res['ft90'][1]} |")
+    return lines
+
+
 def _calib_table(rows: list[tuple]) -> list[str]:
     bands = [(0, .2), (.2, .4), (.4, .5), (.5, .6), (.6, .7), (.7, .8), (.8, .9), (.9, 1.01)]
     out = ["| Tahmin edilen olasılık | Seçim | Ortalama tahmin | Gerçekleşen | Fark |", "|---|---|---|---|---|"]
@@ -307,6 +395,8 @@ def report() -> None:
                   for c in coupons]
     else:
         lines.append("_Sonuçlanmış kupon yok._")
+    lines += _score_section(days)
+    lines += _surprises(days[-1])
     lines += _played_section()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")

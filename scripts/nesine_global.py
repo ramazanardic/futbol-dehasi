@@ -741,6 +741,33 @@ def record_history(d: Path, out: list[dict]) -> None:
 PREDICTIONS_FILE = "takip_kayit.json"
 
 
+def score_distributions(joint, top: int = 25) -> dict:
+    """Full-time score, half-time score and HT/FT result distributions of a goal grid joint[h1, a1, h2, a2]
+    (recorded so score and HT/FT predictions can be scored the next day, even when Nesine offers no such market)."""
+    import numpy as np
+    j = np.asarray(joint, dtype=float)
+    j = j / j.sum()
+    g = j.shape[0]
+    ft: dict[str, float] = {}
+    ht: dict[str, float] = {}
+    htft: dict[str, float] = {}
+    sign = lambda h, a: "1" if h > a else ("0" if h == a else "2")  # noqa: E731
+    for h1 in range(g):
+        for a1 in range(g):
+            for h2 in range(g):
+                for a2 in range(g):
+                    p = float(j[h1, a1, h2, a2])
+                    if p <= 0:
+                        continue
+                    k = f"{h1 + h2}-{a1 + a2}"
+                    ft[k] = ft.get(k, 0.0) + p
+                    ht[f"{h1}-{a1}"] = ht.get(f"{h1}-{a1}", 0.0) + p
+                    hk = f"{sign(h1, a1)}/{sign(h1 + h2, a1 + a2)}"
+                    htft[hk] = htft.get(hk, 0.0) + p
+    best = lambda d, n: {k: round(v, 5) for k, v in sorted(d.items(), key=lambda kv: -kv[1])[:n]}  # noqa: E731
+    return {"ft": best(ft, top), "ht": best(ht, 12), "htft": best(htft, 9)}
+
+
 def record_predictions(d: Path, out: list[dict]) -> None:
     """Keep the last pre-kick-off prediction of every priced match (for settlement and hit-rate tracking).
     Matches that already started keep the record written before kick-off."""
@@ -759,6 +786,8 @@ def record_predictions(d: Path, out: list[dict]) -> None:
             "recorded": now.isoformat(timespec="seconds"),
             "s": {s["name"]: [round(s["fair_prob"], 4), s["odds"], int(bool(s.get("direct")))] for s in m["selections"]},
         }
+        if m["code"] in PRICED:
+            store[str(m["code"])]["dist"] = score_distributions(PRICED[m["code"]]["joint"])
     path.write_text(json.dumps(store, ensure_ascii=False), encoding="utf-8")
 
 
