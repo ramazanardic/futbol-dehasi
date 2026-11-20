@@ -201,10 +201,11 @@ def leg_history(name: str, home_games: list[dict], away_games: list[dict]) -> di
             if g["side"] != side:
                 continue
             ft = (g["for"][1], g["against"][1]) if side == "home" else (g["against"][1], g["for"][1])
-            try:
-                v = dr.settle_selection(name, (None, None), ft)
+            try:  # half score unknown: settle with the two extreme half scores; a full-time bet gives the same answer
+                lo, hi = dr.settle_selection(name, (0, 0), ft), dr.settle_selection(name, ft, ft)
+                v = lo if lo == hi else None  # depends on the half: no half scores on Wikipedia
             except (ValueError, KeyError, TypeError):
-                v = None  # half-time bet: no half scores on Wikipedia
+                v = None
             if v is not None:
                 res.append(v)
         return (sum(res) / len(res), len(res)) if res else (None, 0)
