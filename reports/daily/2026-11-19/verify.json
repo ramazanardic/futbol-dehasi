@@ -1,0 +1,151 @@
+{
+  "date": "2026-11-19",
+  "summary": {
+    "settled_matches": 9,
+    "best_pick_hits": 0,
+    "best_pick_settled": 4,
+    "n_matches_1x2": 4,
+    "n_value_singles": 3,
+    "clv_fair": [
+      -0.055075621636452,
+      -0.1457753759193008,
+      0.026495283212789822
+    ],
+    "clv_raw": [
+      0.003374211282633081,
+      -0.06818181818181834,
+      0.05577956989247301
+    ],
+    "flat_profit": -1.429,
+    "n_settled_singles": 3
+  },
+  "matches": [
+    {
+      "event_id": "401916978",
+      "match": "Austria Vienna - Bayern Munich",
+      "score": "0-4 (İY 0-2)",
+      "best_selection": null,
+      "hit_best": null,
+      "market_source": "kapanış"
+    },
+    {
+      "event_id": "401916977",
+      "match": "Paris FC - HB Køge",
+      "score": "2-1 (İY 1-1)",
+      "best_selection": null,
+      "hit_best": null,
+      "market_source": "kapanış"
+    },
+    {
+      "event_id": "401916976",
+      "match": "Arsenal - OL Lyonnes",
+      "score": "0-2 (İY 0-1)",
+      "best_selection": null,
+      "hit_best": null,
+      "market_source": "kapanış"
+    },
+    {
+      "event_id": "401916975",
+      "match": "Barcelona - Servette",
+      "score": "6-0 (İY 3-0)",
+      "best_selection": null,
+      "hit_best": null,
+      "market_source": null
+    },
+    {
+      "event_id": "401916974",
+      "match": "Benfica - Roma",
+      "score": "2-3 (İY 1-1)",
+      "best_selection": null,
+      "hit_best": null,
+      "market_source": null
+    },
+    {
+      "event_id": "401841308",
+      "match": "Vasco da Gama - Internacional",
+      "score": "2-1 (İY 1-0)",
+      "best_selection": "2.5 Alt",
+      "hit_best": false,
+      "market_source": "kapanış"
+    },
+    {
+      "event_id": "401841317",
+      "match": "Vitória - Red Bull Bragantino",
+      "score": "2-1 (İY 2-0)",
+      "best_selection": "2.5 Alt",
+      "hit_best": false,
+      "market_source": "kapanış"
+    },
+    {
+      "event_id": "401841309",
+      "match": "São Paulo - Fluminense",
+      "score": "0-1 (İY 0-1)",
+      "best_selection": "MS 1",
+      "hit_best": false,
+      "market_source": "kapanış"
+    },
+    {
+      "event_id": "401933535",
+      "match": "Orlando City SC - FC Cincinnati",
+      "score": "1-3 (İY 1-1)",
+      "best_selection": "MS 1",
+      "hit_best": false,
+      "market_source": "kapanış"
+    }
+  ],
+  "coupons": [
+    {
+      "title": "Hedef 3x (yalnızca artı EV bacaklar)",
+      "legs_hit": 1,
+      "legs": 1,
+      "status": "KAZANDI"
+    },
+    {
+      "title": "Hedef 5x (yalnızca artı EV bacaklar)",
+      "legs_hit": 1,
+      "legs": 1,
+      "status": "KAZANDI"
+    },
+    {
+      "title": "Hedef 10x (yalnızca artı EV bacaklar)",
+      "legs_hit": 1,
+      "legs": 1,
+      "status": "KAZANDI"
+    }
+  ],
+  "clv": [
+    {
+      "event_id": "401841308",
+      "selection": "2.5 Alt",
+      "taken_odds": 2.05,
+      "model_ev": 0.0726,
+      "closing_odds": 2.2,
+      "raw_clv": -0.06818181818181834,
+      "fair_clv": -0.1457753759193008,
+      "won": false,
+      "profit": -1.0
+    },
+    {
+      "event_id": "401841317",
+      "selection": "2.5 Alt",
+      "taken_odds": 1.952,
+      "model_ev": 0.0368,
+      "closing_odds": 1.909,
+      "raw_clv": 0.022524882137244573,
+      "fair_clv": -0.04594677220284504,
+      "won": false,
+      "profit": -1.0
+    },
+    {
+      "event_id": "401841308",
+      "selection": "MS 1",
+      "taken_odds": 1.571,
+      "model_ev": 0.0313,
+      "closing_odds": 1.488,
+      "raw_clv": 0.05577956989247301,
+      "fair_clv": 0.026495283212789822,
+      "won": true,
+      "profit": 0.571
+    }
+  ]
+}
