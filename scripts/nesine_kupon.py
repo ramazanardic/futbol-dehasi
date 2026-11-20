@@ -644,6 +644,11 @@ def main() -> None:
                                                      "coupons": coupons}, ensure_ascii=False, indent=2), encoding="utf-8")
     print("\n".join(md))
     print(f"\n-> {base.with_suffix('.md').relative_to(DAILY.parents[1])}")
+    try:  # keep Claude's area of the AI comparison (tahminler/claudetahmin) in step with the new coupons
+        from ai_tahmin import export as export_ai  # noqa: PLC0415
+        export_ai(args.tarih)
+    except Exception as exc:  # noqa: BLE001 - the coupon itself is already written
+        print(f"⚠ claudetahmin güncellenemedi: {exc}")
 
 
 if __name__ == "__main__":

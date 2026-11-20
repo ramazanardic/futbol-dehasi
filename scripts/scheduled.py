@@ -155,14 +155,16 @@ def _kick_fetch_if_stale(log) -> None:
             return
 
 
-PUBLISH_PATHS = ["reports/daily", "reports/takip", "reports/ledger", "reports/weekly", "data/calibration", "docs/data"]
+PUBLISH_PATHS = ["reports/daily", "reports/takip", "reports/ledger", "reports/weekly", "data/calibration", "docs/data",
+                 "tahminler/claudetahmin"]
 
 
-def _publish(log, message: str) -> None:
+def _publish(log, message: str, paths: list[str] | None = None) -> None:
     """Keep every prediction and result on GitHub as well (user request, 20 Nov): commit the report folders
     (git-ignored files such as logs stay local) and push. Nothing to commit = nothing happens."""
-    steps = (["git", "add", "--", *PUBLISH_PATHS],
-             ["git", "commit", "-q", "-m", message + "\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>", "--", *PUBLISH_PATHS],
+    paths = paths or PUBLISH_PATHS
+    steps = (["git", "add", "--", *paths],
+             ["git", "commit", "-q", "-m", message + "\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>", "--", *paths],
              ["git", "pull", "--rebase", "--autostash", "-q"], ["git", "push", "-q"])
     for cmd in steps:
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=300)
@@ -216,6 +218,7 @@ def main() -> None:
             # every match of the day analysed from scratch: dossiers (every bet family) and the one-page table
             _run(["--tarih", today.isoformat()], log, ROOT / "scripts" / "mac_dosyasi.py")
             _run(["--tarih", today.isoformat()], log, ROOT / "scripts" / "gunluk_analiz.py")
+            _run(["--tarih", today.isoformat()], log, ROOT / "scripts" / "ai_tahmin.py")  # AI comparison area
             # settle yesterday's Nesine predictions, refresh cumulative report, self-learning calibration & dashboard
             _run(["sonuc", "--date", y], log, ROOT / "scripts" / "nesine_takip.py")
             _run(["rapor"], log, ROOT / "scripts" / "nesine_takip.py")
@@ -233,6 +236,9 @@ def main() -> None:
             _run(["--date", day.isoformat()], log, ROOT / "scripts" / "nesine_global.py")
             # coupon legs vs the line-up re-analysis: warn before kick-off, record the closing price (CLV)
             _run(["kontrol", "--date", day.isoformat()], log, ROOT / "scripts" / "kupon_kontrol.py")
+            # Claude's area of the AI comparison must be on GitHub before kick-off (commit time = proof)
+            _run(["--tarih", day.isoformat()], log, ROOT / "scripts" / "ai_tahmin.py")
+            _publish(log, f"data(claudetahmin): {day.isoformat()} predictions", paths=["tahminler/claudetahmin"])
             _write_status(log, "kadro")
         elif mode == "analiz":
             _pull(log)

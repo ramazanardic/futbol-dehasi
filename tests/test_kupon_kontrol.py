@@ -125,3 +125,25 @@ def test_prior_legs_block_same_selection_but_allow_other_selection_on_same_match
              {"code": 1, "key": "1|MS 2|0", "name": "MS 2"}]]
     left = {x["name"] for x in kupon.drop_conflicts(pool, prior)[0]}
     assert left == {"2.5 Üst"}  # same bet and the contradicting MS 2 are gone, a compatible bet stays
+
+
+def test_claudetahmin_export_freezes_started_matches(tmp_path, monkeypatch):
+    ai = _load("ai_tahmin")
+    monkeypatch.setattr(ai, "DAILY", tmp_path)
+    day = tmp_path / "2026-11-20"
+    day.mkdir()
+
+    def analysis(p):
+        m = {"code": 1, "kickoff": "2026-11-20 20:00", "kickoff_iso": "2026-11-20T20:00:00+03:00", "league": "L",
+             "home": "A", "away": "B", "status": "fiyatlandı", "price_tier": "keskin",
+             "reference": "Matchbook + Smarkets (borsa)", "fair_1x2": [p, 0.25, 0.75 - p], "mu_home": 1.5, "mu_away": 1.0,
+             "selections": [{"key": "1|MS 1|0", "market": "Maç Sonucu", "selection": "1", "name": "MS 1",
+                             "odds": 1.5, "fair_prob": p, "ev": 0.0, "direct": True}]}
+        (day / "nesine_global.json").write_text(json.dumps({"matches": [m]}), encoding="utf-8")
+
+    analysis(0.60)
+    ai.export("2026-11-20", tmp_path / "area", now=dt.datetime(2026, 11, 20, 19, 0, tzinfo=TSI))
+    analysis(0.70)  # re-analysis after kick-off must not rewrite the prediction
+    ai.export("2026-11-20", tmp_path / "area", now=dt.datetime(2026, 11, 20, 21, 0, tzinfo=TSI))
+    rows = ai._read(tmp_path / "area" / "2026-11-20" / "mac_tahminleri.csv")
+    assert rows[0]["olasilik_1"] == "0.6000" and rows[0]["ana_secim"] == "1" and rows[0]["olasilik"] == "0.6000"
