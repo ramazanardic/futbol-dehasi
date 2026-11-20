@@ -758,7 +758,6 @@ def main() -> None:
     ap.add_argument("--no-weather", action="store_true", help="Open-Meteo maç saati şiddetli hava kontrolünü kapat")
     args = ap.parse_args()
     start = dt.date.fromisoformat(args.date)
-    week = []
     for k in range(args.hafta):
         day = (start + dt.timedelta(days=k)).isoformat()
         # Multi-day scans run OddsMath for today/tomorrow and TM/weather for today unless explicitly forced, keeping hourly runs fast.
@@ -773,34 +772,7 @@ def main() -> None:
             use_weather=run_wx,
         )
         write_report(day, out, payload, events, args.min_ev)
-        week.append((day, out))
-    if args.hafta > 1:
-        write_week(start, week, args.min_ev)
-
-
-def write_week(start: dt.date, week: list[tuple[str, list[dict]]], min_ev: float) -> None:
-    """One-page summary of a multi-day run: coverage per day and every plausible value selection of the week."""
-    lines = [f"# Nesine haftalık analiz ({start} – {week[-1][0]})", "",
-             "| Gün | Nesine maçı | Global fiyatlı | Düşük güven (Nesine) | Doğrudan borsa seçimi | Araştırma | Uyarılı |",
-             "|---|---|---|---|---|---|---|"]
-    value = []
-    for day, out in week:
-        priced = [m for m in out if m["status"] == "fiyatlandı"]
-        direct = sum(1 for m in priced for s in m["selections"] if s.get("direct"))
-        local = sum(1 for m in out if m["status"] == NESINE_ONLY_STATUS)
-        lines.append(f"| {day} | {len(out)} | {len(priced)} | {local} | {direct} | {sum(1 for m in out if m.get('research'))} | "
-                     f"{sum(1 for m in out if (m.get('research') or {}).get('flags'))} |")
-        value += [(m, s) for m in priced for s in m["selections"] if min_ev <= s["ev"] <= MAX_PLAUSIBLE_EV]
-    value.sort(key=lambda x: x[1]["ev"], reverse=True)
-    lines += ["", "## Haftanın değerli seçimleri (Nesine oranı > global adil oran)", "",
-              "| Gün saat | Maç | Pazar | Seçim | Nesine | Global olasılık | EV | Fiyat | Referans |", "|---|---|---|---|---|---|---|---|---|"]
-    lines += [f"| {m['kickoff']} | {m['home']} - {m['away']} | {s['market']} | {s['selection']} | {s['odds']:.2f} | "
-              f"%{s['fair_prob'] * 100:.1f} | {s['ev']:+.1%} | {'doğrudan' if s.get('direct') else 'model'} | "
-              f"{m['reference'].split(' (')[0]} |" for m, s in value[:100]] or ["_Yok._"]
-    path = DAILY / "hafta" / f"{start}_nesine_hafta.md"  # the AI's own folder (user rule, 20 Nov)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"-> {path.relative_to(ROOT)}")
+    # no weekly prediction report (user, 20 Nov: "haftalık tahmini direkt sil")
 
 
 def _side_rows(r: dict, side: str) -> dict[str, str]:

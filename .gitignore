@@ -19,3 +19,8 @@ reports/haftalik_sakatlik_ceza_*
 reports/DURUM.md
 .secrets/
 data/soccerdata/
+
+# Every AI's predictions and coupons stay private on its own machine (user rule, 20 Nov): never on GitHub.
+# Only the shared next-day evaluations (degerlendirme/) are published.
+tahminler/*/*
+!tahminler/*/README.md

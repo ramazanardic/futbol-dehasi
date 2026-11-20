@@ -287,3 +287,40 @@ def test_settlement_reads_own_folder_first_then_legacy_archive(tmp_path, monkeyp
     assert takip.day_dir("2026-11-19") == legacy / "2026-11-19"   # days up to 19 Nov: old shared archive
     assert takip.day_dir("2026-11-20") == own / "2026-11-20"
     assert takip.day_dir("2026-11-22") == own / "2026-11-22"      # new days always go to the AI's own folder
+
+
+def test_next_day_evaluation_reveals_finished_matches_only(tmp_path, monkeypatch):
+    ev = _load("gun_degerlendirme")
+    monkeypatch.setattr(ev, "TAHMIN", tmp_path)
+    cols = ["tarih", "saat", "lig", "mac", "nesine_kodu", "olasilik_1", "olasilik_X", "olasilik_2", "beklenen_gol_ev",
+            "beklenen_gol_dep", "en_olasi_skor", "ana_secim_pazar", "ana_secim", "nesine_oran", "olasilik", "fiyat_kaynagi", "guven", "not"]
+    import csv as _csv
+
+    def write(ai, rows, legs):
+        d = tmp_path / ai / "2026-11-20"
+        d.mkdir(parents=True)
+        with (d / "mac_tahminleri.csv").open("w", encoding="utf-8-sig", newline="") as fh:
+            w = _csv.DictWriter(fh, fieldnames=cols); w.writeheader(); w.writerows(rows)
+        lc = ["tarih", "kupon_turu", "kupon", "kupon_no", "kupon_toplam_oran", "kupon_tutma_olasiligi", "saat", "mac",
+              "nesine_kodu", "pazar", "secim", "nesine_oran", "olasilik"]
+        with (d / "kuponlar.csv").open("w", encoding="utf-8-sig", newline="") as fh:
+            w = _csv.DictWriter(fh, fieldnames=lc); w.writeheader(); w.writerows(legs)
+
+    base = {c: "" for c in cols}
+    write("claudetahmin",
+          [{**base, "mac": "A - B", "nesine_kodu": "1", "olasilik_1": "0.6", "olasilik_X": "0.25", "olasilik_2": "0.15",
+            "ana_secim_pazar": "2,5 Gol Alt/Üst", "ana_secim": "2,5 Üst", "nesine_oran": "1.80", "olasilik": "0.58"},
+           {**base, "mac": "C - D", "nesine_kodu": "2", "ana_secim_pazar": "Maç Sonucu", "ana_secim": "1",
+            "nesine_oran": "1.50", "olasilik": "0.65"}],                    # match 2 is still open
+          [{"kupon_turu": "karma", "kupon": "kupon_5x_0900", "kupon_no": "1", "kupon_toplam_oran": "5.1",
+            "kupon_tutma_olasiligi": "0.13", "mac": "A - B", "nesine_kodu": "1", "pazar": "Karşılıklı Gol", "secim": "Var"}])
+    write("geminitahmin", [{**base, "mac": "A - B", "nesine_kodu": "1", "ana_secim_pazar": "Maç Sonucu", "ana_secim": "2",
+                            "nesine_oran": "4.0", "olasilik": "0.30"}], [])
+    rep = ev.evaluate("2026-11-20", results={1: {"completed": True, "ht": [1, 0], "ft90": [2, 1]}, 2: {"completed": False}})
+    c, g = rep["ais"]["claudetahmin"], rep["ais"]["geminitahmin"]
+    assert c["main_picks"] == 1 and c["hits"] == 1 and abs(c["flat_return"] - 0.80) < 1e-9
+    assert c["coupons"][0]["won"] is True and c["n_1x2"] == 1
+    assert g["hits"] == 0 and g["flat_return"] == -1 and g["biggest_misses"][0]["match"] == "A - B"
+    assert list(rep["matches"]) == ["1"]                       # the open match 2 is never written
+    md = ev.to_markdown(rep)
+    assert "C - D" not in md and "✓ 2,5 Gol Alt/Üst: 2,5 Üst" in md

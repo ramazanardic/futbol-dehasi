@@ -10,19 +10,18 @@ Her yapay zekâ **yalnız kendi klasörüne** yazar; başkasının klasörüne d
 | `antigravitytahmin/` | Antigravity |
 | `chatgbttahmin/` | ChatGPT |
 
-## Kural: yöntem ortak, tahmin bağımsız
+## Kural: yöntem ortak, tahmin gizli, değerlendirme ortak
 
-- **Ortak olan:** depodaki bütün kod, algoritmalar, modeller ve veri kaynakları (`src/`, `scripts/`, `data/`). Her
-  yapay zekâ bunları kullanabilir ve geliştirebilir.
-- **Bağımsız olan:** tahminin kendisi. Her yapay zekâ kendi klasörünü **kendi çalıştırmasıyla** üretir; ortak
-  raporlardan (`reports/daily/`, `reports/takip/` …) ya da başka bir yapay zekânın klasöründen kopyalamaz.
-- **Kuponlar yalnız kuran yapay zekânın klasörüne yazılır** (ortak `reports/` klasörlerine değil). Her kupon kurulumu
-  ayrı dosyadır; aynı hedefin son dosyası geçerli kupondur. Dosyalar hem bilgisayardaki depoda hem GitHub'da
-  (`futbol-dehasi`) bulunur.
-- Claude'un alanı: `scripts/ai_tahmin.py` her seferinde analizi kendisi yeniden çalıştırır (canlı Nesine bülteni,
-  global keskin fiyatlar, araştırma); `scripts/nesine_kupon.py` kuponları doğrudan bu klasöre yazar
-  (`kupon_<hedef>x_<SSDD>.json/.md`), maç öncesi kontrol ve kapanış fiyatı da buradadır (`kupon_kontrol.md`,
-  `kupon_clv.json`, `clv.md`).
+- **Ortak olan:** depodaki bütün kod, algoritmalar, modeller ve veri kaynakları (`src/`, `scripts/`, `data/`).
+- **Sistem yalnız kullanıcı sorduğunda çalışır**; otomatik zamanlanmış analiz yoktur. Kullanıcı hangi yapay zekâya
+  sorduysa o yapay zekâ araştırır ve yazar.
+- **Tahminler gizlidir:** her yapay zekâ analizini, tahminlerini ve kuponlarını yalnız kendi klasörüne
+  (`tahminler/<klasör>/<tarih>/`) ve yalnız kendi bilgisayarına yazar. Bu klasörler GitHub'a **hiç** gönderilmez
+  (`.gitignore`: `tahminler/*/*`, yalnız README'ler izlenir); ortak alanlara (`reports/`, `docs/data/`) tahmin yazılmaz.
+  Kod bunu `QUANTFOOT_AI=<klasör>` ile yapar (Claude için varsayılan `claudetahmin`).
+- **Değerlendirme ortaktır:** ertesi gün, önceki günün maçları sonuçlandırılır ve bütün yapay zekâların tahminleri
+  `scripts/gun_degerlendirme.py --tarih <gün>` ile değerlendirilir; sonuç herkesin görebileceği
+  `degerlendirme/<tarih>.md` / `.json` dosyasına yazılır. Bu dosyada yalnız **bitmiş** maçlar yer alır.
 
 ## Günlük standart kupon talebi (20 Kasım'dan itibaren, her yapay zekâ aynısını yapar)
 
@@ -68,7 +67,5 @@ Her gün için `tahminler/<klasör>/<YYYY-AA-GG>/` altında iki CSV (UTF-8, virg
 | kupon_toplam_oran, kupon_tutma_olasiligi | Nesine toplam oranı ve tahmin edilen tutma olasılığı (0–1) |
 | saat, mac, nesine_kodu, pazar, secim, nesine_oran, olasilik | Bacak bilgisi |
 
-Açık (henüz sonuçlanmamış) günlerin tahminleri ve kuponları GitHub'a **konmaz**; her yapay zekâ bunları kendi bilgisayarında
-tutar ve gün sonuçlandıktan sonra gönderir. Böylece hiçbir yapay zekâ ötekinin açık tahminlerinden etkilenmez.
 Karşılaştırmada ölçütler: ana tercih isabeti (%), olasılık kalitesi (Brier / log-loss, 1X2), tutan kupon / bacak
 oranı ve 1 birim sabit bahisle kâr/zarar (ROI).
