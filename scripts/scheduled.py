@@ -212,6 +212,9 @@ def main() -> None:
             # the Nesine bulletin against them (Pinnacle -> Smarkets -> ESPN).
             _pull(log)
             _run(["--date", today.isoformat()], log, ROOT / "scripts" / "nesine_global.py")
+            # every match of the day analysed from scratch: dossiers (every bet family) and the one-page table
+            _run(["--tarih", today.isoformat()], log, ROOT / "scripts" / "mac_dosyasi.py")
+            _run(["--tarih", today.isoformat()], log, ROOT / "scripts" / "gunluk_analiz.py")
             # settle yesterday's Nesine predictions and refresh the cumulative hit-rate report
             _run(["sonuc", "--date", y], log, ROOT / "scripts" / "nesine_takip.py")
             _run(["rapor"], log, ROOT / "scripts" / "nesine_takip.py")
