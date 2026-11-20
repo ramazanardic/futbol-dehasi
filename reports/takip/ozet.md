@@ -1,73 +1,82 @@
 # Nesine tahminleri — sonuç takibi
 
-Günler: 2026-11-19 · sonuçlanan seçim: 2894
+Günler: 2026-11-19 · sonuçlanan seçim: 3083
 
 Doğru kalibre bir sistemde 'gerçekleşen' sütunu 'ortalama tahmin'e yakın olmalıdır.
 
-Brier skoru (tüm seçimler): 0.1642
+Brier skoru (tüm seçimler): 0.1618
 
 ## Olasılık bandına göre
 
 | Tahmin edilen olasılık | Seçim | Ortalama tahmin | Gerçekleşen | Fark |
 |---|---|---|---|---|
-| %0–20 | 1017 | %8.6 | %6.5 | -2.1 puan |
-| %20–40 | 794 | %29.1 | %30.9 | +1.7 puan |
-| %40–50 | 376 | %45.0 | %43.6 | -1.4 puan |
-| %50–60 | 319 | %54.9 | %55.8 | +0.9 puan |
-| %60–70 | 228 | %65.1 | %61.4 | -3.7 puan |
-| %70–80 | 149 | %74.2 | %83.2 | +9.0 puan |
+| %0–20 | 1111 | %8.5 | %6.5 | -2.1 puan |
+| %20–40 | 845 | %29.1 | %30.4 | +1.3 puan |
+| %40–50 | 389 | %45.0 | %43.4 | -1.5 puan |
+| %50–60 | 330 | %54.9 | %56.1 | +1.2 puan |
+| %60–70 | 237 | %65.0 | %62.0 | -3.0 puan |
+| %70–80 | 160 | %74.3 | %83.8 | +9.5 puan |
 | %80–90 | 11 | %83.3 | %63.6 | -19.7 puan |
 
 ## Fiyat kaynağına göre
 
 | Kaynak | Seçim | Ortalama tahmin | Gerçekleşen |
 |---|---|---|---|
-| Doğrudan borsa fiyatı | 890 | %29.6 | %29.3 |
-| Gol modeli | 2004 | %33.3 | %33.1 |
+| Doğrudan borsa fiyatı | 972 | %29.2 | %29.0 |
+| Gol modeli | 2111 | %32.9 | %32.6 |
 
 ## Bahis ailesine göre
 
 | Aile | Seçim | Ortalama tahmin | Gerçekleşen | Brier |
 |---|---|---|---|---|
-| 2Y karşılıklı gol | 52 | %42.7 | %40.4 | 0.2083 |
-| Alt/Üst | 196 | %46.9 | %45.9 | 0.1921 |
-| Deplasman golleri | 220 | %42.6 | %41.8 | 0.1934 |
-| Diğer | 57 | %12.3 | %10.5 | 0.0800 |
-| Ev sahibi golleri | 243 | %45.7 | %45.3 | 0.2221 |
-| Gol aralığı | 107 | %28.6 | %29.0 | 0.1704 |
-| Handikap | 180 | %31.6 | %31.1 | 0.1728 |
-| Karşılıklı gol | 88 | %50.0 | %50.0 | 0.2238 |
-| Kombine (A & B) | 886 | %13.9 | %13.9 | 0.0926 |
-| Maç sonucu | 139 | %31.3 | %30.9 | 0.2042 |
-| Tek/Çift | 76 | %50.0 | %50.0 | 0.2509 |
-| Çifte şans | 87 | %60.1 | %63.2 | 0.2051 |
-| İY karşılıklı gol | 45 | %33.8 | %33.3 | 0.1286 |
-| İY/MS | 54 | %11.1 | %11.1 | 0.0748 |
-| İkinci yarı | 96 | %33.3 | %33.3 | 0.2205 |
-| İlk gol | 13 | %26.1 | %23.1 | 0.1030 |
-| İlk yarı | 355 | %45.3 | %44.8 | 0.2167 |
+| 2Y karşılıklı gol | 54 | %43.0 | %40.7 | 0.2046 |
+| Alt/Üst | 205 | %46.4 | %45.4 | 0.1893 |
+| Deplasman golleri | 235 | %42.5 | %41.7 | 0.1905 |
+| Diğer | 65 | %12.4 | %10.8 | 0.0809 |
+| Ev sahibi golleri | 258 | %45.5 | %45.0 | 0.2187 |
+| Gol aralığı | 114 | %28.6 | %28.9 | 0.1715 |
+| Handikap | 189 | %31.7 | %31.2 | 0.1675 |
+| Karşılıklı gol | 90 | %50.0 | %50.0 | 0.2219 |
+| Kombine (A & B) | 970 | %13.7 | %13.7 | 0.0928 |
+| Maç sonucu | 142 | %31.3 | %31.0 | 0.2061 |
+| Tek/Çift | 78 | %50.0 | %50.0 | 0.2507 |
+| Çifte şans | 90 | %60.3 | %63.3 | 0.2081 |
+| İY karşılıklı gol | 47 | %34.5 | %34.0 | 0.1256 |
+| İY/MS | 63 | %11.1 | %11.1 | 0.0808 |
+| İkinci yarı | 99 | %33.3 | %33.3 | 0.2220 |
+| İlk gol | 16 | %27.4 | %25.0 | 0.1069 |
+| İlk yarı | 368 | %45.3 | %44.8 | 0.2152 |
 
 ## Maç başına en güvenilir tercih (oran ≥ 1,20)
 
-48 maç: ortalama tahmin %66.0, tutan %62.5
+49 maç: ortalama tahmin %66.0, tutan %63.3
 
 ## Kuponlar
 
 | Kupon | Oran | Tahmini tutma | Sonuç | Tutan bacak |
 |---|---|---|---|---|
 | 2026-11-19/kupon_10x_1604.json | 11.57 | %1.2 | yattı | 11/12 |
+| 2026-11-19/kupon_10x_1949.json | 10.02 | %4.1 | yattı | 4/6 |
 | 2026-11-19/kupon_10x_2040.json | 10.06 | %3.7 | yattı | 4/6 |
+| 2026-11-19/kupon_10x_2040.json | 10.00 | %3.6 | yattı | 2/6 |
 | 2026-11-19/kupon_10x_2040.json | 10.01 | %2.7 | yattı | 5/7 |
+| 2026-11-19/kupon_10x_2046.json | 10.00 | %3.7 | yattı | 5/6 |
 | 2026-11-19/kupon_10x_2046.json | 10.02 | %3.3 | yattı | 3/6 |
 | 2026-11-19/kupon_10x_2046.json | 10.01 | %2.7 | yattı | 3/7 |
 | 2026-11-19/kupon_25x_1700.json | 25.41 | %0.3 | yattı | 13/16 |
+| 2026-11-19/kupon_25x_1704.json | 25.40 | %1.5 | yattı | 3/7 |
 | 2026-11-19/kupon_5x_1950.json | 5.00 | %10.9 | yattı | 3/4 |
 | 2026-11-19/kupon_aksam_gece.json | 3.27 | %10.6 | yattı | 5/6 |
+| 2026-11-19/kupon_aksam_gece.json | 3.57 | %10.8 | yattı | 5/6 |
 | 2026-11-19/kupon_aksam_gece_v2.json | 3.30 | %10.4 | yattı | 5/6 |
+| 2026-11-19/kupon_aksam_gece_v2.json | 3.57 | %10.8 | yattı | 5/6 |
 | 2026-11-19/kupon_aksam_gece_v3.json | 3.24 | %10.4 | yattı | 5/6 |
+| 2026-11-19/kupon_aksam_gece_v3.json | 3.57 | %10.8 | yattı | 5/6 |
 | 2026-11-19/kupon_en_verimli.json | 3.00 | %25.6 | yattı | 1/2 |
 | 2026-11-19/kupon_en_verimli.json | 4.12 | %18.7 | TUTTU | 2/2 |
+| 2026-11-19/kupon_en_verimli.json | 5.20 | %15.1 | yattı | 1/2 |
 | 2026-11-19/kupon_iki_ayri_10x.json | 11.07 | %4.7 | yattı | 3/5 |
+| 2026-11-19/kupon_iki_ayri_10x.json | 10.65 | %4.6 | yattı | 3/5 |
 
 ## Skor ve İY/MS tahmin kalitesi (temel çizgiye karşı)
 
@@ -75,9 +84,9 @@ Temel çizgi: 87,967 geçmiş maçta her sonucun sıklığı. Log skor farkı > 
 
 | Tahmin | Maç | Model log skoru | Temel çizgi | Fark | En olası tuttu (beklenen) | İlk 3 tuttu (beklenen) |
 |---|---|---|---|---|---|---|
-| Maç sonu skoru | 48 | -2.829 | -3.108 | +0.279 | 5/48 (%12) | 15/48 (%34) |
-| İlk yarı skoru | 48 | -2.130 | -2.280 | +0.150 | 14/48 (%31) | 27/48 (%67) |
-| İY/MS | 48 | -1.812 | -1.899 | +0.086 | 21/48 (%37) | 29/48 (%70) |
+| Maç sonu skoru | 49 | -2.817 | -3.087 | +0.270 | 6/49 (%12) | 16/49 (%34) |
+| İlk yarı skoru | 49 | -2.119 | -2.266 | +0.147 | 14/49 (%31) | 28/49 (%66) |
+| İY/MS | 49 | -1.835 | -1.920 | +0.085 | 21/49 (%37) | 29/49 (%69) |
 
 ## 2026-11-19: en büyük hatalar (%55+ verilip tutmayan, en emin olunandan başlayarak)
 

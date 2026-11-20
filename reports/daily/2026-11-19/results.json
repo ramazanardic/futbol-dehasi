@@ -108,7 +108,15 @@
     ]
   },
   "401933555": {
-    "completed": false,
-    "status": "13'"
+    "completed": true,
+    "status": "FT-Pens",
+    "ht": [
+      1,
+      0
+    ],
+    "ft90": [
+      1,
+      1
+    ]
   }
 }

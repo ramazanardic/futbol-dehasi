@@ -1,10 +1,11 @@
 # 2026-11-19 — Tahmin ve Kupon Denetimi
 
-- Sonuçlanan maç: **9**; en iyi seçim isabeti: **0/4**
+- Sonuçlanan maç: **10**; en iyi seçim isabeti: **1/5**
 
 ## Model piyasaya bilgi katıyor mu?
 
-- Havuz testi için en az 5 sonuçlanmış maç gerekli (şu an 4).
+- 1X2 log-loss (5 maç) — piyasa: **0.9939**, model: **1.0095**, en iyi havuz: 0.9939
+- Havuzda modelin ağırlığı **w = 0.00** (%95 güven aralığı 0.00 – 1.00). Aralık 0'ı içeriyor: model piyasaya **kanıtlanmış bilgi katmıyor**.
 
 ## Değer tekilleri: kapanış çizgisi (CLV) ve kâr/zarar
 
@@ -33,3 +34,4 @@ _Karar kuralı: haftalar boyunca adil CLV'nin güven aralığı sıfırın üst�
 | Vitória - Red Bull Bragantino | 2-1 (İY 2-0) | 2.5 Alt | ✗ | kapanış |
 | São Paulo - Fluminense | 0-1 (İY 0-1) | MS 1 | ✗ | kapanış |
 | Orlando City SC - FC Cincinnati | 1-3 (İY 1-1) | MS 1 | ✗ | kapanış |
+| Seattle Sounders FC - Real Salt Lake | 1-1 (İY 1-0) | 3.5 Alt | ✓ | kapanış |

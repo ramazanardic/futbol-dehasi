@@ -1,10 +1,19 @@
 {
   "date": "2026-11-19",
   "summary": {
-    "settled_matches": 9,
-    "best_pick_hits": 0,
-    "best_pick_settled": 4,
-    "n_matches_1x2": 4,
+    "settled_matches": 10,
+    "best_pick_hits": 1,
+    "best_pick_settled": 5,
+    "n_matches_1x2": 5,
+    "pool": {
+      "n": 5,
+      "weight": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 1.0,
+      "logloss_market": 0.9938988833561219,
+      "logloss_model": 1.009466996651144,
+      "logloss_pool": 0.9938988833561219
+    },
     "n_value_singles": 3,
     "clv_fair": [
       -0.055075621636452,
@@ -90,6 +99,14 @@
       "score": "1-3 (İY 1-1)",
       "best_selection": "MS 1",
       "hit_best": false,
+      "market_source": "kapanış"
+    },
+    {
+      "event_id": "401933555",
+      "match": "Seattle Sounders FC - Real Salt Lake",
+      "score": "1-1 (İY 1-0)",
+      "best_selection": "3.5 Alt",
+      "hit_best": true,
       "market_source": "kapanış"
     }
   ],

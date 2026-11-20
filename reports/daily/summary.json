@@ -1,20 +1,29 @@
 {
   "days": [
-    "2026-11-18"
+    "2026-11-18",
+    "2026-11-19"
   ],
-  "n_matches_1x2": 14,
+  "n_matches_1x2": 19,
   "pool": {
-    "n": 14,
-    "weight": 0.14,
+    "n": 19,
+    "weight": 0.0,
     "ci_low": 0.0,
     "ci_high": 1.0,
-    "logloss_market": 0.7525641754082402,
-    "logloss_model": 0.7532774810530938,
-    "logloss_pool": 0.7525434903091494
+    "logloss_market": 0.8160733090787353,
+    "logloss_model": 0.8206957746315282,
+    "logloss_pool": 0.8160733090787353
   },
-  "n_value_singles": 0,
-  "clv_fair": null,
-  "clv_raw": null,
-  "flat_profit": null,
-  "n_settled_singles": 0
+  "n_value_singles": 3,
+  "clv_fair": [
+    -0.055075621636452,
+    -0.1457753759193008,
+    0.026495283212789822
+  ],
+  "clv_raw": [
+    0.003374211282633081,
+    -0.06818181818181834,
+    0.05577956989247301
+  ],
+  "flat_profit": -1.429,
+  "n_settled_singles": 3
 }
