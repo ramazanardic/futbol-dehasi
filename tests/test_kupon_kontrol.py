@@ -455,3 +455,12 @@ def test_kupon_kur_rejects_warned_and_clustered_legs(monkeypatch):
     monkeypatch.setattr(kk.dr, "research_match", lambda m, l: {"legs": [{"verdict": "⚠ geçmiş desteklemiyor" if m["code"] == 4 else "✓", "mean": 0.3}]})
     bad, rows = kk.check(legs, {str(i): {"code": i} for i in range(5)})
     assert [b[0]["code"] for b in bad] == [4] and len(rows) == 5
+
+
+def test_closed_nesine_markets_are_not_offered():
+    from quantfoot.data.nesine import parse_bulletin
+    ev = {"TYPE": 1, "C": 7, "HN": "A", "AN": "B", "ESD": 1795186800000, "LC": 1,
+          "MA": [{"MTID": 1, "SOV": 0.0, "MS": 1, "OCA": [{"N": 1, "O": 1.5}, {"N": 2, "O": 4.0}, {"N": 3, "O": 6.0}]},
+                 {"MTID": 12, "SOV": 2.5, "MS": 0, "OCA": [{"N": 1, "O": 2.04}, {"N": 2, "O": 1.34}]}]}
+    names = {s.name for s in parse_bulletin({"sg": {"EA": [ev]}})[0].selections}
+    assert "MS 1" in names and "2.5 Üst" not in names and "2.5 Alt" not in names

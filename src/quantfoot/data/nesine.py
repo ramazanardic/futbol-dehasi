@@ -216,6 +216,10 @@ def parse_bulletin(payload: dict, defs: dict[int, dict] | None = None) -> list[N
         ev = NesineEvent(code=int(e["C"]), home=e.get("HN", ""), away=e.get("AN", ""), kickoff=ko, league_code=int(e.get("LC", 0)))
         for m in e.get("MA", []):
             mtid = int(m["MTID"])
+            if m.get("MS", 1) != 1:
+                # MS = market status: 0 = closed / suspended on Nesine (not offered on the site) although the feed still
+                # carries its last odds (20 Nov: Sumgayit - Sabah 2,5 Alt/Üst had MS 0 and still entered a coupon)
+                continue
             for oc in m.get("OCA", []):
                 odds = float(oc.get("O", 0))
                 if odds <= 1.0:
