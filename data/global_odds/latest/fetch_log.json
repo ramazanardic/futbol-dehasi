@@ -1,14 +1,14 @@
 {
- "started_utc": "2026-11-20T07:10:57+00:00",
+ "started_utc": "2026-11-20T08:30:15+00:00",
  "errors": [],
  "counts": {
-  "smarkets_events": 5,
-  "smarkets_markets": 449,
-  "smarkets_contracts": 553,
-  "smarkets_markets_illiquid": 123,
-  "smarkets_references": 3,
-  "matchbook_events": 355,
-  "matchbook_references": 4,
+  "smarkets_events": 8,
+  "smarkets_markets": 665,
+  "smarkets_contracts": 790,
+  "smarkets_markets_illiquid": 158,
+  "smarkets_references": 5,
+  "matchbook_events": 373,
+  "matchbook_references": 11,
   "references_total": 657
  },
  "samples": {
@@ -16,29 +16,33 @@
    "bet_allowed": true,
    "bettable": true,
    "chart_time_period": null,
-   "created": "2026-11-13T09:26:04.718925Z",
-   "description": null,
+   "created": "2026-11-17T07:02:29.673643Z",
+   "description": "",
    "display_order": 10,
    "end_date": null,
-   "full_slug": "/sport/football/indonesia-super-league/2026/11/20/08-30/pss-sleman-vs-arema",
+   "full_slug": "/sport/football/australia-championship/2026/11/20/08-30/sydney-united-58-vs-sutherland-sharks",
    "hidden": false,
-   "id": "45439565",
-   "inplay_enabled": false,
-   "modified": "2026-11-20T07:06:59.576776Z",
-   "name": "PSS Sleman vs Arema",
-   "parent_id": "44550616",
+   "id": "45447125",
+   "inplay_enabled": true,
+   "modified": "2026-11-20T08:29:21.718060Z",
+   "name": "Sydney United 58 vs Sutherland Sharks",
+   "parent_id": "45371580",
    "seo_description": "Bet on {{ contracts.home.name }} vs {{ contracts.away.name }} on {{ event.start_datetime | date \"eeee, d MMMM\" }}.\r\n\r\nWith the Smarkets exchange, you can back or lay your bets on the clash between {{ contracts.home.name }} and {{ contracts.away.name }} on {{ event.start_datetime | date \"eeee, d MMMM\" }}. This game has {{ markets.length }} markets available to bet on. The most popular market so far is {{ markets.0.name }}.\r\n\r\nThe favourites to win the game between {{ contracts.home.name }} and {{ contracts.away.name }} as of publication are {{ contracts.fav.name }} who are priced at odds of {{ contracts.fav.anyPrice | odds }}. The odds of a draw are {{ contracts.draw.anyPrice | odds }} while the odds for {{ contracts.other.name }} to win are {{ contracts.other.anyPrice | odds }}.\r\n\r\nA {{ 10 | money }} back bet on {{ contracts.fav.name }} to win returns {{ contracts.fav.buyPrice | payout 10 }}, whereas a {{ 10 | money }} back bet on {{ contracts.other.name }} to win are {{ contracts.other.buyPrice | payout 10 }}. If you think neither side will come away with the victory, betting the same amount in a back bet on the draw would win you {{ contracts.draw.buyPrice | payout 10 }}.\r\n\r\nAs Smarkets is an exchange, you can also place lay bets on all outcomes for {{ contracts.home.name }} vs {{ contracts.away.name }}.\r\nYou can also use the bet calculator to help you calculate potential winnings.",
-   "short_name": "PSS vs. ARE",
-   "slug": "pss-sleman-vs-arema",
-   "special_rules": null,
+   "short_name": "SYD vs. SUT",
+   "slug": "sydney-united-58-vs-sutherland-sharks",
+   "special_rules": "",
    "start_date": "2026-11-20",
    "start_datetime": "2026-11-20T08:30:00Z",
    "state": "upcoming",
    "super_sub_enabled": false,
    "type": "football_match",
    "venue": {
-    "country_code": "IDN",
-    "country_name": "Indonesia",
+    "city": "Australia",
+    "country_code": "AUS",
+    "country_name": "Australia",
+    "latitude": 33.8758188,
+    "longitude": 150.8737568,
+    "name": "Sydney United Sport Centre",
     "neutral": false
    }
   },
@@ -63,77 +67,77 @@
    "info": {
     "reason": ""
    },
-   "inplay_enabled": false,
+   "inplay_enabled": true,
    "market_type": {
     "name": "WINNER_3_WAY"
    },
-   "modified": "2026-11-10T08:40:08.455Z",
+   "modified": "2026-11-20T08:10:15.346Z",
    "name": "Full-time result",
    "slug": "winner",
    "state": "open",
    "winner_count": 1
   },
   "smarkets_market_names": {
-   "WINNER_3_WAY | Full-time result": 5,
-   "CORRECT_SCORE | Correct score": 5,
-   "BTTS | Both teams to score": 5,
-   "OVER_UNDER | Over/under 0.5": 5,
-   "OVER_UNDER | Over/under 1.5": 5,
-   "OVER_UNDER | Over/under 2.5": 5,
-   "OVER_UNDER | Over/under 3.5": 5,
-   "OVER_UNDER | Over/under 4.5": 5,
-   "OVER_UNDER | Over/under 5.5": 5,
-   "OVER_UNDER | Over/under 6.5": 5,
-   "WINNER_AND_BTTS | Winner and both teams to score": 5,
-   "WINNER_AND_OVER | Winner and over/under 1.5": 5,
-   "WINNER_AND_OVER | Winner and over/under 2.5": 5,
-   "WINNER_AND_OVER | Winner and over/under 3.5": 5,
-   "WINNER_AND_OVER | Winner and over/under 4.5": 5,
-   "BTTS_AND_OVER | Both teams to score and over/under 2.5": 5,
-   "DOUBLE_CHANCE | Double chance": 5,
-   "HALF_FULL | Half-time/full-time": 5,
-   "SCORE_RANGE | Goal range": 5,
-   "WINNER_DNB | Draw No Bet": 5,
-   "HIGHEST_SCORING_HALF | Highest scoring half": 5,
-   "EXACT_GOALS | Exact goals": 5,
-   "ODD_EVEN | Odd or even score": 5,
-   "HALF_TIME_WINNER_3_WAY | Half-time result": 5,
-   "HALF_TIME_DOUBLE_CHANCE | Half-time double chance": 5,
-   "HALF_TIME_CORRECT_SCORE | Half-time correct score": 5,
-   "FIRST_HALF_OVER_UNDER | First half over/under 0.5": 5,
-   "FIRST_HALF_OVER_UNDER | First half over/under 1.5": 5,
-   "FIRST_HALF_OVER_UNDER | First half over/under 2.5": 5,
-   "FIRST_HALF_WINNER_AND_BTTS | First half winner and both teams to score": 5,
-   "FIRST_HALF_WINNER_AND_OVER | First half winner and over/under 1.5": 5,
-   "FIRST_HALF_ODD_EVEN | First half odd or even score": 5,
-   "FIRST_HALF_EXACT_GOALS | First half exact goals": 5,
-   "SECOND_HALF_WINNER_3_WAY | Second half result": 5,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 1.5": 5,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 2.5": 5,
-   "SECOND_HALF_ODD_EVEN | Second half odd or even score": 5,
-   "SECOND_HALF_EXACT_GOALS | Second half exact goals": 5,
-   "BTTS_FIRST_HALF | Both teams to score in First Half": 5,
-   "BTTS_SECOND_HALF | Both teams to score in Second Half": 5,
-   "BTTS_BOTH_HALVES | Both teams to score in first half / second half": 5,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 0.5": 4,
-   "ASIAN_HANDICAP | Asian Handicap Western Sydney Wanderers -2.5 / Adelaide United +2.5": 1,
-   "ASIAN_HANDICAP | Asian Handicap Western Sydney Wanderers -2.0 / Adelaide United +2.0": 1,
-   "ASIAN_HANDICAP | Asian Handicap Western Sydney Wanderers -1.5 / Adelaide United +1.5": 1,
-   "ASIAN_HANDICAP | Asian Handicap Western Sydney Wanderers -1.0 / Adelaide United +1.0": 1,
-   "ASIAN_HANDICAP | Asian Handicap Western Sydney Wanderers -0.5 / Adelaide United +0.5": 1,
-   "ASIAN_HANDICAP | Asian Handicap Western Sydney Wanderers +0.5 / Adelaide United -0.5": 1,
-   "HANDICAP_3_WAY | Handicap Western Sydney Wanderers -2.0 / Adelaide United +2.0 (3-way)": 1,
-   "HANDICAP_3_WAY | Handicap Western Sydney Wanderers -1.0 / Adelaide United +1.0 (3-way)": 1,
-   "HANDICAP_3_WAY | Handicap Western Sydney Wanderers +1.0 / Adelaide United -1.0 (3-way)": 1,
-   "HANDICAP_3_WAY | Handicap Western Sydney Wanderers +2.0 / Adelaide United -2.0 (3-way)": 1,
-   "FIRST_HALF_ASIAN_HANDICAP | First half Asian Handicap Western Sydney Wanderers -1.5 / Adelaide United +1.5": 1,
-   "FIRST_HALF_ASIAN_HANDICAP | First half Asian Handicap Western Sydney Wanderers -1.0 / Adelaide United +1.0": 1,
-   "FIRST_HALF_ASIAN_HANDICAP | First half Asian Handicap Western Sydney Wanderers -0.5 / Adelaide United +0.5": 1,
-   "FIRST_HALF_ASIAN_HANDICAP | First half Asian Handicap Western Sydney Wanderers +0.5 / Adelaide United -0.5": 1,
-   "FIRST_HALF_HANDICAP_3_WAY | First half Handicap Western Sydney Wanderers -2.0 / Adelaide United +2.0 (3-way)": 1,
-   "FIRST_HALF_HANDICAP_3_WAY | First half Handicap Western Sydney Wanderers -1.0 / Adelaide United +1.0 (3-way)": 1,
-   "FIRST_HALF_HANDICAP_3_WAY | First half Handicap Western Sydney Wanderers +1.0 / Adelaide United -1.0 (3-way)": 1,
-   "HOME_TEAM_OVER_UNDER | Western Sydney Wanderers over/under 0.5 goals": 1
+   "WINNER_3_WAY | Full-time result": 8,
+   "CORRECT_SCORE | Correct score": 8,
+   "BTTS | Both teams to score": 8,
+   "OVER_UNDER | Over/under 0.5": 8,
+   "OVER_UNDER | Over/under 1.5": 8,
+   "OVER_UNDER | Over/under 2.5": 8,
+   "OVER_UNDER | Over/under 3.5": 8,
+   "OVER_UNDER | Over/under 4.5": 8,
+   "OVER_UNDER | Over/under 5.5": 8,
+   "OVER_UNDER | Over/under 6.5": 8,
+   "WINNER_AND_BTTS | Winner and both teams to score": 8,
+   "WINNER_AND_OVER | Winner and over/under 2.5": 8,
+   "BTTS_AND_OVER | Both teams to score and over/under 2.5": 8,
+   "DOUBLE_CHANCE | Double chance": 8,
+   "WINNER_DNB | Draw No Bet": 8,
+   "WINNER_AND_OVER | Winner and over/under 1.5": 6,
+   "WINNER_AND_OVER | Winner and over/under 3.5": 6,
+   "WINNER_AND_OVER | Winner and over/under 4.5": 6,
+   "HALF_FULL | Half-time/full-time": 6,
+   "SCORE_RANGE | Goal range": 6,
+   "HIGHEST_SCORING_HALF | Highest scoring half": 6,
+   "EXACT_GOALS | Exact goals": 6,
+   "ODD_EVEN | Odd or even score": 6,
+   "HALF_TIME_WINNER_3_WAY | Half-time result": 6,
+   "HALF_TIME_DOUBLE_CHANCE | Half-time double chance": 6,
+   "HALF_TIME_CORRECT_SCORE | Half-time correct score": 6,
+   "FIRST_HALF_OVER_UNDER | First half over/under 0.5": 6,
+   "FIRST_HALF_OVER_UNDER | First half over/under 1.5": 6,
+   "FIRST_HALF_OVER_UNDER | First half over/under 2.5": 6,
+   "FIRST_HALF_WINNER_AND_BTTS | First half winner and both teams to score": 6,
+   "FIRST_HALF_WINNER_AND_OVER | First half winner and over/under 1.5": 6,
+   "FIRST_HALF_ODD_EVEN | First half odd or even score": 6,
+   "FIRST_HALF_EXACT_GOALS | First half exact goals": 6,
+   "SECOND_HALF_WINNER_3_WAY | Second half result": 6,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 0.5": 6,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 1.5": 6,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 2.5": 6,
+   "SECOND_HALF_ODD_EVEN | Second half odd or even score": 6,
+   "SECOND_HALF_EXACT_GOALS | Second half exact goals": 6,
+   "BTTS_FIRST_HALF | Both teams to score in First Half": 6,
+   "BTTS_SECOND_HALF | Both teams to score in Second Half": 6,
+   "BTTS_BOTH_HALVES | Both teams to score in first half / second half": 6,
+   "CORNERS_WINNER_THREE_WAY | Most corners": 4,
+   "ANYTIME_GOALSCORER | Anytime goalscorer": 3,
+   "FIRST_GOALSCORER | First goalscorer": 3,
+   "LAST_GOALSCORER | Last goalscorer": 3,
+   "PLAYER_AT_LEAST_GOALS | Player to score at least 2 goals": 3,
+   "PLAYER_AT_LEAST_GOALS | Player to score a hat-trick": 3,
+   "WIN_MARGIN | Winning margin": 3,
+   "TIME_OF_NEXT_GOAL | Goal 1 time bracket": 3,
+   "WHICH_TEAM_TO_SCORE | Which team to score": 3,
+   "LAST_TEAM_TO_SCORE | Last team to score": 3,
+   "NEXT_TEAM_TO_SCORE | Team to score first goal": 3,
+   "CORNERS_OVER_UNDER | Over/under 7.5 corners": 3,
+   "CORNERS_OVER_UNDER | Over/under 8.5 corners": 3,
+   "CORNERS_OVER_UNDER | Over/under 9.5 corners": 3,
+   "CORNERS_OVER_UNDER | Over/under 10.5 corners": 3,
+   "CORNERS_OVER_UNDER | Over/under 11.5 corners": 3,
+   "LAST_CORNER | Team to have the last corner": 3,
+   "CORNER_RANGE | Total corners in range": 3
   },
   "smarkets_contract": {
    "competitor_id": 202945,
@@ -156,151 +160,165 @@
    "484158125": {
     "bids": [
      {
-      "price": 5988,
-      "quantity": 6636067
+      "price": 6211,
+      "quantity": 13891966
+     },
+     {
+      "price": 6173,
+      "quantity": 12473033
+     },
+     {
+      "price": 6135,
+      "quantity": 1629992
+     },
+     {
+      "price": 6061,
+      "quantity": 11715400
      },
      {
       "price": 5917,
-      "quantity": 1825249
-     },
-     {
-      "price": 5714,
-      "quantity": 6804125
+      "quantity": 208044
      }
     ],
     "offers": [
      {
-      "price": 6061,
-      "quantity": 313572
+      "price": 6329,
+      "quantity": 10612936
      },
      {
-      "price": 6135,
-      "quantity": 6278659
+      "price": 6369,
+      "quantity": 2754062
      },
      {
-      "price": 6173,
-      "quantity": 2613013
-     },
-     {
-      "price": 6250,
-      "quantity": 9687600
+      "price": 6410,
+      "quantity": 12086100
      }
     ]
    }
   },
   "matchbook_market": {
    "live": true,
-   "event-id": 34874846013300072,
-   "id": 34874846015700072,
+   "event-id": 34860517150300072,
+   "id": 34860517876300072,
    "name": "Match Odds",
    "product": "EXCHANGE",
-   "start": "2026-11-20T05:50:00.000Z",
+   "start": "2026-11-20T08:30:00.000Z",
    "status": "open",
    "market-type": "one_x_two",
    "type": "multirunner",
    "handicap": 0.0,
    "in-running-flag": true,
    "allow-live-betting": true,
-   "volume": 136.57729,
-   "lay-overround": 95.34028,
+   "volume": 117.29718999999996,
+   "back-overround": 101.5401,
+   "lay-overround": 95.43486,
    "number-of-winners": 1,
    "runners": [
     {
      "withdrawn": false,
      "prices": [
       {
-       "available-amount": 62.16398,
+       "available-amount": 2.62311,
        "currency": "USD",
        "odds-type": "DECIMAL",
-       "odds": 18.5,
-       "decimal-odds": 18.5,
+       "odds": 2.3,
+       "decimal-odds": 2.3,
        "side": "back",
        "exchange-type": "back-lay"
       },
       {
-       "available-amount": 149.03619,
+       "available-amount": 82.62802,
        "currency": "USD",
        "odds-type": "DECIMAL",
-       "odds": 40.0,
-       "decimal-odds": 40.0,
+       "odds": 2.42,
+       "decimal-odds": 2.42,
        "side": "lay",
        "exchange-type": "back-lay"
       }
      ],
-     "last-price-update-time": "2026-11-20T07:09:30.958Z",
-     "event-id": 34874846013300072,
-     "id": 34874846016300072,
-     "market-id": 34874846015700072,
-     "name": "Western Sydney Wanderers Women",
+     "last-price-update-time": "2026-11-20T08:30:18.063Z",
+     "event-id": 34860517150300072,
+     "id": 34860517878600072,
+     "market-id": 34860517876300072,
+     "name": "Garudayaksa FC",
      "status": "open",
-     "volume": 83.63203,
-     "event-participant-id": 34874846014500072
+     "volume": 88.14093999999999,
+     "event-participant-id": 34860517153400072
     },
     {
      "withdrawn": false,
      "prices": [
       {
-       "available-amount": 3.96066,
+       "available-amount": 24.39494,
        "currency": "USD",
        "odds-type": "DECIMAL",
-       "odds": 1.24,
-       "decimal-odds": 1.24,
+       "odds": 3.15,
+       "decimal-odds": 3.15,
+       "side": "back",
+       "exchange-type": "back-lay"
+      },
+      {
+       "available-amount": 3.93467,
+       "currency": "USD",
+       "odds-type": "DECIMAL",
+       "odds": 3.3,
+       "decimal-odds": 3.3,
        "side": "lay",
        "exchange-type": "back-lay"
       }
      ],
-     "last-price-update-time": "2026-11-20T07:10:26.313Z",
-     "event-id": 34874846013300072,
-     "id": 34874846016700072,
-     "market-id": 34874846015700072,
-     "name": "Wellington Phoenix Women",
+     "last-price-update-time": "2026-11-20T08:30:18.124Z",
+     "event-id": 34860517150300072,
+     "id": 34860517878801072,
+     "market-id": 34860517876300072,
+     "name": "Madura United FC",
      "status": "open",
-     "volume": 52.94526,
-     "event-participant-id": 34874846015000072
+     "volume": 15.71548,
+     "event-participant-id": 34860517154000072
     },
     {
      "withdrawn": false,
      "prices": [
       {
-       "available-amount": 3.27869,
+       "available-amount": 3.93467,
        "currency": "USD",
        "odds-type": "DECIMAL",
-       "odds": 6.6,
-       "decimal-odds": 6.6,
+       "odds": 3.8,
+       "decimal-odds": 3.8,
        "side": "back",
        "exchange-type": "back-lay"
       },
       {
-       "available-amount": 742.91208,
+       "available-amount": 6.55778,
        "currency": "USD",
        "odds-type": "DECIMAL",
-       "odds": 8.2,
-       "decimal-odds": 8.2,
+       "odds": 4.2,
+       "decimal-odds": 4.2,
        "side": "lay",
        "exchange-type": "back-lay"
       }
      ],
-     "last-price-update-time": "2026-11-20T07:11:00.666Z",
-     "event-id": 34874846013300072,
-     "id": 34874846016901072,
-     "market-id": 34874846015700072,
+     "last-price-update-time": "2026-11-20T08:30:18.055Z",
+     "event-id": 34860517150300072,
+     "id": 34860517879100072,
+     "market-id": 34860517876300072,
      "name": "Draw",
      "status": "open",
-     "volume": 0.0
+     "volume": 13.440770000000002
     }
    ]
   },
   "matchbook_market_names": {
-   "handicap | Handicap": 54,
-   "total | Total": 34,
-   "total | 1st Half Total": 11,
-   "one_x_two | Match Odds": 5,
-   "both_to_score | Both Teams To Score": 5,
-   "correct_score | Correct Score": 5,
-   "other | Draw No Bet": 5,
-   "other | Double Chance": 5,
-   "half_time_full_time | Half Time/Full Time": 4,
-   "other | Half-time Result": 4,
+   "handicap | Handicap": 159,
+   "total | Total": 88,
+   "total | 1st Half Total": 33,
+   "one_x_two | Match Odds": 11,
+   "both_to_score | Both Teams To Score": 11,
+   "correct_score | Correct Score": 11,
+   "other | Draw No Bet": 11,
+   "other | Half-time Result": 11,
+   "other | Double Chance": 11,
+   "half_time_full_time | Half Time/Full Time": 5,
    "total | Away Team Total Goals": 3,
    "total | Home Team Total Goals": 3,
    "other | Match Result and Total Goals": 2,
@@ -309,5 +327,5 @@
   }
  },
  "mode": "light (2 h)",
- "finished_utc": "2026-11-20T07:11:05+00:00"
+ "finished_utc": "2026-11-20T08:30:21+00:00"
 }
