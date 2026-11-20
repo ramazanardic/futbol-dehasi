@@ -6,6 +6,8 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
 
 - **Sistem yalnız kullanıcı sorduğunda çalışır.** Zamanlanmış görev yoktur (Windows `QuantFoot\*` görevleri devre
   dışı, GitHub iş akışlarında zamanlama yok; `gh workflow run global-odds.yml` ile istek üzerine çalışır).
+  Tek istisna (kullanıcı isteği): `QuantFoot\KuponIzle` 15 dakikada bir geçerli kuponların bacaklarını canlı Nesine
+  bülteninde kontrol eder (`scripts/kupon_izle.cmd`); kapanan / askıya alınan pazarda bir kez uyarı verir.
 - **Her yapay zekâ yalnız kendi klasörüne yazar:** `tahminler/<klasör>/<tarih>/` (Claude `claudetahmin`, Gemini
   `geminitahmin`, Antigravity `antigravitytahmin`, ChatGPT `chatgbttahmin`). Kod bunu `QUANTFOOT_AI=<klasör>` ile
   yapar. Başka bir yapay zekânın klasörü açılmaz, okunmaz; bağlayıcı kural: [AGENTS.md](AGENTS.md).
