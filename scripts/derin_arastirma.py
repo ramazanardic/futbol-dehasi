@@ -193,7 +193,9 @@ def european_fixture(team_id: str, kickoff: dt.datetime, days: int = 6) -> str |
 # Hyderabad FC is "Sporting Club Delhi" on ESPN). Only slugs that ESPN actually serves with fixtures.
 LEAGUE_SLUGS = {"Hindistan Süper Ligi": "ind.1", "İngiltere Ulusal Lig": "eng.5", "Hollanda 1. Lig": "ned.2",
                 "Norveç Eliteserien": "nor.1", "İsviçre Challenge Ligi": "sui.2", "Romanya 1. Lig": "rou.1",
-                "Kuzey İrlanda Premiership": "nir.1", "Türkiye 1. Lig": "tur.2", "Galler Premier Lig": "wal.1"}
+                "Kuzey İrlanda Premiership": "nir.1", "Türkiye 1. Lig": "tur.2", "Galler Premier Lig": "wal.1",
+                "Almanya Bundesliga 2": "ger.2", "Uruguay Prmr Ligi": "uru.1", "Portekiz Kupası": "por.taca.portugal",
+                "Fransa Kadınlar 1. Lig": "fra.w.1"}
 
 
 def _tokens(name: str) -> set[str]:
