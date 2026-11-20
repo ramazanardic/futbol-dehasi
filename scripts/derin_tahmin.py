@@ -58,10 +58,18 @@ def choose(legs: list[dict]) -> dict | None:
     return min(ok, key=lambda x: (rank(x), -x["p"])) if ok else None
 
 
-def research_day(date: str, n_cand: int, workers: int = 2) -> list[dict]:
+def in_window(kickoff: str, window: str | None) -> bool:
+    """Kick-off 'YYYY-MM-DD HH:MM' inside 'HH:MM-HH:MM' (both ends included); no window = every match."""
+    if not window:
+        return True
+    lo, hi = window.split("-")
+    return lo <= kickoff[11:16] <= hi
+
+
+def research_day(date: str, n_cand: int, workers: int = 2, window: str | None = None) -> list[dict]:
     data = json.loads((AREA / date / "nesine_global.json").read_text(encoding="utf-8"))
     now = dt.datetime.now(TSI)
-    todo = [m for m in data["matches"] if m.get("status") == "fiyatlandı"
+    todo = [m for m in data["matches"] if m.get("status") == "fiyatlandı" and in_window(m["kickoff"], window)
             and dt.datetime.fromisoformat(m["kickoff_iso"]) > now + dt.timedelta(minutes=5)]
 
     def one(m):
@@ -163,8 +171,9 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
     ap.add_argument("--aday", type=int, default=5, help="Maç başına test edilecek en çok aday")
+    ap.add_argument("--saat", help="Yalnız bu başlama saatleri, ör. 06:00-10:00 (kullanıcı, 21 Kasım: sabah maçları)")
     args = ap.parse_args()
-    rows = research_day(args.tarih, args.aday)
+    rows = research_day(args.tarih, args.aday, window=args.saat)
     import footballcharts_gecmis as fc
     import openligadb_gecmis as ol
     import openmatchday_gecmis as om

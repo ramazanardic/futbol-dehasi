@@ -200,3 +200,9 @@ def test_openligadb_games_with_half_scores():
     assert [x["event"] for x in g] == [1, 2] and g[0]["for"] == (1, 1) and g[1]["against"] == (0, 1)
     assert ol.league_for("Almanya Kadınlar Bundesliga") == "ffb1" and ol.league_for("Almanya Bundesliga 2") == "bl2"
     assert ol.league_for("Almanya Böl. Lig, Kuzey Doğu") == "rlno" and ol.season_of(dt.date(2026, 11, 20)) == 2026
+
+
+def test_kickoff_window():
+    dt_ = _load("derin_tahmin")
+    assert dt_.in_window("2026-11-21 06:00", "06:00-10:00") and dt_.in_window("2026-11-21 10:00", "06:00-10:00")
+    assert not dt_.in_window("2026-11-21 10:30", "06:00-10:00") and dt_.in_window("2026-11-21 23:00", None)
