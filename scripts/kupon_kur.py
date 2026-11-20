@@ -32,6 +32,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import api_gecmis as af  # noqa: E402
 import derin_arastirma as dr  # noqa: E402
 import openfootball_gecmis as of  # noqa: E402
+import openmatchday_gecmis as om  # noqa: E402
 import wiki_gecmis as wg  # noqa: E402
 
 AREA = dr.AREA
@@ -66,7 +67,7 @@ def run_builder(target: float, extra: list[str], haric: list[str]) -> Path | Non
 
 
 def research_leg(m: dict, leg: dict, fixtures: list[dict] | None) -> dict:
-    """Research row of one leg: ESPN first, then API-Football, then the Wikipedia season table."""
+    """Research row of one leg: ESPN, API-Football, openfootball, Open Matchday, then the Wikipedia season table."""
     row = dr.research_match(m, [{"name": leg.get("name"), "label": f"{leg['market']}: {leg['selection']}",
                                  "p": leg["p"], "odds": leg["odds"], "coupons": []}])
     if row["legs"] and row["legs"][0]["verdict"].startswith("geçmiş yetersiz"):
@@ -77,6 +78,8 @@ def research_leg(m: dict, leg: dict, fixtures: list[dict] | None) -> dict:
                 pass
         if row["legs"][0]["verdict"].startswith("geçmiş yetersiz"):
             of.research(row, m)  # openfootball: top divisions with half scores
+        if row["legs"][0]["verdict"].startswith("geçmiş yetersiz"):
+            om.research(row, m)  # Open Matchday: 2026/27 results of 75 competitions (lower leagues, U21)
         if row["legs"][0]["verdict"].startswith("geçmiş yetersiz"):
             wg.research(row, m)
     return row

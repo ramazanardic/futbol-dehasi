@@ -119,3 +119,20 @@ def test_model_view_only_downgrades_large_disagreement():
     assert sim.with_model("üçlü onay", 0.65, 0.66, 0.60) == ("üçlü onay", 0.60)
     assert sim.with_model("üçlü onay", 0.65, 0.66, 0.50) == ("kısmi onay", 0.50)
     assert sim.with_model("kısmi onay", 0.60, 0.66, None) == ("kısmi onay", 0.60)
+
+
+def test_openmatchday_games_and_history(monkeypatch):
+    om = _load("openmatchday_gecmis")
+    import datetime as dt
+    rows = [{"date": "2026-11-0%d" % i, "time": "19:00", "home": h, "away": a, "ft_home": fh, "ft_away": fa,
+             "ht_home": hh, "ht_away": ha} for i, (h, a, fh, fa, hh, ha) in enumerate(
+        [("Pontypridd", "X", "2", "1", "1", "0"), ("Y", "Carmarthen", "3", "1", "", ""), ("Pontypridd", "Z", "1", "0", "", ""),
+         ("W", "Carmarthen", "2", "2", "0", "1"), ("Pontypridd", "Carmarthen", "9", "9", "", "")], start=1)]
+    kick = dt.datetime(2026, 11, 5, 20, 0, tzinfo=dt.timezone.utc)
+    hg, ag = om.team_games("Pontypridd", rows, kick), om.team_games("Carmarthen", rows, kick)
+    assert len(hg) == 2 and hg[0]["for"] == (1, 1) and hg[1]["for"] == (None, 1)       # game on kick-off day excluded
+    assert ag[0]["for"] == (None, 1) and ag[1]["for"] == (1, 1) and ag[1]["against"] == (0, 2)
+    assert om.leg_history("MS 1", hg, ag)["home_rate"] == 1.0                          # full-time bet: all games
+    assert om.leg_history("İY 0.5 Üst", hg, ag)["home_n"] == 1                         # half bet: games with half scores
+    assert om.folder_for("Galler Championship, Güney") == "WAL_3_cymru-south"
+    assert om.folder_for("İngiltere Ulusal Lig Kuzey") == "ENG_6_national-league-north"

@@ -132,6 +132,14 @@ def main() -> None:
     ap.add_argument("--aday", type=int, default=5, help="Maç başına test edilecek en çok aday")
     args = ap.parse_args()
     rows = research_day(args.tarih, args.aday)
+    import openmatchday_gecmis as om
+    import wiki_gecmis as wg
+    ms = {str(m["code"]): m for m in json.loads((AREA / args.tarih / "nesine_global.json").read_text(encoding="utf-8"))["matches"]}
+    for r in rows:  # leagues ESPN does not cover: Open Matchday (recent games), else the Wikipedia season table
+        if not r.get("espn") and r.get("legs") and str(r["code"]) in ms:
+            r.setdefault("teams", {})
+            if om.research(r, ms[str(r["code"])]) or wg.research(r, ms[str(r["code"])]):
+                r["pick"], r["dropped"] = choose(r["legs"]), [x for x in r["legs"] if x["verdict"].startswith("⚠")]
     out = AREA / args.tarih
     (out / "derin_tahminler.json").write_text(json.dumps(rows, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
     (out / "derin_tahminler.md").write_text(to_markdown(args.tarih, rows), encoding="utf-8")
