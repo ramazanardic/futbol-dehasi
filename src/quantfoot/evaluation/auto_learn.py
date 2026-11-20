@@ -32,6 +32,19 @@ MIN_SAMPLES_LEAGUE = 25
 SHRINKAGE_PRIOR_N = 60.0
 AUTO_BLOCK_MIN_N = 50
 AUTO_BLOCK_BIAS_THRESHOLD = -0.075  # realized hit rate >= 7.5 pts below predicted
+# Probability calibration of coupon-zone legs (odds >= 1.20, p >= 50 %), per price kind (direct / model) and band:
+# the measured bias, shrunk by n / (n + PRIOR) and clipped; a shift lowering p may go further than one raising it.
+PROB_SHIFT_MIN_N = 30
+PROB_SHIFT_PRIOR_N = 150.0
+PROB_SHIFT_CLIP = (-0.08, 0.03)
+PROB_BANDS = ((0.5, 0.6), (0.6, 0.7), (0.7, 0.8), (0.8, 1.01))
+
+
+def _prob_band(p: float) -> str | None:
+    for lo, hi in PROB_BANDS:
+        if lo <= p < hi:
+            return f"{lo:.1f}-{min(hi, 1.0):.1f}"
+    return None
 
 
 def market_family(name: str) -> str:
@@ -148,6 +161,7 @@ def analyze_settled_history(daily_dir: Path) -> dict[str, Any]:
     by_family_high: dict[str, list[tuple[float, bool]]] = {}
     by_league: dict[str, list[tuple[float, bool]]] = {}
     by_direct: dict[str, list[tuple[float, bool]]] = {"doğrudan": [], "model": []}
+    by_kind_band: dict[str, list[tuple[float, bool]]] = {}  # coupon zone, "doğrudan|0.6-0.7"
     by_day: list[dict[str, Any]] = []
     coupons_settled: list[dict[str, Any]] = []
 
@@ -214,6 +228,9 @@ def analyze_settled_history(daily_dir: Path) -> dict[str, Any]:
 
                 if odds_val >= 1.20 and p_val >= 0.50:
                     bettable_rows.append(pair)
+                    band = _prob_band(p_val)
+                    if band:
+                        by_kind_band.setdefault(f"{'doğrudan' if direct_flag else 'model'}|{band}", []).append(pair)
                     by_source_high.setdefault(src, []).append(pair)
                     by_family_high.setdefault(fam, []).append(pair)
                     by_league.setdefault(lg, []).append(pair)
@@ -291,6 +308,15 @@ def analyze_settled_history(daily_dir: Path) -> dict[str, Any]:
         if blocked:
             auto_blocked_families.append(fam)
 
+    prob_shift: dict[str, float] = {}
+    kind_band_summary: dict[str, dict[str, Any]] = {}
+    for key, rows in sorted(by_kind_band.items()):
+        st = _bucket_stats(rows)
+        kind_band_summary[key] = st
+        if st["n"] >= PROB_SHIFT_MIN_N:
+            shift = st["bias"] * st["n"] / (st["n"] + PROB_SHIFT_PRIOR_N)
+            prob_shift[key] = round(max(PROB_SHIFT_CLIP[0], min(PROB_SHIFT_CLIP[1], shift)), 4)
+
     league_summary: dict[str, dict[str, Any]] = {}
     for lg, rows in sorted(by_league.items(), key=lambda kv: -len(kv[1])):
         st = _bucket_stats(rows)
@@ -308,6 +334,7 @@ def analyze_settled_history(daily_dir: Path) -> dict[str, Any]:
         "overall": _bucket_stats(all_rows),
         "bettable_overall": _bucket_stats(bettable_rows),
         "direct_vs_model": {k: _bucket_stats(v) for k, v in by_direct.items()},
+        "kind_bands": kind_band_summary,
         "bands": {lbl: _bucket_stats(by_band[lbl]) for lbl, _, _ in bands_def},
         "sources": source_summary,
         "families": family_summary,
@@ -320,6 +347,7 @@ def analyze_settled_history(daily_dir: Path) -> dict[str, Any]:
             "source_sigma_delta": source_sigma_delta,
             "family_sigma_delta": family_sigma_delta,
             "auto_blocked_families": auto_blocked_families,
+            "prob_shift": prob_shift,
         },
     }
 
@@ -354,6 +382,16 @@ def calibration_sigma_adjustment(
     if not math.isfinite(delta):
         return 0.0
     return max(-0.008, min(0.045, round(delta, 4)))
+
+
+def calibrated_probability(p: float, direct: bool, calibration: dict[str, Any] | None = None) -> float:
+    """Global probability corrected by what settled coupon-zone legs of the same kind and band realised."""
+    band = _prob_band(p)
+    if not calibration or band is None:
+        return p
+    shift = float(((calibration.get("adjustments") or {}).get("prob_shift") or {}).get(
+        f"{'doğrudan' if direct else 'model'}|{band}", 0.0))
+    return min(0.99, max(0.01, p + shift)) if math.isfinite(shift) else p
 
 
 def render_learning_report(snapshot: dict[str, Any]) -> str:

@@ -5,9 +5,14 @@ coupon is given.
     python scripts/kupon_kur.py --hedef 10 --min-mac 4 -- --hic-kullanilmamis --mac-limit 2
 
 Each round runs scripts/nesine_kupon.py (direct-price legs by default), then scripts/derin_arastirma.py's checks on
-every leg. A leg is ruled out and the coupon rebuilt (up to --tur rounds) when the leg's own bet clearly failed in
-both teams' recent games (deep-research verdict ⚠; on 20 Nov 3 of 4 ⚠ legs lost). There is no league / kick-off
-limit (user decision, 20 Nov).
+every leg. Team history comes from ESPN, else API-Football (scripts/api_gecmis.py), else the Wikipedia season table
+(scripts/wiki_gecmis.py). A leg is ruled out and the coupon rebuilt (up to --tur rounds) when
+
+* the leg's own bet clearly failed in both teams' games (verdict ⚠; on 20 Nov 3 of 4 ⚠ legs lost), or
+* no source has enough history to test it ("geçmiş yetersiz"; 20 Nov: the worst losses came from such legs) —
+  only ✓ / ~ legs stay; --kanitsiz lets untested legs in again.
+
+There is no league / kick-off limit (user decision, 20 Nov).
 
 Rejected builds are deleted; the final coupon is kept with its research next to it (<coupon>_derin.md).
 """
@@ -24,10 +29,26 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
+import api_gecmis as af  # noqa: E402
 import derin_arastirma as dr  # noqa: E402
+import wiki_gecmis as wg  # noqa: E402
 
 AREA = dr.AREA
 TSI = dr.TSI
+VERDICT_STATS = ROOT / "data" / "calibration" / "verdict_stats.json"  # written by gun_degerlendirme.py
+WEAK_MIN_N = 30          # settled "~" legs needed before their record may tighten the rule
+WEAK_MAX_SHORTFALL = 0.05
+
+
+def weak_legs_allowed(ai: str = AREA.name, path: Path = VERDICT_STATS) -> bool:
+    """"~" (weakly supported) legs stay allowed unless enough of them settled and they hit clearly below the price."""
+    try:
+        g = json.loads(path.read_text(encoding="utf-8")).get(ai, {}).get("~") or {}
+    except (OSError, ValueError):
+        return True
+    if g.get("n", 0) < WEAK_MIN_N or not g.get("p_n"):
+        return True
+    return g["won"] / g["n"] >= g["p_sum"] / g["p_n"] - WEAK_MAX_SHORTFALL
 
 
 def run_builder(target: float, extra: list[str], haric: list[str]) -> Path | None:
@@ -43,19 +64,38 @@ def run_builder(target: float, extra: list[str], haric: list[str]) -> Path | Non
     return new[-1] if new else None
 
 
-def check(legs: list[dict], analysis: dict[str, dict]) -> tuple[list[tuple[dict, str]], list[dict]]:
+def research_leg(m: dict, leg: dict, fixtures: list[dict] | None) -> dict:
+    """Research row of one leg: ESPN first, then API-Football, then the Wikipedia season table."""
+    row = dr.research_match(m, [{"name": leg.get("name"), "label": f"{leg['market']}: {leg['selection']}",
+                                 "p": leg["p"], "odds": leg["odds"], "coupons": []}])
+    if row["legs"] and row["legs"][0]["verdict"].startswith("geçmiş yetersiz"):
+        if fixtures:
+            try:
+                af.research(row, m, fixtures)
+            except af.ApiError:
+                pass
+        if row["legs"][0]["verdict"].startswith("geçmiş yetersiz"):
+            wg.research(row, m)
+    return row
+
+
+def check(legs: list[dict], analysis: dict[str, dict], evidence: bool = True,
+          fixtures: list[dict] | None = None, allow_weak: bool = True) -> tuple[list[tuple[dict, str]], list[dict]]:
     """(rejected legs with the reason, research rows)."""
     bad, rows = [], []
+    ok_marks = ("✓", "~") if allow_weak else ("✓",)
     for leg in legs:
         m = analysis.get(str(leg["code"]))
         if not m:
             continue
-        row = dr.research_match(m, [{"name": leg.get("name"), "label": f"{leg['market']}: {leg['selection']}",
-                                     "p": leg["p"], "odds": leg["odds"], "coupons": []}])
+        row = research_leg(m, leg, fixtures)
         rows.append(row)
-        v = row["legs"][0]["verdict"] if row["legs"] else ""
+        v = row["legs"][0]["verdict"] if row["legs"] else "geçmiş yetersiz"
         if v.startswith("⚠"):
             bad.append((leg, f"derin araştırma: {v} (geçmiş %{100 * (row['legs'][0]['mean'] or 0):.0f}, model %{100 * leg['p']:.0f})"))
+        elif evidence and not v.startswith(ok_marks):
+            bad.append((leg, "takım geçmişi hiçbir kaynakta yeterli değil (kanıtsız bacak)" if not v.startswith("~")
+                        else "~ işaretli bacaklar ölçümde fiyatın altında kaldı (verdict_stats.json)"))
     return bad, rows
 
 
@@ -63,12 +103,21 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--hedef", type=float, required=True)
     ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
-    ap.add_argument("--tur", type=int, default=4, help="En çok yeniden kurma turu")
+    ap.add_argument("--tur", type=int, default=8, help="En çok yeniden kurma turu")
+    ap.add_argument("--kanitsiz", action="store_true", help="Takım geçmişiyle test edilemeyen bacaklara da izin ver")
     ap.add_argument("ekstra", nargs="*", help="nesine_kupon.py'ye aynen geçen seçenekler ('--' sonrası)")
     args = ap.parse_args()
     analysis_path = AREA / args.tarih / "nesine_global.json"
     analysis = {str(m["code"]): m for m in json.loads(analysis_path.read_text(encoding="utf-8"))["matches"]} \
         if analysis_path.exists() else {}
+    try:
+        fixtures = af.day_fixtures(args.tarih)
+    except (af.ApiError, OSError, ValueError) as e:
+        fixtures = None
+        print(f"API-Football kullanılamıyor ({e}); ESPN + Wikipedia ile devam")
+    allow_weak = weak_legs_allowed()
+    if not allow_weak:
+        print("Ölçüm: ~ işaretli bacaklar fiyatın belirgin altında tuttu; yalnız ✓ bacaklar alınıyor")
     haric: list[str] = []
     log = []
     for rnd in range(1, args.tur + 1):
@@ -80,7 +129,7 @@ def main() -> None:
                 f.unlink(); f.with_suffix(".md").unlink(missing_ok=True)
             return
         legs = data["coupons"][0]["legs"]
-        bad, rows = check(legs, analysis)
+        bad, rows = check(legs, analysis, evidence=not args.kanitsiz, fixtures=fixtures, allow_weak=allow_weak)
         if not bad:
             (f.parent / f"{f.stem}_derin.md").write_text(dr.to_markdown(args.tarih, rows), encoding="utf-8")
             print(f"Tur {rnd}: kupon temiz -> {f.with_suffix('.md').relative_to(ROOT)} (+ {f.stem}_derin.md)")

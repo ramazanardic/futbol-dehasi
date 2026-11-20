@@ -34,6 +34,7 @@ from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
 
 TAHMIN = ROOT / "tahminler"
 OUT = ROOT / "degerlendirme"
+VERDICT_STATS = ROOT / "data" / "calibration" / "verdict_stats.json"  # read by kupon_kur.py
 TSI = dt.timezone(dt.timedelta(hours=3))
 
 
@@ -99,25 +100,34 @@ def _verdict_class(v: str) -> str:
 
 
 def research_verdicts(ai_dir: Path, results: dict[int, dict]) -> dict[str, dict]:
-    """Settled legs of the AI's deep-research file grouped by verdict: did ⚠ legs really lose more often?"""
-    path = ai_dir / "derin_arastirma.json"
-    if not path.exists():
-        return {}
+    """Settled legs of the AI's deep-research files (coupon legs and the day's researched picks) grouped by verdict:
+    did ⚠ legs really lose more often?"""
     out: dict[str, dict] = {}
-    for row in json.loads(path.read_text(encoding="utf-8")):
-        res = results.get(int(row["code"])) if str(row.get("code", "")).isdigit() else None
-        for leg in row.get("legs") or []:
-            won = _settle(leg.get("name"), res or {})
-            if won is None:
-                continue
-            g = out.setdefault(_verdict_class(leg.get("verdict")), {"n": 0, "won": 0, "p_sum": 0.0, "p_n": 0, "h_sum": 0.0, "h_n": 0})
-            g["n"] += 1
-            g["won"] += int(won)
-            if leg.get("p") is not None:
-                g["p_sum"] += leg["p"]; g["p_n"] += 1
-            if leg.get("mean") is not None:
-                g["h_sum"] += leg["mean"]; g["h_n"] += 1
+    seen: set[tuple[str, str]] = set()
+    for fname in ("derin_tahminler.json", "derin_arastirma.json"):
+        path = ai_dir / fname
+        if not path.exists():
+            continue
+        for row in json.loads(path.read_text(encoding="utf-8")):
+            res = results.get(int(row["code"])) if str(row.get("code", "")).isdigit() else None
+            legs = [x for x in row.get("legs") or [] if (str(row.get("code")), str(x.get("name"))) not in seen]
+            seen |= {(str(row.get("code")), str(x.get("name"))) for x in legs}
+            _count(out, legs, res)
     return out
+
+
+def _count(out: dict[str, dict], legs: list[dict], res: dict | None) -> None:
+    for leg in legs:
+        won = _settle(leg.get("name"), res or {})
+        if won is None:
+            continue
+        g = out.setdefault(_verdict_class(leg.get("verdict")), {"n": 0, "won": 0, "p_sum": 0.0, "p_n": 0, "h_sum": 0.0, "h_n": 0})
+        g["n"] += 1
+        g["won"] += int(won)
+        if leg.get("p") is not None:
+            g["p_sum"] += leg["p"]; g["p_n"] += 1
+        if leg.get("mean") is not None:
+            g["h_sum"] += leg["mean"]; g["h_n"] += 1
 
 
 def evaluate(date: str, results: dict[int, dict] | None = None) -> dict:
@@ -235,8 +245,8 @@ def _verdict_rows(v: dict[str, dict]) -> list[str]:
     return rows
 
 
-def cumulative_verdicts(out_dir: Path = OUT) -> str:
-    """All evaluated days together: is the deep-research warning worth acting on (e.g. dropping ⚠ legs)?"""
+def verdict_totals(out_dir: Path = OUT) -> tuple[list[str], dict[str, dict[str, dict]]]:
+    """(evaluated days, {ai: {verdict class: counts}}) over every evaluated day."""
     total: dict[str, dict[str, dict]] = {}
     days = []
     for f in sorted(out_dir.glob("20*.json")):
@@ -247,6 +257,12 @@ def cumulative_verdicts(out_dir: Path = OUT) -> str:
                 t = total.setdefault(ai, {}).setdefault(c, {"n": 0, "won": 0, "p_sum": 0.0, "p_n": 0, "h_sum": 0.0, "h_n": 0})
                 for k in t:
                     t[k] += g.get(k, 0)
+    return days, total
+
+
+def cumulative_verdicts(out_dir: Path = OUT) -> str:
+    """All evaluated days together: is the deep-research warning worth acting on (e.g. dropping ⚠ legs)?"""
+    days, total = verdict_totals(out_dir)
     md = ["# Derin araştırma işaretleri — bütün günler", "",
           f"Günler: {', '.join(days) or '-'}. Bir işaret ancak yeterli bacak biriktiğinde anlamlıdır: ⚠ bacakların isabeti "
           "model ortalamasının belirgin altında kalıyorsa, kupon kurucu bu bacakları elemeye başlayabilir.", ""]
@@ -265,6 +281,7 @@ def main() -> None:
     (OUT / f"{args.tarih}.json").write_text(json.dumps(rep, ensure_ascii=False, indent=1), encoding="utf-8")
     (OUT / f"{args.tarih}.md").write_text(to_markdown(rep), encoding="utf-8")
     (OUT / "derin_arastirma_ozet.md").write_text(cumulative_verdicts(), encoding="utf-8")
+    VERDICT_STATS.write_text(json.dumps(verdict_totals()[1], ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"{args.tarih}: {len(rep['ais'])} yapay zekâ, {len(rep['matches'])} bitmiş maç -> degerlendirme/{args.tarih}.md")
 
 

@@ -9,6 +9,10 @@ replaced: global probability under the 55 % leg floor or down >= 5 points, Nesin
 odds under 1.20, an important absence announced after the price (research_block) or a new risk/steam flag.
 Output: tahminler/claudetahmin/<date>/kupon_kontrol.md (+ Windows pop-up / Telegram for new warnings).
 
+Line-ups: in the 15-minute watcher (live odds), each not-started leg of a coupon in force whose kick-off is at most
+LINEUP_WINDOW_MIN away is re-checked on the announced ESPN line-up (regular goalkeeper / top scorer / 3+ regulars
+missing); until the line-up is out it is asked again on the next run, then the result is kept in kupon_clv.json.
+
 The same run keeps, per leg, the last global probability seen before kick-off (kupon_clv.json). That is the
 closing price: CLV = closing probability - probability when the coupon was built. A system that picks well
 sees the sharp market move towards its picks (positive CLV) long before results prove anything.
@@ -32,6 +36,20 @@ TSI = dt.timezone(dt.timedelta(hours=3))
 MIN_PROB = 0.55     # coupon leg floor (user rule)
 MIN_ODDS = 1.20
 DROP_ALERT = 0.05   # global probability fell this much since the coupon was built
+LINEUP_WINDOW_MIN = 75
+
+
+def lineup_flags(m: dict) -> list[str] | None:
+    """Line-up warnings of an ESPN-linked match; None while the line-ups are not announced (or no ESPN event)."""
+    ev = (m.get("research") or {}).get("espn_event")
+    if not ev:
+        return None
+    sys.path.insert(0, str(ROOT / "src"))
+    from quantfoot.data import match_research as mr
+    res = mr.research(str(ev))
+    if not res or not any(t.get("lineup_announced") for t in (res.get("teams") or {}).values()):
+        return None
+    return mr.staleness_flags(res, None)
 
 
 def _load(path: Path):
@@ -80,8 +98,10 @@ def live_odds() -> dict[int, dict[str, float]] | None:
         return None
 
 
-def check(date: str, now: dt.datetime | None = None, live: dict | None = None) -> tuple[list[dict], dict]:
-    """``live``: {code: {key: odds}} from the Nesine bulletin now; None = odds of the analysis file."""
+def check(date: str, now: dt.datetime | None = None, live: dict | None = None,
+          lineups=None, active: set[str] | None = None) -> tuple[list[dict], dict]:
+    """``live``: {code: {key: odds}} from the Nesine bulletin now; None = odds of the analysis file.
+    ``lineups``: match -> line-up warnings or None (not announced); called for legs of ``active`` coupons only."""
     now = now or dt.datetime.now(TSI)
     analysis = _load(DAILY / date / "nesine_global.json") or {}
     by_code = {int(m["code"]): m for m in analysis.get("matches", [])}
@@ -123,6 +143,17 @@ def check(date: str, now: dt.datetime | None = None, live: dict | None = None) -
                 row["warn"].append(f"önemli eksik: {m['research_block']}")
             for fl in res.get("flags") or []:
                 row["warn"].append(f"uyarı: {fl}")
+            in_force = active is None or any(c.split(" #")[0] in active for c in leg["coupons"])
+            if lineups and in_force and "lineup" not in rec and kick - now <= dt.timedelta(minutes=LINEUP_WINDOW_MIN):
+                try:
+                    fl = lineups(m)
+                except Exception as e:  # noqa: BLE001 — a failed line-up fetch must not stop the coupon check
+                    fl = None
+                    print(f"ilk 11 alınamadı ({leg['match']}): {type(e).__name__}")
+                if fl is not None:
+                    rec["lineup"] = fl
+            for fl in rec.get("lineup") or []:
+                row["warn"].append(f"ilk 11: {fl}")
         row["new_warn"] = [w for w in row["warn"] if w not in rec["alerted"]]
         rec["alerted"] = sorted(set(rec["alerted"]) | set(row["warn"]))
         rows.append(row)
@@ -186,7 +217,7 @@ def _notify(text: str) -> None:
 
 def cmd_kontrol(date: str, notify: bool = True) -> None:
     now = dt.datetime.now(TSI)
-    rows, clv = check(date, now, live_odds())
+    rows, clv = check(date, now, live_odds(), lineups=lineup_flags, active=active_coupons(date))
     if not rows:
         print(f"{date}: kupon yok")
         return

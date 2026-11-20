@@ -18,6 +18,13 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
   zekâların bitmiş maçlardaki tahminlerini puanlar → herkese açık `degerlendirme/<gün>.md`.
 - **Derin araştırma standarttır:** `scripts/derin_arastirma.py` her aday/bacak için takımların son maçlarının
   yarı yarı skorlarını, aynı bahsin geçmişte tutma sıklığını ve Avrupa/rotasyon programını çıkarır.
+  Takım geçmişi sırasıyla ESPN → API-Football (`scripts/api_gecmis.py`, anahtar git'e girmeyen `.env`'de) →
+  Wikipedia sezon tablosu (`scripts/wiki_gecmis.py`, yalnız maç sonu) kaynaklarından gelir.
+- **Kupon (21 Kasım):** `scripts/kupon_kur.py` yalnız takım geçmişiyle test edilmiş (✓ / ~) bacak alır
+  (`--kanitsiz` ile gevşer); ertesi gün ölçümünde (`data/calibration/verdict_stats.json`) ~ bacaklar fiyatın 5 puan
+  altında kalırsa yalnız ✓ alınır. Bacak olasılıkları bitmiş günlerden öğrenilen düzeltmeyle (`prob_shift`, doğrudan /
+  model fiyat ve olasılık bandına göre) kullanılır. 15 dakikalık izleyici, başlamaya ≤75 dk kalan bacakları ilk 11'le
+  yeniden kontrol eder.
 
 ## Güncel Durum (19 Kasım 2026)
 

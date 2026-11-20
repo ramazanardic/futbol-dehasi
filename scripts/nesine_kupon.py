@@ -38,7 +38,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from nesine_global import DAILY, MAX_PLAUSIBLE_EV, PRICED, TSI, analyze_day, selection_key  # noqa: E402
 
 from quantfoot.data.nesine import fetch_bulletin, parse_bulletin  # noqa: E402
-from quantfoot.evaluation.auto_learn import calibration_sigma_adjustment, load_live_calibration  # noqa: E402
+from quantfoot.evaluation.auto_learn import calibrated_probability, calibration_sigma_adjustment, load_live_calibration  # noqa: E402
 from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
 from quantfoot.strategy.coupon_builder import (  # noqa: E402
     _conflicting_selections,
@@ -256,7 +256,8 @@ def candidates(
         researched = bool(res.get("teams") or res.get("user_absences") or res.get("tm_absences"))
         eff_min_prob = max(min_prob, MID_GLOBAL_MIN_PROB) if (not is_sharp and is_mid_global) else min_prob
         for s in m["selections"]:
-            if s["odds"] < min_odds or s["fair_prob"] < eff_min_prob or s["ev"] > MAX_PLAUSIBLE_EV:
+            p_cal = calibrated_probability(s["fair_prob"], bool(s.get("direct")), calibration)  # settled-history correction
+            if s["odds"] < min_odds or p_cal < eff_min_prob or s["ev"] > MAX_PLAUSIBLE_EV:
                 continue
             if direct_only and not s.get("direct"):
                 continue  # model-derived price: no direct global quote for this selection
@@ -270,13 +271,13 @@ def candidates(
                 continue
             ref_lbl = m["reference"].split(" (")[0] if is_sharp else f"{m['reference']} [orta]"
             legs.append({"code": m["code"], "kickoff": m["kickoff"], "league": m["league"], "match": f"{m['home']} - {m['away']}",
-                         "market": s["market"], "selection": s["selection"], "odds": s["odds"], "p": s["fair_prob"],
+                         "market": s["market"], "selection": s["selection"], "odds": s["odds"], "p": p_cal, "p_raw": s["fair_prob"],
                          "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": ref_lbl,
                          "direct": bool(s.get("direct")), "context": context, "key": s.get("key"),
                          "name": s.get("name", ""), "researched": researched, "tier": "keskin" if is_sharp else "orta"})
             sig = leg_sigma(s.get("name", ""), bool(s.get("direct")), m["reference"], researched, flagged, calibration=calibration)
             legs[-1]["sigma"] = sig
-            legs[-1]["p_low"] = max(0.001, s["fair_prob"] - Z_LOW * sig)
+            legs[-1]["p_low"] = max(0.001, p_cal - Z_LOW * sig)
         legs.sort(key=lambda x: (-x["odds"], -x["p_low"]))
         front, best_p = [], -1.0
         for leg in legs:  # descending odds: keep a leg only if no higher-odds leg is more reliably probable
