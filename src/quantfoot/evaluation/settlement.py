@@ -18,6 +18,9 @@ ESPN_SUMMARY = "https://site.api.espn.com/apis/site/v2/sports/soccer/{slug}/summ
 
 def settle_selection(name: str, ht: tuple[int, int], ft90: tuple[int, int]) -> bool | None:
     """True / False for a goal-based selection given HT and 90-minute scores; None if unknown."""
+    if name.startswith("DEĞİL(") and name.endswith(")"):  # the complement Nesine offers as "Hayır" (nesine_global)
+        inner = settle_selection(name[len("DEĞİL("):-1], ht, ft90)
+        return None if inner is None else not inner
     h1, a1 = int(ht[0]), int(ht[1])
     h2, a2 = int(ft90[0]) - h1, int(ft90[1]) - a1
     if min(h1, a1, h2, a2) < 0:

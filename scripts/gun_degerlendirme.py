@@ -83,7 +83,23 @@ def _lookup_for(ai_dir: Path) -> dict[str, dict[tuple[str, str], str]]:
     return out
 
 
-def row_name(row: dict, market_key: str, sel_key: str, lookup: dict[tuple[str, str], str] | None) -> str | None:
+def label_names(ai_dir: Path) -> dict[tuple[str, str], str]:
+    """(market, selection) -> settlement name learnt from the AI's analysis files of every day, kept only when the
+    label always maps to the same name (a match that left the bulletin is missing from that day's file)."""
+    seen: dict[tuple[str, str], set[str]] = {}
+    for f in ai_dir.parent.glob("*/nesine_global.json"):
+        try:
+            data = json.loads(f.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        for m in data.get("matches", []):
+            for s in m.get("selections") or []:
+                seen.setdefault((s["market"].strip(), s["selection"].strip()), set()).add(s["name"])
+    return {k: next(iter(v)) for k, v in seen.items() if len(v) == 1}
+
+
+def row_name(row: dict, market_key: str, sel_key: str, lookup: dict[tuple[str, str], str] | None,
+             labels: dict[tuple[str, str], str] | None = None) -> str | None:
     """Settlement name of a table row: its secim_adi column (written since 21 Nov), else the label mapping, else the
     selection itself when it is already a settlement name (e.g. 'Ev İY 0.5 Alt')."""
     if (row.get("secim_adi") or "").strip():
@@ -92,6 +108,8 @@ def row_name(row: dict, market_key: str, sel_key: str, lookup: dict[tuple[str, s
     if name:
         return name
     sel = (row.get(sel_key) or "").strip()
+    if labels and ((row.get(market_key) or "").strip(), sel) in labels:
+        return labels[((row.get(market_key) or "").strip(), sel)]
     try:
         return sel if sel and settle_selection(sel, (0, 0), (0, 0)) is not None else None
     except (ValueError, KeyError, IndexError):
@@ -156,6 +174,7 @@ def evaluate(date: str, results: dict[int, dict] | None = None) -> dict:
     report = {"date": date, "built": dt.datetime.now(TSI).isoformat(timespec="minutes"), "ais": {}, "matches": matches}
     for ai, (rows, legs) in files.items():
         lookup = _lookup_for(TAHMIN / ai / date)
+        labels = label_names(TAHMIN / ai / date)
         picks, brier, logloss, misses = [], [], [], []
         for r in rows:
             code = str(r.get("nesine_kodu") or "")
@@ -170,7 +189,7 @@ def evaluate(date: str, results: dict[int, dict] | None = None) -> dict:
                 outcome = (1, 0, 0) if ft[0] > ft[1] else ((0, 1, 0) if ft[0] == ft[1] else (0, 0, 1))
                 brier.append(sum((p - o) ** 2 for p, o in zip((p1, px, p2), outcome)))
                 logloss.append(-math.log(max(1e-6, (p1, px, p2)[outcome.index(1)])))
-            name = row_name(r, "ana_secim_pazar", "ana_secim", lookup.get(code))
+            name = row_name(r, "ana_secim_pazar", "ana_secim", lookup.get(code), labels)
             won = _settle(name, res)
             if won is None:
                 continue
@@ -184,7 +203,7 @@ def evaluate(date: str, results: dict[int, dict] | None = None) -> dict:
             code = str(leg.get("nesine_kodu") or "")
             res = results.get(int(code)) if code.isdigit() else None
             lookup_c = lookup.get(code)
-            won = _settle(row_name(leg, "pazar", "secim", lookup_c), res or {})
+            won = _settle(row_name(leg, "pazar", "secim", lookup_c, labels), res or {})
             coupons.setdefault((leg.get("kupon"), leg.get("kupon_no")), []).append(
                 {"match": leg.get("mac"), "sel": f"{leg.get('pazar')}: {leg.get('secim')}", "won": won,
                  "odds": _f(leg.get("kupon_toplam_oran")), "p": _f(leg.get("kupon_tutma_olasiligi")),

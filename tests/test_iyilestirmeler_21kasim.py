@@ -161,3 +161,17 @@ def test_evaluation_row_name_prefers_column_then_label_then_raw():
     assert g.row_name({"ana_secim_pazar": "Bilinmeyen", "ana_secim": "Hayır"}, "ana_secim_pazar", "ana_secim", None) is None
     lk = {("Deplasman 0,5 Gol Alt/Üst", "0,5 Üst"): "Dep 0.5 Üst"}
     assert g.row_name({"ana_secim_pazar": " Deplasman 0,5 Gol Alt/Üst ", "ana_secim": "0,5 Üst"}, "ana_secim_pazar", "ana_secim", lk) == "Dep 0.5 Üst"
+
+
+def test_settle_negated_selection_and_label_names(tmp_path):
+    from quantfoot.evaluation.settlement import settle_selection
+    assert settle_selection("DEĞİL(Dep En Az Bir Yarıyı Kazanır)", (0, 0), (0, 1)) is False
+    assert settle_selection("DEĞİL(Dep En Az Bir Yarıyı Kazanır)", (0, 0), (0, 0)) is True
+    g = _load("gun_degerlendirme")
+    for day, name in (("2026-11-18", "Dep 0.5 Üst"), ("2026-11-19", "Dep 0.5 Üst")):
+        (tmp_path / day).mkdir()
+        (tmp_path / day / "nesine_global.json").write_text(json.dumps({"matches": [{"code": 1, "selections": [
+            {"market": "Deplasman 0,5 Gol Alt/Üst", "selection": "0,5 Üst", "name": name},
+            {"market": "X", "selection": "Y", "name": f"N{day}"}]}]}), encoding="utf-8")
+    lb = g.label_names(tmp_path / "2026-11-20")
+    assert lb[("Deplasman 0,5 Gol Alt/Üst", "0,5 Üst")] == "Dep 0.5 Üst" and ("X", "Y") not in lb   # ambiguous: dropped
