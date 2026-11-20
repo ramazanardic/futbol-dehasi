@@ -154,7 +154,7 @@ def _kick_fetch_if_stale(log) -> None:
             return
 
 
-PUBLISH_PATHS = ["reports/daily", "reports/takip", "reports/ledger", "reports/weekly"]
+PUBLISH_PATHS = ["reports/daily", "reports/takip", "reports/ledger", "reports/weekly", "data/calibration", "docs/data"]
 
 
 def _publish(log, message: str) -> None:
@@ -215,10 +215,13 @@ def main() -> None:
             # every match of the day analysed from scratch: dossiers (every bet family) and the one-page table
             _run(["--tarih", today.isoformat()], log, ROOT / "scripts" / "mac_dosyasi.py")
             _run(["--tarih", today.isoformat()], log, ROOT / "scripts" / "gunluk_analiz.py")
-            # settle yesterday's Nesine predictions and refresh the cumulative hit-rate report
+            # settle yesterday's Nesine predictions, refresh cumulative report, self-learning calibration & dashboard
             _run(["sonuc", "--date", y], log, ROOT / "scripts" / "nesine_takip.py")
             _run(["rapor"], log, ROOT / "scripts" / "nesine_takip.py")
-            _publish(log, f"data(takip): {y} predictions, results, coupons and played-coupon ledger")
+            _run([], log, ROOT / "scripts" / "auto_learn.py")
+            _run([], log, ROOT / "scripts" / "build_dashboard.py")
+            _run(["--date", today.isoformat(), "--mode", "morning"], log, ROOT / "scripts" / "notify_telegram.py")
+            _publish(log, f"data(takip): {y} predictions, results, calibration and dashboard")
         elif mode == "kadro":
             _kick_lineup_refresh(log)
             _kick_fetch_if_stale(log)

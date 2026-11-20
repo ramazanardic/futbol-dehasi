@@ -1,0 +1,179 @@
+name: daily-autonomous
+
+# 7/24 autonomous cloud pipeline: runs even when the user's PC is powered off.
+# - Morning (08:30 TSI / 05:30 UTC): fetch global sharp odds + 2026/27 season CSVs, settle yesterday,
+#   run Empirical-Bayes self-learning calibration, analyse today's slate + dossiers + reference coupons,
+#   rebuild GitHub Pages dashboard, and send optional Telegram morning briefing.
+# - Intraday (14:00 & 19:00 TSI / 11:00 & 16:00 UTC): light refresh, closing odds snapshot, steam/injury alerts.
+# - Night Settle (01:30 TSI / 22:30 UTC): settle completed matches, update learning calibration & dashboard.
+
+on:
+  schedule:
+    - cron: "30 5 * * *"      # 08:30 TSI — morning full cycle
+    - cron: "0 11,16 * * *"   # 14:00 & 19:00 TSI — intraday refresh & closing odds
+    - cron: "30 22 * * *"     # 01:30 TSI — night settle & self-learning
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Run mode: morning | intraday | settle | dashboard"
+        required: true
+        default: "morning"
+        type: choice
+        options:
+          - morning
+          - intraday
+          - settle
+          - dashboard
+
+permissions:
+  contents: write
+
+concurrency:
+  group: quantfoot-autonomous
+  cancel-in-progress: false
+
+jobs:
+  autonomous:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PYTHONIOENCODING: utf-8
+      TZ: Europe/Istanbul
+      API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+      ODDSPAPI_KEY: ${{ secrets.ODDSPAPI_KEY }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install QuantFoot
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e . lxml
+
+      - name: Resolve run mode and Istanbul dates
+        id: ctx
+        run: |
+          TODAY=$(TZ=Europe/Istanbul date +%F)
+          YESTERDAY=$(TZ=Europe/Istanbul date -d "yesterday" +%F)
+          HOUR=$(TZ=Europe/Istanbul date +%H)
+          if [ -n "${{ github.event.inputs.mode }}" ]; then
+            MODE="${{ github.event.inputs.mode }}"
+          elif [ "${{ github.event.schedule }}" = "30 22 * * *" ]; then
+            MODE="settle"
+          elif [ "${{ github.event.schedule }}" = "0 11,16 * * *" ]; then
+            MODE="intraday"
+          else
+            MODE="morning"
+          fi
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+          echo "today=$TODAY" >> "$GITHUB_OUTPUT"
+          echo "yesterday=$YESTERDAY" >> "$GITHUB_OUTPUT"
+          echo "Mode=$MODE | Today(TSI)=$TODAY | Yesterday=$YESTERDAY | Hour=$HOUR"
+
+      - name: Morning full autonomous cycle
+        if: steps.ctx.outputs.mode == 'morning'
+        run: |
+          TODAY="${{ steps.ctx.outputs.today }}"
+          YEST="${{ steps.ctx.outputs.yesterday }}"
+
+          echo "=== 1. Global sharp odds + 2026/27 season CSVs ==="
+          python scripts/fetch_global_odds.py || true
+
+          echo "=== 2. Settle yesterday ($YEST) ==="
+          if [ -f "reports/daily/$YEST/predictions.json" ]; then
+            python scripts/daily.py results --date "$YEST" || true
+            python scripts/daily.py verify --date "$YEST" || true
+          fi
+          python scripts/daily.py summary || true
+          python scripts/nesine_takip.py sonuc --date "$YEST" || true
+          python scripts/nesine_takip.py rapor || true
+
+          echo "=== 3. Self-learning live calibration ==="
+          python scripts/auto_learn.py || true
+
+          echo "=== 4. Today ESPN predictions + Nesine global analysis ($TODAY) ==="
+          python scripts/daily.py predict --date "$TODAY" || true
+          python scripts/daily.py report --date "$TODAY" || true
+          if python scripts/nesine_global.py --date "$TODAY"; then
+            python scripts/gunluk_analiz.py --tarih "$TODAY" || true
+            python scripts/mac_dosyasi.py --tarih "$TODAY" || true
+            python scripts/nesine_kupon.py --hedef 3 --adet 1 --kupasiz --ana-pazar --no-pull --tarih "$TODAY" || true
+            python scripts/nesine_kupon.py --hedef 5 --adet 1 --kupasiz --ana-pazar --no-pull --tarih "$TODAY" || true
+            python scripts/nesine_kupon.py --hedef 10 --adet 1 --kupasiz --no-pull --tarih "$TODAY" || true
+          else
+            echo "::warning::Nesine endpoint unreachable from runner; global odds, settlement and learning still succeeded."
+          fi
+
+          echo "=== 5. Rebuild GitHub Pages dashboard & optional Telegram briefing ==="
+          python scripts/build_dashboard.py
+          python scripts/notify_telegram.py --date "$TODAY" --mode morning || true
+
+      - name: Intraday refresh, closing snapshot and live alerts
+        if: steps.ctx.outputs.mode == 'intraday'
+        run: |
+          TODAY="${{ steps.ctx.outputs.today }}"
+          YEST="${{ steps.ctx.outputs.yesterday }}"
+          python scripts/fetch_global_odds.py --light 4 || true
+          python scripts/daily.py snapshot --date "$YEST" || true
+          python scripts/daily.py snapshot --date "$TODAY" || true
+          if python scripts/nesine_global.py --date "$TODAY"; then
+            python scripts/gunluk_analiz.py --tarih "$TODAY" || true
+          else
+            echo "::warning::Nesine endpoint unreachable on intraday refresh."
+          fi
+          python scripts/build_dashboard.py
+          python scripts/notify_telegram.py --date "$TODAY" --mode alerts || true
+
+      - name: Night settle and self-learning calibration
+        if: steps.ctx.outputs.mode == 'settle'
+        run: |
+          TODAY="${{ steps.ctx.outputs.today }}"
+          YEST="${{ steps.ctx.outputs.yesterday }}"
+          for D in "$YEST" "$TODAY"; do
+            python scripts/nesine_takip.py sonuc --date "$D" || true
+            if [ -f "reports/daily/$D/predictions.json" ]; then
+              python scripts/daily.py results --date "$D" || true
+              python scripts/daily.py verify --date "$D" || true
+            fi
+          done
+          python scripts/nesine_takip.py rapor || true
+          python scripts/daily.py summary || true
+          python scripts/auto_learn.py
+          python scripts/build_dashboard.py
+
+      - name: Rebuild calibration and dashboard only
+        if: steps.ctx.outputs.mode == 'dashboard'
+        run: |
+          python scripts/auto_learn.py
+          python scripts/build_dashboard.py
+
+      - name: Commit and push updated data, calibration, reports and dashboard
+        run: |
+          git config user.name "quantfoot-autonomous-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          MODE="${{ steps.ctx.outputs.mode }}"
+          TODAY="${{ steps.ctx.outputs.today }}"
+          for i in 1 2 3 4; do
+            git add data/global_odds data/calibration reports/daily reports/takip reports/weekly docs/data || true
+            if git diff --cached --quiet; then
+              echo "No repository changes to publish."
+              exit 0
+            fi
+            git commit -q -m "chore(autonomous): $MODE $TODAY ($(date -u +%H:%MZ))"
+            if git push -q; then
+              echo "Published $MODE ($TODAY) cleanly."
+              exit 0
+            fi
+            git pull --rebase --autostash -q origin main || { git rebase --abort || true; exit 1; }
+            sleep 3
+          done
+          exit 1

@@ -76,7 +76,7 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
     is_sharp = is_sharp_source(m.get("reference"))
     min_p = 0.0
     if not is_sharp:
-        if not (m.get("reference") or "").startswith("OddsMath ("):
+        if not (m.get("reference") or "").startswith(("OddsMath (", "OddsPapi (", "API-Football (")):
             return None, "yalnız ESPN fiyatı (keskin değil)"
         r = m.get("research") or {}
         if not _has_full_research(m):

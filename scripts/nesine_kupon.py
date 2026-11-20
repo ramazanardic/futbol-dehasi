@@ -37,6 +37,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from nesine_global import DAILY, MAX_PLAUSIBLE_EV, PRICED, TSI, analyze_day, selection_key  # noqa: E402
 
 from quantfoot.data.nesine import fetch_bulletin, parse_bulletin  # noqa: E402
+from quantfoot.evaluation.auto_learn import calibration_sigma_adjustment, load_live_calibration  # noqa: E402
 from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
 from quantfoot.strategy.coupon_builder import (  # noqa: E402
     _conflicting_selections,
@@ -46,6 +47,7 @@ from quantfoot.strategy.coupon_builder import (  # noqa: E402
 )
 
 SHARP_SOURCES = ("Pinnacle", "Smarkets", "Matchbook", "Betfair", "OddsMath (BetInAsia", "OddsMath (Borsa")
+MID_GLOBAL_PREFIXES = ("OddsMath (", "OddsPapi (", "API-Football (")
 MID_GLOBAL_MIN_PROB = 0.62  # researched mid-tier global books (e.g. Marathonbet/1XBET) must clear >= 62%
 
 
@@ -141,11 +143,18 @@ HALF_TOKENS = ("İY", "2Y", "İki Yarıda", "En Çok Gol", "Yarıyı", "Yarıda"
 Z_LOW = 1.28  # one-sided 90 % lower bound
 
 
-def leg_sigma(name: str, direct: bool, reference: str, researched: bool, flagged: bool) -> float:
+def leg_sigma(
+    name: str,
+    direct: bool,
+    reference: str,
+    researched: bool,
+    flagged: bool,
+    calibration: dict | None = None,
+) -> float:
     """Uncertainty (probability points) of a leg's probability, from what the calibration work measured:
     a direct exchange quote is within ~1 pt, a goal-model derivative ~2-3 pts, half-time / second-half
     model markets less certain still; a single exchange, non-sharp global book, missing research or a
-    team-news flag widen it."""
+    team-news flag widen it. Optional ``calibration`` applies Empirical-Bayes deltas learned from settled days."""
     if direct:
         sigma = 0.010
     elif any(t in name for t in HALF_TOKENS):
@@ -160,6 +169,8 @@ def leg_sigma(name: str, direct: bool, reference: str, researched: bool, flagged
         sigma += 0.010
     if flagged:
         sigma += 0.020
+    if calibration:
+        sigma = max(0.008, sigma + calibration_sigma_adjustment(reference, name, calibration))
     return sigma
 
 
@@ -174,6 +185,7 @@ def candidates(
     exclude_cups: bool = False,
     main_markets_only: bool = False,
     allow_mid_researched: bool = True,
+    calibration: dict | None = None,
 ) -> list[list[dict]]:
     """Per match: non-dominated legs (higher Nesine odds AND higher global probability dominates)."""
     pools = []
@@ -184,7 +196,7 @@ def candidates(
         res = m.get("research") or {}
         flagged = bool(res.get("flags"))
         full_research = _has_full_research(m)
-        is_mid_global = (not is_sharp) and m["reference"].startswith("OddsMath (")
+        is_mid_global = (not is_sharp) and m["reference"].startswith(MID_GLOBAL_PREFIXES)
         if not is_sharp:
             if is_mid_global and allow_mid_researched:
                 # Researched mid-tier global book: allowed ONLY when both teams have live research,
@@ -223,7 +235,7 @@ def candidates(
                          "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": ref_lbl,
                          "direct": bool(s.get("direct")), "context": context, "key": s.get("key"),
                          "name": s.get("name", ""), "researched": researched, "tier": "keskin" if is_sharp else "orta"})
-            sig = leg_sigma(s.get("name", ""), bool(s.get("direct")), m["reference"], researched, flagged)
+            sig = leg_sigma(s.get("name", ""), bool(s.get("direct")), m["reference"], researched, flagged, calibration=calibration)
             legs[-1]["sigma"] = sig
             legs[-1]["p_low"] = max(0.001, s["fair_prob"] - Z_LOW * sig)
         legs.sort(key=lambda x: (-x["odds"], -x["p_low"]))
@@ -405,9 +417,11 @@ def main() -> None:
     ap.add_argument("--no-tm", action="store_true", help="Transfermarkt canlı sakat/cezalı çekimini kapat")
     ap.add_argument("--yalniz-keskin", action="store_true",
                     help="Araştırmalı orta güven global büroları (Marathonbet/1XBET) kupon havuzundan çıkar")
+    ap.add_argument("--no-pull", action="store_true", help="Kupon öncesi git pull adımını atla (CI / bulut ortamı)")
     args = ap.parse_args()
 
-    print(f"Global veri: {refresh_global_data()}")
+    if not args.no_pull:
+        print(f"Global veri: {refresh_global_data()}")
     matches, _, _ = analyze_day(
         dt.date.fromisoformat(args.tarih),
         verbose=False,
@@ -416,6 +430,7 @@ def main() -> None:
     )
     now = dt.datetime.now(TSI)
     min_prob = args.min_olasilik if args.min_olasilik is not None else (0.60 if args.yontem == "guvenli" else 0.55)
+    live_cal = load_live_calibration()
     pools = candidates(
         matches,
         now,
@@ -426,6 +441,7 @@ def main() -> None:
         exclude_cups=args.kupasiz,
         main_markets_only=args.ana_pazar,
         allow_mid_researched=not args.yalniz_keskin,
+        calibration=live_cal or None,
     )
     n_mid_pools = sum(1 for p in pools if p[0].get("tier") == "orta")
     print(f"{sum(1 for m in matches if m.get('status') == 'fiyatlandı')} maç global fiyatlı; {len(pools)} maç kupona uygun "

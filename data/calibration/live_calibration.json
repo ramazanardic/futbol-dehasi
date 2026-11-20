@@ -1,0 +1,762 @@
+{
+  "generated_utc": "2026-11-20T05:08:51+00:00",
+  "generated_tsi": "2026-11-20T08:08:51+03:00",
+  "days": [
+    "2026-11-19"
+  ],
+  "total_matches_settled": 48,
+  "overall": {
+    "n": 2894,
+    "mean_pred": 0.3218,
+    "realized": 0.3193,
+    "bias": -0.0025,
+    "brier": 0.1642
+  },
+  "bettable_overall": {
+    "n": 547,
+    "mean_pred": 0.593,
+    "realized": 0.5923,
+    "bias": -0.0007,
+    "brier": 0.2386
+  },
+  "direct_vs_model": {
+    "doğrudan": {
+      "n": 890,
+      "mean_pred": 0.2956,
+      "realized": 0.2933,
+      "bias": -0.0024,
+      "brier": 0.1483
+    },
+    "model": {
+      "n": 2004,
+      "mean_pred": 0.3334,
+      "realized": 0.3308,
+      "bias": -0.0026,
+      "brier": 0.1712
+    }
+  },
+  "bands": {
+    "0–20%": {
+      "n": 1017,
+      "mean_pred": 0.0862,
+      "realized": 0.0649,
+      "bias": -0.0213,
+      "brier": 0.0599
+    },
+    "20–40%": {
+      "n": 794,
+      "mean_pred": 0.2912,
+      "realized": 0.3086,
+      "bias": 0.0174,
+      "brier": 0.207
+    },
+    "40–50%": {
+      "n": 376,
+      "mean_pred": 0.4497,
+      "realized": 0.4362,
+      "bias": -0.0136,
+      "brier": 0.2449
+    },
+    "50–60%": {
+      "n": 319,
+      "mean_pred": 0.5491,
+      "realized": 0.558,
+      "bias": 0.0089,
+      "brier": 0.2458
+    },
+    "60–70%": {
+      "n": 228,
+      "mean_pred": 0.6509,
+      "realized": 0.614,
+      "bias": -0.0368,
+      "brier": 0.2375
+    },
+    "70–80%": {
+      "n": 149,
+      "mean_pred": 0.7421,
+      "realized": 0.8322,
+      "bias": 0.0901,
+      "brier": 0.1481
+    },
+    "80–100%": {
+      "n": 11,
+      "mean_pred": 0.8329,
+      "realized": 0.6364,
+      "bias": -0.1965,
+      "brier": 0.2886
+    }
+  },
+  "sources": {
+    "Matchbook + Smarkets": {
+      "n": 1843,
+      "mean_pred": 0.3013,
+      "realized": 0.2963,
+      "bias": -0.0051,
+      "brier": 0.1504,
+      "bettable": {
+        "n": 311,
+        "mean_pred": 0.5927,
+        "realized": 0.6367,
+        "bias": 0.0439,
+        "brier": 0.2275
+      },
+      "sigma_delta": 0.0
+    },
+    "Smarkets": {
+      "n": 494,
+      "mean_pred": 0.3029,
+      "realized": 0.2996,
+      "bias": -0.0033,
+      "brier": 0.1489,
+      "bettable": {
+        "n": 77,
+        "mean_pred": 0.5832,
+        "realized": 0.6104,
+        "bias": 0.0272,
+        "brier": 0.235
+      },
+      "sigma_delta": 0.0
+    },
+    "Matchbook": {
+      "n": 339,
+      "mean_pred": 0.4145,
+      "realized": 0.4159,
+      "bias": 0.0015,
+      "brier": 0.2016,
+      "bettable": {
+        "n": 100,
+        "mean_pred": 0.5934,
+        "realized": 0.55,
+        "bias": -0.0434,
+        "brier": 0.2449
+      },
+      "sigma_delta": 0.0136
+    },
+    "Nesine (düşük güven)": {
+      "n": 218,
+      "mean_pred": 0.3938,
+      "realized": 0.4083,
+      "bias": 0.0144,
+      "brier": 0.2571,
+      "bettable": {
+        "n": 59,
+        "mean_pred": 0.6066,
+        "realized": 0.4068,
+        "bias": -0.1998,
+        "brier": 0.2913
+      },
+      "sigma_delta": 0.0174
+    }
+  },
+  "families": {
+    "Kombine (A & B)": {
+      "n": 886,
+      "mean_pred": 0.1388,
+      "realized": 0.1388,
+      "bias": 0.0001,
+      "brier": 0.0926,
+      "bettable": {
+        "n": 27,
+        "mean_pred": 0.5766,
+        "realized": 0.6296,
+        "bias": 0.053,
+        "brier": 0.241
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    },
+    "İlk yarı": {
+      "n": 355,
+      "mean_pred": 0.4526,
+      "realized": 0.4479,
+      "bias": -0.0047,
+      "brier": 0.2167,
+      "bettable": {
+        "n": 117,
+        "mean_pred": 0.5892,
+        "realized": 0.5897,
+        "bias": 0.0005,
+        "brier": 0.2383
+      },
+      "sigma_delta": -0.004,
+      "auto_block_warn": false
+    },
+    "Ev sahibi golleri": {
+      "n": 243,
+      "mean_pred": 0.457,
+      "realized": 0.4527,
+      "bias": -0.0043,
+      "brier": 0.2221,
+      "bettable": {
+        "n": 84,
+        "mean_pred": 0.6098,
+        "realized": 0.5833,
+        "bias": -0.0265,
+        "brier": 0.2457
+      },
+      "sigma_delta": 0.0063,
+      "auto_block_warn": false
+    },
+    "Deplasman golleri": {
+      "n": 220,
+      "mean_pred": 0.4255,
+      "realized": 0.4182,
+      "bias": -0.0073,
+      "brier": 0.1934,
+      "bettable": {
+        "n": 71,
+        "mean_pred": 0.6057,
+        "realized": 0.6338,
+        "bias": 0.0281,
+        "brier": 0.23
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    },
+    "Alt/Üst": {
+      "n": 196,
+      "mean_pred": 0.4689,
+      "realized": 0.4592,
+      "bias": -0.0097,
+      "brier": 0.1921,
+      "bettable": {
+        "n": 68,
+        "mean_pred": 0.601,
+        "realized": 0.6176,
+        "bias": 0.0167,
+        "brier": 0.236
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    },
+    "Handikap": {
+      "n": 180,
+      "mean_pred": 0.3164,
+      "realized": 0.3111,
+      "bias": -0.0053,
+      "brier": 0.1728,
+      "bettable": {
+        "n": 36,
+        "mean_pred": 0.6032,
+        "realized": 0.6111,
+        "bias": 0.008,
+        "brier": 0.2294
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    },
+    "Maç sonucu": {
+      "n": 139,
+      "mean_pred": 0.3129,
+      "realized": 0.3094,
+      "bias": -0.0035,
+      "brier": 0.2042,
+      "bettable": {
+        "n": 12,
+        "mean_pred": 0.6041,
+        "realized": 0.6667,
+        "bias": 0.0626,
+        "brier": 0.2405
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    },
+    "Gol aralığı": {
+      "n": 107,
+      "mean_pred": 0.2862,
+      "realized": 0.2897,
+      "bias": 0.0035,
+      "brier": 0.1704,
+      "bettable": {
+        "n": 0,
+        "mean_pred": null,
+        "realized": null,
+        "bias": null,
+        "brier": null
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    },
+    "İkinci yarı": {
+      "n": 96,
+      "mean_pred": 0.3333,
+      "realized": 0.3333,
+      "bias": -0.0,
+      "brier": 0.2205,
+      "bettable": {
+        "n": 8,
+        "mean_pred": 0.6068,
+        "realized": 0.375,
+        "bias": -0.2318,
+        "brier": 0.2631
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    },
+    "Karşılıklı gol": {
+      "n": 88,
+      "mean_pred": 0.5,
+      "realized": 0.5,
+      "bias": -0.0,
+      "brier": 0.2238,
+      "bettable": {
+        "n": 42,
+        "mean_pred": 0.5798,
+        "realized": 0.619,
+        "bias": 0.0392,
+        "brier": 0.2326
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    },
+    "Çifte şans": {
+      "n": 87,
+      "mean_pred": 0.6008,
+      "realized": 0.6322,
+      "bias": 0.0314,
+      "brier": 0.2051,
+      "bettable": {
+        "n": 35,
+        "mean_pred": 0.6216,
+        "realized": 0.5714,
+        "bias": -0.0502,
+        "brier": 0.2389
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    },
+    "Tek/Çift": {
+      "n": 76,
+      "mean_pred": 0.5,
+      "realized": 0.5,
+      "bias": 0.0,
+      "brier": 0.2509,
+      "bettable": {
+        "n": 39,
+        "mean_pred": 0.5102,
+        "realized": 0.4615,
+        "bias": -0.0487,
+        "brier": 0.2509
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    },
+    "Diğer": {
+      "n": 57,
+      "mean_pred": 0.1228,
+      "realized": 0.1053,
+      "bias": -0.0175,
+      "brier": 0.08,
+      "bettable": {
+        "n": 0,
+        "mean_pred": null,
+        "realized": null,
+        "bias": null,
+        "brier": null
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    },
+    "İY/MS": {
+      "n": 54,
+      "mean_pred": 0.1111,
+      "realized": 0.1111,
+      "bias": -0.0,
+      "brier": 0.0748,
+      "bettable": {
+        "n": 1,
+        "mean_pred": 0.5465,
+        "realized": 1.0,
+        "bias": 0.4535,
+        "brier": 0.2057
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    },
+    "2Y karşılıklı gol": {
+      "n": 52,
+      "mean_pred": 0.4271,
+      "realized": 0.4038,
+      "bias": -0.0233,
+      "brier": 0.2083,
+      "bettable": {
+        "n": 5,
+        "mean_pred": 0.6156,
+        "realized": 0.6,
+        "bias": -0.0156,
+        "brier": 0.2394
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    },
+    "İY karşılıklı gol": {
+      "n": 45,
+      "mean_pred": 0.3378,
+      "realized": 0.3333,
+      "bias": -0.0045,
+      "brier": 0.1286,
+      "bettable": {
+        "n": 1,
+        "mean_pred": 0.666,
+        "realized": 0.0,
+        "bias": -0.666,
+        "brier": 0.4436
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    },
+    "İlk gol": {
+      "n": 13,
+      "mean_pred": 0.2606,
+      "realized": 0.2308,
+      "bias": -0.0298,
+      "brier": 0.103,
+      "bettable": {
+        "n": 1,
+        "mean_pred": 0.6552,
+        "realized": 1.0,
+        "bias": 0.3448,
+        "brier": 0.1189
+      },
+      "sigma_delta": 0.0,
+      "auto_block_warn": false
+    }
+  },
+  "leagues": {
+    "Brezilya Serie A": {
+      "n": 64,
+      "mean_pred": 0.5998,
+      "realized": 0.6719,
+      "bias": 0.0721,
+      "brier": 0.2168,
+      "stability": "orta"
+    },
+    "Cezayir 1. Lig": {
+      "n": 46,
+      "mean_pred": 0.6006,
+      "realized": 0.5,
+      "bias": -0.1006,
+      "brier": 0.2738,
+      "stability": "dalgalı"
+    },
+    "ASEAN Kulüpler Şamp. Grup B": {
+      "n": 42,
+      "mean_pred": 0.5857,
+      "realized": 0.7143,
+      "bias": 0.1286,
+      "brier": 0.2133,
+      "stability": "orta"
+    },
+    "Mısır 2. Lig": {
+      "n": 42,
+      "mean_pred": 0.6132,
+      "realized": 0.5952,
+      "bias": -0.018,
+      "brier": 0.238,
+      "stability": "yüksek"
+    },
+    "Mısır Kupası": {
+      "n": 39,
+      "mean_pred": 0.5934,
+      "realized": 0.6923,
+      "bias": 0.099,
+      "brier": 0.2216,
+      "stability": "orta"
+    },
+    "BAE - Arap Körfez Ligi": {
+      "n": 30,
+      "mean_pred": 0.5713,
+      "realized": 0.5333,
+      "bias": -0.0379,
+      "brier": 0.2355,
+      "stability": "orta"
+    },
+    "Kolombiya Prmr B Kapanış, Yük. Gr B": {
+      "n": 29,
+      "mean_pred": 0.6118,
+      "realized": 0.6897,
+      "bias": 0.0778,
+      "brier": 0.2006,
+      "stability": "orta"
+    },
+    "Kolombiya Prmr B Kapanış, Yük. Gr A": {
+      "n": 27,
+      "mean_pred": 0.5963,
+      "realized": 0.5926,
+      "bias": -0.0037,
+      "brier": 0.2293,
+      "stability": "yüksek"
+    },
+    "ABD Major Lig Playoff": {
+      "n": 25,
+      "mean_pred": 0.6053,
+      "realized": 0.68,
+      "bias": 0.0747,
+      "brier": 0.2429,
+      "stability": "orta"
+    },
+    "Irak Ligi": {
+      "n": 25,
+      "mean_pred": 0.6012,
+      "realized": 0.36,
+      "bias": -0.2412,
+      "brier": 0.2788,
+      "stability": "dalgalı"
+    },
+    "Danimarka 1. Lig": {
+      "n": 22,
+      "mean_pred": 0.5855,
+      "realized": 0.6364,
+      "bias": 0.0509,
+      "brier": 0.2261,
+      "stability": "yetersiz örneklem"
+    },
+    "UEFA Şamp. Ligi Kadınlar ": {
+      "n": 21,
+      "mean_pred": 0.5974,
+      "realized": 0.7619,
+      "bias": 0.1645,
+      "brier": 0.2151,
+      "stability": "yetersiz örneklem"
+    },
+    "Katar Yıldızlar Ligi": {
+      "n": 18,
+      "mean_pred": 0.5875,
+      "realized": 0.6111,
+      "bias": 0.0236,
+      "brier": 0.2436,
+      "stability": "yetersiz örneklem"
+    },
+    "Uganda Premier Ligi": {
+      "n": 18,
+      "mean_pred": 0.5705,
+      "realized": 0.3889,
+      "bias": -0.1816,
+      "brier": 0.2575,
+      "stability": "yetersiz örneklem"
+    },
+    "Litvanya 1.L ig , Düş./Yük. Playoff": {
+      "n": 17,
+      "mean_pred": 0.5882,
+      "realized": 0.5882,
+      "bias": 0.0001,
+      "brier": 0.2456,
+      "stability": "yetersiz örneklem"
+    },
+    "Fransa Ulusal Lig": {
+      "n": 15,
+      "mean_pred": 0.5834,
+      "realized": 0.3333,
+      "bias": -0.2501,
+      "brier": 0.2604,
+      "stability": "yetersiz örneklem"
+    },
+    "Venezuela Kupası, Eleme Turu": {
+      "n": 13,
+      "mean_pred": 0.5821,
+      "realized": 0.3846,
+      "bias": -0.1974,
+      "brier": 0.286,
+      "stability": "yetersiz örneklem"
+    },
+    "Bulgaristan 2. Lig": {
+      "n": 12,
+      "mean_pred": 0.5653,
+      "realized": 0.5,
+      "bias": -0.0653,
+      "brier": 0.2731,
+      "stability": "yetersiz örneklem"
+    },
+    "Uruguay Prmr Ligi, Kapanış": {
+      "n": 12,
+      "mean_pred": 0.6056,
+      "realized": 0.5,
+      "bias": -0.1056,
+      "brier": 0.26,
+      "stability": "yetersiz örneklem"
+    },
+    "Özbekistan Süper Ligi": {
+      "n": 10,
+      "mean_pred": 0.5917,
+      "realized": 0.7,
+      "bias": 0.1083,
+      "brier": 0.2479,
+      "stability": "yetersiz örneklem"
+    },
+    "Slovakya Kupası": {
+      "n": 9,
+      "mean_pred": 0.5502,
+      "realized": 0.6667,
+      "bias": 0.1165,
+      "brier": 0.2318,
+      "stability": "yetersiz örneklem"
+    },
+    "Slovenya Kupası": {
+      "n": 9,
+      "mean_pred": 0.5542,
+      "realized": 0.5556,
+      "bias": 0.0014,
+      "brier": 0.2581,
+      "stability": "yetersiz örneklem"
+    },
+    "İsveç Allsvenskan Kad. Düş/Yük": {
+      "n": 1,
+      "mean_pred": 0.6544,
+      "realized": 0.0,
+      "bias": -0.6544,
+      "brier": 0.4282,
+      "stability": "yetersiz örneklem"
+    },
+    "Arjantin Primera A Kapanış, Kadınlar": {
+      "n": 1,
+      "mean_pred": 0.5729,
+      "realized": 0.0,
+      "bias": -0.5729,
+      "brier": 0.3282,
+      "stability": "yetersiz örneklem"
+    }
+  },
+  "by_day": [
+    {
+      "date": "2026-11-19",
+      "matches": 48,
+      "selections": 2894,
+      "brier": 0.1642,
+      "safest_n": 48,
+      "safest_pred": 0.6597,
+      "safest_hit": 0.625
+    }
+  ],
+  "coupons": [
+    {
+      "date": "2026-11-19",
+      "file": "kupon_10x_1604.json",
+      "odds": 11.57,
+      "prob": 0.0123,
+      "won": false,
+      "legs_won": 11,
+      "legs_total": 12
+    },
+    {
+      "date": "2026-11-19",
+      "file": "kupon_10x_2040.json",
+      "odds": 10.06,
+      "prob": 0.0374,
+      "won": false,
+      "legs_won": 4,
+      "legs_total": 6
+    },
+    {
+      "date": "2026-11-19",
+      "file": "kupon_10x_2040.json",
+      "odds": 10.01,
+      "prob": 0.0269,
+      "won": false,
+      "legs_won": 5,
+      "legs_total": 7
+    },
+    {
+      "date": "2026-11-19",
+      "file": "kupon_10x_2046.json",
+      "odds": 10.02,
+      "prob": 0.033,
+      "won": false,
+      "legs_won": 3,
+      "legs_total": 6
+    },
+    {
+      "date": "2026-11-19",
+      "file": "kupon_10x_2046.json",
+      "odds": 10.01,
+      "prob": 0.0274,
+      "won": false,
+      "legs_won": 3,
+      "legs_total": 7
+    },
+    {
+      "date": "2026-11-19",
+      "file": "kupon_25x_1700.json",
+      "odds": 25.41,
+      "prob": 0.0027,
+      "won": false,
+      "legs_won": 13,
+      "legs_total": 16
+    },
+    {
+      "date": "2026-11-19",
+      "file": "kupon_5x_1950.json",
+      "odds": 5.0,
+      "prob": 0.1087,
+      "won": false,
+      "legs_won": 3,
+      "legs_total": 4
+    },
+    {
+      "date": "2026-11-19",
+      "file": "kupon_aksam_gece.json",
+      "odds": 3.27,
+      "prob": 0.1055,
+      "won": false,
+      "legs_won": 5,
+      "legs_total": 6
+    },
+    {
+      "date": "2026-11-19",
+      "file": "kupon_aksam_gece_v2.json",
+      "odds": 3.3,
+      "prob": 0.1038,
+      "won": false,
+      "legs_won": 5,
+      "legs_total": 6
+    },
+    {
+      "date": "2026-11-19",
+      "file": "kupon_aksam_gece_v3.json",
+      "odds": 3.24,
+      "prob": 0.1038,
+      "won": false,
+      "legs_won": 5,
+      "legs_total": 6
+    },
+    {
+      "date": "2026-11-19",
+      "file": "kupon_en_verimli.json",
+      "odds": 3.0,
+      "prob": 0.2562,
+      "won": false,
+      "legs_won": 1,
+      "legs_total": 2
+    },
+    {
+      "date": "2026-11-19",
+      "file": "kupon_en_verimli.json",
+      "odds": 4.12,
+      "prob": 0.1869,
+      "won": true,
+      "legs_won": 2,
+      "legs_total": 2
+    },
+    {
+      "date": "2026-11-19",
+      "file": "kupon_iki_ayri_10x.json",
+      "odds": 11.07,
+      "prob": 0.0473,
+      "won": false,
+      "legs_won": 3,
+      "legs_total": 5
+    }
+  ],
+  "adjustments": {
+    "min_samples_source": 30,
+    "min_samples_family": 40,
+    "source_sigma_delta": {
+      "Matchbook": 0.0136,
+      "Nesine (düşük güven)": 0.0174
+    },
+    "family_sigma_delta": {
+      "İlk yarı": -0.004,
+      "Ev sahibi golleri": 0.0063
+    },
+    "auto_blocked_families": []
+  }
+}

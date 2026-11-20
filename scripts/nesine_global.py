@@ -33,6 +33,7 @@ import re
 import unicodedata
 
 from quantfoot.data.absences import fetch_matchday_absences, format_tm_absence_brief
+from quantfoot.data.api_football import fetch_api_football_references
 from quantfoot.data.live_espn import fetch_espn_slate
 from quantfoot.data.match_research import espn_events, fpl_availability, motivation, research, staleness_flags
 from quantfoot.data.nesine import TSI, fetch_bulletin, league_names, market_overrounds, parse_bulletin
@@ -42,6 +43,8 @@ from quantfoot.data.oddsmath import (
     is_women_match,
     is_youth_or_reserve_match,
 )
+from quantfoot.data.oddspapi import fetch_oddspapi_references
+from quantfoot.data.weather import fetch_matchday_weather
 from quantfoot.markets.devig import devig
 from quantfoot.markets.goal_markets import goal_probability
 from quantfoot.markets.goal_timing import GoalTimingModel
@@ -153,8 +156,10 @@ def classify_price_tier(status: str, reference: str | None = None) -> str:
 def _source_rank(source: str) -> int:
     if source in SOURCE_RANK:
         return SOURCE_RANK[source]
-    if source.startswith("OddsMath ("):
-        return 3  # soft OddsMath books (e.g. Marathonbet/1XBET/Bet365): above ESPN, below sharp exchanges
+    if source.startswith(("Pinnacle (", "Betfair (", "Matchbook (")):
+        return 2
+    if source.startswith(("OddsMath (", "OddsPapi (", "API-Football (")):
+        return 3  # soft/mid-tier global books (Marathonbet/1XBET/Bet365/API-Football): above ESPN, below sharp exchanges
     return 9
 
 
@@ -609,6 +614,7 @@ def analyze_day(
     *,
     use_oddsmath: bool = True,
     use_tm: bool = True,
+    use_weather: bool = True,
 ) -> tuple[list[dict], dict, list]:
     """Fetch the live Nesine bulletin and price every match of `day` against the best global reference.
 
@@ -628,6 +634,8 @@ def analyze_day(
         if use_oddsmath
         else []
     )
+    op_refs = fetch_oddspapi_references([day.isoformat(), nxt.isoformat()])
+    af_refs = fetch_api_football_references([day.isoformat(), nxt.isoformat()])
     if verbose:
         n_spec = len(events) - len(real_events)
         spec_s = f" (+{n_spec} özel bahis)" if n_spec else ""
@@ -635,8 +643,12 @@ def analyze_day(
         print(f"Global (Pinnacle/Smarkets/Betfair): {len(sharp)} referans (oluşturulma {generated or 'yok'})")
         if use_oddsmath:
             print(f"OddsMath (BetInAsia/sharp + global büro + steam): {len(om_refs)} maçta canlı oran bulundu")
+        if op_refs:
+            print(f"OddsPapi (API): {len(op_refs)} maçta oran bulundu")
+        if af_refs:
+            print(f"API-Football (1100+ lig): {len(af_refs)} maçta oran bulundu")
         print(f"ESPN: {len(espn)} maçta oran bulundu")
-    refs = sharp + om_refs + espn
+    refs = sharp + op_refs + om_refs + af_refs + espn
     owner = _owners(real_events, refs, leagues=leagues)
     out = []
     for e in sorted(events, key=lambda x: x.kickoff):
@@ -704,6 +716,15 @@ def analyze_day(
             res = rec.setdefault("research", {"teams": {}, "flags": [], "motivation": {}})
             if sf not in res["flags"]:
                 res["flags"].append(sf)
+    if use_weather:
+        weather_map = fetch_matchday_weather([m for m in out if m.get("price_tier") != "ozel_bahis"])
+        for rec in out:
+            w = weather_map.get(rec["code"])
+            if w:
+                res = rec.setdefault("research", {"teams": {}, "flags": [], "motivation": {}})
+                res["weather"] = w
+                if w.get("flag") and w["flag"] not in res["flags"]:
+                    res["flags"].append(w["flag"])
     return out, payload, events
 
 
@@ -716,19 +737,22 @@ def main() -> None:
     ap.add_argument("--no-oddsmath", action="store_true", help="OddsMath canlı referans/steam çekimini kapat")
     ap.add_argument("--tm", action="store_true", help="Transfermarkt 2026/27 verisini tüm günler için açıkça etkinleştir (varsayılan açık)")
     ap.add_argument("--no-tm", action="store_true", help="Transfermarkt canlı sakat/cezalı çekimini kapat")
+    ap.add_argument("--no-weather", action="store_true", help="Open-Meteo maç saati şiddetli hava kontrolünü kapat")
     args = ap.parse_args()
     start = dt.date.fromisoformat(args.date)
     week = []
     for k in range(args.hafta):
         day = (start + dt.timedelta(days=k)).isoformat()
-        # Multi-day scans run OddsMath for today/tomorrow and TM for today unless explicitly forced, keeping hourly runs fast.
+        # Multi-day scans run OddsMath for today/tomorrow and TM/weather for today unless explicitly forced, keeping hourly runs fast.
         run_om = (not args.no_oddsmath) and (args.oddsmath or args.hafta == 1 or k <= 1)
         run_tm = (not args.no_tm) and (args.tm or args.hafta == 1 or k == 0)
+        run_wx = (not args.no_weather) and (args.hafta == 1 or k == 0)
         out, payload, events = analyze_day(
             dt.date.fromisoformat(day),
             verbose=args.hafta == 1,
             use_oddsmath=run_om,
             use_tm=run_tm,
+            use_weather=run_wx,
         )
         write_report(day, out, payload, events, args.min_ev)
         week.append((day, out))

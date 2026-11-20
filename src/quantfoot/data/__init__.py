@@ -10,6 +10,7 @@ from quantfoot.data.absences import (
     format_tm_absence_brief,
     resolve_tm_league_codes,
 )
+from quantfoot.data.api_football import fetch_api_football_references
 from quantfoot.data.live_espn import (
     LiveFixture,
     american_to_decimal,
@@ -32,6 +33,8 @@ from quantfoot.data.oddsmath import (
     match_event_to_oddsmath,
     oddsmath_to_reference,
 )
+from quantfoot.data.oddspapi import fetch_oddspapi_references
+from quantfoot.data.weather import evaluate_hourly_weather, fetch_matchday_weather
 from quantfoot.data.soccerdata_bridge import (
     SOCCERDATA_LEAGUES,
     SoccerDataClient,
@@ -62,12 +65,16 @@ __all__ = [
     "annotate_club_absences",
     "build_side_alerts",
     "configure_soccerdata",
+    "evaluate_hourly_weather",
+    "fetch_api_football_references",
     "fetch_club_squad_stats",
     "fetch_espn_slate",
     "fetch_matchday_absences",
+    "fetch_matchday_weather",
     "fetch_oddsmath_day",
     "fetch_oddsmath_event_odds",
     "fetch_oddsmath_references",
+    "fetch_oddspapi_references",
     "fetch_the_odds_api_slate",
     "fetch_tm_league",
     "format_tm_absence_brief",
