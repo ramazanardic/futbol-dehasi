@@ -464,3 +464,14 @@ def test_closed_nesine_markets_are_not_offered():
                  {"MTID": 12, "SOV": 2.5, "MS": 0, "OCA": [{"N": 1, "O": 2.04}, {"N": 2, "O": 1.34}]}]}
     names = {s.name for s in parse_bulletin({"sg": {"EA": [ev]}})[0].selections}
     assert "MS 1" in names and "2.5 Üst" not in names and "2.5 Alt" not in names
+
+
+def test_watcher_day_and_active_coupons(tmp_path, monkeypatch):
+    monkeypatch.setattr(kontrol, "AREA", tmp_path)
+    assert kontrol.betting_day(dt.datetime(2026, 11, 21, 2, 0, tzinfo=TSI)) == "2026-11-20"
+    assert kontrol.betting_day(dt.datetime(2026, 11, 21, 8, 0, tzinfo=TSI)) == "2026-11-21"
+    d = tmp_path / "2026-11-20"
+    d.mkdir()
+    for n in ("kupon_5x_0851", "kupon_5x_1629", "kupon_3x_1620", "kupon_5x_kg_1141"):
+        (d / f"{n}.json").write_text("{}")
+    assert kontrol.active_coupons("2026-11-20") == {"kupon_5x_1629", "kupon_3x_1620", "kupon_5x_kg_1141"}

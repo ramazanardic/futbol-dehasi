@@ -41,6 +41,21 @@ def _load(path: Path):
         return None
 
 
+def betting_day(now: dt.datetime | None = None) -> str:
+    """The Nesine betting day runs 07:00-07:00 TSİ (late kick-offs belong to the previous day)."""
+    now = now or dt.datetime.now(TSI)
+    return (now.date() if now.hour >= 7 else now.date() - dt.timedelta(days=1)).isoformat()
+
+
+def active_coupons(date: str) -> set[str]:
+    """Stems of the coupons currently in force: the latest file of every (target, family) group."""
+    latest: dict[tuple[str, str], str] = {}
+    for f in sorted((AREA / date).glob("kupon_*x_*.json")):
+        parts = f.stem.split("_")
+        latest[(parts[1], parts[2] if len(parts) >= 4 else "karma")] = f.stem
+    return set(latest.values())
+
+
 def coupon_legs(date: str) -> dict[str, dict]:
     """Every leg of the day's coupon files, keyed by code|key (a leg in several coupons is checked once)."""
     legs: dict[str, dict] = {}
@@ -203,7 +218,9 @@ def cmd_kontrol(date: str, notify: bool = True) -> None:
     md += ["", f"**Kapanış fiyatı (CLV), bugün:** {_fmt_stats(clv_stats(clv, now))}", ""]
     out = AREA / date / "kupon_kontrol.md"
     out.write_text("\n".join(md), encoding="utf-8")
-    fresh = [r for r in rows if r["new_warn"] and not r["started"]]
+    active = active_coupons(date)
+    fresh = [r for r in rows if r["new_warn"] and not r["started"]
+             and any(c.split(" #")[0] in active for c in r["leg"]["coupons"])]  # alerts only for coupons in force
     print(f"{len(rows)} bacak kontrol edildi, {sum(1 for r in rows if r['warn'] and not r['started'])} uyarı "
           f"({len(fresh)} yeni) -> {out}")
     # Odds drifting after a coupon was given is not important to the user (20 Nov): coupons are not rebuilt and no
@@ -237,7 +254,7 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
     k = sub.add_parser("kontrol")
-    k.add_argument("--date", default=dt.datetime.now(TSI).date().isoformat())
+    k.add_argument("--date", default=betting_day())
     k.add_argument("--sessiz", action="store_true", help="Pop-up / Telegram uyarısı gönderme")
     sub.add_parser("ozet")
     args = ap.parse_args()
