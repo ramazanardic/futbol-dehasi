@@ -136,3 +136,19 @@ def test_openmatchday_games_and_history(monkeypatch):
     assert om.leg_history("İY 0.5 Üst", hg, ag)["home_n"] == 1                         # half bet: games with half scores
     assert om.folder_for("Galler Championship, Güney") == "WAL_3_cymru-south"
     assert om.folder_for("İngiltere Ulusal Lig Kuzey") == "ENG_6_national-league-north"
+
+
+def test_footballcharts_games_with_half_scores():
+    fc = _load("footballcharts_gecmis")
+    import datetime as dt
+    rows = [{"id": 1, "date": "2026-11-01", "kickoff_utc": "2026-11-01T18:00:00Z", "homeTeam": "Pribram", "awayTeam": "X",
+             "score": "2:1", "ht_result": "1:0"},
+            {"id": 2, "date": "2026-11-08", "kickoff_utc": "2026-11-08T18:00:00Z", "homeTeam": "Y", "awayTeam": "Pribram",
+             "score": "3:1", "ht_result": "0:1"},
+            {"id": 3, "date": "2026-11-20", "kickoff_utc": "2026-11-20T17:00:00Z", "homeTeam": "Pribram", "awayTeam": "Z",
+             "score": "", "ht_result": ""}]
+    g = fc.team_games("Pribram", rows, dt.datetime(2026, 11, 20, 17, 0, tzinfo=dt.timezone.utc))
+    assert [x["event"] for x in g] == [1, 2]
+    assert g[0]["for"] == (1, 1) and g[0]["against"] == (0, 1) and g[1]["for"] == (1, 0) and g[1]["against"] == (0, 3)
+    assert fc.leagues_for("Çekya 2. Lig") == ("czech2",) and fc.leagues_for("İtalya Serie C, A Grubu") == ("italy3a", "italy3b")
+    assert fc.leagues_for("Almanya Bundesliga 2") == ("germany2",) and fc.leagues_for("Bilinmeyen") == ()
