@@ -139,6 +139,8 @@ def main() -> None:
     n = update_table(args.tarih, rows)
     import bahis_aileleri
     bahis_aileleri.build_day(args.tarih)  # every bet family of every match, with probabilities -> bahis_aileleri.md
+    import simulasyon
+    simulasyon.write_day(args.tarih, 20000)  # market / simulation / history side by side -> simulasyon.md
     print(f"{len(rows)} maç araştırıldı, {sum(1 for r in rows if r['pick'])} ana tercih; mac_tahminleri.csv'de {n} satır "
           f"güncellendi -> {out / 'derin_tahminler.md'}")
 

@@ -160,12 +160,40 @@ def main() -> None:
     ap.add_argument("--tarih", default=dt.datetime.now(dr.TSI).date().isoformat())
     ap.add_argument("--n", type=int, default=20000, help="Maç başına simülasyon sayısı")
     args = ap.parse_args()
-    res = run(args.tarih, args.n)
-    out = dr.AREA / args.tarih
+    write_day(args.tarih, args.n)
+
+
+def update_picks(date: str, res: list[dict]) -> int:
+    """Main pick of a not-started match = its triple-confirmed bet with the best pessimistic view (user, 21 Nov:
+    "böyle devam"); a match without one keeps the deep-research pick."""
+    import derin_tahmin as dtah
+    out = dr.AREA / date
+    rows = json.loads((out / "derin_tahminler.json").read_text(encoding="utf-8"))
+    by = {str(r["code"]): r for r in res}
+    n = 0
+    for row in rows:
+        tri = [b for b in (by.get(str(row["code"])) or {}).get("bets", []) if b["verdict"] == "üçlü onay"]
+        if not tri:
+            continue
+        best = max(tri, key=lambda b: b["low"])
+        leg = next((x for x in row["legs"] if x["label"] == best["label"]), None)
+        if leg:
+            n += (row.get("pick") or {}).get("label") != leg["label"]
+            row["pick"] = leg
+    (out / "derin_tahminler.json").write_text(json.dumps(rows, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
+    dtah.update_table(date, rows)
+    return n
+
+
+def write_day(date: str, n: int) -> list[dict]:
+    res = run(date, n)
+    out = dr.AREA / date
     (out / "simulasyon.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
-    (out / "simulasyon.md").write_text(to_markdown(args.tarih, res, args.n), encoding="utf-8")
+    (out / "simulasyon.md").write_text(to_markdown(date, res, n), encoding="utf-8")
+    changed = update_picks(date, res)
     tri = sum(1 for r in res for b in r["bets"] if b["verdict"] == "üçlü onay")
-    print(f"{len(res)} maç simüle edildi ({args.n} kez), {tri} bahis üçlü onaylı -> {out / 'simulasyon.md'}")
+    print(f"{len(res)} maç simüle edildi ({n} kez), {tri} bahis üçlü onaylı, {changed} ana tercih değişti -> {out / 'simulasyon.md'}")
+    return res
 
 
 if __name__ == "__main__":
