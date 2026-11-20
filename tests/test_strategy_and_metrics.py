@@ -346,3 +346,74 @@ def test_v7_diversified_portfolio_enforces_zero_repeats_exposure_cap_and_mbs():
             seen_pairs.add(pair)
             match_hits[l.match_id] = match_hits.get(l.match_id, 0) + 1
     assert max(match_hits.values()) <= 2
+
+
+def test_v71_underdog_dc_tight_o15_knockout_over_and_shootout_scores():
+    from quantfoot.markets import compute_omni_markets
+    from quantfoot.strategy import MatchRiskContext, audit_match_risks
+
+    # 1. Layer 10: Underdog Double Chance blocked when favorite clearly leads (Amiens 2-1, Cundinamarca 0-2)
+    b_amiens = compute_omni_markets(1.50, 1.16, league="fra.3")
+    blocked_a, _ = audit_match_risks(b_amiens, MatchRiskContext())
+    assert "ÇŞ 02" in blocked_a
+
+    b_cund = compute_omni_markets(0.92, 1.03, league="col.2")
+    blocked_c, _ = audit_match_risks(b_cund, MatchRiskContext())
+    assert "ÇŞ 10" in blocked_c
+
+    # 2. Layer 10: High-tempo shootout coin-flip blocks side ÇŞ (Orlando 1-3 Cincinnati)
+    b_orl = compute_omni_markets(2.08, 2.02, league="usa.1")
+    blocked_o, _ = audit_match_risks(b_orl, MatchRiskContext(is_knockout=True))
+    assert "ÇŞ 10" in blocked_o and "ÇŞ 02" in blocked_o
+    assert "3.5 Üst" not in blocked_o
+
+    # 3. Layer 11: Tight-match 1.5 Üst blocked (ZED 0-0, Sao Paulo 0-1) + knockout marginal 2.5 Üst blocked
+    b_zed = compute_omni_markets(1.15, 0.88, league="egy.cup")
+    blocked_z, _ = audit_match_risks(b_zed, MatchRiskContext(is_knockout=True))
+    assert "1.5 Üst" in blocked_z
+    assert "KG Yok" not in blocked_z
+
+    b_sp = compute_omni_markets(1.26, 1.15, league="bra.1")
+    blocked_sp, _ = audit_match_risks(b_sp, MatchRiskContext())
+    assert "1.5 Üst" in blocked_sp
+
+    b_lag = compute_omni_markets(2.20, 0.73, league="ven.cup")
+    blocked_lag, _ = audit_match_risks(b_lag, MatchRiskContext(is_knockout=True))
+    assert "2.5 Üst" in blocked_lag
+
+    # 4. Exact-score mode calibration: Arsenal-Lyon (1.47, 2.46) must not collapse #1 score to 1-1 or 0-1
+    b_ars = compute_omni_markets(1.47, 2.46, league="uefa.wchampions")
+    top3_ars = [s["score"] for s in b_ars.top_ft_scores[:3]]
+    assert top3_ars[0] == "1-2"
+    assert "0-1" not in top3_ars
+
+
+def test_v71_portfolio_forbids_contradictions_and_enforces_min_leg_prob():
+    from quantfoot.strategy import MarketRecommendation, PortfolioCouponSpec, build_diversified_portfolio
+
+    def _rec(mid: str, sel: str, cat: str, prob: float, odds: float) -> MarketRecommendation:
+        return MarketRecommendation(
+            match_id=mid, home=f"H_{mid}", away=f"A_{mid}", league="E0", kickoff="20:00",
+            category=cat, selection=sel, probability=prob, fair_odds=round(1.0 / prob, 2),
+            offered_odds=odds, odds_is_estimated=False, safety_score=prob, ev=prob * odds - 1.0,
+            rationale="test", group_id=mid, mbs=1,
+        )
+
+    pool = [
+        [_rec("M1", "ÇŞ 10", "Çifte Şans", 0.66, 1.35), _rec("M1", "ÇŞ 02", "Çifte Şans", 0.65, 1.36)],
+        [_rec("M2", "2.5 Üst", "Maç Geneli Alt/Üst", 0.68, 1.35), _rec("M2", "2.5 Alt", "Maç Geneli Alt/Üst", 0.60, 1.45)],
+        [_rec("M3", "KG Var", "Karşılıklı Gol", 0.67, 1.35), _rec("M3", "KG Yok", "Karşılıklı Gol", 0.61, 1.42)],
+        [_rec("M4", "MS 1", "Maç Sonucu (1X2)", 0.65, 1.38), _rec("M4", "2.5 Üst", "Maç Geneli Alt/Üst", 0.55, 1.60)],
+    ]
+    specs = [
+        PortfolioCouponSpec(title="C1", target_odds=1.80, max_legs=2, min_leg_ev=None, min_leg_prob=0.64),
+        PortfolioCouponSpec(title="C2", target_odds=1.80, max_legs=2, min_leg_ev=None, min_leg_prob=0.60),
+    ]
+    plans = build_diversified_portfolio(pool, specs, max_selection_reuse=1, max_match_reuse=2, forbid_contradictions=True)
+    c1_map = {l.match_id: l.selection for l in plans[0].legs}
+    c2_map = {l.match_id: l.selection for l in plans[1].legs}
+    assert all(l.probability >= 0.64 for l in plans[0].legs)
+    assert not (c1_map.get("M1") == "ÇŞ 10" and c2_map.get("M1") == "ÇŞ 02")
+    assert not (c1_map.get("M2") == "2.5 Üst" and c2_map.get("M2") == "2.5 Alt")
+    assert not (c1_map.get("M3") == "KG Var" and c2_map.get("M3") == "KG Yok")
+

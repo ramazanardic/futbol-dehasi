@@ -80,6 +80,7 @@ class PortfolioCouponSpec:
     min_leg_odds: float = MIN_ALLOWED_ODDS
     min_leg_ev: float | None = 0.0
     allowed_categories: tuple[str, ...] | None = None
+    min_leg_prob: float | None = None
 
 
 @dataclass(frozen=True)
@@ -297,6 +298,55 @@ def audit_match_risks(
         for side_sel in ("MS 1", "MS 2", "ÇŞ 10", "ÇŞ 02"):
             penalties[side_sel] = min(penalties.get(side_sel, 1.0), 0.85)
 
+    # 10. UNDERDOG & SHOOTOUT COIN-FLIP DOUBLE-CHANCE (ÇŞ) GUARD
+    # (Nov 19-20 post-mortem: Amiens 2-1 ÇŞ 02, Cundinamarca 0-2 ÇŞ 10, Orlando 1-3 ÇŞ 10, Vitoria 2-1 ÇŞ 02)
+    # When the favorite's ÇŞ drops below 1.20, never leak onto the underdog's ÇŞ or onto a low-draw shootout coin-flip.
+    p_home = float(bundle.ft_1x2["1"])
+    p_away = float(bundle.ft_1x2["2"])
+    p_dc10 = float(bundle.double_chance.get("10", p_home + p_draw))
+    p_dc02 = float(bundle.double_chance.get("02", p_away + p_draw))
+    if p_home - p_away >= 0.05 and p_dc02 < 0.68:
+        blocked.setdefault(
+            "ÇŞ 02",
+            f"Favori Karşıtı ÇŞ 02 Tuzağı (Ev P=%{p_home*100:.1f} > Dep P=%{p_away*100:.1f}, P(02)=%{p_dc02*100:.1f}): "
+            "Favorinin ÇŞ oranı <1.20 düştüğünde zayıf tarafın ÇŞ'sine kayılmaz (Örn: Amiens 2-1).",
+        )
+    if p_away - p_home >= 0.05 and p_dc10 < 0.68:
+        blocked.setdefault(
+            "ÇŞ 10",
+            f"Favori Karşıtı ÇŞ 10 Tuzağı (Dep P=%{p_away*100:.1f} > Ev P=%{p_home*100:.1f}, P(10)=%{p_dc10*100:.1f}): "
+            "Favorinin ÇŞ oranı <1.20 düştüğünde zayıf tarafın ÇŞ'sine kayılmaz (Örn: Cundinamarca 0-2).",
+        )
+    if tot >= 3.30 and abs(p_home - p_away) <= 0.12:
+        shootout_dc_reason = (
+            f"Yüksek Tempolu Dengeli Maç ÇŞ Tuzağı (xG={tot:.2f}, P(X)=%{p_draw*100:.1f}): "
+            "Beraberlik olasılığı düşük gollü maçlarda taraf ÇŞ yerine Üst/KG tercih edilmeli (Örn: Orlando 1-3)."
+        )
+        blocked.setdefault("ÇŞ 10", shootout_dc_reason)
+        blocked.setdefault("ÇŞ 02", shootout_dc_reason)
+    elif abs(p_home - p_away) < 0.05:
+        # True 50-50 coin-flip: penalize side ÇŞ so cleaner totals/BTTS rank ahead
+        penalties["ÇŞ 10"] = min(penalties.get("ÇŞ 10", 1.0), 0.86)
+        penalties["ÇŞ 02"] = min(penalties.get("ÇŞ 02", 1.0), 0.86)
+
+    # 11. TIGHT-MATCH 1.5 ÜST & KNOCKOUT MARGINAL OVER GUARD
+    # (Nov 19-20 post-mortem: ZED-Smouha 0-0 1.5 Üst, Sao Paulo 0-1 1.5 Üst, Dep. La Guaira 0-1 2.5 Üst)
+    p_o15 = float(bundle.ft_ou.get("1.5 Üst", 0.0))
+    p_o25 = float(bundle.ft_ou.get("2.5 Üst", 0.0))
+    if tot < 2.25 or (tot < 2.50 and p_o15 < 0.72):
+        blocked.setdefault(
+            "1.5 Üst",
+            f"Kısır Maç 1.5 Üst Tuzağı (xG={tot:.2f}, P(1.5 Üst)=%{p_o15*100:.1f}): "
+            "0-0 / 1-0 / 0-1 riski %30+; savunma rejimine karşı 1.5 Üst yerine 2.5 Alt / KG Yok tercih edilmeli "
+            "(Örn: ZED 0-0, Sao Paulo 0-1).",
+        )
+    if ctx.is_knockout and p_o25 < 0.60:
+        blocked.setdefault(
+            "2.5 Üst",
+            f"Tek Maçlı Kupa Sınırda 2.5 Üst Tuzağı (P(2.5 Üst)=%{p_o25*100:.1f} < %60): "
+            "Eleme maçında zayıf tarafın kapanma riski yüksek (Örn: Dep. La Guaira 0-1).",
+        )
+
     return blocked, penalties
 
 
@@ -319,7 +369,7 @@ def select_best_valid_bet(
     offered_odds_map: dict[str, float] | None = None,
     risk_ctx: MatchRiskContext | None = None,
     min_odds: float = MIN_ALLOWED_ODDS,
-    min_prob: float = 0.54,
+    min_prob: float = 0.57,
     specialty_mode: str | None = None,
     allow_uncalibrated: bool = False,
     mbs: int = 1,
@@ -466,6 +516,29 @@ def _category_share_ok(legs: tuple[MarketRecommendation, ...], max_share: float 
     return (max(counts.values()) / len(legs)) <= float(max_share) + 1e-9
 
 
+def _conflicting_selections(selection: str) -> frozenset[str]:
+    """Return selections on the same fixture that directly contradict or hedge against `selection`."""
+    conflicts: dict[str, set[str]] = {
+        "MS 1": {"MS 0", "MS 2", "ÇŞ 02", "MS 2 & 1.5 Üst", "MS 2 & 2.5 Üst", "MS 2 & KG Yok"},
+        "MS 0": {"MS 1", "MS 2", "ÇŞ 12"},
+        "MS 2": {"MS 0", "MS 1", "ÇŞ 10", "MS 1 & 1.5 Üst", "MS 1 & 2.5 Üst", "MS 1 & KG Yok"},
+        "ÇŞ 10": {"MS 2", "ÇŞ 02", "MS 2 & 1.5 Üst", "MS 2 & 2.5 Üst"},
+        "ÇŞ 02": {"MS 1", "ÇŞ 10", "MS 1 & 1.5 Üst", "MS 1 & 2.5 Üst"},
+        "ÇŞ 12": {"MS 0"},
+        "KG Var": {"KG Yok", "2.5 Alt & KG Yok", "MS 1 & KG Yok", "MS 2 & KG Yok", "1.5 Alt", "0-1 Gol"},
+        "KG Yok": {"KG Var", "2.5 Üst & KG Var", "1. Yarı KG Var", "2. Yarı KG Var", "1Y ve 2Y KG Var"},
+        "1.5 Üst": {"1.5 Alt", "0-1 Gol"},
+        "1.5 Alt": {"1.5 Üst", "2.5 Üst", "3.5 Üst", "KG Var", "2.5 Üst & KG Var"},
+        "2.5 Üst": {"2.5 Alt", "1.5 Alt", "3.5 Alt", "0-1 Gol", "2.5 Alt & KG Yok"},
+        "2.5 Alt": {"2.5 Üst", "3.5 Üst", "4.5 Üst", "2.5 Üst & KG Var"},
+        "3.5 Üst": {"3.5 Alt", "2.5 Alt", "1.5 Alt", "0-1 Gol", "2.5 Alt & KG Yok"},
+        "3.5 Alt": {"3.5 Üst", "4.5 Üst", "5.5 Üst", "+6 Gol"},
+        "2.5 Üst & KG Var": {"2.5 Alt", "KG Yok", "2.5 Alt & KG Yok", "1.5 Alt", "3.5 Alt"},
+        "2.5 Alt & KG Yok": {"2.5 Üst", "3.5 Üst", "KG Var", "2.5 Üst & KG Var"},
+    }
+    return frozenset(conflicts.get(selection, ()))
+
+
 def build_target_odds_coupon(
     candidates_by_match: Sequence[Sequence[MarketRecommendation] | MarketRecommendation],
     target_odds: float = 10.0,
@@ -477,6 +550,7 @@ def build_target_odds_coupon(
     forbidden_matches: set[str] | None = None,
     allowed_categories: tuple[str, ...] | None = None,
     max_same_category_share: float | None = None,
+    min_leg_prob: float | None = None,
 ) -> CouponPlan:
     """Build the highest-probability coupon whose combined odds reach `>= target_odds`.
 
@@ -504,6 +578,7 @@ def build_target_odds_coupon(
             o for o in opts
             if o.offered_odds >= floor - 1e-9
             and (min_leg_ev is None or o.ev >= min_leg_ev - 1e-12)
+            and (min_leg_prob is None or o.probability >= min_leg_prob - 1e-12)
             and o.match_id not in forb_matches
             and (o.match_id, o.selection) not in forb_pairs
             and (allowed_cats is None or o.category in allowed_cats)
@@ -621,19 +696,24 @@ def build_diversified_portfolio(
     max_selection_reuse: int = 1,
     max_match_reuse: int = 2,
     max_same_category_share: float = 0.65,
+    forbid_contradictions: bool = True,
 ) -> list[CouponPlan]:
-    """Build a multi-coupon portfolio with strict exposure caps (prevents single-match wipeouts).
+    """Build a multi-coupon portfolio with strict exposure caps and anti-contradiction enforcement.
 
     By default (`max_selection_reuse=1`), no `(match_id, selection)` pair can repeat across
-    coupons, and no single match can appear in more than `max_match_reuse` coupons (fixing the
-    Nov 19 failure mode where 1 leg appearing in 7/7 coupons wiped out the entire portfolio).
+    coupons, no single match can appear in more than `max_match_reuse` coupons, and no later
+    coupon can bet the opposite/contradictory side on an already-selected match (fixing Nov 19-20
+    portfolio contradictions such as ÇŞ 10 vs ÇŞ 02 or KG Var vs KG Yok across coupons).
     """
     selection_counts: dict[tuple[str, str], int] = {}
     match_counts: dict[str, int] = {}
+    contradicted_pairs: set[tuple[str, str]] = set()
     plans: list[CouponPlan] = []
 
     for spec in specs:
         forb_pairs = {pair for pair, cnt in selection_counts.items() if cnt >= max_selection_reuse}
+        if forbid_contradictions:
+            forb_pairs |= contradicted_pairs
         forb_matches = {mid for mid, cnt in match_counts.items() if cnt >= max_match_reuse}
         eff_cat_share = None if spec.allowed_categories else max_same_category_share
 
@@ -648,11 +728,15 @@ def build_diversified_portfolio(
             forbidden_matches=forb_matches,
             allowed_categories=spec.allowed_categories,
             max_same_category_share=eff_cat_share,
+            min_leg_prob=spec.min_leg_prob,
         )
         plans.append(plan)
         for leg in plan.legs:
             pair = (leg.match_id, leg.selection)
             selection_counts[pair] = selection_counts.get(pair, 0) + 1
             match_counts[leg.match_id] = match_counts.get(leg.match_id, 0) + 1
+            if forbid_contradictions:
+                for opp in _conflicting_selections(leg.selection):
+                    contradicted_pairs.add((leg.match_id, opp))
 
     return plans

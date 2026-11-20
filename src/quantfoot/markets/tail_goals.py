@@ -22,10 +22,10 @@ _DEFAULT_LEAGUE_REGIMES: tuple[tuple[str, tuple[float, float, float]], ...] = (
     ("u21", (1.00, 0.11, 0.08)),
     ("u19", (1.00, 0.12, 0.09)),
     ("u17", (1.00, 0.12, 0.09)),
-    ("wchampions", (1.00, 0.11, 0.08)),
-    ("reina", (1.00, 0.11, 0.08)),
-    ("eng.w.", (1.00, 0.10, 0.08)),
-    ("women", (1.00, 0.10, 0.08)),
+    ("wchampions", (1.00, 0.04, 0.03)),
+    ("reina", (1.00, 0.06, 0.04)),
+    ("eng.w.", (1.00, 0.04, 0.03)),
+    ("women", (1.00, 0.05, 0.03)),
     ("concacaf", (1.00, 0.08, 0.07)),
     ("fifa.friendly", (1.00, 0.09, 0.07)),
     ("copa_del_rey", (1.00, 0.08, 0.06)),
@@ -45,7 +45,7 @@ _DEFAULT_LEAGUE_REGIMES: tuple[tuple[str, tuple[float, float, float]], ...] = (
     ("uae.", (1.00, 0.06, 0.05)),
     ("qat.", (1.00, 0.05, 0.04)),
     ("aus.", (1.00, 0.06, 0.05)),
-    ("usa.", (1.00, 0.05, 0.04)),
+    ("usa.", (1.00, 0.03, 0.02)),
     ("afc.cup", (1.00, 0.06, 0.04)),
     ("svk.cup", (1.00, 0.07, 0.05)),
     ("svn.cup", (1.00, 0.06, 0.05)),
@@ -233,7 +233,11 @@ def negative_binomial_score_matrix(
     total = float(mat.sum())
     if total > 0.0:
         mat /= total
-    return _apply_dixon_coles_low_scores(mat, mu_h, mu_a, rho)
+    # Taper Dixon-Coles low-score (0-0 / 1-1) adjustment smoothly on high-total shootouts (tot > 2.8)
+    # so 3.5-4.5 xG matches do not artificially elevate 1-1 / 0-0 above true shootout scorelines.
+    tot_mu = mu_h + mu_a
+    eff_rho = float(rho * np.exp(-max(0.0, tot_mu - 2.8) / 1.2))
+    return _apply_dixon_coles_low_scores(mat, mu_h, mu_a, eff_rho)
 
 
 regime_score_matrix = negative_binomial_score_matrix
