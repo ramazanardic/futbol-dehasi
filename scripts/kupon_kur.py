@@ -33,6 +33,7 @@ import api_gecmis as af  # noqa: E402
 import derin_arastirma as dr  # noqa: E402
 import openfootball_gecmis as of  # noqa: E402
 import footballcharts_gecmis as fc  # noqa: E402
+import openligadb_gecmis as ol  # noqa: E402
 import openmatchday_gecmis as om  # noqa: E402
 import wiki_gecmis as wg  # noqa: E402
 
@@ -68,7 +69,7 @@ def run_builder(target: float, extra: list[str], haric: list[str]) -> Path | Non
 
 
 def research_leg(m: dict, leg: dict, fixtures: list[dict] | None) -> dict:
-    """Research row of one leg: ESPN, API-Football, openfootball, Football Charts, Open Matchday, then the Wikipedia season table."""
+    """Research row of one leg: ESPN, API-Football, openfootball, OpenLigaDB, Football Charts, Open Matchday, then the Wikipedia season table."""
     row = dr.research_match(m, [{"name": leg.get("name"), "label": f"{leg['market']}: {leg['selection']}",
                                  "p": leg["p"], "odds": leg["odds"], "coupons": []}])
     if row["legs"] and row["legs"][0]["verdict"].startswith("geçmiş yetersiz"):
@@ -79,6 +80,8 @@ def research_leg(m: dict, leg: dict, fixtures: list[dict] | None) -> dict:
                 pass
         if row["legs"][0]["verdict"].startswith("geçmiş yetersiz"):
             of.research(row, m)  # openfootball: top divisions with half scores
+        if row["legs"][0]["verdict"].startswith("geçmiş yetersiz"):
+            ol.research(row, m)  # OpenLigaDB: German leagues incl. Regionalliga Nordost, women's Bundesliga
         if row["legs"][0]["verdict"].startswith("geçmiş yetersiz"):
             fc.research(row, m)  # Football Charts: 98 leagues, every result with the half score
         if row["legs"][0]["verdict"].startswith("geçmiş yetersiz"):

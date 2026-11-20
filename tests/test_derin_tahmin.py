@@ -184,3 +184,19 @@ def test_datalake_league_rates_mapping():
     assert dl.league_rates("Galler Premier Lig", rows)["league"] == "Premier League"
     assert dl.league_rates("Kuzey İrlanda Championship", rows)["league"] == "Championship"
     assert dl.league_rates("Portekiz Kupası", rows) is None and dl.league_rates("Bilinmeyen Lig", rows) is None
+
+
+def test_openligadb_games_with_half_scores():
+    ol = _load("openligadb_gecmis")
+    import datetime as dt
+    def m(i, h, a, ht, ft, done=True):
+        return {"matchID": i, "matchDateTimeUTC": f"2026-11-0{i}T13:00:00Z", "matchIsFinished": done,
+                "team1": {"teamName": h}, "team2": {"teamName": a},
+                "matchResults": [{"resultTypeID": 1, "pointsTeam1": ht[0], "pointsTeam2": ht[1]},
+                                 {"resultTypeID": 2, "pointsTeam1": ft[0], "pointsTeam2": ft[1]}]}
+    rows = [m(1, "1. FC Union Berlin", "X", (1, 0), (2, 0)), m(2, "Y", "1. FC Union Berlin", (0, 0), (1, 1)),
+            m(3, "1. FC Union Berlin", "Z", (0, 0), (0, 0), done=False)]
+    g = ol.team_games("1. FC Union Berlin", rows, dt.datetime(2026, 11, 20, tzinfo=dt.timezone.utc))
+    assert [x["event"] for x in g] == [1, 2] and g[0]["for"] == (1, 1) and g[1]["against"] == (0, 1)
+    assert ol.league_for("Almanya Kadınlar Bundesliga") == "ffb1" and ol.league_for("Almanya Bundesliga 2") == "bl2"
+    assert ol.league_for("Almanya Böl. Lig, Kuzey Doğu") == "rlno" and ol.season_of(dt.date(2026, 11, 20)) == 2026

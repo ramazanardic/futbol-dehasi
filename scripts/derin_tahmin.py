@@ -166,6 +166,7 @@ def main() -> None:
     args = ap.parse_args()
     rows = research_day(args.tarih, args.aday)
     import footballcharts_gecmis as fc
+    import openligadb_gecmis as ol
     import openmatchday_gecmis as om
     import wiki_gecmis as wg
     ms = {str(m["code"]): m for m in json.loads((AREA / args.tarih / "nesine_global.json").read_text(encoding="utf-8"))["matches"]}
@@ -173,7 +174,7 @@ def main() -> None:
         if not r.get("espn") and r.get("legs") and str(r["code"]) in ms:
             r.setdefault("teams", {})
             m = ms[str(r["code"])]
-            if fc.research(r, m) or om.research(r, m) or wg.research(r, m):
+            if ol.research(r, m) or fc.research(r, m) or om.research(r, m) or wg.research(r, m):
                 r["pick"], r["dropped"] = choose(r["legs"]), [x for x in r["legs"] if x["verdict"].startswith("⚠")]
     out = AREA / args.tarih
     if (out / "derin_tahminler.json").exists():  # hand-made research of an earlier run survives the rerun
