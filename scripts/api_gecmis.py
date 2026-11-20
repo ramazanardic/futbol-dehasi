@@ -1,14 +1,17 @@
 """Team history from API-Football for matches ESPN does not cover (user request, 20 Nov: research every match).
 
 The key is read from the environment or from the repo's .env (API_FOOTBALL_KEY; .env is git-ignored, never commit
-it). Free plan: 100 requests a day, so the calls are few and cached in data/cache/api_football:
+it). The free plan (checked 20 Nov) gives 100 requests a day and only /fixtures?date= for yesterday, today and
+tomorrow — no team history, no "last", no past seasons. So the history is built up day by day:
 
-* /fixtures?date=<day>            one call per day -> fixture and team ids (matched on kick-off ±20 min + names)
-* /fixtures?team=<id>&last=15     one call per team (cached 12 h) -> last 15 results WITH half-time scores
+* /fixtures?date=<day>   one call per day: every fixture worldwide with ids, half-time and full-time scores. Finished
+  days are kept for good in data/cache/api_football/gunler/<day>.json (local only; data/cache is git-ignored).
+* a team's history = its finished games in that archive (grows by one day per run; ~6 games need ~6 weeks).
 
 The games come out in scripts/derin_arastirma.py's form, so its leg test and verdicts apply unchanged.
 
-    python scripts/api_gecmis.py --tarih 2026-11-20     # fill the day's derin_tahminler.json where history is missing
+    python scripts/api_gecmis.py --arsiv                 # store yesterday + today (run once a day, 2 requests)
+    python scripts/api_gecmis.py --tarih 2026-11-20      # fill the day's derin_tahminler.json where history is missing
 """
 
 from __future__ import annotations
@@ -30,9 +33,10 @@ import derin_arastirma as dr  # noqa: E402
 
 BASE = "https://v3.football.api-sports.io"
 CACHE = dr.ROOT / "data" / "cache" / "api_football"
-TEAM_TTL_H = 12.0
+DAYS = CACHE / "gunler"
 DAY_TTL_H = 3.0
 N_RECENT = 15
+DONE = ("FT", "AET", "PEN")
 
 
 def api_key() -> str:
@@ -90,11 +94,32 @@ def find_fixture(m: dict, fixtures: list[dict]) -> dict | None:
     return best if score >= 1.0 else None
 
 
-def team_games(team_id: int, before: dt.datetime) -> list[dict]:
-    """Last finished games of a team before ``before``, oriented to it, with half scores (derin_arastirma form)."""
-    games = []
-    for fx in sorted(get("fixtures", TEAM_TTL_H, team=team_id, last=N_RECENT), key=lambda x: x["fixture"]["date"]):
-        if (fx["fixture"].get("status") or {}).get("short") not in ("FT", "AET", "PEN"):
+def archive_day(date: str) -> list[dict]:
+    """All fixtures of a day; a past day is stored for good (the free plan cannot read it again two days later)."""
+    f = DAYS / f"{date}.json"
+    if f.exists():
+        return json.loads(f.read_text(encoding="utf-8"))
+    fx = get("fixtures", DAY_TTL_H, date=date, timezone="Europe/Istanbul")
+    if fx and dt.date.fromisoformat(date) < dt.datetime.now(dr.TSI).date():
+        DAYS.mkdir(parents=True, exist_ok=True)
+        f.write_text(json.dumps(fx), encoding="utf-8")
+    return fx
+
+
+def archived() -> list[dict]:
+    out = []
+    for f in sorted(DAYS.glob("*.json")) if DAYS.exists() else []:
+        out += json.loads(f.read_text(encoding="utf-8"))
+    return out
+
+
+def team_games(team_id: int, before: dt.datetime, games: list[dict] | None = None) -> list[dict]:
+    """Last finished games of a team before ``before`` in the day archive, oriented to it, with half scores."""
+    pool = archived() if games is None else games
+    mine = [fx for fx in pool if team_id in (fx["teams"]["home"]["id"], fx["teams"]["away"]["id"])]
+    out = []
+    for fx in sorted(mine, key=lambda x: x["fixture"]["date"]):
+        if (fx["fixture"].get("status") or {}).get("short") not in DONE:
             continue
         if dt.datetime.fromisoformat(fx["fixture"]["date"]) >= before:
             continue
@@ -103,10 +128,10 @@ def team_games(team_id: int, before: dt.datetime) -> list[dict]:
             continue
         side = "home" if fx["teams"]["home"]["id"] == team_id else "away"
         opp = "away" if side == "home" else "home"
-        games.append({"event": fx["fixture"]["id"], "date": fx["fixture"]["date"][:10], "side": side,
-                      "opp": fx["teams"][opp]["name"], "opp_id": fx["teams"][opp]["id"],
-                      "for": (ht[side], ft[side] - ht[side]), "against": (ht[opp], ft[opp] - ht[opp])})
-    return games
+        out.append({"event": fx["fixture"]["id"], "date": fx["fixture"]["date"][:10], "side": side,
+                    "opp": fx["teams"][opp]["name"], "opp_id": fx["teams"][opp]["id"],
+                    "for": (ht[side], ft[side] - ht[side]), "against": (ht[opp], ft[opp] - ht[opp])})
+    return out[-N_RECENT:]
 
 
 def research(row: dict, m: dict, fixtures: list[dict]) -> bool:
@@ -115,7 +140,8 @@ def research(row: dict, m: dict, fixtures: list[dict]) -> bool:
     if not fx:
         return False
     kick = dt.datetime.fromisoformat(m["kickoff_iso"])
-    hg, ag = team_games(fx["teams"]["home"]["id"], kick), team_games(fx["teams"]["away"]["id"], kick)
+    pool = archived()
+    hg, ag = team_games(fx["teams"]["home"]["id"], kick, pool), team_games(fx["teams"]["away"]["id"], kick, pool)
     if not hg or not ag:
         return False
     row["api_football"] = {"fixture": fx["fixture"]["id"], "league": (fx.get("league") or {}).get("name")}
@@ -132,6 +158,11 @@ def research(row: dict, m: dict, fixtures: list[dict]) -> bool:
 
 
 def day_fixtures(date: str) -> list[dict]:
+    """The day's fixtures; yesterday is archived on the way (1 request, once), so every use grows the history."""
+    try:
+        archive_day((dt.date.fromisoformat(date) - dt.timedelta(days=1)).isoformat())
+    except ApiError:
+        pass  # outside the free plan's window: nothing to archive
     return get("fixtures", DAY_TTL_H, date=date, timezone="Europe/Istanbul")
 
 
@@ -139,7 +170,20 @@ def main() -> None:
     import derin_tahmin as dtah
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--tarih", default=dt.datetime.now(dr.TSI).date().isoformat())
+    ap.add_argument("--arsiv", action="store_true", help="Dünü ve bugünü arşive al (2 istek)")
     args = ap.parse_args()
+    if args.arsiv:
+        today = dt.datetime.now(dr.TSI).date()
+        for d in (today - dt.timedelta(days=1), today):
+            try:
+                n = len(archive_day(d.isoformat()))
+            except ApiError as e:
+                print(f"{d}: API-Football kullanılamıyor: {e}")
+                continue
+            kept = (DAYS / f"{d}.json").exists()
+            print(f"{d}: {n} maç" + (" — arşive yazıldı" if kept else " — gün bitmedi, yarın arşivlenecek"))
+        print(f"Arşiv: {len(list(DAYS.glob('*.json'))) if DAYS.exists() else 0} gün, {len(archived())} maç")
+        return
     out = dr.AREA / args.tarih
     rows = json.loads((out / "derin_tahminler.json").read_text(encoding="utf-8"))
     ms = {str(m["code"]): m for m in json.loads((out / "nesine_global.json").read_text(encoding="utf-8"))["matches"]}
@@ -152,6 +196,8 @@ def main() -> None:
     for r in rows:
         if r.get("espn") or not r.get("legs"):
             continue
+        if dt.datetime.fromisoformat(ms[str(r["code"])]["kickoff_iso"]) <= dt.datetime.now(dr.TSI):
+            continue  # started: not worth the daily request quota
         if any(not x["verdict"].startswith("geçmiş yetersiz") for x in r["legs"]):
             continue  # already tested on another source
         try:

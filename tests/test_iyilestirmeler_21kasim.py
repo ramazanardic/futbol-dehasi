@@ -85,11 +85,23 @@ def test_api_gecmis_fixture_match_and_team_games(monkeypatch):
     hist = [_fx(5, "2026-11-10T18:00:00+03:00", 10, "Black Bulls", 50, "X", (1, 0), (2, 1)),
             _fx(6, "2026-11-14T18:00:00+03:00", 60, "Y", 10, "Black Bulls", (0, 2), (1, 3)),
             _fx(7, "2026-11-22T18:00:00+03:00", 10, "Black Bulls", 70, "Z", (0, 0), (0, 0))]   # after kick-off
-    monkeypatch.setattr(af, "get", lambda path, ttl, **p: hist)
-    g = af.team_games(10, dt.datetime.fromisoformat(m["kickoff_iso"]))
+    g = af.team_games(10, dt.datetime.fromisoformat(m["kickoff_iso"]), hist + day)
     assert [x["event"] for x in g] == [5, 6]
     assert g[0]["for"] == (1, 1) and g[0]["against"] == (0, 1) and g[0]["side"] == "home"
     assert g[1]["for"] == (2, 1) and g[1]["against"] == (0, 1) and g[1]["side"] == "away"
+
+
+def test_api_gecmis_archive_keeps_past_days_only(tmp_path, monkeypatch):
+    af = _load("api_gecmis")
+    monkeypatch.setattr(af, "DAYS", tmp_path)
+    calls = []
+    monkeypatch.setattr(af, "get", lambda path, ttl, **p: calls.append(p["date"]) or [_fx(1, p["date"] + "T18:00:00+03:00",
+                                                                                         10, "A", 20, "B", (1, 0), (1, 1))])
+    today = dt.datetime.now(TSI).date()
+    past, now_ = (today - dt.timedelta(days=1)).isoformat(), today.isoformat()
+    af.archive_day(past); af.archive_day(past); af.archive_day(now_)
+    assert calls == [past, now_] and (tmp_path / f"{past}.json").exists() and not (tmp_path / f"{now_}.json").exists()
+    assert len(af.archived()) == 1
 
 
 def test_api_key_from_dotenv(tmp_path, monkeypatch):
