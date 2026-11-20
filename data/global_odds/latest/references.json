@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-20T05:06:59+00:00",
+ "generated_utc": "2026-11-20T05:09:54+00:00",
  "full_utc": "2026-11-20T05:06:59+00:00",
  "references": [
   {
@@ -1380,111 +1380,6 @@
    "fetched_utc": "2026-11-20T04:56:17+00:00",
    "x12_spread": -0.0061,
    "ou_spread": -0.0036
-  },
-  {
-   "source": "Matchbook (borsa)",
-   "home": "Western Sydney Wanderers Women",
-   "away": "Wellington Phoenix Women",
-   "kickoff_utc": "2026-11-20T05:50:00.000Z",
-   "x12": [
-    7.0018,
-    5.0157,
-    1.5202
-   ],
-   "ou": [
-    2.5,
-    [
-     1.7494,
-     2.3343
-    ]
-   ],
-   "fetched_utc": "2026-11-20T04:56:17+00:00",
-   "x12_spread": -0.008,
-   "ou_spread": -0.1048
-  },
-  {
-   "source": "Matchbook (borsa)",
-   "home": "Garudayaksa FC",
-   "away": "Madura United FC",
-   "kickoff_utc": "2026-11-20T08:30:00.000Z",
-   "x12": [
-    2.2812,
-    3.9006,
-    3.2759
-   ],
-   "ou": [
-    2.5,
-    [
-     1.7409,
-     2.3497
-    ]
-   ],
-   "fetched_utc": "2026-11-20T04:56:17+00:00",
-   "x12_spread": -0.0132,
-   "ou_spread": -0.0326
-  },
-  {
-   "source": "Matchbook (borsa)",
-   "home": "PSS Sleman",
-   "away": "Arema",
-   "kickoff_utc": "2026-11-20T08:30:00.000Z",
-   "x12": [
-    2.3656,
-    3.9387,
-    3.0924
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6731,
-     2.4857
-    ]
-   ],
-   "fetched_utc": "2026-11-20T04:56:17+00:00",
-   "x12_spread": -0.0178,
-   "ou_spread": -0.0291
-  },
-  {
-   "source": "Matchbook (borsa)",
-   "home": "Western Sydney Wanderers",
-   "away": "Adelaide United",
-   "kickoff_utc": "2026-11-20T08:40:00.000Z",
-   "x12": [
-    1.7091,
-    4.8957,
-    4.7472
-   ],
-   "ou": [
-    2.5,
-    [
-     1.4498,
-     3.2234
-    ]
-   ],
-   "fetched_utc": "2026-11-20T04:56:17+00:00",
-   "x12_spread": -0.0044,
-   "ou_spread": -0.0144
-  },
-  {
-   "source": "Matchbook (borsa)",
-   "home": "Negeri Sembilan FA",
-   "away": "Kuching City",
-   "kickoff_utc": "2026-11-20T08:45:00.000Z",
-   "x12": [
-    5.0228,
-    4.377,
-    1.7469
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6531,
-     2.5312
-    ]
-   ],
-   "fetched_utc": "2026-11-20T04:56:17+00:00",
-   "x12_spread": -0.0276,
-   "ou_spread": -0.0582
   },
   {
    "source": "Matchbook (borsa)",
@@ -7403,416 +7298,6 @@
   },
   {
    "source": "Smarkets (borsa)",
-   "league": "29626177",
-   "home": "Western Sydney Wanderers",
-   "away": "Adelaide United",
-   "kickoff_utc": "2026-11-20T08:40:00Z",
-   "x12": [
-    1.7301,
-    4.7395,
-    4.7395
-   ],
-   "ou": [
-    2.5,
-    [
-     1.4513,
-     3.216
-    ]
-   ],
-   "fetched_utc": "2026-11-20T04:56:19+00:00",
-   "x12_spread": 0.0102,
-   "ou_spread": 0.0236,
-   "markets": {
-    "Both teams to score": {
-     "YES|Yes": 0.6514,
-     "NO|No": 0.3486
-    },
-    "Half-time/full-time": {
-     "HOME_HOME|Western Sydney Wanderers / Western Sydney Wanderers": 0.374,
-     "HOME_AWAY|Western Sydney Wanderers / Adelaide United": 0.0234,
-     "HOME_DRAW|Western Sydney Wanderers / Draw": 0.0505,
-     "AWAY_HOME|Adelaide United / Western Sydney Wanderers": 0.0415,
-     "AWAY_AWAY|Adelaide United / Adelaide United": 0.1188,
-     "AWAY_DRAW|Adelaide United / Draw": 0.0494,
-     "DRAW_HOME|Draw / Western Sydney Wanderers": 0.1678,
-     "DRAW_AWAY|Draw / Adelaide United": 0.0756,
-     "DRAW_DRAW|Draw / Draw": 0.099
-    },
-    "Half-time result": {
-     "HOME|Western Sydney Wanderers": 0.4482,
-     "DRAW|Draw": 0.3434,
-     "AWAY|Adelaide United": 0.2084
-    },
-    "First half winner and both teams to score": {
-     "HOME_YES|Western Sydney Wanderers / Yes": 0.0895,
-     "DRAW_YES|Draw / Yes": 0.1402,
-     "AWAY_YES|Adelaide United / Yes": 0.0451,
-     "HOME_NO|Western Sydney Wanderers / No": 0.3588,
-     "DRAW_NO|Draw / No": 0.1994,
-     "AWAY_NO|Adelaide United / No": 0.167
-    },
-    "Odd or even score": {
-     "ODD|Odd": 0.5001,
-     "EVEN|Even": 0.4999
-    },
-    "Winner and over/under 1.5": {
-     "HOME_OVER|Western Sydney Wanderers / over 1.5 goals": 0.5127,
-     "DRAW_OVER|Draw / over 1.5 goals": 0.1759,
-     "AWAY_OVER|Adelaide United / over 1.5 goals": 0.174,
-     "HOME_UNDER|Western Sydney Wanderers / under 1.5 goals": 0.0685,
-     "DRAW_UNDER|Draw / under 1.5 goals": 0.0316,
-     "AWAY_UNDER|Adelaide United / under 1.5 goals": 0.0373
-    },
-    "Winner and over/under 2.5": {
-     "HOME_OVER|Western Sydney Wanderers / over 2.5 goals": 0.4447,
-     "DRAW_OVER|Draw / over 2.5 goals": 0.0891,
-     "AWAY_OVER|Adelaide United / over 2.5 goals": 0.1494,
-     "HOME_UNDER|Western Sydney Wanderers / under 2.5 goals": 0.1408,
-     "DRAW_UNDER|Draw / under 2.5 goals": 0.1193,
-     "AWAY_UNDER|Adelaide United / under 2.5 goals": 0.0567
-    },
-    "Winner and over/under 3.5": {
-     "HOME_OVER|Western Sydney Wanderers / over 3.5 goals": 0.292,
-     "DRAW_OVER|Draw / over 3.5 goals": 0.0896,
-     "AWAY_OVER|Adelaide United / over 3.5 goals": 0.0835,
-     "HOME_UNDER|Western Sydney Wanderers / under 3.5 goals": 0.2873,
-     "DRAW_UNDER|Draw / under 3.5 goals": 0.1199,
-     "AWAY_UNDER|Adelaide United / under 3.5 goals": 0.1277
-    },
-    "Over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.0273,
-     "OVER|Over 0.5 goals": 0.9727
-    },
-    "Over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.1321,
-     "OVER|Over 1.5 goals": 0.8679
-    },
-    "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.5316,
-     "OVER|Over 3.5 goals": 0.4684
-    },
-    "Over/under 4.5": {
-     "UNDER|Under 4.5 goals": 0.7219,
-     "OVER|Over 4.5 goals": 0.2781
-    },
-    "Over/under 5.5": {
-     "UNDER|Under 5.5 goals": 0.8559,
-     "OVER|Over 5.5 goals": 0.1441
-    },
-    "Over/under 6.5": {
-     "UNDER|Under 6.5 goals": 0.936,
-     "OVER|Over 6.5 goals": 0.064
-    },
-    "First half over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.2035,
-     "OVER|Over 0.5 goals": 0.7965
-    },
-    "First half over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.5317,
-     "OVER|Over 1.5 goals": 0.4683
-    },
-    "First half over/under 2.5": {
-     "UNDER|Under 2.5 goals": 0.7936,
-     "OVER|Over 2.5 goals": 0.2064
-    },
-    "Second half over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.1285,
-     "OVER|Over 0.5 goals": 0.8715
-    }
-   }
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "44550616",
-   "home": "PSS Sleman",
-   "away": "Arema",
-   "kickoff_utc": "2026-11-20T08:30:00Z",
-   "x12": [
-    2.3698,
-    3.9181,
-    3.0979
-   ],
-   "ou": [
-    2.5,
-    [
-     1.6733,
-     2.4852
-    ]
-   ],
-   "fetched_utc": "2026-11-20T04:56:19+00:00",
-   "x12_spread": 0.0228,
-   "ou_spread": 0.0393,
-   "markets": {
-    "Both teams to score": {
-     "YES|Yes": 0.6202,
-     "NO|No": 0.3798
-    },
-    "Half-time/full-time": {
-     "HOME_HOME|PSS Sleman / PSS Sleman": 0.2494,
-     "HOME_AWAY|PSS Sleman / Arema": 0.0317,
-     "HOME_DRAW|PSS Sleman / Draw": 0.0565,
-     "AWAY_HOME|Arema / PSS Sleman": 0.0339,
-     "AWAY_AWAY|Arema / Arema": 0.1855,
-     "AWAY_DRAW|Arema / Draw": 0.0565,
-     "DRAW_HOME|Draw / PSS Sleman": 0.1397,
-     "DRAW_AWAY|Draw / Arema": 0.113,
-     "DRAW_DRAW|Draw / Draw": 0.1338
-    },
-    "Winner and both teams to score": {
-     "HOME_YES|PSS Sleman / Yes": 0.2332,
-     "DRAW_YES|Draw / Yes": 0.2024,
-     "AWAY_YES|Arema / Yes": 0.1835,
-     "HOME_NO|PSS Sleman / No": 0.1906,
-     "DRAW_NO|Draw / No": 0.0482,
-     "AWAY_NO|Arema / No": 0.1421
-    },
-    "Goal range": {
-     "RANGE|0 - 1": 0.1905,
-     "RANGE|2 - 3": 0.4372,
-     "RANGE|4 - 6": 0.3373,
-     "RANGE|7 or more goals": 0.035
-    },
-    "Winner and over/under 1.5": {
-     "HOME_OVER|PSS Sleman / over 1.5 goals": 0.3505,
-     "DRAW_OVER|Draw / over 1.5 goals": 0.2008,
-     "AWAY_OVER|Arema / over 1.5 goals": 0.2602,
-     "HOME_UNDER|PSS Sleman / under 1.5 goals": 0.0748,
-     "DRAW_UNDER|Draw / under 1.5 goals": 0.0487,
-     "AWAY_UNDER|Arema / under 1.5 goals": 0.0649
-    },
-    "Winner and over/under 2.5": {
-     "HOME_OVER|PSS Sleman / over 2.5 goals": 0.2869,
-     "DRAW_OVER|Draw / over 2.5 goals": 0.0912,
-     "AWAY_OVER|Arema / over 2.5 goals": 0.2151,
-     "HOME_UNDER|PSS Sleman / under 2.5 goals": 0.1353,
-     "DRAW_UNDER|Draw / under 2.5 goals": 0.1626,
-     "AWAY_UNDER|Arema / under 2.5 goals": 0.1089
-    },
-    "Winner and over/under 3.5": {
-     "HOME_OVER|PSS Sleman / over 3.5 goals": 0.1647,
-     "DRAW_OVER|Draw / over 3.5 goals": 0.091,
-     "AWAY_OVER|Arema / over 3.5 goals": 0.1188,
-     "HOME_UNDER|PSS Sleman / under 3.5 goals": 0.2572,
-     "DRAW_UNDER|Draw / under 3.5 goals": 0.1624,
-     "AWAY_UNDER|Arema / under 3.5 goals": 0.2059
-    },
-    "Winner and over/under 4.5": {
-     "HOME_OVER|PSS Sleman / over 4.5 goals": 0.1043,
-     "DRAW_OVER|Draw / over 4.5 goals": 0.0197,
-     "AWAY_OVER|Arema / over 4.5 goals": 0.0733,
-     "HOME_UNDER|PSS Sleman / under 4.5 goals": 0.3202,
-     "DRAW_UNDER|Draw / under 4.5 goals": 0.2312,
-     "AWAY_UNDER|Arema / under 4.5 goals": 0.2513
-    },
-    "Over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.1904,
-     "OVER|Over 1.5 goals": 0.8096
-    },
-    "Over/under 4.5": {
-     "UNDER|Under 4.5 goals": 0.8022,
-     "OVER|Over 4.5 goals": 0.1978
-    },
-    "Over/under 5.5": {
-     "UNDER|Under 5.5 goals": 0.9084,
-     "OVER|Over 5.5 goals": 0.0916
-    },
-    "Second half result": {
-     "HOME|PSS Sleman": 0.3726,
-     "DRAW|Draw": 0.3311,
-     "AWAY|Arema": 0.2963
-    },
-    "Half-time result": {
-     "HOME|PSS Sleman": 0.3373,
-     "DRAW|Draw": 0.3869,
-     "AWAY|Arema": 0.2758
-    },
-    "First half winner and both teams to score": {
-     "HOME_YES|PSS Sleman / Yes": 0.0598,
-     "DRAW_YES|Draw / Yes": 0.1389,
-     "AWAY_YES|Arema / Yes": 0.0492,
-     "HOME_NO|PSS Sleman / No": 0.2794,
-     "DRAW_NO|Draw / No": 0.2475,
-     "AWAY_NO|Arema / No": 0.2252
-    },
-    "Both teams to score in First Half": {
-     "YES|Yes": 0.2473,
-     "NO|No": 0.7527
-    },
-    "Both teams to score in Second Half": {
-     "YES|Yes": 0.3308,
-     "NO|No": 0.6692
-    },
-    "First half over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.2479,
-     "OVER|Over 0.5 goals": 0.7521
-    },
-    "First half over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.5976,
-     "OVER|Over 1.5 goals": 0.4024
-    },
-    "First half over/under 2.5": {
-     "UNDER|Under 2.5 goals": 0.8421,
-     "OVER|Over 2.5 goals": 0.1579
-    },
-    "Second half over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.1691,
-     "OVER|Over 0.5 goals": 0.8309
-    },
-    "Second half over/under 2.5": {
-     "UNDER|Under 2.5 goals": 0.7588,
-     "OVER|Over 2.5 goals": 0.2412
-    }
-   }
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "44550616",
-   "home": "Garudayaksa FC",
-   "away": "Madura United FC",
-   "kickoff_utc": "2026-11-20T08:30:00Z",
-   "x12": [
-    2.2907,
-    3.8747,
-    3.2748
-   ],
-   "ou": [
-    2.5,
-    [
-     1.7441,
-     2.3439
-    ]
-   ],
-   "fetched_utc": "2026-11-20T04:56:19+00:00",
-   "x12_spread": 0.014,
-   "ou_spread": 0.0293,
-   "markets": {
-    "Both teams to score": {
-     "YES|Yes": 0.6021,
-     "NO|No": 0.3979
-    },
-    "Half-time/full-time": {
-     "HOME_HOME|Garudayaksa FC / Garudayaksa FC": 0.2574,
-     "HOME_AWAY|Garudayaksa FC / Madura United FC": 0.0295,
-     "HOME_DRAW|Garudayaksa FC / Draw": 0.0572,
-     "AWAY_HOME|Madura United FC / Garudayaksa FC": 0.0322,
-     "AWAY_AWAY|Madura United FC / Madura United FC": 0.1664,
-     "AWAY_DRAW|Madura United FC / Draw": 0.055,
-     "DRAW_HOME|Draw / Garudayaksa FC": 0.1492,
-     "DRAW_AWAY|Draw / Madura United FC": 0.1085,
-     "DRAW_DRAW|Draw / Draw": 0.1448
-    },
-    "Second half result": {
-     "HOME|Garudayaksa FC": 0.3803,
-     "DRAW|Draw": 0.3394,
-     "AWAY|Madura United FC": 0.2803
-    },
-    "Half-time result": {
-     "HOME|Garudayaksa FC": 0.3416,
-     "DRAW|Draw": 0.3981,
-     "AWAY|Madura United FC": 0.2603
-    },
-    "Winner and both teams to score": {
-     "HOME_YES|Garudayaksa FC / Yes": 0.2348,
-     "DRAW_YES|Draw / Yes": 0.2002,
-     "AWAY_YES|Madura United FC / Yes": 0.1665,
-     "HOME_NO|Garudayaksa FC / No": 0.2087,
-     "DRAW_NO|Draw / No": 0.0529,
-     "AWAY_NO|Madura United FC / No": 0.1369
-    },
-    "First half winner and both teams to score": {
-     "HOME_YES|Garudayaksa FC / Yes": 0.0575,
-     "DRAW_YES|Draw / Yes": 0.1338,
-     "AWAY_YES|Madura United FC / Yes": 0.0437,
-     "HOME_NO|Garudayaksa FC / No": 0.2862,
-     "DRAW_NO|Draw / No": 0.2655,
-     "AWAY_NO|Madura United FC / No": 0.2133
-    },
-    "Both teams to score in First Half": {
-     "YES|Yes": 0.2375,
-     "NO|No": 0.7625
-    },
-    "Both teams to score in Second Half": {
-     "YES|Yes": 0.3185,
-     "NO|No": 0.6815
-    },
-    "Goal range": {
-     "RANGE|0 - 1": 0.202,
-     "RANGE|2 - 3": 0.4486,
-     "RANGE|4 - 6": 0.3205,
-     "RANGE|7 or more goals": 0.0289
-    },
-    "Winner and over/under 1.5": {
-     "HOME_OVER|Garudayaksa FC / over 1.5 goals": 0.36,
-     "DRAW_OVER|Draw / over 1.5 goals": 0.2011,
-     "AWAY_OVER|Madura United FC / over 1.5 goals": 0.2359,
-     "HOME_UNDER|Garudayaksa FC / under 1.5 goals": 0.0838,
-     "DRAW_UNDER|Draw / under 1.5 goals": 0.0532,
-     "AWAY_UNDER|Madura United FC / under 1.5 goals": 0.0659
-    },
-    "Winner and over/under 2.5": {
-     "HOME_OVER|Garudayaksa FC / over 2.5 goals": 0.2942,
-     "DRAW_OVER|Draw / over 2.5 goals": 0.0873,
-     "AWAY_OVER|Madura United FC / over 2.5 goals": 0.1944,
-     "HOME_UNDER|Garudayaksa FC / under 2.5 goals": 0.1477,
-     "DRAW_UNDER|Draw / under 2.5 goals": 0.1685,
-     "AWAY_UNDER|Madura United FC / under 2.5 goals": 0.1078
-    },
-    "Winner and over/under 3.5": {
-     "HOME_OVER|Garudayaksa FC / over 3.5 goals": 0.1615,
-     "DRAW_OVER|Draw / over 3.5 goals": 0.0874,
-     "AWAY_OVER|Madura United FC / over 3.5 goals": 0.1017,
-     "HOME_UNDER|Garudayaksa FC / under 3.5 goals": 0.2801,
-     "DRAW_UNDER|Draw / under 3.5 goals": 0.1686,
-     "AWAY_UNDER|Madura United FC / under 3.5 goals": 0.2008
-    },
-    "Winner and over/under 4.5": {
-     "HOME_OVER|Garudayaksa FC / over 4.5 goals": 0.0979,
-     "DRAW_OVER|Draw / over 4.5 goals": 0.0178,
-     "AWAY_OVER|Madura United FC / over 4.5 goals": 0.063,
-     "HOME_UNDER|Garudayaksa FC / under 4.5 goals": 0.3425,
-     "DRAW_UNDER|Draw / under 4.5 goals": 0.2386,
-     "AWAY_UNDER|Madura United FC / under 4.5 goals": 0.2402
-    },
-    "Over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.0536,
-     "OVER|Over 0.5 goals": 0.9464
-    },
-    "Over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.2035,
-     "OVER|Over 1.5 goals": 0.7965
-    },
-    "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.6487,
-     "OVER|Over 3.5 goals": 0.3513
-    },
-    "Over/under 4.5": {
-     "UNDER|Under 4.5 goals": 0.822,
-     "OVER|Over 4.5 goals": 0.178
-    },
-    "Over/under 5.5": {
-     "UNDER|Under 5.5 goals": 0.9206,
-     "OVER|Over 5.5 goals": 0.0794
-    },
-    "First half over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.2632,
-     "OVER|Over 0.5 goals": 0.7368
-    },
-    "First half over/under 2.5": {
-     "UNDER|Under 2.5 goals": 0.8517,
-     "OVER|Over 2.5 goals": 0.1483
-    },
-    "Second half over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.178,
-     "OVER|Over 0.5 goals": 0.822
-    },
-    "Second half over/under 2.5": {
-     "UNDER|Under 2.5 goals": 0.7729,
-     "OVER|Over 2.5 goals": 0.2271
-    }
-   }
-  },
-  {
-   "source": "Smarkets (borsa)",
    "league": "28950058",
    "home": "Kashima Antlers",
    "away": "Shimizu S-Pulse",
@@ -8220,94 +7705,6 @@
    "ou": null,
    "fetched_utc": "2026-11-20T04:56:19+00:00",
    "x12_spread": 0.0224
-  },
-  {
-   "source": "Smarkets (borsa)",
-   "league": "42509487",
-   "home": "Western Sydney Wanderers Women",
-   "away": "Wellington Phoenix Women",
-   "kickoff_utc": "2026-11-20T05:50:00Z",
-   "x12": [
-    6.9372,
-    5.0495,
-    1.5202
-   ],
-   "ou": [
-    2.5,
-    [
-     1.7936,
-     2.2601
-    ]
-   ],
-   "fetched_utc": "2026-11-20T04:56:19+00:00",
-   "x12_spread": 0.0221,
-   "ou_spread": 0.0283,
-   "markets": {
-    "Both teams to score": {
-     "YES|Yes": 0.5087,
-     "NO|No": 0.4913
-    },
-    "Half-time/full-time": {
-     "HOME_HOME|Western Sydney Wanderers Women / Western Sydney Wanderers Women": 0.0722,
-     "HOME_AWAY|Western Sydney Wanderers Women / Wellington Phoenix Women": 0.0316,
-     "HOME_DRAW|Western Sydney Wanderers Women / Draw": 0.0366,
-     "AWAY_HOME|Wellington Phoenix Women / Western Sydney Wanderers Women": 0.0133,
-     "AWAY_AWAY|Wellington Phoenix Women / Wellington Phoenix Women": 0.4275,
-     "AWAY_DRAW|Wellington Phoenix Women / Draw": 0.0412,
-     "DRAW_HOME|Draw / Western Sydney Wanderers Women": 0.0562,
-     "DRAW_AWAY|Draw / Wellington Phoenix Women": 0.207,
-     "DRAW_DRAW|Draw / Draw": 0.1144
-    },
-    "Half-time result": {
-     "HOME|Western Sydney Wanderers Women": 0.1469,
-     "DRAW|Draw": 0.3693,
-     "AWAY|Wellington Phoenix Women": 0.4838
-    },
-    "Winner and both teams to score": {
-     "HOME_YES|Western Sydney Wanderers Women / Yes": 0.0764,
-     "DRAW_YES|Draw / Yes": 0.144,
-     "AWAY_YES|Wellington Phoenix Women / Yes": 0.2917,
-     "HOME_NO|Western Sydney Wanderers Women / No": 0.0719,
-     "DRAW_NO|Draw / No": 0.0521,
-     "AWAY_NO|Wellington Phoenix Women / No": 0.364
-    },
-    "Both teams to score in First Half": {
-     "YES|Yes": 0.1965,
-     "NO|No": 0.8035
-    },
-    "Over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.0531,
-     "OVER|Over 0.5 goals": 0.9469
-    },
-    "Over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.2133,
-     "OVER|Over 1.5 goals": 0.7867
-    },
-    "Over/under 3.5": {
-     "UNDER|Under 3.5 goals": 0.6713,
-     "OVER|Over 3.5 goals": 0.3287
-    },
-    "Over/under 4.5": {
-     "UNDER|Under 4.5 goals": 0.8335,
-     "OVER|Over 4.5 goals": 0.1665
-    },
-    "Over/under 5.5": {
-     "UNDER|Under 5.5 goals": 0.9264,
-     "OVER|Over 5.5 goals": 0.0736
-    },
-    "First half over/under 0.5": {
-     "UNDER|Under 0.5 goals": 0.2664,
-     "OVER|Over 0.5 goals": 0.7336
-    },
-    "First half over/under 1.5": {
-     "UNDER|Under 1.5 goals": 0.625,
-     "OVER|Over 1.5 goals": 0.375
-    },
-    "First half over/under 2.5": {
-     "UNDER|Under 2.5 goals": 0.859,
-     "OVER|Over 2.5 goals": 0.141
-    }
-   }
   },
   {
    "source": "Smarkets (borsa)",
@@ -14926,6 +14323,582 @@
    "ou": null,
    "fetched_utc": "2026-11-20T04:56:19+00:00",
    "x12_spread": 0.0289
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "29626177",
+   "home": "Western Sydney Wanderers",
+   "away": "Adelaide United",
+   "kickoff_utc": "2026-11-20T08:40:00Z",
+   "x12": [
+    1.7177,
+    4.8129,
+    4.7609
+   ],
+   "ou": [
+    2.5,
+    [
+     1.448,
+     3.2319
+    ]
+   ],
+   "fetched_utc": "2026-11-20T05:09:47+00:00",
+   "x12_spread": 0.0091,
+   "ou_spread": 0.0335,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.6522,
+     "NO|No": 0.3478
+    },
+    "Half-time/full-time": {
+     "HOME_HOME|Western Sydney Wanderers / Western Sydney Wanderers": 0.3734,
+     "HOME_AWAY|Western Sydney Wanderers / Adelaide United": 0.0238,
+     "HOME_DRAW|Western Sydney Wanderers / Draw": 0.0504,
+     "AWAY_HOME|Adelaide United / Western Sydney Wanderers": 0.0424,
+     "AWAY_AWAY|Adelaide United / Adelaide United": 0.1186,
+     "AWAY_DRAW|Adelaide United / Draw": 0.0486,
+     "DRAW_HOME|Draw / Western Sydney Wanderers": 0.1675,
+     "DRAW_AWAY|Draw / Adelaide United": 0.0755,
+     "DRAW_DRAW|Draw / Draw": 0.0999
+    },
+    "Half-time result": {
+     "HOME|Western Sydney Wanderers": 0.4482,
+     "DRAW|Draw": 0.3442,
+     "AWAY|Adelaide United": 0.2075
+    },
+    "First half winner and both teams to score": {
+     "HOME_YES|Western Sydney Wanderers / Yes": 0.0895,
+     "DRAW_YES|Draw / Yes": 0.1402,
+     "AWAY_YES|Adelaide United / Yes": 0.0451,
+     "HOME_NO|Western Sydney Wanderers / No": 0.3588,
+     "DRAW_NO|Draw / No": 0.1994,
+     "AWAY_NO|Adelaide United / No": 0.167
+    },
+    "Odd or even score": {
+     "ODD|Odd": 0.5013,
+     "EVEN|Even": 0.4987
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Western Sydney Wanderers / over 1.5 goals": 0.5127,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.1759,
+     "AWAY_OVER|Adelaide United / over 1.5 goals": 0.174,
+     "HOME_UNDER|Western Sydney Wanderers / under 1.5 goals": 0.0685,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0316,
+     "AWAY_UNDER|Adelaide United / under 1.5 goals": 0.0373
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Western Sydney Wanderers / over 2.5 goals": 0.4447,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0891,
+     "AWAY_OVER|Adelaide United / over 2.5 goals": 0.1494,
+     "HOME_UNDER|Western Sydney Wanderers / under 2.5 goals": 0.1408,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1193,
+     "AWAY_UNDER|Adelaide United / under 2.5 goals": 0.0567
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Western Sydney Wanderers / over 3.5 goals": 0.2907,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0892,
+     "AWAY_OVER|Adelaide United / over 3.5 goals": 0.0892,
+     "HOME_UNDER|Western Sydney Wanderers / under 3.5 goals": 0.2842,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1194,
+     "AWAY_UNDER|Adelaide United / under 3.5 goals": 0.1272
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0281,
+     "OVER|Over 0.5 goals": 0.9719
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1288,
+     "OVER|Over 1.5 goals": 0.8712
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.5279,
+     "OVER|Over 3.5 goals": 0.4721
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.7191,
+     "OVER|Over 4.5 goals": 0.2809
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.8559,
+     "OVER|Over 5.5 goals": 0.1441
+    },
+    "Over/under 6.5": {
+     "UNDER|Under 6.5 goals": 0.936,
+     "OVER|Over 6.5 goals": 0.064
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.2035,
+     "OVER|Over 0.5 goals": 0.7965
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.5317,
+     "OVER|Over 1.5 goals": 0.4683
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.7918,
+     "OVER|Over 2.5 goals": 0.2082
+    },
+    "Second half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.1285,
+     "OVER|Over 0.5 goals": 0.8715
+    }
+   }
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "44550616",
+   "home": "PSS Sleman",
+   "away": "Arema",
+   "kickoff_utc": "2026-11-20T08:30:00Z",
+   "x12": [
+    2.3698,
+    3.9181,
+    3.0979
+   ],
+   "ou": [
+    2.5,
+    [
+     1.6733,
+     2.4852
+    ]
+   ],
+   "fetched_utc": "2026-11-20T05:09:47+00:00",
+   "x12_spread": 0.0228,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.6193,
+     "NO|No": 0.3807
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|PSS Sleman / Yes": 0.2332,
+     "DRAW_YES|Draw / Yes": 0.2024,
+     "AWAY_YES|Arema / Yes": 0.1835,
+     "HOME_NO|PSS Sleman / No": 0.1906,
+     "DRAW_NO|Draw / No": 0.0482,
+     "AWAY_NO|Arema / No": 0.1421
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.1904,
+     "OVER|Over 1.5 goals": 0.8096
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.8022,
+     "OVER|Over 4.5 goals": 0.1978
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9084,
+     "OVER|Over 5.5 goals": 0.0916
+    },
+    "Half-time/full-time": {
+     "HOME_HOME|PSS Sleman / PSS Sleman": 0.2494,
+     "HOME_AWAY|PSS Sleman / Arema": 0.0317,
+     "HOME_DRAW|PSS Sleman / Draw": 0.0565,
+     "AWAY_HOME|Arema / PSS Sleman": 0.0339,
+     "AWAY_AWAY|Arema / Arema": 0.1855,
+     "AWAY_DRAW|Arema / Draw": 0.0565,
+     "DRAW_HOME|Draw / PSS Sleman": 0.1397,
+     "DRAW_AWAY|Draw / Arema": 0.113,
+     "DRAW_DRAW|Draw / Draw": 0.1338
+    },
+    "Second half result": {
+     "HOME|PSS Sleman": 0.3716,
+     "DRAW|Draw": 0.3316,
+     "AWAY|Arema": 0.2968
+    },
+    "Half-time result": {
+     "HOME|PSS Sleman": 0.3373,
+     "DRAW|Draw": 0.3869,
+     "AWAY|Arema": 0.2758
+    },
+    "First half winner and both teams to score": {
+     "HOME_YES|PSS Sleman / Yes": 0.0598,
+     "DRAW_YES|Draw / Yes": 0.1389,
+     "AWAY_YES|Arema / Yes": 0.0492,
+     "HOME_NO|PSS Sleman / No": 0.2794,
+     "DRAW_NO|Draw / No": 0.2475,
+     "AWAY_NO|Arema / No": 0.2252
+    },
+    "Both teams to score in First Half": {
+     "YES|Yes": 0.2473,
+     "NO|No": 0.7527
+    },
+    "Both teams to score in Second Half": {
+     "YES|Yes": 0.3315,
+     "NO|No": 0.6685
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.1905,
+     "RANGE|2 - 3": 0.4372,
+     "RANGE|4 - 6": 0.3373,
+     "RANGE|7 or more goals": 0.035
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|PSS Sleman / over 1.5 goals": 0.3505,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.2008,
+     "AWAY_OVER|Arema / over 1.5 goals": 0.2602,
+     "HOME_UNDER|PSS Sleman / under 1.5 goals": 0.0748,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0487,
+     "AWAY_UNDER|Arema / under 1.5 goals": 0.0649
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|PSS Sleman / over 2.5 goals": 0.2869,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0912,
+     "AWAY_OVER|Arema / over 2.5 goals": 0.2151,
+     "HOME_UNDER|PSS Sleman / under 2.5 goals": 0.1353,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1626,
+     "AWAY_UNDER|Arema / under 2.5 goals": 0.1089
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|PSS Sleman / over 3.5 goals": 0.1647,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.091,
+     "AWAY_OVER|Arema / over 3.5 goals": 0.1188,
+     "HOME_UNDER|PSS Sleman / under 3.5 goals": 0.2572,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1624,
+     "AWAY_UNDER|Arema / under 3.5 goals": 0.2059
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|PSS Sleman / over 4.5 goals": 0.1043,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0197,
+     "AWAY_OVER|Arema / over 4.5 goals": 0.0733,
+     "HOME_UNDER|PSS Sleman / under 4.5 goals": 0.3202,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.2312,
+     "AWAY_UNDER|Arema / under 4.5 goals": 0.2513
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.2479,
+     "OVER|Over 0.5 goals": 0.7521
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.5976,
+     "OVER|Over 1.5 goals": 0.4024
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.8421,
+     "OVER|Over 2.5 goals": 0.1579
+    },
+    "Second half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.1691,
+     "OVER|Over 0.5 goals": 0.8309
+    },
+    "Second half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.7588,
+     "OVER|Over 2.5 goals": 0.2412
+    }
+   },
+   "ou_spread": 0.0393
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "44550616",
+   "home": "Garudayaksa FC",
+   "away": "Madura United FC",
+   "kickoff_utc": "2026-11-20T08:30:00Z",
+   "x12": [
+    2.2907,
+    3.8747,
+    3.2748
+   ],
+   "ou": [
+    2.5,
+    [
+     1.7418,
+     2.348
+    ]
+   ],
+   "fetched_utc": "2026-11-20T05:09:47+00:00",
+   "x12_spread": 0.014,
+   "ou_spread": 0.0299,
+   "markets": {
+    "Both teams to score": {
+     "YES|Yes": 0.6021,
+     "NO|No": 0.3979
+    },
+    "Half-time/full-time": {
+     "HOME_HOME|Garudayaksa FC / Garudayaksa FC": 0.2574,
+     "HOME_AWAY|Garudayaksa FC / Madura United FC": 0.0295,
+     "HOME_DRAW|Garudayaksa FC / Draw": 0.0572,
+     "AWAY_HOME|Madura United FC / Garudayaksa FC": 0.0322,
+     "AWAY_AWAY|Madura United FC / Madura United FC": 0.1664,
+     "AWAY_DRAW|Madura United FC / Draw": 0.055,
+     "DRAW_HOME|Draw / Garudayaksa FC": 0.1492,
+     "DRAW_AWAY|Draw / Madura United FC": 0.1085,
+     "DRAW_DRAW|Draw / Draw": 0.1448
+    },
+    "Second half result": {
+     "HOME|Garudayaksa FC": 0.3803,
+     "DRAW|Draw": 0.3394,
+     "AWAY|Madura United FC": 0.2803
+    },
+    "Half-time result": {
+     "HOME|Garudayaksa FC": 0.3416,
+     "DRAW|Draw": 0.3981,
+     "AWAY|Madura United FC": 0.2603
+    },
+    "Winner and both teams to score": {
+     "HOME_YES|Garudayaksa FC / Yes": 0.2348,
+     "DRAW_YES|Draw / Yes": 0.2002,
+     "AWAY_YES|Madura United FC / Yes": 0.1665,
+     "HOME_NO|Garudayaksa FC / No": 0.2087,
+     "DRAW_NO|Draw / No": 0.0529,
+     "AWAY_NO|Madura United FC / No": 0.1369
+    },
+    "First half winner and both teams to score": {
+     "HOME_YES|Garudayaksa FC / Yes": 0.0575,
+     "DRAW_YES|Draw / Yes": 0.1338,
+     "AWAY_YES|Madura United FC / Yes": 0.0437,
+     "HOME_NO|Garudayaksa FC / No": 0.2862,
+     "DRAW_NO|Draw / No": 0.2655,
+     "AWAY_NO|Madura United FC / No": 0.2133
+    },
+    "Goal range": {
+     "RANGE|0 - 1": 0.202,
+     "RANGE|2 - 3": 0.4486,
+     "RANGE|4 - 6": 0.3205,
+     "RANGE|7 or more goals": 0.0289
+    },
+    "Winner and over/under 1.5": {
+     "HOME_OVER|Garudayaksa FC / over 1.5 goals": 0.36,
+     "DRAW_OVER|Draw / over 1.5 goals": 0.2011,
+     "AWAY_OVER|Madura United FC / over 1.5 goals": 0.2359,
+     "HOME_UNDER|Garudayaksa FC / under 1.5 goals": 0.0838,
+     "DRAW_UNDER|Draw / under 1.5 goals": 0.0532,
+     "AWAY_UNDER|Madura United FC / under 1.5 goals": 0.0659
+    },
+    "Winner and over/under 2.5": {
+     "HOME_OVER|Garudayaksa FC / over 2.5 goals": 0.2942,
+     "DRAW_OVER|Draw / over 2.5 goals": 0.0873,
+     "AWAY_OVER|Madura United FC / over 2.5 goals": 0.1944,
+     "HOME_UNDER|Garudayaksa FC / under 2.5 goals": 0.1477,
+     "DRAW_UNDER|Draw / under 2.5 goals": 0.1685,
+     "AWAY_UNDER|Madura United FC / under 2.5 goals": 0.1078
+    },
+    "Winner and over/under 3.5": {
+     "HOME_OVER|Garudayaksa FC / over 3.5 goals": 0.1615,
+     "DRAW_OVER|Draw / over 3.5 goals": 0.0874,
+     "AWAY_OVER|Madura United FC / over 3.5 goals": 0.1017,
+     "HOME_UNDER|Garudayaksa FC / under 3.5 goals": 0.2801,
+     "DRAW_UNDER|Draw / under 3.5 goals": 0.1686,
+     "AWAY_UNDER|Madura United FC / under 3.5 goals": 0.2008
+    },
+    "Winner and over/under 4.5": {
+     "HOME_OVER|Garudayaksa FC / over 4.5 goals": 0.0979,
+     "DRAW_OVER|Draw / over 4.5 goals": 0.0178,
+     "AWAY_OVER|Madura United FC / over 4.5 goals": 0.063,
+     "HOME_UNDER|Garudayaksa FC / under 4.5 goals": 0.3425,
+     "DRAW_UNDER|Draw / under 4.5 goals": 0.2386,
+     "AWAY_UNDER|Madura United FC / under 4.5 goals": 0.2402
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0536,
+     "OVER|Over 0.5 goals": 0.9464
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.2035,
+     "OVER|Over 1.5 goals": 0.7965
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.6487,
+     "OVER|Over 3.5 goals": 0.3513
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.822,
+     "OVER|Over 4.5 goals": 0.178
+    },
+    "Over/under 5.5": {
+     "UNDER|Under 5.5 goals": 0.9206,
+     "OVER|Over 5.5 goals": 0.0794
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.2632,
+     "OVER|Over 0.5 goals": 0.7368
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.8517,
+     "OVER|Over 2.5 goals": 0.1483
+    },
+    "Both teams to score in First Half": {
+     "YES|Yes": 0.2375,
+     "NO|No": 0.7625
+    },
+    "Both teams to score in Second Half": {
+     "YES|Yes": 0.3185,
+     "NO|No": 0.6815
+    },
+    "Second half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.178,
+     "OVER|Over 0.5 goals": 0.822
+    },
+    "Second half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.7729,
+     "OVER|Over 2.5 goals": 0.2271
+    }
+   }
+  },
+  {
+   "source": "Smarkets (borsa)",
+   "league": "42509487",
+   "home": "Western Sydney Wanderers Women",
+   "away": "Wellington Phoenix Women",
+   "kickoff_utc": "2026-11-20T05:50:00Z",
+   "x12": [
+    6.6504,
+    4.899,
+    1.5492
+   ],
+   "ou": [
+    2.5,
+    [
+     1.7963,
+     2.2558
+    ]
+   ],
+   "fetched_utc": "2026-11-20T05:09:47+00:00",
+   "x12_spread": 0.0378,
+   "markets": {
+    "Half-time result": {
+     "HOME|Western Sydney Wanderers Women": 0.1461,
+     "DRAW|Draw": 0.376,
+     "AWAY|Wellington Phoenix Women": 0.4779
+    },
+    "Both teams to score in First Half": {
+     "YES|Yes": 0.1965,
+     "NO|No": 0.8035
+    },
+    "Over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.0536,
+     "OVER|Over 0.5 goals": 0.9464
+    },
+    "Over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.2173,
+     "OVER|Over 1.5 goals": 0.7827
+    },
+    "Over/under 3.5": {
+     "UNDER|Under 3.5 goals": 0.6737,
+     "OVER|Over 3.5 goals": 0.3263
+    },
+    "Over/under 4.5": {
+     "UNDER|Under 4.5 goals": 0.8408,
+     "OVER|Over 4.5 goals": 0.1592
+    },
+    "First half over/under 0.5": {
+     "UNDER|Under 0.5 goals": 0.2678,
+     "OVER|Over 0.5 goals": 0.7322
+    },
+    "First half over/under 1.5": {
+     "UNDER|Under 1.5 goals": 0.6253,
+     "OVER|Over 1.5 goals": 0.3747
+    },
+    "First half over/under 2.5": {
+     "UNDER|Under 2.5 goals": 0.8604,
+     "OVER|Over 2.5 goals": 0.1396
+    }
+   },
+   "ou_spread": 0.0356
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Western Sydney Wanderers Women",
+   "away": "Wellington Phoenix Women",
+   "kickoff_utc": "2026-11-20T05:50:00.000Z",
+   "x12": [
+    6.4842,
+    4.8439,
+    1.5641
+   ],
+   "ou": [
+    2.5,
+    [
+     1.7545,
+     2.3254
+    ]
+   ],
+   "fetched_utc": "2026-11-20T05:09:50+00:00",
+   "x12_spread": -0.0128,
+   "ou_spread": -0.102
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Garudayaksa FC",
+   "away": "Madura United FC",
+   "kickoff_utc": "2026-11-20T08:30:00.000Z",
+   "x12": [
+    2.2869,
+    3.8929,
+    3.2695
+   ],
+   "ou": [
+    2.5,
+    [
+     1.7355,
+     2.3596
+    ]
+   ],
+   "fetched_utc": "2026-11-20T05:09:50+00:00",
+   "x12_spread": -0.0114,
+   "ou_spread": -0.0288
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "PSS Sleman",
+   "away": "Arema",
+   "kickoff_utc": "2026-11-20T08:30:00.000Z",
+   "x12": [
+    2.3714,
+    3.9485,
+    3.0764
+   ],
+   "ou": [
+    2.5,
+    [
+     1.6712,
+     2.4899
+    ]
+   ],
+   "fetched_utc": "2026-11-20T05:09:50+00:00",
+   "x12_spread": -0.0159,
+   "ou_spread": -0.0287
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Western Sydney Wanderers",
+   "away": "Adelaide United",
+   "kickoff_utc": "2026-11-20T08:40:00.000Z",
+   "x12": [
+    1.707,
+    4.9042,
+    4.7555
+   ],
+   "ou": [
+    2.5,
+    [
+     1.4498,
+     3.2234
+    ]
+   ],
+   "fetched_utc": "2026-11-20T05:09:50+00:00",
+   "x12_spread": -0.0044,
+   "ou_spread": -0.0144
+  },
+  {
+   "source": "Matchbook (borsa)",
+   "home": "Negeri Sembilan FA",
+   "away": "Kuching City",
+   "kickoff_utc": "2026-11-20T08:45:00.000Z",
+   "x12": [
+    5.0305,
+    4.3837,
+    1.7449
+   ],
+   "ou": [
+    2.5,
+    [
+     1.6531,
+     2.5312
+    ]
+   ],
+   "fetched_utc": "2026-11-20T05:09:50+00:00",
+   "x12_spread": -0.0276,
+   "ou_spread": -0.0582
   }
  ]
 }
