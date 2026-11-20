@@ -33,11 +33,22 @@ MIN_BIN = 200
 
 def fetch(day: dt.date | None = None, out: Path = RATINGS) -> int:
     import requests
+    import time
     day = day or dt.date.today()
-    r = requests.get(f"http://api.clubelo.com/{day.isoformat()}", timeout=60)
-    r.raise_for_status()
-    if not r.text.startswith("Rank,Club"):
-        raise ValueError("unexpected Club Elo answer")
+    r = None
+    for back in (0, 1, 2):  # the API answered 502 on 20 Nov: retry, then fall back to the previous days' table
+        for wait in (0, 20):
+            time.sleep(wait)
+            try:
+                r = requests.get(f"http://api.clubelo.com/{(day - dt.timedelta(days=back)).isoformat()}", timeout=60)
+            except requests.RequestException:
+                continue
+            if r.status_code == 200 and r.text.startswith("Rank,Club"):
+                break
+        if r is not None and r.status_code == 200 and r.text.startswith("Rank,Club"):
+            break
+    if r is None or r.status_code != 200 or not r.text.startswith("Rank,Club"):
+        raise RuntimeError(f"Club Elo unavailable (HTTP {getattr(r, 'status_code', '-')})")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(r.text, encoding="utf-8")
     return max(0, len(r.text.splitlines()) - 1)
