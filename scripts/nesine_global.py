@@ -700,16 +700,29 @@ def analyze_day(
         attach_research(out, events, day, generated)
     if use_tm:
         tm_map = fetch_matchday_absences([m for m in out if m.get("price_tier") != "ozel_bahis"])
+        if not tm_map:
+            # Preserve same-day Transfermarkt data already captured earlier (e.g. when a cloud datacenter IP gets throttled)
+            prev_path = DAILY / day.isoformat() / "nesine_global.json"
+            if prev_path.exists():
+                try:
+                    prev_data = json.loads(prev_path.read_text(encoding="utf-8"))
+                    for pm in prev_data.get("matches") or []:
+                        ptm = (pm.get("research") or {}).get("tm_absences")
+                        if ptm and pm.get("code") is not None:
+                            tm_map[int(pm["code"])] = ptm
+                except (OSError, json.JSONDecodeError, ValueError):
+                    pass
         if verbose:
             print(f"Transfermarkt (2026/27 sakat/cezalı + puan durumu): {len(tm_map)}/{len(real_events)} maç eşleşti")
         for rec in out:
-            tm_rec = tm_map.get(rec["code"])
+            tm_rec = tm_map.get(rec["code"]) or tm_map.get(int(rec["code"]))
             if tm_rec:
                 res = rec.setdefault("research", {"teams": {}, "flags": [], "motivation": {}})
                 res["tm_absences"] = tm_rec
                 for al in tm_rec.get("alerts") or []:
-                    if al not in res["flags"]:
-                        res["flags"].append(f"TM: {al}")
+                    tag = f"TM: {al}"
+                    if tag not in res["flags"]:
+                        res["flags"].append(tag)
     for rec in out:
         sf = _steam_flag(rec.get("steam_1x2"))
         if sf:
