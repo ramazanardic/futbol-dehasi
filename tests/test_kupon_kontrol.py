@@ -432,3 +432,13 @@ def test_all_coupon_legs_today_covers_every_build(tmp_path, monkeypatch):
     for name, code in (("kupon_5x_0851", 1), ("kupon_5x_0926", 2), ("kupon_10x_kg_1141", 3)):
         (day / f"{name}.json").write_text(json.dumps({"coupons": [{"legs": [{"code": code, "key": "k"}]}]}))
     assert sorted(x["code"] for x in kupon.all_coupon_legs_today("2026-11-20")) == [1, 2, 3]  # old builds too
+
+
+def test_deep_research_refreshes_a_summary_cached_before_kickoff(monkeypatch):
+    dr = _load("derin_arastirma")
+    pre = {"header": {"competitions": [{"status": {"type": {"completed": False}}, "competitors": []}]}}
+    post = {"header": {"competitions": [{"status": {"type": {"completed": True}}, "competitors": [
+        {"team": {"id": "1", "displayName": "A"}, "homeAway": "home", "linescores": [{"displayValue": "1"}, {"displayValue": "0"}]},
+        {"team": {"id": "2", "displayName": "B"}, "homeAway": "away", "linescores": [{"displayValue": "0"}, {"displayValue": "2"}]}]}]}}
+    monkeypatch.setattr(dr, "espn", lambda path, ttl=None, **kw: pre if ttl is None else post)
+    assert dr.half_scores("nor.1", "9") == {"1": (1, 0, "home", "A"), "2": (0, 2, "away", "B")}

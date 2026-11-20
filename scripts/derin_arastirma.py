@@ -87,6 +87,12 @@ def half_scores(slug: str, event_id: str) -> dict | None:
     """{team_id: (first-half goals, second-half goals, 'home'|'away')} of a finished match."""
     s = espn(f"{slug}/summary", None, event=event_id)
     try:
+        done = s["header"]["competitions"][0]["status"]["type"].get("completed")
+    except (KeyError, IndexError, TypeError):
+        done = False
+    if not done:  # a summary cached before kick-off must not hide the final result
+        s = espn(f"{slug}/summary", 0.0, event=event_id)
+    try:
         comp = s["header"]["competitions"][0]
         if not comp["status"]["type"].get("completed"):
             return None
