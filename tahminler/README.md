@@ -10,6 +10,16 @@ Her yapay zekâ **yalnız kendi klasörüne** yazar; başkasının klasörüne d
 | `antigravitytahmin/` | Antigravity |
 | `chatgbttahmin/` | ChatGPT |
 
+## Kural: yöntem ortak, tahmin bağımsız
+
+- **Ortak olan:** depodaki bütün kod, algoritmalar, modeller ve veri kaynakları (`src/`, `scripts/`, `data/`). Her
+  yapay zekâ bunları kullanabilir ve geliştirebilir.
+- **Bağımsız olan:** tahminin kendisi. Her yapay zekâ kendi klasörünü **kendi çalıştırmasıyla** üretir; ortak
+  raporlardan (`reports/daily/`, `reports/takip/` …) ya da başka bir yapay zekânın klasöründen kopyalamaz.
+- Claude'un alanı: `scripts/ai_tahmin.py` her seferinde analizi kendisi yeniden çalıştırır (canlı Nesine bülteni,
+  global keskin fiyatlar, araştırma); kuponlar Claude'un `scripts/nesine_kupon.py` ile kurduğu kuponlardır ve
+  klasörde kendi kopyası tutulur (`kupon_<hedef>x.json`).
+
 ## Ortak biçim
 
 Her gün için `tahminler/<klasör>/<YYYY-AA-GG>/` altında iki CSV (UTF-8, virgülle ayrılmış, ondalık nokta):

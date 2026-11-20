@@ -645,8 +645,10 @@ def main() -> None:
     print("\n".join(md))
     print(f"\n-> {base.with_suffix('.md').relative_to(DAILY.parents[1])}")
     try:  # keep Claude's area of the AI comparison (tahminler/claudetahmin) in step with the new coupons
-        from ai_tahmin import export as export_ai  # noqa: PLC0415
-        export_ai(args.tarih)
+        import ai_tahmin  # noqa: PLC0415
+        if coupons:
+            ai_tahmin.save_coupons(args.tarih, args.hedef, coupons)
+        ai_tahmin.export(args.tarih, matches)  # this run's own analysis, not the shared report files
     except Exception as exc:  # noqa: BLE001 - the coupon itself is already written
         print(f"⚠ claudetahmin güncellenemedi: {exc}")
 

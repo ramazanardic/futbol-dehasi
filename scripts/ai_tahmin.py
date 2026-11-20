@@ -1,16 +1,21 @@
-"""Write Claude's predictions of a betting day into its own area of the AI comparison (tahminler/claudetahmin).
+"""Write Claude's OWN predictions of a betting day into its area of the AI comparison (tahminler/claudetahmin).
 
     python scripts/ai_tahmin.py --tarih 2026-11-20
 
-The user compares four AIs (claudetahmin, geminitahmin, antigravitytahmin, chatgbttahmin); every AI writes only to
-tahminler/<its area>/<date>/ in the common format described in tahminler/README.md:
+The user compares four AIs (claudetahmin, geminitahmin, antigravitytahmin, chatgbttahmin). Code, algorithms and
+data sources are shared, but every AI produces its own predictions (user rule, 20 Nov): this area is never copied
+from the shared reports (reports/daily, which other AIs' runs also write). Instead:
 
+  * the match predictions come from a fresh analysis run made here (nesine_global.analyze_day: live Nesine bulletin,
+    sharp global prices, research), and
+  * the coupons are the ones Claude builds with scripts/nesine_kupon.py, which hands them over directly
+    (save_coupons) and keeps its own copy in this area (kupon_<target>x.json).
+
+Output per day, in the common format of tahminler/README.md:
   mac_tahminleri.csv  one row per Nesine match: 1X2 probabilities, expected goals, most likely score and the main
                       pick (the most probable bettable selection under the coupon rules, gunluk_analiz.best_pick)
-  kuponlar.csv        one row per coupon leg: every coupon of the day's latest coupon file for each target
-
-Sources: reports/daily/<date>/nesine_global.json (+ predictions store) and kupon_*x_*.json. Run by the morning job,
-after every coupon build and at each line-up re-analysis, so the area always holds the latest version.
+  kuponlar.csv        one row per coupon leg of Claude's latest coupons for each target
+Rows of matches that have kicked off are frozen, so later runs never change a prediction after the fact.
 """
 
 from __future__ import annotations
@@ -24,8 +29,9 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from gunluk_analiz import best_pick  # noqa: E402
-from nesine_global import DAILY, NESINE_ONLY_STATUS, PREDICTIONS_FILE, TSI, classify_price_tier  # noqa: E402
+import nesine_global as ng  # noqa: E402
 
+TSI = ng.TSI
 ROOT = Path(__file__).resolve().parents[1]
 AREA = ROOT / "tahminler" / "claudetahmin"
 
@@ -47,47 +53,65 @@ def _read(path: Path) -> list[dict]:
         return list(csv.DictReader(fh))
 
 
-def match_rows(date: str, frozen: dict[str, dict] | None = None, now: dt.datetime | None = None) -> list[dict]:
-    """Rows for every match; a match that has kicked off keeps the row written before kick-off (``frozen``),
-    so later re-analyses never change a prediction after the fact."""
+def own_analysis(date: str) -> list[dict]:
+    """Claude's own run of the shared pipeline (no files of the shared reports are read or written)."""
+    matches, _, _ = ng.analyze_day(dt.date.fromisoformat(date), verbose=False)
+    return matches
+
+
+def _top_score(code) -> str:
+    priced = ng.PRICED.get(int(code))
+    if not priced:
+        return ""
+    k, v = next(iter(ng.score_distributions(priced["joint"])["ft"].items()))
+    return f"{k} ({v:.3f})"
+
+
+def match_rows(date: str, matches: list[dict], frozen: dict[str, dict] | None = None,
+               now: dt.datetime | None = None) -> list[dict]:
     frozen = frozen or {}
     now = now or dt.datetime.now(TSI)
-    d = DAILY / date
-    data = json.loads((d / "nesine_global.json").read_text(encoding="utf-8"))
-    store = json.loads((d / PREDICTIONS_FILE).read_text(encoding="utf-8")) if (d / PREDICTIONS_FILE).exists() else {}
     rows = []
-    for m in sorted(data["matches"], key=lambda x: x["kickoff"]):
-        tier = m.get("price_tier") or classify_price_tier(m["status"], m.get("reference"))
+    for m in sorted(matches, key=lambda x: x["kickoff"]):
+        tier = m.get("price_tier") or ng.classify_price_tier(m["status"], m.get("reference"))
         if tier == "ozel_bahis":
             continue
         if str(m["code"]) in frozen and dt.datetime.fromisoformat(m["kickoff_iso"]) <= now:
             rows.append(frozen[str(m["code"])])
             continue
-        priced = m["status"] in ("fiyatlandı", NESINE_ONLY_STATUS)
+        priced = m["status"] in ("fiyatlandı", ng.NESINE_ONLY_STATUS)
         f = (m.get("fair_1x2") or [None] * 3) if priced else [None] * 3
-        dist = (store.get(str(m["code"])) or {}).get("dist") or {}
-        top = next(iter((dist.get("ft") or {}).items()), None)
         pick, why = best_pick(m) if priced else (None, "global fiyat yok")
         rows.append({
             "tarih": date, "saat": m["kickoff"][11:16], "lig": m["league"], "mac": f"{m['home']} - {m['away']}",
             "nesine_kodu": m["code"], "olasilik_1": _pct(f[0]), "olasilik_X": _pct(f[1]), "olasilik_2": _pct(f[2]),
             "beklenen_gol_ev": m.get("mu_home") if priced else "", "beklenen_gol_dep": m.get("mu_away") if priced else "",
-            "en_olasi_skor": f"{top[0]} ({top[1]:.3f})" if top else "",
+            "en_olasi_skor": _top_score(m["code"]) if priced else "",
             "ana_secim_pazar": pick["market"] if pick else "", "ana_secim": pick["selection"] if pick else "",
             "nesine_oran": pick["odds"] if pick else "", "olasilik": _pct(pick["fair_prob"]) if pick else "",
             "fiyat_kaynagi": (m.get("reference") or "") if priced else "",
             "guven": {"keskin": "yüksek", "global_buro": "orta", "dusuk_guven": "düşük"}.get(tier, ""),
             "not": "" if pick and not why else (why or ""),
         })
-    return rows
+    # a frozen (started) match that dropped out of the bulletin keeps its pre-kick-off row
+    seen = {str(r["nesine_kodu"]) for r in rows}
+    rows += [r for code, r in frozen.items() if code not in seen]
+    return sorted(rows, key=lambda r: (r["tarih"], r["saat"]))
 
 
-def coupon_rows(date: str) -> list[dict]:
-    latest: dict[str, Path] = {}
-    for f in sorted((DAILY / date).glob("kupon_*x_*.json")):
-        latest[f.name.split("_")[1]] = f  # HHMM order: latest file per target wins
+def save_coupons(date: str, target: float, coupons: list[dict], area: Path = AREA) -> None:
+    """Called by nesine_kupon.py after Claude builds coupons: Claude's own copy, latest per target."""
+    out = area / date
+    out.mkdir(parents=True, exist_ok=True)
+    (out / f"kupon_{target:g}x.json").write_text(
+        json.dumps({"target": target, "created": dt.datetime.now(TSI).isoformat(timespec="seconds"), "coupons": coupons},
+                   ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def coupon_rows(date: str, area: Path = AREA) -> list[dict]:
     rows = []
-    for _, f in sorted(latest.items(), key=lambda kv: float(kv[0].rstrip("x"))):
+    files = sorted((area / date).glob("kupon_*x.json"), key=lambda f: float(f.stem.split("_")[1].rstrip("x")))
+    for f in files:
         data = json.loads(f.read_text(encoding="utf-8"))
         for i, c in enumerate(data.get("coupons", []), 1):
             for leg in c["legs"]:
@@ -106,10 +130,13 @@ def _write(path: Path, cols: list[str], rows: list[dict]) -> None:
         w.writerows(rows)
 
 
-def export(date: str, area: Path = AREA, now: dt.datetime | None = None) -> tuple[int, int]:
+def export(date: str, matches: list[dict] | None = None, area: Path = AREA,
+           now: dt.datetime | None = None) -> tuple[int, int]:
+    """``matches``: an analysis Claude just ran (e.g. inside nesine_kupon.py); None = run one now."""
     out = area / date
     frozen = {r["nesine_kodu"]: r for r in _read(out / "mac_tahminleri.csv")}
-    m, c = match_rows(date, frozen, now), coupon_rows(date)
+    m = match_rows(date, own_analysis(date) if matches is None else matches, frozen, now)
+    c = coupon_rows(date, area)
     _write(out / "mac_tahminleri.csv", MATCH_COLS, m)
     _write(out / "kuponlar.csv", COUPON_COLS, c)
     return len(m), len(c)
@@ -120,7 +147,7 @@ def main() -> None:
     ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
     args = ap.parse_args()
     n_m, n_c = export(args.tarih)
-    print(f"claudetahmin {args.tarih}: {n_m} maç tahmini, {n_c} kupon bacağı -> {AREA / args.tarih}")
+    print(f"claudetahmin {args.tarih}: {n_m} maç tahmini (kendi analiz çalıştırması), {n_c} kupon bacağı -> {AREA / args.tarih}")
 
 
 if __name__ == "__main__":
