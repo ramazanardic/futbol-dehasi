@@ -52,7 +52,7 @@ jobs:
         run: |
           git config user.name "global-odds-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          mkdir -p /tmp/ours && cp data/global_odds/latest/* /tmp/ours/
+          rm -rf /tmp/ours && mkdir -p /tmp/ours && cp -a data/global_odds/latest/. /tmp/ours/
           for i in 1 2 3 4; do
             git add data/global_odds
             if git diff --cached --quiet; then echo "no changes"; exit 0; fi
@@ -63,7 +63,7 @@ jobs:
             if [ -n "${{ github.event.inputs.light }}" ]; then
               python scripts/fetch_global_odds.py --light "${{ github.event.inputs.light }}"   # re-merge into newest
             else
-              cp /tmp/ours/* data/global_odds/latest/   # a full fetch is a complete, newer snapshot
+              cp -a /tmp/ours/. data/global_odds/latest/   # a full fetch is a complete, newer snapshot
             fi
             sleep 3
           done

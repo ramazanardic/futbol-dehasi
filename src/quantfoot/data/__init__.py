@@ -1,5 +1,15 @@
-"""Data loading, hygiene, live ESPN slate syncing, and box-score xG estimation."""
+"""Data loading, hygiene, live ESPN/OddsMath/Transfermarkt intelligence, and box-score xG estimation."""
 
+from quantfoot.data.absences import (
+    TM_LEAGUE_MAP,
+    annotate_club_absences,
+    build_side_alerts,
+    fetch_club_squad_stats,
+    fetch_matchday_absences,
+    fetch_tm_league,
+    format_tm_absence_brief,
+    resolve_tm_league_codes,
+)
 from quantfoot.data.live_espn import (
     LiveFixture,
     american_to_decimal,
@@ -12,7 +22,29 @@ from quantfoot.data.loader import (
     DEFAULT_LEAGUES,
     LEAGUE_NAMES,
     load_matches,
+    load_season_history_overrides,
     load_tipsaudit,
+)
+from quantfoot.data.oddsmath import (
+    fetch_oddsmath_day,
+    fetch_oddsmath_event_odds,
+    fetch_oddsmath_references,
+    match_event_to_oddsmath,
+    oddsmath_to_reference,
+)
+from quantfoot.data.soccerdata_bridge import (
+    SOCCERDATA_LEAGUES,
+    SoccerDataClient,
+    SoccerDataMatchContext,
+    SoccerDataResult,
+    configure_soccerdata,
+    merge_match_history,
+    normalize_match_history_df,
+    summarize_understat_teams,
+    supported_sources,
+    to_quantfoot_division,
+    to_soccerdata_league,
+    understat_to_player_profiles,
 )
 from quantfoot.data.xg_proxy import BoxScoreXGModel
 
@@ -21,11 +53,37 @@ __all__ = [
     "DEFAULT_LEAGUES",
     "LEAGUE_NAMES",
     "LiveFixture",
+    "SOCCERDATA_LEAGUES",
+    "SoccerDataClient",
+    "SoccerDataMatchContext",
+    "SoccerDataResult",
+    "TM_LEAGUE_MAP",
     "american_to_decimal",
+    "annotate_club_absences",
+    "build_side_alerts",
+    "configure_soccerdata",
+    "fetch_club_squad_stats",
     "fetch_espn_slate",
+    "fetch_matchday_absences",
+    "fetch_oddsmath_day",
+    "fetch_oddsmath_event_odds",
+    "fetch_oddsmath_references",
     "fetch_the_odds_api_slate",
+    "fetch_tm_league",
+    "format_tm_absence_brief",
     "load_international_history",
     "load_matches",
+    "load_season_history_overrides",
     "load_tipsaudit",
+    "match_event_to_oddsmath",
+    "merge_match_history",
     "normalize_international_team",
+    "normalize_match_history_df",
+    "oddsmath_to_reference",
+    "resolve_tm_league_codes",
+    "summarize_understat_teams",
+    "supported_sources",
+    "to_quantfoot_division",
+    "to_soccerdata_league",
+    "understat_to_player_profiles",
 ]

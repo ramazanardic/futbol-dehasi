@@ -109,14 +109,21 @@ def score_tables(joint: np.ndarray, home: str, away: str, top: int = 12) -> list
 def dossier(m: dict) -> str:
     priced = ng.PRICED[m["code"]]
     nes = {s["name"]: s["odds"] for s in m.get("selections", [])}
-    reliability = "global borsa fiyatı" if m["status"] == "fiyatlandı" else "DÜŞÜK GÜVEN (global fiyat yok, Nesine oranından)"
+    tier = m.get("price_tier") or ng.classify_price_tier(m["status"], m.get("reference"))
+    reliability = {
+        "keskin": "keskin global borsa/Pinnacle fiyatı",
+        "global_buro": "GLOBAL BÜRO — ORTA GÜVEN (iki takım da araştırılmış, uyarısız ve ≥%62 ise +2 puan belirsizlik payıyla kupona aday)",
+        "dusuk_guven": "DÜŞÜK GÜVEN (global fiyat yok, Nesine oranından)",
+    }.get(tier, "DÜŞÜK GÜVEN")
     lines = [f"# {m['kickoff']} · {m['home']} - {m['away']} ({m['league']})", "",
              f"Kaynak: {m['reference']} — {reliability}. Beklenen gol: {m['mu_home']:.2f} - {m['mu_away']:.2f}. "
              "Bir ailenin sonuçları toplamda %100 eder. 'doğrudan' = borsanın bu seçimi kendisi fiyatlıyor; "
              "'model' = global fiyattan gol dağılımıyla.", ""]
     r = m.get("research") or {}
-    if r.get("teams") or r.get("user_absences"):
+    if r.get("teams") or r.get("user_absences") or r.get("tm_absences") or r.get("absences"):
         h, a = ng._side_rows(r, "home"), ng._side_rows(r, "away")
+        h["Takım"] = h["Takım"] if h["Takım"] != "-" else m["home"]
+        a["Takım"] = a["Takım"] if a["Takım"] != "-" else m["away"]
         lines += ["## Araştırma", "", "| | Ev | Deplasman |", "|---|---|---|"]
         for key in dict.fromkeys(list(h) + list(a)):
             lines.append(f"| {key} | {h.get(key, '-')} | {a.get(key, '-')} |")
@@ -154,8 +161,15 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--tarih", default=dt.datetime.now(ng.TSI).date().isoformat())
     ap.add_argument("--mac", help="Maç adında geçen metin (ör. 'Vasco'); yoksa günün tüm başlamamış maçları")
+    ap.add_argument("--no-oddsmath", action="store_true", help="OddsMath canlı referans/steam çekimini kapat")
+    ap.add_argument("--no-tm", action="store_true", help="Transfermarkt canlı sakat/cezalı çekimini kapat")
     args = ap.parse_args()
-    matches, _, _ = ng.analyze_day(dt.date.fromisoformat(args.tarih), verbose=False)
+    matches, _, _ = ng.analyze_day(
+        dt.date.fromisoformat(args.tarih),
+        verbose=False,
+        use_oddsmath=not args.no_oddsmath,
+        use_tm=not args.no_tm,
+    )
     now = dt.datetime.now(ng.TSI)
     pick = [m for m in matches if m["code"] in ng.PRICED and dt.datetime.fromisoformat(m["kickoff_iso"]) > now
             and (not args.mac or args.mac.lower() in f"{m['home']} {m['away']}".lower())]

@@ -675,6 +675,227 @@ def _cmd_markets(args: argparse.Namespace) -> None:
         print(f"\nJSON: {args.json}")
 
 
+def _cmd_soccerdata(args: argparse.Namespace) -> None:
+    """Query probberechts/soccerdata scrapers through QuantFoot's normalized bridge."""
+    from quantfoot.data.soccerdata_bridge import (
+        SOCCERDATA_LEAGUES,
+        SoccerDataClient,
+        supported_sources,
+    )
+
+    if args.action == "leagues":
+        print("=== QuantFoot <-> soccerdata Lig Eşleştirmesi ===")
+        for div, sd_name in SOCCERDATA_LEAGUES.items():
+            print(f"  {div:6s} -> {sd_name}")
+        print("\n=== Kaynaklar (probberechts/soccerdata) ===")
+        for src, meta in supported_sources().items():
+            print(f"  {src:14s} [{meta['transport']:7s}] | {meta['scope']}")
+        return
+
+    client = SoccerDataClient(
+        proxy=args.proxy,
+        no_cache=args.no_cache,
+        headless=not args.no_headless,
+    )
+
+    if args.action == "enrich":
+        if not args.home or not args.away:
+            raise ValueError("--home and --away are required for --action enrich.")
+        ctx = client.enrich_match(
+            args.home,
+            args.away,
+            args.league,
+            season=args.season,
+            date=args.date,
+            sources=tuple(args.sources),
+            force_cache=args.force_cache,
+        )
+        print(f"=== soccerdata Match Context: {ctx.home} vs {ctx.away} [{ctx.league} {ctx.season}] ===")
+        for src, st in ctx.source_status.items():
+            print(f"  [{src:10s}] {st}")
+        for label, (hv, av) in ctx.to_markdown_rows().items():
+            print(f"  {label:20s}: {hv}  vs  {av}")
+        if ctx.espn_fixture:
+            fx = ctx.espn_fixture
+            print(f"  ESPN Fixture        : {fx['game']} (game_id={fx['game_id']}, date={fx['date']})")
+        if args.json:
+            Path(args.json).write_text(json.dumps(ctx.to_dict(), ensure_ascii=False, indent=2, default=str), encoding="utf-8")
+            print(f"\nJSON: {args.json}")
+        return
+
+    if args.action == "clubelo":
+        res = client.club_elo(date=args.date, team=args.team)
+    elif args.action == "matchhistory":
+        res = client.match_history(args.league, args.season, as_quantfoot=not args.raw)
+    elif args.action == "understat-schedule":
+        res = client.understat_schedule(args.league, args.season, force_cache=args.force_cache)
+    elif args.action == "understat-teams":
+        res = client.understat_team_xg(args.league, args.season, summarize=not args.raw, force_cache=args.force_cache)
+    elif args.action == "understat-players":
+        res = client.understat_player_stats(args.league, args.season, force_cache=args.force_cache)
+    elif args.action == "understat-player-matches":
+        res = client.understat_player_match_stats(args.league, args.season, match_id=args.match_id)
+    elif args.action == "understat-shots":
+        res = client.understat_shots(args.league, args.season, match_id=args.match_id)
+    elif args.action == "espn-schedule":
+        res = client.espn_schedule(args.league, args.season, force_cache=args.force_cache)
+    elif args.action == "espn-matchsheet":
+        res = client.espn_matchsheet(args.league, args.season, match_id=args.match_id, force_cache=args.force_cache)
+    elif args.action == "espn-lineup":
+        res = client.espn_lineup(args.league, args.season, match_id=args.match_id, force_cache=args.force_cache)
+    elif args.action == "fbref-schedule":
+        res = client.fbref_schedule(args.league, args.season, force_cache=args.force_cache)
+    elif args.action == "fbref-teams":
+        res = client.fbref_team_stats(args.league, args.season, stat_type=args.stat_type)
+    elif args.action == "fbref-team-matches":
+        res = client.fbref_team_match_stats(
+            args.league, args.season, stat_type=args.stat_type, team=args.team, force_cache=args.force_cache
+        )
+    elif args.action == "fbref-players":
+        res = client.fbref_player_stats(args.league, args.season, stat_type=args.stat_type)
+    elif args.action == "fbref-player-matches":
+        res = client.fbref_player_match_stats(
+            args.league, args.season, stat_type=args.stat_type, match_id=args.fbref_match_id, force_cache=args.force_cache
+        )
+    elif args.action == "fbref-lineup":
+        res = client.fbref_lineup(args.league, args.season, match_id=args.fbref_match_id, force_cache=args.force_cache)
+    elif args.action == "fbref-events":
+        res = client.fbref_events(args.league, args.season, match_id=args.fbref_match_id, force_cache=args.force_cache)
+    elif args.action == "sofascore-table":
+        res = client.sofascore_table(args.league, args.season, force_cache=args.force_cache)
+    elif args.action == "sofascore-schedule":
+        res = client.sofascore_schedule(args.league, args.season, force_cache=args.force_cache)
+    elif args.action == "sofifa-versions":
+        res = client.sofifa_versions(args.league)
+    elif args.action == "sofifa-teams":
+        res = client.sofifa_team_ratings(args.league)
+    elif args.action == "sofifa-players":
+        res = client.sofifa_player_ratings(args.league, team=args.team)
+    elif args.action == "whoscored-schedule":
+        res = client.whoscored_schedule(args.league, args.season, force_cache=args.force_cache)
+    elif args.action == "whoscored-missing":
+        res = client.whoscored_missing_players(args.league, args.season, match_id=args.match_id, force_cache=args.force_cache)
+    elif args.action == "whoscored-events":
+        res = client.whoscored_events(args.league, args.season, match_id=args.match_id, force_cache=args.force_cache)
+    else:
+        raise ValueError(f"Unsupported soccerdata action: {args.action}")
+
+    if not res.ok:
+        print(f"[{res.source}] HATA: {res.error}")
+        return
+
+    print(f"[{res.source}] OK — {res.rows} satır | önbellek: {res.cache_dir}")
+    if res.rows > 0:
+        preview = res.data.head(args.limit)
+        print(preview.to_string())
+    if args.json:
+        records = res.data.reset_index().to_dict(orient="records")
+        Path(args.json).write_text(json.dumps(records, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
+        print(f"\nJSON: {args.json}")
+
+
+def _cmd_intel(args: argparse.Namespace) -> None:
+    """Fetch live OddsMath sharp odds/steam and/or Transfermarkt 2026/27 absence intelligence."""
+    from quantfoot.data.absences import (
+        fetch_matchday_absences,
+        fetch_tm_league,
+        format_tm_absence_brief,
+        resolve_tm_league_codes,
+    )
+    from quantfoot.data.nesine import TSI, fetch_bulletin, league_names, parse_bulletin
+    from quantfoot.data.oddsmath import fetch_oddsmath_day, fetch_oddsmath_event_odds
+
+    day = dt.date.fromisoformat(args.date) if args.date else dt.datetime.now(TSI).date()
+    export: dict[str, object] = {"date": day.isoformat()}
+
+    if args.league:
+        codes = resolve_tm_league_codes(args.league) or [args.league.upper()]
+        print(f"=== Transfermarkt Canlı Lig İstihbaratı: {args.league} ({', '.join(codes)}) ===")
+        leagues_out = {}
+        for code in codes:
+            ld = fetch_tm_league(code)
+            leagues_out[code] = ld
+            n_clubs = len(ld["clubs"])
+            n_inj = sum(len(v) for v in ld["injuries"].values())
+            n_sus = sum(len(v) for v in ld["suspensions"].values())
+            print(f"  [{code}] ok={ld['ok']} | kulüp={n_clubs} | sakat={n_inj} | cezalı={n_sus}")
+            shown = 0
+            for cid, cinfo in sorted(ld["clubs"].items(), key=lambda kv: kv[1].get("rank") or 999):
+                injs = ld["injuries"].get(cid, [])
+                suss = ld["suspensions"].get(cid, [])
+                if not injs and not suss:
+                    continue
+                rk = f"#{cinfo['rank']} " if cinfo.get("rank") else ""
+                print(f"    {rk}{cinfo['name']:24s} | {len(injs)} sakat, {len(suss)} cezalı")
+                shown += 1
+                if shown >= args.limit:
+                    break
+        export["tm_league"] = leagues_out
+        if args.json:
+            Path(args.json).write_text(json.dumps(export, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
+            print(f"\nJSON: {args.json}")
+        return
+
+    run_om = args.oddsmath or (not args.oddsmath and not args.tm)
+    run_tm = args.tm
+
+    if run_om:
+        om_events = fetch_oddsmath_day(day.isoformat())
+        print(f"=== OddsMath Canlı Sharp & Steam ({day.isoformat()}) — {len(om_events)} maç ===")
+        om_rows = []
+        for ev in om_events[: args.limit]:
+            od = fetch_oddsmath_event_odds(ev["id"])
+            if not od.get("1x2"):
+                continue
+            ko_tsi = ev["kickoff"].astimezone(TSI).strftime("%H:%M")
+            o1, ox, o2 = od["1x2"]
+            ou25 = od["ou"].get("2.5")
+            ou_s = f"O/U2.5={ou25['odds'][0]:.2f}/{ou25['odds'][1]:.2f}" if ou25 else "O/U2.5=-"
+            st = od.get("steam_1x2")
+            st_s = f"steam=({st[0]*100:+.1f}p/{st[1]*100:+.1f}p/{st[2]*100:+.1f}p)" if st else ""
+            print(
+                f"  {ko_tsi} | {ev['league'][:24]:24s} | {ev['home']} - {ev['away']} | "
+                f"{od['book_1x2']} 1X2={o1:.2f}/{ox:.2f}/{o2:.2f} (vig {od['vig_1x2']*100:.1f}%) | {ou_s} {st_s}"
+            )
+            om_rows.append({**ev, "odds": od})
+        export["oddsmath"] = om_rows
+
+    if run_tm:
+        nxt = day + dt.timedelta(days=1)
+        payload = fetch_bulletin()
+        lg_map = league_names(payload)
+        events = [
+            e
+            for e in parse_bulletin(payload)
+            if (e.kickoff.date() == day and e.kickoff.hour >= 7) or (e.kickoff.date() == nxt and e.kickoff.hour < 7)
+        ]
+        match_dicts = [
+            {"code": e.code, "league": lg_map.get(e.league_code, ""), "home": e.home, "away": e.away}
+            for e in events[: max(args.limit * 2, 40)]
+        ]
+        tm_map = fetch_matchday_absences(match_dicts)
+        print(f"\n=== Transfermarkt 2026/27 Maç Günü Eksikleri ({day.isoformat()}) — {len(tm_map)} maç ===")
+        shown = 0
+        for m in match_dicts:
+            rec = tm_map.get(m["code"])
+            if not rec or not rec.get("alerts"):
+                continue
+            print(f"  [{m['league']}] {m['home']} - {m['away']}")
+            print(f"    Uyarılar: {'; '.join(rec['alerts'])}")
+            print(f"    Ev : {format_tm_absence_brief(rec.get('home'))}")
+            print(f"    Dep: {format_tm_absence_brief(rec.get('away'))}")
+            shown += 1
+            if shown >= args.limit:
+                break
+        if shown == 0:
+            print("  (Kritik GK1 / golcü / 2+ kilit eksik uyarısı olan maç yok.)")
+        export["transfermarkt"] = tm_map
+
+    if args.json:
+        Path(args.json).write_text(json.dumps(export, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
+        print(f"\nJSON: {args.json}")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="quantfoot", description="Quantitative Football Betting Engine")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -739,6 +960,68 @@ def build_parser() -> argparse.ArgumentParser:
     p_mk.add_argument("--builder-odds", type=float, default=None, help="Offered Bet Builder odds (for EV)")
     p_mk.add_argument("--json", default=None, help="Write all probabilities to this JSON file")
     p_mk.set_defaults(func=_cmd_markets)
+
+    p_sd = sub.add_parser("soccerdata", help="Fetch data via integrated probberechts/soccerdata scrapers")
+    p_sd.add_argument(
+        "--action",
+        choices=[
+            "leagues",
+            "enrich",
+            "clubelo",
+            "matchhistory",
+            "understat-schedule",
+            "understat-teams",
+            "understat-players",
+            "understat-player-matches",
+            "understat-shots",
+            "espn-schedule",
+            "espn-matchsheet",
+            "espn-lineup",
+            "fbref-schedule",
+            "fbref-teams",
+            "fbref-team-matches",
+            "fbref-players",
+            "fbref-player-matches",
+            "fbref-lineup",
+            "fbref-events",
+            "sofascore-table",
+            "sofascore-schedule",
+            "sofifa-versions",
+            "sofifa-teams",
+            "sofifa-players",
+            "whoscored-schedule",
+            "whoscored-missing",
+            "whoscored-events",
+        ],
+        default="leagues",
+    )
+    p_sd.add_argument("--league", default="E0", help="QuantFoot division code (E0, T1, SP1, D1, I1, F1, E1, N1, P1) or soccerdata league ID")
+    p_sd.add_argument("--season", default=None, help="Season code (e.g. 2627, 2026-27, 2026; default: current)")
+    p_sd.add_argument("--home", default=None, help="Home team name (for --action enrich)")
+    p_sd.add_argument("--away", default=None, help="Away team name (for --action enrich)")
+    p_sd.add_argument("--team", default=None, help="Club name (for clubelo / fbref-team-matches / sofifa-players)")
+    p_sd.add_argument("--date", default=None, help="YYYY-MM-DD date (for --action clubelo or enrich)")
+    p_sd.add_argument("--match-id", type=int, default=None, help="Numeric Match ID (ESPN / Understat / WhoScored)")
+    p_sd.add_argument("--fbref-match-id", default=None, help="String FBref match ID (fbref-player-matches / fbref-lineup / fbref-events)")
+    p_sd.add_argument("--stat-type", default="standard", help="FBref stat_type (standard, shooting, passing, defense, ...)")
+    p_sd.add_argument("--sources", nargs="+", default=["clubelo", "understat", "espn"], help="Sources for --action enrich")
+    p_sd.add_argument("--proxy", default=None, help="Optional proxy URL or 'tor' forwarded to soccerdata")
+    p_sd.add_argument("--limit", type=int, default=20, help="Max preview rows to print")
+    p_sd.add_argument("--raw", action="store_true", help="Skip QuantFoot normalization/aggregation where applicable")
+    p_sd.add_argument("--force-cache", action="store_true", help="Use cached files even for the current season")
+    p_sd.add_argument("--no-cache", action="store_true", help="Bypass local cache and re-download")
+    p_sd.add_argument("--no-headless", action="store_true", help="Run SeleniumBase scrapers with a visible browser window")
+    p_sd.add_argument("--json", default=None, help="Write fetched output to this JSON file")
+    p_sd.set_defaults(func=_cmd_soccerdata)
+
+    p_in = sub.add_parser("intel", help="Live OddsMath sharp/steam & Transfermarkt 2026/27 absence intelligence")
+    p_in.add_argument("--date", default=None, help="YYYY-MM-DD date (default: today TSİ)")
+    p_in.add_argument("--oddsmath", action="store_true", help="Fetch OddsMath live sharp 1X2, O/U & opening-to-live steam")
+    p_in.add_argument("--tm", action="store_true", help="Fetch Transfermarkt 2026/27 injuries, suspensions & squad importance for Nesine slate")
+    p_in.add_argument("--league", default=None, help="Inspect one Transfermarkt league (e.g. T1, E0, L1, TR2, 'Almanya Bundesliga')")
+    p_in.add_argument("--limit", type=int, default=15, help="Max items to fetch/print")
+    p_in.add_argument("--json", default=None, help="Write structured intelligence output to JSON")
+    p_in.set_defaults(func=_cmd_intel)
 
     return parser
 

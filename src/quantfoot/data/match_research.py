@@ -328,3 +328,28 @@ def fpl_availability() -> dict[str, list[dict]]:
             "chance": e.get("chance_of_playing_next_round"), "news": e.get("news"),
             "goals": e.get("goals_scored"), "key": int(e.get("starts") or 0) >= 0.6 * top})
     return out
+
+
+def enrich_with_soccerdata(
+    res: dict,
+    *,
+    league: str | None = None,
+    season: str | int | None = None,
+    sources: tuple[str, ...] = ("clubelo", "understat", "espn"),
+    client=None,
+) -> dict:
+    """Attach optional ``probberechts/soccerdata`` context (ClubElo, Understat xG, ESPN) to a research dict."""
+    from quantfoot.data.soccerdata_bridge import SoccerDataClient
+
+    teams = res.get("teams") or {}
+    home = (teams.get("home") or {}).get("name")
+    away = (teams.get("away") or {}).get("name")
+    league_ref = league or res.get("league_slug")
+    if not home or not away or not league_ref:
+        return res
+
+    sd_client = client if client is not None else SoccerDataClient()
+    ctx = sd_client.enrich_match(home, away, league_ref, season=season, sources=sources)
+    enriched = dict(res)
+    enriched["soccerdata"] = ctx.to_dict()
+    return enriched

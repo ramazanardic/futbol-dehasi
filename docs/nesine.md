@@ -13,25 +13,27 @@ python scripts/nesine_global.py --date 2026-11-19
    (`quantfoot.data.nesine`). Pazar kodları (MTID) Nesine'nin kendi tanım tablosuyla çözülür
    (`src/quantfoot/data/nesine_markets.json`, sitenin `CCAll.min.js` dosyasından; 599 pazar) —
    tahmin edilmez.
-2. **Global referans fiyat** — maç başına en iyisi seçilir:
-   1. **Pinnacle** (football-data.co.uk fikstür dosyaları, varsa)
-   2. **Smarkets borsası** — alış/satış ortası; alış-satış farkı 4 puandan geniş (likit olmayan)
-      pazarlar referans sayılmaz
-   2b. **Matchbook borsası** — herkese açık fiyat akışı (hesap gerekmez), aynı 4 puan likidite
-      kuralı. Bir maç hem Smarkets'te hem Matchbook'ta likitse iki borsanın marjsız olasılıkları
-      ortalanır ("Matchbook + Smarkets"); aradaki en büyük fark `consensus_gap` olarak kaydedilir.
-   3. **Betfair borsası** (football-data.co.uk dosyalarındaki BFE sütunları)
-   4. **ESPN** (DraftKings) — yerelde çekilir, en zayıf referans
+2. **Global referans fiyat** — maç başına en iyisi seçilir (3 katmanlı güven sınıflandırması):
+   1. **Pinnacle** (football-data.co.uk fikstür dosyaları, 1X2 + O/U 2.5 + Asya Handikap `AHh/PAHH/PAHA`) — *keskin*
+   2. **Smarkets / Matchbook borsası** — alış/satış ortası; alış-satış farkı 4 puandan geniş (likit olmayan)
+      pazarlar referans sayılmaz. Bir maç hem Smarkets'te hem Matchbook'ta likitse iki borsanın marjsız
+      olasılıkları ortalanır ("Matchbook + Smarkets"); fark `consensus_gap` olarak kaydedilir — *keskin*
+   3. **Betfair borsası** (football-data.co.uk `BFE*`) ve **OddsMath (`BetInAsia/Pinnacle`, `Borsa`)** —
+      Türkiye'den doğrudan erişilebilir; açılıştan canlıya sharp olasılık kayması (`steam_1x2`) ve
+      doğrudan doğrulanmış O/U 1.5 / 2.5 / 3.5 çizgileri dahil — *keskin*
+   4. **Global Büro (Orta Güven):** **OddsMath (`Marathonbet / 1XBET / Bet365`)** ve **ESPN (DraftKings)** —
+      küçük/egzotik ligler için Nesine'den bağımsız global fiyat ve skor dağılımı üretir (`price_tier = "global_buro"`).
+      OddsMath orta güven maçları, **her iki takımın da canlı araştırması (ESPN/Transfermarkt) varsa, risk/steam
+      uyarısı yoksa ve olasılık ≥ %62 ise** `+2` puan ek belirsizlik payıyla (`sigma += 0.020`) kupona aday
+      olabilir (`--yalniz-keskin` ile tamamen kapatılabilir).
+   5. **Düşük Güven:** Hiçbir global kaynakta bulunmayan ultra-niş maçlar yalnızca bilgi amaçlı Nesine
+      oranından tahmin edilir (`price_tier = "dusuk_guven"`, kupona asla girmez).
 
-   1–3 Türkiye'den erişilemediği için GitHub'ın yurt dışındaki sunucularında (GitHub Actions,
-   `.github/workflows/global-odds.yml`) günde 5 kez çekilip `data/global_odds/latest/` altına
-   yazılır; sabah görevi önce `git pull` yapar. Hiçbir referansı olmayan maç **fiyatlanmaz**;
-   adil fiyat asla Nesine'nin kendi oranından türetilmez.
-   **Eşleştirme güvenliği:** maç adı + başlama saati (±3 saat) benzerliğiyle eşlenir; her global fiyat
-   en çok benzeyen tek Nesine maçına aittir ve Nesine'nin kendi 1X2'si (marjsız) referanstan 15 puandan
-   fazla ayrışırsa eşleşme reddedilir (19 Kasım: Al Salt – Al Yarmouk, Katar'daki Al-Ahli – Al-Shamal'a
-   bağlanmıştı). İki borsa 1X2'de 8 puandan fazla ayrışırsa maç fiyatlanmaz, Alt/Üst'te ayrışırsa
-   Alt/Üst kullanılmaz.
+   `--no-oddsmath` / `--no-tm` ile yerel OddsMath ve Transfermarkt çekimleri istenirse kapatılabilir.
+   **Eşleştirme güvenliği:** maç adı (yaygın kısaltma sözlüğü dahil) + başlama saati (±3 saat) benzerliğiyle
+   eşlenir; kadın/erkek ve genç/rezerv/A-takım ayrımı kesin olarak korunur. Her global fiyat en çok benzeyen
+   tek Nesine maçına aittir ve Nesine'nin kendi 1X2'si (marjsız) referanstan 15 puandan fazla ayrışırsa
+   eşleşme reddedilir. İki borsa 1X2'de 8 puandan fazla ayrışırsa maç fiyatlanmaz.
 3. Referans 1X2 (+ varsa Alt/Üst) marjdan arındırılır (power yöntemi), gol beklentileri hiçbir
    model önseli olmadan (fund_weight = 0) bu fiyata uydurulur ve Nesine'nin her seçimi — İY/MS,
    KG, gol aralığı, handikap, kombineler, ilk gol — tek tutarlı gol dağılımından fiyatlanır

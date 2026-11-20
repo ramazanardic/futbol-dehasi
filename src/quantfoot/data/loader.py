@@ -51,14 +51,71 @@ def normalize_quarter_handicap(series: pd.Series) -> pd.Series:
     return np.round(vals * 4.0) / 4.0
 
 
+def load_season_history_overrides(
+    data_dir: Path | None = None,
+    leagues: Iterable[str] | None = None,
+    min_date: str | None = None,
+    known_teams: set[str] | None = None,
+) -> pd.DataFrame:
+    """Load current-season football-data.co.uk CSVs synced into ``data/global_odds/latest/season_*/*.csv``."""
+    from quantfoot.data.soccerdata_bridge import merge_match_history, normalize_match_history_df
+
+    target_dir = Path(data_dir) if data_dir is not None else default_data_dir()
+    base = target_dir / "global_odds" / "latest"
+    if not base.exists():
+        return pd.DataFrame()
+
+    league_set = {str(x).upper() for x in leagues} if leagues is not None else None
+    frames: list[pd.DataFrame] = []
+    for season_dir in sorted(base.glob("season_*")):
+        if not season_dir.is_dir():
+            continue
+        for csv_path in sorted(season_dir.glob("*.csv")):
+            div_code = csv_path.stem.upper()
+            if league_set is not None and div_code not in league_set:
+                continue
+            try:
+                raw = pd.read_csv(csv_path, encoding="utf-8-sig", low_memory=False)
+            except Exception:
+                continue
+            if raw.empty:
+                continue
+            if "Div" not in raw.columns:
+                raw["Div"] = div_code
+            try:
+                norm = normalize_match_history_df(raw, known_teams=known_teams)
+            except ValueError:
+                continue
+            if not norm.empty:
+                frames.append(norm)
+
+    if not frames:
+        return pd.DataFrame()
+
+    merged = frames[0]
+    for nxt in frames[1:]:
+        merged = merge_match_history(merged, nxt)
+    if league_set is not None:
+        merged = merged[merged["Division"].isin(league_set)]
+    if min_date is not None:
+        merged = merged[merged["MatchDate"] >= pd.Timestamp(min_date)]
+    return merged.reset_index(drop=True)
+
+
 def load_matches(
     data_dir: Path | None = None,
     leagues: Iterable[str] | None = None,
     min_date: str | None = None,
     require_odds: bool = True,
     refresh: bool = False,
+    include_season_history: bool = False,
 ) -> pd.DataFrame:
-    """Load, clean, and chronologically sort historical club football matches."""
+    """Load, clean, and chronologically sort historical club football matches.
+
+    When ``include_season_history=True``, merges any current-season football-data.co.uk CSVs
+    synced by GitHub Actions into ``data/global_odds/latest/season_*/*.csv`` (keeping the
+    default ``False`` so historical walk-forward backtests stay 100% reproducible).
+    """
     target_dir = Path(data_dir) if data_dir is not None else default_data_dir()
     csv_path = ensure_file(target_dir / "matches.csv", MATCHES_URL, refresh=refresh)
 
@@ -76,6 +133,19 @@ def load_matches(
     df["y"] = df["FTResult"].map(_RESULT_MAP)
     df = df.dropna(subset=["y"]).copy()
     df["y"] = df["y"].astype(int)
+
+    if include_season_history:
+        from quantfoot.data.soccerdata_bridge import merge_match_history
+
+        known_teams = set(df["HomeTeam"]).union(set(df["AwayTeam"]))
+        extra = load_season_history_overrides(
+            data_dir=target_dir,
+            leagues=leagues,
+            min_date=min_date,
+            known_teams=known_teams,
+        )
+        if not extra.empty:
+            df = merge_match_history(df, extra)
 
     if require_odds:
         df = df.dropna(subset=["OddHome", "OddDraw", "OddAway"])

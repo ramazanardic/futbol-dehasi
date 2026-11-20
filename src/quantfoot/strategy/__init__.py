@@ -10,6 +10,8 @@ from quantfoot.strategy.coupon_builder import (
     audit_match_risks,
     build_diversified_portfolio,
     build_target_odds_coupon,
+    is_cup_competition,
+    is_main_market_selection,
     is_uncalibrated_competition,
     select_best_valid_bet,
 )
@@ -43,6 +45,8 @@ __all__ = [
     "evaluate_1x2_value",
     "evaluate_halves_btts_value",
     "evaluate_multimarket_value",
+    "is_cup_competition",
+    "is_main_market_selection",
     "is_uncalibrated_competition",
     "kelly_fraction",
     "maclean_doubling_before_halving",

@@ -36,6 +36,10 @@ FD_FILES = {
     "fixtures.csv": "https://www.football-data.co.uk/fixtures.csv",
     "new_league_fixtures.csv": "https://www.football-data.co.uk/new_league_fixtures.csv",
 }
+SEASON_DIVISIONS: tuple[str, ...] = (
+    "E0", "E1", "E2", "SP1", "SP2", "D1", "D2", "I1", "I2", "F1", "F2", "T1", "N1", "P1", "B1", "SC0", "G1",
+)
+FD_SEASON_URL = "https://www.football-data.co.uk/mmz4281/{season}/{div}.csv"
 SMARKETS = "https://api.smarkets.com/v3"
 # Smarkets market types stored as direct references for derivative selections (KG, other O/U lines, halves...).
 DIRECT_TYPES = {"OVER_UNDER", "BTTS", "DOUBLE_CHANCE", "ODD_EVEN", "SCORE_RANGE", "HALF_FULL", "HALF_TIME_WINNER_3_WAY",
@@ -89,6 +93,26 @@ def _f(row: dict, *names: str) -> float | None:
     return None
 
 
+def _f_signed(row: dict, *names: str) -> float | None:
+    """Parse a signed float such as an Asian Handicap line (e.g. -0.75, 0.0, +0.5)."""
+    for n in names:
+        v = (row.get(n) or "").strip()
+        if not v:
+            continue
+        try:
+            return float(v)
+        except ValueError:
+            continue
+    return None
+
+
+def current_season_code(today: dt.date | None = None) -> str:
+    """Return European split-year football-data.co.uk season code (e.g. '2627' for Nov 2026)."""
+    ref = today or dt.datetime.now(dt.timezone.utc).date()
+    start_year = ref.year if ref.month >= 7 else ref.year - 1
+    return f"{start_year % 100:02d}{(start_year + 1) % 100:02d}"
+
+
 def _fd_kickoff(date_s: str, time_s: str) -> str | None:
     """football-data dates are dd/mm/yyyy (or yy) in UK local time; times may be empty."""
     for fmt in ("%d/%m/%Y %H:%M", "%d/%m/%y %H:%M"):
@@ -139,10 +163,57 @@ def football_data() -> list[dict]:
                 if over and under:
                     ou = [2.5, [over, under]]
                     break
+            ah = None
+            ah_line = _f_signed(row, "AHh", "BbAHh")
+            if ah_line is not None:
+                for prefix in ("PAH", "BFEAH"):
+                    ah_h, ah_a = _f(row, f"{prefix}H"), _f(row, f"{prefix}A")
+                    if ah_h and ah_a:
+                        ah = [ah_line, [ah_h, ah_a]]
+                        break
             if home and away and ko:
                 refs.append({"source": source, "league": row.get("Div") or f"{row.get('Country', '')} {row.get('League', '')}".strip(),
-                             "home": home, "away": away, "kickoff_utc": ko, "x12": x12, "ou": ou})
+                             "home": home, "away": away, "kickoff_utc": ko, "x12": x12, "ou": ou, "ah": ah})
     return refs
+
+
+def fetch_season_history(
+    season: str | None = None,
+    divisions: tuple[str, ...] = SEASON_DIVISIONS,
+    out_dir: Path | None = None,
+) -> int:
+    """Download current-season football-data.co.uk match-history CSVs (shots, corners, cards, Pinnacle close)."""
+    season_code = season or current_season_code()
+    dest = (out_dir or OUT) / f"season_{season_code}"
+    dest.mkdir(parents=True, exist_ok=True)
+    saved_files = 0
+    total_rows = 0
+    for div in divisions:
+        if _time_left() < 60:
+            LOG["errors"].append(f"season_history {season_code}: time budget reached at {div}")
+            break
+        url = FD_SEASON_URL.format(season=season_code, div=div)
+        try:
+            r = _get(url)
+            if r.status_code != 200:
+                LOG["errors"].append(f"season_history {season_code}/{div}: HTTP {r.status_code}")
+                continue
+        except Exception as exc:
+            LOG["errors"].append(f"season_history {season_code}/{div}: {exc}")
+            continue
+        text = r.content.decode("utf-8-sig", errors="replace")
+        first_line = text.splitlines()[0] if text.splitlines() else ""
+        if "Date" not in first_line or "HomeTeam" not in first_line:
+            LOG["errors"].append(f"season_history {season_code}/{div}: unexpected header")
+            continue
+        (dest / f"{div}.csv").write_text(text, encoding="utf-8")
+        rows = max(0, len(text.splitlines()) - 1)
+        saved_files += 1
+        total_rows += rows
+    LOG["counts"][f"season_{season_code}_files"] = saved_files
+    LOG["counts"][f"season_{season_code}_rows"] = total_rows
+    _say(f"football-data season {season_code}: {saved_files}/{len(divisions)} divisions ({total_rows} matches)")
+    return saved_files
 
 
 def _chunks(items: list, n: int):
@@ -435,6 +506,10 @@ def main() -> None:
     if len(sys.argv) > 2 and sys.argv[1] == "--light":
         light(float(sys.argv[2]))
         return
+    if len(sys.argv) > 1 and sys.argv[1] == "--season-history":
+        season = sys.argv[2] if len(sys.argv) > 2 else None
+        fetch_season_history(season=season)
+        return
     refs: list[dict] = []
     # Pinnacle (football-data) first: small, fast, most reliable. Saved before the exchange fetch.
     for fn in (football_data, matchbook, smarkets):  # Smarkets last: it is the one trimmed by the time budget
@@ -445,6 +520,13 @@ def main() -> None:
             LOG["errors"].append(f"{fn.__name__}: {type(exc).__name__}: {exc}")
             _say(f"{fn.__name__} failed: {type(exc).__name__}: {exc}")
         _write(refs)
+        if fn is football_data:
+            _say(f"--- fetch_season_history (time left {_time_left():.0f}s)")
+            try:
+                fetch_season_history()
+            except Exception as exc:
+                LOG["errors"].append(f"fetch_season_history: {type(exc).__name__}: {exc}")
+                _say(f"fetch_season_history failed: {type(exc).__name__}: {exc}")
 
 
 if __name__ == "__main__":

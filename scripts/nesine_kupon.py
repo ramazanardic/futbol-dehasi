@@ -38,9 +38,23 @@ from nesine_global import DAILY, MAX_PLAUSIBLE_EV, PRICED, TSI, analyze_day, sel
 
 from quantfoot.data.nesine import fetch_bulletin, parse_bulletin  # noqa: E402
 from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
-from quantfoot.strategy.coupon_builder import _conflicting_selections  # noqa: E402
+from quantfoot.strategy.coupon_builder import (  # noqa: E402
+    _conflicting_selections,
+    is_cup_competition,
+    is_main_market_selection,
+    is_uncalibrated_competition,
+)
 
-SHARP_SOURCES = ("Pinnacle", "Smarkets", "Matchbook", "Betfair")
+SHARP_SOURCES = ("Pinnacle", "Smarkets", "Matchbook", "Betfair", "OddsMath (BetInAsia", "OddsMath (Borsa")
+MID_GLOBAL_MIN_PROB = 0.62  # researched mid-tier global books (e.g. Marathonbet/1XBET) must clear >= 62%
+
+
+def _has_full_research(m: dict) -> bool:
+    """True when both teams have live ESPN or Transfermarkt data (or user-supplied absence coverage)."""
+    r = m.get("research") or {}
+    teams = r.get("teams") or {}
+    tm = r.get("tm_absences") or {}
+    return bool((teams.get("home") and teams.get("away")) or (tm.get("home") and tm.get("away")) or r.get("user_absences"))
 RES = 0.002  # log-odds bucket width
 MIN_LEG_ODDS = 1.20  # user rule: never a selection below 1.20
 MAX_LEGS = 7  # user rule (19 Nov): at most 7 matches per coupon, whatever the target
@@ -69,6 +83,15 @@ def match_context(m: dict) -> str:
         n_inj, n_card = len(ua.get("injuries") or []), len(ua.get("cards") or [])
         if n_inj or n_card:
             bits.append(f"{n_inj} sakat, {n_card} cezalı" + (" (kaleci yok)" if ua.get("gk_out") else ""))
+        tm = (r.get("tm_absences") or {}).get(side) or {}
+        if tm:
+            crit_n = len(tm.get("critical_absences") or [])
+            if tm.get("gk1_out"):
+                bits.append("TM: 1. kaleci eksik")
+            elif tm.get("top_scorer_out"):
+                bits.append("TM: golcü eksik")
+            elif crit_n:
+                bits.append(f"TM: {crit_n} kilit eksik")
         la = [x for x in t.get("likely_absent") or [] if "rotasyon" not in x["reason"]]
         if la:
             bits.append(f"son kadroda yok: {', '.join(x['name'] for x in la[:2])}")
@@ -121,7 +144,8 @@ Z_LOW = 1.28  # one-sided 90 % lower bound
 def leg_sigma(name: str, direct: bool, reference: str, researched: bool, flagged: bool) -> float:
     """Uncertainty (probability points) of a leg's probability, from what the calibration work measured:
     a direct exchange quote is within ~1 pt, a goal-model derivative ~2-3 pts, half-time / second-half
-    model markets less certain still; a single exchange, missing research or a team-news flag widen it."""
+    model markets less certain still; a single exchange, non-sharp global book, missing research or a
+    team-news flag widen it."""
     if direct:
         sigma = 0.010
     elif any(t in name for t in HALF_TOKENS):
@@ -130,6 +154,8 @@ def leg_sigma(name: str, direct: bool, reference: str, researched: bool, flagged
         sigma = 0.025
     if "+" not in reference:  # one exchange instead of two agreeing ones
         sigma += 0.005
+    if not reference.startswith(SHARP_SOURCES):  # mid-tier global book (e.g. Marathonbet/1XBET) carries extra margin noise
+        sigma += 0.020
     if not researched:
         sigma += 0.010
     if flagged:
@@ -137,15 +163,38 @@ def leg_sigma(name: str, direct: bool, reference: str, researched: bool, flagged
     return sigma
 
 
-def candidates(matches: list[dict], now: dt.datetime, min_odds: float, min_prob: float, allow_espn: bool,
-               direct_only: bool = False) -> list[list[dict]]:
+def candidates(
+    matches: list[dict],
+    now: dt.datetime,
+    min_odds: float,
+    min_prob: float,
+    allow_espn: bool,
+    direct_only: bool = False,
+    *,
+    exclude_cups: bool = False,
+    main_markets_only: bool = False,
+    allow_mid_researched: bool = True,
+) -> list[list[dict]]:
     """Per match: non-dominated legs (higher Nesine odds AND higher global probability dominates)."""
     pools = []
     for m in matches:
         if m.get("status") != "fiyatlandı":
             continue
-        if not allow_espn and not m["reference"].startswith(SHARP_SOURCES):
-            continue
+        is_sharp = m["reference"].startswith(SHARP_SOURCES)
+        res = m.get("research") or {}
+        flagged = bool(res.get("flags"))
+        full_research = _has_full_research(m)
+        is_mid_global = (not is_sharp) and m["reference"].startswith("OddsMath (")
+        if not is_sharp:
+            if is_mid_global and allow_mid_researched:
+                # Researched mid-tier global book: allowed ONLY when both teams have live research,
+                # zero risk/steam flags, and competition is inside calibration domain.
+                if not full_research or flagged or is_uncalibrated_competition(m.get("league")):
+                    continue
+            elif not allow_espn:
+                continue
+        if exclude_cups and is_cup_competition(m.get("league")):
+            continue  # cup/playoff knockout rotation & 90' draw guard (--kupasiz)
         if dt.datetime.fromisoformat(m["kickoff_iso"]) <= now + dt.timedelta(minutes=5):
             continue  # started or about to start
         if m.get("research_block"):
@@ -155,22 +204,25 @@ def candidates(matches: list[dict], now: dt.datetime, min_odds: float, min_prob:
             continue  # stale global price (GitHub's scheduler skipped runs)
         legs = []
         context = match_context(m)
-        researched = bool((m.get("research") or {}).get("teams") or (m.get("research") or {}).get("user_absences"))
-        flagged = bool((m.get("research") or {}).get("flags"))
+        researched = bool(res.get("teams") or res.get("user_absences") or res.get("tm_absences"))
+        eff_min_prob = max(min_prob, MID_GLOBAL_MIN_PROB) if (not is_sharp and is_mid_global) else min_prob
         for s in m["selections"]:
-            if s["odds"] < min_odds or s["fair_prob"] < min_prob or s["ev"] > MAX_PLAUSIBLE_EV:
+            if s["odds"] < min_odds or s["fair_prob"] < eff_min_prob or s["ev"] > MAX_PLAUSIBLE_EV:
                 continue
             if direct_only and not s.get("direct"):
                 continue  # model-derived price: no direct global quote for this selection
+            if main_markets_only and not is_main_market_selection(s.get("name", "")):
+                continue  # core main markets only (--ana-pazar)
             if not s.get("direct") and s.get("name", "").startswith(("İY/MS", "2Y 0", "2Y 1", "2Y 2")):
                 # model HT/FT is the weakest derived market (calibration: ~3x the error); model second-half result
                 # legs went 1/5 in the 19 Nov coupons (favourites: 46 % hit vs 62 % predicted): direct quotes only
                 continue
+            ref_lbl = m["reference"].split(" (")[0] if is_sharp else f"{m['reference']} [orta]"
             legs.append({"code": m["code"], "kickoff": m["kickoff"], "league": m["league"], "match": f"{m['home']} - {m['away']}",
                          "market": s["market"], "selection": s["selection"], "odds": s["odds"], "p": s["fair_prob"],
-                         "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": m["reference"].split(" (")[0],
+                         "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": ref_lbl,
                          "direct": bool(s.get("direct")), "context": context, "key": s.get("key"),
-                         "name": s.get("name", ""), "researched": researched})
+                         "name": s.get("name", ""), "researched": researched, "tier": "keskin" if is_sharp else "orta"})
             sig = leg_sigma(s.get("name", ""), bool(s.get("direct")), m["reference"], researched, flagged)
             legs[-1]["sigma"] = sig
             legs[-1]["p_low"] = max(0.001, s["fair_prob"] - Z_LOW * sig)
@@ -341,19 +393,43 @@ def main() -> None:
     ap.add_argument("--min-oran", type=float, default=1.20, help="Bacak başına en düşük Nesine oranı (kullanıcı kuralı: 1,20)")
     ap.add_argument("--min-olasilik", type=float, default=None,
                     help="Bacak başına en düşük global olasılık (optimum: 0.55, guvenli: 0.60)")
-    ap.add_argument("--espn", action="store_true", help="ESPN (keskin olmayan) referanslı maçları da kullan")
+    ap.add_argument("--espn", action="store_true", help="Keskin olmayan global büro/ESPN referanslı maçları da kullan")
     ap.add_argument("--ortak-mac", action="store_true",
                     help="Kuponlar aynı maçı paylaşabilir; aynı bahis ve birbirini kesin yatıran bahis yasak")
     ap.add_argument("--dogrudan", action="store_true", help="Yalnızca doğrudan global fiyatı olan seçimler (model türevi yok)")
+    ap.add_argument("--kupasiz", action="store_true", help="Kupa, eleme ve playoff maçlarını kupon havuzundan çıkar")
+    ap.add_argument("--ana-pazar", action="store_true", help="Yalnızca ana pazarlar (MS, ÇŞ, 1.5/2.5/3.5 Alt/Üst, KG)")
+    ap.add_argument("--oddsmath", action="store_true", help="OddsMath referanslarını açıkça etkinleştir (varsayılan açık)")
+    ap.add_argument("--no-oddsmath", action="store_true", help="OddsMath canlı referans çekimini kapat")
+    ap.add_argument("--tm", action="store_true", help="Transfermarkt 2026/27 verisini açıkça etkinleştir (varsayılan açık)")
+    ap.add_argument("--no-tm", action="store_true", help="Transfermarkt canlı sakat/cezalı çekimini kapat")
+    ap.add_argument("--yalniz-keskin", action="store_true",
+                    help="Araştırmalı orta güven global büroları (Marathonbet/1XBET) kupon havuzundan çıkar")
     args = ap.parse_args()
 
     print(f"Global veri: {refresh_global_data()}")
-    matches, _, _ = analyze_day(dt.date.fromisoformat(args.tarih), verbose=False)
+    matches, _, _ = analyze_day(
+        dt.date.fromisoformat(args.tarih),
+        verbose=False,
+        use_oddsmath=not args.no_oddsmath,
+        use_tm=not args.no_tm,
+    )
     now = dt.datetime.now(TSI)
     min_prob = args.min_olasilik if args.min_olasilik is not None else (0.60 if args.yontem == "guvenli" else 0.55)
-    pools = candidates(matches, now, args.min_oran, min_prob, args.espn, args.dogrudan)
+    pools = candidates(
+        matches,
+        now,
+        args.min_oran,
+        min_prob,
+        args.espn,
+        args.dogrudan,
+        exclude_cups=args.kupasiz,
+        main_markets_only=args.ana_pazar,
+        allow_mid_researched=not args.yalniz_keskin,
+    )
+    n_mid_pools = sum(1 for p in pools if p[0].get("tier") == "orta")
     print(f"{sum(1 for m in matches if m.get('status') == 'fiyatlandı')} maç global fiyatlı; {len(pools)} maç kupona uygun "
-          f"(başlamamış, {'ESPN dahil' if args.espn else 'yalnız keskin referans'}).")
+          f"({len(pools) - n_mid_pools} keskin + {n_mid_pools} araştırmalı orta güven).")
     stale = sum(1 for m in matches if m.get("status") == "fiyatlandı" and (price_age_hours(m, now) or 0) > MAX_PRICE_AGE_H)
     if stale:
         print(f"⚠ {stale} maçın global fiyatı {MAX_PRICE_AGE_H:g} saatten eski: kupona alınmadı (GitHub verisi yenilenmeli).")

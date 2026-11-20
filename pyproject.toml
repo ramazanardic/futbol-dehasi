@@ -16,6 +16,12 @@ dependencies = [
     "lightgbm>=4.5",
     "matplotlib>=3.9",
     "requests>=2.32",
+    "beautifulsoup4>=4.12",
+]
+
+[project.optional-dependencies]
+soccerdata = [
+    "soccerdata @ git+https://github.com/probberechts/soccerdata.git",
 ]
 
 [project.scripts]

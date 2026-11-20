@@ -26,6 +26,34 @@ def is_uncalibrated_competition(league: str | None) -> bool:
     return any(tok in low for tok in _UNCALIBRATED_TOKENS)
 
 
+_CUP_TOKENS: tuple[str, ...] = (
+    "kupa", "cup", "pokal", "coupe", "copa", "taça", "taca", "coppa",
+    "beker", "trophy", "shield", "playoff", "play-off", "eleme", "düşme turu", "dusme turu",
+)
+
+_MAIN_MARKET_SELECTIONS: frozenset[str] = frozenset({
+    "MS 1", "MS 0", "MS 2",
+    "ÇŞ 10", "ÇŞ 12", "ÇŞ 02",
+    "1.5 Alt", "1.5 Üst",
+    "2.5 Alt", "2.5 Üst",
+    "3.5 Alt", "3.5 Üst",
+    "KG Var", "KG Yok",
+})
+
+
+def is_cup_competition(league: str | None) -> bool:
+    """Return True for knockout cups, playoffs, or relegation-playoff ties (rotation & 90' draw traps)."""
+    if not league:
+        return False
+    low = league.replace("İ", "i").replace("I", "i").lower()
+    return any(tok in low for tok in _CUP_TOKENS)
+
+
+def is_main_market_selection(selection_name: str | None) -> bool:
+    """Return True for core full-time main markets (1X2, Double Chance, O/U 1.5/2.5/3.5, BTTS)."""
+    return bool(selection_name and selection_name.strip() in _MAIN_MARKET_SELECTIONS)
+
+
 @dataclass(frozen=True)
 class MatchRiskContext:
     """Empirical and tactical risk flags for a specific fixture."""

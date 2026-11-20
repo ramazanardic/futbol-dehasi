@@ -32,9 +32,16 @@ from pathlib import Path
 import re
 import unicodedata
 
+from quantfoot.data.absences import fetch_matchday_absences, format_tm_absence_brief
 from quantfoot.data.live_espn import fetch_espn_slate
 from quantfoot.data.match_research import espn_events, fpl_availability, motivation, research, staleness_flags
 from quantfoot.data.nesine import TSI, fetch_bulletin, league_names, market_overrounds, parse_bulletin
+from quantfoot.data.oddsmath import (
+    TEAM_ALIASES,
+    fetch_oddsmath_references,
+    is_women_match,
+    is_youth_or_reserve_match,
+)
 from quantfoot.markets.devig import devig
 from quantfoot.markets.goal_markets import goal_probability
 from quantfoot.markets.goal_timing import GoalTimingModel
@@ -50,8 +57,12 @@ _STOP = r"\b(fc|cf|sc|ac|sk|fk|nk|cd|ca|club|de|da|the|utd|united|k|w|women|kadi
 def _norm(name: str) -> str:
     s = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode().lower()
     s = re.sub(r"\(k\)|\(kol\)", " ", s)
-    s = re.sub(_STOP, " ", s)
-    return re.sub(r"[^a-z0-9]+", " ", s).strip()
+    raw = re.sub(r"[^a-z0-9]+", " ", s).strip()
+    if raw in TEAM_ALIASES:
+        raw = TEAM_ALIASES[raw]
+    s = re.sub(_STOP, " ", raw)
+    cleaned = re.sub(r"[^a-z0-9]+", " ", s).strip()
+    return TEAM_ALIASES.get(cleaned, cleaned)
 
 
 def _sim(a: str, b: str) -> float:
@@ -65,16 +76,29 @@ def _sim(a: str, b: str) -> float:
     return max(ratio, jacc, 0.85 * pref)
 
 
-def _match(event, candidates: list[dict], max_hours: float = 3.0, threshold: float = 0.62) -> tuple[dict | None, float]:
+def _match(
+    event,
+    candidates: list[dict],
+    max_hours: float = 3.0,
+    threshold: float = 0.62,
+    league: str = "",
+) -> tuple[dict | None, float]:
     best, score = None, 0.0
+    ev_w = is_women_match(league, event.home, event.away)
+    ev_y = is_youth_or_reserve_match(league, event.home, event.away)
     for c in candidates:
-        if abs((c["kickoff"] - event.kickoff).total_seconds()) > max_hours * 3600:
+        dt_sec = abs((c["kickoff"] - event.kickoff).total_seconds())
+        if dt_sec > max_hours * 3600:
+            continue
+        if is_women_match(c.get("league", ""), c["home"], c["away"]) != ev_w:
+            continue
+        if is_youth_or_reserve_match(c.get("league", ""), c["home"], c["away"]) != ev_y:
             continue
         sh, sa = _sim(event.home, c["home"]), _sim(event.away, c["away"])
         s = (sh + sa) / 2
-        if s < threshold and abs((c["kickoff"] - event.kickoff).total_seconds()) <= 900 and max(sh, sa) >= 0.85 and min(sh, sa) >= 0.3:
-            # same kick-off and one team clearly the same, the other only renamed (e.g. 'R. Wien (Amt)' = 'SK Rapid II');
-            # analyze_day still rejects the pairing if the two 1X2 prices disagree
+        if s < threshold and dt_sec <= 900 and max(sh, sa) >= 0.85 and min(sh, sa) >= 0.20:
+            # same kick-off and one team clearly the same, the other only renamed (e.g. 'R. Wien (Amt)' = 'SK Rapid II',
+            # 'Admira Wacker' = 'Trenkwalder Admira', 'TNS' = 'The New Saints'); analyze_day still checks _consistent
             s = threshold
         if s > score:
             best, score = c, s
@@ -83,9 +107,55 @@ def _match(event, candidates: list[dict], max_hours: float = 3.0, threshold: flo
 
 # ---- reference sources ------------------------------------------------------------------
 MAX_PLAUSIBLE_EV = 0.25
-SOURCE_RANK = {"Pinnacle (football-data)": 0, "Smarkets (borsa)": 1, "Matchbook (borsa)": 1,
-               "Betfair Borsası (football-data)": 2, "ESPN (DraftKings/ESPN BET)": 3}
+SOURCE_RANK = {
+    "Pinnacle (football-data)": 0,
+    "Smarkets (borsa)": 1,
+    "Matchbook (borsa)": 1,
+    "Betfair Borsası (football-data)": 2,
+    "OddsMath (BetInAsia/Pinnacle)": 2,
+    "OddsMath (Borsa)": 2,
+    "ESPN (DraftKings/ESPN BET)": 4,
+}
 EXCHANGES = ("Smarkets (borsa)", "Matchbook (borsa)")
+SHARP_SOURCE_PREFIXES = (
+    "Pinnacle",
+    "Smarkets",
+    "Matchbook",
+    "Betfair",
+    "OddsMath (BetInAsia",
+    "OddsMath (Borsa",
+)
+
+
+def is_sharp_source(source: str | None) -> bool:
+    """True for low-margin sharp bookmakers/exchanges eligible for coupon building."""
+    return bool(source and source.startswith(SHARP_SOURCE_PREFIXES))
+
+
+def is_synthetic_special(league: str, home: str) -> bool:
+    """True for non-match weekly aggregate specials (e.g. 'Bundesliga - 10. Hafta (9 Maç)')."""
+    low_l = str(league).lower()
+    low_h = str(home).lower()
+    return "haftalık bahisler" in low_l or "gol atılır" in low_h or bool(re.search(r"\(\d+\s*maç\)", low_h))
+
+
+def classify_price_tier(status: str, reference: str | None = None) -> str:
+    """Transparent 3-tier global price confidence tag: 'keskin', 'global_buro', 'dusuk_guven', 'ozel_bahis', 'fiyatsiz'."""
+    if status == "fiyatlandı":
+        return "keskin" if is_sharp_source(reference) else "global_buro"
+    if status == NESINE_ONLY_STATUS:
+        return "dusuk_guven"
+    if "özel bahis" in status:
+        return "ozel_bahis"
+    return "fiyatsiz"
+
+
+def _source_rank(source: str) -> int:
+    if source in SOURCE_RANK:
+        return SOURCE_RANK[source]
+    if source.startswith("OddsMath ("):
+        return 3  # soft OddsMath books (e.g. Marathonbet/1XBET/Bet365): above ESPN, below sharp exchanges
+    return 9
 
 
 MAX_CONSENSUS_GAP = 0.08  # two sharp exchanges disagreeing by > 8 pts on one outcome = one of them is wrong
@@ -383,7 +453,8 @@ def price_event(event, ref: dict, league: str) -> dict:
     margin = sum(1 / o for o in nesine_ms) - 1 if all(nesine_ms) else None
     return {"mu_home": round(float(mu_h), 3), "mu_away": round(float(mu_a), 3), "reference": ref["source"],
             "ref_fetched_utc": ref.get("fetched_utc"), "consensus_gap": ref.get("consensus_gap"),
-            "ref_1x2": ref["x12"], "ref_ou": ref.get("ou"), "fair_1x2": [round(float(x), 4) for x in p1x2],
+            "ref_1x2": ref["x12"], "ref_ou": ref.get("ou"), "ref_ah": ref.get("ah"),
+            "steam_1x2": ref.get("steam_1x2"), "fair_1x2": [round(float(x), 4) for x in p1x2],
             "nesine_ms_margin": None if margin is None else round(margin, 4), "derivatives_priced": derivatives_ok, "selections": rows}
 
 
@@ -400,12 +471,19 @@ def _consistent(event, ref: dict) -> bool:
     return max(abs(a - b) for a, b in zip(pn, pr)) <= MAX_PAIRING_GAP
 
 
-def _owners(events: list, refs: list[dict]) -> dict[int, object]:
+def _owners(events: list, refs: list[dict], leagues: dict | None = None) -> dict[int, object]:
     """Each reference belongs to the one Nesine event it resembles most (no reference priced twice)."""
     best: dict[int, tuple[float, object]] = {}
     for e in events:
+        lg = (leagues or {}).get(getattr(e, "league_code", None), "")
+        ev_w = is_women_match(lg, e.home, e.away)
+        ev_y = is_youth_or_reserve_match(lg, e.home, e.away)
         for r in refs:
             if abs((r["kickoff"] - e.kickoff).total_seconds()) > 3 * 3600:
+                continue
+            if is_women_match(r.get("league", ""), r["home"], r["away"]) != ev_w:
+                continue
+            if is_youth_or_reserve_match(r.get("league", ""), r["home"], r["away"]) != ev_y:
                 continue
             sc = (_sim(e.home, r["home"]) + _sim(e.away, r["away"])) / 2
             if sc > best.get(id(r), (0.0, None))[0]:
@@ -513,7 +591,25 @@ def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated
             rec.setdefault("research", {"teams": {}, "flags": [], "motivation": {}})["absences"] = absences
 
 
-def analyze_day(day: dt.date, verbose: bool = True, with_research: bool = True) -> tuple[list[dict], dict, list]:
+def _steam_flag(steam_1x2: list[float] | None, threshold: float = 0.05) -> str | None:
+    """Format a sharp opening-to-live probability move warning when |Δp| >= threshold."""
+    if not steam_1x2 or len(steam_1x2) != 3:
+        return None
+    if max(abs(float(x)) for x in steam_1x2) < threshold:
+        return None
+    labels = ("Ev", "Ber", "Dep")
+    parts = [f"{lbl} {val * 100:+.1f}p" for lbl, val in zip(labels, steam_1x2) if abs(val) >= 0.03]
+    return ("⚡ Sharp steam: " + ", ".join(parts)) if parts else None
+
+
+def analyze_day(
+    day: dt.date,
+    verbose: bool = True,
+    with_research: bool = True,
+    *,
+    use_oddsmath: bool = True,
+    use_tm: bool = True,
+) -> tuple[list[dict], dict, list]:
     """Fetch the live Nesine bulletin and price every match of `day` against the best global reference.
 
     Returns (match records, raw bulletin payload, parsed events). Used by main() and nesine_kupon.py.
@@ -524,33 +620,55 @@ def analyze_day(day: dt.date, verbose: bool = True, with_research: bool = True) 
     # Betting day = 07:00–07:00 TSİ, so consecutive days never share a match.
     events = [e for e in parse_bulletin(payload)
               if (e.kickoff.date() == day and e.kickoff.hour >= 7) or (e.kickoff.date() == nxt and e.kickoff.hour < 7)]
+    real_events = [e for e in events if not is_synthetic_special(leagues.get(e.league_code, ""), e.home)]
     sharp, generated = global_references()
     espn = espn_references([day.isoformat(), nxt.isoformat()])
+    om_refs = (
+        fetch_oddsmath_references(real_events, [day.isoformat(), nxt.isoformat()], league_lookup=leagues)
+        if use_oddsmath
+        else []
+    )
     if verbose:
-        print(f"Nesine {day}: {len(events)} futbol maçı")
+        n_spec = len(events) - len(real_events)
+        spec_s = f" (+{n_spec} özel bahis)" if n_spec else ""
+        print(f"Nesine {day}: {len(real_events)} futbol maçı{spec_s}")
         print(f"Global (Pinnacle/Smarkets/Betfair): {len(sharp)} referans (oluşturulma {generated or 'yok'})")
+        if use_oddsmath:
+            print(f"OddsMath (BetInAsia/sharp + global büro + steam): {len(om_refs)} maçta canlı oran bulundu")
         print(f"ESPN: {len(espn)} maçta oran bulundu")
-    refs = sharp + espn
-    owner = _owners(events, refs)
+    refs = sharp + om_refs + espn
+    owner = _owners(real_events, refs, leagues=leagues)
     out = []
     for e in sorted(events, key=lambda x: x.kickoff):
         league = leagues.get(e.league_code, str(e.league_code))
+        rec = {"code": e.code, "kickoff": e.kickoff.strftime("%Y-%m-%d %H:%M"), "kickoff_iso": e.kickoff.isoformat(),
+               "league": league, "home": e.home, "away": e.away,
+               "nesine_ms": [e.odds_of(f"MS {c}") for c in "102"], "n_nesine_selections": len(e.selections)}
+        if is_synthetic_special(league, e.home):
+            rec["status"] = "özel bahis (maç değil) — fiyatlanmadı"
+            rec["price_tier"] = "ozel_bahis"
+            out.append(rec)
+            continue
         ref, score = None, 0.0
         mine = [r for r in refs if owner.get(id(r)) == e.code and _consistent(e, r)]
-        for rank in sorted(set(SOURCE_RANK.values())):  # best source first
-            pool = [r for r in mine if SOURCE_RANK.get(r["source"], 9) == rank]
-            ref, score = _match(e, pool) if pool else (None, 0.0)
+        all_ranks = sorted({_source_rank(r["source"]) for r in mine})
+        for rank in all_ranks:  # best source first
+            pool = [r for r in mine if _source_rank(r["source"]) == rank]
+            ref, score = _match(e, pool, league=league) if pool else (None, 0.0)
             if ref is not None:
                 break
         contradiction = False
         if ref is not None and ref["source"] in EXCHANGES:
-            other, _ = _match(e, [r for r in mine if r["source"] in EXCHANGES and r["source"] != ref["source"]])
+            other, _ = _match(e, [r for r in mine if r["source"] in EXCHANGES and r["source"] != ref["source"]], league=league)
             if other is not None:
                 ref = consensus(ref, other)  # None when the two exchanges contradict each other
                 contradiction = ref is None
-        rec = {"code": e.code, "kickoff": e.kickoff.strftime("%Y-%m-%d %H:%M"), "kickoff_iso": e.kickoff.isoformat(),
-               "league": league, "home": e.home, "away": e.away,
-               "nesine_ms": [e.odds_of(f"MS {c}") for c in "102"], "n_nesine_selections": len(e.selections)}
+        # Carry OddsMath live steam_1x2 even when GitHub Pinnacle/Smarkets won source priority
+        if ref is not None and not ref.get("steam_1x2") and om_refs:
+            om_mine = [r for r in mine if r["source"].startswith("OddsMath (")]
+            om_hit, _ = _match(e, om_mine, league=league) if om_mine else (None, 0.0)
+            if om_hit and om_hit.get("steam_1x2"):
+                ref = {**ref, "steam_1x2": om_hit["steam_1x2"]}
         if ref is None:
             rec["status"] = ("borsalar birbiriyle çelişiyor (> 8 puan) — fiyatlanmadı" if contradiction
                              else "global referans bulunamadı — fiyatlanmadı")
@@ -560,12 +678,32 @@ def analyze_day(day: dt.date, verbose: bool = True, with_research: bool = True) 
                 # (candidates() accepts only status 'fiyatlandı').
                 rec.update(**price_event(e, local, league))
                 rec["status"] = NESINE_ONLY_STATUS
+            rec["price_tier"] = classify_price_tier(rec["status"], rec.get("reference"))
         else:
             rec.update(match_score=round(score, 2), ref_match=f"{ref['home']} - {ref['away']}", **price_event(e, ref, league))
             rec["status"] = "fiyatlandı"
+            rec["price_tier"] = classify_price_tier(rec["status"], rec.get("reference"))
         out.append(rec)
     if with_research:
         attach_research(out, events, day, generated)
+    if use_tm:
+        tm_map = fetch_matchday_absences([m for m in out if m.get("price_tier") != "ozel_bahis"])
+        if verbose:
+            print(f"Transfermarkt (2026/27 sakat/cezalı + puan durumu): {len(tm_map)}/{len(real_events)} maç eşleşti")
+        for rec in out:
+            tm_rec = tm_map.get(rec["code"])
+            if tm_rec:
+                res = rec.setdefault("research", {"teams": {}, "flags": [], "motivation": {}})
+                res["tm_absences"] = tm_rec
+                for al in tm_rec.get("alerts") or []:
+                    if al not in res["flags"]:
+                        res["flags"].append(f"TM: {al}")
+    for rec in out:
+        sf = _steam_flag(rec.get("steam_1x2"))
+        if sf:
+            res = rec.setdefault("research", {"teams": {}, "flags": [], "motivation": {}})
+            if sf not in res["flags"]:
+                res["flags"].append(sf)
     return out, payload, events
 
 
@@ -574,12 +712,24 @@ def main() -> None:
     ap.add_argument("--date", default=dt.datetime.now(TSI).date().isoformat())
     ap.add_argument("--min-ev", type=float, default=0.0)
     ap.add_argument("--hafta", type=int, default=1, help="Kaç gün analiz edilsin (ör. 7: bugünden itibaren bütün hafta)")
+    ap.add_argument("--oddsmath", action="store_true", help="OddsMath referanslarını açıkça etkinleştir (varsayılan açık)")
+    ap.add_argument("--no-oddsmath", action="store_true", help="OddsMath canlı referans/steam çekimini kapat")
+    ap.add_argument("--tm", action="store_true", help="Transfermarkt 2026/27 verisini tüm günler için açıkça etkinleştir (varsayılan açık)")
+    ap.add_argument("--no-tm", action="store_true", help="Transfermarkt canlı sakat/cezalı çekimini kapat")
     args = ap.parse_args()
     start = dt.date.fromisoformat(args.date)
     week = []
     for k in range(args.hafta):
         day = (start + dt.timedelta(days=k)).isoformat()
-        out, payload, events = analyze_day(dt.date.fromisoformat(day), verbose=args.hafta == 1)
+        # Multi-day scans run OddsMath for today/tomorrow and TM for today unless explicitly forced, keeping hourly runs fast.
+        run_om = (not args.no_oddsmath) and (args.oddsmath or args.hafta == 1 or k <= 1)
+        run_tm = (not args.no_tm) and (args.tm or args.hafta == 1 or k == 0)
+        out, payload, events = analyze_day(
+            dt.date.fromisoformat(day),
+            verbose=args.hafta == 1,
+            use_oddsmath=run_om,
+            use_tm=run_tm,
+        )
         write_report(day, out, payload, events, args.min_ev)
         week.append((day, out))
     if args.hafta > 1:
@@ -647,6 +797,15 @@ def _side_rows(r: dict, side: str) -> dict[str, str]:
                                                         for p in ua["cards"][:6])
     if ua.get("gk_out"):
         row["Kaleci"] = (row.get("Kaleci", "") + " · ⚠ kullanıcı dosyası: kaleci eksik").strip(" ·")
+    tm = (r.get("tm_absences") or {}).get(side) or {}
+    if tm:
+        if tm.get("rank") and "Puan durumu" not in row:
+            row["Puan durumu (TM)"] = f"{tm['rank']}. · {tm.get('points', '-')} p ({tm.get('played', '-')} maç, av {tm.get('gd', '-')})"
+        row["Transfermarkt (2026/27 eksikler)"] = format_tm_absence_brief(tm)
+        if tm.get("top_scorers") and "Golcüler" not in row:
+            row["Golcüler (TM)"] = ", ".join(f"{p['name']} {p['goals']}G {p['assists']}A" for p in tm["top_scorers"])
+        if tm.get("gk1_out"):
+            row["Kaleci"] = (row.get("Kaleci", "") + " · ⚠ TM: 1. kaleci eksik").strip(" ·")
     if t.get("news_flags"):
         row["Haber (sakatlık/ceza)"] = " · ".join(t["news_flags"])
     if t.get("likely_absent"):
@@ -665,7 +824,7 @@ def write_team_files(date: str, out: list[dict], d: Path) -> None:
           "kontrol içindir.", ""]
     for m in out:
         r = m.get("research")
-        if not r or not (r.get("teams") or r.get("user_absences") or r.get("absences")):
+        if not r or not (r.get("teams") or r.get("user_absences") or r.get("absences") or r.get("tm_absences")):
             continue
         h, a = _side_rows(r, "home"), _side_rows(r, "away")
         h["Takım"] = h["Takım"] if h["Takım"] != "-" else m["home"]
@@ -813,9 +972,19 @@ def write_report(date: str, out: list[dict], payload: dict, events: list, min_ev
         mins = (dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(generated)).total_seconds() / 60
         age = (f"**Global veri {mins:.0f} dakika önce çekildi**" + (" — ESKİ, oranlar değişmiş olabilir." if mins > 240 else ".")
                + " (yurt dışı sunucu: günde 5 tam çekim + maç öncesi saatlik yenileme)")
+    priced_sharp = sum(1 for m in out if classify_price_tier(m["status"], m.get("reference")) == "keskin")
+    priced_book = sum(1 for m in out if classify_price_tier(m["status"], m.get("reference")) == "global_buro")
+    real_total = sum(1 for m in out if classify_price_tier(m["status"], m.get("reference")) != "ozel_bahis")
+    researched_n = sum(
+        1 for m in out
+        if (m.get("research") or {}).get("teams") or (m.get("research") or {}).get("tm_absences")
+    )
     md = [f"# {date} — Nesine bülteni, global referans fiyatına göre", "", age, "",
-          f"Referans önceliği: Pinnacle → Smarkets / Matchbook (ikisi varsa ortalaması) → Betfair → ESPN. {len(events)} maçın {priced}'i fiyatlandı; "
-          "global fiyatı olmayan maçlar Nesine oranından türetilmez, fiyatlanmaz.", "",
+          f"Referans önceliği: Pinnacle → Smarkets / Matchbook (ikisi varsa ortalaması) → Betfair / OddsMath (BetInAsia-Pinnacle) "
+          f"→ Global Büro (OddsMath Marathonbet/1XBET) → ESPN. "
+          f"**{real_total}** gerçek maçın **{priced_sharp + priced_book}**'i global fiyatlı "
+          f"(**{priced_sharp}** keskin borsa/Pinnacle + **{priced_book}** global büro orta güven); "
+          f"**{researched_n}** maçta canlı araştırma (ESPN / Transfermarkt) var.", "",
           "> EV = global adil olasılık × Nesine oranı − 1. Türev pazarlar (İY/MS, KG, aralık, kombine…) referans 1X2 + Alt/Üst'ten "
           "kalibre edilmiş ortak gol dağılımıyla hesaplanır. DraftKings keskin bir büro değildir: küçük artı EV'ler gürültü olabilir.", ""]
     value = [(m, s) for m in out if m["status"] == "fiyatlandı" for s in m["selections"] if s["ev"] >= min_ev]

@@ -60,7 +60,7 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
 
 ## Paket Yapısı
 
-- `src/quantfoot/data/` — Veri indirici/temizleyici (`loader.py`), canlı ESPN Kulüp + UCL + Milli maç tarayıcı/senkronizasyon & Open-Meteo/The Odds API bağlayıcıları (`live_espn.py`), nedensel Box-Score xG vekili (`xg_proxy.py`).
+- `src/quantfoot/data/` — Veri indirici/temizleyici (`loader.py`, opsiyonel `football-data.co.uk` güncel sezon CSV birleştirme), canlı ESPN Kulüp + UCL + Milli maç tarayıcı/senkronizasyon & Open-Meteo/The Odds API bağlayıcıları (`live_espn.py`), ESPN maç araştırma katmanı (`match_research.py`), **canlı Transfermarkt 2026/27 sakat/cezalı & kadro önem motoru** (`absences.py`: 75+ lig, 1. kaleci / gol kralı / kilit eksik ayrımı, sarı kart sınırındakileri hariç tutma), **OddsMath keskin oran, doğrudan O/U ve canlı steam modülü** (`oddsmath.py`: BetInAsia/Pinnacle/borsalar + açılış-canlı hareket), **`probberechts/soccerdata` tam entegrasyon köprüsü** (`soccerdata_bridge.py`: ClubElo, ESPN, MatchHistory, Understat, FBref, Sofascore, SoFIFA, WhoScored; `data/soccerdata/` proje-yerel önbellek ve QuantFoot lig/şema dönüştürücüleri), nedensel Box-Score xG vekili (`xg_proxy.py`).
 - `src/quantfoot/markets/` — `Power`, `Shin`, `Odds Ratio`, `Multiplicative` devig çözücüleri (`devig.py`); `1X2`, `Çifte Şans`, `O/U`, `KG Var/Yok`, `Skellam`, çeyrek-top (`.25 / .75`) Asya Handikap fiyatlama ve `invert_ah_ou_1x2` çapraz-pazar çözücüsü (`pricing.py`); çift rejimli `COM-Poisson + Gamma-Poisson` `6+` kuyruk golü motoru (`tail_goals.py`); küme tutarlı FGM Copula + Gauss-Laguerre yarı-devre `KG` motoru (`halves_btts.py`); tüm bahis marketlerini tek çatıda birleştiren `OmniMarketBundle` motoru (`omni_markets.py`).
 - `src/quantfoot/models/` — Piramit katman regresyonu (`pyramid.py`), `KalmanPoissonModel` (`kalman.py`), `FootballGlicko2` (`glicko2.py`), `OrderedLogit3Class` (`ordinal.py`), `TimeDecayedDixonColes` (`dixon_coles.py`), Dual-Signal `GASPoissonModel` (`gas_poisson.py`), `WheatcroftGAPRatings` (`gap_ratings.py`), `weibull_copula`, `DiagonalBivariatePoisson`, `CausalRatingEngine` (`ratings.py`), `FundamentalEnsemble` (10-model L2 OOF Simplex + MLP + LightGBM + Temperature / Dirichlet ODIR).
 - `src/quantfoot/strategy/` — `CLVPreservationFilter` (`clv_filter.py`), +EV değer tarayıcı (`value.py`: `1X2`, `O/U`, `AH`, `BTTS`, `1H/2H/Both-Halves BTTS`), Baker-McHale / Çeyrek-Kelly / Korelasyonlu Portföy Kelly (`kelly.py`) ve `>= 1.20` oran tabanlı risk kalkanı + `10x/20x/30x` garanti kupon oluşturucu (`coupon_builder.py`).
@@ -90,6 +90,17 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
 # 6. Tek maç için 20 pazar ailesi + Bet Builder (bkz. docs/markets.md)
 .\.venv\Scripts\quantfoot.exe markets --mu-home 1.8 --mu-away 1.0 --league eng.1 --division E0 `
   --player "Haaland;Ev;0.42;0.08;85;3.8;1.9;0.1" --builder "MS 1" "2.5 Üst" "Haaland: Gol Atar"
+
+# 7. probberechts/soccerdata entegrasyonu (ligler, ESPN fikstür/kadro/istatistik, ClubElo, Understat xG, MatchHistory)
+.\.venv\Scripts\quantfoot.exe soccerdata --action leagues
+.\.venv\Scripts\quantfoot.exe soccerdata --action espn-schedule --league T1 --season 2627 --force-cache
+.\.venv\Scripts\quantfoot.exe soccerdata --action enrich --league E0 --home Arsenal --away Chelsea --season 2627 --force-cache
+
+# 8. Canlı OddsMath sharp/steam + Transfermarkt 2026/27 sakat/cezalı istihbaratı ve yeni kupon filtreleri
+.\.venv\Scripts\quantfoot.exe intel --date 2026-11-20 --oddsmath --limit 10
+.\.venv\Scripts\quantfoot.exe intel --league L1 --limit 10
+.\.venv\Scripts\python.exe scripts\nesine_global.py --date 2026-11-20 --oddsmath --tm
+.\.venv\Scripts\python.exe scripts\nesine_kupon.py --hedef 5 --kupasiz --ana-pazar --oddsmath --tm
 ```
 
 Günlük akış (tarihe bağlı eski betiklerin yerine tek betik; çıktılar `reports/daily/<tarih>/`):
