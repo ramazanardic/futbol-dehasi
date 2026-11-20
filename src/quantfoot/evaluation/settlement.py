@@ -22,6 +22,18 @@ def settle_selection(name: str, ht: tuple[int, int], ft90: tuple[int, int]) -> b
     h2, a2 = int(ft90[0]) - h1, int(ft90[1]) - a1
     if min(h1, a1, h2, a2) < 0:
         raise ValueError(f"İY skoru maç sonu skorunu aşamaz: İY {ht}, MS {ft90}")
+    if name in ("İlk Gol Ev", "İlk Gol Dep", "İlk Gol Yok"):
+        # First scorer from the scores alone: only one side scored (in the match, or in the first half);
+        # both sides scoring in the same half leaves the order unknown.
+        if h1 + a1 + h2 + a2 == 0:
+            first = "Yok"
+        elif (h1 > 0) != (a1 > 0):
+            first = "Ev" if h1 > 0 else "Dep"
+        elif h1 + a1 == 0 and (h2 > 0) != (a2 > 0):
+            first = "Ev" if h2 > 0 else "Dep"
+        else:
+            return None
+        return name.endswith(first)
     g = max(h1, a1, h2, a2) + 1
     joint = np.zeros((g, g, g, g))
     joint[h1, a1, h2, a2] = 1.0

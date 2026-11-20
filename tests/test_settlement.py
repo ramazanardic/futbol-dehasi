@@ -35,3 +35,12 @@ def test_every_priced_market_settles():
 def test_halftime_cannot_exceed_fulltime():
     with pytest.raises(ValueError):
         settle_selection("MS 1", (2, 0), (1, 0))
+
+
+def test_first_goal_settles_when_the_scores_decide_it():
+    from quantfoot.evaluation.settlement import settle_selection
+
+    assert settle_selection("İlk Gol Ev", (1, 0), (2, 1)) is True  # only the home side scored before half time
+    assert settle_selection("İlk Gol Dep", (0, 0), (0, 2)) is True
+    assert settle_selection("İlk Gol Yok", (0, 0), (0, 0)) is True
+    assert settle_selection("İlk Gol Ev", (1, 1), (1, 1)) is None  # both scored in the same half: order unknown
