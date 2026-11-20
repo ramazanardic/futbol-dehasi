@@ -24,3 +24,6 @@ data/soccerdata/
 # Only the shared next-day evaluations (degerlendirme/) are published.
 tahminler/*/*
 !tahminler/*/README.md
+
+# ESPN responses cached by scripts/derin_arastirma.py
+data/cache/

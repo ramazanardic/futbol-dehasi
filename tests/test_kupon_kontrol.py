@@ -334,3 +334,38 @@ def test_weekly_report_only_on_request_and_into_own_folder(tmp_path, monkeypatch
     assert (tmp_path / "tahminler" / "claudetahmin" / "hafta" / "2026-11-20_nesine_hafta.md").exists()
     src = (SCRIPTS / "nesine_global.py").read_text(encoding="utf-8")
     assert "if args.haftalik:" in src and '"--haftalik"' in src  # never written without the flag
+
+
+def test_deep_research_orients_history_and_tests_the_leg(tmp_path, monkeypatch):
+    dr = _load("derin_arastirma")
+    # home team's past games: it scored in both halves twice; once it played away (must be flipped to "home")
+    home_games = [{"event": "1", "date": "2026-11-01", "side": "home", "opp": "X", "opp_id": "9", "for": (1, 1), "against": (0, 1)},
+                  {"event": "2", "date": "2026-11-08", "side": "away", "opp": "Y", "opp_id": "8", "for": (0, 2), "against": (2, 0)},
+                  {"event": "3", "date": "2026-11-15", "side": "home", "opp": "Z", "opp_id": "7", "for": (1, 0), "against": (0, 0)}]
+    away_games = [{"event": "4", "date": "2026-11-02", "side": "away", "opp": "Q", "opp_id": "6", "for": (0, 0), "against": (1, 2)}]
+    assert dr.oriented(home_games[1], "home") == ((0, 2), (2, 2))   # team kept on the home side
+    assert dr.oriented(away_games[0], "away") == ((1, 0), (3, 0))
+    h = dr.leg_history("MS 1", home_games, away_games)
+    assert h["home_rate"] == 2 / 3 and h["away_rate"] == 1.0 and h["home_n"] == 3 and h["away_n"] == 1
+    p = dr.profile(home_games)
+    assert p["n"] == 3 and p["score2H"] == 2 / 3 and p["both_halves_btts"] == 0.0 and p["form"] == "GBG"
+    assert dr.verdict(0.6, {"mean": 0.3, "home_n": 10, "away_n": 9}).startswith("⚠")
+    assert dr.verdict(0.6, {"mean": 0.62, "home_n": 10, "away_n": 9}).startswith("✓")
+    assert dr.verdict(0.6, {"mean": 0.62, "home_n": 3, "away_n": 9}) == "geçmiş yetersiz"
+
+
+def test_deep_research_caches_espn_and_throttles(tmp_path, monkeypatch):
+    dr = _load("derin_arastirma")
+    monkeypatch.setattr(dr, "CACHE", tmp_path)
+    monkeypatch.setattr(dr, "MIN_INTERVAL_S", 0.0)
+    calls = []
+
+    class R:
+        status_code = 200
+        def json(self):
+            return {"ok": 1}
+
+    monkeypatch.setattr(dr._session, "get", lambda url, params=None, timeout=None: calls.append(url) or R())
+    assert dr.espn("nor.1/summary", None, event="1") == {"ok": 1}
+    assert dr.espn("nor.1/summary", None, event="1") == {"ok": 1}   # second time from the cache
+    assert len(calls) == 1
