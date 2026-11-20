@@ -1,21 +1,21 @@
 {
- "started_utc": "2026-11-20T15:11:03+00:00",
+ "started_utc": "2026-11-20T17:19:16+00:00",
  "errors": [
   "smarkets: time budget reached while fetching quotes"
  ],
  "counts": {
   "fixtures.csv": 190,
   "new_league_fixtures.csv": 93,
-  "references_total": 938,
+  "references_total": 969,
   "season_2627_files": 17,
   "season_2627_rows": 1859,
-  "matchbook_events": 390,
-  "matchbook_references": 339,
-  "smarkets_events": 736,
-  "smarkets_markets": 68301,
-  "smarkets_contracts": 27587,
-  "smarkets_markets_illiquid": 6779,
-  "smarkets_references": 316
+  "matchbook_events": 402,
+  "matchbook_references": 368,
+  "smarkets_events": 727,
+  "smarkets_markets": 68852,
+  "smarkets_contracts": 30980,
+  "smarkets_markets_illiquid": 7553,
+  "smarkets_references": 318
  },
  "samples": {
   "fixtures.csv": {
@@ -262,96 +262,66 @@
   },
   "matchbook_market": {
    "live": true,
-   "event-id": 34905173448200057,
-   "id": 34906310747800057,
-   "name": "Match Odds",
+   "event-id": 34905714360800057,
+   "id": 34905714364401057,
+   "name": "To Qualify",
    "product": "EXCHANGE",
-   "start": "2026-11-20T13:30:00.000Z",
+   "start": "2026-11-20T15:01:00.000Z",
    "status": "open",
-   "market-type": "one_x_two",
-   "type": "multirunner",
+   "market-type": "to_qualify",
+   "type": "binary",
    "in-running-flag": true,
    "allow-live-betting": true,
-   "volume": 15.395769999999997,
+   "volume": 0.0,
    "number-of-winners": 1,
    "runners": [
     {
      "withdrawn": false,
      "prices": [],
-     "last-price-update-time": "2026-11-20T14:58:50.140Z",
-     "event-id": 34905173448200057,
-     "id": 34906310748400057,
-     "market-id": 34906310747800057,
-     "name": "Club Sportif de Hammam-Lif",
-     "status": "open",
-     "volume": 0.32777,
-     "event-participant-id": 34905173451000057
-    },
-    {
-     "withdrawn": false,
-     "prices": [
-      {
-       "available-amount": 168.16211,
-       "currency": "USD",
-       "odds-type": "DECIMAL",
-       "odds": 1.06,
-       "decimal-odds": 1.06,
-       "side": "lay",
-       "exchange-type": "back-lay"
-      }
-     ],
-     "last-price-update-time": "2026-11-20T15:08:38.501Z",
-     "event-id": 34905173448200057,
-     "id": 34906310748800057,
-     "market-id": 34906310747800057,
-     "name": "ES Métlaoui",
+     "last-price-update-time": "2026-11-20T16:47:32.221Z",
+     "event-id": 34905714360800057,
+     "id": 34905714364800057,
+     "market-id": 34905714364401057,
+     "name": "Kahraba Ismailia",
      "status": "open",
      "volume": 0.0,
-     "event-participant-id": 34905173451300057
+     "event-participant-id": 34905714363100057
     },
     {
      "withdrawn": false,
-     "prices": [
-      {
-       "available-amount": 7.74034,
-       "currency": "USD",
-       "odds-type": "DECIMAL",
-       "odds": 23.0,
-       "decimal-odds": 23.0,
-       "side": "back",
-       "exchange-type": "back-lay"
-      }
-     ],
-     "last-price-update-time": "2026-11-20T15:08:37.714Z",
-     "event-id": 34905173448200057,
-     "id": 34906310750301057,
-     "market-id": 34906310747800057,
-     "name": "Draw",
+     "prices": [],
+     "last-price-update-time": "2026-11-20T16:47:32.221Z",
+     "event-id": 34905714360800057,
+     "id": 34905714365101057,
+     "market-id": 34905714364401057,
+     "name": "Ceramica Cleopatra",
      "status": "open",
-     "volume": 15.067999999999998
+     "volume": 0.0,
+     "event-participant-id": 34905714363302057
     }
    ]
   },
   "matchbook_market_names": {
-   "handicap | Handicap": 4869,
-   "total | Total": 2737,
-   "total | 1st Half Total": 1125,
+   "handicap | Handicap": 4942,
+   "total | Total": 2795,
+   "total | 1st Half Total": 1148,
    "other | Match Result and Total Goals": 582,
    "total | Home Team Total Goals": 400,
    "total | Away Team Total Goals": 396,
-   "one_x_two | Match Odds": 370,
-   "correct_score | Correct Score": 370,
-   "other | Draw No Bet": 370,
-   "other | Double Chance": 370,
-   "both_to_score | Both Teams To Score": 369,
-   "other | Half-time Result": 365,
-   "half_time_full_time | Half Time/Full Time": 271,
+   "one_x_two | Match Odds": 381,
+   "correct_score | Correct Score": 381,
+   "other | Draw No Bet": 381,
+   "other | Double Chance": 381,
+   "both_to_score | Both Teams To Score": 376,
+   "other | Half-time Result": 373,
+   "half_time_full_time | Half Time/Full Time": 273,
    "other | Odd or Even Total": 195,
    "other | Match Result and Both Teams To Score": 195,
    "other | Home Team To Win To Nil": 68,
    "other | Away Team To Win To Nil": 68,
    "correct_score | Half-time Correct Score": 28,
    "to_qualify | To Qualify": 12,
+   "total | Extra Time Total": 3,
    "total | Fulham Goals Over / Under": 3,
    "total | Manchester City Goals Over / Under": 3,
    "total | Nottingham Forest Goals Over / Under": 3,
@@ -361,36 +331,38 @@
    "total | Leeds United Goals Over / Under": 3,
    "total | Chelsea Goals Over / Under": 3,
    "total | Crystal Palace Goals Over / Under": 3,
-   "total | Coventry City Goals Over / Under": 3,
-   "total | Ipswich Town Goals Over / Under": 3
+   "total | Coventry City Goals Over / Under": 3
   },
   "smarkets_event": {
    "bet_allowed": true,
    "bettable": true,
    "chart_time_period": null,
-   "created": "2026-11-13T16:23:36.907534Z",
+   "created": "2026-11-09T12:00:38.353896Z",
    "description": null,
    "display_order": 10,
    "end_date": null,
-   "full_slug": "/sport/football/uae-pro-league/2026/11/20/15-25/shabab-al-ahli-dubai-fc-vs-ajman",
+   "full_slug": "/sport/football/austria-2-liga/2026/11/20/17-30/sk-rapid-ii-vs-fc-blau-weiss-linz",
    "hidden": false,
-   "id": "45440909",
+   "id": "45431246",
    "inplay_enabled": true,
-   "modified": "2026-11-20T14:49:31.170649Z",
-   "name": "Shabab Al-Ahli Dubai FC vs Ajman",
-   "parent_id": "42587667",
+   "modified": "2026-11-20T16:54:07.498879Z",
+   "name": "SK Rapid II vs FC Blau-Weiss Linz",
+   "parent_id": "30470165",
    "seo_description": "Bet on {{ contracts.home.name }} vs {{ contracts.away.name }} on {{ event.start_datetime | date \"eeee, d MMMM\" }}.\r\n\r\nWith the Smarkets exchange, you can back or lay your bets on the clash between {{ contracts.home.name }} and {{ contracts.away.name }} on {{ event.start_datetime | date \"eeee, d MMMM\" }}. This game has {{ markets.length }} markets available to bet on. The most popular market so far is {{ markets.0.name }}.\r\n\r\nThe favourites to win the game between {{ contracts.home.name }} and {{ contracts.away.name }} as of publication are {{ contracts.fav.name }} who are priced at odds of {{ contracts.fav.anyPrice | odds }}. The odds of a draw are {{ contracts.draw.anyPrice | odds }} while the odds for {{ contracts.other.name }} to win are {{ contracts.other.anyPrice | odds }}.\r\n\r\nA {{ 10 | money }} back bet on {{ contracts.fav.name }} to win returns {{ contracts.fav.buyPrice | payout 10 }}, whereas a {{ 10 | money }} back bet on {{ contracts.other.name }} to win are {{ contracts.other.buyPrice | payout 10 }}. If you think neither side will come away with the victory, betting the same amount in a back bet on the draw would win you {{ contracts.draw.buyPrice | payout 10 }}.\r\n\r\nAs Smarkets is an exchange, you can also place lay bets on all outcomes for {{ contracts.home.name }} vs {{ contracts.away.name }}.\r\nYou can also use the bet calculator to help you calculate potential winnings.",
-   "short_name": "SHA vs. AJM",
-   "slug": "shabab-al-ahli-dubai-fc-vs-ajman",
+   "short_name": "SKR vs. BLA",
+   "slug": "sk-rapid-ii-vs-fc-blau-weiss-linz",
    "special_rules": null,
    "start_date": "2026-11-20",
-   "start_datetime": "2026-11-20T15:25:00Z",
+   "start_datetime": "2026-11-20T17:30:00Z",
    "state": "upcoming",
    "super_sub_enabled": false,
    "type": "football_match",
    "venue": {
-    "country_code": "ARE",
-    "country_name": "United Arab Emirates",
+    "capacity": 150,
+    "city": "World",
+    "country_code": "AUT",
+    "country_name": "Austria",
+    "name": "Trainingsplatz West1",
     "neutral": false
    }
   },
@@ -405,153 +377,141 @@
    "category": "winner",
    "complete": true,
    "contract_selections": null,
-   "created": "2026-11-01T18:16:21.358Z",
+   "created": "2026-11-01T14:13:00.812Z",
    "description": "",
    "display_order": 0,
    "display_type": "default",
-   "event_id": "45416670",
+   "event_id": "45416446",
    "hidden": false,
-   "id": "175464424",
+   "id": "175384728",
    "info": {
     "reason": ""
    },
-   "inplay_enabled": false,
+   "inplay_enabled": true,
    "market_type": {
     "name": "WINNER_3_WAY"
    },
-   "modified": "2026-11-05T18:31:15.242Z",
+   "modified": "2026-11-14T23:03:25.859Z",
    "name": "Full-time result",
    "slug": "winner",
    "state": "open",
    "winner_count": 1
   },
   "smarkets_market_names": {
-   "WINNER_3_WAY | Full-time result": 736,
-   "CORRECT_SCORE | Correct score": 736,
-   "BTTS | Both teams to score": 736,
-   "OVER_UNDER | Over/under 0.5": 736,
-   "OVER_UNDER | Over/under 1.5": 736,
-   "OVER_UNDER | Over/under 2.5": 736,
-   "OVER_UNDER | Over/under 3.5": 736,
-   "OVER_UNDER | Over/under 4.5": 736,
-   "OVER_UNDER | Over/under 5.5": 736,
-   "OVER_UNDER | Over/under 6.5": 736,
-   "WINNER_AND_BTTS | Winner and both teams to score": 736,
-   "WINNER_AND_OVER | Winner and over/under 2.5": 736,
-   "BTTS_AND_OVER | Both teams to score and over/under 2.5": 736,
-   "DOUBLE_CHANCE | Double chance": 736,
-   "WINNER_DNB | Draw No Bet": 736,
-   "HALF_TIME_CORRECT_SCORE | Half-time correct score": 720,
-   "HALF_FULL | Half-time/full-time": 709,
-   "SCORE_RANGE | Goal range": 709,
-   "HIGHEST_SCORING_HALF | Highest scoring half": 709,
-   "ODD_EVEN | Odd or even score": 709,
-   "HALF_TIME_WINNER_3_WAY | Half-time result": 709,
-   "FIRST_HALF_OVER_UNDER | First half over/under 1.5": 709,
-   "FIRST_HALF_OVER_UNDER | First half over/under 2.5": 709,
-   "FIRST_HALF_ODD_EVEN | First half odd or even score": 709,
-   "SECOND_HALF_WINNER_3_WAY | Second half result": 709,
-   "SECOND_HALF_ODD_EVEN | Second half odd or even score": 709,
-   "FIRST_HALF_OVER_UNDER | First half over/under 0.5": 708,
-   "FIRST_HALF_WINNER_AND_BTTS | First half winner and both teams to score": 708,
-   "FIRST_HALF_WINNER_AND_OVER | First half winner and over/under 1.5": 708,
-   "BTTS_FIRST_HALF | Both teams to score in First Half": 708,
-   "BTTS_SECOND_HALF | Both teams to score in Second Half": 708,
-   "SECOND_HALF_EXACT_GOALS | Second half exact goals": 661,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 1.5": 651,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 2.5": 651,
-   "HALF_TIME_DOUBLE_CHANCE | Half-time double chance": 650,
-   "SECOND_HALF_OVER_UNDER | Second half over/under 0.5": 627,
-   "WINNER_AND_OVER | Winner and over/under 3.5": 601,
-   "WINNER_AND_OVER | Winner and over/under 1.5": 531,
-   "FIRST_HALF_EXACT_GOALS | First half exact goals": 458,
-   "BTTS_BOTH_HALVES | Both teams to score in first half / second half": 457,
-   "WINNER_AND_OVER | Winner and over/under 4.5": 419,
-   "EXACT_GOALS | Exact goals": 333,
+   "WINNER_3_WAY | Full-time result": 726,
+   "CORRECT_SCORE | Correct score": 726,
+   "BTTS | Both teams to score": 726,
+   "OVER_UNDER | Over/under 0.5": 726,
+   "OVER_UNDER | Over/under 1.5": 726,
+   "OVER_UNDER | Over/under 2.5": 726,
+   "OVER_UNDER | Over/under 3.5": 726,
+   "OVER_UNDER | Over/under 4.5": 726,
+   "OVER_UNDER | Over/under 5.5": 726,
+   "OVER_UNDER | Over/under 6.5": 726,
+   "WINNER_AND_BTTS | Winner and both teams to score": 726,
+   "WINNER_AND_OVER | Winner and over/under 2.5": 726,
+   "BTTS_AND_OVER | Both teams to score and over/under 2.5": 726,
+   "DOUBLE_CHANCE | Double chance": 726,
+   "WINNER_DNB | Draw No Bet": 726,
+   "HALF_TIME_CORRECT_SCORE | Half-time correct score": 711,
+   "HALF_FULL | Half-time/full-time": 703,
+   "SCORE_RANGE | Goal range": 703,
+   "HIGHEST_SCORING_HALF | Highest scoring half": 703,
+   "ODD_EVEN | Odd or even score": 703,
+   "HALF_TIME_WINNER_3_WAY | Half-time result": 703,
+   "FIRST_HALF_OVER_UNDER | First half over/under 1.5": 703,
+   "FIRST_HALF_OVER_UNDER | First half over/under 2.5": 703,
+   "FIRST_HALF_ODD_EVEN | First half odd or even score": 703,
+   "SECOND_HALF_WINNER_3_WAY | Second half result": 703,
+   "SECOND_HALF_ODD_EVEN | Second half odd or even score": 703,
+   "FIRST_HALF_OVER_UNDER | First half over/under 0.5": 702,
+   "FIRST_HALF_WINNER_AND_BTTS | First half winner and both teams to score": 702,
+   "FIRST_HALF_WINNER_AND_OVER | First half winner and over/under 1.5": 702,
+   "BTTS_FIRST_HALF | Both teams to score in First Half": 702,
+   "BTTS_SECOND_HALF | Both teams to score in Second Half": 702,
+   "SECOND_HALF_EXACT_GOALS | Second half exact goals": 667,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 1.5": 656,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 2.5": 656,
+   "HALF_TIME_DOUBLE_CHANCE | Half-time double chance": 655,
+   "SECOND_HALF_OVER_UNDER | Second half over/under 0.5": 629,
+   "WINNER_AND_OVER | Winner and over/under 3.5": 613,
+   "WINNER_AND_OVER | Winner and over/under 1.5": 581,
+   "WINNER_AND_OVER | Winner and over/under 4.5": 486,
+   "FIRST_HALF_EXACT_GOALS | First half exact goals": 466,
+   "BTTS_BOTH_HALVES | Both teams to score in first half / second half": 465,
+   "EXACT_GOALS | Exact goals": 363,
    "TIME_OF_NEXT_GOAL | Goal 1 time bracket": 242,
    "LAST_TEAM_TO_SCORE | Last team to score": 242,
    "NEXT_TEAM_TO_SCORE | Team to score first goal": 242,
    "WINNER_3_WAY_TIME_BRACKET | Winner in 1 minute to 10 minute time bracket": 242,
-   "WIN_MARGIN | Winning margin": 239,
-   "ANYTIME_GOALSCORER | Anytime goalscorer": 237,
-   "LAST_GOALSCORER | Last goalscorer": 237,
-   "WHICH_TEAM_TO_SCORE | Which team to score": 237,
-   "FIRST_GOALSCORER | First goalscorer": 236,
+   "WIN_MARGIN | Winning margin": 240,
+   "WHICH_TEAM_TO_SCORE | Which team to score": 238,
+   "ANYTIME_GOALSCORER | Anytime goalscorer": 236,
+   "LAST_GOALSCORER | Last goalscorer": 236,
+   "FIRST_GOALSCORER | First goalscorer": 235,
    "PLAYER_AT_LEAST_GOALS | Player to score at least 2 goals": 234,
    "PLAYER_AT_LEAST_GOALS | Player to score a hat-trick": 234,
-   "CORNERS_WINNER_THREE_WAY | Most corners": 219,
+   "CORNERS_WINNER_THREE_WAY | Most corners": 220,
    "BTTS_AND_OVER | Both teams to score and over/under 3.5": 216,
    "BTTS_AND_OVER | Both teams to score and over/under 4.5": 216,
-   "CORNER_RANGE | Total corners in range": 179,
+   "CORNER_RANGE | Total corners in range": 178,
    "FIRST_TEN_MINUTE_BRACKET_OVER_UNDER | Over under 0.5 goals in 1 minute to 10 minute time bracket": 171,
-   "CORNERS_OVER_UNDER | Over/under 10.5 corners": 164,
-   "CORNERS_OVER_UNDER | Over/under 9.5 corners": 157
+   "CORNERS_OVER_UNDER | Over/under 10.5 corners": 163,
+   "CORNERS_OVER_UNDER | Over/under 9.5 corners": 156
   },
   "smarkets_contract": {
-   "competitor_id": 201717,
+   "competitor_id": 3886520,
    "contract_type": {
     "name": "HOME"
    },
-   "created": "2026-11-02T12:43:58.398Z",
+   "created": "2026-11-01T18:16:21.387Z",
    "display_order": 0,
    "hidden": false,
-   "id": "484623101",
+   "id": "484196517",
    "info": {},
-   "market_id": "175632686",
-   "modified": "2026-11-02T12:43:58.398Z",
-   "name": "FC Botosani",
+   "market_id": "175464424",
+   "modified": "2026-11-01T18:16:21.387Z",
+   "name": "FC Farul Constanta",
    "outcome_timestamp": null,
    "slug": "home",
    "state_or_outcome": "open"
   },
   "smarkets_quote": {
-   "484623101": {
+   "484196517": {
     "bids": [
      {
-      "price": 5291,
-      "quantity": 8134352
+      "price": 3279,
+      "quantity": 923557
      },
      {
-      "price": 5208,
-      "quantity": 2103045
+      "price": 3226,
+      "quantity": 3995295
      },
      {
-      "price": 5181,
-      "quantity": 11510857
+      "price": 3175,
+      "quantity": 1143263
      },
      {
-      "price": 5155,
-      "quantity": 1411250
+      "price": 3125,
+      "quantity": 6167300
      },
      {
-      "price": 5102,
-      "quantity": 9520700
+      "price": 2941,
+      "quantity": 25840
      }
     ],
     "offers": [
      {
-      "price": 5348,
-      "quantity": 70183
+      "price": 3448,
+      "quantity": 374091
      },
      {
-      "price": 5376,
-      "quantity": 13355960
-     },
-     {
-      "price": 5405,
-      "quantity": 13473346
-     },
-     {
-      "price": 5435,
-      "quantity": 2190581
-     },
-     {
-      "price": 5495,
-      "quantity": 8570200
+      "price": 3472,
+      "quantity": 3319330
      }
     ]
    }
   }
  },
- "finished_utc": "2026-11-20T15:21:51+00:00"
+ "finished_utc": "2026-11-20T17:30:08+00:00"
 }
