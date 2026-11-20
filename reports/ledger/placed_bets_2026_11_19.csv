@@ -1,0 +1,72 @@
+coupon_id,placed_at,stake_tl,total_odds,n_legs,event_id,match,selection,odds,source,note,nesine_code,kickoff,leg_screen,coupon_screen,payout_tl
+P01,2026-11-19 10:47,80,6.25,5,,Baladiyyat AL M. - Haras Hodood,KG Yok,1.38,ekran,,3307707,2026-11-19 15:30,✓,yattı,0
+P01,2026-11-19 10:47,80,6.25,5,,El Daklyeh - Ismaily Sc,KG Yok,1.45,ekran,,3307500,2026-11-19 15:30,✓,yattı,0
+P01,2026-11-19 10:47,80,6.25,5,,Farco - Entag Harby,KG Yok,1.55,ekran,,3307505,2026-11-19 15:30,✗,yattı,0
+P01,2026-11-19 10:47,80,6.25,5,,Maroons - NEC,KG Yok,1.41,ekran,,3307410,2026-11-19 16:00,✗,yattı,0
+P01,2026-11-19 10:47,80,6.25,5,,ZED - Smouha SC,KG Yok,1.43,ekran,,3398367,2026-11-19 21:00,✓,yattı,0
+P02,2026-11-19 11:23,200,6.39,5,,Cong An Nhan Dan - Johor Darul,MS 2,1.52,ekran,,3307660,2026-11-19 15:30,✓,KAZANDI,1278.97
+P02,2026-11-19 11:23,200,6.39,5,,Al Masry - Asyut Petroleum,MS 1,1.45,ekran,,3398362,2026-11-19 18:00,✓,KAZANDI,1278.97
+P02,2026-11-19 11:23,200,6.39,5,,Paris (K) - HB Koege (K),MS 1,1.39,ekran,,3307697,2026-11-19 20:45,✓,KAZANDI,1278.97
+P02,2026-11-19 11:23,200,6.39,5,,Vasco Da G. - Internacional,MS 1,1.42,ekran,,3305120,2026-11-20 01:30,✓,KAZANDI,1278.97
+P02,2026-11-19 11:23,200,6.39,5,,Vitoria BA - Bragantino,KG Var,1.47,ekran,,3304862,2026-11-20 01:30,✓,KAZANDI,1278.97
+P03,2026-11-19 ?,100,10.86,7,,MFK Lokomotiva Zvolen - FK Kosice,KG Var,1.46,ekran,toplam oran ekranda kısmen görünüyor; 7 bacağın çarpımı 10.86,3343240,2026-11-19 15:00,✓,yattı,0
+P03,2026-11-19 ?,100,10.86,7,,Baladiyyat AL M. - Haras Hodood,KG Yok,1.38,ekran,,3307707,2026-11-19 15:30,✓,yattı,0
+P03,2026-11-19 ?,100,10.86,7,,EL Terasanah - Telecom Egypt,1.5 Üst,1.41,ekran,,3307479,2026-11-19 15:30,✓,yattı,0
+P03,2026-11-19 ?,100,10.86,7,,El Daklyeh - Ismaily Sc,KG Yok,1.47,ekran,,3307500,2026-11-19 15:30,✓,yattı,0
+P03,2026-11-19 ?,100,10.86,7,,Maroons - NEC,KG Yok,1.41,ekran,,3307410,2026-11-19 16:00,✗,yattı,0
+P03,2026-11-19 ?,100,10.86,7,,Zesco Utd - Red Arrows,1.5 Üst,1.43,ekran,,3305105,2026-11-19 16:00,✓,yattı,0
+P03,2026-11-19 ?,100,10.86,7,,AL Salt - Al Yarmouk,MS 1,1.29,ekran,,3372578,2026-11-19 16:00,✓,yattı,0
+P04,2026-11-19 ?,,,7,,Queensland Lions - Woll. Wolves,MS 1,1.44,ekran,tutar ve toplam oran görünmüyor; 8. bacak (R. Soacha) kesik,3307643,2026-11-19 11:35,✗,yattı,0
+P04,2026-11-19 ?,,,7,,MFK Lokomotiva Zvolen - FK Kosice,KG Var,1.46,ekran,,3343240,2026-11-19 15:00,✓,yattı,0
+P04,2026-11-19 ?,,,7,,Maroons - NEC,KG Yok,1.41,ekran,,3307410,2026-11-19 16:00,✗,yattı,0
+P04,2026-11-19 ?,,,7,,Zesco Utd - Red Arrows,1.5 Üst,1.43,ekran,,3305105,2026-11-19 16:00,✓,yattı,0
+P04,2026-11-19 ?,,,7,,AL Salt - Al Yarmouk,MS 1,1.31,ekran,,3372578,2026-11-19 16:00,✓,yattı,0
+P04,2026-11-19 ?,,,7,,Al Jazeera - Hay AL Amir Hassan,KG Yok,1.68,ekran,,3372592,2026-11-19 19:00,✓,yattı,0
+P04,2026-11-19 ?,,,7,,Orlando City - Cincinnati,3.5 Üst,1.67,ekran,,3386737,2026-11-20 03:30,✓,yattı,0
+P05,2026-11-19 13:31,,,6,,,,,ekran,"bacaklar ekranda görünmüyor; 6 maç, maks. kazanç 2.695,34 TL",,,,bekliyor,0
+P06,2026-11-19 16:36,150,5.3,5,,Fredericia - Hilleroed,İY/MS 1/1,1.53,ekran,,3314224,2026-11-19 21:00,✓,KAZANDI,794.33
+P06,2026-11-19 16:36,150,5.3,5,,Vasco Da G. - Internacional,İY/MS 1/1,1.97,ekran,,3305120,2026-11-20 01:30,✓,KAZANDI,794.33
+P06,2026-11-19 16:36,150,5.3,5,,Vitoria BA - Bragantino,İY 0.5 Üst,1.21,ekran,,3304862,2026-11-20 01:30,✓,KAZANDI,794.33
+P06,2026-11-19 16:36,150,5.3,5,,Sao Paulo SP - Fluminense,ÇŞ 12,1.21,ekran,,3305027,2026-11-20 03:30,✓,KAZANDI,794.33
+P06,2026-11-19 16:36,150,5.3,5,,Orlando City - Cincinnati,2.5 Üst,1.2,ekran,,3386737,2026-11-20 03:30,✓,KAZANDI,794.33
+P07,2026-11-19 17:27,50,24.55,6,,JS Kabylie - USM Alger,2.5 Alt & KG Yok,1.6,ekran,,3266477,2026-11-19 22:00,✓,bekliyor,0
+P07,2026-11-19 17:27,50,24.55,6,,Amiens - Caen,KG Var,1.49,ekran,,3307710,2026-11-19 22:45,✓,bekliyor,0
+P07,2026-11-19 17:27,50,24.55,6,,Vasco Da G. - Internacional,KG Var,1.61,ekran,,3305120,2026-11-20 01:30,✓,bekliyor,0
+P07,2026-11-19 17:27,50,24.55,6,,Vitoria BA - Bragantino,2.5 Üst,1.6,ekran,,3304862,2026-11-20 01:30,✓,bekliyor,0
+P07,2026-11-19 17:27,50,24.55,6,,Sao Paulo SP - Fluminense,2.5 Alt & KG Yok,1.95,ekran,,3305027,2026-11-20 03:30,✓,bekliyor,0
+P07,2026-11-19 17:27,50,24.55,6,,S. Sounders - Real Salt Lake,MS 1 & 1.5 Üst,2.05,ekran,,3386736,2026-11-20 06:00,?,bekliyor,0
+P08,2026-11-19 ?,50,13.87,7,,Preah Khan R. S. - Port,KG Var,1.35,ekran,,3307575,2026-11-19 15:00,✓,yattı,0
+P08,2026-11-19 ?,50,13.87,7,,Farco - Entag Harby,KG Yok,1.55,ekran,,3307505,2026-11-19 15:30,✗,yattı,0
+P08,2026-11-19 ?,50,13.87,7,,MB Rouisset - CR Belouizdad,KG Yok,1.34,ekran,,3266482,2026-11-19 19:45,✓,yattı,0
+P08,2026-11-19 ?,50,13.87,7,,JS Kabylie - USM Alger,2.5 Alt,1.28,ekran,,3266477,2026-11-19 22:00,✓,yattı,0
+P08,2026-11-19 ?,50,13.87,7,,Boston River - D. Maldonado,MS 2,1.58,ekran,,3406925,2026-11-19 22:30,✗,yattı,0
+P08,2026-11-19 ?,50,13.87,7,,Amiens - Caen,KG Var,1.51,ekran,,3307710,2026-11-19 22:45,✓,yattı,0
+P08,2026-11-19 ?,50,13.87,7,,Vasco Da G. - Internacional,KG Var,1.62,ekran,,3305120,2026-11-20 01:30,✓,yattı,0
+P09,2026-11-19 ?,50,19.71,7,,Al Jazeera - Hay AL Amir Hassan,KG Yok,1.71,ekran,,3372592,2026-11-19 19:00,✓,yattı,0
+P09,2026-11-19 ?,50,19.71,7,,MB Rouisset - CR Belouizdad,KG Yok,1.34,ekran,,3266482,2026-11-19 19:45,✓,yattı,0
+P09,2026-11-19 ?,50,19.71,7,,JS Kabylie - USM Alger,2.5 Alt,1.28,ekran,,3266477,2026-11-19 22:00,✓,yattı,0
+P09,2026-11-19 ?,50,19.71,7,,Boston River - D. Maldonado,MS 2,1.74,ekran,,3406925,2026-11-19 22:30,✗,yattı,0
+P09,2026-11-19 ?,50,19.71,7,,Amiens - Caen,KG Var,1.49,ekran,,3307710,2026-11-19 22:45,✓,yattı,0
+P09,2026-11-19 ?,50,19.71,7,,Vasco Da G. - Internacional,KG Var,1.61,ekran,,3305120,2026-11-20 01:30,✓,yattı,0
+P09,2026-11-19 ?,50,19.71,7,,Orlando City - Cincinnati,3.5 Üst,1.61,ekran,,3386737,2026-11-20 03:30,✓,yattı,0
+P10,2026-11-19 ?,200,23.94,7,,MB Rouisset - CR Belouizdad,MS 2,1.69,ekran,toplam oran bacak çarpımıyla doğrulandı,3266482,2026-11-19 19:45,✗,yattı,0
+P10,2026-11-19 ?,200,23.94,7,,MC Alger - Olympique Akbou,MS 1,1.26,ekran,,3266497,2026-11-19 19:45,✗,yattı,0
+P10,2026-11-19 ?,200,23.94,7,,Vasco Da G. - Internacional,2Y 1,1.72,ekran,,3305120,2026-11-20 01:30,✗,yattı,0
+P10,2026-11-19 ?,200,23.94,7,,Dep. La Gua. - Academia Anzoategui,Dep 0.5 Alt,1.74,ekran,,3355406,2026-11-20 01:30,✗,yattı,0
+P10,2026-11-19 ?,200,23.94,7,,Sao Paulo SP - Fluminense,KG Var,1.67,ekran,,3305027,2026-11-20 03:30,✗,yattı,0
+P10,2026-11-19 ?,200,23.94,7,,Orlando City - Cincinnati,Ev İY 0.5 Üst,1.48,ekran,,3386737,2026-11-20 03:30,✓,yattı,0
+P10,2026-11-19 ?,200,23.94,7,,S. Sounders - Real Salt Lake,DEĞİL(Dep En Az Bir Yarıyı Kazanır),1.52,ekran,,3386736,2026-11-20 06:00,?,yattı,0
+P11,2026-11-19 20:44,50,566.8,3,,Amiens - Caen,İY Skor 0-0 & Skor 0-0,8.15,ekran,,3307710,2026-11-19 22:45,✗,yattı,0
+P11,2026-11-19 20:44,50,566.8,3,,Vitoria BA - Bragantino,İY Skor 0-0 & Skor 0-0,9.54,ekran,,3304862,2026-11-20 01:30,✗,yattı,0
+P11,2026-11-19 20:44,50,566.8,3,,Sao Paulo SP - Fluminense,İY Skor 0-0 & Skor 0-0,7.29,ekran,,3305027,2026-11-20 03:30,✗,yattı,0
+P12,2026-11-19 20:48,50,160.36,5,,Amiens - Caen,MS 0,2.89,ekran,,3307710,2026-11-19 22:45,✗,yattı,0
+P12,2026-11-19 20:48,50,160.36,5,,Vitoria BA - Bragantino,MS 0,3.07,ekran,,3304862,2026-11-20 01:30,✗,yattı,0
+P12,2026-11-19 20:48,50,160.36,5,,Independiente Yumbo - Envigado,MS 0,2.59,ekran,,3361195,2026-11-20 01:30,✓,yattı,0
+P12,2026-11-19 20:48,50,160.36,5,,Sao Paulo SP - Fluminense,MS 0,2.86,ekran,,3305027,2026-11-20 03:30,✗,yattı,0
+P12,2026-11-19 20:48,50,160.36,5,,R. Soacha Cundinamarca - Deportes Quindio,MS 0,2.44,ekran,,3408921,2026-11-20 03:45,✗,yattı,0
+P13,2026-11-19 20:51,100,10.05,6,,Penarol - Cerro Largo,2.5 Alt,1.5,ekran,,3406922,2026-11-19 22:30,✗,yattı,0
+P13,2026-11-19 20:51,100,10.05,6,,Vasco Da G. - Internacional,İY 1.5 Alt,1.36,ekran,,3305120,2026-11-20 01:30,✓,yattı,0
+P13,2026-11-19 20:51,100,10.05,6,,Vitoria BA - Bragantino,KG Var,1.49,ekran,,3304862,2026-11-20 01:30,✓,yattı,0
+P13,2026-11-19 20:51,100,10.05,6,,Sao Paulo SP - Fluminense,2.5 Alt,1.5,ekran,,3305027,2026-11-20 03:30,✓,yattı,0
+P13,2026-11-19 20:51,100,10.05,6,,Orlando City - Cincinnati,Ev 1.5 Üst,1.46,ekran,,3386737,2026-11-20 03:30,✗,yattı,0
+P13,2026-11-19 20:51,100,10.05,6,,S. Sounders - Real Salt Lake,İlk Gol Ev,1.51,ekran,,3386736,2026-11-20 06:00,?,yattı,0

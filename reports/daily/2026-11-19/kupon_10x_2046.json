@@ -1,0 +1,691 @@
+{
+  "target": 10.0,
+  "created": "2026-11-19T20:46:47+03:00",
+  "coupons": [
+    {
+      "legs": [
+        {
+          "code": 3406922,
+          "kickoff": "2026-11-19 22:30",
+          "league": "Uruguay Prmr Ligi, Kapanış",
+          "match": "Penarol - Cerro Largo",
+          "market": "2,5 Gol Alt/Üst",
+          "selection": "2,5 Alt",
+          "odds": 1.5,
+          "p": 0.55292,
+          "ev": -0.1706,
+          "mbs": 3,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": "Ev: form DLDDD, 4./16, 4 sakat, 3 cezalı (kaleci yok) · Dep: form LDWLD, 15./16, 0 sakat, 1 cezalı",
+          "key": "12|2.5 Alt|0",
+          "name": "2.5 Alt",
+          "researched": true,
+          "sigma": 0.01,
+          "p_low": 0.5401199999999999,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "1-0",
+              0.1580982796438246
+            ],
+            [
+              "2-0",
+              0.14866881627957607
+            ],
+            [
+              "1-1",
+              0.09696096814001548
+            ]
+          ]
+        },
+        {
+          "code": 3304862,
+          "kickoff": "2026-11-20 01:30",
+          "league": "Brezilya Serie A",
+          "match": "Vitoria BA - Bragantino",
+          "market": "Karşılıklı Gol",
+          "selection": "Var",
+          "odds": 1.49,
+          "p": 0.5688,
+          "ev": -0.1525,
+          "mbs": 1,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": "Ev: form LDDLL, 16./20, 6 sakat, 0 cezalı, son kadroda yok: Emanuel Britez · Dep: form WDLWW, 9./20, 5 sakat, 0 cezalı (kaleci yok), son kadroda yok: Fernando",
+          "key": "38|KG Var|0",
+          "name": "KG Var",
+          "researched": true,
+          "sigma": 0.01,
+          "p_low": 0.5559999999999999,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "1-1",
+              0.12729842071633624
+            ],
+            [
+              "2-1",
+              0.08286467556309075
+            ],
+            [
+              "1-2",
+              0.08269301883514071
+            ]
+          ]
+        },
+        {
+          "code": 3305120,
+          "kickoff": "2026-11-20 01:30",
+          "league": "Brezilya Serie A",
+          "match": "Vasco Da G. - Internacional",
+          "market": "2,5 Gol Alt/Üst",
+          "selection": "2,5 Üst",
+          "odds": 1.52,
+          "p": 0.55404,
+          "ev": -0.1579,
+          "mbs": 1,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": "Ev: form LLWWW, 11./20, 6 sakat, 0 cezalı, son kadroda yok: Thiago Mendes, Santiago Sosa · Dep: form DLWLW, 17./20, 6 sakat, 0 cezalı (kaleci yok), son kadroda yok: Alan Patrick, Guillermo Maripán",
+          "key": "12|2.5 Üst|0",
+          "name": "2.5 Üst",
+          "researched": true,
+          "sigma": 0.01,
+          "p_low": 0.5412399999999999,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "2-1",
+              0.09936437432469603
+            ],
+            [
+              "3-0",
+              0.07289927131091514
+            ],
+            [
+              "3-1",
+              0.06678714775388266
+            ]
+          ]
+        },
+        {
+          "code": 3305027,
+          "kickoff": "2026-11-20 03:30",
+          "league": "Brezilya Serie A",
+          "match": "Sao Paulo SP - Fluminense",
+          "market": "2,5 Gol Alt/Üst",
+          "selection": "2,5 Alt",
+          "odds": 1.5,
+          "p": 0.56505,
+          "ev": -0.1524,
+          "mbs": 1,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": "Ev: form WWDLD, 10./20, 5 sakat, 0 cezalı · Dep: form LWLWW, 4./20, 5 sakat, 0 cezalı, son kadroda yok: Ignácio",
+          "key": "12|2.5 Alt|0",
+          "name": "2.5 Alt",
+          "researched": true,
+          "sigma": 0.01,
+          "p_low": 0.55225,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "1-1",
+              0.13512038789242325
+            ],
+            [
+              "1-0",
+              0.10931677270360826
+            ],
+            [
+              "0-1",
+              0.09879242017207998
+            ]
+          ]
+        },
+        {
+          "code": 3408921,
+          "kickoff": "2026-11-20 03:45",
+          "league": "Kolombiya Prmr B Kapanış, Yük. Gr B",
+          "match": "R. Soacha Cundinamarca - Deportes Quindio",
+          "market": "2,5 Gol Alt/Üst",
+          "selection": "2,5 Alt",
+          "odds": 1.3,
+          "p": 0.67756,
+          "ev": -0.1192,
+          "mbs": 3,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": "",
+          "key": "12|2.5 Alt|0",
+          "name": "2.5 Alt",
+          "researched": false,
+          "sigma": 0.02,
+          "p_low": 0.6519600000000001,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "0-0",
+              0.14153057471278174
+            ],
+            [
+              "1-1",
+              0.14030420497861315
+            ],
+            [
+              "0-1",
+              0.13968678180857808
+            ]
+          ]
+        },
+        {
+          "code": 3386736,
+          "kickoff": "2026-11-20 06:00",
+          "league": "ABD Major Lig Playoff",
+          "match": "S. Sounders - Real Salt Lake",
+          "market": "İlk Golü Hangi Takım Atar?",
+          "selection": "1",
+          "odds": 1.51,
+          "p": 0.55914,
+          "ev": -0.1557,
+          "mbs": 1,
+          "reference": "Matchbook + Smarkets",
+          "direct": false,
+          "context": "Ev: form DDLLW, 2 sakat, 0 cezalı, son kadroda yok: Alex Roldan · Dep: form WWWLW, 1 sakat, 0 cezalı, son kadroda yok: Dominik Marczuk",
+          "key": "291|İlk Gol Ev|0",
+          "name": "İlk Gol Ev",
+          "researched": true,
+          "sigma": 0.025,
+          "p_low": 0.5271399999999999,
+          "status": "kontrol edildi",
+          "scores": []
+        }
+      ],
+      "nesine_odds": 10.0,
+      "probability": 0.03730080532992698,
+      "probability_low": 0.03084875090998539,
+      "global_fair_odds": 26.81,
+      "ev": -0.6268779778201252,
+      "min_mbs": 3,
+      "odds_checked_at": "20:46:49"
+    },
+    {
+      "legs": [
+        {
+          "code": 3314224,
+          "kickoff": "2026-11-19 21:00",
+          "league": "Danimarka 1. Lig",
+          "match": "Fredericia - Hilleroed",
+          "market": "Deplasman 0,5 Gol Alt/Üst",
+          "selection": "0,5 Üst",
+          "odds": 1.49,
+          "p": 0.57036,
+          "ev": -0.1502,
+          "mbs": 3,
+          "reference": "Matchbook + Smarkets",
+          "direct": false,
+          "context": "Ev: 2 sakat, 0 cezalı",
+          "key": "256|Dep 0.5 Üst|0",
+          "name": "Dep 0.5 Üst",
+          "researched": true,
+          "sigma": 0.025,
+          "p_low": 0.53836,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "2-1",
+              0.0861195319881865
+            ],
+            [
+              "3-1",
+              0.08062595194715566
+            ],
+            [
+              "1-1",
+              0.06318021160059623
+            ]
+          ]
+        },
+        {
+          "code": 3406921,
+          "kickoff": "2026-11-19 22:30",
+          "league": "Uruguay Prmr Ligi, Kapanış",
+          "match": "CA Progreso - Torque",
+          "market": "2,5 Gol Alt/Üst",
+          "selection": "2,5 Üst",
+          "odds": 1.47,
+          "p": 0.56018,
+          "ev": -0.1765,
+          "mbs": 3,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": "Ev: form DWWLD, 8./16, 3 sakat, 0 cezalı (kaleci yok) · Dep: form LWWWD, 2./16, 0 sakat, 2 cezalı",
+          "key": "12|2.5 Üst|0",
+          "name": "2.5 Üst",
+          "researched": true,
+          "sigma": 0.01,
+          "p_low": 0.54738,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "1-2",
+              0.09980521226914336
+            ],
+            [
+              "0-3",
+              0.06905266056286588
+            ],
+            [
+              "1-3",
+              0.06645683673556028
+            ]
+          ]
+        },
+        {
+          "code": 3307516,
+          "kickoff": "2026-11-19 23:00",
+          "league": "UEFA Şamp. Ligi Kadınlar ",
+          "match": "Arsenal (K) - O. Lyon (K)",
+          "market": "Maç Sonucu",
+          "selection": "2",
+          "odds": 1.43,
+          "p": 0.57362,
+          "ev": -0.1797,
+          "mbs": 1,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": "Ev: form WDWDD, 8./18 · Dep: form WWWWW, 2./18, son kadroda yok: Elma Junttila Nelhage",
+          "key": "1|MS 2|0",
+          "name": "MS 2",
+          "researched": true,
+          "sigma": 0.01,
+          "p_low": 0.56082,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "1-2",
+              0.07166172167159952
+            ],
+            [
+              "0-1",
+              0.06265791816009758
+            ],
+            [
+              "0-2",
+              0.06194438899023921
+            ]
+          ]
+        },
+        {
+          "code": 3307686,
+          "kickoff": "2026-11-19 23:00",
+          "league": "UEFA Şamp. Ligi Kadınlar ",
+          "match": "Benfica (K) - AS Roma (K)",
+          "market": "3,5 Gol Alt/Üst",
+          "selection": "3,5 Alt",
+          "odds": 1.47,
+          "p": 0.5512,
+          "ev": -0.1897,
+          "mbs": 1,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": "Ev: form DWLLW, 9./18 · Dep: form WDLLW, 12./18",
+          "key": "13|3.5 Alt|0",
+          "name": "3.5 Alt",
+          "researched": true,
+          "sigma": 0.01,
+          "p_low": 0.5384,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "1-1",
+              0.08218139952323394
+            ],
+            [
+              "2-1",
+              0.07014885470172828
+            ],
+            [
+              "1-0",
+              0.062413526836662556
+            ]
+          ]
+        },
+        {
+          "code": 3386737,
+          "kickoff": "2026-11-20 03:30",
+          "league": "ABD Major Lig Playoff",
+          "match": "Orlando City - Cincinnati",
+          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
+          "selection": "1,5 Üst",
+          "odds": 1.46,
+          "p": 0.58616,
+          "ev": -0.1442,
+          "mbs": 1,
+          "reference": "Matchbook + Smarkets",
+          "direct": false,
+          "context": "Ev: form WDDLW, 1 sakat, 0 cezalı, son kadroda yok: Iago Teodoro · Dep: form WWDWL, son kadroda yok: Nick Hagglund",
+          "key": "20|Ev 1.5 Üst|0",
+          "name": "Ev 1.5 Üst",
+          "researched": true,
+          "sigma": 0.025,
+          "p_low": 0.55416,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "2-1",
+              0.0760645106696658
+            ],
+            [
+              "2-2",
+              0.07311338060705155
+            ],
+            [
+              "3-1",
+              0.048892901421153774
+            ]
+          ]
+        },
+        {
+          "code": 3408920,
+          "kickoff": "2026-11-20 03:45",
+          "league": "Kolombiya Prmr B Kapanış, Yük. Gr B",
+          "match": "Real Cartagena - Tigres (Kol)",
+          "market": "1. Yarı Sonucu",
+          "selection": "1",
+          "odds": 1.49,
+          "p": 0.5574,
+          "ev": -0.1695,
+          "mbs": 3,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": "",
+          "key": "7|İY 1|0",
+          "name": "İY 1",
+          "researched": false,
+          "sigma": 0.02,
+          "p_low": 0.5318,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "2-0",
+              0.10932622779113244
+            ],
+            [
+              "3-0",
+              0.09704806328911587
+            ],
+            [
+              "1-0",
+              0.06342216407264736
+            ]
+          ]
+        }
+      ],
+      "nesine_odds": 10.02,
+      "probability": 0.03300603049146615,
+      "probability_low": 0.026222479925713166,
+      "global_fair_odds": 30.3,
+      "ev": -0.6694102408250322,
+      "min_mbs": 3,
+      "odds_checked_at": "20:46:49"
+    },
+    {
+      "legs": [
+        {
+          "code": 3398367,
+          "kickoff": "2026-11-19 21:00",
+          "league": "Mısır Kupası",
+          "match": "ZED - Smouha SC",
+          "market": "1,5 Gol Alt/Üst",
+          "selection": "1,5 Üst",
+          "odds": 1.38,
+          "p": 0.59808,
+          "ev": -0.1747,
+          "mbs": 3,
+          "reference": "Matchbook",
+          "direct": false,
+          "context": "Ev: 3 sakat, 0 cezalı",
+          "key": "11|1.5 Üst|0",
+          "name": "1.5 Üst",
+          "researched": true,
+          "sigma": 0.030000000000000002,
+          "p_low": 0.55968,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "1-1",
+              0.1384241438833596
+            ],
+            [
+              "2-0",
+              0.08450191555658741
+            ],
+            [
+              "2-1",
+              0.07592530675857133
+            ]
+          ]
+        },
+        {
+          "code": 3266477,
+          "kickoff": "2026-11-19 22:00",
+          "league": "Cezayir 1. Lig",
+          "match": "JS Kabylie - USM Alger",
+          "market": "Karşılıklı Gol",
+          "selection": "Yok",
+          "odds": 1.43,
+          "p": 0.5863,
+          "ev": -0.1616,
+          "mbs": 3,
+          "reference": "Matchbook + Smarkets",
+          "direct": false,
+          "context": "",
+          "key": "38|KG Yok|0",
+          "name": "KG Yok",
+          "researched": true,
+          "sigma": 0.025,
+          "p_low": 0.5543,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "1-0",
+              0.1503929664393961
+            ],
+            [
+              "0-0",
+              0.13052231365049846
+            ],
+            [
+              "0-1",
+              0.10197806658593922
+            ]
+          ]
+        },
+        {
+          "code": 3406925,
+          "kickoff": "2026-11-19 22:30",
+          "league": "Uruguay Prmr Ligi, Kapanış",
+          "match": "Boston River - D. Maldonado",
+          "market": "1. Yarı 1,5 Gol Alt/Üst",
+          "selection": "1,5 Alt",
+          "odds": 1.22,
+          "p": 0.67659,
+          "ev": -0.1746,
+          "mbs": 3,
+          "reference": "Matchbook + Smarkets",
+          "direct": false,
+          "context": "Ev: form WWLLL, 11./16, 1 sakat, 0 cezalı · Dep: form DLWDL, 5./16",
+          "key": "14|İY 1.5 Alt|0",
+          "name": "İY 1.5 Alt",
+          "researched": true,
+          "sigma": 0.035,
+          "p_low": 0.6317900000000001,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "0-1",
+              0.10967600347778597
+            ],
+            [
+              "1-1",
+              0.1011750784703494
+            ],
+            [
+              "0-0",
+              0.07797463009875284
+            ]
+          ]
+        },
+        {
+          "code": 3307710,
+          "kickoff": "2026-11-19 22:45",
+          "league": "Fransa Ulusal Lig",
+          "match": "Amiens - Caen",
+          "market": "Ev Sahibi 1,5 Gol Alt/Üst",
+          "selection": "1,5 Alt",
+          "odds": 1.46,
+          "p": 0.5604,
+          "ev": -0.1818,
+          "mbs": 3,
+          "reference": "Smarkets",
+          "direct": false,
+          "context": "Ev: 1 sakat, 0 cezalı · Dep: 2 sakat, 0 cezalı",
+          "key": "20|Ev 1.5 Alt|0",
+          "name": "Ev 1.5 Alt",
+          "researched": true,
+          "sigma": 0.030000000000000002,
+          "p_low": 0.522,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "1-1",
+              0.12694612115772666
+            ],
+            [
+              "1-0",
+              0.10232253173893016
+            ],
+            [
+              "0-1",
+              0.07830602838559966
+            ]
+          ]
+        },
+        {
+          "code": 3355406,
+          "kickoff": "2026-11-20 01:30",
+          "league": "Venezuela Kupası, Eleme Turu",
+          "match": "Dep. La Gua. - Academia Anzoategui",
+          "market": "2,5 Gol Alt/Üst",
+          "selection": "2,5 Üst",
+          "odds": 1.47,
+          "p": 0.56102,
+          "ev": -0.1753,
+          "mbs": 3,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": "",
+          "key": "12|2.5 Üst|0",
+          "name": "2.5 Üst",
+          "researched": false,
+          "sigma": 0.02,
+          "p_low": 0.53542,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "2-1",
+              0.09529736958743146
+            ],
+            [
+              "3-0",
+              0.0909406515521313
+            ],
+            [
+              "3-1",
+              0.06969527889736003
+            ]
+          ]
+        },
+        {
+          "code": 3361180,
+          "kickoff": "2026-11-20 01:30",
+          "league": "Kolombiya Prmr B Kapanış, Yük. Gr A",
+          "match": "U. Magdalena - Boca Juniors (Kol)",
+          "market": "2. Yarı Sonucu",
+          "selection": "1",
+          "odds": 1.49,
+          "p": 0.58484,
+          "ev": -0.1286,
+          "mbs": 3,
+          "reference": "Matchbook + Smarkets",
+          "direct": false,
+          "context": "",
+          "key": "9|2Y 1|0",
+          "name": "2Y 1",
+          "researched": false,
+          "sigma": 0.045000000000000005,
+          "p_low": 0.52724,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "2-0",
+              0.11746213446546222
+            ],
+            [
+              "3-0",
+              0.09472071754659867
+            ],
+            [
+              "1-0",
+              0.07430917167496007
+            ]
+          ]
+        },
+        {
+          "code": 3361195,
+          "kickoff": "2026-11-20 01:30",
+          "league": "Kolombiya Prmr B Kapanış, Yük. Gr A",
+          "match": "Independiente Yumbo - Envigado",
+          "market": "2,5 Gol Alt/Üst",
+          "selection": "2,5 Alt",
+          "odds": 1.3,
+          "p": 0.62775,
+          "ev": -0.1839,
+          "mbs": 3,
+          "reference": "Matchbook + Smarkets",
+          "direct": true,
+          "context": "",
+          "key": "12|2.5 Alt|0",
+          "name": "2.5 Alt",
+          "researched": false,
+          "sigma": 0.02,
+          "p_low": 0.6021500000000001,
+          "status": "kontrol edildi",
+          "scores": [
+            [
+              "1-1",
+              0.13885823071876743
+            ],
+            [
+              "0-1",
+              0.12885044559484374
+            ],
+            [
+              "0-0",
+              0.1185173568222713
+            ]
+          ]
+        }
+      ],
+      "nesine_odds": 10.01,
+      "probability": 0.027384512171402423,
+      "probability_low": 0.017391440238858344,
+      "global_fair_odds": 36.52,
+      "ev": -0.7259184670915976,
+      "min_mbs": 3,
+      "odds_checked_at": "20:46:49"
+    }
+  ]
+}
