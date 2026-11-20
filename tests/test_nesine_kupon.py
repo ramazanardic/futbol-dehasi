@@ -368,3 +368,15 @@ def test_drop_conflicts_blocks_directional_double_chance_hedges():
     left = kupon.drop_conflicts(pools, [a])
     assert [x["name"] for x in left[0]] == ["2.5 Üst"]
 
+
+
+def test_model_second_half_result_legs_are_excluded():
+    import datetime as dt
+
+    now = dt.datetime(2026, 11, 19, 9, 0, tzinfo=dt.timezone(dt.timedelta(hours=3)))
+    m = {"status": "fiyatlandı", "reference": "Smarkets (borsa)", "kickoff_iso": "2026-11-19T20:00:00+03:00",
+         "kickoff": "2026-11-19 20:00", "code": 1, "league": "L", "home": "A", "away": "B", "selections": [
+             {"market": "2. Yarı Sonucu", "selection": "1", "name": "2Y 1", "odds": 1.6, "fair_prob": 0.58, "ev": -0.1, "mbs": 1, "direct": False},
+             {"market": "2. Yarı Sonucu", "selection": "2", "name": "2Y 2", "odds": 1.7, "fair_prob": 0.57, "ev": -0.1, "mbs": 1, "direct": True}]}
+    legs = kupon.candidates([m], now, 1.2, 0.0, False)[0]
+    assert [leg["name"] for leg in legs] == ["2Y 2"]

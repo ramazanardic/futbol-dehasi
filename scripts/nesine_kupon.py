@@ -162,8 +162,10 @@ def candidates(matches: list[dict], now: dt.datetime, min_odds: float, min_prob:
                 continue
             if direct_only and not s.get("direct"):
                 continue  # model-derived price: no direct global quote for this selection
-            if not s.get("direct") and s.get("name", "").startswith("İY/MS"):
-                continue  # model HT/FT is the weakest derived market (calibration: ~3x the error); direct quotes only
+            if not s.get("direct") and s.get("name", "").startswith(("İY/MS", "2Y 0", "2Y 1", "2Y 2")):
+                # model HT/FT is the weakest derived market (calibration: ~3x the error); model second-half result
+                # legs went 1/5 in the 19 Nov coupons (favourites: 46 % hit vs 62 % predicted): direct quotes only
+                continue
             legs.append({"code": m["code"], "kickoff": m["kickoff"], "league": m["league"], "match": f"{m['home']} - {m['away']}",
                          "market": s["market"], "selection": s["selection"], "odds": s["odds"], "p": s["fair_prob"],
                          "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": m["reference"].split(" (")[0],
