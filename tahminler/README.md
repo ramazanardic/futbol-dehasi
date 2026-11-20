@@ -68,6 +68,7 @@ Her gün için `tahminler/<klasör>/<YYYY-AA-GG>/` altında iki CSV (UTF-8, virg
 | kupon_toplam_oran, kupon_tutma_olasiligi | Nesine toplam oranı ve tahmin edilen tutma olasılığı (0–1) |
 | saat, mac, nesine_kodu, pazar, secim, nesine_oran, olasilik | Bacak bilgisi |
 
-Tahminler **maç başlamadan önce** commit edilmelidir; git geçmişindeki zaman damgası bunun kanıtıdır.
+Açık (henüz sonuçlanmamış) günlerin tahminleri ve kuponları GitHub'a **konmaz**; her yapay zekâ bunları kendi bilgisayarında
+tutar ve gün sonuçlandıktan sonra gönderir. Böylece hiçbir yapay zekâ ötekinin açık tahminlerinden etkilenmez.
 Karşılaştırmada ölçütler: ana tercih isabeti (%), olasılık kalitesi (Brier / log-loss, 1X2), tutan kupon / bacak
 oranı ve 1 birim sabit bahisle kâr/zarar (ROI).
