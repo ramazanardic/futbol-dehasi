@@ -99,6 +99,27 @@ def check(date: str, now: dt.datetime | None = None) -> tuple[list[dict], dict]:
     return rows, clv
 
 
+def coupon_totals(date: str, rows: list[dict]) -> list[dict]:
+    """Each coupon's total Nesine odds on the live odds of its not-started legs (started legs keep their odds):
+    the target is a MINIMUM (user rule), so a coupon that slipped under it must be flagged before it is played."""
+    now_odds = {r["lid"]: r["odds_now"] for r in rows if not r["started"]}
+    out = []
+    for f in sorted((AREA / date).glob("kupon_*x_*.json")):
+        data = _load(f) or {}
+        target = float(data.get("target") or f.name.split("_")[1].rstrip("x"))
+        for i, c in enumerate(data.get("coupons", []), 1):
+            total, missing = 1.0, False
+            for leg in c.get("legs", []):
+                lid = f"{leg['code']}|{leg.get('key')}"
+                o = now_odds[lid] if lid in now_odds else leg["odds"]
+                if o is None:
+                    missing, o = True, leg["odds"]
+                total *= o
+            out.append({"coupon": f"{f.stem} #{i}", "target": target, "built": c["nesine_odds"], "now": round(total, 2),
+                        "below": total < target - 1e-9, "missing": missing})
+    return out
+
+
 def clv_stats(clv: dict, now: dt.datetime) -> dict:
     """Legs whose match has started and whose closing probability was seen."""
     done = []
@@ -156,12 +177,27 @@ def cmd_kontrol(date: str, notify: bool = True) -> None:
             prob = f"%{100 * leg['p']:.1f} → %{100 * r['p_now']:.1f}" if r["p_now"] is not None else f"%{100 * leg['p']:.1f} → -"
         md.append(f"| {leg['kickoff'][-5:]} | {leg['match']} | {leg['market']}: {leg['selection']} | {odds} | {prob} | "
                   f"{durum} | {', '.join(leg['coupons'])} |")
+    totals = coupon_totals(date, rows)
+    if totals:
+        md += ["", "**Kupon toplam oranları (canlı oranlarla; hedef en az oran, altı oynanmaz):**", "",
+               "| Kupon | En az | Kurulduğunda | Şimdi | Durum |", "|---|---|---|---|---|"]
+        md += [f"| {t['coupon']} | {t['target']:g} | {t['built']:.2f} | {t['now']:.2f} | "
+               + ("⚠ minimumun altına düştü" if t["below"] else "✓") + (" · askıda bacak var" if t["missing"] else "") + " |"
+               for t in totals]
     md += ["", f"**Kapanış fiyatı (CLV), bugün:** {_fmt_stats(clv_stats(clv, now))}", ""]
     out = AREA / date / "kupon_kontrol.md"
     out.write_text("\n".join(md), encoding="utf-8")
     fresh = [r for r in rows if r["new_warn"] and not r["started"]]
     print(f"{len(rows)} bacak kontrol edildi, {sum(1 for r in rows if r['warn'] and not r['started'])} uyarı "
           f"({len(fresh)} yeni) -> {out}")
+    seen_path = AREA / date / "kupon_alarm.json"  # each under-minimum coupon is announced once
+    seen = set(_load(seen_path) or [])
+    below = [t for t in totals if t["below"] and t["coupon"] not in seen]
+    if below:
+        seen_path.write_text(json.dumps(sorted(seen | {t["coupon"] for t in below}), ensure_ascii=False), encoding="utf-8")
+    if below and notify:
+        _notify("QuantFoot: minimum oranın altına düşen kupon: " + " | ".join(
+            f"{t['coupon']} {t['now']:.2f} < {t['target']:g}" for t in below))
     if fresh and notify:
         _notify("QuantFoot kupon uyarısı: " + " | ".join(
             f"{r['leg']['kickoff'][-5:]} {r['leg']['match']} {r['leg']['selection']}: {'; '.join(r['new_warn'])}" for r in fresh))

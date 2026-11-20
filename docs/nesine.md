@@ -169,6 +169,11 @@ gol modeli 2,5 puan, yarı pazarları (İY/2Y, en çok gol olan yarı…) 3,5 pu
 +1, kadro/haber uyarısı +2 puan. Böylece "en garanti" tercih, en yüksek olasılık değil, en kötü ihtimalle
 bile en yüksek kalan olasılıktır. Rapor hem olasılığı hem güvenilir alt sınırı gösterir.
 
+**Hedef = en az oran (kullanıcı kuralı 20 Kasım):** "5 oranlık" en az 5 demektir; 6–7 olabilir, 5'in altı asla.
+Optimizasyon zaten Π oran ≥ hedef koşuluyla tutma olasılığını en yükseğe çıkarır. Canlı oranla yeniden okunduğunda
+hedefin altına düşen kupon en çok 3 denemede güncel oranlarla yeniden kurulur, yine altındaysa hiç verilmez;
+`kupon_kontrol.md` her kuponun canlı toplam oranını gösterir ve minimumun altına düşeni bir kez uyarır.
+
 **Kuponların yeri (20 Kasım):** Claude'un kuponları yalnız `tahminler/claudetahmin/<tarih>/` altına yazılır
 (yapay zekâ yarışması, [tahminler/README.md](../tahminler/README.md)); 19 Kasım ve öncesi `reports/daily/` altında kalır.
 

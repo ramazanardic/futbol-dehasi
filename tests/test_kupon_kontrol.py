@@ -153,3 +153,17 @@ def test_claudetahmin_uses_own_run_and_own_coupons_and_freezes_started(tmp_path,
     assert len(rows) == 1 and rows[0]["olasilik_1"] == "0.6000" and rows[0]["ana_secim"] == "1"
     c = ai._read(area / "2026-11-20" / "kuponlar.csv")
     assert [(r["kupon"], r["kupon_toplam_oran"], r["secim"]) for r in c] == [("kupon_5x_0926", "5.01", "1")]
+
+
+def test_coupon_total_under_minimum_is_flagged(tmp_path, monkeypatch):
+    monkeypatch.setattr(kontrol, "DAILY", tmp_path)
+    monkeypatch.setattr(kontrol, "AREA", tmp_path)
+    _day(tmp_path, "2026-11-20T22:00:00+03:00", p_now=0.62, odds_now=1.40)  # leg built at 1.50
+    day = tmp_path / "2026-11-20"
+    leg = json.loads((day / "kupon_5x_0851.json").read_text(encoding="utf-8"))["coupons"][0]["legs"][0]
+    other = {**leg, "code": 2, "key": "x", "odds": 3.40}  # not in the analysis: keeps its built odds
+    (day / "kupon_5x_0851.json").write_text(json.dumps(
+        {"target": 5, "coupons": [{"nesine_odds": 5.10, "legs": [leg, other]}]}), encoding="utf-8")
+    rows, _ = kontrol.check("2026-11-20", dt.datetime(2026, 11, 20, 21, 0, tzinfo=TSI))
+    t = kontrol.coupon_totals("2026-11-20", rows)
+    assert t == [{"coupon": "kupon_5x_0851 #1", "target": 5.0, "built": 5.10, "now": 4.76, "below": True, "missing": False}]

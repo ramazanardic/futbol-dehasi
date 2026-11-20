@@ -399,6 +399,7 @@ def prior_coupon_legs(date: str, target: float) -> list[dict]:
 
 
 RECHECK_READS = 2
+MAX_BUILD_ATTEMPTS = 3  # build, re-read the bulletin, rebuild on the lower odds while a coupon is under the minimum
 RECHECK_GAP_S = 4.0
 
 
@@ -530,7 +531,7 @@ def main() -> None:
     live, _ = read_bulletin_odds()
     apply_live_odds(matches, live)
     rebuilt = False
-    for attempt in range(2):
+    for attempt in range(MAX_BUILD_ATTEMPTS):
         pools = candidates(
             matches,
             now,
@@ -580,23 +581,30 @@ def main() -> None:
 
         live, flicker = read_bulletin_odds() if coupons else ({}, {})
         change_notes = recheck_odds(coupons, live, flicker) if coupons else []
-        if attempt == 0 and any(c["nesine_odds"] < args.hedef - 1e-9 for c in coupons):
+        if attempt < MAX_BUILD_ATTEMPTS - 1 and any(c["nesine_odds"] < args.hedef - 1e-9 for c in coupons):
             apply_live_odds(matches, live)
             rebuilt = True
             continue
         break
     if rebuilt:
         change_notes.insert(0, "Son okumada bir kupon hedefin altına düştü: kupon güncel oranlarla yeniden kuruldu")
+    # The target is a MINIMUM (user rule, 20 Nov: "minimum 5 oran" — 6 or 7 is fine, under 5 never). A coupon that
+    # is still under it on the live re-read is never offered.
+    short = [c for c in coupons if c["nesine_odds"] < args.hedef - 1e-9]
+    if short:
+        coupons = [c for c in coupons if c not in short]
+        change_notes.append(f"{len(short)} kupon canlı oranlarla minimum {args.hedef:g} oranın altında kaldığı için çıkarıldı")
     for c in coupons:  # scores consistent with each leg (same goal distribution as the leg's probability)
         for leg in c["legs"]:
             priced = PRICED.get(int(leg["code"]))
             leg["scores"] = consistent_scores(priced["joint"], leg.get("name", "")) if priced else []
     stamp = now.strftime("%H%M")
-    md = [f"# {args.tarih} — Nesine {args.hedef:g} oranlık kupon ({now:%H:%M} TSİ)", "",
+    md = [f"# {args.tarih} — Nesine en az {args.hedef:g} oranlık kupon ({now:%H:%M} TSİ)", "",
           "Olasılıklar global keskin fiyattan (Pinnacle / Smarkets / Matchbook / Betfair borsası), oranlar Nesine'den. "
           + ("Yöntem: her maçın en olası seçimi alınır, maçlar **%100'e en yakından** başlayarak sıralanır ve Nesine "
              "oranı hedefe ulaşana kadar eklenir." if args.yontem == "guvenli" else
-             "Yöntem: hedef Nesine oranına ulaşan kuponlar arasında **birleşik tutma olasılığı en yüksek** olan.")
+             "Yöntem: toplam Nesine oranı **en az** hedef olan (daha yüksek olabilir, altı asla) kuponlar arasında "
+             "**birleşik tutma olasılığı en yüksek** olan.")
           + " Oranlar maç saatine kadar değişebilir; oynamadan önce Nesine'de kontrol edin.", ""]
     if not coupons:
         md.append("_Bu hedefe uygun kupon kurulamadı (yeterli keskin referanslı, başlamamış maç yok)._")
