@@ -70,7 +70,12 @@ def _match(event, candidates: list[dict], max_hours: float = 3.0, threshold: flo
     for c in candidates:
         if abs((c["kickoff"] - event.kickoff).total_seconds()) > max_hours * 3600:
             continue
-        s = (_sim(event.home, c["home"]) + _sim(event.away, c["away"])) / 2
+        sh, sa = _sim(event.home, c["home"]), _sim(event.away, c["away"])
+        s = (sh + sa) / 2
+        if s < threshold and abs((c["kickoff"] - event.kickoff).total_seconds()) <= 900 and max(sh, sa) >= 0.85 and min(sh, sa) >= 0.3:
+            # same kick-off and one team clearly the same, the other only renamed (e.g. 'R. Wien (Amt)' = 'SK Rapid II');
+            # analyze_day still rejects the pairing if the two 1X2 prices disagree
+            s = threshold
         if s > score:
             best, score = c, s
     return (best, score) if score >= threshold else (None, score)

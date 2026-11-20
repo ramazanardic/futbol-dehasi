@@ -71,6 +71,9 @@ def main() -> None:
              "Dünkü sonuçlardan uygulanan dersler: düşük güvenli tahminler kupona girmez (19 Kasım'da %86 ve %80 verilen "
              "iki düşük güvenli favori yattı); modelden türetilen İY/MS ve 2. yarı sonucu bacak olmaz; skor, İY/MS ve iki "
              "yarıda KG yalnız bilgi olarak verilir (18–19 Kasım'da bu türden 13 kuponun hepsi yattı).", "",
+             "**Düşük güven** satırları: hiçbir ücretsiz keskin kaynak (Smarkets, Matchbook, Betfair, Pinnacle) bu maçları "
+             "listelemiyor; olasılıklar yalnız Nesine'nin kendi oranından. 19 Kasım ölçümü: bu tahminlerin hatası global "
+             "fiyatlıların ~1,6 katı (Brier 0,257 / 0,157), %80+ verilenlerin yalnız üçte biri tuttu. Bilgi amaçlıdır.", "",
              "| Saat | Lig | Maç | Kaynak | 1 / X / 2 | Gol (ev-dep) | 2,5Ü | KG | En olası skorlar | En olası İY/MS | "
              "En güvenilir tercih (Nesine ≥1,20) | Ev formu | Dep formu |",
              "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]

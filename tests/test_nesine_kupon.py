@@ -380,3 +380,16 @@ def test_model_second_half_result_legs_are_excluded():
              {"market": "2. Yarı Sonucu", "selection": "2", "name": "2Y 2", "odds": 1.7, "fair_prob": 0.57, "ev": -0.1, "mbs": 1, "direct": True}]}
     legs = kupon.candidates([m], now, 1.2, 0.0, False)[0]
     assert [leg["name"] for leg in legs] == ["2Y 2"]
+
+
+def test_renamed_reserve_team_pairs_on_same_kickoff_only():
+    import datetime as dt
+
+    import nesine_global as ng
+
+    ko = dt.datetime(2026, 11, 20, 20, 30, tzinfo=dt.timezone.utc)
+    ev = type("E", (), {"home": "R. Wien (Amt)", "away": "Blau Weiss L.", "kickoff": ko})
+    ref = {"home": "SK Rapid II", "away": "FC Blau-Weiss Linz", "kickoff": ko}
+    assert ng._match(ev, [ref])[0] is ref
+    late = dict(ref, kickoff=ko + dt.timedelta(hours=2))
+    assert ng._match(ev, [late])[0] is None  # weak name match only accepted at the same kick-off
