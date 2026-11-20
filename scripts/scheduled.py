@@ -42,10 +42,41 @@ def _run(args: list[str], log, script: Path = DAILY_SCRIPT) -> int:
     return proc.returncode
 
 
+def _git(*args: str) -> subprocess.CompletedProcess:
+    return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
+                          errors="replace", timeout=300)
+
+
+GENERATED = ("reports/", "tahminler/claudetahmin/")  # files this PC regenerates on every run
+
+
+def _recover(log) -> None:
+    """A failed `pull --rebase --autostash` must not leave the checkout stuck (20 Nov: from 10:30 every pull and
+    publish failed on 'unmerged files'). Abort a half-done rebase (git restores the autostash); if re-applying the
+    autostash conflicted on generated report files, keep this PC's newest version. Conflicts in any other file
+    (code) are left untouched and reported."""
+    if (ROOT / ".git" / "rebase-merge").exists() or (ROOT / ".git" / "rebase-apply").exists():
+        r = _git("rebase", "--abort")
+        log.write(f"[kurtarma] rebase --abort: {r.returncode} {r.stderr.strip()[:200]}\n")
+    unmerged = [x for x in _git("diff", "--name-only", "--diff-filter=U").stdout.split("\n") if x]
+    if not unmerged:
+        return
+    gen = [x for x in unmerged if x.startswith(GENERATED)]
+    if gen:
+        _git("checkout", "--theirs", "--", *gen)  # stash side = this PC's latest regeneration
+        _git("reset", "-q", "--", *gen)
+        log.write(f"[kurtarma] üretilmiş dosyalarda çakışma çözüldü (bu PC'nin son sürümü): {', '.join(gen)}\n")
+    other = [x for x in unmerged if x not in gen]
+    if other:
+        log.write(f"[kurtarma] ⚠ elle bakılmalı (kod/diğer dosya çakışması): {', '.join(other)}\n")
+
+
 def _pull(log) -> None:
-    pull = subprocess.run(["git", "pull", "--rebase", "--autostash", "-q"], cwd=ROOT,
-                          capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=300)
+    _recover(log)  # a previous run may have left a conflict
+    pull = _git("pull", "--rebase", "--autostash", "-q")
     log.write(f"\n[git pull] çıkış kodu {pull.returncode} {pull.stderr.strip()}\n")
+    if pull.returncode:
+        _recover(log)
 
 
 GLOBAL_FILE = ROOT / "data" / "global_odds" / "latest" / "references.json"
@@ -166,10 +197,13 @@ def _publish(log, message: str, paths: list[str] | None = None) -> None:
     steps = (["git", "add", "--", *paths],
              ["git", "commit", "-q", "-m", message + "\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>", "--", *paths],
              ["git", "pull", "--rebase", "--autostash", "-q"], ["git", "push", "-q"])
+    _recover(log)
     for cmd in steps:
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=300)
         log.write(f"[yayın] {' '.join(cmd[:2])}: {r.returncode} {(r.stdout + r.stderr).strip()[:200]}\n")
         if r.returncode:
+            if cmd[1] == "pull":
+                _recover(log)  # never leave the checkout half-rebased
             return  # e.g. "nothing to commit": stop quietly
 
 

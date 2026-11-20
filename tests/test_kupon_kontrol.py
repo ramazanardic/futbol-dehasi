@@ -200,3 +200,31 @@ def test_check_uses_live_odds_over_analysis_odds(tmp_path, monkeypatch):
     assert rows[0]["odds_now"] == 1.55 and not rows[0]["warn"]
     rows, _ = kontrol.check("2026-11-20", now, live={1: {}})  # suspended on Nesine now
     assert "Nesine'de yok / askıda" in rows[0]["warn"]
+
+
+def test_scheduler_recovers_from_autostash_conflict_on_generated_files(tmp_path, monkeypatch):
+    import subprocess
+    sched = _load("scheduled")
+    monkeypatch.setattr(sched, "ROOT", tmp_path)
+
+    def git(*a):
+        return subprocess.run(["git", *a], cwd=tmp_path, capture_output=True, text=True, check=False)
+
+    git("init", "-q")
+    git("config", "user.email", "t@t")
+    git("config", "user.name", "t")
+    f = tmp_path / "reports" / "x.json"
+    f.parent.mkdir()
+    f.write_text("v1\n")
+    git("add", "-A")
+    git("commit", "-qm", "v1")
+    f.write_text("pc-latest\n")       # this PC's regeneration (uncommitted)
+    git("stash", "push", "-q")
+    f.write_text("remote\n")          # what came from GitHub
+    git("commit", "-qam", "remote")
+    git("stash", "apply", "-q")       # conflicts, as the autostash did on 20 Nov
+    assert git("diff", "--name-only", "--diff-filter=U").stdout.strip() == "reports/x.json"
+    log = []
+    sched._recover(SimpleNamespace(write=log.append))
+    assert git("diff", "--name-only", "--diff-filter=U").stdout.strip() == ""
+    assert f.read_text() == "pc-latest\n" and any("çakışma çözüldü" in x for x in log)

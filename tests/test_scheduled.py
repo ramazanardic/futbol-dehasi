@@ -111,8 +111,9 @@ def test_status_file_and_alert(tmp_path, monkeypatch):
 def test_publish_commits_report_folders_and_pushes(tmp_path, monkeypatch):
     calls = _setup(tmp_path, monkeypatch, age_hours=1)
     sched._publish(io.StringIO(), "data(takip): test")
-    assert [c[1] for c in calls] == ["add", "commit", "pull", "push"]
-    assert "reports/ledger" in calls[0] and "reports/takip" in calls[1]
+    assert [c[1] for c in calls if c[1] != "diff"] == ["add", "commit", "pull", "push"]  # diff: _recover check
+    git_calls = [c for c in calls if c[1] != "diff"]
+    assert "reports/ledger" in git_calls[0] and "reports/takip" in git_calls[1]
 
 
 def test_publish_stops_when_nothing_to_commit(tmp_path, monkeypatch):
@@ -124,4 +125,4 @@ def test_publish_stops_when_nothing_to_commit(tmp_path, monkeypatch):
 
     monkeypatch.setattr(sched.subprocess, "run", lambda cmd, **kw: calls.append(cmd) or _R(1 if cmd[1] == "commit" else 0))
     sched._publish(io.StringIO(), "x")
-    assert [c[1] for c in calls] == ["add", "commit"]
+    assert [c[1] for c in calls if c[1] != "diff"] == ["add", "commit"]
