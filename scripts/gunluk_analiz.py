@@ -74,7 +74,7 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
     if m["status"] != "fiyatlandı":
         return None, "global fiyat yok"
     is_sharp = is_sharp_source(m.get("reference"))
-    min_p = 0.0
+    min_p = 0.55  # coupon leg floor (user rule); a 9 % pick was once shown as "most reliable"
     if not is_sharp:
         if not (m.get("reference") or "").startswith(("OddsMath (", "OddsPapi (", "API-Football (")):
             return None, "yalnız ESPN fiyatı (keskin değil)"
