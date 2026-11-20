@@ -93,7 +93,10 @@ def match_view(m: dict) -> tuple[np.ndarray, dict] | None:
     home, away = wg.match_team(m["home"], names), wg.match_team(m["away"], names)
     if not home or not away or home == away or min(counts[home], counts[away]) < MIN_TEAM:
         return None
-    p = model.predict(home, away)
+    try:
+        p = model.predict(home, away)
+    except ValueError:  # a poorly identified fit (small league sample) gives an invalid score matrix: no view
+        return None
     joint = half_joint(np.asarray(p.goal_matrix, dtype=float))
     return joint, {"source": src, "home": home, "away": away,
                    "xg": [round(float(p.home_goal_expectation), 2), round(float(p.away_goal_expectation), 2)]}
