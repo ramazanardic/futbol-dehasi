@@ -31,7 +31,7 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
   çevrilir; puanlar ve football-data.co.uk sezon dosyaları Türkiye'den açılmadığı için global-odds iş akışında çekilir.
   Arşiv `scripts/arsiv_guncelle.py` ile güncellenir (yalnız yeni maçlar sona eklenir). Her ana tercihin kapanış fiyatı
   (CLV) `tahmin_clv.json`'a, simülasyon kararlarının (üçlü onay / çelişki …) isabeti ertesi gün değerlendirmesine
-  yazılır. Türkiye dışı çalıştırma: [deploy/gcp/README.md](deploy/gcp/README.md) (Google Cloud ücretsiz sunucu).
+  yazılır.
 - **Kupon (21 Kasım):** `scripts/kupon_kur.py` yalnız takım geçmişiyle test edilmiş (✓ / ~) bacak alır
   (`--kanitsiz` ile gevşer); ertesi gün ölçümünde (`data/calibration/verdict_stats.json`) ~ bacaklar fiyatın 5 puan
   altında kalırsa yalnız ✓ alınır. Bacak olasılıkları bitmiş günlerden öğrenilen düzeltmeyle (`prob_shift`, doğrudan /
