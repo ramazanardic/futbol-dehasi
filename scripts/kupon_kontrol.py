@@ -55,7 +55,7 @@ def coupon_legs(date: str) -> dict[str, dict]:
 
 
 def live_odds() -> dict[int, dict[str, float]] | None:
-    """Live Nesine odds (lower of two bulletin reads). The analysis file can be older than the coupons: on 20 Nov a
+    """Live Nesine odds (lower of two bulletin reads). The analysis file can be older than the coupons: on 20 Nov an
     older analysis showed a leg at 1.44 while the coupon was built and re-checked live at 1.61-1.64."""
     try:
         sys.path.insert(0, str(ROOT / "scripts"))
