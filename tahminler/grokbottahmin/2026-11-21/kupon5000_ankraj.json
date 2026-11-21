@@ -1,0 +1,30 @@
+[
+ {
+  "code": 3319709,
+  "ko": "20:00",
+  "lg": "İspanya Segunda RFEF",
+  "match": "Espanyol II - Barcelona B",
+  "sel": "MS 1",
+  "market": "Maç Sonucu",
+  "odds": 2.18,
+  "p": 0.4983,
+  "fair": 2.007,
+  "ev": 0.0864,
+  "ref": "OddsMath (BetInAsia/Pinnacle)",
+  "age": 1.05
+ },
+ {
+  "code": 3314542,
+  "ko": "19:00",
+  "lg": "Macaristan NB III, Güneybatı Grubu",
+  "match": "Pecs MFC - Sarbogard SE",
+  "sel": "Dep 0.5 Alt",
+  "market": "Deplasman 0,5 Gol Alt/Üst",
+  "odds": 1.38,
+  "p": 0.833,
+  "fair": 1.201,
+  "ev": 0.1495,
+  "ref": "OddsMath (Marathonbet), türetilmiş",
+  "age": 1.05
+ }
+]
