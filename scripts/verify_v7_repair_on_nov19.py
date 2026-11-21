@@ -1,4 +1,11 @@
-"""QuantFoot-v7 Self-Repair Verification: Replay Nov 19 (#1-#34) Pre-Match Data (v6.1 vs v7) & Audit Evening Slate (#37-#59)."""
+"""QuantFoot-v7 Self-Repair Verification: Replay Nov 19 (#1-#34) Pre-Match Data (v6.1 vs v7) & Audit Evening Slate (#37-#59).
+
+NOT EVIDENCE (22 Nov audit): the v7 rules were tuned on the same 19 Nov matches this script replays, so its
+"improvement" is in-sample. The archive walk-forward test (scripts/pazar_kalibrasyonu.py,
+reports/research/pazar_kalibrasyonu.md) is the evidence standard; the untestable v7 goal-regime and BTTS-anchor
+changes were reverted to neutral (docs/research/deneysel_kod.md). Some numbers printed here therefore no longer
+match the current code.
+"""
 
 from __future__ import annotations
 

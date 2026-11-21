@@ -1,7 +1,16 @@
 """
+DENEYSEL — ÜRETİMDE KULLANILMAZ (22 Kasım 2026 denetimi).
+
 QuantFoot v8.1 & v8.2 — Yasaksız Yapısal Stokastik Evrim & Çoklu Yapay Zeka (Claude + Gemini)
-Çapraz Öğrenme (Cross-AI Self-Learning) Motoru.
-Hiçbir pazara veya oran aralığına yapay yasak koymaz.
+Çapraz Öğrenme (Cross-AI Self-Learning) Motoru (commit 17bf360).
+
+Durum:
+- Hiçbir betik, kupon motoru veya test bu dosyayı içe aktarmaz (ölü kod).
+- Sabitler (rejim ağırlıkları 0.820/0.095/0.085, çarpanlar 0.72/0.88/1.18/1.24/0.86, ρ = −0.19/−0.15/−0.09) veriye
+  UYDURULMAMIŞTIR; arşivde walk-forward doğrulaması ve birim testi yoktur.
+- Bu yüzden çıktısı bir olasılık/fiyat kaynağı olarak kullanılmamalıdır. Kullanılmak istenirse önce
+  scripts/pazar_kalibrasyonu.py düzeninde sızıntısız bir arşiv testi gerekir (bkz. docs/research/deneysel_kod.md).
+Silinmedi: kullanıcının/diğer yapay zekâların referansı için bırakıldı.
 """
 import math
 

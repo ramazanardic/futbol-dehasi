@@ -22,10 +22,12 @@ _DEFAULT_LEAGUE_REGIMES: tuple[tuple[str, tuple[float, float, float]], ...] = (
     ("u21", (1.00, 0.11, 0.08)),
     ("u19", (1.00, 0.12, 0.09)),
     ("u17", (1.00, 0.12, 0.09)),
-    ("wchampions", (1.00, 0.04, 0.03)),
-    ("reina", (1.00, 0.06, 0.04)),
-    ("eng.w.", (1.00, 0.04, 0.03)),
-    ("women", (1.00, 0.05, 0.03)),
+    # Women's regimes back to their pre-v7.1 values: the 20 Nov change (141e724) was tuned on one day's results and
+    # cannot be walk-forward tested (no women's matches with goal prices in the archive). 22 Nov audit.
+    ("wchampions", (1.00, 0.11, 0.08)),
+    ("reina", (1.00, 0.11, 0.08)),
+    ("eng.w.", (1.00, 0.10, 0.08)),
+    ("women", (1.00, 0.10, 0.08)),
     ("concacaf", (1.00, 0.08, 0.07)),
     ("fifa.friendly", (1.00, 0.09, 0.07)),
     ("copa_del_rey", (1.00, 0.08, 0.06)),
@@ -41,20 +43,10 @@ _DEFAULT_LEAGUE_REGIMES: tuple[tuple[str, tuple[float, float, float]], ...] = (
     ("bol.", (1.08, 0.00, 0.01)),
     ("col.", (1.10, 0.00, 0.00)),
     ("ind.2", (1.08, 0.00, 0.01)),
-    # Open-tempo Gulf, Oceania, MLS, ASEAN & domestic cup regimes (Nov 19 post-mortem)
-    ("uae.", (1.00, 0.06, 0.05)),
-    ("qat.", (1.00, 0.05, 0.04)),
-    ("aus.", (1.00, 0.06, 0.05)),
-    ("usa.", (1.00, 0.03, 0.02)),
-    ("afc.cup", (1.00, 0.06, 0.04)),
-    ("svk.cup", (1.00, 0.07, 0.05)),
-    ("svn.cup", (1.00, 0.06, 0.05)),
-    ("jor.cup", (1.00, 0.07, 0.05)),
-    # Tight defensive club regimes
-    ("egy.", (1.10, 0.00, 0.00)),
-    ("alg.", (1.10, 0.00, 0.00)),
-    ("irn.", (1.10, 0.00, 0.00)),
-    ("zam.", (1.10, 0.00, 0.00)),
+    # The v7 "Nov 19 post-mortem" regimes (uae./qat./aus./usa./afc.cup/svk.cup/svn.cup/jor.cup open-tempo and
+    # egy./alg./irn./zam. defensive, commits 7cb38ea / 141e724) were fitted and verified on the same day's matches;
+    # none of these competitions has goal prices in the archive, so they cannot be walk-forward tested -> removed,
+    # these leagues use the archive-calibrated CLUB_REGIME (docs/research/deneysel_kod.md, 22 Nov audit).
 )
 # Club regime re-calibrated on market-anchored FT derivative markets (calibration 2019-22, test 2022+,
 # 6,000 matches): nu=1.0 / rho=-0.03 beat the earlier nu=1.10 / rho=-0.07 on every market line
@@ -62,6 +54,13 @@ _DEFAULT_LEAGUE_REGIMES: tuple[tuple[str, tuple[float, float, float]], ...] = (
 # See reports/research/regime_calibration.md.
 CLUB_REGIME: tuple[float, float, float] = (1.00, 0.00, 0.00)
 DEFAULT_RHO: float = -0.03
+# v7.1 (141e724) high-total Dixon-Coles taper — OFF. Archive test (77,519 matches 2016+, market-anchored, pure
+# out-of-sample): it made KG Var significantly worse (log-loss +0.0000159 overall, +0.0000475 when expected total
+# > 2.8, both 95 % CIs above zero) and did not significantly help 3.5 Üst / 0-0 / 1-1. Kept as a flag for research.
+# reports/research/pazar_kalibrasyonu.md, 22 Nov audit.
+HIGH_TOTAL_RHO_TAPER: bool = False
+# KL weight of a quoted BTTS probability in fit_tail_rates_from_markets (neutral pre-v7 value).
+BTTS_FIT_WEIGHT: float = 2.0
 _CLUB_CODES: frozenset[str] = frozenset(
     {"e0", "e1", "e2", "e3", "ec", "sp1", "sp2", "d1", "d2", "i1", "i2", "f1", "f2", "t1", "n1", "p1", "b1", "sc0", "sc1", "sc2", "sc3"}
 )
@@ -236,7 +235,7 @@ def negative_binomial_score_matrix(
     # Taper Dixon-Coles low-score (0-0 / 1-1) adjustment smoothly on high-total shootouts (tot > 2.8)
     # so 3.5-4.5 xG matches do not artificially elevate 1-1 / 0-0 above true shootout scorelines.
     tot_mu = mu_h + mu_a
-    eff_rho = float(rho * np.exp(-max(0.0, tot_mu - 2.8) / 1.2))
+    eff_rho = float(rho * np.exp(-max(0.0, tot_mu - 2.8) / 1.2)) if HIGH_TOTAL_RHO_TAPER else float(rho)
     return _apply_dixon_coles_low_scores(mat, mu_h, mu_a, eff_rho)
 
 
@@ -366,10 +365,10 @@ def fit_tail_rates_from_markets(
             kl_b = t_btts * np.log(t_btts / m_btts) + (1.0 - t_btts) * np.log(
                 (1.0 - t_btts) / (1.0 - m_btts)
             )
-            # In lopsided blowouts (max 1X2 >= 0.72), 1X2+O/U cannot uniquely separate
-            # underdog scoring rate; weight BTTS more strongly so mu_underdog stays anchored.
-            btts_w = 4.5 if (p1x2_arr is not None and float(np.max(p1x2_arr)) >= 0.72) else 2.5
-            loss_val += btts_w * float(kl_b)
+            # Neutral weight (pre-v7). The v7 "blowout BTTS anchor" (2.5 / 4.5 when max 1X2 >= 0.72, commit 7cb38ea)
+            # was tuned and "verified" on the same day's 19 Nov results only; the archive has no BTTS prices, so it
+            # cannot be walk-forward tested -> reverted (docs/research/deneysel_kod.md, 22 Nov audit).
+            loss_val += BTTS_FIT_WEIGHT * float(kl_b)
 
         # Log-space regularization toward domain-calibrated seed rates.
         loss_val += prior_w * (

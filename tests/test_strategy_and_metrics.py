@@ -381,11 +381,13 @@ def test_v71_underdog_dc_tight_o15_knockout_over_and_shootout_scores():
     blocked_lag, _ = audit_match_risks(b_lag, MatchRiskContext(is_knockout=True))
     assert "2.5 Üst" in blocked_lag
 
-    # 4. Exact-score mode calibration: Arsenal-Lyon (1.47, 2.46) must not collapse #1 score to 1-1 or 0-1
+    # 4. The v7.1 women's regime (tuned on the Arsenal-Lyon result of the same day) could not be walk-forward tested
+    #    and was reverted to the pre-v7.1 values (22 Nov audit, docs/research/deneysel_kod.md); the score-mode
+    #    assertion that encoded that one result is dropped.
+    from quantfoot.markets.tail_goals import league_tail_regime
+    assert league_tail_regime("uefa.wchampions") == (1.00, 0.11, 0.08)
     b_ars = compute_omni_markets(1.47, 2.46, league="uefa.wchampions")
-    top3_ars = [s["score"] for s in b_ars.top_ft_scores[:3]]
-    assert top3_ars[0] == "1-2"
-    assert "0-1" not in top3_ars
+    assert abs(sum(s["prob"] for s in b_ars.top_ft_scores[:3])) > 0
 
 
 def test_v71_portfolio_forbids_contradictions_and_enforces_min_leg_prob():

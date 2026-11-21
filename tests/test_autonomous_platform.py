@@ -76,7 +76,8 @@ def test_auto_learn_empirical_bayes_calibration_and_kupon_integration(tmp_path):
     assert "İkinci yarı" in adj["auto_blocked_families"]
 
     # Calibration delta feeds cleanly into nesine_kupon.leg_sigma
-    loaded = al.load_live_calibration(cal_path)
+    assert al.load_live_calibration(cal_path)["adjustments"]["source_sigma_delta"] == {}   # 120 < 300: neutral in production
+    loaded = al.load_live_calibration(cal_path, min_matches=100)
     delta_bad = al.calibration_sigma_adjustment("OddsMath (OverconfidentBook)", "2Y 1", loaded)
     delta_good = al.calibration_sigma_adjustment("Matchbook + Smarkets (borsa)", "2.5 Üst", loaded)
     assert delta_bad > 0.02
