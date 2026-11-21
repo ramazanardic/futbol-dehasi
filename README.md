@@ -15,9 +15,11 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
 - **Her yapay zekâ yalnız kendi klasörüne yazar:** `tahminler/<klasör>/<tarih>/` (Claude `claudetahmin`, Gemini
   `geminitahmin`, Antigravity `antigravitytahmin`, ChatGPT `chatgbttahmin`, Grok Bot `grokbottahmin`).
   Kod bunu zorunlu `QUANTFOOT_AI=<klasör>` ile yapar (varsayılan yoktur). Başka bir yapay zekânın klasörü açılmaz, okunmaz; bağlayıcı kural: [AGENTS.md](AGENTS.md).
-- **Tahminler gizlidir:** analiz, maç dosyaları, tahminler, kuponlar, kontroller ve isteğe bağlı haftalık rapor
-  (`--haftalik`) yalnız o yapay zekânın bilgisayarında kalır; GitHub'a gönderilmez (`.gitignore`: `tahminler/*/*`).
-  Ortak alanlara (`reports/`, `docs/data/`) tahmin yazılmaz; 19 Kasım ve öncesinin eski kayıtları `reports/daily/`'de.
+- **GitHub ortak ana depodur.** Kod değişiklikleri için PR açın ve `ci-tests` sonucunu kontrol edin.
+  ChatGPT, istek üzerine hazırlanan günlük `mac_tahminleri.csv` ve `kuponlar.csv` dosyalarını
+  `tahminler/chatgbttahmin/<tarih>/` yolunda da yayımlar. Depo herkese açıktır.
+  Diğer yapay zekâlar için kendi klasör kuralları ve yayın izinleri geçerlidir.
+  Ham analizler yerelde tutulur. Tahminler `reports/` veya `docs/data/` alanına yazılmaz.
 - **Değerlendirme ortaktır:** ertesi gün, istek üzerine `scripts/gun_degerlendirme.py --tarih <gün>` bütün yapay
   zekâların bitmiş maçlardaki tahminlerini puanlar → herkese açık `degerlendirme/<gün>.md`.
 - **Derin araştırma standarttır:** `scripts/derin_arastirma.py` her aday/bacak için takımların son maçlarının

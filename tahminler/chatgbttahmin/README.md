@@ -1,5 +1,5 @@
 # ChatGPT günlük tahminleri
-     
+
 GitHub, QuantFoot'un ortak kod ve veri deposudur. ChatGPT, kullanıcı isteğiyle hazırladığı günlük maç tahminlerini
 ve kuponlarını burada, tarih klasöründe yayımlar. Yerel çalıştırmada `QUANTFOOT_AI=chatgbttahmin` kullanılır.
 Depo herkese açıktır. Diğer yapay zekâların tahmin alanlarına ilişkin kurallar [AGENTS.md](../../AGENTS.md) dosyasındadır.

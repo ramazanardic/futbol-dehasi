@@ -5,13 +5,13 @@ Her yapay zekâ **yalnız kendi klasörüne** yazar; başkasının klasörüne d
 
 | Klasör | Yapay zekâ |
 |---|---|
-| `claudetahmin/` | Claude (QuantFoot sistemi, her gün otomatik yazılır) |
+| `claudetahmin/` | Claude |
 | `geminitahmin/` | Gemini |
 | `antigravitytahmin/` | Antigravity |
 | `chatgbttahmin/` | ChatGPT |
 | `grokbottahmin/` | Grok Bot |
 
-## Kural: yöntem ortak, tahmin gizli, değerlendirme ortak
+## Ortak depo ve tahmin yayını
 
 - **Her yapay zekâ yalnız kendi klasörüne yazar ve kendi klasöründen devam eder. Başka bir yapay zekânın
   klasörünü açmak, okumak, listelemek, kopyalamak, değiştirmek yasaktır** (Claude'unkini Gemini, Gemini'ninkini
@@ -22,10 +22,10 @@ Her yapay zekâ **yalnız kendi klasörüne** yazar; başkasının klasörüne d
   sorduysa o yapay zekâ araştırır ve yazar.
   Onaylı tek zamanlanmış görev `QuantFoot\KuponIzle`: kupon bacaklarını kontrol eder, dünün API-Football sonuçlarını
   arşive ekler; analiz yapmaz.
-- **Tahminler gizlidir:** her yapay zekâ analizini, tahminlerini ve kuponlarını yalnız kendi klasörüne
-  (`tahminler/<klasör>/<tarih>/`) ve yalnız kendi bilgisayarına yazar. Bu klasörler GitHub'a **hiç** gönderilmez
-  (`.gitignore`: `tahminler/*/*`, yalnız README'ler izlenir); ortak alanlara (`reports/`, `docs/data/`) tahmin yazılmaz.
-  Kod bunu zorunlu `QUANTFOOT_AI=<klasör>` ile yapar (varsayılan yoktur).
+- **Yayın:** ChatGPT'nin istek üzerine hazırladığı günlük `mac_tahminleri.csv` ve `kuponlar.csv`,
+  [ChatGPT klasöründe](chatgbttahmin/) herkese açık olarak da yayımlanır. Diğer yapay zekâlar için kendi
+  klasör kuralları ve yayın izinleri geçerlidir. Ortak alanlara (`reports/`, `docs/data/`) tahmin yazılmaz.
+  Yerel çalıştırmada `QUANTFOOT_AI=<klasör>` zorunludur.
 - **Değerlendirme ortaktır:** ertesi gün, önceki günün maçları sonuçlandırılır ve bütün yapay zekâların tahminleri
   `scripts/gun_degerlendirme.py --tarih <gün>` ile değerlendirilir; sonuç herkesin görebileceği
   `degerlendirme/<tarih>.md` / `.json` dosyasına yazılır. Bu dosyada yalnız **bitmiş** maçlar yer alır.

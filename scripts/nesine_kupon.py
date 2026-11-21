@@ -25,6 +25,7 @@ Bu araç kayıp beklentisini en aza indirir, kazanç garanti etmez.
 from __future__ import annotations
 
 import argparse
+from collections.abc import Callable
 import datetime as dt
 import json
 import math
@@ -36,6 +37,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from nesine_global import DAILY, MAX_PLAUSIBLE_EV, PRICED, TSI, analyze_day, selection_key  # noqa: E402
+from kupon_dosyalari import coupon_group as coupon_group, latest_coupons  # noqa: E402
 
 from quantfoot.data.nesine import fetch_bulletin, parse_bulletin  # noqa: E402
 from quantfoot.evaluation.auto_learn import calibrated_probability, calibration_sigma_adjustment, load_live_calibration  # noqa: E402
@@ -101,10 +103,6 @@ def max_legs_for(target: float) -> int:
     return MAX_LEGS_HIGH if target >= HIGH_TARGET - 1e-9 else MAX_LEGS
 
 
-def coupon_group(path: Path) -> tuple[str, str]:
-    """('5x', 'karma') from kupon_5x_0926.json, ('5x', 'iyms') from kupon_5x_iyms_1030.json."""
-    parts = path.stem.split("_")
-    return parts[1], (parts[2] if len(parts) >= 4 else "karma")
 MAX_PRICE_AGE_H = SETTINGS_MAX_PRICE_AGE_H  # global price older than this is not used in coupons
 
 
@@ -445,9 +443,7 @@ AI_AREA = DAILY  # the asking AI's own folder (nesine_global.DAILY = tahminler/<
 def prior_coupon_codes(date: str, target: float, family: str = "karma") -> set:
     """Match codes in the main coupon (Kupon 1) of today's latest coupon for each OTHER target: a 10x built after a 5x should not
     stack the same matches, because one losing shared leg would sink both coupons."""
-    latest: dict[tuple[str, str], Path] = {}
-    for f in sorted((AI_AREA / date).glob("kupon_*x_*.json")):
-        latest[coupon_group(f)] = f  # sorted by HHMM: last one wins
+    latest = latest_coupons(AI_AREA / date)
     codes = set()
     for (tgt, fam), f in latest.items():
         try:
@@ -489,9 +485,7 @@ def prior_coupon_legs(date: str, target: float, family: str = "karma") -> list[d
     asla kuponlarda aynı tercihler olmayacak"); the same match with another compatible selection is allowed.
     Files older than the current set (``--yeni-set``) are ignored."""
     start = _set_start(date)
-    latest: dict[tuple[str, str], Path] = {}
-    for f in sorted((AI_AREA / date).glob("kupon_*x_*.json")):
-        latest[coupon_group(f)] = f
+    latest = latest_coupons(AI_AREA / date)
     legs = []
     for (tgt, fam), f in latest.items():
         try:
@@ -553,13 +547,17 @@ def read_bulletin_odds(reads: int = RECHECK_READS, gap_s: float = RECHECK_GAP_S
     for r in range(reads):
         if r:
             time.sleep(gap_s)
+        current = {}
         for e in parse_bulletin(fetch_bulletin()):
-            book = low.setdefault(int(e.code), {})
+            code = int(e.code)
+            book = current.setdefault(code, {})
             for s in e.selections:
                 k = selection_key(s)
-                if k in book or r == 0:
-                    book[k] = min(book.get(k, s.odds), s.odds)
-                high[(int(e.code), k)] = max(high.get((int(e.code), k), s.odds), s.odds)
+                if r and k not in low.get(code, {}):
+                    continue
+                book[k] = min(book.get(k, s.odds), low.get(code, {}).get(k, s.odds), s.odds)
+                high[(code, k)] = max(high.get((code, k), s.odds), s.odds)
+        low = current
     flicker = {ck: (low[ck[0]][ck[1]], hi) for ck, hi in high.items()
                if ck[1] in low.get(ck[0], {}) and hi - low[ck[0]][ck[1]] > 1e-9}
     return low, flicker
@@ -569,12 +567,10 @@ def apply_live_odds(matches: list[dict], live: dict[int, dict[str, float]]) -> N
     """Lower each selection's odds to the live (lowest-read) bulletin odds and drop selections that are no longer
     offered, so the optimiser never reaches the target on a price Nesine is not paying now."""
     for m in matches:
-        book = live.get(int(m["code"]))
-        if book is None:
-            continue
+        book = live.get(int(m["code"]), {})
         kept = []
         for s in m.get("selections", []):
-            o = book.get(s.get("key")) if s.get("key") else s["odds"]
+            o = book.get(s.get("key"))
             if o is None:
                 continue  # suspended / withdrawn since the analysis
             if o < s["odds"]:
@@ -608,8 +604,11 @@ def recheck_odds(coupons: list[dict], current: dict | None = None, flicker: dict
                 leg["odds"], leg["status"] = now_odds, ("oran 1,20 altına düştü" if low else "oran değişti")
             else:
                 leg["status"] = "kontrol edildi"
-        live = [x for x in c["legs"] if x["status"] != "bültende yok / askıda"]
-        c["nesine_odds"] = round(math.prod(x["odds"] for x in live), 2) if live else 0.0
+        available = all(x["status"] != "bültende yok / askıda" for x in c["legs"])
+        odds = math.prod(x["odds"] for x in c["legs"]) if available else 0.0
+        c["nesine_odds"] = round(odds, 2)
+        if "probability" in c:
+            c["ev"] = c["probability"] * odds - 1 if available else None
         c["odds_checked_at"] = dt.datetime.now(TSI).strftime("%H:%M:%S")
     return notes
 
@@ -622,7 +621,7 @@ def refresh_global_data() -> str:
     return "güncel" if r.returncode == 0 else f"çekilemedi ({r.stderr.strip()[:80]})"
 
 
-def main() -> None:
+def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[dict]], bool] | None = None) -> Path | None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--hedef", type=float, required=True, help="Hedef toplam Nesine oranı (ör. 10)")
     ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
@@ -667,7 +666,7 @@ def main() -> None:
                     help="Kupona alınmayacaklar: '<Nesine kodu>|<seçim anahtarı>' (tek seçim, derin araştırma yeniden "
                          "kurulumu) ya da yalnız '<Nesine kodu>' (maçın tamamı, ör. kullanıcının zaten oynadığı maçlar)")
     ap.add_argument("--aile-ev-kapali", action="store_true",
-                    help="Aile bazlı EV tabanını ve σ eklerini kapat (yalnız araştırma; zor pazar kuralı yine geçerli)")
+                    help="Aile bazlı EV tabanını ve belirsizlik payını kapat (yalnız araştırma; zor pazar kuralı yine geçerli)")
     ap.add_argument("--kupasiz", action="store_true", help="Kupa, eleme ve playoff maçlarını kupon havuzundan çıkar")
     ap.add_argument("--ana-pazar", action="store_true", help="Yalnızca ana pazarlar (MS, ÇŞ, 1.5/2.5/3.5 Alt/Üst, KG)")
     ap.add_argument("--oddsmath", action="store_true", help="OddsMath referanslarını açıkça etkinleştir (varsayılan açık)")
@@ -679,9 +678,11 @@ def main() -> None:
     ap.add_argument("--max-ortak", type=int, default=-1,
                     help="İsteğe bağlı: bugünkü farklı hedefli ana kuponla paylaşılabilecek en çok maç (-1 = sınır yok, "
                          "varsayılan; aynı tercih zaten hiçbir kuponda tekrar edilmez)")
-    ap.add_argument("--pull", action="store_true", help="Kupon öncesi git pull (isteğe bağlı; varsayılan: çekme)")
+    ap.add_argument("--pull", action="store_true", help="Kupon öncesi git pull (isteğe bağlı; varsayılan: kapalı)")
     ap.add_argument("--no-pull", action="store_true", help="Kupon öncesi git pull yapma (varsayılan; kupon_kur uyumu)")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
+    if args.min_oran is not None and args.min_oran < MIN_LEG_ODDS:
+        ap.error("Bacak başına oran en az 1,20 olmalıdır.")
     if args.ayri_mac:
         args.mac_limit = 1  # old behaviour: every match in one coupon only
     pol = KM.policy(args.mod)
@@ -705,6 +706,7 @@ def main() -> None:
         use_oddsmath=not args.no_oddsmath,
         use_tm=bool(args.tm) and not args.no_tm,
     )
+    kickoff = {int(m["code"]): dt.datetime.fromisoformat(m["kickoff_iso"]) for m in matches}
     now = dt.datetime.now(TSI)
     min_prob = args.min_olasilik if args.min_olasilik is not None else pol.min_prob
     live_cal = load_live_calibration()
@@ -724,6 +726,7 @@ def main() -> None:
     # (20 Nov: coupons built at 5.00-5.04 were 4.86-4.93 minutes later). The minimum itself stays the hard floor.
     build_target = args.hedef * (1 + max(args.tampon, 0.0))
     for attempt in range(MAX_BUILD_ATTEMPTS):
+        now = dt.datetime.now(TSI)
         pools = candidates(
             matches,
             now,
@@ -773,7 +776,7 @@ def main() -> None:
 
             c = build(free)
             shared = [leg for leg in (c or {}).get("legs", []) if leg["code"] in prior]
-            if c is not None and len(shared) > args.max_ortak:
+            if c is not None and args.max_ortak >= 0 and len(shared) > args.max_ortak:
                 # keep the most reliable shared legs' matches, drop the other earlier-coupon matches and rebuild
                 keep = {leg["code"] for leg in sorted(shared, key=lambda x: -x["p_low"])[:args.max_ortak]}
                 c = build([p for p in free if p[0]["code"] not in prior or p[0]["code"] in keep])
@@ -782,23 +785,31 @@ def main() -> None:
             coupons.append(c)
             used |= {leg["code"] for leg in c["legs"]}
 
+        if review is not None and (not coupons or not review([leg for c in coupons for leg in c["legs"]], matches)):
+            return None
         live, flicker = read_bulletin_odds() if coupons else ({}, {})
+        now = dt.datetime.now(TSI)
         change_notes = recheck_odds(coupons, live, flicker) if coupons else []
-        if attempt < MAX_BUILD_ATTEMPTS - 1 and any(c["nesine_odds"] < args.hedef - 1e-9 for c in coupons):
+        invalid = [c for c in coupons if any(kickoff[int(x["code"])] <= now
+                   or live.get(int(x["code"]), {}).get(x["key"], 0) < args.min_oran for x in c["legs"])
+                   or math.prod(x["odds"] for x in c["legs"]) < args.hedef - 1e-9]
+        if attempt < MAX_BUILD_ATTEMPTS - 1 and invalid:
             apply_live_odds(matches, live)
             rebuilt = True
             continue
         break
     if rebuilt:
-        change_notes.insert(0, "Son okumada bir kupon hedefin altına düştü: kupon güncel oranlarla yeniden kuruldu")
+        change_notes.insert(0, "Son bülten kontrolünden sonra kupon güncel oranlarla yeniden kuruldu")
     # The target is a MINIMUM (user rule, 20 Nov: "minimum 5 oran" — 6 or 7 is fine, under 5 never). A coupon that
     # is still under it on the live re-read is never offered.
-    short = [c for c in coupons if c["nesine_odds"] < args.hedef - 1e-9]
-    if short:
-        coupons = [c for c in coupons if c not in short]
-        change_notes.append(f"{len(short)} kupon canlı oranlarla minimum {args.hedef:g} oranın altında kaldığı için çıkarıldı")
+    if invalid:
+        coupons = [c for c in coupons if c not in invalid]
+        change_notes.append(f"{len(invalid)} kupon son bültende bacak veya toplam oran koşulunu karşılamadığı için çıkarıldı")
     coupons, guard_notes = apply_mode_guard(coupons, args.mod, live or None, exposure)
     change_notes += guard_notes
+    if not coupons:
+        print("Bu hedefe uygun kupon kurulamadı.")
+        return None
     for c in coupons:  # scores consistent with each leg (same goal distribution as the leg's probability)
         for leg in c["legs"]:
             priced = PRICED.get(int(leg["code"]))
@@ -812,8 +823,6 @@ def main() -> None:
              "Yöntem: toplam Nesine oranı **en az** hedef olan (daha yüksek olabilir, altı asla) kuponlar arasında "
              "**birleşik tutma olasılığı en yüksek** olan.")
           + " Oranlar maç saatine kadar değişebilir; oynamadan önce Nesine'de kontrol edin.", ""]
-    if not coupons:
-        md.append("_Bu hedefe uygun kupon kurulamadı (yeterli keskin referanslı, başlamamış maç yok)._")
     if stale:
         md += [f"> ⚠ {stale} maçın global fiyatı {MAX_PRICE_AGE_H:g} saatten eski olduğu için kupona alınmadı "
                "(eski fiyat sakatlık / kadro haberinden önce kalmış olabilir).", ""]
@@ -859,7 +868,7 @@ def main() -> None:
            "fiyatından gol modeliyle türetildi (daha az güvenilir). Yalnız doğrudan için: --dogrudan."]
     d = AI_AREA / args.tarih  # coupons live only in this AI's own folder (user rule)
     d.mkdir(parents=True, exist_ok=True)
-    base = d / (f"kupon_{args.hedef:g}x_{stamp}" if args.aile == "karma" else f"kupon_{args.hedef:g}x_{args.aile}_{stamp}")
+    base = d / (f"kupon_{args.hedef:g}x_{stamp}.json" if args.aile == "karma" else f"kupon_{args.hedef:g}x_{args.aile}_{stamp}.json")
     base.with_suffix(".md").write_text("\n".join(md) + "\n", encoding="utf-8")
     if args.yeni_set:
         (d / SET_FILE).write_text(now.isoformat(timespec="seconds") + "\n", encoding="utf-8")
@@ -873,6 +882,7 @@ def main() -> None:
         ai_tahmin.export(args.tarih, matches)  # this run's own analysis, not the shared report files
     except Exception as exc:  # noqa: BLE001 - the coupon itself is already written
         print(f"⚠ mac_tahminleri güncellenemedi: {exc}")
+    return base.with_suffix(".json")
 
 
 if __name__ == "__main__":
