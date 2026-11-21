@@ -44,3 +44,14 @@ PICK_MIN_EV = 0.02
 # Not banned: they enter a coupon only with a larger margin over the calibrated global fair price.
 HARD_MARKET_MIN_EV = 0.03
 HARD_MARKET_SIGMA_ADD = 0.010
+
+# Kasa / pay politikası (kullanıcı kararı, 21 Kasım: %2 / %6 çok düşük bulundu). Hepsi CLI ile değiştirilebilir:
+# scripts/kupon_politikasi.py --kasa 250 --gunluk-limit-oran 1.0 --kupon-limit-oran 0.2
+STAKE_DAILY_FRAC = 1.0      # gün içinde +EV kuponlara dağıtılabilecek en çok kasa oranı
+STAKE_COUPON_FRAC = 0.2     # tek kupona en çok kasa oranı (250 TL → 50 TL)
+STAKE_STEP_TL = 5.0         # paylar 5 TL'nin katı
+MIN_STAKE_TL = 5.0          # Nesine'nin resmî asgari kupon tutarı doğrulanmadı; güvenli varsayım 5 TL
+MIN_COUPON_EV = 0.02        # kupon EV eşiği (her bacak ayrıca EV ≥ 0 olmalı)
+KELLY_MULTIPLIER = 0.25
+LIVE_MIN_EV = 0.05          # canlı fırsat eşiği (model belirsizliği yüksek)
+LIVE_RESERVE_TL = 0.0       # canlı için ayrılan kasa (CLI --canli-rezerv)
