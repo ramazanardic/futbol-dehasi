@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 import numpy as np
 
-from quantfoot.markets.halves_btts import compute_halves_btts, half_model_params
+from quantfoot.markets.halves_btts import half_model_params
 from quantfoot.markets.tail_goals import (
     DEFAULT_RHO,
     _apply_dixon_coles_low_scores,
@@ -151,7 +151,7 @@ def compute_omni_markets(
     mu_h = float(max(0.05, mu_home))
     mu_a = float(max(0.05, mu_away))
 
-    a1_base, match_kappa, half_alpha, fgm_1h, fgm_2h = half_model_params(league)
+    a1_base, _match_kappa, _half_alpha, fgm_1h, _fgm_2h = half_model_params(league)
     com_nu, alpha_nb, shared_kappa = league_tail_regime(league)
 
     if first_half_share is not None:
@@ -337,26 +337,22 @@ def compute_omni_markets(
         h2_ou[f"2Y {line:.1f} Üst"] = round(p_ov, 4)
         h2_ou[f"2Y {line:.1f} Alt"] = round(1.0 - p_ov, 4)
 
-    # 6. BTTS (FT, 1H, 2H, 1H & 2H) using calibrated QuantFoot-v5 halves_btts engine
-    hb = compute_halves_btts(
-        mu_h,
-        mu_a,
-        first_half_share=0.5 * (a1_h + a1_a),
-        match_kappa=match_kappa,
-        half_alpha=half_alpha,
-        fgm_1h=fgm_1h,
-        fgm_2h=fgm_2h,
-    )
+    # 6. BTTS (FT, 1H, 2H, 1H & 2H) read from the SAME raked joint as every other market. (Until 21 Nov the half
+    #    BTTS values came from a separate halves_btts quadrature model and disagreed with the joint that
+    #    nesine_global / goal_probability price from: e.g. both-halves BTTS 5.68 % vs 5.46 % for 1.6 / 1.1.)
     p_ft_kg = float(mat_ft[1:, 1:].sum())
+    p_1h_kg = float(joint[1:, 1:, :, :].sum())
+    p_2h_kg = float(mat_2h[1:, 1:].sum())
+    p_both_kg = float(joint[1:, 1:, 1:, 1:].sum())
     btts = {
         "KG Var": round(p_ft_kg, 4),
         "KG Yok": round(1.0 - p_ft_kg, 4),
-        "1. Yarı KG Var": round(hb.p_1h_kg, 4),
-        "1. Yarı KG Yok": round(1.0 - hb.p_1h_kg, 4),
-        "2. Yarı KG Var": round(hb.p_2h_kg, 4),
-        "2. Yarı KG Yok": round(1.0 - hb.p_2h_kg, 4),
-        "1Y ve 2Y KG Var": round(hb.p_both_halves_kg, 4),
-        "En Az Bir Devre KG Var": round(hb.p_either_half_kg, 4),
+        "1. Yarı KG Var": round(p_1h_kg, 4),
+        "1. Yarı KG Yok": round(1.0 - p_1h_kg, 4),
+        "2. Yarı KG Var": round(p_2h_kg, 4),
+        "2. Yarı KG Yok": round(1.0 - p_2h_kg, 4),
+        "1Y ve 2Y KG Var": round(p_both_kg, 4),
+        "En Az Bir Devre KG Var": round(p_1h_kg + p_2h_kg - p_both_kg, 4),
     }
 
     # 7. Popular Combo Markets

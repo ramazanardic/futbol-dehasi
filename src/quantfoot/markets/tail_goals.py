@@ -461,3 +461,52 @@ def summarize_tail_goals(score_matrix: np.ndarray, top_k: int = 5) -> TailGoalSu
         fair_odds_6plus=fair_odds_6plus,
         top_6plus_scorelines=tuple(ranked[:top_k]),
     )
+
+
+def rake_score_matrix_to_markets(
+    score_matrix: np.ndarray,
+    p_1x2: Sequence[float] | None = None,
+    ou_lines: Iterable[tuple[float, float]] | None = None,
+    p_btts: float | None = None,
+    max_iter: int = 200,
+    tol: float = 1e-10,
+) -> np.ndarray:
+    """Minimum-KL adjustment of a model score matrix so it reproduces the quoted market probabilities EXACTLY.
+
+    A two-parameter goal model (mu_h, mu_a) cannot hit three market facts at once (1X2 has two degrees of freedom,
+    each O/U line one more), so every derived market inherited the misfit — on 77,503 archive matches the joint's
+    draw probability sat 0.8 pp under the devigged 1X2 draw and 1-1 / 2-2 / 'MS 0 & KG Var' / KG Var were all
+    under-predicted (reports/research/bahis_aileleri_kalibrasyon_ham.json). Iterative proportional fitting over
+    the constraint partitions (H/D/A cells, total > line vs below, both-score vs not) is the I-projection of the
+    model onto the matrices that agree with the market: it keeps the model's within-class shape and changes it
+    only as much as the quotes require. Whole-goal O/U lines are skipped (push cells belong to neither side)."""
+    mat = np.asarray(score_matrix, dtype=float).copy()
+    mat /= mat.sum()
+    n_h, n_a = mat.shape
+    gi, gj = np.meshgrid(np.arange(n_h), np.arange(n_a), indexing="ij")
+    parts: list[tuple[list[np.ndarray], list[float]]] = []
+    if p_1x2 is not None and len(p_1x2) == 3:
+        q = np.clip(np.asarray(p_1x2, dtype=float), 1e-6, 1.0)
+        q = q / q.sum()
+        parts.append(([gi > gj, gi == gj, gi < gj], [float(x) for x in q]))
+    for line, p_over in ou_lines or ():
+        if line is None or p_over is None or abs(float(line) % 1 - 0.5) > 1e-9 or not 0.005 < float(p_over) < 0.995:
+            continue
+        over = (gi + gj) > float(line)
+        parts.append(([over, ~over], [float(p_over), 1.0 - float(p_over)]))
+    if p_btts is not None and 0.005 < float(p_btts) < 0.995:
+        yes = (gi >= 1) & (gj >= 1)
+        parts.append(([yes, ~yes], [float(p_btts), 1.0 - float(p_btts)]))
+    if not parts:
+        return mat
+    for _ in range(max_iter):
+        for part_masks, targets in parts:
+            for m, t in zip(part_masks, targets):
+                cur = float(mat[m].sum())
+                if cur > 1e-15:
+                    mat[m] *= t / cur
+        mat /= mat.sum()
+        worst = max(abs(float(mat[m].sum()) - t) for part_masks, targets in parts for m, t in zip(part_masks, targets))
+        if worst < tol:
+            break
+    return mat
