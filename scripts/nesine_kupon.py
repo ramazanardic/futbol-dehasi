@@ -283,6 +283,9 @@ def candidates(
         context = match_context(m)
         researched = bool(res.get("teams") or res.get("user_absences") or res.get("tm_absences"))
         eff_min_prob = max(min_prob, MID_GLOBAL_MIN_PROB) if (not is_sharp and is_mid_global) else min_prob
+        f1x2 = m.get("fair_1x2") or []
+        p_draw = float(f1x2[1]) if len(f1x2) == 3 else None  # beraberlik riski (21 Kas gece analizi, banko_guard)
+        p_over25 = next((float(x["fair_prob"]) for x in m["selections"] if x.get("name") == "2.5 Üst"), None)
         for s in m["selections"]:
             p_cal = calibrated_probability(s["fair_prob"], bool(s.get("direct")), calibration)  # settled-history correction
             p_cal = calibrate_market_probability(s.get("name", ""), p_cal, m.get("league"), mcal, direct=bool(s.get("direct")))  # archive walk-forward curve
@@ -309,7 +312,8 @@ def candidates(
                          "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": ref_lbl,
                          "direct": bool(s.get("direct")), "context": context, "key": s.get("key"),
                          "name": s.get("name", ""), "researched": researched, "tier": "keskin" if is_sharp else "orta",
-                         "ev_cal": round(p_cal * s["odds"] - 1.0, 4), "hard": hard})
+                         "ev_cal": round(p_cal * s["odds"] - 1.0, 4), "hard": hard,
+                         "p_draw": p_draw, "p_over25": p_over25})
             sig = leg_sigma(s.get("name", ""), bool(s.get("direct")), m["reference"], researched, flagged, calibration=calibration)
             if hard:
                 sig += HARD_MARKET_SIGMA_ADD
