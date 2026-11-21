@@ -2,7 +2,7 @@
 coupon is given.
 
     python scripts/kupon_kur.py --hedef 5
-    python scripts/kupon_kur.py --hedef 10 --min-mac 4 -- --hic-kullanilmamis --mac-limit 2
+    python scripts/kupon_kur.py --hedef 10 -- --min-mac 4 --hic-kullanilmamis --mac-limit 2
 
 Each round runs scripts/nesine_kupon.py (direct-price legs by default), then scripts/derin_arastirma.py's checks on
 every leg. Team history comes from ESPN, else API-Football (scripts/api_gecmis.py), else the Wikipedia season table
@@ -14,7 +14,7 @@ every leg. Team history comes from ESPN, else API-Football (scripts/api_gecmis.p
 
 There is no league / kick-off limit (user decision, 20 Nov).
 
-Rejected builds are deleted; the final coupon is kept with its research next to it (<coupon>_derin.md).
+Only a coupon that passes research is saved, together with its research (<coupon>_derin.md).
 """
 
 from __future__ import annotations
@@ -22,9 +22,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
-import os
 from pathlib import Path
-import subprocess
 import sys
 
 from quantfoot.paths import ai_name
@@ -33,6 +31,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import api_gecmis as af  # noqa: E402
 import derin_arastirma as dr  # noqa: E402
+import nesine_kupon  # noqa: E402
 import openfootball_gecmis as of  # noqa: E402
 import footballcharts_gecmis as fc  # noqa: E402
 import openligadb_gecmis as ol  # noqa: E402
@@ -59,19 +58,6 @@ def weak_legs_allowed(ai: str | None = None, path: Path | None = None) -> bool:
     if g.get("n", 0) < WEAK_MIN_N or not g.get("p_n"):
         return True
     return g["won"] / g["n"] >= g["p_sum"] / g["p_n"] - WEAK_MAX_SHORTFALL
-
-
-def run_builder(target: float, extra: list[str], haric: list[str], mode: str = "banko") -> Path | None:
-    before = set((AREA).glob("*/kupon_*x_*.json"))
-    cmd = [sys.executable, str(ROOT / "scripts" / "nesine_kupon.py"), "--hedef", f"{target:g}", "--adet", "1", "--kupasiz",
-           "--no-pull", "--mod", mode, *extra] + (["--haric", *haric] if haric else [])
-    r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace",
-                       env={**os.environ, "PYTHONIOENCODING": "utf-8"})
-    if r.returncode:
-        print(r.stderr[-1500:])
-        return None
-    new = sorted(set(AREA.glob("*/kupon_*x_*.json")) - before, key=lambda f: f.stat().st_mtime)
-    return new[-1] if new else None
 
 
 def research_leg(m: dict, leg: dict, fixtures: list[dict] | None) -> dict:
@@ -115,6 +101,8 @@ def check(legs: list[dict], analysis: dict[str, dict], evidence: bool = True,
     for leg in legs:
         m = analysis.get(str(leg["code"]))
         if not m:
+            if evidence:
+                bad.append((leg, "araştırma için maç verisi bulunamadı"))
             continue
         if sim.get((str(leg["code"]), f"{leg['market']}: {leg['selection']}")) == "çelişki":
             bad.append((leg, "simülasyon çelişki: piyasa, simülasyon ve takım geçmişi uyuşmuyor"))
@@ -140,9 +128,6 @@ def main() -> None:
     ap.add_argument("--kanitsiz", action="store_true", help="Takım geçmişiyle test edilemeyen bacaklara da izin ver")
     ap.add_argument("ekstra", nargs="*", help="nesine_kupon.py'ye aynen geçen seçenekler ('--' sonrası)")
     args = ap.parse_args()
-    analysis_path = AREA / args.tarih / "nesine_global.json"
-    analysis = {str(m["code"]): m for m in json.loads(analysis_path.read_text(encoding="utf-8"))["matches"]} \
-        if analysis_path.exists() else {}
     try:
         fixtures = af.day_fixtures(args.tarih)
     except (af.ApiError, OSError, ValueError) as e:
@@ -154,27 +139,31 @@ def main() -> None:
         print("Ölçüm: ~ işaretli bacaklar fiyatın belirgin altında tuttu; yalnız ✓ bacaklar alınıyor")
     haric: list[str] = []
     log = []
+
+    def review(legs, matches):
+        nonlocal bad, rows
+        bad, rows = check(legs, {str(m["code"]): m for m in matches}, evidence=not args.kanitsiz,
+                          fixtures=fixtures, allow_weak=allow_weak, sim=sims)
+        return not bad
+
     for rnd in range(1, args.tur + 1):
-        f = run_builder(args.hedef, args.ekstra, haric, args.mod)
-        data = json.loads(f.read_text(encoding="utf-8")) if f else {}
-        if not data.get("coupons"):
-            print(f"Tur {rnd}: kurallara uyan kupon kurulamadı.")
-            if f:
-                f.unlink(); f.with_suffix(".md").unlink(missing_ok=True)
-            return
-        legs = data["coupons"][0]["legs"]
-        bad, rows = check(legs, analysis, evidence=not args.kanitsiz, fixtures=fixtures, allow_weak=allow_weak,
-                          sim=sims)
-        if not bad:
+        bad, rows = [], []
+        options = [*args.ekstra, "--hedef", f"{args.hedef:g}", "--tarih", args.tarih, "--adet", "1", "--kupasiz", "--no-pull", "--mod", args.mod]
+        if haric:
+            options.extend(["--haric", *haric])
+        f = nesine_kupon.main(options, review=review)
+        if f:
             (f.parent / f"{f.stem}_derin.md").write_text(dr.to_markdown(args.tarih, rows), encoding="utf-8")
             print(f"Tur {rnd}: kupon temiz -> {f.with_suffix('.md').relative_to(ROOT)} (+ {f.stem}_derin.md)")
             for line in log:
                 print("  çıkarılan:", line)
             return
+        if not bad:
+            print(f"Tur {rnd}: kurallara uyan kupon kurulamadı.")
+            return
         for leg, why in bad:
             haric.append(f"{leg['code']}|{leg.get('key')}")
             log.append(f"{leg['match']} — {leg['market']}: {leg['selection']} ({why})")
-        f.unlink(); f.with_suffix(".md").unlink(missing_ok=True)
         print(f"Tur {rnd}: {len(bad)} bacak çıkarıldı, yeniden kuruluyor")
     print("Tur sınırına ulaşıldı; temiz kupon kurulamadı. Çıkarılanlar:")
     for line in log:

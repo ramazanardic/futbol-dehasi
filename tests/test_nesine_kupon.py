@@ -240,8 +240,32 @@ def test_recheck_odds_updates_changed_and_flags_missing(monkeypatch):
                        {"code": 2, "match": "C - D", "selection": "X", "key": "1|MS 0|0", "odds": 3.0}]}
     notes = kupon.recheck_odds([coupon])
     assert [leg["status"] for leg in coupon["legs"]] == ["oran değişti", "kontrol edildi", "bültende yok / askıda"]
-    assert coupon["legs"][0]["odds"] == 1.50 and coupon["nesine_odds"] == round(1.50 * 1.80, 2)
+    assert coupon["legs"][0]["odds"] == 1.50 and coupon["nesine_odds"] == 0.0
     assert len(notes) == 2
+
+
+def test_builder_preserves_saved_coupon_when_research_or_live_check_fails(tmp_path, monkeypatch):
+    import datetime as dt
+
+    now = dt.datetime.now(kupon.TSI)
+    day = now.date().isoformat()
+    saved = tmp_path / day / f"kupon_5x_{now:%H%M}.json"
+    saved.parent.mkdir()
+    saved.write_text('{"coupons": ["saved"]}')
+    matches = [{"code": 1, "status": "fiyatlandı", "kickoff_iso": (now + dt.timedelta(hours=1)).isoformat()}]
+    leg = {"code": 1, "key": "k", "match": "A - B", "selection": "1", "odds": 6.0}
+    monkeypatch.setattr(kupon, "AI_AREA", tmp_path)
+    monkeypatch.setattr(kupon, "analyze_day", lambda *a, **kw: (matches, {}, []))
+    monkeypatch.setattr(kupon, "load_live_calibration", lambda: {})
+    monkeypatch.setattr(kupon, "candidates", lambda *a, **kw: [[leg]])
+    monkeypatch.setattr(kupon, "filter_pools_for_mode", lambda pools, policy: pools)
+    monkeypatch.setattr(kupon, "best_coupon", lambda *a, **kw: {"legs": [dict(leg)]})
+    monkeypatch.setattr(kupon, "read_bulletin_odds", lambda: ({}, {}))
+    options = ["--hedef", "5", "--tarih", day, "--no-pull", "--adet", "1"]
+    assert kupon.main(options, review=lambda legs, match_data: False) is None
+    assert kupon.main(options) is None
+    assert list(saved.parent.iterdir()) == [saved]
+    assert saved.read_text() == '{"coupons": ["saved"]}'
 
 
 def test_corner_quotes_map_and_are_direct_only():

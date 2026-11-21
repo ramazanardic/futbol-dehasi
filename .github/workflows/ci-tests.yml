@@ -8,6 +8,8 @@ on:
       - "scripts/**"
       - "tests/**"
       - "pyproject.toml"
+      - ".github/workflows/ci-tests.yml"
+      - "data/calibration/market_calibration.json"
   pull_request:
     branches: [main]
   schedule:
