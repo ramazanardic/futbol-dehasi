@@ -34,6 +34,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+import quantfoot.settings as _settings
 
 VARIANT = os.environ.get("QF_AILE_VARYANT", "")  # "" = production pipeline, "ham" = pre-21-Nov (no raking)
 RESEARCH = ROOT / "reports" / "research"
@@ -42,6 +43,10 @@ CAL_FILE = ROOT / "data" / "calibration" / "market_calibration.json"
 START = "2011-07-01"
 FIRST_TEST = 2016
 G = 8  # joint grid per half (0..7 goals per team per half)
+
+
+# research variant 'fark0.15' = explicit margin tilt θ; production ("") = settings.MARGIN_TILT; "ham" = no raking
+TILT = float(VARIANT[4:]) if VARIANT.startswith("fark") else (_settings.MARGIN_TILT if not VARIANT else 0.0)
 
 
 def cache_path(variant: str = VARIANT) -> Path:
@@ -115,7 +120,7 @@ def _price(task: tuple) -> tuple | None:
             com_nu=nu, fund_weight=0.0)
         ft = None
         if VARIANT != "ham":
-            ft = tail_goals.rake_score_matrix_to_markets(mat, p_1x2=p1x2, ou_lines=[(2.5, p_ov)])
+            ft = tail_goals.rake_score_matrix_to_markets(mat, p_1x2=p1x2, ou_lines=[(2.5, p_ov)], margin_tilt=TILT)
         joint = compute_omni_markets(mu_h, mu_a, league=div.lower(), ft_matrix=ft).joint
         flat = joint.ravel() / joint.sum()
         probs = masks().astype(float) @ flat
@@ -284,6 +289,8 @@ def cmd_analyze(args: argparse.Namespace) -> None:
     z = _load(VARIANT)
     P, X, Y, sel, div, season = z["P"].astype(float), z["X"].astype(float), z["Y"].astype(float), list(z["sel"]), z["div"], z["season"]
     odds, goals = z["odds"], z["goals"]
+    global _Y_CACHE
+    _Y_CACHE = Y
     jobs = [(s, P[:, i], Y[:, i], div, season) for i, s in enumerate(sel) if s in SELECTIONS]
     with ProcessPoolExecutor(max_workers=args.isci) as pool:
         rows = list(pool.map(_wf_one, jobs))
@@ -321,6 +328,8 @@ def cmd_analyze(args: argparse.Namespace) -> None:
         ah_rows[side] = {"n": int(m_ah.sum()), "beklenen_kazanc_payi": round(float(np.mean(gain[m_ah])), 4),
                          "gercek_kazanc_payi": round(float(np.mean(rw[m_ah] + 0.5 * rhw[m_ah])), 4), "esikler": tab}
     roi["Asya Handikabı (türev fiyat vs ort. AH oranı)"] = ah_rows
+    roi["Asya Handikabı (Fark-kalibreli türev fiyat vs ort. AH oranı)"] = _ah_calibrated(P, i, div, season, m_ah, ah_line,
+                                                                                        hh, ha, real)
     out = {"varyant": VARIANT or "uretim", "n_mac": len(P), "n_test": int(oos.sum()), "test_sezonlari": f"{FIRST_TEST}/{FIRST_TEST + 1}+",
            "ah_ortalama_marj": round(float(np.nanmean(1 / hh[m_ah] + 1 / ha[m_ah] - 1)), 4), "secimler": rows, "roi": roi}
     target = OUT_JSON if not VARIANT else OUT_JSON.with_name(f"bahis_aileleri_kalibrasyon_{VARIANT}.json")
@@ -333,6 +342,68 @@ def cmd_analyze(args: argparse.Namespace) -> None:
     print(json.dumps(roi, ensure_ascii=False))
     if args.yaz:
         write_calibration(rows)
+
+
+MARGIN_BUCKETS = (("Fark Dep 3+", -3), ("Fark Dep 2", -2), ("Fark Dep 1", -1), ("Fark 0", 0), ("Fark Ev 1", 1),
+                  ("Fark Ev 2", 2), ("Fark Ev 3+", 3))
+
+
+def _ah_calibrated(P, i, div, season, m_ah, ah_line, hh, ha, real) -> dict:
+    """Asian handicap from the WALK-FORWARD Platt-calibrated goal-margin distribution (7 buckets, renormalised).
+
+    The raw joint over-prices big home wins (Fark Ev 3+ 0.104 vs 0.094 realised) — that is exactly the side the raw
+    derived AH lost on. Each test season's curves are fitted on earlier seasons only. Lines with |line| <= 2.25 (the
+    3+ bucket settles them exactly)."""
+    from quantfoot.markets.goal_markets import _asian_outcome
+    from quantfoot.markets.market_calibration import (
+        apply_platt_league,
+        fit_platt_league,
+    )
+
+    names = [n for n, _ in MARGIN_BUCKETS]
+    marg = np.array([m for _, m in MARGIN_BUCKETS], float)
+    Q = np.full((len(P), len(names)), np.nan)
+    for s in sorted(s for s in np.unique(season) if s >= FIRST_TEST):
+        tr, te = season < s, season == s
+        if te.sum() == 0 or tr.sum() < 2000:
+            continue
+        for j, n in enumerate(names):
+            y = _Y_CACHE[:, i[n]]  # realised bucket indicator = the selection's own outcome column
+            c = fit_platt_league(P[tr, i[n]], y[tr], div[tr], league_l2=None)
+            Q[te, j] = apply_platt_league(c, P[te, i[n]])
+    Q = Q / Q.sum(axis=1, keepdims=True)
+    raw = P[:, [i[n] for n in names]]
+    raw = raw / raw.sum(axis=1, keepdims=True)
+    m = m_ah & np.isfinite(Q).all(axis=1) & (np.abs(ah_line) <= 2.25)
+    out = {}
+    for label, dist in (("ham_fark", raw), ("kalibreli_fark", Q)):
+        side_rows = {}
+        for side, oc, sgn, off in (("Ev", hh, 1.0, 0), ("Dep", ha, -1.0, 4)):
+            gain = np.zeros(len(P))
+            loss = np.zeros(len(P))
+            for k in np.where(m)[0]:
+                o = _asian_outcome(sgn * marg, dist[k], sgn * float(ah_line[k]))
+                gain[k] = o.win + 0.5 * o.half_win
+                loss[k] = 1 - o.win - o.half_win - o.push - o.half_lose + 0.5 * o.half_lose
+            ev = gain * (oc - 1) - loss
+            rw, rhw, rpu, rhl = (real[:, off + j] for j in range(4))
+            prof = rw * (oc - 1) + rhw * 0.5 * (oc - 1) - rhl * 0.5 - (1 - rw - rhw - rpu - rhl)
+            tab = []
+            for t in (0.0, 0.02, 0.03, 0.05, 0.08):
+                mm = m & (ev >= t) & (ev < 0.25)
+                if mm.sum() < 30:
+                    tab.append({"esik": t, "n": int(mm.sum())})
+                    continue
+                lo, hi = boot_ci(prof[mm], n=400)
+                tab.append({"esik": t, "n": int(mm.sum()), "roi": round(float(prof[mm].mean()), 4),
+                            "ci": [round(lo, 4), round(hi, 4)], "ort_oran": round(float(oc[mm].mean()), 3)})
+            side_rows[side] = {"n": int(m.sum()), "beklenen_kazanc_payi": round(float(np.mean(gain[m])), 4),
+                               "gercek_kazanc_payi": round(float(np.mean(rw[m] + 0.5 * rhw[m])), 4), "esikler": tab}
+        out[label] = side_rows
+    return out
+
+
+_Y_CACHE: np.ndarray = np.empty((0, 0))
 
 
 def cmd_compare(args: argparse.Namespace) -> None:

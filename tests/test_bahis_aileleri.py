@@ -2,16 +2,22 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 import pytest
-from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
 from quantfoot.data.nesine import load_market_definitions, translate
 from quantfoot.markets.bet_builder import goal_order_share, price_bet_builder
 from quantfoot.markets.devig import devig
-from quantfoot.markets.goal_markets import GoalGrid, asian_handicap, asian_total, goal_probability
+from quantfoot.markets.goal_markets import (
+    GoalGrid,
+    asian_handicap,
+    asian_total,
+    goal_probability,
+)
 from quantfoot.markets.market_calibration import calibrate_market_probability
 from quantfoot.markets.omni_markets import compute_omni_markets
 from quantfoot.markets.pricing import over_under_probability, settle_asian_handicap
@@ -230,8 +236,28 @@ def test_candidates_family_floor_only_on_derived_legs():
     ]
     m = {"status": "fiyatlandı", "reference": "Smarkets (borsa)", "kickoff_iso": "2026-11-19T20:00:00+03:00",
          "kickoff": "2026-11-19 20:00", "code": 1, "league": "L", "home": "A", "away": "B", "selections": sels}
-    kw = dict(min_odds=1.2, min_prob=0.5, allow_espn=False, market_calibration=None)
+    kw = {"min_odds": 1.2, "min_prob": 0.5, "allow_espn": False, "market_calibration": None}
     names = {x["name"] for pool in kupon.candidates([m], now, **kw) for x in pool}
     assert "2-3 Gol" not in names and "ÇŞ 1X" in names
     names_off = {x["name"] for pool in kupon.candidates([m], now, family_ev=False, **kw) for x in pool}
     assert "2-3 Gol" in names_off
+
+
+def test_margin_tilt_thins_big_margins_but_keeps_quotes():
+    from scipy.stats import poisson
+    mat = np.outer(poisson.pmf(np.arange(10), 1.7), poisson.pmf(np.arange(10), 1.0))
+    q = [0.50, 0.26, 0.24]
+    gi, gj = np.meshgrid(np.arange(10), np.arange(10), indexing="ij")
+    base = rake_score_matrix_to_markets(mat, p_1x2=q, ou_lines=[(2.5, 0.52)])
+    tilt = rake_score_matrix_to_markets(mat, p_1x2=q, ou_lines=[(2.5, 0.52)], margin_tilt=0.05)
+    for m in (base, tilt):
+        assert m[gi > gj].sum() == pytest.approx(0.50, abs=1e-7)
+        assert m[gi + gj > 2.5].sum() == pytest.approx(0.52, abs=1e-7)
+    assert tilt[gi - gj >= 3].sum() < base[gi - gj >= 3].sum()
+    assert tilt[gi - gj == 1].sum() > base[gi - gj == 1].sum()
+    assert np.allclose(rake_score_matrix_to_markets(mat, p_1x2=q, margin_tilt=0.0), rake_score_matrix_to_markets(mat, p_1x2=q))
+
+
+def test_production_margin_tilt_setting():
+    from quantfoot.settings import MARGIN_TILT
+    assert 0.0 <= MARGIN_TILT <= 0.2

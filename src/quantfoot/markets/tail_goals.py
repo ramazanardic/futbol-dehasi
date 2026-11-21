@@ -470,6 +470,7 @@ def rake_score_matrix_to_markets(
     p_btts: float | None = None,
     max_iter: int = 200,
     tol: float = 1e-10,
+    margin_tilt: float = 0.0,
 ) -> np.ndarray:
     """Minimum-KL adjustment of a model score matrix so it reproduces the quoted market probabilities EXACTLY.
 
@@ -479,11 +480,17 @@ def rake_score_matrix_to_markets(
     under-predicted (reports/research/bahis_aileleri_kalibrasyon_ham.json). Iterative proportional fitting over
     the constraint partitions (H/D/A cells, total > line vs below, both-score vs not) is the I-projection of the
     model onto the matrices that agree with the market: it keeps the model's within-class shape and changes it
-    only as much as the quotes require. Whole-goal O/U lines are skipped (push cells belong to neither side)."""
+    only as much as the quotes require. Whole-goal O/U lines are skipped (push cells belong to neither side).
+
+    ``margin_tilt`` (θ >= 0) multiplies the prior by exp(−θ·max(|h−a|−1, 0)) before the projection: it thins the
+    big-margin tail without touching draws / one-goal wins (the 1X2 constraint then restores the H/D/A totals)."""
     mat = np.asarray(score_matrix, dtype=float).copy()
     mat /= mat.sum()
     n_h, n_a = mat.shape
     gi, gj = np.meshgrid(np.arange(n_h), np.arange(n_a), indexing="ij")
+    if margin_tilt:
+        mat = mat * np.exp(-float(margin_tilt) * np.maximum(np.abs(gi - gj) - 1, 0))
+        mat /= mat.sum()
     parts: list[tuple[list[np.ndarray], list[float]]] = []
     if p_1x2 is not None and len(p_1x2) == 3:
         q = np.clip(np.asarray(p_1x2, dtype=float), 1e-6, 1.0)

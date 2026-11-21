@@ -45,6 +45,13 @@ PICK_MIN_EV = 0.02
 HARD_MARKET_MIN_EV = 0.03
 HARD_MARKET_SIGMA_ADD = 0.010
 
+# Score-matrix margin tilt applied before raking onto the quotes (tail_goals.rake_score_matrix_to_markets): the raked
+# joint over-priced big wins (Fark Ev 3+ 0.104 vs 0.094 realised, Fark Ev 1 0.205 vs 0.219). θ chosen on seasons
+# < 2016/17 only (12k-match grid {0, .05, .1, .15, .2, .3, .4}: margin-bucket LL best at .05); test 2016/17+ (77,503
+# matches) vs raking alone: 44 selections better / 9 worse / 68 unchanged (Hnd(-1) 1 ΔLL −0.00065 CI [−0.00079,
+# −0.00051]); reports/research/bahis_aileleri_karsilastirma_uretim_fark0.05.json.
+MARGIN_TILT = 0.05
+
 # Per bet-family value rules (21 Nov bet-family audit; docs/research/bahis_aileleri_2026_11_21.md,
 # reports/research/bahis_aileleri_kalibrasyon.json). family -> (minimum calibrated EV, extra σ on the leg probability).
 # Coupon legs (nesine_kupon.candidates): every leg gets σ + family σ (+ the hard-market σ); a MODEL-DERIVED leg (no

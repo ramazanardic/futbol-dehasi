@@ -35,6 +35,7 @@ import unicodedata
 from quantfoot.paths import LazyAiArea, LazyAiName
 from quantfoot.settings import MAX_PLAUSIBLE_EV as SETTINGS_MAX_PLAUSIBLE_EV
 from quantfoot.settings import MAX_PRICE_AGE_H, REFERENCE_LOAD_AGE_H
+from quantfoot.settings import MARGIN_TILT
 from quantfoot.data.absences import fetch_matchday_absences, format_tm_absence_brief
 from quantfoot.data.api_football import fetch_api_football_references
 from quantfoot.data.live_espn import fetch_espn_slate
@@ -417,7 +418,8 @@ def price_event(event, ref: dict, league: str) -> dict:
     # Two goal rates cannot reproduce 1X2 + O/U (+ KG) at once; rake the score matrix onto the quotes so every derived
     # market agrees with them (21 Nov audit: the unraked joint under-priced draws by 0.8 pp, hence 1-1, 2-2,
     # 'MS 0 & KG Var', KG Var — reports/research/bahis_aileleri_kalibrasyon*.json).
-    ft_mat = rake_score_matrix_to_markets(fit_mat, p_1x2=p1x2, ou_lines=ou_lines, p_btts=p_btts_direct)
+    ft_mat = rake_score_matrix_to_markets(fit_mat, p_1x2=p1x2, ou_lines=ou_lines, p_btts=p_btts_direct,
+                                          margin_tilt=MARGIN_TILT)
     joint = compute_omni_markets(mu_h, mu_a, league=regime_key, ft_matrix=ft_mat).joint
     timing = GoalTimingModel.from_joint(joint).markets()["İlk Golü Atan Takım"]
 
