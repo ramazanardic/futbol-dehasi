@@ -32,6 +32,12 @@ from quantfoot.markets.devig import devig
 ODDSMATH_BASE_URL = "https://www.oddsmath.com/api/v1"
 ODDSMATH_HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 TSI_TZ = dt.timezone(dt.timedelta(hours=3))
+# OddsMath ``events-by-day.json`` returns kick-off times in UTC whatever the ``timezone`` query says (checked 21 Nov
+# 2026: Trabzonspor–Eyüpspor 19:00 TSİ came back as "16:00:00"; the feed's own "odds-time" stamp is UTC too).
+# Reading them as TSİ put every OddsMath kick-off 3 h early and only the old 3 h matcher tolerance hid it.
+ODDSMATH_FEED_TZ = dt.timezone.utc
+# Kick-off tolerance when matching a fixture to an OddsMath event (tight: same fixture, small schedule drift only).
+ODDSMATH_MATCH_MAX_HOURS = 1.5
 
 
 def _pooled_session(pool_size: int = 20) -> requests.Session:
@@ -140,8 +146,8 @@ def is_youth_or_reserve_match(league: str, home: str, away: str) -> bool:
 # ---- Pure JSON parsers (100% testable offline) -----------------------------------------------
 
 
-def parse_oddsmath_day_payload(payload: dict[str, Any]) -> list[dict[str, Any]]:
-    """Parse ``events-by-day.json`` response into UTC-stamped event dictionaries."""
+def parse_oddsmath_day_payload(payload: dict[str, Any], *, feed_tz: dt.tzinfo = ODDSMATH_FEED_TZ) -> list[dict[str, Any]]:
+    """Parse ``events-by-day.json`` response into UTC-stamped event dictionaries (feed times are UTC)."""
     out: list[dict[str, Any]] = []
     for _lg_id, lg_data in (payload.get("data") or {}).items():
         if not isinstance(lg_data, dict):
@@ -152,7 +158,7 @@ def parse_oddsmath_day_payload(payload: dict[str, Any]) -> list[dict[str, Any]]:
                 continue
             t_str = str(ev.get("time", "")).strip()
             try:
-                ko_local = dt.datetime.strptime(t_str, "%Y-%m-%d %H:%M:%S").replace(tzinfo=TSI_TZ)
+                ko_local = dt.datetime.strptime(t_str, "%Y-%m-%d %H:%M:%S").replace(tzinfo=feed_tz)
             except ValueError:
                 continue
             out.append(
@@ -283,7 +289,8 @@ def parse_oddsmath_ou_payload(
 
 
 def fetch_oddsmath_day(day_str: str, *, timeout: int = 20) -> list[dict[str, Any]]:
-    """Fetch all scheduled/live football events for ``YYYY-MM-DD`` (Europe/Istanbul) from OddsMath."""
+    """Fetch all scheduled/live football events of the UTC day ``YYYY-MM-DD`` from OddsMath (the feed ignores the
+    timezone parameter; a TSİ day spans the previous UTC day's last 3 hours too)."""
     url = (
         f"{ODDSMATH_BASE_URL}/events-by-day.json"
         f"?language=en&country_code=TR&day={day_str}&timezone=Europe/Istanbul"
@@ -359,7 +366,7 @@ def match_event_to_oddsmath(
     candidates: Iterable[dict[str, Any]],
     *,
     league: str = "",
-    max_hours: float = 3.0,
+    max_hours: float = ODDSMATH_MATCH_MAX_HOURS,
     threshold: float = 0.62,
 ) -> tuple[dict[str, Any] | None, float]:
     """Match a fixture to its OddsMath event while strictly separating women/men and youth/senior teams."""

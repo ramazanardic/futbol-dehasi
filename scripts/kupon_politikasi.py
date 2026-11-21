@@ -91,6 +91,21 @@ def risk_lines(coupons, stakes, kasa: float) -> list[str]:
     return lines
 
 
+def mode_guard(coupons, mode: str) -> None:
+    """Kupon modu kurallarını (banko: P ≥ %65, oran 1.20–1.80, 5–6 maç; risk: oran ≤ 2.10) politika nedenlerine
+    ekle: kuralı çiğneyen kupon "OYNAMA" kararı alır (pay 0 TL)."""
+    from quantfoot.strategy import kupon_modu as KM
+    from quantfoot.paths import ai_area
+    try:
+        exposure = KM.open_exposure(ai_area())
+    except Exception:  # noqa: BLE001 - QUANTFOOT_AI yoksa maruziyet kontrolü atlanır
+        exposure = {}
+    for ev in coupons:
+        res = KM.guard_legs([{"code": l.match_id, "name": l.selection, "odds": l.odds, "p": l.prob} for l in ev.legs],
+                            mode, open_exposure=exposure)
+        ev.reasons.extend(f"{mode} kuralı: {e}" for e in res.errors)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--bacaklar", type=Path)
@@ -105,6 +120,9 @@ def main() -> None:
     ap.add_argument("--kelly", action="store_true", help="bütçeyi doldurma; yalnız kesirli Kelly payı")
     ap.add_argument("--hedef-kat", type=float, default=0.0)
     ap.add_argument("--canli-rezerv", type=float, default=0.0)
+    ap.add_argument("--mod", choices=("banko", "risk", "kapali"), default="banko",
+                    help="Kupon modu koruyucusu (strategy/kupon_modu.py): banko varsayılan; risk yalnız kullanıcı "
+                         "isterse; kapali = yalnız EV politikası (araştırma)")
     args = ap.parse_args()
     if args.gecmis:
         print(audit_history(args.gecmis))
@@ -139,6 +157,8 @@ def main() -> None:
         cands = to_legs(read_legs(args.adaylar))
         coupons = [c for c, _ in build_daily_portfolio(cands, oyun_kasasi, n_coupons=args.adet, cfg=cfg)]
         names = [f"kupon {i + 1}" for i in range(len(coupons))]
+    if args.mod != "kapali":
+        mode_guard(coupons, args.mod)
     stakes = allocate_budget(coupons, oyun_kasasi, cfg, fill_budget=not args.kelly)
     kelly = allocate_budget(coupons, oyun_kasasi, cfg, fill_budget=False)
     print(f"Kasa {kasa:.0f} TL · canlı rezerv {args.canli_rezerv:.0f} TL · maç öncesi bütçe "

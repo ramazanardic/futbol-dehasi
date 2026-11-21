@@ -52,6 +52,7 @@ from quantfoot.markets.devig import devig
 from quantfoot.markets.goal_markets import asian_handicap, price_goal_markets
 from quantfoot.markets.omni_markets import compute_omni_markets
 from quantfoot.markets.tail_goals import fit_tail_rates_from_markets, league_tail_regime
+from quantfoot.strategy import kupon_modu as KM  # noqa: E402
 from quantfoot.strategy.coupon_builder import (
     MatchRiskContext,
     build_target_odds_coupon,
@@ -242,7 +243,9 @@ def cmd_coupons(args: argparse.Namespace) -> None:
     for target in args.targets:
         plan = build_target_odds_coupon(pool, target_odds=target, max_legs=args.max_legs, min_leg_ev=args.min_ev,
                                         title=f"Hedef {target:g}x (yalnızca artı EV bacaklar)")
+        guard = KM.guard_legs(plan.legs, "banko") if plan.legs else None
         coupons.append({
+            "banko_guard": ({"ok": guard.ok, "errors": guard.errors, "honest": KM.honest_line(guard)} if guard else None),
             "title": plan.title, "target_odds": target, "reached_target": plan.reached_target,
             "achieved_odds": plan.achieved_odds, "joint_probability": plan.joint_probability,
             "expected_value": plan.expected_value,
@@ -273,6 +276,9 @@ def cmd_coupons(args: argparse.Namespace) -> None:
         flag = "" if c["reached_target"] else " (hedefe ulaşılamadı)"
         md.append(f"- **{c['title']}**{flag}: oran {c['achieved_odds']:.2f}, olasılık %{c['joint_probability'] * 100:.1f}, EV {c['expected_value']:+.1%}")
         md += [f"  - {leg['match']}: {leg['selection']} @ {leg['odds']:.2f} (P %{leg['prob'] * 100:.1f}, EV {leg['ev']:+.1%})" for leg in c["legs"]]
+        g = c.get("banko_guard")
+        if g and not g["ok"]:
+            md.append("  - ⚠ Banko kuralına uymuyor (oynanmaz): " + "; ".join(g["errors"]))
     (d / "coupons.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     _update_index(args.date, len(pred["matches"]), len(singles), sum(1 for c in coupons if c["legs"]))
 

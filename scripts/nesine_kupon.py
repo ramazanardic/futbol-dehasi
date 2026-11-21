@@ -48,6 +48,7 @@ from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
 from quantfoot.markets.market_calibration import calibrate_market_probability, load_market_calibration  # noqa: E402
 from quantfoot.markets.families import family_rule, leg_min_ev  # noqa: E402
 from quantfoot.settings import HARD_MARKET_MIN_EV, HARD_MARKET_SIGMA_ADD  # noqa: E402
+from quantfoot.strategy import kupon_modu as KM  # noqa: E402
 from quantfoot.strategy.coupon_builder import (  # noqa: E402
     _conflicting_selections,
     is_cup_competition,
@@ -505,6 +506,37 @@ def prior_coupon_legs(date: str, target: float, family: str = "karma") -> list[d
     return legs
 
 
+def filter_pools_for_mode(pools: list[list[dict]], pol: "KM.ModePolicy") -> list[list[dict]]:
+    """Kupon modu bacak sınırları: oran ≤ modun tavanı (banko 1.80, risk 2.10), keskin referans zorunlu, büzülmüş P ≥ mod
+    tabanı ve banko'da zayıf aile kuralı (strategy/banko_guard.py)."""
+    out = []
+    for pool in pools:
+        kept = [leg for leg in pool if leg["odds"] <= pol.max_leg_odds + 1e-9
+                and (not pol.sharp_only or leg.get("tier", "keskin") == "keskin")
+                and KM.leg_mode_ok(leg, pol.name)]  # P tabanı büzülmüş P ile; zayıf aileler (21 Kas akşam denetimi)
+        if kept:
+            out.append(kept)
+    return out
+
+
+def apply_mode_guard(coupons: list[dict], mode: str, live: dict | None = None,
+                     exposure: dict | None = None) -> tuple[list[dict], list[str]]:
+    """Her kuponu kupon modunun koruyucusundan geçir (strategy/kupon_modu.py). Geçemeyen kupon verilmez; geçenlere
+    ``guard`` alanı (uyarılar + dürüst tutma ihtimali) eklenir. ``live``: son Nesine bülten okuması (bültende olmayan
+    seçim reddi); ``exposure``: maç → oynanmış açık kupon sayısı (aynı maça ikiden fazla kuponla yüklenme yok)."""
+    offered = KM.bulletin_offered(live) if live else None
+    kept, notes = [], []
+    for c in coupons:
+        res = KM.guard_legs(c["legs"], mode, open_exposure=exposure, offered=offered, at_selection=True)
+        c["guard"] = {"mode": mode, "ok": res.ok, "errors": res.errors, "warnings": res.warnings,
+                      "p_win": round(res.p_win, 4), "total_odds": round(res.total_odds, 2), "honest": KM.honest_line(res)}
+        if res.ok:
+            kept.append(c)
+        else:
+            notes.append(f"{mode} kontrolünden geçmeyen kupon verilmedi: " + "; ".join(res.errors))
+    return kept, notes
+
+
 RECHECK_READS = 2
 MAX_BUILD_ATTEMPTS = 3  # build, re-read the bulletin, rebuild on the lower odds while a coupon is under the minimum
 RECHECK_GAP_S = 4.0
@@ -599,8 +631,13 @@ def main() -> None:
                     help="optimum: hedefe ulaşan kuponlar arasında kuponun tamamının tutma olasılığı en yüksek olan "
                          "(varsayılan, kullanıcı kararı 19 Kasım); guvenli: en olası maçtan başlayıp hedefe kadar ekle")
     ap.add_argument("--max-mac", type=int, default=None, help="En çok maç (varsayılan 7, kullanıcı kuralı)")
-    ap.add_argument("--min-mac", type=int, default=1, help="Kupondaki en az maç sayısı (kombine için ör. 3)")
-    ap.add_argument("--min-oran", type=float, default=1.20, help="Bacak başına en düşük Nesine oranı (kullanıcı kuralı: 1,20)")
+    ap.add_argument("--mod", choices=KM.MODES, default=KM.DEFAULT_MODE,
+                    help="banko (VARSAYILAN, kullanıcı kuralı): bacak P ≥ %%65, oran 1.25–1.80, 5 maç (gerekirse 6), keskin "
+                         "referans; risk: YALNIZ kullanıcı banko ile ulaşılamayan bir hedef isterse — bacak oranı ≤ 2.10, "
+                         "dürüst tutma ihtimali yazılır")
+    ap.add_argument("--min-mac", type=int, default=None, help="Kupondaki en az maç sayısı (varsayılan: banko 5, risk 3)")
+    ap.add_argument("--min-oran", type=float, default=None,
+                    help="Bacak başına en düşük Nesine oranı (varsayılan 1.25 — oynayana kadar 1.20 altına kaymasın; taban 1.20)")
     ap.add_argument("--min-olasilik", type=float, default=None,
                     help="Bacak başına en düşük global olasılık (optimum: 0.55, guvenli: 0.60)")
     ap.add_argument("--espn", action="store_true", help="Keskin olmayan global büro/ESPN referanslı maçları da kullan")
@@ -647,6 +684,18 @@ def main() -> None:
     args = ap.parse_args()
     if args.ayri_mac:
         args.mac_limit = 1  # old behaviour: every match in one coupon only
+    pol = KM.policy(args.mod)
+    args.min_oran = max(MIN_LEG_ODDS, args.min_oran if args.min_oran is not None else pol.prefer_min_odds)
+    if args.min_mac is None:
+        args.min_mac = pol.min_legs
+    if args.max_mac is None:
+        args.max_mac = pol.max_legs
+    if pol.sharp_only:
+        args.yalniz_keskin = True
+    if args.mod == "banko" and not KM.target_reachable(args.hedef, "banko"):
+        print(f"⚠ {args.hedef:g} oran banko kurallarıyla (bacak P ≥ %{pol.min_prob * 100:.0f}, en çok {pol.max_legs} maç) "
+              "ulaşılamaz; kullanıcı açıkça isterse --mod risk ile kurulur (tutma ihtimali dürüstçe yazılır).")
+    exposure = KM.open_exposure(AI_AREA)
 
     if args.pull and not args.no_pull:
         print(f"Global veri: {refresh_global_data()}")
@@ -657,8 +706,7 @@ def main() -> None:
         use_tm=bool(args.tm) and not args.no_tm,
     )
     now = dt.datetime.now(TSI)
-    min_prob = args.min_olasilik if args.min_olasilik is not None else (
-        FAMILY_MIN_PROB.get(args.aile, 0.60 if args.yontem == "guvenli" else 0.55))
+    min_prob = args.min_olasilik if args.min_olasilik is not None else pol.min_prob
     live_cal = load_live_calibration()
     # Build on the LOWER of two bulletin reads (the feed can serve two prices for one selection), re-read after
     # building, and rebuild once if a coupon fell under the target on the re-read odds.
@@ -690,6 +738,7 @@ def main() -> None:
             calibration=live_cal or None,
             family_ev=not args.aile_ev_kapali,
         )
+        pools = filter_pools_for_mode(pools, pol)
         n_mid_pools = sum(1 for p in pools if p[0].get("tier") == "orta")
         if attempt == 0:
             print(f"{sum(1 for m in matches if m.get('status') == 'fiyatlandı')} maç global fiyatlı; {len(pools)} maç kupona uygun "
@@ -748,6 +797,8 @@ def main() -> None:
     if short:
         coupons = [c for c in coupons if c not in short]
         change_notes.append(f"{len(short)} kupon canlı oranlarla minimum {args.hedef:g} oranın altında kaldığı için çıkarıldı")
+    coupons, guard_notes = apply_mode_guard(coupons, args.mod, live or None, exposure)
+    change_notes += guard_notes
     for c in coupons:  # scores consistent with each leg (same goal distribution as the leg's probability)
         for leg in c["legs"]:
             priced = PRICED.get(int(leg["code"]))
@@ -788,6 +839,10 @@ def main() -> None:
                       + (f" ⚠ {leg['status']}" if leg.get("status") not in (None, "kontrol edildi") else ""))
         md += ["", "**Gerekçeler**", ""]
         md += [f"- **{leg['match']} — {leg['market']}: {leg['selection']}** — {leg_reason(leg)}" for leg in c["legs"]]
+        g = c.get("guard") or {}
+        if g:
+            md += ["", f"**{g['mode'].capitalize()} kontrolü geçti** — {g['honest']}."
+                   + ("" if not g["warnings"] else " Uyarılar: " + "; ".join(g["warnings"]))]
         md += ["", f"Kuponun tutma olasılığı %{c['probability'] * 100:.1f}: düşük oranlı bir bacak bile kesin değildir "
                    "(ör. 1,20 oranlı seçim globalde ~%75-80 ihtimal demektir; her 4-5 denemeden biri tutmaz).", ""]
     if args.yontem == "guvenli" and coupons:
@@ -808,7 +863,8 @@ def main() -> None:
     base.with_suffix(".md").write_text("\n".join(md) + "\n", encoding="utf-8")
     if args.yeni_set:
         (d / SET_FILE).write_text(now.isoformat(timespec="seconds") + "\n", encoding="utf-8")
-    base.with_suffix(".json").write_text(json.dumps({"target": args.hedef, "family": args.aile, "created": now.isoformat(timespec="seconds"),
+    base.with_suffix(".json").write_text(json.dumps({"target": args.hedef, "family": args.aile, "mode": args.mod,
+                                                     "created": now.isoformat(timespec="seconds"),
                                                      "coupons": coupons}, ensure_ascii=False, indent=2), encoding="utf-8")
     print("\n".join(md))
     print(f"\n-> {base.with_suffix('.md').relative_to(DAILY.parents[1])}")

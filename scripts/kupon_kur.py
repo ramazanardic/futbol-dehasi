@@ -61,10 +61,10 @@ def weak_legs_allowed(ai: str | None = None, path: Path | None = None) -> bool:
     return g["won"] / g["n"] >= g["p_sum"] / g["p_n"] - WEAK_MAX_SHORTFALL
 
 
-def run_builder(target: float, extra: list[str], haric: list[str]) -> Path | None:
+def run_builder(target: float, extra: list[str], haric: list[str], mode: str = "banko") -> Path | None:
     before = set((AREA).glob("*/kupon_*x_*.json"))
     cmd = [sys.executable, str(ROOT / "scripts" / "nesine_kupon.py"), "--hedef", f"{target:g}", "--adet", "1", "--kupasiz",
-           "--no-pull", *extra] + (["--haric", *haric] if haric else [])
+           "--no-pull", "--mod", mode, *extra] + (["--haric", *haric] if haric else [])
     r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace",
                        env={**os.environ, "PYTHONIOENCODING": "utf-8"})
     if r.returncode:
@@ -135,6 +135,8 @@ def main() -> None:
     ap.add_argument("--hedef", type=float, required=True)
     ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
     ap.add_argument("--tur", type=int, default=8, help="En çok yeniden kurma turu")
+    ap.add_argument("--mod", choices=("banko", "risk"), default="banko",
+                    help="Kupon modu (nesine_kupon.py --mod): banko varsayılan; risk yalnız kullanıcı açıkça isterse")
     ap.add_argument("--kanitsiz", action="store_true", help="Takım geçmişiyle test edilemeyen bacaklara da izin ver")
     ap.add_argument("ekstra", nargs="*", help="nesine_kupon.py'ye aynen geçen seçenekler ('--' sonrası)")
     args = ap.parse_args()
@@ -153,7 +155,7 @@ def main() -> None:
     haric: list[str] = []
     log = []
     for rnd in range(1, args.tur + 1):
-        f = run_builder(args.hedef, args.ekstra, haric)
+        f = run_builder(args.hedef, args.ekstra, haric, args.mod)
         data = json.loads(f.read_text(encoding="utf-8")) if f else {}
         if not data.get("coupons"):
             print(f"Tur {rnd}: kurallara uyan kupon kurulamadı.")

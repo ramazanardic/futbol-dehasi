@@ -13,6 +13,30 @@ TSI = dt.timezone(dt.timedelta(hours=3))
 
 # Official Nesine coupon rules (tahminler/README.md, 20 Nov 2026).
 MIN_LEG_ODDS = 1.20
+
+# Banko/garanti modu (kullanıcı kuralı t57u, 21 Kas; 21 Kas denetimiyle sıkılaştırıldı — strategy/banko_guard.py).
+BANKO_MIN_PROB = 0.65          # her bacak kalibre P ≥ %65
+BANKO_MAX_LEG_ODDS = 1.80      # tek bir yüksek oranlı bacakla toplamı şişirme yok
+BANKO_SELECT_MIN_ODDS = 1.22   # seçerken 1.20 tabanına tampon: 1.20–1.21'lik bacaklar oynarken 1.17–1.19'a düştü
+BANKO_MAX_COUPONS_PER_MATCH = 2  # aynı maç en çok 2 açık kuponda (korelasyonlu risk)
+LOTTERY_P_WIN = 0.05           # P(kupon) bunun altındaysa "piyango kuponu" uyarısı (banko modunda reddedilir)
+BANKO_PREFER_MIN_ODDS = 1.25   # kurarken tercih edilen en düşük oran (oynayana kadar oran kayması tamponu)
+BANKO_MIN_LEGS = 5             # kullanıcı kuralı (t69u/t70u, 21 Kas): ortalama 5 maç, 1–2 maçlık düşük oranlı kupon yok
+BANKO_MAX_LEGS = 6             # "duruma göre 6 maç da olabilir" — gerekçeliyse 6
+# Akşam denetimi dersleri (21 Kas 2026, ~320 bitmiş maç, TEK GÜN — küçük örnek; bkz. reports/research/kalibrasyon_dersleri_21kasim.md).
+# Ana tercihler %67 beklenip %63,4 tuttu; %60–65 bandı %50, %70–75 bandı %64; "diğer" ligler %59,5 (P %66,7);
+# ev sahibi golleri %49 (P %67), çifte şans %50 (P %65,5); Alt/Üst kalibre. Değerler bilinçli olarak ılımlı.
+SHRINK_DERIVED = 0.10          # türetilmiş (matris/gol modeli, doğrudan keskin fiyat yok) P: p' = 0.5 + (p − 0.5)·(1 − k)
+SHRINK_DIRECT = 0.0            # doğrudan keskin fiyatlı seçimler piyasa P'si zaten — büzme yok
+SHRINK_OTHER_TIER_EXTRA = 0.10  # "2-diğer" kademe ligler için ek büzme (türetilmişte birikerek, doğrudanda yarısı)
+WEAK_FAMILIES: tuple[str, ...] = ("ev_golleri", "cifte_sans")  # banko'da yalnız doğrudan keskin fiyatla + ek P
+WEAK_FAMILY_EXTRA_MIN_PROB = 0.05  # zayıf aile doğrudan fiyatlıysa banko P tabanı + 5 puan (%70)
+WEAK_FAMILY_REQUIRE_DIRECT = True  # zayıf aile türetilmiş P ile banko bacağı olamaz
+# Risk modu: yalnız kullanıcı banko ile ulaşılamayan bir hedef (ör. "en az 2.000 TL") isterse.
+RISK_MAX_LEG_ODDS = 2.10       # tek bacak en çok 2.10 (3–4 oranlı beraberlik/İY bacakları yok)
+RISK_MIN_PROB = 0.45           # bacak başı keskin P tabanı
+RISK_MIN_LEGS = 3
+RISK_MAX_LEGS = 6
 MAX_LEGS = 7
 MAX_LEGS_HIGH = 8
 HIGH_TARGET = 20.0

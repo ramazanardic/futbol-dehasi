@@ -24,7 +24,8 @@ def test_parse_nesine_live_skips_locked_odds():
     ev = ls.parse_nesine_live(_j("nesine_live.json"))
     slatina = next(e for e in ev if "Slatina" in e["home"])
     assert "MS 1" not in slatina["markets"]          # 1.00 = kapalı
-    assert slatina["markets"]["MS X"] == 4.71 and slatina["markets"]["3.5 Üst"] == 1.91
+    assert slatina["markets"]["MS X"] == 4.71
+    assert "3.5 Üst" not in slatina["markets"]   # MTID 68 durumu MS=0 (kapalı) → fiyatlanmaz (21 Kas denetimi)
     satu = next(e for e in ev if "Satu" in e["home"])
     assert satu["markets"]["2.5 Alt"] == 1.43 and satu["markets"]["2.5 Üst"] == 1.7
 

@@ -222,7 +222,7 @@ def test_oddsmath_women_separation_and_reference_conversion():
                     "5001": {
                         "hometeam_name": "Barcelona",
                         "awayteam_name": "Sevilla",
-                        "time": "2026-11-20 21:00:00",
+                        "time": "2026-11-20 18:00:00",  # feed is UTC (21:00 TSİ)
                         "live": False,
                     },
                 },
@@ -233,7 +233,7 @@ def test_oddsmath_women_separation_and_reference_conversion():
                     "5002": {
                         "hometeam_name": "Barcelona Women",
                         "awayteam_name": "Sevilla Women",
-                        "time": "2026-11-20 21:00:00",
+                        "time": "2026-11-20 18:00:00",  # feed is UTC (21:00 TSİ)
                         "live": False,
                     },
                 },
