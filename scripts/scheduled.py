@@ -18,11 +18,15 @@ reports/daily/logs/<date>.log.
 from __future__ import annotations
 
 import datetime as dt
+import logging
 import os
 from pathlib import Path
 import shutil
 import subprocess
 import sys
+
+from quantfoot.paths import QuantfootAIError, ai_name  # noqa: E402
+from quantfoot.settings import TSI  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 DAILY_SCRIPT = ROOT / "scripts" / "daily.py"
@@ -47,7 +51,13 @@ def _git(*args: str) -> subprocess.CompletedProcess:
                           errors="replace", timeout=300)
 
 
-GENERATED = ("reports/", "tahminler/claudetahmin/")  # files this PC regenerates on every run
+def _generated_prefixes() -> tuple[str, ...]:
+    prefixes = ["reports/"]
+    try:
+        prefixes.append(f"tahminler/{ai_name()}/")
+    except QuantfootAIError:
+        prefixes.append("tahminler/")
+    return tuple(prefixes)
 
 
 def _recover(log) -> None:
@@ -61,7 +71,7 @@ def _recover(log) -> None:
     unmerged = [x for x in _git("diff", "--name-only", "--diff-filter=U").stdout.split("\n") if x]
     if not unmerged:
         return
-    gen = [x for x in unmerged if x.startswith(GENERATED)]
+    gen = [x for x in unmerged if x.startswith(_generated_prefixes())]
     if gen:
         _git("checkout", "--theirs", "--", *gen)  # stash side = this PC's latest regeneration
         _git("reset", "-q", "--", *gen)
@@ -186,15 +196,18 @@ def _kick_fetch_if_stale(log) -> None:
             return
 
 
-PUBLISH_PATHS = ["reports/daily", "reports/takip", "reports/ledger", "reports/weekly", "data/calibration", "docs/data",
-                 "tahminler/claudetahmin"]
+# Shared, non-prediction artefacts only. tahminler/<ai>/ stays local (.gitignore).
+PUBLISH_PATHS = ["reports/takip", "reports/ledger", "reports/weekly", "data/calibration"]
 
 
-DATED_DIRS = ("reports/daily", "tahminler/claudetahmin")
+DATED_DIRS = ("reports/daily",)  # legacy shared days only; own-folder predictions are not published
 
 
 def _betting_day(now: dt.datetime | None = None) -> str:
-    now = now or dt.datetime.now()
+    now = now or dt.datetime.now(TSI)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=TSI)
+    now = now.astimezone(TSI)
     return (now.date() if now.hour >= 7 else now.date() - dt.timedelta(days=1)).isoformat()
 
 
@@ -215,8 +228,9 @@ def _unsettled_excludes(now: dt.datetime | None = None) -> list[str]:
 
 
 def _publish(log, message: str, paths: list[str] | None = None) -> None:
-    """Keep every prediction and result on GitHub as well (user request, 20 Nov) — but only for settled days:
-    today's and future predictions stay local (user, 20 Nov). Nothing to commit = nothing happens."""
+    """Publish shared artefacts (takip, ledger, weekly, calibration). Prediction folders under
+    tahminler/<ai>/ stay local. Legacy reports/daily open betting days are excluded. Nothing to
+    commit = nothing happens."""
     paths = [*(paths or PUBLISH_PATHS), *_unsettled_excludes()]
     steps = (["git", "add", "--", *paths],
              ["git", "commit", "-q", "-m", message + "\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>", "--", *paths],
@@ -249,7 +263,11 @@ def _write_status(log, note: str) -> None:
     STATUS_FILE.write_text("\n".join(lines), encoding="utf-8")
     if age is not None and age >= ALERT_HOURS:
         msg = f"QuantFoot: global fiyatlar {age:.0f} saattir yenilenmedi. Kupon oynamadan önce kontrol edin."
-        subprocess.run(["msg", os.environ.get("USERNAME", "*"), "/TIME:600", msg], capture_output=True, timeout=30)
+        if os.name == "nt":
+            try:
+                subprocess.run(["msg", os.environ.get("USERNAME", "*"), "/TIME:600", msg], capture_output=True, timeout=30)
+            except (OSError, subprocess.SubprocessError):
+                logging.getLogger(__name__).warning("Windows msg uyarısı gönderilemedi", exc_info=True)
         log.write(f"[uyarı] {msg}\n")
 
 

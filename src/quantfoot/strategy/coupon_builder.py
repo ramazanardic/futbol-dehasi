@@ -695,16 +695,15 @@ def build_target_odds_coupon(
                     beam.append(st)
 
     if best_completed is not None:
-        _, final_log_p, final_log_o, chosen_legs = best_completed
+        _, _, final_log_o, chosen_legs = best_completed
     elif beam:
         # Prefer MBS-valid partial states first
         valid_partials = [s for s in beam if s[3] and len(s[3]) >= max(l.mbs for l in s[3])]
         pick_from = valid_partials if valid_partials else beam
         best_partial = max(pick_from, key=lambda s: (s[2], s[1]))
-        final_log_p, final_log_o, chosen_legs = best_partial[1], best_partial[2], best_partial[3]
+        final_log_o, chosen_legs = best_partial[2], best_partial[3]
     else:
         chosen_legs = ()
-        final_log_p = 0.0
         final_log_o = 0.0
 
     achieved = round(math.exp(final_log_o), 2) if chosen_legs else 0.0

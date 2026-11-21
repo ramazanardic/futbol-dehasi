@@ -3,11 +3,11 @@
     python scripts/kupon_kontrol.py kontrol --date 2026-11-20   # after nesine_global.py (scheduled.py kadro)
     python scripts/kupon_kontrol.py ozet                         # all days: does the pick beat the closing price?
 
-`kontrol` compares each not-started leg of the day's coupons (tahminler/claudetahmin/<date>/kupon_*x_*.json) with the
+`kontrol` compares each not-started leg of the day's coupons (tahminler/<QUANTFOOT_AI>/<date>/kupon_*x_*.json) with the
 newest analysis (nesine_global.json, re-run with line-ups ~1 h before kick-off) and warns when a leg should be
 replaced: global probability under the 55 % leg floor or down >= 5 points, Nesine selection suspended, Nesine
 odds under 1.20, an important absence announced after the price (research_block) or a new risk/steam flag.
-Output: tahminler/claudetahmin/<date>/kupon_kontrol.md (+ Windows pop-up / Telegram for new warnings).
+Output: tahminler/<QUANTFOOT_AI>/<date>/kupon_kontrol.md (+ optional Telegram; Windows pop-up only on Windows).
 
 Line-ups: in the 15-minute watcher (live odds), each not-started leg of a coupon in force whose kick-off is at most
 LINEUP_WINDOW_MIN away is re-checked on the announced ESPN line-up (regular goalkeeper / top scorer / 3+ regulars
@@ -16,7 +16,7 @@ missing); until the line-up is out it is asked again on the next run, then the r
 The same run keeps, per leg, the last global probability seen before kick-off (kupon_clv.json). That is the
 closing price: CLV = closing probability - probability when the coupon was built. A system that picks well
 sees the sharp market move towards its picks (positive CLV) long before results prove anything.
-`ozet` aggregates every day into tahminler/claudetahmin/clv.md.
+`ozet` aggregates every day into tahminler/<QUANTFOOT_AI>/clv.md.
 """
 
 from __future__ import annotations
@@ -24,13 +24,16 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import logging
 import os
 from pathlib import Path
 import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-AREA = ROOT / "tahminler" / os.environ.get("QUANTFOOT_AI", "claudetahmin")  # the asking AI's own folder
+from quantfoot.paths import LazyAiArea  # noqa: E402
+
+AREA = LazyAiArea()  # the asking AI's own folder
 DAILY = AREA  # analysis, coupons, checks and CLV all live there
 TSI = dt.timezone(dt.timedelta(hours=3))
 MIN_PROB = 0.55     # coupon leg floor (user rule)
@@ -210,9 +213,12 @@ def _notify(text: str) -> None:
         from notify_telegram import send_telegram_message  # noqa: PLC0415
         send_telegram_message(text)
     except Exception:  # noqa: BLE001 - optional channel
-        pass
+        logging.getLogger(__name__).warning("Telegram bildirimi gönderilemedi", exc_info=True)
     if os.name == "nt":
-        subprocess.run(["msg", os.environ.get("USERNAME", "*"), "/TIME:900", text[:250]], capture_output=True, timeout=30)
+        try:
+            subprocess.run(["msg", os.environ.get("USERNAME", "*"), "/TIME:900", text[:250]], capture_output=True, timeout=30)
+        except (OSError, subprocess.SubprocessError):
+            logging.getLogger(__name__).warning("Windows msg uyarısı gönderilemedi", exc_info=True)
 
 
 def cmd_kontrol(date: str, notify: bool = True) -> None:

@@ -27,6 +27,8 @@ from pathlib import Path
 import subprocess
 import sys
 
+from quantfoot.paths import ai_name
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import api_gecmis as af  # noqa: E402
@@ -44,8 +46,12 @@ WEAK_MIN_N = 30          # settled "~" legs needed before their record may tight
 WEAK_MAX_SHORTFALL = 0.05
 
 
-def weak_legs_allowed(ai: str = AREA.name, path: Path = VERDICT_STATS) -> bool:
+def weak_legs_allowed(ai: str | None = None, path: Path | None = None) -> bool:
     """"~" (weakly supported) legs stay allowed unless enough of them settled and they hit clearly below the price."""
+    if ai is None:
+        ai = ai_name()
+    if path is None:
+        path = VERDICT_STATS
     try:
         g = json.loads(path.read_text(encoding="utf-8")).get(ai, {}).get("~") or {}
     except (OSError, ValueError):

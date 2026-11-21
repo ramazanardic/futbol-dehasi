@@ -162,13 +162,14 @@ def main() -> None:
     ap.add_argument("--tarih", default=dt.datetime.now(ng.TSI).date().isoformat())
     ap.add_argument("--mac", help="Maç adında geçen metin (ör. 'Vasco'); yoksa günün tüm başlamamış maçları")
     ap.add_argument("--no-oddsmath", action="store_true", help="OddsMath canlı referans/steam çekimini kapat")
-    ap.add_argument("--no-tm", action="store_true", help="Transfermarkt canlı sakat/cezalı çekimini kapat")
+    ap.add_argument("--tm", action="store_true", help="Transfermarkt 2026/27 sakat/cezalı çekimini aç (varsayılan: kapalı)")
+    ap.add_argument("--no-tm", action="store_true", help="Transfermarkt çekimini kapat")
     args = ap.parse_args()
     matches, _, _ = ng.analyze_day(
         dt.date.fromisoformat(args.tarih),
         verbose=False,
         use_oddsmath=not args.no_oddsmath,
-        use_tm=not args.no_tm,
+        use_tm=bool(args.tm) and not args.no_tm,
     )
     now = dt.datetime.now(ng.TSI)
     pick = [m for m in matches if m["code"] in ng.PRICED and dt.datetime.fromisoformat(m["kickoff_iso"]) > now

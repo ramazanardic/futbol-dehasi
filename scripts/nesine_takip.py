@@ -129,7 +129,7 @@ def _rows(days: list[str]) -> tuple[list[tuple], list[dict]]:
             for name, won in res["won"].items():
                 p, odds, direct = sels[name]
                 rows.append((p, bool(won), _family(name), bool(direct), name == safest, odds))
-        # older days: shared reports; from 20 Nov Claude's coupons live only in tahminler/claudetahmin/<day>
+        # older days: shared reports; from 20 Nov coupons live only in tahminler/<QUANTFOOT_AI>/<day>
         for f in sorted({*d.glob("kupon_*.json"), *(DAILY / day).glob("kupon_*x_*.json")}):
             data = json.loads(f.read_text(encoding="utf-8"))
             for c in data.get("coupons", []):

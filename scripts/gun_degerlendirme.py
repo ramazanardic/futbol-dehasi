@@ -38,6 +38,10 @@ VERDICT_STATS = ROOT / "data" / "calibration" / "verdict_stats.json"  # read by 
 TSI = dt.timezone(dt.timedelta(hours=3))
 
 
+def _fmt3(value: float | None) -> str:
+    return "-" if value is None else f"{value:.3f}"
+
+
 def _read(path: Path) -> list[dict]:
     if not path.exists():
         return []
@@ -275,7 +279,7 @@ def to_markdown(rep: dict) -> str:
         won_c = sum(1 for c in a["coupons"] if c["won"])
         md.append(f"| {ai} | {a['hits']}/{a['main_picks']} | {pct(a['hits'] / a['main_picks']) if a['main_picks'] else '-'} | "
                   f"{pct(a['avg_pred'])} | {a['flat_return']:+.2f} | "
-                  f"{'-' if a['brier_1x2'] is None else f'{a['brier_1x2']:.3f}'} | {'-' if a['logloss_1x2'] is None else f'{a['logloss_1x2']:.3f}'} | "
+                  f"{_fmt3(a['brier_1x2'])} | {_fmt3(a['logloss_1x2'])} | "
                   f"{won_c}/{len(a['coupons'])}" + (f" (+{a['coupons_open']} açık)" if a["coupons_open"] else "") + " |")
     md += ["", "Brier ve log-loss: düşük olan daha iyi. Sabit bahis: her ana tercihe 1 birim, Nesine oranıyla.", ""]
     for ai, a in rep["ais"].items():

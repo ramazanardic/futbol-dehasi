@@ -39,6 +39,11 @@ from nesine_global import DAILY, MAX_PLAUSIBLE_EV, PRICED, TSI, analyze_day, sel
 
 from quantfoot.data.nesine import fetch_bulletin, parse_bulletin  # noqa: E402
 from quantfoot.evaluation.auto_learn import calibrated_probability, calibration_sigma_adjustment, load_live_calibration  # noqa: E402
+from quantfoot.settings import HIGH_TARGET as SETTINGS_HIGH_TARGET  # noqa: E402
+from quantfoot.settings import MAX_LEGS as SETTINGS_MAX_LEGS  # noqa: E402
+from quantfoot.settings import MAX_LEGS_HIGH as SETTINGS_MAX_LEGS_HIGH  # noqa: E402
+from quantfoot.settings import MAX_PRICE_AGE_H as SETTINGS_MAX_PRICE_AGE_H  # noqa: E402
+from quantfoot.settings import MIN_LEG_ODDS as SETTINGS_MIN_LEG_ODDS  # noqa: E402
 from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
 from quantfoot.strategy.coupon_builder import (  # noqa: E402
     _conflicting_selections,
@@ -59,10 +64,10 @@ def _has_full_research(m: dict) -> bool:
     tm = r.get("tm_absences") or {}
     return bool((teams.get("home") and teams.get("away")) or (tm.get("home") and tm.get("away")) or r.get("user_absences"))
 RES = 0.002  # log-odds bucket width
-MIN_LEG_ODDS = 1.20  # user rule: never a selection below 1.20
-MAX_LEGS = 7  # user rule (19 Nov): at most 7 matches per coupon
-HIGH_TARGET = 20.0   # user rule (20 Nov): from a 20x minimum upwards a coupon may have up to 8 matches
-MAX_LEGS_HIGH = 8
+MIN_LEG_ODDS = SETTINGS_MIN_LEG_ODDS  # user rule: never a selection below 1.20
+MAX_LEGS = SETTINGS_MAX_LEGS  # user rule (19 Nov): at most 7 matches per coupon
+HIGH_TARGET = SETTINGS_HIGH_TARGET   # user rule (20 Nov): from a 20x minimum upwards a coupon may have up to 8 matches
+MAX_LEGS_HIGH = SETTINGS_MAX_LEGS_HIGH
 
 # Single-family coupons (user request, 20 Nov): only that bet family, each coupon still >= its minimum odds.
 FAMILIES = {
@@ -96,7 +101,7 @@ def coupon_group(path: Path) -> tuple[str, str]:
     """('5x', 'karma') from kupon_5x_0926.json, ('5x', 'iyms') from kupon_5x_iyms_1030.json."""
     parts = path.stem.split("_")
     return parts[1], (parts[2] if len(parts) >= 4 else "karma")
-MAX_PRICE_AGE_H = 3.0  # global price older than this may predate team news / line-ups: not used in coupons
+MAX_PRICE_AGE_H = SETTINGS_MAX_PRICE_AGE_H  # global price older than this is not used in coupons
 
 
 def price_age_hours(m: dict, now: dt.datetime) -> float | None:
@@ -398,14 +403,14 @@ def safest_first_coupon(pools: list[list[dict]], target: float, max_legs: int, p
     return None
 
 
-CLAUDE_AREA = DAILY  # the asking AI's own folder (nesine_global.DAILY = tahminler/<ai>)
+AI_AREA = DAILY  # the asking AI's own folder (nesine_global.DAILY = tahminler/<QUANTFOOT_AI>)
 
 
 def prior_coupon_codes(date: str, target: float, family: str = "karma") -> set:
     """Match codes in the main coupon (Kupon 1) of today's latest coupon for each OTHER target: a 10x built after a 5x should not
     stack the same matches, because one losing shared leg would sink both coupons."""
     latest: dict[tuple[str, str], Path] = {}
-    for f in sorted((CLAUDE_AREA / date).glob("kupon_*x_*.json")):
+    for f in sorted((AI_AREA / date).glob("kupon_*x_*.json")):
         latest[coupon_group(f)] = f  # sorted by HHMM: last one wins
     codes = set()
     for (tgt, fam), f in latest.items():
@@ -424,7 +429,7 @@ SET_FILE = "kupon_seti.txt"  # created time of the first coupon of the current s
 
 def _set_start(date: str) -> str:
     try:
-        return (CLAUDE_AREA / date / SET_FILE).read_text(encoding="utf-8").strip()
+        return (AI_AREA / date / SET_FILE).read_text(encoding="utf-8").strip()
     except OSError:
         return ""
 
@@ -433,7 +438,7 @@ def all_coupon_legs_today(date: str) -> list[dict]:
     """Every leg of every coupon file written today (all builds, all sets, all families): for a coupon that must be
     entirely new (user, 20 Nov: "daha önce bugün hiç oluşturmadığın bir kupon")."""
     legs = []
-    for f in sorted((CLAUDE_AREA / date).glob("kupon_*x_*.json")):
+    for f in sorted((AI_AREA / date).glob("kupon_*x_*.json")):
         try:
             data = json.loads(f.read_text(encoding="utf-8"))
         except (ValueError, OSError):
@@ -449,7 +454,7 @@ def prior_coupon_legs(date: str, target: float, family: str = "karma") -> list[d
     Files older than the current set (``--yeni-set``) are ignored."""
     start = _set_start(date)
     latest: dict[tuple[str, str], Path] = {}
-    for f in sorted((CLAUDE_AREA / date).glob("kupon_*x_*.json")):
+    for f in sorted((AI_AREA / date).glob("kupon_*x_*.json")):
         latest[coupon_group(f)] = f
     legs = []
     for (tgt, fam), f in latest.items():
@@ -583,7 +588,7 @@ def main() -> None:
                          "çok kuponda olabilir ama AYNI tercihle asla; birbirini kesin yatıran tercihler de yasak")
     ap.add_argument("--dogrudan", action="store_true", default=True,
                     help="Yalnızca doğrudan global fiyatı olan seçimler (VARSAYILAN, 20 Kasım: kupon bölgesinde model türevi "
-                         "seçimler %63 tahmin / %52 gerçekleşti, kupon bacaklarında 2/6)")
+                         "seçimler %%63 tahmin / %%52 gerçekleşti, kupon bacaklarında 2/6)")
     ap.add_argument("--model-bacak", action="store_true",
                     help="Model türevi (doğrudan global fiyatı olmayan) bacaklara da izin ver")
     ap.add_argument("--haric", nargs="*", action="extend", default=[],
@@ -593,25 +598,26 @@ def main() -> None:
     ap.add_argument("--ana-pazar", action="store_true", help="Yalnızca ana pazarlar (MS, ÇŞ, 1.5/2.5/3.5 Alt/Üst, KG)")
     ap.add_argument("--oddsmath", action="store_true", help="OddsMath referanslarını açıkça etkinleştir (varsayılan açık)")
     ap.add_argument("--no-oddsmath", action="store_true", help="OddsMath canlı referans çekimini kapat")
-    ap.add_argument("--tm", action="store_true", help="Transfermarkt 2026/27 verisini açıkça etkinleştir (varsayılan açık)")
-    ap.add_argument("--no-tm", action="store_true", help="Transfermarkt canlı sakat/cezalı çekimini kapat")
+    ap.add_argument("--tm", action="store_true", help="Transfermarkt 2026/27 sakat/cezalı çekimini aç (varsayılan: kapalı)")
+    ap.add_argument("--no-tm", action="store_true", help="Transfermarkt çekimini kapat")
     ap.add_argument("--yalniz-keskin", action="store_true",
                     help="Araştırmalı orta güven global büroları (Marathonbet/1XBET) kupon havuzundan çıkar")
     ap.add_argument("--max-ortak", type=int, default=-1,
                     help="İsteğe bağlı: bugünkü farklı hedefli ana kuponla paylaşılabilecek en çok maç (-1 = sınır yok, "
                          "varsayılan; aynı tercih zaten hiçbir kuponda tekrar edilmez)")
-    ap.add_argument("--no-pull", action="store_true", help="Kupon öncesi git pull adımını atla (CI / bulut ortamı)")
+    ap.add_argument("--pull", action="store_true", help="Kupon öncesi git pull (isteğe bağlı; varsayılan: çekme)")
+    ap.add_argument("--no-pull", action="store_true", help="Kupon öncesi git pull yapma (varsayılan; kupon_kur uyumu)")
     args = ap.parse_args()
     if args.ayri_mac:
         args.mac_limit = 1  # old behaviour: every match in one coupon only
 
-    if not args.no_pull:
+    if args.pull and not args.no_pull:
         print(f"Global veri: {refresh_global_data()}")
     matches, _, _ = analyze_day(
         dt.date.fromisoformat(args.tarih),
         verbose=False,
         use_oddsmath=not args.no_oddsmath,
-        use_tm=not args.no_tm,
+        use_tm=bool(args.tm) and not args.no_tm,
     )
     now = dt.datetime.now(TSI)
     min_prob = args.min_olasilik if args.min_olasilik is not None else (
@@ -758,7 +764,7 @@ def main() -> None:
                 f"> Karşılaştırma: eski 'güvenli' yöntem bu hedefe {max_legs} maçla ulaşamıyor."), ""]
     md += ["> Fiyat: **doğrudan** = olasılık bu seçimin kendi global borsa fiyatından; **model** = global 1X2 ve Alt/Üst "
            "fiyatından gol modeliyle türetildi (daha az güvenilir). Yalnız doğrudan için: --dogrudan."]
-    d = CLAUDE_AREA / args.tarih  # Claude's coupons live only in its own area of the AI comparison (user rule)
+    d = AI_AREA / args.tarih  # coupons live only in this AI's own folder (user rule)
     d.mkdir(parents=True, exist_ok=True)
     base = d / (f"kupon_{args.hedef:g}x_{stamp}" if args.aile == "karma" else f"kupon_{args.hedef:g}x_{args.aile}_{stamp}")
     base.with_suffix(".md").write_text("\n".join(md) + "\n", encoding="utf-8")
@@ -768,11 +774,11 @@ def main() -> None:
                                                      "coupons": coupons}, ensure_ascii=False, indent=2), encoding="utf-8")
     print("\n".join(md))
     print(f"\n-> {base.with_suffix('.md').relative_to(DAILY.parents[1])}")
-    try:  # keep Claude's area of the AI comparison (tahminler/claudetahmin) in step with the new coupons
+    try:  # keep this AI's mac_tahminleri.csv in step with the new coupons
         import ai_tahmin  # noqa: PLC0415
         ai_tahmin.export(args.tarih, matches)  # this run's own analysis, not the shared report files
     except Exception as exc:  # noqa: BLE001 - the coupon itself is already written
-        print(f"⚠ claudetahmin güncellenemedi: {exc}")
+        print(f"⚠ mac_tahminleri güncellenemedi: {exc}")
 
 
 if __name__ == "__main__":

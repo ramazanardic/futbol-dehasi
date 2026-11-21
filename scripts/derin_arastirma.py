@@ -24,7 +24,6 @@ import concurrent.futures as cf
 import datetime as dt
 import hashlib
 import json
-import os
 from pathlib import Path
 import sys
 import threading
@@ -35,8 +34,9 @@ import requests
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
+from quantfoot.paths import LazyAiArea  # noqa: E402
 
-AREA = ROOT / "tahminler" / os.environ.get("QUANTFOOT_AI", "claudetahmin")
+AREA = LazyAiArea()
 CACHE = ROOT / "data" / "cache" / "espn"
 BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer"
 UEFA = ("uefa.champions", "uefa.europa", "uefa.europa.conf")

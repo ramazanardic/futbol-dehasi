@@ -19,6 +19,8 @@ Only `requests` and the standard library are used, so the job has no fragile dep
 
 from __future__ import annotations
 
+import logging
+
 import csv
 import datetime as dt
 import io
@@ -78,6 +80,7 @@ def _get(url: str, **params) -> requests.Response:
             if attempt == 2:
                 raise
             LOG["errors"].append(f"retry {url}: {exc}")
+            logging.getLogger(__name__).warning("%s", LOG["errors"][-1], exc_info=True)
             time.sleep(3)
     return r
 
@@ -138,6 +141,7 @@ def football_data() -> list[dict]:
             r.raise_for_status()
         except Exception as exc:
             LOG["errors"].append(f"football-data {name}: {exc}")
+            logging.getLogger(__name__).warning("%s", LOG["errors"][-1], exc_info=True)
             continue
         text = r.content.decode("utf-8-sig", errors="replace")
         (OUT / name).write_text(text, encoding="utf-8")
@@ -201,6 +205,7 @@ def fetch_season_history(
                 continue
         except Exception as exc:
             LOG["errors"].append(f"season_history {season_code}/{div}: {exc}")
+            logging.getLogger(__name__).warning("%s", LOG["errors"][-1], exc_info=True)
             continue
         text = r.content.decode("utf-8-sig", errors="replace")
         first_line = text.splitlines()[0] if text.splitlines() else ""
@@ -493,11 +498,13 @@ def light(window_hours: float) -> None:
         fresh = smarkets(window_hours=window_hours)
     except Exception as exc:
         LOG["errors"].append(f"light smarkets: {type(exc).__name__}: {exc}")
+        logging.getLogger(__name__).warning("%s", LOG["errors"][-1], exc_info=True)
         fresh = []
     try:
         fresh += matchbook(window_hours=window_hours)
     except Exception as exc:
         LOG["errors"].append(f"light matchbook: {type(exc).__name__}: {exc}")
+        logging.getLogger(__name__).warning("%s", LOG["errors"][-1], exc_info=True)
     keys = {_key(r) for r in fresh}
     _write([r for r in old if _key(r) not in keys] + fresh, full_utc=full_utc)
 
@@ -519,6 +526,7 @@ def main() -> None:
             refs += fn()
         except Exception as exc:  # keep the other source if one fails
             LOG["errors"].append(f"{fn.__name__}: {type(exc).__name__}: {exc}")
+            logging.getLogger(__name__).warning("%s", LOG["errors"][-1], exc_info=True)
             _say(f"{fn.__name__} failed: {type(exc).__name__}: {exc}")
         _write(refs)
         if fn is football_data:
@@ -527,6 +535,7 @@ def main() -> None:
                 fetch_season_history()
             except Exception as exc:
                 LOG["errors"].append(f"fetch_season_history: {type(exc).__name__}: {exc}")
+                logging.getLogger(__name__).warning("%s", LOG["errors"][-1], exc_info=True)
                 _say(f"fetch_season_history failed: {type(exc).__name__}: {exc}")
 
 

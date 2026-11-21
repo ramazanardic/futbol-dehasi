@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 from pathlib import Path
 from typing import Iterable
 
@@ -77,6 +79,7 @@ def load_season_history_overrides(
             try:
                 raw = pd.read_csv(csv_path, encoding="utf-8-sig", low_memory=False)
             except Exception:
+                logging.getLogger(__name__).warning("Sezon CSV okunamadı: %s", csv_path, exc_info=True)
                 continue
             if raw.empty:
                 continue

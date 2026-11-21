@@ -1,6 +1,6 @@
 """Price every Nesine selection of the day against a GLOBAL reference price, never against Nesine itself.
 
-    python scripts/nesine_global.py --date 2026-11-19            # writes reports/daily/<date>/nesine_global.{json,md}
+    python scripts/nesine_global.py --date 2026-11-19            # writes tahminler/<QUANTFOOT_AI>/<date>/nesine_global.{json,md}
     python scripts/nesine_global.py --date 2026-11-19 --min-ev 0.0
 
 Reference price, best available per match (all free, no key, no quota):
@@ -28,11 +28,13 @@ from concurrent.futures import ThreadPoolExecutor
 import datetime as dt
 import difflib
 import json
-import os
 from pathlib import Path
 import re
 import unicodedata
 
+from quantfoot.paths import LazyAiArea, LazyAiName
+from quantfoot.settings import MAX_PLAUSIBLE_EV as SETTINGS_MAX_PLAUSIBLE_EV
+from quantfoot.settings import MAX_PRICE_AGE_H, REFERENCE_LOAD_AGE_H
 from quantfoot.data.absences import fetch_matchday_absences, format_tm_absence_brief
 from quantfoot.data.api_football import fetch_api_football_references
 from quantfoot.data.live_espn import fetch_espn_slate
@@ -55,9 +57,9 @@ from quantfoot.strategy.coupon_builder import is_uncalibrated_competition
 
 ROOT = Path(__file__).resolve().parents[1]
 # Every AI writes its predictions only into its own folder (user rule, 20 Nov): tahminler/<ai>/<date>/.
-# QUANTFOOT_AI selects the folder (default claudetahmin). Days up to 19 Nov live in the old shared reports/daily.
-AI_NAME = os.environ.get("QUANTFOOT_AI", "claudetahmin")
-DAILY = ROOT / "tahminler" / AI_NAME
+# QUANTFOOT_AI is required (quantfoot.paths). Days up to 19 Nov live in the old shared reports/daily.
+AI_NAME = LazyAiName()
+DAILY = LazyAiArea()
 LEGACY_DAILY = ROOT / "reports" / "daily"
 _STOP = r"\b(fc|cf|sc|ac|sk|fk|nk|cd|ca|club|de|da|the|utd|united|k|w|women|kadinlar|u\d+|bk|if|ik|afc|scc|sp|ba)\b"
 
@@ -114,7 +116,7 @@ def _match(
 
 
 # ---- reference sources ------------------------------------------------------------------
-MAX_PLAUSIBLE_EV = 0.25
+MAX_PLAUSIBLE_EV = SETTINGS_MAX_PLAUSIBLE_EV
 SOURCE_RANK = {
     "Pinnacle (football-data)": 0,
     "Smarkets (borsa)": 1,
@@ -227,8 +229,12 @@ def _merge_direct_markets(ma: dict | None, mb: dict | None) -> dict:
 GLOBAL_FILE = ROOT / "data" / "global_odds" / "latest" / "references.json"
 
 
-def global_references(max_age_hours: float = 30.0) -> tuple[list[dict], str | None]:
-    """Sharp references fetched abroad by GitHub Actions (empty if missing or stale)."""
+def global_references(max_age_hours: float = REFERENCE_LOAD_AGE_H) -> tuple[list[dict], str | None]:
+    """Sharp references fetched abroad by GitHub Actions (empty if missing or older than max_age_hours).
+
+    Analysis may call this with a large cap to still render a report. Betting paths must refuse
+    references older than MAX_PRICE_AGE_H hours.
+    """
     if not GLOBAL_FILE.exists():
         return [], None
     data = json.loads(GLOBAL_FILE.read_text(encoding="utf-8"))
@@ -618,7 +624,7 @@ def analyze_day(
     with_research: bool = True,
     *,
     use_oddsmath: bool = True,
-    use_tm: bool = True,
+    use_tm: bool = False,
     use_weather: bool = True,
 ) -> tuple[list[dict], dict, list]:
     """Fetch the live Nesine bulletin and price every match of `day` against the best global reference.
@@ -755,8 +761,8 @@ def main() -> None:
     ap.add_argument("--hafta", type=int, default=1, help="Kaç gün analiz edilsin (ör. 7: bugünden itibaren bütün hafta)")
     ap.add_argument("--oddsmath", action="store_true", help="OddsMath referanslarını açıkça etkinleştir (varsayılan açık)")
     ap.add_argument("--no-oddsmath", action="store_true", help="OddsMath canlı referans/steam çekimini kapat")
-    ap.add_argument("--tm", action="store_true", help="Transfermarkt 2026/27 verisini tüm günler için açıkça etkinleştir (varsayılan açık)")
-    ap.add_argument("--no-tm", action="store_true", help="Transfermarkt canlı sakat/cezalı çekimini kapat")
+    ap.add_argument("--tm", action="store_true", help="Transfermarkt 2026/27 sakat/cezalı çekimini aç (varsayılan: kapalı, kullanım koşulları)")
+    ap.add_argument("--no-tm", action="store_true", help="Transfermarkt çekimini kapat (varsayılan davranış; açıkça geçmek için yeterlidir)")
     ap.add_argument("--no-weather", action="store_true", help="Open-Meteo maç saati şiddetli hava kontrolünü kapat")
     args = ap.parse_args()
     start = dt.date.fromisoformat(args.date)
@@ -765,7 +771,7 @@ def main() -> None:
         day = (start + dt.timedelta(days=k)).isoformat()
         # Multi-day scans run OddsMath for today/tomorrow and TM/weather for today unless explicitly forced, keeping hourly runs fast.
         run_om = (not args.no_oddsmath) and (args.oddsmath or args.hafta == 1 or k <= 1)
-        run_tm = (not args.no_tm) and (args.tm or args.hafta == 1 or k == 0)
+        run_tm = bool(args.tm) and not args.no_tm
         run_wx = (not args.no_weather) and (args.hafta == 1 or k == 0)
         out, payload, events = analyze_day(
             dt.date.fromisoformat(day),
@@ -1008,16 +1014,26 @@ def write_report(date: str, out: list[dict], payload: dict, events: list, min_ev
     lagging = lagging_selections(_history(d), out)
     record_history(d, out)
     record_predictions(d, out)
+    _, generated = global_references(max_age_hours=1e9)
+    ref_age_h = None
+    if generated:
+        ref_age_h = (dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(generated)).total_seconds() / 3600
+        for m in out:
+            m["ref_age_hours"] = round(ref_age_h, 2)
+            m["betting_ok"] = ref_age_h <= MAX_PRICE_AGE_H
     (d / "nesine_global.json").write_text(json.dumps({"date": date, "generated_at": dt.datetime.now(TSI).isoformat(timespec="seconds"),
+                                                      "ref_age_hours": None if ref_age_h is None else round(ref_age_h, 2),
+                                                      "max_price_age_hours": MAX_PRICE_AGE_H,
                                                       "nesine_margins": market_overrounds(payload, {e.code for e in events}),
                                                       "matches": out}, ensure_ascii=False, indent=2, default=str),
                                           encoding="utf-8")
-    _, generated = global_references(max_age_hours=1e9)
     age = ""
     if generated:
         mins = (dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(generated)).total_seconds() / 60
-        age = (f"**Global veri {mins:.0f} dakika önce çekildi**" + (" — ESKİ, oranlar değişmiş olabilir." if mins > 240 else ".")
-               + " (yurt dışı sunucu: günde 5 tam çekim + maç öncesi saatlik yenileme)")
+        stale = mins > MAX_PRICE_AGE_H * 60
+        age = (f"**Global veri {mins:.0f} dakika önce çekildi**"
+               + (" — ESKİ (>" + f"{MAX_PRICE_AGE_H:g} saat); analiz fiyatlar, kupon/bahis kullanmaz." if stale else ".")
+               + " (yurt dışı sunucu: istek üzerine global-odds iş akışı)")
     priced_sharp = sum(1 for m in out if classify_price_tier(m["status"], m.get("reference")) == "keskin")
     priced_book = sum(1 for m in out if classify_price_tier(m["status"], m.get("reference")) == "global_buro")
     real_total = sum(1 for m in out if classify_price_tier(m["status"], m.get("reference")) != "ozel_bahis")

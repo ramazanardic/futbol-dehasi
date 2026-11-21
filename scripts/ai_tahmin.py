@@ -1,8 +1,8 @@
-"""Write Claude's OWN predictions of a betting day into its area of the AI comparison (tahminler/claudetahmin).
+"""Write this AI's OWN predictions of a betting day into tahminler/<QUANTFOOT_AI>/.
 
     python scripts/ai_tahmin.py --tarih 2026-11-20
 
-The user compares four AIs (claudetahmin, geminitahmin, antigravitytahmin, chatgbttahmin). Code, algorithms and
+The user compares AIs (claudetahmin, geminitahmin, antigravitytahmin, chatgbttahmin, grokbottahmin). Code, algorithms and
 data sources are shared, but every AI produces its own predictions (user rule, 20 Nov): this area is never copied
 from the shared reports (reports/daily, which other AIs' runs also write). Instead:
 
@@ -33,7 +33,7 @@ import nesine_global as ng  # noqa: E402
 
 TSI = ng.TSI
 ROOT = Path(__file__).resolve().parents[1]
-AREA = ng.DAILY  # tahminler/<ai> (QUANTFOOT_AI, default claudetahmin)
+AREA = ng.DAILY  # tahminler/<QUANTFOOT_AI>/ (required)
 
 MATCH_COLS = ["tarih", "saat", "lig", "mac", "nesine_kodu", "olasilik_1", "olasilik_X", "olasilik_2",
               "beklenen_gol_ev", "beklenen_gol_dep", "en_olasi_skor", "ana_secim_pazar", "ana_secim",
@@ -101,7 +101,7 @@ def match_rows(date: str, matches: list[dict], frozen: dict[str, dict] | None = 
 
 
 def coupon_files(date: str, area: Path = AREA) -> list[Path]:
-    """Claude's coupon files of the day (written by nesine_kupon.py into this area), latest per target."""
+    """This AI's coupon files of the day (written by nesine_kupon.py into this area), latest per target."""
     latest: dict[tuple[str, str], Path] = {}
     for f in sorted((area / date).glob("kupon_*x_*.json")):
         latest[_group(f)] = f  # HHMM order: latest file per (target, family) wins
@@ -166,7 +166,7 @@ def clv_summary(clv: dict) -> dict:
 
 def export(date: str, matches: list[dict] | None = None, area: Path = AREA,
            now: dt.datetime | None = None) -> tuple[int, int]:
-    """``matches``: an analysis Claude just ran (e.g. inside nesine_kupon.py); None = run one now."""
+    """``matches``: an analysis this AI just ran (e.g. inside nesine_kupon.py); None = run one now."""
     out = area / date
     before = _read(out / "mac_tahminleri.csv")
     frozen = {r["nesine_kodu"]: r for r in before}

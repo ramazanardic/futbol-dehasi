@@ -1,13 +1,19 @@
 name: daily-autonomous
 
-# 7/24 autonomous cloud pipeline: runs even when the user's PC is powered off.
-# - Morning (08:30 TSI / 05:30 UTC): fetch global sharp odds + 2026/27 season CSVs, settle yesterday,
-#   run Empirical-Bayes self-learning calibration, analyse today's slate + dossiers + reference coupons,
-#   rebuild GitHub Pages dashboard, and send optional Telegram morning briefing.
-# - Intraday (14:00 & 19:00 TSI / 11:00 & 16:00 UTC): light refresh, closing odds snapshot, steam/injury alerts.
-# - Night Settle (01:30 TSI / 22:30 UTC): settle completed matches, update learning calibration & dashboard.
-
-# Runs ONLY when started on request (user rule, 20 Nov: "ben sorduğum zaman sistem çalışsın") — no schedule.
+# On-request autonomous cloud pipeline (no cron schedule; user rule, 20 Nov).
+# Start with workflow_dispatch: morning | intraday | settle | dashboard.
+# The only scheduled GitHub workflow in this repo is ci-tests.yml (weekly Sunday pytest).
+# Local 15-minute coupon watching is the Windows QuantFoot\KuponIzle task (or scripts/kupon_izle.sh).
+#
+# morning: fetch global sharp odds + season CSVs, settle yesterday, self-learning calibration,
+#          analyse today's slate, rebuild the dashboard, optional Telegram briefing.
+# intraday: light odds refresh, closing snapshot, steam/injury alerts.
+# settle: settle completed matches, update learning calibration and dashboard.
+# dashboard: calibration + dashboard only.
+#
+# Predictions stay in tahminler/<QUANTFOOT_AI>/ (gitignored). This job must set QUANTFOOT_AI
+# explicitly (historical system folder: claudetahmin). It does not add tahminler/ or today's
+# unsettled prediction files to git.
 on:
   workflow_dispatch:
     inputs:
@@ -36,6 +42,7 @@ jobs:
     env:
       PYTHONIOENCODING: utf-8
       TZ: Europe/Istanbul
+      QUANTFOOT_AI: claudetahmin  # explicit: this workflow's historical system folder (no implicit default)
       API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
       ODDSPAPI_KEY: ${{ secrets.ODDSPAPI_KEY }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -86,7 +93,7 @@ jobs:
           python scripts/fetch_global_odds.py || true
 
           echo "=== 2. Settle yesterday ($YEST) ==="
-          if [ -f "reports/daily/$YEST/predictions.json" ]; then
+          if [ -f "tahminler/${QUANTFOOT_AI}/$YEST/predictions.json" ] || [ -f "reports/daily/$YEST/predictions.json" ]; then
             python scripts/daily.py results --date "$YEST" || true
             python scripts/daily.py verify --date "$YEST" || true
           fi
@@ -136,7 +143,7 @@ jobs:
           YEST="${{ steps.ctx.outputs.yesterday }}"
           for D in "$YEST" "$TODAY"; do
             python scripts/nesine_takip.py sonuc --date "$D" || true
-            if [ -f "reports/daily/$D/predictions.json" ]; then
+            if [ -f "tahminler/${QUANTFOOT_AI}/$D/predictions.json" ] || [ -f "reports/daily/$D/predictions.json" ]; then
               python scripts/daily.py results --date "$D" || true
               python scripts/daily.py verify --date "$D" || true
             fi
@@ -162,7 +169,10 @@ jobs:
           # The betting day runs 07:00-07:00 TSİ.
           if [ "$(TZ=Europe/Istanbul date +%H)" -lt 7 ]; then OPEN_FROM=$(TZ=Europe/Istanbul date -d yesterday +%F); else OPEN_FROM=$(TZ=Europe/Istanbul date +%F); fi
           for i in 1 2 3 4; do
-            git add data/global_odds data/calibration reports/daily reports/takip reports/weekly docs/data || true
+            # Shared data only. tahminler/ is gitignored and must never be added.
+          git add data/global_odds data/calibration reports/takip reports/weekly docs/data || true
+          # Legacy settled reports/daily may be published; open betting days are unstaged below.
+          git add reports/daily || true
             for p in reports/daily/20* docs/data/20*.json; do
               [ -e "$p" ] || continue
               d=$(basename "$p" .json)
