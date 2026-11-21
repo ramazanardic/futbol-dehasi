@@ -15,7 +15,7 @@ TSI = dt.timezone(dt.timedelta(hours=3))
 MIN_LEG_ODDS = 1.20
 
 # Banko/garanti modu (kullanıcı kuralı t57u, 21 Kas; 21 Kas denetimiyle sıkılaştırıldı — strategy/banko_guard.py).
-BANKO_MIN_PROB = 0.65          # her bacak kalibre P ≥ %65
+BANKO_MIN_PROB = 0.65          # ön süzgeç; banko kupon bacağı ayrıca coupon_rules ile düzeltilmiş P ≥ %70 (docs/ORTAK_SISTEM.md)
 BANKO_MAX_LEG_ODDS = 1.80      # tek bir yüksek oranlı bacakla toplamı şişirme yok
 BANKO_SELECT_MIN_ODDS = 1.22   # seçerken 1.20 tabanına tampon: 1.20–1.21'lik bacaklar oynarken 1.17–1.19'a düştü
 BANKO_MAX_COUPONS_PER_MATCH = 2  # aynı maç en çok 2 açık kuponda (korelasyonlu risk)

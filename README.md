@@ -1,5 +1,10 @@
 # QuantFoot v8.2 — Kantitatif Futbol Tahmin, Omni-Market ve Bahis Algoritması
 
+> **Her yapay zekâ için güncel ve bağlayıcı yöntem: [docs/ORTAK_SISTEM.md](docs/ORTAK_SISTEM.md)** — tek komut
+> `QUANTFOOT_AI=<klasör> python scripts/gunluk_tahmin.py --tarih <gün>`, banko kupon kuralları (bacak P ≥ %70) ve
+> 21 Kasım denetim dersleri. Aşağıdaki v4–v8.2 sürüm adları, model skorları ve "10x/20x/30x" kupon araçları
+> tarihsel araştırma notlarıdır; canlı Nesine performansı için bir iddia değildir (19 Kasım: modeller piyasayı yenmiyor).
+
 Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power & Rimella JRSS-C 2024; Baker & McHale; Constantinou & Fenton) ve **238.858+ tarihsel kulüp maçı** (`matches.csv` + canlı ESPN 2026-27 senkronizasyonu) + **10.660 uluslararası milli maç** (2016–2026) + **7.348 Pinnacle 2026 açılış/kapanış oran verisi** üzerinde sıfır veri sızıntısı (*zero look-ahead leakage*, genişleyen *walk-forward*) ile araştırılmış, kalibre edilmiş ve doğrulanmış kantitatif futbol tahmin ve bahis motoru.
 
 ## Çalışma düzeni (20 Kasım 2026) — önce bunu okuyun

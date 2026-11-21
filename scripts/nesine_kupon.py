@@ -652,7 +652,7 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
                          "(varsayılan, kullanıcı kararı 19 Kasım); guvenli: en olası maçtan başlayıp hedefe kadar ekle")
     ap.add_argument("--max-mac", type=int, default=None, help="En çok maç (varsayılan 7, kullanıcı kuralı)")
     ap.add_argument("--mod", choices=KM.MODES, default=KM.DEFAULT_MODE,
-                    help="banko (VARSAYILAN, kullanıcı kuralı): bacak P ≥ %%65, oran 1.25–1.80, 5 maç (gerekirse 6), keskin "
+                    help="banko (VARSAYILAN, docs/ORTAK_SISTEM.md): düzeltilmiş bacak P ≥ %%70 (coupon_rules), oran 1.20–1.80, 5 maç (gerekirse 6), keskin "
                          "referans; risk: YALNIZ kullanıcı banko ile ulaşılamayan bir hedef isterse — bacak oranı ≤ 2.10, "
                          "dürüst tutma ihtimali yazılır")
     ap.add_argument("--min-mac", type=int, default=None, help="Kupondaki en az maç sayısı (varsayılan: banko 5, risk 3)")
