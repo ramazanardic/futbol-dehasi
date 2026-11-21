@@ -45,6 +45,8 @@ from quantfoot.settings import MAX_LEGS_HIGH as SETTINGS_MAX_LEGS_HIGH  # noqa: 
 from quantfoot.settings import MAX_PRICE_AGE_H as SETTINGS_MAX_PRICE_AGE_H  # noqa: E402
 from quantfoot.settings import MIN_LEG_ODDS as SETTINGS_MIN_LEG_ODDS  # noqa: E402
 from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
+from quantfoot.markets.market_calibration import calibrate_market_probability, load_market_calibration  # noqa: E402
+from quantfoot.settings import HARD_MARKET_MIN_EV, HARD_MARKET_SIGMA_ADD  # noqa: E402
 from quantfoot.strategy.coupon_builder import (  # noqa: E402
     _conflicting_selections,
     is_cup_competition,
@@ -215,6 +217,18 @@ def leg_sigma(
     return sigma
 
 
+def is_hard_market(name: str, odds: float) -> bool:
+    """Markets the user lost most on (21 Nov post-mortem): Üst 2.5/3.5, KG Var, weak-favourite MS 1, İY/MS, exact
+    score. Not banned — they need HARD_MARKET_MIN_EV over the calibrated fair price and a wider uncertainty."""
+    n = (name or "").strip()
+    if n in ("2.5 Üst", "3.5 Üst", "KG Var") or n.startswith(("İY/MS", "Skor ")):
+        return True
+    return n == "MS 1" and 1.70 <= float(odds) <= 2.30
+
+
+_MCAL_DEFAULT = object()
+
+
 def candidates(
     matches: list[dict],
     now: dt.datetime,
@@ -228,8 +242,13 @@ def candidates(
     allow_mid_researched: bool = True,
     family: str = "karma",
     calibration: dict | None = None,
+    market_calibration=_MCAL_DEFAULT,
 ) -> list[list[dict]]:
-    """Per match: non-dominated legs (higher Nesine odds AND higher global probability dominates)."""
+    """Per match: non-dominated legs (higher Nesine odds AND higher global probability dominates).
+
+    ``market_calibration``: per-market/per-league Platt curves (data/calibration/market_calibration.json, only
+    markets whose walk-forward test improved out-of-sample); default = load the file, None = off."""
+    mcal = load_market_calibration() if market_calibration is _MCAL_DEFAULT else market_calibration
     pools = []
     for m in matches:
         if m.get("status") != "fiyatlandı":
@@ -262,8 +281,12 @@ def candidates(
         eff_min_prob = max(min_prob, MID_GLOBAL_MIN_PROB) if (not is_sharp and is_mid_global) else min_prob
         for s in m["selections"]:
             p_cal = calibrated_probability(s["fair_prob"], bool(s.get("direct")), calibration)  # settled-history correction
+            p_cal = calibrate_market_probability(s.get("name", ""), p_cal, m.get("league"), mcal, direct=bool(s.get("direct")))  # archive walk-forward curve
+            hard = is_hard_market(s.get("name", ""), s["odds"])
             if s["odds"] < min_odds or p_cal < eff_min_prob or s["ev"] > MAX_PLAUSIBLE_EV:
                 continue
+            if hard and p_cal * s["odds"] - 1.0 < HARD_MARKET_MIN_EV:
+                continue  # hard market: allowed only with a real margin over the calibrated global fair price
             if direct_only and not s.get("direct"):
                 continue  # model-derived price: no direct global quote for this selection
             if not in_family(s.get("name", ""), family):
@@ -279,8 +302,11 @@ def candidates(
                          "market": s["market"], "selection": s["selection"], "odds": s["odds"], "p": p_cal, "p_raw": s["fair_prob"],
                          "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": ref_lbl,
                          "direct": bool(s.get("direct")), "context": context, "key": s.get("key"),
-                         "name": s.get("name", ""), "researched": researched, "tier": "keskin" if is_sharp else "orta"})
+                         "name": s.get("name", ""), "researched": researched, "tier": "keskin" if is_sharp else "orta",
+                         "ev_cal": round(p_cal * s["odds"] - 1.0, 4), "hard": hard})
             sig = leg_sigma(s.get("name", ""), bool(s.get("direct")), m["reference"], researched, flagged, calibration=calibration)
+            if hard:
+                sig += HARD_MARKET_SIGMA_ADD
             legs[-1]["sigma"] = sig
             legs[-1]["p_low"] = max(0.001, p_cal - Z_LOW * sig)
         legs.sort(key=lambda x: (-x["odds"], -x["p_low"]))

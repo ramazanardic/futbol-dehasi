@@ -200,9 +200,12 @@ def test_model_htft_legs_are_excluded_but_direct_ones_kept():
     m = {"status": "fiyatlandı", "reference": "Smarkets (borsa)", "kickoff_iso": "2026-11-19T20:00:00+03:00",
          "kickoff": "2026-11-19 20:00", "code": 1, "league": "L", "home": "A", "away": "B", "selections": [
              {"market": "İY/MS", "selection": "1/1", "name": "İY/MS 1/1", "odds": 3.0, "fair_prob": 0.30, "ev": -0.1, "mbs": 1, "direct": False},
-             {"market": "İY/MS", "selection": "2/2", "name": "İY/MS 2/2", "odds": 6.0, "fair_prob": 0.15, "ev": -0.1, "mbs": 1, "direct": True}]}
+             {"market": "İY/MS", "selection": "2/2", "name": "İY/MS 2/2", "odds": 6.0, "fair_prob": 0.18, "ev": 0.08, "mbs": 1, "direct": True}]}
     legs = kupon.candidates([m], now, 1.2, 0.0, False)[0]
     assert [leg["selection"] for leg in legs] == ["2/2"]
+    # İY/MS is a "hard" market (22 Nov post-mortem): a direct quote without a +3 % margin stays out, but is not banned
+    m["selections"][1].update(fair_prob=0.15, ev=-0.1)
+    assert kupon.candidates([m], now, 1.2, 0.0, False) == []
 
 
 def test_stale_global_price_is_kept_out_of_coupons():
