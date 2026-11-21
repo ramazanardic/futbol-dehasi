@@ -507,11 +507,13 @@ def prior_coupon_legs(date: str, target: float, family: str = "karma") -> list[d
 
 
 def filter_pools_for_mode(pools: list[list[dict]], pol: "KM.ModePolicy") -> list[list[dict]]:
-    """Kupon modu bacak sınırları: oran ≤ modun tavanı (banko 1.80, risk 2.10), keskin referans zorunlu."""
+    """Kupon modu bacak sınırları: oran ≤ modun tavanı (banko 1.80, risk 2.10), keskin referans zorunlu, büzülmüş P ≥ mod
+    tabanı ve banko'da zayıf aile kuralı (strategy/banko_guard.py)."""
     out = []
     for pool in pools:
         kept = [leg for leg in pool if leg["odds"] <= pol.max_leg_odds + 1e-9
-                and (not pol.sharp_only or leg.get("tier", "keskin") == "keskin")]
+                and (not pol.sharp_only or leg.get("tier", "keskin") == "keskin")
+                and KM.leg_mode_ok(leg, pol.name)]  # P tabanı büzülmüş P ile; zayıf aileler (21 Kas akşam denetimi)
         if kept:
             out.append(kept)
     return out

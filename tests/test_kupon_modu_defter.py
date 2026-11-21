@@ -72,7 +72,8 @@ def test_banko_warns_below_1_22_buffer():
 
 
 def test_risk_mode_allows_target_coupon_but_caps_leg_odds_and_is_honest():
-    k2000 = [_leg(1, 1.60, 0.60), _leg(2, 1.42, 0.61), _leg(3, 1.41, 0.65), _leg(4, 1.46, 0.60), _leg(5, 1.44, 0.63)]
+    # doğrudan keskin fiyatlı bacaklar: denetim büzmesi yok, dürüst P = keskin P çarpımı
+    k2000 = [_leg(i, o, p, direct=True) for i, o, p in ((1, 1.60, 0.60), (2, 1.42, 0.61), (3, 1.41, 0.65), (4, 1.46, 0.60), (5, 1.44, 0.63))]
     assert not KM.guard_legs(k2000, "banko").ok
     r = KM.guard_legs(k2000, "risk")
     assert r.ok and r.p_win == pytest.approx(0.6 * 0.61 * 0.65 * 0.6 * 0.63)

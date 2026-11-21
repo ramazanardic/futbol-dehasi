@@ -22,7 +22,8 @@ from pathlib import Path
 from typing import Any
 
 from quantfoot import settings as S
-from quantfoot.strategy.banko_guard import BankoLeg, GuardConfig, GuardResult, check_coupon
+from quantfoot.strategy.banko_guard import (BankoLeg, GuardConfig, GuardResult, ShrinkConfig, check_coupon,
+                                            effective_prob, selection_family)
 
 MODES = ("banko", "risk")
 DEFAULT_MODE = "banko"
@@ -51,7 +52,8 @@ def policy(mode: str = DEFAULT_MODE) -> ModePolicy:
         return ModePolicy("banko", S.BANKO_MIN_PROB, S.BANKO_PREFER_MIN_ODDS, S.BANKO_MAX_LEG_ODDS,
                           S.BANKO_MIN_LEGS, S.BANKO_MAX_LEGS, True, g)
     g = GuardConfig(min_prob=S.RISK_MIN_PROB, max_leg_odds=S.RISK_MAX_LEG_ODDS, min_legs=S.RISK_MIN_LEGS,
-                    max_legs=S.RISK_MAX_LEGS, lottery_is_error=False, name="risk")
+                    max_legs=S.RISK_MAX_LEGS, lottery_is_error=False, name="risk",
+                    weak_families=())
     return ModePolicy("risk", S.RISK_MIN_PROB, S.BANKO_PREFER_MIN_ODDS, S.RISK_MAX_LEG_ODDS,
                       S.RISK_MIN_LEGS, S.RISK_MAX_LEGS, True, g)
 
@@ -132,9 +134,13 @@ def to_leg(obj: Any, offered: Offered | None = None) -> BankoLeg:
     flags = tuple(_get(obj, "red_flags", default=()) or ())
     if _get(obj, "odds_is_estimated", default=False):
         off = False
+    direct = _get(obj, "direct", default=None)
+    league = _get(obj, "league", "lig", default=None)
     return BankoLeg(match_id=str(code), label=label, odds=odds, p=p, offered=True if off is None else bool(off),
                     sharp_ref=bool(sharp), live=bool(_get(obj, "live", default=False)),
-                    p_market=_get(obj, "p_market", "market_prob", default=None), red_flags=flags)
+                    p_market=_get(obj, "p_market", "market_prob", default=None), red_flags=flags,
+                    direct=None if direct is None else bool(direct), league=str(league) if league else None,
+                    family=selection_family(str(name)) if name else None)
 
 
 def guard_legs(legs: Iterable[Any], mode: str = DEFAULT_MODE, *, open_exposure: Mapping[Any, int] | None = None,
@@ -143,6 +149,20 @@ def guard_legs(legs: Iterable[Any], mode: str = DEFAULT_MODE, *, open_exposure: 
     bl = [to_leg(x, offered) for x in legs]
     exp = {str(k): v for k, v in (open_exposure or {}).items()}
     return check_coupon(bl, exp, pol.guard, at_selection=at_selection)
+
+
+def leg_effective_prob(obj: Any, mode: str = DEFAULT_MODE) -> float:
+    """Kurucuların aday havuzunda kullanacağı P: denetim büzmesi uygulanmış (banko tabanı bununla karşılaştırılır)."""
+    return effective_prob(to_leg(obj), policy(mode).guard.shrink)
+
+
+def leg_mode_ok(obj: Any, mode: str = DEFAULT_MODE) -> bool:
+    """Tek bacak modun P/aile kuralını (büzme sonrası) geçiyor mu — kupon kurmadan önce havuz filtresi için."""
+    from quantfoot.strategy.banko_guard import check_leg
+    pol = policy(mode)
+    leg = to_leg(obj)
+    err, _ = check_leg(leg, pol.guard, at_selection=False)
+    return not any(("P %" in e) or ("ailesi" in e) for e in err)
 
 
 def honest_line(res: GuardResult, stake: float | None = None) -> str:
