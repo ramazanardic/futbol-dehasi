@@ -1,0 +1,113 @@
+{
+ "n_rem": 628,
+ "sharp": 387,
+ "buro": 186,
+ "low": 47,
+ "none": 8,
+ "ev": [
+  [
+   0.1487,
+   "19:00",
+   3314542,
+   "Pecs MFC",
+   "Sarbogard SE",
+   "Dep 0.5 Alt",
+   1.38,
+   1.201,
+   false,
+   "OddsMath (Marathonbet)",
+   0.03
+  ],
+  [
+   0.1353,
+   "19:00",
+   3314542,
+   "Pecs MFC",
+   "Sarbogard SE",
+   "KG Yok",
+   1.36,
+   1.198,
+   false,
+   "OddsMath (Marathonbet)",
+   0.03
+  ],
+  [
+   0.0938,
+   "20:00",
+   3319709,
+   "Espanyol II",
+   "Barcelona B",
+   "Hnd(-1) 1",
+   4.12,
+   3.767,
+   false,
+   "OddsMath (BetInAsia/Pinnacle)",
+   0.05
+  ],
+  [
+   0.0864,
+   "20:00",
+   3319709,
+   "Espanyol II",
+   "Barcelona B",
+   "MS 1",
+   2.18,
+   2.007,
+   true,
+   "OddsMath (BetInAsia/Pinnacle)",
+   0.03
+  ],
+  [
+   0.0743,
+   "19:00",
+   3314542,
+   "Pecs MFC",
+   "Sarbogard SE",
+   "Hnd(-3) 1",
+   1.84,
+   1.713,
+   false,
+   "OddsMath (Marathonbet)",
+   0.05
+  ],
+  [
+   0.0646,
+   "15:00",
+   3389665,
+   "Enkopings SK",
+   "Orebro SK",
+   "MS 2 & 3.5 Üst",
+   5.57,
+   5.232,
+   false,
+   "OddsMath (BetInAsia/Pinnacle)",
+   0.05
+  ],
+  [
+   0.0612,
+   "15:00",
+   3389665,
+   "Enkopings SK",
+   "Orebro SK",
+   "MS 2 & 4.5 Üst",
+   9.28,
+   8.745,
+   false,
+   "OddsMath (BetInAsia/Pinnacle)",
+   0.05
+  ],
+  [
+   0.0396,
+   "18:00",
+   3312729,
+   "Köln U19",
+   "SV Darmstadt 98 U19",
+   "Ev İY 1.5 Üst",
+   1.8,
+   1.732,
+   false,
+   "OddsMath (Marathonbet)",
+   0.03
+  ]
+ ]
+}

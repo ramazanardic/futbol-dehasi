@@ -1,0 +1,3573 @@
+[
+ {
+  "id": "K1",
+  "source": "oynanan_kuponlar.json",
+  "kind": "placed",
+  "status": "açık",
+  "odds": 24.97,
+  "p": null,
+  "stake": 50,
+  "mode": "eski",
+  "note": "",
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3319709,
+    "match": "Espanyol II - Barcelona B",
+    "ko": "2026-11-21 20:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 2.18,
+    "p": 0.4983,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     0,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3359425,
+    "match": "Rad. Bijelji - Velez Mostar",
+    "ko": "2026-11-21 18:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 3.32,
+    "p": 0.2759,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     1,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3318200,
+    "match": "CD Tecnico Uni. - CD Cuenca",
+    "ko": "2026-11-21 22:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 3.45,
+    "p": 0.2526,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   }
+  ],
+  "n_won": 0,
+  "n_lost": 2,
+  "n_pending": 1,
+  "n": 3
+ },
+ {
+  "id": "K3",
+  "source": "oynanan_kuponlar.json",
+  "kind": "placed",
+  "status": "kaybetti",
+  "odds": 26.11,
+  "p": null,
+  "stake": 50,
+  "mode": "eski",
+  "note": "bacaklar Set A Kupon 3 dosyasından (oynanırken oran 25.85→26.11)",
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3314007,
+    "match": "Galatasaray - Samsunspor",
+    "ko": "2026-11-21 16:00",
+    "market": "2,5 Alt/Üst ve Karşılıklı Gol",
+    "sel": "2.5 Üst & KG Yok",
+    "name": "2.5 Üst & KG Yok",
+    "family": "Kombine (A & B)",
+    "odds": 3.41,
+    "p": 0.2685,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     2,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314236,
+    "match": "Southampton - Derby County",
+    "ko": "2026-11-21 15:30",
+    "market": "Maç Sonucu ve Karşılıklı Gol",
+    "sel": "MS 1 & KG Yok",
+    "name": "MS 1 & KG Yok",
+    "family": "Kombine (A & B)",
+    "odds": 2.29,
+    "p": 0.3996,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313105,
+    "match": "Charleroi - St. Truidense",
+    "ko": "2026-11-21 18:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 0",
+    "name": "MS 0",
+    "family": "Maç sonucu",
+    "odds": 3.31,
+    "p": 0.265,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     1
+    ],
+    "ft": [
+     2,
+     2
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 2,
+  "n_lost": 1,
+  "n_pending": 0,
+  "n": 3
+ },
+ {
+  "id": "K4",
+  "source": "oynanan_kuponlar.json",
+  "kind": "placed",
+  "status": "kaybetti",
+  "odds": 24.72,
+  "p": null,
+  "stake": 50,
+  "mode": "eski",
+  "note": "bacaklar Set A Kupon 4 dosyasından (oynanırken oran 25.15→24.72)",
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3318757,
+    "match": "Vallecano - Valencia",
+    "ko": "2026-11-21 18:15",
+    "market": "Maç Sonucu ve 2,5 Alt/Üst",
+    "sel": "MS 1 & 2.5 Üst",
+    "name": "MS 1 & 2.5 Üst",
+    "family": "Kombine (A & B)",
+    "odds": 2.95,
+    "p": 0.2984,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     1
+    ],
+    "ft": [
+     0,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313080,
+    "match": "Fleury 91 - Rouen",
+    "ko": "2026-11-21 16:45",
+    "market": "Maç Sonucu",
+    "sel": "MS 0",
+    "name": "MS 0",
+    "family": "Maç sonucu",
+    "odds": 2.75,
+    "p": 0.3211,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     1,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313626,
+    "match": "Bolton - Portsmouth",
+    "ko": "2026-11-21 18:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 0",
+    "name": "MS 0",
+    "family": "Maç sonucu",
+    "odds": 3.1,
+    "p": 0.2817,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     1
+    ],
+    "ft": [
+     1,
+     1
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 1,
+  "n_lost": 2,
+  "n_pending": 0,
+  "n": 3
+ },
+ {
+  "id": "K5",
+  "source": "oynanan_kuponlar.json",
+  "kind": "placed",
+  "status": "açık",
+  "odds": 20.49,
+  "p": null,
+  "stake": 50,
+  "mode": "eski",
+  "note": "",
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3313940,
+    "match": "CSKA Moskova - Akhmat Grozny",
+    "ko": "2026-11-21 19:45",
+    "market": "2,5 Gol Alt/Üst",
+    "sel": "2,5 Alt",
+    "name": "2.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 2.11,
+    "p": 0.4334,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     1,
+     2
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313644,
+    "match": "Carrarese - Virtus Entella",
+    "ko": "2026-11-21 17:00",
+    "market": "Maç Sonucu",
+    "sel": "X",
+    "name": "MS 0",
+    "family": "Maç sonucu",
+    "odds": 2.79,
+    "p": 0.3139,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     1,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313868,
+    "match": "Yeovil Town - Forest Green",
+    "ko": "2026-11-21 20:30",
+    "market": "Maç Sonucu ve Alt/Üst",
+    "sel": "MS 2 & 3,5 Alt",
+    "name": "MS 2 & 3.5 Alt",
+    "family": "Kombine (A & B)",
+    "odds": 3.48,
+    "p": 0.2507,
+    "won": null,
+    "state": "canlı<80",
+    "ht": null,
+    "ft": [
+     0,
+     0
+    ],
+    "how": null
+   }
+  ],
+  "n_won": 0,
+  "n_lost": 2,
+  "n_pending": 1,
+  "n": 3
+ },
+ {
+  "id": "K6",
+  "source": "oynanan_kuponlar.json",
+  "kind": "placed",
+  "status": "kaybetti",
+  "odds": 20.82,
+  "p": null,
+  "stake": 50,
+  "mode": "eski",
+  "note": "",
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3312554,
+    "match": "Norwich City - Cardiff City",
+    "ko": "2026-11-21 15:30",
+    "market": "1. Yarı Sonucu",
+    "sel": "2",
+    "name": "İY 2",
+    "family": "İlk yarı",
+    "odds": 4.07,
+    "p": 0.2322,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314647,
+    "match": "Millwall - QPR",
+    "ko": "2026-11-21 15:30",
+    "market": "1. Yarı Sonucu",
+    "sel": "2",
+    "name": "İY 2",
+    "family": "İlk yarı",
+    "odds": 2.89,
+    "p": 0.3063,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     1
+    ],
+    "ft": [
+     0,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3319368,
+    "match": "Elche B - C. Dep. Minera",
+    "ko": "2026-11-21 18:00",
+    "market": "Maç Sonucu",
+    "sel": "2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.74,
+    "p": 0.5397,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     2
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 1,
+  "n_lost": 2,
+  "n_pending": 0,
+  "n": 3
+ },
+ {
+  "id": "B5",
+  "source": "oynanan_kuponlar.json",
+  "kind": "placed",
+  "status": "açık",
+  "odds": 7.27,
+  "p": null,
+  "stake": 400,
+  "mode": "eski-banko",
+  "note": "Espanyol ÇŞ1X yerine Antequera 3,5 Alt (yedek); Coleraine 1.67",
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3313572,
+    "match": "BVV Barendrecht - VV Kloetinge",
+    "ko": "2026-11-21 17:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.55,
+    "p": 0.55,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     2
+    ],
+    "ft": [
+     2,
+     3
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3312753,
+    "match": "Carrick Rangers - Coleraine",
+    "ko": "2026-11-21 18:00",
+    "market": "Maç Sonucu",
+    "sel": "2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.67,
+    "p": 0.5689,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     1
+    ],
+    "ft": [
+     1,
+     3
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3318505,
+    "match": "Antequera - Juventud Torremolinos",
+    "ko": "2026-11-21 18:30",
+    "market": "3,5 Gol Alt/Üst",
+    "sel": "3,5 Alt",
+    "name": "3.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 1.25,
+    "p": 0.6885,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     1
+    ],
+    "ft": [
+     2,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313774,
+    "match": "Grazer AK - Rapid Wien",
+    "ko": "2026-11-21 21:30",
+    "market": "3,5 Gol Alt/Üst",
+    "sel": "3,5 Alt",
+    "name": "3.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 1.46,
+    "p": 0.6168,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3314607,
+    "match": "Lille - Lyon",
+    "ko": "2026-11-21 22:45",
+    "market": "2,5 Gol Alt/Üst",
+    "sel": "2,5 Alt",
+    "name": "2.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 1.53,
+    "p": 0.5714,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   }
+  ],
+  "n_won": 2,
+  "n_lost": 1,
+  "n_pending": 2,
+  "n": 5
+ },
+ {
+  "id": "MS10",
+  "source": "oynanan_kuponlar.json",
+  "kind": "placed",
+  "status": "açık",
+  "odds": 7.67,
+  "p": null,
+  "stake": 100,
+  "mode": "eski-banko",
+  "note": "",
+  "computed_status": "açık",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3313785,
+    "match": "Lugano - Grasshoppers",
+    "ko": "2026-11-21 20:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.2,
+    "p": 0.721,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314719,
+    "match": "D. Bükreş - Petrolul Ploiesti",
+    "ko": "2026-11-21 21:30",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.21,
+    "p": 0.7053,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3314324,
+    "match": "Truro City - H. Hempstead",
+    "ko": "2026-11-21 18:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.21,
+    "p": 0.7027,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     4,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313822,
+    "match": "Dungannon - Crusaders",
+    "ko": "2026-11-21 18:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.23,
+    "p": 0.7005,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     2,
+     0
+    ],
+    "ft": [
+     3,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3319951,
+    "match": "Castellon - C. Dep. Eldense",
+    "ko": "2026-11-21 20:30",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.22,
+    "p": 0.6977,
+    "won": null,
+    "state": "canlı<80",
+    "ht": null,
+    "ft": [
+     0,
+     0
+    ],
+    "how": null
+   },
+   {
+    "code": 3318479,
+    "match": "Zaragoza - Rayo Majadah",
+    "ko": "2026-11-21 18:30",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.23,
+    "p": 0.6951,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     2,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313708,
+    "match": "MSK Zilina - Dukla BB",
+    "ko": "2026-11-21 17:30",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.22,
+    "p": 0.6914,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313035,
+    "match": "Larne - Ballymena Utd",
+    "ko": "2026-11-21 21:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.24,
+    "p": 0.686,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3313692,
+    "match": "CD Fas - C.D. Cacahuatique",
+    "ko": "2026-11-22 00:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.25,
+    "p": 0.6737,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3314218,
+    "match": "O. Ljubljana - NK Radomlje",
+    "ko": "2026-11-21 17:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.25,
+    "p": 0.6723,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     1,
+     0
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 6,
+  "n_lost": 0,
+  "n_pending": 4,
+  "n": 10
+ },
+ {
+  "id": "CANLI",
+  "source": "oynanan_kuponlar.json",
+  "kind": "placed",
+  "status": "kaybetti",
+  "odds": 7.64,
+  "p": null,
+  "stake": 70,
+  "mode": "canli",
+  "note": "canlı model P (oynanırken); piyasa P: Kokand 0.205, Khor 0.627, Reading 0.505",
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3307474,
+    "match": "Kokand 1912 - Sogdiana",
+    "ko": "2026-11-21 15:00",
+    "market": "Canlı Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 3.79,
+    "p": 0.317,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     0,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314339,
+    "match": "Khor Fakkan - AL Jazira (Bae)",
+    "ko": "2026-11-21 15:45",
+    "market": "Canlı Maç Sonucu",
+    "sel": "2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.26,
+    "p": 0.808,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     1,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3405042,
+    "match": "Reading - Bromley",
+    "ko": "2026-11-21 15:30",
+    "market": "Canlı Ev 1,5 Alt/Üst",
+    "sel": "1,5 Üst",
+    "name": "Ev 1.5 Üst",
+    "family": "Ev sahibi golleri",
+    "odds": 1.6,
+    "p": 0.644,
+    "won": null,
+    "state": "eşleşmedi",
+    "ht": null,
+    "ft": null,
+    "how": null
+   }
+  ],
+  "n_won": 0,
+  "n_lost": 2,
+  "n_pending": 1,
+  "n": 3
+ },
+ {
+  "id": "A5",
+  "source": "oynanan_kuponlar.json",
+  "kind": "placed",
+  "status": "kaybetti",
+  "odds": 5.0,
+  "p": null,
+  "stake": 100,
+  "mode": "eski-banko",
+  "note": "",
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3318770,
+    "match": "AC Milan (K) - Sassuolo Calcio (K)",
+    "ko": "2026-11-21 17:00",
+    "market": "3,5 Gol Alt/Üst",
+    "sel": "3,5 Alt",
+    "name": "3.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 1.45,
+    "p": 0.6078,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     3,
+     2
+    ],
+    "ft": [
+     3,
+     2
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314269,
+    "match": "Sturm Gr.(Amt.) - Amstetten",
+    "ko": "2026-11-21 17:30",
+    "market": "2,5 Gol Alt/Üst",
+    "sel": "2,5 Üst",
+    "name": "2.5 Üst",
+    "family": "Alt/Üst",
+    "odds": 1.38,
+    "p": 0.6451,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     1
+    ],
+    "ft": [
+     1,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3312556,
+    "match": "Catanzaro - US Palermo",
+    "ko": "2026-11-21 19:15",
+    "market": "3,5 Gol Alt/Üst",
+    "sel": "3,5 Alt",
+    "name": "3.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 1.38,
+    "p": 0.6331,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     1
+    ],
+    "ft": [
+     3,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314246,
+    "match": "Lazio - Lecce",
+    "ko": "2026-11-21 17:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.34,
+    "p": 0.6536,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     3,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3312717,
+    "match": "Napoli - Torino",
+    "ko": "2026-11-21 22:45",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.34,
+    "p": 0.6474,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   }
+  ],
+  "n_won": 1,
+  "n_lost": 3,
+  "n_pending": 1,
+  "n": 5
+ },
+ {
+  "id": "B10",
+  "source": "oynanan_kuponlar.json",
+  "kind": "placed",
+  "status": "kaybetti",
+  "odds": 6.84,
+  "p": null,
+  "stake": 150,
+  "mode": "eski-banko",
+  "note": "Tottenham Dep1,5Alt ve Mineiro Dep0,5Ü düşürüldü (oran <1.20); Genk + West Ham eklendi; West Ham P ≈ exp(-0.45·μ_dep)",
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3314600,
+    "match": "Linfield - Limavady Utd",
+    "ko": "2026-11-21 18:00",
+    "market": "Handikaplı Maç Sonucu",
+    "sel": "Hnd(-1) 1",
+    "name": "Hnd(-1) 1",
+    "family": "Handikap",
+    "odds": 1.21,
+    "p": 0.7281,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     3,
+     0
+    ],
+    "ft": [
+     5,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314363,
+    "match": "Strasbourg - Brest",
+    "ko": "2026-11-21 22:45",
+    "market": "Deplasman 0,5 Gol Alt/Üst",
+    "sel": "0,5 Üst",
+    "name": "Dep 0.5 Üst",
+    "family": "Deplasman golleri",
+    "odds": 1.2,
+    "p": 0.7267,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3318436,
+    "match": "Pumas Unam - Monterrey",
+    "ko": "2026-11-22 04:00",
+    "market": "1. Yarı 0,5 Gol Alt/Üst",
+    "sel": "0,5 Üst",
+    "name": "İY 0.5 Üst",
+    "family": "İlk yarı",
+    "odds": 1.2,
+    "p": 0.7213,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3391094,
+    "match": "Argentinos J. - Independiente",
+    "ko": "2026-11-21 23:00",
+    "market": "Ev Sahibi 0,5 Gol Alt/Üst",
+    "sel": "0,5 Üst",
+    "name": "Ev 0.5 Üst",
+    "family": "Ev sahibi golleri",
+    "odds": 1.21,
+    "p": 0.7176,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3312528,
+    "match": "Reims - St Etienne",
+    "ko": "2026-11-21 22:00",
+    "market": "3,5 Gol Alt/Üst",
+    "sel": "3,5 Alt",
+    "name": "3.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 1.21,
+    "p": 0.7166,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3314573,
+    "match": "Stoke City - Birmingham",
+    "ko": "2026-11-21 18:00",
+    "market": "1. Yarı 1,5 Gol Alt/Üst",
+    "sel": "1,5 Alt",
+    "name": "İY 1.5 Alt",
+    "family": "İlk yarı",
+    "odds": 1.21,
+    "p": 0.7163,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     1,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313958,
+    "match": "Hibernian - Dundee Utd",
+    "ko": "2026-11-21 18:00",
+    "market": "Çifte Şans",
+    "sel": "1-X",
+    "name": "ÇŞ 1X",
+    "family": "Çifte şans",
+    "odds": 1.2,
+    "p": 0.7162,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     2
+    ],
+    "ft": [
+     0,
+     4
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314396,
+    "match": "Zulte Waregem - Antwerp",
+    "ko": "2026-11-21 22:45",
+    "market": "1. Yarı 0,5 Gol Alt/Üst",
+    "sel": "0,5 Üst",
+    "name": "İY 0.5 Üst",
+    "family": "İlk yarı",
+    "odds": 1.21,
+    "p": 0.7157,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3313833,
+    "match": "KRC Genk - RAAL La Louviere",
+    "ko": "2026-11-21 20:15",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.25,
+    "p": 0.70826,
+    "won": null,
+    "state": "canlı<80",
+    "ht": null,
+    "ft": [
+     3,
+     0
+    ],
+    "how": null
+   },
+   {
+    "code": 3314223,
+    "match": "West Ham - Preston",
+    "ko": "2026-11-21 18:00",
+    "market": "Deplasman 1. Yarı 0,5 Gol Alt/Üst",
+    "sel": "0,5 Alt",
+    "name": "Dep İY 0.5 Alt",
+    "family": "Deplasman golleri",
+    "odds": 1.21,
+    "p": 0.7068,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     1
+    ],
+    "ft": [
+     1,
+     1
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 2,
+  "n_lost": 2,
+  "n_pending": 6,
+  "n": 10
+ },
+ {
+  "id": "K2000",
+  "source": "oynanan_kuponlar.json",
+  "kind": "placed",
+  "status": "açık",
+  "odds": 7.21,
+  "p": null,
+  "stake": 300,
+  "mode": "risk",
+  "note": "oynanırken Pontevedra 1.60→1.69, Águila 1.46→1.48; toplam 6.74→7.21, maks 2.163,41 TL",
+  "computed_status": "açık",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3319685,
+    "match": "Pontevedra - Lugo",
+    "ko": "2026-11-21 20:45",
+    "market": "2,5 Gol Alt/Üst",
+    "sel": "2,5 Alt",
+    "name": "2.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 1.69,
+    "p": 0.5991,
+    "won": null,
+    "state": "canlı<80",
+    "ht": null,
+    "ft": [
+     0,
+     0
+    ],
+    "how": null
+   },
+   {
+    "code": 3312709,
+    "match": "Motherwell - Rangers",
+    "ko": "2026-11-21 23:00",
+    "market": "Karşılıklı Gol",
+    "sel": "Var",
+    "name": "KG Var",
+    "family": "Karşılıklı gol",
+    "odds": 1.42,
+    "p": 0.6109,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3318334,
+    "match": "Bahia BA - Coritiba",
+    "ko": "2026-11-21 23:30",
+    "market": "1. Yarı 1,5 Gol Alt/Üst",
+    "sel": "1,5 Alt",
+    "name": "İY 1.5 Alt",
+    "family": "İlk yarı",
+    "odds": 1.41,
+    "p": 0.648,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3312935,
+    "match": "CD Aguila - CD Platense Municipal",
+    "ko": "2026-11-22 00:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.48,
+    "p": 0.6042,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3318800,
+    "match": "Chapecoense - Cruzeiro MG",
+    "ko": "2026-11-22 03:00",
+    "market": "1. Yarı 1,5 Gol Alt/Üst",
+    "sel": "1,5 Alt",
+    "name": "İY 1.5 Alt",
+    "family": "İlk yarı",
+    "odds": 1.44,
+    "p": 0.6291,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   }
+  ],
+  "n_won": 0,
+  "n_lost": 0,
+  "n_pending": 5,
+  "n": 5
+ },
+ {
+  "id": "kupon5000_alternatif_az_bacak.json#1",
+  "source": "kupon5000_alternatif_az_bacak.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 24.97,
+  "p": 0.034727693022,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": "K1",
+  "legs": [
+   {
+    "code": 3319709,
+    "match": "Espanyol II - Barcelona B",
+    "ko": "20:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 2.18,
+    "p": 0.4983,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     0,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3359425,
+    "match": "Rad. Bijelji - Velez Mostar",
+    "ko": "18:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 3.32,
+    "p": 0.2759,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     1,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3318200,
+    "match": "CD Tecnico Uni. - CD Cuenca",
+    "ko": "22:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 3.45,
+    "p": 0.2526,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   }
+  ],
+  "n_won": 0,
+  "n_lost": 2,
+  "n_pending": 1,
+  "n": 3
+ },
+ {
+  "id": "kupon5000_alternatif_az_bacak.json#2",
+  "source": "kupon5000_alternatif_az_bacak.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 24.95,
+  "p": 0.033253882079418,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3314542,
+    "match": "Pecs MFC - Sarbogard SE",
+    "ko": "19:00",
+    "market": "Deplasman 0,5 Gol Alt/Üst",
+    "sel": "Dep 0.5 Alt",
+    "name": "Dep 0.5 Alt",
+    "family": "Deplasman golleri",
+    "odds": 1.38,
+    "p": 0.833,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     1,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313958,
+    "match": "Hibernian - Dundee Utd",
+    "ko": "18:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 0",
+    "name": "MS 0",
+    "family": "Maç sonucu",
+    "odds": 3.57,
+    "p": 0.2442,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     2
+    ],
+    "ft": [
+     0,
+     4
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313206,
+    "match": "Sampdoria - Benevento",
+    "ko": "17:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 0",
+    "name": "MS 0",
+    "family": "Maç sonucu",
+    "odds": 2.91,
+    "p": 0.3029,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     3,
+     1
+    ],
+    "ft": [
+     3,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3319368,
+    "match": "Elche B - C. Dep. Minera",
+    "ko": "18:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.74,
+    "p": 0.5397,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     2
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 1,
+  "n_lost": 3,
+  "n_pending": 0,
+  "n": 4
+ },
+ {
+  "id": "kupon5000_alternatif_az_bacak.json#3",
+  "source": "kupon5000_alternatif_az_bacak.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 25.85,
+  "p": 0.028432539000000007,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": "K3",
+  "legs": [
+   {
+    "code": 3314007,
+    "match": "Galatasaray - Samsunspor",
+    "ko": "16:00",
+    "market": "2,5 Alt/Üst ve Karşılıklı Gol",
+    "sel": "2.5 Üst & KG Yok",
+    "name": "2.5 Üst & KG Yok",
+    "family": "Kombine (A & B)",
+    "odds": 3.41,
+    "p": 0.2685,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     2,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314236,
+    "match": "Southampton - Derby County",
+    "ko": "15:30",
+    "market": "Maç Sonucu ve Karşılıklı Gol",
+    "sel": "MS 1 & KG Yok",
+    "name": "MS 1 & KG Yok",
+    "family": "Kombine (A & B)",
+    "odds": 2.29,
+    "p": 0.3996,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313105,
+    "match": "Charleroi - St. Truidense",
+    "ko": "18:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 0",
+    "name": "MS 0",
+    "family": "Maç sonucu",
+    "odds": 3.31,
+    "p": 0.265,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     1
+    ],
+    "ft": [
+     2,
+     2
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 2,
+  "n_lost": 1,
+  "n_pending": 0,
+  "n": 3
+ },
+ {
+  "id": "kupon5000_alternatif_az_bacak.json#4",
+  "source": "kupon5000_alternatif_az_bacak.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 25.15,
+  "p": 0.026991434808,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": "K4",
+  "legs": [
+   {
+    "code": 3318757,
+    "match": "Vallecano - Valencia",
+    "ko": "18:15",
+    "market": "Maç Sonucu ve 2,5 Alt/Üst",
+    "sel": "MS 1 & 2.5 Üst",
+    "name": "MS 1 & 2.5 Üst",
+    "family": "Kombine (A & B)",
+    "odds": 2.95,
+    "p": 0.2984,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     1
+    ],
+    "ft": [
+     0,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313080,
+    "match": "Fleury 91 - Rouen",
+    "ko": "16:45",
+    "market": "Maç Sonucu",
+    "sel": "MS 0",
+    "name": "MS 0",
+    "family": "Maç sonucu",
+    "odds": 2.75,
+    "p": 0.3211,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     1,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313626,
+    "match": "Bolton - Portsmouth",
+    "ko": "18:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 0",
+    "name": "MS 0",
+    "family": "Maç sonucu",
+    "odds": 3.1,
+    "p": 0.2817,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     1
+    ],
+    "ft": [
+     1,
+     1
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 1,
+  "n_lost": 2,
+  "n_pending": 0,
+  "n": 3
+ },
+ {
+  "id": "kupon5000_taslak.json#1",
+  "source": "kupon5000_taslak.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 24.06,
+  "p": 0.03135109651809059,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3319709,
+    "match": "Espanyol II - Barcelona B",
+    "ko": "20:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 2.18,
+    "p": 0.4983,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     0,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314236,
+    "match": "Southampton - Derby County",
+    "ko": "15:30",
+    "market": "Maç Sonucu ve Karşılıklı Gol",
+    "sel": "MS 1 & KG Yok",
+    "name": "MS 1 & KG Yok",
+    "family": "Kombine (A & B)",
+    "odds": 2.29,
+    "p": 0.3996,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3319368,
+    "match": "Elche B - C. Dep. Minera",
+    "ko": "18:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.74,
+    "p": 0.5397,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     2
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3312753,
+    "match": "Carrick Rangers - Coleraine",
+    "ko": "18:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.62,
+    "p": 0.5689,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     1
+    ],
+    "ft": [
+     1,
+     3
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313704,
+    "match": "M'gladbach - B. Dortmund",
+    "ko": "17:30",
+    "market": "2. Yarı Sonucu",
+    "sel": "2Y 2",
+    "name": "2Y 2",
+    "family": "İkinci yarı",
+    "odds": 1.71,
+    "p": 0.5128,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     0,
+     1
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 3,
+  "n_lost": 2,
+  "n_pending": 0,
+  "n": 5
+ },
+ {
+  "id": "kupon5000_taslak.json#2",
+  "source": "kupon5000_taslak.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 25.04,
+  "p": 0.028886009581703672,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3314542,
+    "match": "Pecs MFC - Sarbogard SE",
+    "ko": "19:00",
+    "market": "Deplasman 0,5 Gol Alt/Üst",
+    "sel": "Dep 0.5 Alt",
+    "name": "Dep 0.5 Alt",
+    "family": "Deplasman golleri",
+    "odds": 1.38,
+    "p": 0.833,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     1,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314311,
+    "match": "Puntarenas - CS Herediano",
+    "ko": "02:30",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 2.29,
+    "p": 0.3964,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3318334,
+    "match": "Bahia BA - Coritiba",
+    "ko": "23:30",
+    "market": "2,5 Gol Alt/Üst",
+    "sel": "2.5 Alt",
+    "name": "2.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 2.03,
+    "p": 0.4301,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3320028,
+    "match": "Palmeiras SP - Flamengo",
+    "ko": "22:30",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.85,
+    "p": 0.4693,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3313940,
+    "match": "CSKA Moskova - Akhmat Grozny",
+    "ko": "19:45",
+    "market": "2,5 Gol Alt/Üst",
+    "sel": "2.5 Alt",
+    "name": "2.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 2.11,
+    "p": 0.4334,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     1,
+     2
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 1,
+  "n_lost": 1,
+  "n_pending": 3,
+  "n": 5
+ },
+ {
+  "id": "kupon5000_taslak.json#3",
+  "source": "kupon5000_taslak.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 21.82,
+  "p": 0.025200823365224022,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3313868,
+    "match": "Yeovil Town - Forest Green",
+    "ko": "20:30",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 2.15,
+    "p": 0.4113,
+    "won": null,
+    "state": "canlı<80",
+    "ht": null,
+    "ft": [
+     0,
+     0
+    ],
+    "how": null
+   },
+   {
+    "code": 3313135,
+    "match": "Newcastle Utd - Arsenal",
+    "ko": "20:30",
+    "market": "2. Yarı Sonucu",
+    "sel": "2Y 2",
+    "name": "2Y 2",
+    "family": "İkinci yarı",
+    "odds": 1.73,
+    "p": 0.5112,
+    "won": null,
+    "state": "canlı<80",
+    "ht": null,
+    "ft": [
+     0,
+     0
+    ],
+    "how": null
+   },
+   {
+    "code": 3343137,
+    "match": "AL Julan - AL Naft",
+    "ko": "17:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 0",
+    "name": "MS 0",
+    "family": "Maç sonucu",
+    "odds": 1.92,
+    "p": 0.4505,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     3
+    ],
+    "ft": [
+     2,
+     3
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313264,
+    "match": "B. Leverkusen - Paderborn",
+    "ko": "17:30",
+    "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+    "sel": "İY 1 & İY KG Yok",
+    "name": "İY 1 & İY KG Yok",
+    "family": "Kombine (A & B)",
+    "odds": 1.83,
+    "p": 0.5018,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     4,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314246,
+    "match": "Lazio - Lecce",
+    "ko": "17:00",
+    "market": "2. Yarı Sonucu",
+    "sel": "2Y 1",
+    "name": "2Y 1",
+    "family": "İkinci yarı",
+    "odds": 1.67,
+    "p": 0.5302,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     3,
+     0
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 2,
+  "n_lost": 1,
+  "n_pending": 2,
+  "n": 5
+ },
+ {
+  "id": "kupon5000_taslak.json#4",
+  "source": "kupon5000_taslak.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 23.62,
+  "p": 0.021165642754411757,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3339060,
+    "match": "Atl Mineiro - Boca Juniors",
+    "ko": "01:30",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.95,
+    "p": 0.4485,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3312502,
+    "match": "Mjallby - Malmö",
+    "ko": "17:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.91,
+    "p": 0.4554,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     1,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3319523,
+    "match": "Tromso - Viking",
+    "ko": "16:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.67,
+    "p": 0.5212,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     3,
+     2
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3319521,
+    "match": "Tigres - America",
+    "ko": "06:00",
+    "market": "Tek/Çift",
+    "sel": "Tek",
+    "name": "Tek",
+    "family": "Tek/Çift",
+    "odds": 1.75,
+    "p": 0.4957,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3313622,
+    "match": "Falkirk - St. Johnstone",
+    "ko": "18:00",
+    "market": "1. Yarı Sonucu",
+    "sel": "İY 1",
+    "name": "İY 1",
+    "family": "İlk yarı",
+    "odds": 2.17,
+    "p": 0.4011,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     2,
+     1
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 1,
+  "n_lost": 2,
+  "n_pending": 2,
+  "n": 5
+ },
+ {
+  "id": "kupon5000_uyumlu.json#1",
+  "source": "kupon5000_uyumlu.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 24.06,
+  "p": 0.03135109651809059,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3319709,
+    "match": "Espanyol II - Barcelona B",
+    "ko": "20:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 2.18,
+    "p": 0.4983,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     0,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314236,
+    "match": "Southampton - Derby County",
+    "ko": "15:30",
+    "market": "Maç Sonucu ve Karşılıklı Gol",
+    "sel": "MS 1 & KG Yok",
+    "name": "MS 1 & KG Yok",
+    "family": "Kombine (A & B)",
+    "odds": 2.29,
+    "p": 0.3996,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3319368,
+    "match": "Elche B - C. Dep. Minera",
+    "ko": "18:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.74,
+    "p": 0.5397,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     2
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3312753,
+    "match": "Carrick Rangers - Coleraine",
+    "ko": "18:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.62,
+    "p": 0.5689,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     1
+    ],
+    "ft": [
+     1,
+     3
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313704,
+    "match": "M'gladbach - B. Dortmund",
+    "ko": "17:30",
+    "market": "2. Yarı Sonucu",
+    "sel": "2Y 2",
+    "name": "2Y 2",
+    "family": "İkinci yarı",
+    "odds": 1.71,
+    "p": 0.5128,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     0,
+     1
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 3,
+  "n_lost": 2,
+  "n_pending": 0,
+  "n": 5
+ },
+ {
+  "id": "kupon5000_uyumlu.json#2",
+  "source": "kupon5000_uyumlu.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 25.04,
+  "p": 0.028886009581703672,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3314542,
+    "match": "Pecs MFC - Sarbogard SE",
+    "ko": "19:00",
+    "market": "Deplasman 0,5 Gol Alt/Üst",
+    "sel": "Dep 0.5 Alt",
+    "name": "Dep 0.5 Alt",
+    "family": "Deplasman golleri",
+    "odds": 1.38,
+    "p": 0.833,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     1,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314311,
+    "match": "Puntarenas - CS Herediano",
+    "ko": "02:30",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 2.29,
+    "p": 0.3964,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3318334,
+    "match": "Bahia BA - Coritiba",
+    "ko": "23:30",
+    "market": "2,5 Gol Alt/Üst",
+    "sel": "2.5 Alt",
+    "name": "2.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 2.03,
+    "p": 0.4301,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3320028,
+    "match": "Palmeiras SP - Flamengo",
+    "ko": "22:30",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.85,
+    "p": 0.4693,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3313940,
+    "match": "CSKA Moskova - Akhmat Grozny",
+    "ko": "19:45",
+    "market": "2,5 Gol Alt/Üst",
+    "sel": "2.5 Alt",
+    "name": "2.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 2.11,
+    "p": 0.4334,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     1,
+     2
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 1,
+  "n_lost": 1,
+  "n_pending": 3,
+  "n": 5
+ },
+ {
+  "id": "kupon5000_uyumlu.json#3",
+  "source": "kupon5000_uyumlu.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 21.82,
+  "p": 0.025200823365224022,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3313868,
+    "match": "Yeovil Town - Forest Green",
+    "ko": "20:30",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 2.15,
+    "p": 0.4113,
+    "won": null,
+    "state": "canlı<80",
+    "ht": null,
+    "ft": [
+     0,
+     0
+    ],
+    "how": null
+   },
+   {
+    "code": 3313135,
+    "match": "Newcastle Utd - Arsenal",
+    "ko": "20:30",
+    "market": "2. Yarı Sonucu",
+    "sel": "2Y 2",
+    "name": "2Y 2",
+    "family": "İkinci yarı",
+    "odds": 1.73,
+    "p": 0.5112,
+    "won": null,
+    "state": "canlı<80",
+    "ht": null,
+    "ft": [
+     0,
+     0
+    ],
+    "how": null
+   },
+   {
+    "code": 3343137,
+    "match": "AL Julan - AL Naft",
+    "ko": "17:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 0",
+    "name": "MS 0",
+    "family": "Maç sonucu",
+    "odds": 1.92,
+    "p": 0.4505,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     3
+    ],
+    "ft": [
+     2,
+     3
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313264,
+    "match": "B. Leverkusen - Paderborn",
+    "ko": "17:30",
+    "market": "1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol",
+    "sel": "İY 1 & İY KG Yok",
+    "name": "İY 1 & İY KG Yok",
+    "family": "Kombine (A & B)",
+    "odds": 1.83,
+    "p": 0.5018,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     4,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314246,
+    "match": "Lazio - Lecce",
+    "ko": "17:00",
+    "market": "2. Yarı Sonucu",
+    "sel": "2Y 1",
+    "name": "2Y 1",
+    "family": "İkinci yarı",
+    "odds": 1.67,
+    "p": 0.5302,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     3,
+     0
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 2,
+  "n_lost": 1,
+  "n_pending": 2,
+  "n": 5
+ },
+ {
+  "id": "kupon5000_uyumlu.json#4",
+  "source": "kupon5000_uyumlu.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 23.62,
+  "p": 0.021165642754411757,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3339060,
+    "match": "Atl Mineiro - Boca Juniors",
+    "ko": "01:30",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.95,
+    "p": 0.4485,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3312502,
+    "match": "Mjallby - Malmö",
+    "ko": "17:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.91,
+    "p": 0.4554,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     1,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3319523,
+    "match": "Tromso - Viking",
+    "ko": "16:00",
+    "market": "Maç Sonucu",
+    "sel": "MS 2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.67,
+    "p": 0.5212,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     3,
+     2
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3319521,
+    "match": "Tigres - America",
+    "ko": "06:00",
+    "market": "Tek/Çift",
+    "sel": "Tek",
+    "name": "Tek",
+    "family": "Tek/Çift",
+    "odds": 1.75,
+    "p": 0.4957,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3313622,
+    "match": "Falkirk - St. Johnstone",
+    "ko": "18:00",
+    "market": "1. Yarı Sonucu",
+    "sel": "İY 1",
+    "name": "İY 1",
+    "family": "İlk yarı",
+    "odds": 2.17,
+    "p": 0.4011,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     2,
+     1
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 1,
+  "n_lost": 2,
+  "n_pending": 2,
+  "n": 5
+ },
+ {
+  "id": "10 maç banko (hazır, oynanmadı)",
+  "source": "kupon_10_banko.json",
+  "kind": "draft",
+  "status": "hazır, oynanmadı",
+  "odds": 6.5078,
+  "p": 0.037995,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3314600,
+    "match": "Linfield - Limavady Utd",
+    "ko": "2026-11-21 18:00",
+    "market": "Handikaplı Maç Sonucu",
+    "sel": "Hnd(-1) 1",
+    "name": "Hnd(-1) 1",
+    "family": "Handikap",
+    "odds": 1.21,
+    "p": 0.7281,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     3,
+     0
+    ],
+    "ft": [
+     5,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313082,
+    "match": "Tottenham - Ipswich Town",
+    "ko": "2026-11-21 18:00",
+    "market": "Deplasman 1,5 Gol Alt/Üst",
+    "sel": "1,5 Alt",
+    "name": "Dep 1.5 Alt",
+    "family": "Deplasman golleri",
+    "odds": 1.21,
+    "p": 0.728,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     2,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314363,
+    "match": "Strasbourg - Brest",
+    "ko": "2026-11-21 22:45",
+    "market": "Deplasman 0,5 Gol Alt/Üst",
+    "sel": "0,5 Üst",
+    "name": "Dep 0.5 Üst",
+    "family": "Deplasman golleri",
+    "odds": 1.2,
+    "p": 0.7267,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3339060,
+    "match": "Atl Mineiro - Boca Juniors",
+    "ko": "2026-11-22 01:30",
+    "market": "Deplasman 0,5 Gol Alt/Üst",
+    "sel": "0,5 Üst",
+    "name": "Dep 0.5 Üst",
+    "family": "Deplasman golleri",
+    "odds": 1.2,
+    "p": 0.7243,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3318436,
+    "match": "Pumas Unam - Monterrey",
+    "ko": "2026-11-22 04:00",
+    "market": "1. Yarı 0,5 Gol Alt/Üst",
+    "sel": "0,5 Üst",
+    "name": "İY 0.5 Üst",
+    "family": "İlk yarı",
+    "odds": 1.2,
+    "p": 0.7213,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3391094,
+    "match": "Argentinos J. - Independiente",
+    "ko": "2026-11-21 23:00",
+    "market": "Ev Sahibi 0,5 Gol Alt/Üst",
+    "sel": "0,5 Üst",
+    "name": "Ev 0.5 Üst",
+    "family": "Ev sahibi golleri",
+    "odds": 1.21,
+    "p": 0.7176,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3312528,
+    "match": "Reims - St Etienne",
+    "ko": "2026-11-21 22:00",
+    "market": "3,5 Gol Alt/Üst",
+    "sel": "3,5 Alt",
+    "name": "3.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 1.21,
+    "p": 0.7166,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3314573,
+    "match": "Stoke City - Birmingham",
+    "ko": "2026-11-21 18:00",
+    "market": "1. Yarı 1,5 Gol Alt/Üst",
+    "sel": "1,5 Alt",
+    "name": "İY 1.5 Alt",
+    "family": "İlk yarı",
+    "odds": 1.21,
+    "p": 0.7163,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     1,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313958,
+    "match": "Hibernian - Dundee Utd",
+    "ko": "2026-11-21 18:00",
+    "market": "Çifte Şans",
+    "sel": "1-X",
+    "name": "ÇŞ 1X",
+    "family": "Çifte şans",
+    "odds": 1.2,
+    "p": 0.7162,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     2
+    ],
+    "ft": [
+     0,
+     4
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314396,
+    "match": "Zulte Waregem - Antwerp",
+    "ko": "2026-11-21 22:45",
+    "market": "1. Yarı 0,5 Gol Alt/Üst",
+    "sel": "0,5 Üst",
+    "name": "İY 0.5 Üst",
+    "family": "İlk yarı",
+    "odds": 1.21,
+    "p": 0.7157,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   }
+  ],
+  "n_won": 3,
+  "n_lost": 1,
+  "n_pending": 6,
+  "n": 10
+ },
+ {
+  "id": "10 maç MS 1 (hazır, oynanmadı)",
+  "source": "kupon_10ms1.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 7.67,
+  "p": 0.0261,
+  "placed": null,
+  "computed_status": "açık",
+  "dup_of": "MS10",
+  "legs": [
+   {
+    "code": 3313785,
+    "match": "Lugano - Grasshoppers",
+    "ko": "2026-11-21 20:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.2,
+    "p": 0.721,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314719,
+    "match": "D. Bükreş - Petrolul Ploiesti",
+    "ko": "2026-11-21 21:30",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.21,
+    "p": 0.7053,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3314324,
+    "match": "Truro City - H. Hempstead",
+    "ko": "2026-11-21 18:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.21,
+    "p": 0.7027,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     4,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313822,
+    "match": "Dungannon - Crusaders",
+    "ko": "2026-11-21 18:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.23,
+    "p": 0.7005,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     2,
+     0
+    ],
+    "ft": [
+     3,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3319951,
+    "match": "Castellon - C. Dep. Eldense",
+    "ko": "2026-11-21 20:30",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.22,
+    "p": 0.6977,
+    "won": null,
+    "state": "canlı<80",
+    "ht": null,
+    "ft": [
+     0,
+     0
+    ],
+    "how": null
+   },
+   {
+    "code": 3318479,
+    "match": "Zaragoza - Rayo Majadah",
+    "ko": "2026-11-21 18:30",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.23,
+    "p": 0.6951,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     2,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313708,
+    "match": "MSK Zilina - Dukla BB",
+    "ko": "2026-11-21 17:30",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.22,
+    "p": 0.6914,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313035,
+    "match": "Larne - Ballymena Utd",
+    "ko": "2026-11-21 21:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.24,
+    "p": 0.686,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3313692,
+    "match": "CD Fas - C.D. Cacahuatique",
+    "ko": "2026-11-22 00:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.25,
+    "p": 0.6737,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3314218,
+    "match": "O. Ljubljana - NK Radomlje",
+    "ko": "2026-11-21 17:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.25,
+    "p": 0.6723,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     1,
+     0
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 6,
+  "n_lost": 0,
+  "n_pending": 4,
+  "n": 10
+ },
+ {
+  "id": "kupon_10x.json",
+  "source": "kupon_10x.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 10.53,
+  "p": 0.06889772611108667,
+  "placed": false,
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3312526,
+    "match": "Parma - AS Roma",
+    "ko": "2026-11-21 20:00",
+    "market": "3,5 Gol Alt/Üst",
+    "sel": "3,5 Alt",
+    "name": "3.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 1.57,
+    "p": 0.59267,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     1
+    ],
+    "ft": [
+     1,
+     5
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3318820,
+    "match": "Sevilla - Real Betis",
+    "ko": "2026-11-21 20:30",
+    "market": "2,5 Gol Alt/Üst",
+    "sel": "2,5 Alt",
+    "name": "2.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 1.72,
+    "p": 0.49613,
+    "won": null,
+    "state": "canlı<80",
+    "ht": null,
+    "ft": [
+     0,
+     0
+    ],
+    "how": null
+   },
+   {
+    "code": 3314363,
+    "match": "Strasbourg - Brest",
+    "ko": "2026-11-21 22:45",
+    "market": "2,5 Alt/Üst ve Karşılıklı Gol",
+    "sel": "2,5 Üst & KG Var",
+    "name": "2.5 Üst & KG Var",
+    "family": "Kombine (A & B)",
+    "odds": 1.93,
+    "p": 0.49181,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3314388,
+    "match": "Monaco - Auxerre",
+    "ko": "2026-11-21 22:45",
+    "market": "2,5 Alt/Üst ve Karşılıklı Gol",
+    "sel": "2,5 Üst & KG Var",
+    "name": "2.5 Üst & KG Var",
+    "family": "Kombine (A & B)",
+    "odds": 2.02,
+    "p": 0.47643,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   }
+  ],
+  "n_won": 0,
+  "n_lost": 1,
+  "n_pending": 3,
+  "n": 4
+ },
+ {
+  "id": "kupon_10x_v2.json",
+  "source": "kupon_10x_v2.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 10.24,
+  "p": 0.07112,
+  "placed": false,
+  "computed_status": "açık",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3320028,
+    "match": "Palmeiras SP - Flamengo",
+    "ko": "2026-11-21 22:30",
+    "market": "Maç Sonucu",
+    "sel": "2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.85,
+    "p": 0.50491,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3314363,
+    "match": "Strasbourg - Brest",
+    "ko": "2026-11-21 22:45",
+    "market": "2,5 Alt/Üst ve Karşılıklı Gol",
+    "sel": "Üst&Var",
+    "name": "2.5 Üst & KG Var",
+    "family": "Kombine (A & B)",
+    "odds": 1.93,
+    "p": 0.47681,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3314388,
+    "match": "Monaco - Auxerre",
+    "ko": "2026-11-21 22:45",
+    "market": "2,5 Alt/Üst ve Karşılıklı Gol",
+    "sel": "Üst&Var",
+    "name": "2.5 Üst & KG Var",
+    "family": "Kombine (A & B)",
+    "odds": 2.02,
+    "p": 0.46143,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3313658,
+    "match": "Telstar - Zwolle",
+    "ko": "2026-11-21 23:00",
+    "market": "3,5 Gol Alt/Üst",
+    "sel": "3,5 Alt",
+    "name": "3.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 1.42,
+    "p": 0.64023,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   }
+  ],
+  "n_won": 0,
+  "n_lost": 0,
+  "n_pending": 4,
+  "n": 4
+ },
+ {
+  "id": "5 maç — 300 TL → ≥2000 TL (hazır, oynanmadı)",
+  "source": "kupon_2000.json",
+  "kind": "draft",
+  "status": "hazır, oynanmadı",
+  "odds": 6.7351,
+  "p": 0.090146,
+  "placed": false,
+  "computed_status": "açık",
+  "dup_of": "K2000",
+  "legs": [
+   {
+    "code": 3319685,
+    "match": "Pontevedra - Lugo",
+    "ko": "2026-11-21 20:45",
+    "market": "2,5 Gol Alt/Üst",
+    "sel": "2,5 Alt",
+    "name": "2.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 1.6,
+    "p": 0.5991,
+    "won": null,
+    "state": "canlı<80",
+    "ht": null,
+    "ft": [
+     0,
+     0
+    ],
+    "how": null
+   },
+   {
+    "code": 3312709,
+    "match": "Motherwell - Rangers",
+    "ko": "2026-11-21 23:00",
+    "market": "Karşılıklı Gol",
+    "sel": "Var",
+    "name": "KG Var",
+    "family": "Karşılıklı gol",
+    "odds": 1.42,
+    "p": 0.6109,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3318334,
+    "match": "Bahia BA - Coritiba",
+    "ko": "2026-11-21 23:30",
+    "market": "1. Yarı 1,5 Gol Alt/Üst",
+    "sel": "1,5 Alt",
+    "name": "İY 1.5 Alt",
+    "family": "İlk yarı",
+    "odds": 1.41,
+    "p": 0.648,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3312935,
+    "match": "CD Aguila - CD Platense Municipal",
+    "ko": "2026-11-22 00:00",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 1.46,
+    "p": 0.6042,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3318800,
+    "match": "Chapecoense - Cruzeiro MG",
+    "ko": "2026-11-22 03:00",
+    "market": "1. Yarı 1,5 Gol Alt/Üst",
+    "sel": "1,5 Alt",
+    "name": "İY 1.5 Alt",
+    "family": "İlk yarı",
+    "odds": 1.44,
+    "p": 0.6291,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   }
+  ],
+  "n_won": 0,
+  "n_lost": 0,
+  "n_pending": 5,
+  "n": 5
+ },
+ {
+  "id": "Kupon 5",
+  "source": "kupon_5.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 20.49,
+  "p": 0.0341,
+  "placed": null,
+  "computed_status": "açık",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3313940,
+    "match": "CSKA Moskova - Akhmat Grozny",
+    "ko": "19:45",
+    "market": null,
+    "sel": null,
+    "name": null,
+    "family": "Diğer",
+    "odds": 2.11,
+    "p": null,
+    "won": null,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     1,
+     2
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313644,
+    "match": "Carrarese - Virtus Entella",
+    "ko": "17:00",
+    "market": null,
+    "sel": null,
+    "name": null,
+    "family": "Diğer",
+    "odds": 2.79,
+    "p": null,
+    "won": null,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     1,
+     0
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3313868,
+    "match": "Yeovil Town - Forest Green",
+    "ko": "20:30",
+    "market": null,
+    "sel": null,
+    "name": null,
+    "family": "Diğer",
+    "odds": 3.48,
+    "p": null,
+    "won": null,
+    "state": "canlı<80",
+    "ht": null,
+    "ft": [
+     0,
+     0
+    ],
+    "how": null
+   }
+  ],
+  "n_won": 0,
+  "n_lost": 0,
+  "n_pending": 3,
+  "n": 3
+ },
+ {
+  "id": "Kupon 6",
+  "source": "kupon_6.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 20.47,
+  "p": 0.0384,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": "K6",
+  "legs": [
+   {
+    "code": 3312554,
+    "match": "Norwich City - Cardiff City",
+    "ko": "2026-11-21 15:30",
+    "market": "1. Yarı Sonucu",
+    "sel": "2",
+    "name": "İY 2",
+    "family": "İlk yarı",
+    "odds": 4.07,
+    "p": 0.2322,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314647,
+    "match": "Millwall - QPR",
+    "ko": "2026-11-21 15:30",
+    "market": "1. Yarı Sonucu",
+    "sel": "2",
+    "name": "İY 2",
+    "family": "İlk yarı",
+    "odds": 2.89,
+    "p": 0.3063,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     0,
+     1
+    ],
+    "ft": [
+     0,
+     1
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3319368,
+    "match": "Elche B - C. Dep. Minera",
+    "ko": "2026-11-21 18:00",
+    "market": "Maç Sonucu",
+    "sel": "2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.74,
+    "p": 0.5397,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     2,
+     2
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 1,
+  "n_lost": 2,
+  "n_pending": 0,
+  "n": 3
+ },
+ {
+  "id": "Kupon 7 (yalnız hazır, oynanmadı)",
+  "source": "kupon_7.json",
+  "kind": "draft",
+  "status": null,
+  "odds": 7.009,
+  "p": 0.1192,
+  "placed": null,
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3312753,
+    "match": "Carrick Rangers - Coleraine",
+    "ko": "2026-11-21 18:00",
+    "market": "Maç Sonucu",
+    "sel": "2",
+    "name": "MS 2",
+    "family": "Maç sonucu",
+    "odds": 1.63,
+    "p": 0.5689,
+    "won": true,
+    "state": "bitti",
+    "ht": [
+     1,
+     1
+    ],
+    "ft": [
+     1,
+     3
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314807,
+    "match": "Dubai Utd - AL Wahda",
+    "ko": "2026-11-21 18:25",
+    "market": "Maç Sonucu",
+    "sel": "1",
+    "name": "MS 1",
+    "family": "Maç sonucu",
+    "odds": 4.3,
+    "p": 0.2096,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     1,
+     1
+    ],
+    "how": "settle"
+   }
+  ],
+  "n_won": 1,
+  "n_lost": 1,
+  "n_pending": 0,
+  "n": 2
+ },
+ {
+  "id": "Akşam 5 maç banko (hazır, oynanmadı)",
+  "source": "kupon_aksam_5.json",
+  "kind": "draft",
+  "status": "hazır, oynanmadı",
+  "odds": 3.303,
+  "p": 0.146994,
+  "placed": false,
+  "computed_status": "kaybetti",
+  "dup_of": null,
+  "legs": [
+   {
+    "code": 3314672,
+    "match": "NS Mura - NK Bravo",
+    "ko": "2026-11-21 19:30",
+    "market": "Deplasman 1,5 Gol Alt/Üst",
+    "sel": "1,5 Alt",
+    "name": "Dep 1.5 Alt",
+    "family": "Deplasman golleri",
+    "odds": 1.25,
+    "p": 0.6822,
+    "won": false,
+    "state": "bitti",
+    "ht": [
+     1,
+     1
+    ],
+    "ft": [
+     1,
+     2
+    ],
+    "how": "settle"
+   },
+   {
+    "code": 3314242,
+    "match": "Utrecht - SC Cambuur",
+    "ko": "2026-11-21 20:45",
+    "market": "2,5 Gol Alt/Üst",
+    "sel": "2,5 Üst",
+    "name": "2.5 Üst",
+    "family": "Alt/Üst",
+    "odds": 1.28,
+    "p": 0.6711,
+    "won": null,
+    "state": "canlı<80",
+    "ht": null,
+    "ft": [
+     0,
+     0
+    ],
+    "how": null
+   },
+   {
+    "code": 3314141,
+    "match": "St. Pauli - Bochum",
+    "ko": "2026-11-21 22:30",
+    "market": "3,5 Gol Alt/Üst",
+    "sel": "3,5 Alt",
+    "name": "3.5 Alt",
+    "family": "Alt/Üst",
+    "odds": 1.28,
+    "p": 0.6791,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3318334,
+    "match": "Bahia BA - Coritiba",
+    "ko": "2026-11-21 23:30",
+    "market": "Deplasman 1.Y Gol Alt/Üst",
+    "sel": "Dep İY 0.5 Alt",
+    "name": "Dep İY 0.5 Alt",
+    "family": "Deplasman golleri",
+    "odds": 1.28,
+    "p": 0.6898,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   },
+   {
+    "code": 3319486,
+    "match": "Wellington P. - Macarthur",
+    "ko": "2026-11-22 05:00",
+    "market": "Deplasman 0,5 Gol Alt/Üst",
+    "sel": "0,5 Üst",
+    "name": "Dep 0.5 Üst",
+    "family": "Deplasman golleri",
+    "odds": 1.26,
+    "p": 0.6854,
+    "won": null,
+    "state": "başlamadı",
+    "ht": null,
+    "ft": null,
+    "how": null
+   }
+  ],
+  "n_won": 0,
+  "n_lost": 1,
+  "n_pending": 4,
+  "n": 5
+ }
+]

@@ -2,6 +2,8 @@
 
 * ``banko`` (VARSAYILAN): her bacak kalibre P ≥ %65, Nesine oranı 1.20–1.80 (kurarken ≥ 1.25 tercih, 1.22 altı uyarı),
   keskin referans zorunlu, kupon 5 maç (gerekçeliyse 6), 1–2 maçlık düşük oranlı kupon yok, P(kupon) < %5 ise ret.
+* ``yuksek_oran``: İY/MS, İY/2Y sonucu, iki yarıda KG, skor (t100u). Keskin fiyat varsa model uyumu (≤ %15), EV
+  ikisinin küçüğüyle ≥ %6; keskin yoksa yalnız arşivde sınanmış pazar ve P × 0.90. En çok 2 maç.
 * ``risk``: YALNIZ kullanıcı banko ile ulaşılamayan bir hedefi açıkça isterse (ör. "300 TL'den en az 2.000 TL").
   Bacak oranı ≤ 2.10, keskin referans zorunlu, 3–6 maç; P(kupon) ne kadar düşükse dürüstçe yazılır (ret değil).
 
@@ -25,7 +27,7 @@ from quantfoot import settings as S
 from quantfoot.strategy.banko_guard import (BankoLeg, GuardConfig, GuardResult, ShrinkConfig, check_coupon,
                                             effective_prob, selection_family)
 
-MODES = ("banko", "risk")
+MODES = ("banko", "risk", "yuksek_oran")
 DEFAULT_MODE = "banko"
 REGISTRY_NAME = "oynanan_kuponlar.json"
 OPEN_STATES = ("açık", "acik", "bekliyor", None, "")
@@ -51,9 +53,15 @@ def policy(mode: str = DEFAULT_MODE) -> ModePolicy:
                         max_legs=S.BANKO_MAX_LEGS, lottery_is_error=True, name="banko")
         return ModePolicy("banko", S.BANKO_MIN_PROB, S.BANKO_PREFER_MIN_ODDS, S.BANKO_MAX_LEG_ODDS,
                           S.BANKO_MIN_LEGS, S.BANKO_MAX_LEGS, True, g)
+    if mode == "yuksek_oran":
+        # İY/MS, İY/2Y sonucu, skor: P doğal olarak düşük — taban P yerine keskin uyumu + EV süzgeci (high_odds_pick_ok)
+        g = GuardConfig(min_prob=0.0, max_leg_odds=S.HIGH_ODDS_MAX_ODDS, min_legs=1, max_legs=S.HIGH_ODDS_MAX_LEGS,
+                        lottery_is_error=False, name="yuksek_oran", weak_families=(), draw_risk_max=None,
+                        draw_risk_warn=None, high_odds_filter=True)
+        return ModePolicy("yuksek_oran", 0.0, S.MIN_LEG_ODDS, S.HIGH_ODDS_MAX_ODDS, 1, S.HIGH_ODDS_MAX_LEGS, True, g)
     g = GuardConfig(min_prob=S.RISK_MIN_PROB, max_leg_odds=S.RISK_MAX_LEG_ODDS, min_legs=S.RISK_MIN_LEGS,
                     max_legs=S.RISK_MAX_LEGS, lottery_is_error=False, name="risk",
-                    weak_families=())
+                    weak_families=(), draw_risk_max=None, draw_risk_warn=S.BANKO_DRAW_RISK_MAX, draw_pick_filter=True)
     return ModePolicy("risk", S.RISK_MIN_PROB, S.BANKO_PREFER_MIN_ODDS, S.RISK_MAX_LEG_ODDS,
                       S.RISK_MIN_LEGS, S.RISK_MAX_LEGS, True, g)
 
@@ -136,11 +144,18 @@ def to_leg(obj: Any, offered: Offered | None = None) -> BankoLeg:
         off = False
     direct = _get(obj, "direct", default=None)
     league = _get(obj, "league", "lig", default=None)
+    p_draw = _get(obj, "p_draw", default=None)
+    f1x2 = _get(obj, "fair_1x2", default=None)
+    if p_draw is None and isinstance(f1x2, (list, tuple)) and len(f1x2) == 3:
+        p_draw = f1x2[1]
+    p_over25 = _get(obj, "p_over25", default=None)
     return BankoLeg(match_id=str(code), label=label, odds=odds, p=p, offered=True if off is None else bool(off),
                     sharp_ref=bool(sharp), live=bool(_get(obj, "live", default=False)),
                     p_market=_get(obj, "p_market", "market_prob", default=None), red_flags=flags,
                     direct=None if direct is None else bool(direct), league=str(league) if league else None,
-                    family=selection_family(str(name)) if name else None)
+                    family=selection_family(str(name)) if name else None, name=str(name) if name else None,
+                    p_draw=None if p_draw is None else float(p_draw), p_over25=None if p_over25 is None else float(p_over25),
+                    p_model=None if p_model is None else float(p_model), p_sharp=None if p_sharp is None else float(p_sharp))
 
 
 def guard_legs(legs: Iterable[Any], mode: str = DEFAULT_MODE, *, open_exposure: Mapping[Any, int] | None = None,
@@ -162,7 +177,8 @@ def leg_mode_ok(obj: Any, mode: str = DEFAULT_MODE) -> bool:
     pol = policy(mode)
     leg = to_leg(obj)
     err, _ = check_leg(leg, pol.guard, at_selection=False)
-    return not any(("P %" in e) or ("ailesi" in e) for e in err)
+    keys = ("P %", "ailesi", "süzgeci", "beraberlik riski", "yüksek oran modunda")  # 21 Kas gece: beraberlik/yüksek oran
+    return not any(any(k in e for k in keys) for e in err)
 
 
 def honest_line(res: GuardResult, stake: float | None = None) -> str:

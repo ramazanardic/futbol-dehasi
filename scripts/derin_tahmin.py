@@ -145,6 +145,9 @@ def keep_notes(old_rows: list[dict], rows: list[dict]) -> int:
     return n
 
 
+NO_VALUE_NOTE = "derin araştırma: değerli tercih yok (EV < taban) — en olası tercih korundu, değer bahsi değil"
+
+
 def update_table(date: str, rows: list[dict]) -> int:
     """Replace the main pick of mac_tahminleri.csv with the researched pick (not-started matches only)."""
     path = AREA / date / "mac_tahminleri.csv"
@@ -163,6 +166,12 @@ def update_table(date: str, rows: list[dict]) -> int:
             hist = "-" if pk.get("mean") is None else f"%{100 * pk['mean']:.0f}"
             t.update({"ana_secim_pazar": pk["market"], "ana_secim": pk["sel"], "nesine_oran": pk["odds"], "secim_adi": pk["name"],
                       "olasilik": f"{pk['p']:.4f}", "not": f"derin araştırma: {pk['verdict']} (takım geçmişi {hist})"})
+        elif (t.get("secim_adi") or "").strip() and t["secim_adi"].strip() not in {
+                (x.get("name") or "").strip() for x in r.get("dropped") or []}:
+            # No value pick (EV floor): keep the most probable selection ai_tahmin wrote (apply_research_picks'
+            # documented fallback), flagged, so every match still has a graded prediction (22 Nov live test: the EV
+            # floor blanked all 431 main picks and the next-day evaluation had nothing to score).
+            t["not"] = NO_VALUE_NOTE
         else:
             t.update({"ana_secim_pazar": "", "ana_secim": "", "nesine_oran": "", "olasilik": "", "secim_adi": "",
                       "not": "derin araştırma: uygun borsa fiyatlı tercih yok ya da geçmiş çürüttü"})

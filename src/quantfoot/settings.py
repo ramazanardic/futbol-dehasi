@@ -15,7 +15,7 @@ TSI = dt.timezone(dt.timedelta(hours=3))
 MIN_LEG_ODDS = 1.20
 
 # Banko/garanti modu (kullanıcı kuralı t57u, 21 Kas; 21 Kas denetimiyle sıkılaştırıldı — strategy/banko_guard.py).
-BANKO_MIN_PROB = 0.65          # her bacak kalibre P ≥ %65
+BANKO_MIN_PROB = 0.65          # ön süzgeç; banko kupon bacağı ayrıca coupon_rules ile düzeltilmiş P ≥ %70 (docs/ORTAK_SISTEM.md)
 BANKO_MAX_LEG_ODDS = 1.80      # tek bir yüksek oranlı bacakla toplamı şişirme yok
 BANKO_SELECT_MIN_ODDS = 1.22   # seçerken 1.20 tabanına tampon: 1.20–1.21'lik bacaklar oynarken 1.17–1.19'a düştü
 BANKO_MAX_COUPONS_PER_MATCH = 2  # aynı maç en çok 2 açık kuponda (korelasyonlu risk)
@@ -26,12 +26,34 @@ BANKO_MAX_LEGS = 6             # "duruma göre 6 maç da olabilir" — gerekçel
 # Akşam denetimi dersleri (21 Kas 2026, ~320 bitmiş maç, TEK GÜN — küçük örnek; bkz. reports/research/kalibrasyon_dersleri_21kasim.md).
 # Ana tercihler %67 beklenip %63,4 tuttu; %60–65 bandı %50, %70–75 bandı %64; "diğer" ligler %59,5 (P %66,7);
 # ev sahibi golleri %49 (P %67), çifte şans %50 (P %65,5); Alt/Üst kalibre. Değerler bilinçli olarak ılımlı.
-SHRINK_DERIVED = 0.10          # türetilmiş (matris/gol modeli, doğrudan keskin fiyat yok) P: p' = 0.5 + (p − 0.5)·(1 − k)
-SHRINK_DIRECT = 0.0            # doğrudan keskin fiyatlı seçimler piyasa P'si zaten — büzme yok
-SHRINK_OTHER_TIER_EXTRA = 0.10  # "2-diğer" kademe ligler için ek büzme (türetilmişte birikerek, doğrudanda yarısı)
+# 21 Kas GECE hata analizi (reports/research/hata_analizi_21kasim.md; 19 + 21 Kas canlı, 2.719 türetilmiş seçim + arşiv):
+# türetilmiş P'nin iyimserliği pazara değil LİGE bağlı — arşiv kalibrasyon alanındaki liglerde (market_calibration
+# NESINE_TO_DIVISION) kalibre (arşiv artığı ≈ 0; canlı n=778 en iyi k = 0,005), alan dışında iki bağımsız günde de
+# k = 0,147 / 0,148. Pazar başına canlı sapmalar günden güne tutarsız (korelasyon ≈ 0, EB τ = 0) → pazar düzeltmesi yok.
+SHRINK_DERIVED = 0.15          # türetilmiş P, lig arşiv kalibrasyon alanı DIŞINDA (ya da lig bilinmiyor): p' = 0.5 + (p − 0.5)·(1 − k)
+SHRINK_DERIVED_IN_DOMAIN = 0.0  # türetilmiş P, lig arşiv kalibrasyon alanında (Platt eğrileri orada sınandı) — büzme yok
+SHRINK_DIRECT = 0.0            # doğrudan keskin fiyatlı seçimler piyasa P'si zaten — büzme yok (canlı: k = −0,035)
+SHRINK_OTHER_TIER_EXTRA = 0.05  # "2-diğer" kademe ek büzme (türetilmişte birikerek → toplam ≈ 0,19, eskisiyle aynı; doğrudanda yarısı)
+SHRINK_UNTESTED_MARKET_EXTRA = 0.15  # arşivde sınanamayan pazar (İlk Gol, "İY KG Yok & 2Y KG Yok" …) türetilmiş P'sine ek büzme
+UNTESTED_MARKET_P_LOW_PENALTY = 0.0  # kurucularda sıralama için ek p_low cezası (P'ye yansıyan büzme zaten sıralamaya girer)
 WEAK_FAMILIES: tuple[str, ...] = ("ev_golleri", "cifte_sans")  # banko'da yalnız doğrudan keskin fiyatla + ek P
 WEAK_FAMILY_EXTRA_MIN_PROB = 0.05  # zayıf aile doğrudan fiyatlıysa banko P tabanı + 5 puan (%70)
 WEAK_FAMILY_REQUIRE_DIRECT = True  # zayıf aile türetilmiş P ile banko bacağı olamaz
+# 21 Kas gece hata analizi (scripts/hata_analizi_21kasim.py; reports/research/hata_analizi_21kasim.md). Yalnız arşivde
+# (2011/12–2020/21 eğitim, 2021/22+ test) doğrulanan dersler; tek günün pazar sapmalarının çoğu arşivde gürültü çıktı.
+TAIL_CALIBRATION_ON = True     # data/calibration/market_tail_calibration.json: banko bölgesi (P .55–.90) logit kaymaları
+UNTESTED_MARKET_SHRINK = 0.05  # arşivde sınanamayan TÜRETİLMİŞ pazarlara (İlk Gol, yarı KG kombineleri…) ek büzme
+BANKO_DRAW_RISK_MAX = 0.27     # banko MS 1/MS 2 bacağı: beraberlik riski ≥ bu → ret (ÇŞ / Hnd(+1) önerilir)
+BANKO_DRAW_RISK_WARN = 0.24    # ≥ bu → uyarı (düşük toplamlı maçta favori; ÇŞ/handikap daha güvenli)
+DRAW_ZONE_MAX_OVER25 = 0.45    # P(2.5 Üst) bunun altı = arşivde beraberliğin piyasadan fazla geldiği bölge (+1.6 puan)
+DRAW_PICK_MIN_P = 0.28         # risk modu MS 0 seçimi: piyasa beraberlik P tabanı
+DRAW_PICK_MIN_EV = 0.03        # risk modu MS 0 seçimi: risk P'siyle EV tabanı (Nesine payı yüzünden çoğu ret)
+# Yüksek oranlı pazarlar (İY/MS, İY/2Y sonucu, iki yarıda KG, skor) — "yuksek_oran" modu (kullanıcı t100u, 21 Kas).
+HIGH_ODDS_MAX_MODEL_SHARP_GAP = 0.15  # keskin fiyat varsa |model − keskin| / keskin ≤ %15
+HIGH_ODDS_NO_SHARP_HAIRCUT = 0.10     # keskin fiyat yoksa model P × 0.90 (yalnız arşivde sınanmış pazar)
+HIGH_ODDS_MIN_EV = 0.06               # EV tabanı (aile tabanıyla büyüğü); Nesine ödemesi İY/MS'te ≈ .75
+HIGH_ODDS_MAX_ODDS = 15.0             # üstü piyango sayılır
+HIGH_ODDS_MAX_LEGS = 2                # bu modda kupon en çok 2 maç (tekli tercih edilir)
 # Risk modu: yalnız kullanıcı banko ile ulaşılamayan bir hedef (ör. "en az 2.000 TL") isterse.
 RISK_MAX_LEG_ODDS = 2.10       # tek bacak en çok 2.10 (3–4 oranlı beraberlik/İY bacakları yok)
 RISK_MIN_PROB = 0.45           # bacak başı keskin P tabanı

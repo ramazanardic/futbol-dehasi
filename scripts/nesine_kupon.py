@@ -283,6 +283,9 @@ def candidates(
         context = match_context(m)
         researched = bool(res.get("teams") or res.get("user_absences") or res.get("tm_absences"))
         eff_min_prob = max(min_prob, MID_GLOBAL_MIN_PROB) if (not is_sharp and is_mid_global) else min_prob
+        f1x2 = m.get("fair_1x2") or []
+        p_draw = float(f1x2[1]) if len(f1x2) == 3 else None  # beraberlik riski (21 Kas gece analizi, banko_guard)
+        p_over25 = next((float(x["fair_prob"]) for x in m["selections"] if x.get("name") == "2.5 Üst"), None)
         for s in m["selections"]:
             p_cal = calibrated_probability(s["fair_prob"], bool(s.get("direct")), calibration)  # settled-history correction
             p_cal = calibrate_market_probability(s.get("name", ""), p_cal, m.get("league"), mcal, direct=bool(s.get("direct")))  # archive walk-forward curve
@@ -309,7 +312,8 @@ def candidates(
                          "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": ref_lbl,
                          "direct": bool(s.get("direct")), "context": context, "key": s.get("key"),
                          "name": s.get("name", ""), "researched": researched, "tier": "keskin" if is_sharp else "orta",
-                         "ev_cal": round(p_cal * s["odds"] - 1.0, 4), "hard": hard})
+                         "ev_cal": round(p_cal * s["odds"] - 1.0, 4), "hard": hard,
+                         "p_draw": p_draw, "p_over25": p_over25})
             sig = leg_sigma(s.get("name", ""), bool(s.get("direct")), m["reference"], researched, flagged, calibration=calibration)
             if hard:
                 sig += HARD_MARKET_SIGMA_ADD
@@ -513,6 +517,23 @@ def filter_pools_for_mode(pools: list[list[dict]], pol: "KM.ModePolicy") -> list
     return out
 
 
+def apply_coupon_rules_to_pools(pools: list[list[dict]], mode: str = "banko") -> list[list[dict]]:
+    """21 Kas kupon post-mortem kuralları (aile beyaz listesi, düzeltilmiş P ≥ %70, beraberlik/KG/gol yasağı).
+
+    Yalnız banko modunda uygulanır; risk/yüksek oran süzgecine dokunulmaz. ``filter_pools_for_mode``
+    mevcut 0.65 tabanını korur; bu süzgeç daha sıkıdır.
+    """
+    if mode != "banko":
+        return pools
+    from quantfoot.coupons.coupon_rules import leg_decision
+    out: list[list[dict]] = []
+    for pool in pools:
+        kept = [leg for leg in pool if leg_decision(leg).ok]
+        if kept:
+            out.append(kept)
+    return out
+
+
 def apply_mode_guard(coupons: list[dict], mode: str, live: dict | None = None,
                      exposure: dict | None = None) -> tuple[list[dict], list[str]]:
     """Her kuponu kupon modunun koruyucusundan geçir (strategy/kupon_modu.py). Geçemeyen kupon verilmez; geçenlere
@@ -631,7 +652,7 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
                          "(varsayılan, kullanıcı kararı 19 Kasım); guvenli: en olası maçtan başlayıp hedefe kadar ekle")
     ap.add_argument("--max-mac", type=int, default=None, help="En çok maç (varsayılan 7, kullanıcı kuralı)")
     ap.add_argument("--mod", choices=KM.MODES, default=KM.DEFAULT_MODE,
-                    help="banko (VARSAYILAN, kullanıcı kuralı): bacak P ≥ %%65, oran 1.25–1.80, 5 maç (gerekirse 6), keskin "
+                    help="banko (VARSAYILAN, docs/ORTAK_SISTEM.md): düzeltilmiş bacak P ≥ %%70 (coupon_rules), oran 1.20–1.80, 5 maç (gerekirse 6), keskin "
                          "referans; risk: YALNIZ kullanıcı banko ile ulaşılamayan bir hedef isterse — bacak oranı ≤ 2.10, "
                          "dürüst tutma ihtimali yazılır")
     ap.add_argument("--min-mac", type=int, default=None, help="Kupondaki en az maç sayısı (varsayılan: banko 5, risk 3)")
@@ -742,6 +763,8 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
             family_ev=not args.aile_ev_kapali,
         )
         pools = filter_pools_for_mode(pools, pol)
+        if pol.name == "banko":
+            pools = apply_coupon_rules_to_pools(pools, pol.name)
         n_mid_pools = sum(1 for p in pools if p[0].get("tier") == "orta")
         if attempt == 0:
             print(f"{sum(1 for m in matches if m.get('status') == 'fiyatlandı')} maç global fiyatlı; {len(pools)} maç kupona uygun "

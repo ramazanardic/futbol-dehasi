@@ -1,0 +1,94 @@
+{
+  "source": "tahminler/grokbottahmin/2026-11-21/denetim_gece_2026-11-21.json",
+  "generated_at": "2026-11-21T22:10+03:00",
+  "timezone": "Europe/Istanbul",
+  "note": "Tek gün (21 Kas 2026 gece denetimi, 2.907 karara bağlanmış seçim). Residualer büzülerek kullanılır; pozitif sapma P'ye eklenmez.",
+  "prior_n": 150,
+  "min_family_n": 40,
+  "max_negative_residual": -0.01,
+  "headline_min_n": 30,
+  "headline_max_negative_residual": -0.02,
+  "families": {
+    "İlk yarı": {
+      "n": 585, "correct": 367, "hit_rate": 0.6274, "mean_p": 0.6214, "residual": 0.0059,
+      "headline": {"n": 50, "hit_rate": 0.78, "mean_p": 0.6846, "residual": 0.0954}
+    },
+    "Ev sahibi golleri": {
+      "n": 424, "correct": 246, "hit_rate": 0.5802, "mean_p": 0.6146, "residual": -0.0344,
+      "headline": {"n": 43, "hit_rate": 0.4884, "mean_p": 0.6714, "residual": -0.183}
+    },
+    "Deplasman golleri": {
+      "n": 419, "correct": 251, "hit_rate": 0.599, "mean_p": 0.6213, "residual": -0.0223,
+      "headline": {"n": 67, "hit_rate": 0.597, "mean_p": 0.6683, "residual": -0.0713}
+    },
+    "Alt/Üst": {
+      "n": 328, "correct": 198, "hit_rate": 0.6037, "mean_p": 0.615, "residual": -0.0113,
+      "headline": {"n": 35, "hit_rate": 0.6, "mean_p": 0.6555, "residual": -0.0555}
+    },
+    "Karşılıklı gol": {
+      "n": 228, "correct": 129, "hit_rate": 0.5658, "mean_p": 0.6157, "residual": -0.0499,
+      "headline": {"n": 44, "hit_rate": 0.6136, "mean_p": 0.6791, "residual": -0.0655}
+    },
+    "Çifte şans": {
+      "n": 224, "correct": 135, "hit_rate": 0.6027, "mean_p": 0.623, "residual": -0.0203,
+      "headline": {"n": 43, "hit_rate": 0.5581, "mean_p": 0.659, "residual": -0.1009}
+    },
+    "Handikap": {
+      "n": 167, "correct": 98, "hit_rate": 0.5868, "mean_p": 0.61, "residual": -0.0232,
+      "headline": {"n": 6, "hit_rate": 0.5, "mean_p": 0.6788, "residual": -0.1788}
+    },
+    "Yarı özel": {
+      "n": 136, "correct": 92, "hit_rate": 0.6765, "mean_p": 0.6345, "residual": 0.042,
+      "headline": {"n": 21, "hit_rate": 0.619, "mean_p": 0.6925, "residual": -0.0734}
+    },
+    "Maç sonucu": {
+      "n": 117, "correct": 74, "hit_rate": 0.6325, "mean_p": 0.6219, "residual": 0.0105,
+      "headline": {"n": 44, "hit_rate": 0.6818, "mean_p": 0.6525, "residual": 0.0293}
+    },
+    "Kombine (A & B)": {
+      "n": 108, "correct": 64, "hit_rate": 0.5926, "mean_p": 0.5978, "residual": -0.0052,
+      "headline": {"n": 3, "hit_rate": 1.0, "mean_p": 0.6821, "residual": 0.3179}
+    },
+    "2Y karşılıklı gol": {
+      "n": 93, "correct": 67, "hit_rate": 0.7204, "mean_p": 0.6451, "residual": 0.0753,
+      "headline": {"n": 22, "hit_rate": 0.8182, "mean_p": 0.6749, "residual": 0.1433}
+    },
+    "İlk gol": {
+      "n": 36, "correct": 19, "hit_rate": 0.5278, "mean_p": 0.6132, "residual": -0.0854,
+      "headline": {"n": 1, "hit_rate": 1.0, "mean_p": 0.6748, "residual": 0.3252}
+    },
+    "İkinci yarı": {
+      "n": 26, "correct": 15, "hit_rate": 0.5769, "mean_p": 0.6022, "residual": -0.0253,
+      "headline": {"n": 2, "hit_rate": 1.0, "mean_p": 0.691, "residual": 0.309}
+    },
+    "İY karşılıklı gol": {
+      "n": 9, "correct": 6, "hit_rate": 0.6667, "mean_p": 0.6375, "residual": 0.0291,
+      "headline": {"n": 1, "hit_rate": 1.0, "mean_p": 0.6749, "residual": 0.3251}
+    },
+    "İY/MS": {
+      "n": 4, "correct": 3, "hit_rate": 0.75, "mean_p": 0.612, "residual": 0.138,
+      "headline": {"n": 0, "hit_rate": null, "mean_p": null, "residual": null}
+    },
+    "Tek/Çift": {
+      "n": 3, "correct": 1, "hit_rate": 0.3333, "mean_p": 0.5751, "residual": -0.2418,
+      "headline": {"n": 0, "hit_rate": null, "mean_p": null, "residual": null}
+    }
+  },
+  "bands": [
+    {"lo": 0.00, "hi": 0.60, "n": 1122, "hit_rate": 0.5793, "mean_p": 0.5756, "residual": 0.0038},
+    {"lo": 0.60, "hi": 0.65, "n": 1038, "hit_rate": 0.5992, "mean_p": 0.6246, "residual": -0.0253},
+    {"lo": 0.65, "hi": 0.70, "n": 651, "hit_rate": 0.6559, "mean_p": 0.6706, "residual": -0.0147},
+    {"lo": 0.70, "hi": 0.75, "n": 90, "hit_rate": 0.6667, "mean_p": 0.7095, "residual": -0.0428},
+    {"lo": 0.75, "hi": 1.01, "n": 6, "hit_rate": 1.0, "mean_p": 0.7876, "residual": 0.2124}
+  ],
+  "name_patterns": [
+    {"pattern": "^2\\.5 Üst$", "n": 124, "hit_rate": 0.492, "mean_p": 0.602, "residual": -0.110, "note": "aile içi en kötü Alt/Üst dilimi; aile residualinin yerine geçer"},
+    {"pattern": "^3\\.5 Alt$", "n": 122, "hit_rate": 0.697, "mean_p": 0.629, "residual": 0.068},
+    {"pattern": "^İY ÇŞ", "n": 311, "hit_rate": 0.621, "mean_p": 0.621, "residual": -0.001},
+    {"pattern": "^İY \\d+\\.5 Alt$", "n": 151, "hit_rate": 0.609, "mean_p": 0.623, "residual": -0.014},
+    {"pattern": "^2Y KG Yok$", "n": 93, "hit_rate": 0.7204, "mean_p": 0.6451, "residual": 0.0753},
+    {"pattern": "^MS 1$", "n": 84, "hit_rate": 0.643, "mean_p": 0.625, "residual": 0.018},
+    {"pattern": "^İY \\d+\\.5 Üst$", "n": 64, "hit_rate": 0.688, "mean_p": 0.647, "residual": 0.041},
+    {"pattern": "^2\\.5 Alt$", "n": 43, "hit_rate": 0.628, "mean_p": 0.596, "residual": 0.032}
+  ]
+}

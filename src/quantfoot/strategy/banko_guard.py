@@ -14,6 +14,13 @@ Akşam denetimi (21 Kas, ~320 bitmiş maç, tek gün — küçük örnek; ``repo
 * Türetilmiş (matris) P iyimser → ``effective_prob`` 50'ye doğru büzer (``SHRINK_DERIVED``), "diğer" kademe liglerde
   ek büzme (``SHRINK_OTHER_TIER_EXTRA``). Banko P tabanı ve P(kupon) büzülmüş P ile hesaplanır.
 * Ev sahibi golleri / çifte şans (``WEAK_FAMILIES``) banko modunda yalnız doğrudan keskin fiyatla ve +5 puan P ile.
+
+Gece hata analizi (21 Kas, 383 maç / 2.907 seçim + arşiv 2016/17+; ``reports/research/hata_analizi_21kasim.md``):
+
+* Arşivle doğrulanan yüksek-P kuyruk kaymaları (``markets.market_reliability.tail_adjust``) büzmeden önce uygulanır.
+* Arşivde sınanamayan türetilmiş pazarlar ``UNTESTED_MARKET_SHRINK`` ek büzme alır.
+* MS 1/MS 2 bacaklarında beraberlik riski (düşük toplam bölgesi) P'den düşülür; banko'da risk ≥ ``BANKO_DRAW_RISK_MAX``
+  ise ret, ≥ ``BANKO_DRAW_RISK_WARN`` ise ÇŞ/handikap uyarısı. Risk modunda MS 0 seçimi ``draw_pick_ok`` süzgecinden geçer.
 """
 
 from __future__ import annotations
@@ -24,6 +31,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 
 from quantfoot import settings as S
+from quantfoot.markets import market_reliability as MR
 
 
 @dataclass(frozen=True)
@@ -40,6 +48,11 @@ class BankoLeg:
     direct: bool | None = None     # seçimin kendi doğrudan keskin fiyatı var mı (False = matris/gol modeli; None = bilinmiyor)
     league: str | None = None      # lig adı (kademe büzmesi için)
     family: str | None = None      # None → etiketten çıkarılır (``selection_family``)
+    name: str | None = None        # kısa seçim adı ("MS 1", "Ev İY 0.5 Üst"); kuyruk düzeltmesi / beraberlik riski için
+    p_draw: float | None = None    # maçın marjsız piyasa beraberlik P'si
+    p_over25: float | None = None  # maçın marjsız P(2.5 Üst)
+    p_model: float | None = None   # yüksek oranlı pazar: model P'si (keskin ile uyum kontrolü)
+    p_sharp: float | None = None   # yüksek oranlı pazar: seçimin kendi keskin P'si
 
 
 # ---------------------------------------------------------------- aile / lig kademesi / büzme
@@ -93,6 +106,8 @@ class ShrinkConfig:
     direct: float = S.SHRINK_DIRECT
     other_tier_extra: float = S.SHRINK_OTHER_TIER_EXTRA
     unknown_is_derived: bool = True    # kaynağı bilinmeyen P türetilmiş sayılır (temkinli)
+    untested_extra: float = S.UNTESTED_MARKET_SHRINK  # arşivde sınanamayan türetilmiş pazar ek büzmesi
+    tail: bool = True                  # arşivle doğrulanmış kuyruk kaymaları + MS beraberlik riski
 
 
 def shrink_toward_half(p: float, k: float) -> float:
@@ -108,9 +123,15 @@ def effective_prob(leg: "BankoLeg", sc: "ShrinkConfig | None" = None) -> float:
     if leg.live:
         return p if leg.p_market is None else min(p, leg.p_market + 0.05)
     derived = (leg.direct is False) or (leg.direct is None and sc.unknown_is_derived)
+    if sc.tail and leg.name:
+        p = MR.tail_adjust(leg.name, p)
+        if MR.is_match_result_side(leg.name):
+            p = MR.ms_prob_after_draw_risk(p, leg.p_draw, leg.p_over25)
     k = sc.derived if derived else sc.direct
     if league_tier(leg.league) == "other":
         k = 1.0 - (1.0 - k) * (1.0 - (sc.other_tier_extra if derived else sc.other_tier_extra / 2))
+    if derived and leg.name and MR.is_archive_tested(leg.name) is False:
+        k = 1.0 - (1.0 - k) * (1.0 - sc.untested_extra)
     return shrink_toward_half(p, k)
 
 
@@ -131,6 +152,10 @@ class GuardConfig:
     weak_families: tuple[str, ...] = S.WEAK_FAMILIES   # boş tuple = aile kuralı kapalı (risk modu)
     weak_family_extra_min_prob: float = S.WEAK_FAMILY_EXTRA_MIN_PROB
     weak_family_require_direct: bool = S.WEAK_FAMILY_REQUIRE_DIRECT
+    draw_risk_max: float | None = S.BANKO_DRAW_RISK_MAX   # MS 1/MS 2 bacağında beraberlik riski tavanı (None = kapalı)
+    draw_risk_warn: float | None = S.BANKO_DRAW_RISK_WARN
+    draw_pick_filter: bool = False                        # risk modu: MS 0 yalnız draw_pick_ok ile
+    high_odds_filter: bool = False                        # yuksek_oran modu: high_odds_pick_ok zorunlu
 
 
 DEFAULT = GuardConfig()
@@ -168,6 +193,26 @@ def check_leg(leg: BankoLeg, cfg: GuardConfig = DEFAULT, at_selection: bool = Tr
     if p < min_p:
         shr = f" (büzülmüş; ham %{100 * leg.p:.1f})" if abs(p - leg.p) > 1e-9 else ""
         err.append(f"{leg.label}: P %{100 * p:.1f}{shr} < %{100 * min_p:.0f}")
+    if leg.name and not leg.live:
+        if MR.is_match_result_side(leg.name):
+            r = MR.draw_risk(leg.p_draw, leg.p_over25)
+            if r is not None and cfg.draw_risk_max is not None and r >= cfg.draw_risk_max:
+                err.append(f"{leg.label}: beraberlik riski %{100 * r:.0f} ≥ %{100 * cfg.draw_risk_max:.0f} "
+                           f"(düşük toplamlı maç) — MS yerine ÇŞ / Hnd(+1) düşün")
+            elif r is not None and cfg.draw_risk_warn is not None and r >= cfg.draw_risk_warn:
+                warn.append(f"{leg.label}: beraberlik riski %{100 * r:.0f} — ÇŞ / Hnd(+1) daha güvenli")
+        elif cfg.draw_pick_filter and MR.normalize_name(leg.name) in ("MS 0", "Maç Sonucu: 0", "MS X"):
+            ok, why = MR.draw_pick_ok(leg.p_draw, leg.p_over25, leg.odds)
+            if not ok:
+                err.append(f"{leg.label}: beraberlik seçimi süzgeci — {why}")
+    if cfg.high_odds_filter and not leg.live:
+        if not leg.name or not MR.is_high_odds_market(leg.name):
+            err.append(f"{leg.label}: yüksek oran modunda yalnız İY/MS, İY/2Y sonucu, iki yarıda KG ve skor seçimleri")
+        else:
+            ok, why, _ = MR.high_odds_pick_ok(leg.name, leg.p_model if leg.p_model is not None else leg.p, leg.odds,
+                                              leg.p_sharp, leg.direct)
+            if not ok:
+                err.append(f"{leg.label}: yüksek oran süzgeci — {why}")
     if cfg.require_sharp and not leg.sharp_ref and not leg.live:
         err.append(f"{leg.label}: keskin referans fiyatı yok")
     for f in leg.red_flags:
