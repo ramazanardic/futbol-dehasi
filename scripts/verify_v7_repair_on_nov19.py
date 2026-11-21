@@ -25,7 +25,6 @@ from quantfoot.strategy import (  # noqa: E402
     build_diversified_portfolio,
 )
 from scripts.analyze_nov19_nesine_global import (  # noqa: E402
-    ESPN_L5_BY_IDX,
     MATCH_DATA,
     _league_slug_and_prior,
 )
@@ -344,7 +343,7 @@ def main() -> None:
         max_same_category_share=0.67,
     )
 
-    print(f"=== QUANTFOOT-v6.1 vs v7 REPLAY (#1-#29, 07:00 Pre-Match Data, Zero Lookahead) ===")
+    print("=== QUANTFOOT-v6.1 vs v7 REPLAY (#1-#29, 07:00 Pre-Match Data, Zero Lookahead) ===")
     print(f"v6.1 Biten+Kesinlesen Isabet: {v6_w}/{v6_w+v6_l} (%{v6_rate:.1f})")
     print(f"v7   Biten+Kesinlesen Isabet: {v7_w}/{v7_w+v7_l} (%{v7_rate:.1f}) | Sadece Tam O/U: {v7_ou_w}/{v7_ou_w+v7_ou_l} (%{v7_ou_rate:.1f})")
     print(f"Otomatik Engellenen/Kurtarilan Tuzaklar ({len(traps_prevented)} adet):")

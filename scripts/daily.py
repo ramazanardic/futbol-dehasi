@@ -13,7 +13,7 @@ Alt komutlar (hepsi --date YYYY-MM-DD alır; çıktılar tahminler/<yapay zekâ>
     verify    Tahminleri ve kuponları sonuçlarla denetler; havuz ağırlığı testi (model piyasaya
               bilgi katıyor mu?) ve değer tekillerinin CLV'si   -> verify.json / verify.md
     summary   Tüm günleri birleştirip havuz testi ve CLV'yi güven aralığıyla raporlar
-                                                           -> reports/daily/summary.md
+                                                           -> tahminler/<yapay zekâ>/summary.md
     run       predict + coupons + report
 
 Örnekler:
@@ -37,8 +37,11 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor
 import datetime as dt
 import json
-import os
+import logging
 from pathlib import Path
+
+from quantfoot.paths import LazyAiArea
+from quantfoot.settings import MODEL_ONLY_MAX_LEGS, MODEL_ONLY_MIN_EV, MODEL_ONLY_TARGETS, TSI
 
 import numpy as np
 
@@ -57,7 +60,7 @@ from quantfoot.strategy.coupon_builder import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-DAILY = ROOT / "tahminler" / os.environ.get("QUANTFOOT_AI", "claudetahmin")  # the AI's own folder (20 Nov)
+DAILY = LazyAiArea()  # tahminler/<QUANTFOOT_AI>/; raises if the env var is missing
 LEDGER = ROOT / "reports" / "ledger"
 
 DEFAULT_SLUGS: tuple[str, ...] = (
@@ -191,6 +194,7 @@ def cmd_predict(args: argparse.Namespace) -> None:
         try:
             return slug, *fetch_league_slate(slug, ymd)
         except Exception as exc:  # unknown slug / network: skip that competition
+            logging.getLogger(__name__).warning("ESPN slug %s atlandı: %s", slug, exc, exc_info=True)
             return slug, f"hata: {exc}", []
 
     with ThreadPoolExecutor(max_workers=12) as pool:
@@ -206,7 +210,7 @@ def cmd_predict(args: argparse.Namespace) -> None:
     priced = sum(1 for m in matches if "probs" in m)
     print(f"{args.date}: {len(matches)} maç bulundu, {priced} fiyatlandı, {len(matches) - priced} atlandı.")
     _write_json(_day_dir(args.date) / "predictions.json", {
-        "date": args.date, "generated_at": dt.datetime.now().isoformat(timespec="seconds"),
+        "date": args.date, "generated_at": dt.datetime.now(TSI).isoformat(timespec="seconds"),
         "fund_weight": args.fund_weight, "seeds_file": args.seeds, "slugs": slugs, "matches": matches,
     })
 
@@ -245,13 +249,14 @@ def cmd_coupons(args: argparse.Namespace) -> None:
             "legs": [{"event_id": leg.match_id, "match": f"{leg.home} - {leg.away}", "selection": leg.selection,
                       "odds": leg.offered_odds, "prob": leg.probability, "ev": leg.ev} for leg in plan.legs],
         })
-    out = {"date": args.date, "min_ev": args.min_ev, "value_singles": singles, "coupons": coupons}
+    out = {"date": args.date, "kind": "model_only", "min_ev": args.min_ev, "value_singles": singles, "coupons": coupons}
     d = _day_dir(args.date)
     _write_json(d / "coupons.json", out)
-    md = [f"# {args.date} — Değer Tekilleri ve Kuponlar", "",
+    md = [f"# {args.date} — Model-only değer taraması (resmi kupon değil)", "",
           f"Eşik: model EV ≥ {args.min_ev:+.1%}. Yalnızca büronun gerçek oranları kullanılır.", "",
-          "> **Bu liste bahis önerisi değildir.** Gol beklentisi bu büronun oranlarına uydurulduğu için buradaki "
-          "artı EV, modelin gol dağılımı ile piyasanın yapısal farkıdır. Geçmiş testte (16.423 maç, 2021–2026) repodaki "
+          "> **Bu çıktı resmi Nesine kuponu değildir** (`scripts/kupon_kur.py` / `nesine_kupon.py` kullanın). "
+          "Gol beklentisi bu büronun oranlarına uydurulduğu için buradaki artı EV, modelin gol dağılımı ile "
+          "piyasanın yapısal farkıdır; bahis önerisi değildir. Geçmiş testte (16.423 maç, 2021–2026) repodaki "
           "15 modelin hiçbiri Bet365 fiyatına bilgi katmadı (havuz ağırlığı w = 0.00; `reports/research/pooling_test.md`). "
           "Nesine için global referans karşılaştırması: `scripts/nesine_global.py`.", ""]
     md += ["## Artı EV tekiller", ""]
@@ -273,9 +278,11 @@ def cmd_coupons(args: argparse.Namespace) -> None:
 
 
 def _update_index(date: str, n_matches: int, n_singles: int, n_coupons: int) -> None:
-    path = LEDGER / "INDEX.md"
-    row = (f"| **{date}** | `daily.py` | {n_matches} Maç | [coupons.md](../daily/{date}/coupons.md) / "
-           f"[report.md](../daily/{date}/report.md) | `{n_singles} artı EV tekil, {n_coupons} kupon` |")
+    # Own-folder index only (AGENTS.md: do not write predictions into shared reports/).
+    path = Path(DAILY) / "INDEX.md"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    row = (f"| **{date}** | `daily.py` (model-only) | {n_matches} Maç | [{date}/coupons.md]({date}/coupons.md) / "
+           f"[{date}/report.md]({date}/report.md) | `{n_singles} artı EV tekil, {n_coupons} kupon` |")
     lines = path.read_text(encoding="utf-8").splitlines() if path.exists() else [
         "# QuantFoot Tahmin ve Kupon Arşivi", "", "| Tarih | Motor | Maç Sayısı | Dosyalar | Durum |",
         "| :---: | :--- | :---: | :--- | :--- |"]
@@ -554,7 +561,7 @@ def cmd_run(args: argparse.Namespace) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
-    today = dt.date.today().isoformat()
+    today = dt.datetime.now(TSI).date().isoformat()
 
     def _add(name, fn, predict=False, coupons=False):
         p = sub.add_parser(name)
@@ -565,9 +572,10 @@ def main() -> None:
             p.add_argument("--fund-weight", type=float, default=None,
                            help="Tohum gol beklentisinin ağırlığı (varsayılan: --seeds varsa 0.22, yoksa 0 = saf piyasa)")
         if coupons:
-            p.add_argument("--min-ev", type=float, default=0.02, help="Bacak / tekil için en düşük model EV'si")
-            p.add_argument("--targets", nargs="+", type=float, default=[3.0, 5.0, 10.0])
-            p.add_argument("--max-legs", type=int, default=4)
+            p.add_argument("--min-ev", type=float, default=MODEL_ONLY_MIN_EV,
+                           help="Bacak / tekil için en düşük model EV'si (model-only tarama; resmi kupon değil)")
+            p.add_argument("--targets", nargs="+", type=float, default=list(MODEL_ONLY_TARGETS))
+            p.add_argument("--max-legs", type=int, default=MODEL_ONLY_MAX_LEGS)
         p.set_defaults(func=fn)
 
     _add("predict", cmd_predict, predict=True)

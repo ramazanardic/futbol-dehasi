@@ -29,7 +29,7 @@ Yalnız kullanıcı istediğinde çalıştırılır (20 Kasım: zamanlanmış g�
    5. **Düşük Güven:** Hiçbir global kaynakta bulunmayan ultra-niş maçlar yalnızca bilgi amaçlı Nesine
       oranından tahmin edilir (`price_tier = "dusuk_guven"`, kupona asla girmez).
 
-   `--no-oddsmath` / `--no-tm` ile yerel OddsMath ve Transfermarkt çekimleri istenirse kapatılabilir.
+   OddsMath varsayılan olarak açıktır (`--no-oddsmath` ile kapanır). Transfermarkt kullanım koşulları nedeniyle varsayılan olarak **kapalıdır**; yalnız `--tm` ile açılır.
    **Eşleştirme güvenliği:** maç adı (yaygın kısaltma sözlüğü dahil) + başlama saati (±3 saat) benzerliğiyle
    eşlenir; kadın/erkek ve genç/rezerv/A-takım ayrımı kesin olarak korunur. Her global fiyat en çok benzeyen
    tek Nesine maçına aittir ve Nesine'nin kendi 1X2'si (marjsız) referanstan 15 puandan fazla ayrışırsa
@@ -62,11 +62,11 @@ kralı ayrıca işaretlenir.
 **Premier Lig sakat / cezalı listesi:** resmî Fantasy Premier League akışından (ücretsiz, anahtarsız):
 sakat, cezalı, şüpheli oyuncular, oynama ihtimali (%) ve haber notu; düzenli ilk 11 oyuncuları "kilit"
 olarak işaretlenir. ESPN'in futbol sakatlık alanları boş geldiği için diğer liglerde ilk 11 karşılaştırması
-kullanılır. Transfermarkt kullanım koşulları otomatik veri toplamayı yasakladığı için kullanılmaz.
+kullanılır. Transfermarkt kullanım koşulları otomatik veri toplamayı yasakladığı için varsayılan olarak çekilmez; yalnız kullanıcı `--tm` verirse denenir.
 
 Olasılık yine global fiyattan gelir (piyasa bu haberleri dakikalar içinde fiyatlar). Araştırmanın
 işi **eski fiyat koruması**dır: önemli bir eksik varsa ve global fiyat 75 dakikadan eskiyse maç
-kupona alınmaz. Kupon ayrıca 3 saatten eski global fiyatı hiç kullanmaz. Bunu kısaltmak için
+kupona alınmaz. Kupon ayrıca 3 saatten eski global fiyatı hiç kullanmaz (`quantfoot.settings.MAX_PRICE_AGE_H`). Analiz (nesine_global) eski anlığı yine fiyatlayabilir ve raporda ESKİ / `betting_ok=false` olarak işaretler; bu fiyatlar kupon veya bahis kararında kullanılmaz. Bunu kısaltmak için
 bilgisayar, Nesine'de fiyatlı bir maç 40–100 dakika sonra başlayacaksa `gh workflow run` ile yalnız
 önümüzdeki 2 saatin maçlarını yeniletir (kadro saati, en çok 50 dakikada bir). Depo herkese açık olduğu
 için Actions dakikası sınırsız ve ücretsiz. Kapsam: ESPN'in yayınladığı ligler (Brezilya, Uruguay, MLS, Avrupa ligleri, kadın

@@ -9,6 +9,7 @@ Her yapay zekâ **yalnız kendi klasörüne** yazar; başkasının klasörüne d
 | `geminitahmin/` | Gemini |
 | `antigravitytahmin/` | Antigravity |
 | `chatgbttahmin/` | ChatGPT |
+| `grokbottahmin/` | Grok Bot |
 
 ## Kural: yöntem ortak, tahmin gizli, değerlendirme ortak
 
@@ -24,7 +25,7 @@ Her yapay zekâ **yalnız kendi klasörüne** yazar; başkasının klasörüne d
 - **Tahminler gizlidir:** her yapay zekâ analizini, tahminlerini ve kuponlarını yalnız kendi klasörüne
   (`tahminler/<klasör>/<tarih>/`) ve yalnız kendi bilgisayarına yazar. Bu klasörler GitHub'a **hiç** gönderilmez
   (`.gitignore`: `tahminler/*/*`, yalnız README'ler izlenir); ortak alanlara (`reports/`, `docs/data/`) tahmin yazılmaz.
-  Kod bunu `QUANTFOOT_AI=<klasör>` ile yapar (Claude için varsayılan `claudetahmin`).
+  Kod bunu zorunlu `QUANTFOOT_AI=<klasör>` ile yapar (varsayılan yoktur).
 - **Değerlendirme ortaktır:** ertesi gün, önceki günün maçları sonuçlandırılır ve bütün yapay zekâların tahminleri
   `scripts/gun_degerlendirme.py --tarih <gün>` ile değerlendirilir; sonuç herkesin görebileceği
   `degerlendirme/<tarih>.md` / `.json` dosyasına yazılır. Bu dosyada yalnız **bitmiş** maçlar yer alır.

@@ -22,6 +22,8 @@ data/soccerdata/
 
 # Every AI's predictions and coupons stay private on its own machine (user rule, 20 Nov): never on GitHub.
 # Only the shared next-day evaluations (degerlendirme/) are published.
+# Already-tracked files under tahminler/ (if any were force-added) stay tracked until the owner removes them;
+# this rule only prevents new untracked files from being added.
 tahminler/*/*
 !tahminler/*/README.md
 

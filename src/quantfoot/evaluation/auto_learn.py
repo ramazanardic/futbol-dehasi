@@ -19,10 +19,11 @@ from __future__ import annotations
 
 import datetime as dt
 import json
-import os
 import math
 from pathlib import Path
 from typing import Any
+
+from quantfoot.paths import ai_area
 
 TSI = dt.timezone(dt.timedelta(hours=3))
 
@@ -498,7 +499,7 @@ def run_auto_learn(
 ) -> dict[str, Any]:
     """Run the end-to-end self-learning pass and persist JSON + Markdown outputs."""
     repo = root or Path(__file__).resolve().parents[3]
-    d_dir = daily_dir or (repo / "tahminler" / os.environ.get("QUANTFOOT_AI", "claudetahmin"))
+    d_dir = daily_dir or ai_area(repo)
     cal_out = calibration_path or (repo / "data" / "calibration" / "live_calibration.json")
     rep_out = report_path or (d_dir / "takip" / "ogrenme_raporu.md")
 

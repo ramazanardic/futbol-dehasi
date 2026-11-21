@@ -1,18 +1,20 @@
-# QuantFoot v6 — Kantitatif Futbol Tahmin, Omni-Market ve Bahis Algoritması
+# QuantFoot v8.2 — Kantitatif Futbol Tahmin, Omni-Market ve Bahis Algoritması
 
 Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power & Rimella JRSS-C 2024; Baker & McHale; Constantinou & Fenton) ve **238.858+ tarihsel kulüp maçı** (`matches.csv` + canlı ESPN 2026-27 senkronizasyonu) + **10.660 uluslararası milli maç** (2016–2026) + **7.348 Pinnacle 2026 açılış/kapanış oran verisi** üzerinde sıfır veri sızıntısı (*zero look-ahead leakage*, genişleyen *walk-forward*) ile araştırılmış, kalibre edilmiş ve doğrulanmış kantitatif futbol tahmin ve bahis motoru.
 
 ## Çalışma düzeni (20 Kasım 2026) — önce bunu okuyun
 
-- **Sistem yalnız kullanıcı sorduğunda çalışır.** Zamanlanmış görev yoktur (Windows `QuantFoot\*` görevleri devre
-  dışı, GitHub iş akışlarında zamanlama yok; `gh workflow run global-odds.yml` ile istek üzerine çalışır).
-  Tek istisna (kullanıcı isteği): `QuantFoot\KuponIzle` 15 dakikada bir geçerli kuponların bacaklarını canlı Nesine
-  bülteninde kontrol eder (`scripts/kupon_izle.cmd`); kapanan / askıya alınan pazarda bir kez uyarı verir.
+- **Sistem yalnız kullanıcı sorduğunda çalışır.** Analiz iş akışları zamanlanmış değildir (`gh workflow run global-odds.yml` veya `daily-autonomous.yml` ile istek üzerine çalışır).
+  GitHub'daki tek zamanlama: `ci-tests.yml` haftalık Pazar pytest koşusu (analiz yapmaz).
+  Kullanıcının onayladığı kupon izleyici: Windows `QuantFoot\KuponIzle` 15 dakikada bir geçerli kuponların
+  bacaklarını canlı Nesine bülteninde kontrol eder (`scripts/kupon_izle.cmd`); Linux karşılığı
+  `scripts/kupon_izle.sh` (cron olarak kurulmaz, istek üzerine veya kendi zamanlayıcınızla).
+  Kapanan / askıya alınan pazarda bir kez uyarı verir.
   Aynı görev günde bir kez dünün API-Football sonuçlarını yerel arşive ekler (`api_gecmis.py --arsiv`, 1 istek;
   ücretsiz plan yalnız dün/bugün/yarın verdiği için takım geçmişi böyle birikir).
 - **Her yapay zekâ yalnız kendi klasörüne yazar:** `tahminler/<klasör>/<tarih>/` (Claude `claudetahmin`, Gemini
-  `geminitahmin`, Antigravity `antigravitytahmin`, ChatGPT `chatgbttahmin`). Kod bunu `QUANTFOOT_AI=<klasör>` ile
-  yapar. Başka bir yapay zekânın klasörü açılmaz, okunmaz; bağlayıcı kural: [AGENTS.md](AGENTS.md).
+  `geminitahmin`, Antigravity `antigravitytahmin`, ChatGPT `chatgbttahmin`, Grok Bot `grokbottahmin`).
+  Kod bunu zorunlu `QUANTFOOT_AI=<klasör>` ile yapar (varsayılan yoktur). Başka bir yapay zekânın klasörü açılmaz, okunmaz; bağlayıcı kural: [AGENTS.md](AGENTS.md).
 - **Tahminler gizlidir:** analiz, maç dosyaları, tahminler, kuponlar, kontroller ve isteğe bağlı haftalık rapor
   (`--haftalik`) yalnız o yapay zekânın bilgisayarında kalır; GitHub'a gönderilmez (`.gitignore`: `tahminler/*/*`).
   Ortak alanlara (`reports/`, `docs/data/`) tahmin yazılmaz; 19 Kasım ve öncesinin eski kayıtları `reports/daily/`'de.
@@ -109,6 +111,26 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
 ---
 
 ## Kullanım
+
+
+Linux (bu depodaki sanal ortam; Windows örneklerindeki `.\.venv\Scripts\python.exe` yerine):
+
+```bash
+cd /path/to/futbol-dehasi
+source .venv/bin/activate
+export QUANTFOOT_AI=grokbottahmin   # zorunlu; kendi klasörünüz
+export PYTHONIOENCODING=utf-8
+export TZ=Europe/Istanbul
+
+python scripts/daily.py run --date 2026-11-21          # model-only ESPN taraması (resmi kupon değil)
+python scripts/nesine_global.py --date 2026-11-21      # anahtar gerekmez; Transfermarkt için ayrıca --tm
+python scripts/kupon_kur.py --hedef 5 --tarih 2026-11-21
+python scripts/kupon_izle.sh                           # kupon bacak kontrolü; cron kurulmaz
+pytest -q
+```
+
+`scripts/daily.py coupons` / `run` çıktısı **model-only** taramadır; resmi Nesine kuponu `kupon_kur.py` ile kurulur.
+Global referans 3 saatten eskiyse analiz yine fiyatlar (raporda ESKİ işaretlenir) ama kupon bu fiyatı kullanmaz.
 
 ```powershell
 # 1. Tam walk-forward v4 backtest + grafikler

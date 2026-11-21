@@ -218,6 +218,18 @@ def _evaluate_joint_portfolio(
     }
 
 
+def order_matches_for_backtest(df: pd.DataFrame) -> pd.DataFrame:
+    """Deterministic same-day order: date, kickoff/time when present, then division."""
+    sort_cols = ["MatchDate"]
+    if "MatchTime" in df.columns:
+        sort_cols.append("MatchTime")
+    if "kickoff_utc" in df.columns:
+        sort_cols.append("kickoff_utc")
+    if "Division" in df.columns:
+        sort_cols.append("Division")
+    return df.sort_values(sort_cols, na_position="first").reset_index(drop=True)
+
+
 def _fit_causal_xg_proxies(
     df: pd.DataFrame,
     raw_all: pd.DataFrame,
@@ -254,7 +266,7 @@ def run_walk_forward_backtest(
     xg_train_min = min(pd.Timestamp("2014-01-01"), start_ts - pd.Timedelta(days=730)).strftime("%Y-%m-%d")
 
     raw_all = load_matches(data_dir=data_dir, leagues=all_load_leagues, min_date=xg_train_min, require_odds=True)
-    df = raw_all[raw_all["MatchDate"] >= start_ts].sort_values(["MatchDate", "Division"]).reset_index(drop=True)
+    df = order_matches_for_backtest(raw_all[raw_all["MatchDate"] >= start_ts])
     h_xg_all, a_xg_all = _fit_causal_xg_proxies(df, raw_all, start_ts)
     df["h_xg_proxy"] = h_xg_all
     df["a_xg_proxy"] = a_xg_all

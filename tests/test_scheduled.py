@@ -1,6 +1,7 @@
 """Backup trigger for the overseas fetch: fires only on stale data, at most once per RETRIGGER_HOURS."""
 
 import datetime as dt
+import os
 import importlib.util
 import io
 import json
@@ -99,7 +100,11 @@ def test_status_file_and_alert(tmp_path, monkeypatch):
     log = io.StringIO()
     sched._write_status(log, "test")
     text = (tmp_path / "DURUM.md").read_text(encoding="utf-8")
-    assert "ESKİ" in text and calls and calls[0][0] == "msg" and "[uyarı]" in log.getvalue()
+    assert "ESKİ" in text and "[uyarı]" in log.getvalue()
+    if os.name == "nt":
+        assert calls and calls[0][0] == "msg"
+    else:
+        assert not any(c and c[0] == "msg" for c in calls)
     calls.clear()
     (tmp_path / "fresh").mkdir()
     _setup(tmp_path / "fresh", monkeypatch, age_hours=1)

@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from gunluk_analiz import best_pick  # noqa: E402
 from nesine_global import DAILY, PREDICTIONS_FILE, TSI, classify_price_tier  # noqa: E402
+from quantfoot.paths import QuantfootAIError, ai_area
 from quantfoot.data.absences import format_tm_absence_brief  # noqa: E402
 
 
@@ -160,8 +161,16 @@ def build_day_payload(day_dir: Path) -> dict[str, Any] | None:
         )
 
     coupons_out: list[dict[str, Any]] = []
-    claude_dir = ROOT / "tahminler" / "claudetahmin" / day_dir.name  # Claude's coupons (20 Nov+)
-    for kf in sorted([*day_dir.glob("kupon_*.json"), *claude_dir.glob("kupon_*x_*.json")], key=lambda f: f.name, reverse=True)[:8]:
+    coupon_files = list(day_dir.glob("kupon_*.json"))
+    # Optional extra look in this AI's own folder when day_dir is a legacy/shared path.
+    # Never opens another AI's folder. If QUANTFOOT_AI is unset, only day_dir is used.
+    try:
+        own_dir = ai_area() / day_dir.name
+    except QuantfootAIError:
+        own_dir = day_dir
+    if Path(own_dir).resolve() != day_dir.resolve():
+        coupon_files += list(Path(own_dir).glob("kupon_*x_*.json"))
+    for kf in sorted(coupon_files, key=lambda f: f.name, reverse=True)[:8]:
         try:
             kd = json.loads(kf.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):

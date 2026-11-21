@@ -40,7 +40,7 @@ def test_double_read_keeps_lowest_odds_and_reports_flicker(monkeypatch):
 
 
 def test_prior_codes_use_latest_main_coupon_of_other_targets(tmp_path, monkeypatch):
-    monkeypatch.setattr(kupon, "CLAUDE_AREA", tmp_path)
+    monkeypatch.setattr(kupon, "AI_AREA", tmp_path)
     day = tmp_path / "2026-11-20"
     day.mkdir()
 
@@ -117,7 +117,7 @@ def test_apply_live_odds_lowers_and_drops_suspended():
 
 
 def test_prior_legs_block_same_selection_but_allow_other_selection_on_same_match(tmp_path, monkeypatch):
-    monkeypatch.setattr(kupon, "CLAUDE_AREA", tmp_path)
+    monkeypatch.setattr(kupon, "AI_AREA", tmp_path)
     day = tmp_path / "2026-11-20"
     day.mkdir()
     leg = {"code": 1, "key": "1|MS 1|0", "name": "MS 1"}
@@ -181,7 +181,7 @@ def test_families_leg_limits_and_groups():
 
 
 def test_prior_legs_cover_all_families_of_the_current_set(tmp_path, monkeypatch):
-    monkeypatch.setattr(kupon, "CLAUDE_AREA", tmp_path)
+    monkeypatch.setattr(kupon, "AI_AREA", tmp_path)
     day = tmp_path / "2026-11-20"
     day.mkdir()
 
@@ -266,7 +266,9 @@ def test_unsettled_days_are_kept_off_github(tmp_path, monkeypatch):
         (tmp_path / "docs" / "data" / f"{d}.json").write_text("{}")
     ex = sched._unsettled_excludes(dt.datetime(2026, 11, 21, 3, 0))  # 03:00: betting day is still the 20th
     assert ":(exclude)reports/daily/2026-11-20" in ex and ":(exclude)reports/daily/2026-11-21" in ex
-    assert ":(exclude)tahminler/claudetahmin/2026-11-20" in ex and ":(exclude)docs/data/2026-11-20.json" in ex
+    assert ":(exclude)docs/data/2026-11-20.json" in ex
+    # tahminler/ is gitignored and is no longer added or pathspec-excluded by the publisher
+    assert not any("tahminler/" in x for x in ex)
     assert not any("2026-11-19" in x for x in ex) and not any("dashboard" in x for x in ex)
     assert not any("2026-11-20" in x for x in sched._unsettled_excludes(dt.datetime(2026, 11, 21, 9, 0)))
 
@@ -426,7 +428,7 @@ def test_bulletin_fetch_retries_a_dropped_connection(monkeypatch):
 
 
 def test_all_coupon_legs_today_covers_every_build(tmp_path, monkeypatch):
-    monkeypatch.setattr(kupon, "CLAUDE_AREA", tmp_path)
+    monkeypatch.setattr(kupon, "AI_AREA", tmp_path)
     day = tmp_path / "2026-11-20"
     day.mkdir()
     for name, code in (("kupon_5x_0851", 1), ("kupon_5x_0926", 2), ("kupon_10x_kg_1141", 3)):
