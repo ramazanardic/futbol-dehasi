@@ -41,6 +41,10 @@ class GuardConfig:
     max_coupons_per_match: int = S.BANKO_MAX_COUPONS_PER_MATCH
     lottery_p_win: float = S.LOTTERY_P_WIN
     require_sharp: bool = True
+    min_legs: int = 1              # 0/1 = sınır yok (eski çağrılar); kupon modları 5/3 verir
+    max_legs: int = 99
+    lottery_is_error: bool = True  # risk modunda P(kupon) düşükse yalnız dürüst uyarı
+    name: str = "banko"
 
 
 DEFAULT = GuardConfig()
@@ -73,7 +77,7 @@ def check_leg(leg: BankoLeg, cfg: GuardConfig = DEFAULT, at_selection: bool = Tr
         else:
             p = min(p, leg.p_market + 0.05)   # canlıda piyasanın +5 puan üstüne güvenme
     if p < cfg.min_prob:
-        err.append(f"{leg.label}: P {p:.2f} < {cfg.min_prob:.2f}")
+        err.append(f"{leg.label}: P %{100 * p:.1f} < %{100 * cfg.min_prob:.0f}")
     if cfg.require_sharp and not leg.sharp_ref and not leg.live:
         err.append(f"{leg.label}: keskin referans fiyatı yok")
     for f in leg.red_flags:
@@ -98,8 +102,13 @@ def check_coupon(legs: Sequence[BankoLeg], open_exposure: Mapping[str | int, int
             res.errors.append(f"{leg.label}: bu maç zaten {n_open} açık kuponda (en çok {cfg.max_coupons_per_match})")
     res.total_odds = math.prod(l.odds for l in legs) if legs else 1.0
     res.p_win = math.prod(l.p for l in legs) if legs else 1.0
+    if legs and len(legs) < cfg.min_legs:
+        res.errors.append(f"{len(legs)} maç < en az {cfg.min_legs} maç ({cfg.name} modu: 1–2 maçlık kupon yok)")
+    if len(legs) > cfg.max_legs:
+        res.errors.append(f"{len(legs)} maç > en çok {cfg.max_legs} maç ({cfg.name} modu)")
     if legs and res.p_win < cfg.lottery_p_win:
-        res.errors.append(f"P(kupon) %{100 * res.p_win:.1f} < %{100 * cfg.lottery_p_win:.0f}: piyango kuponu, banko değil")
+        msg = f"P(kupon) %{100 * res.p_win:.1f} < %{100 * cfg.lottery_p_win:.0f}: piyango kuponu, banko değil"
+        (res.errors if cfg.lottery_is_error else res.warnings).append(msg)
     res.ok = not res.errors
     return res
 

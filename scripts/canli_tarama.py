@@ -57,6 +57,21 @@ def load_prematch(folder: Path, now: float, fetch=_get) -> dict[int, dict]:
     return {int(k): v for k, v in data["events"].items()}
 
 
+def annotate_banko(ops: list[dict]) -> None:
+    """Canlı fırsatı banko bacak kuralıyla işaretle (kupona girecekse): piyasa P'si zorunlu, P ≥ %65 (piyasanın en çok
+    +5 puan üstü), oran 1.20–1.80. Canlı model doğrulanmadığı için kupon kararında yalnız ``banko_ok`` olanlar kullanılır."""
+    from quantfoot.strategy import banko_guard as bg
+    from quantfoot.strategy import kupon_modu as KM
+    cfg = KM.policy("banko").guard
+    for o in ops:
+        leg = bg.BankoLeg(match_id=str(o.get("code")), label=f"{o.get('match')} {o.get('market')}",
+                          odds=float(o.get("nesine_odds") or 0), p=float(o.get("fair_prob") or 0), live=True,
+                          p_market=o.get("market_prob"))
+        err, _ = bg.check_leg(leg, cfg, at_selection=True)
+        o["banko_ok"] = not err
+        o["banko_errors"] = err
+
+
 def scan_once(args: argparse.Namespace, folder: Path, fetch=_get, now: dt.datetime | None = None,
               fotmob: "fmb.FotMob | None" = None) -> tuple[list[dict], dict]:
     now = now or dt.datetime.now(S.TSI)
@@ -103,6 +118,7 @@ def scan_once(args: argparse.Namespace, folder: Path, fetch=_get, now: dt.dateti
         ops += ls.evaluate(e, lv, lam, st, min_ev=args.min_ev, reserve=args.canli_rezerv,
                            kelly_mult=S.KELLY_MULTIPLIER, cap_frac=args.kupon_limit_oran,
                            step=S.STAKE_STEP_TL, min_stake=S.MIN_STAKE_TL)
+    annotate_banko(ops)
     stats["opportunities"] = len(ops)
     sf = folder / "durum.json"
     state = json.loads(sf.read_text()) if sf.exists() else {}

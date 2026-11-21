@@ -20,6 +20,14 @@ BANKO_MAX_LEG_ODDS = 1.80      # tek bir yüksek oranlı bacakla toplamı şişi
 BANKO_SELECT_MIN_ODDS = 1.22   # seçerken 1.20 tabanına tampon: 1.20–1.21'lik bacaklar oynarken 1.17–1.19'a düştü
 BANKO_MAX_COUPONS_PER_MATCH = 2  # aynı maç en çok 2 açık kuponda (korelasyonlu risk)
 LOTTERY_P_WIN = 0.05           # P(kupon) bunun altındaysa "piyango kuponu" uyarısı (banko modunda reddedilir)
+BANKO_PREFER_MIN_ODDS = 1.25   # kurarken tercih edilen en düşük oran (oynayana kadar oran kayması tamponu)
+BANKO_MIN_LEGS = 5             # kullanıcı kuralı (t69u/t70u, 21 Kas): ortalama 5 maç, 1–2 maçlık düşük oranlı kupon yok
+BANKO_MAX_LEGS = 6             # "duruma göre 6 maç da olabilir" — gerekçeliyse 6
+# Risk modu: yalnız kullanıcı banko ile ulaşılamayan bir hedef (ör. "en az 2.000 TL") isterse.
+RISK_MAX_LEG_ODDS = 2.10       # tek bacak en çok 2.10 (3–4 oranlı beraberlik/İY bacakları yok)
+RISK_MIN_PROB = 0.45           # bacak başı keskin P tabanı
+RISK_MIN_LEGS = 3
+RISK_MAX_LEGS = 6
 MAX_LEGS = 7
 MAX_LEGS_HIGH = 8
 HIGH_TARGET = 20.0
