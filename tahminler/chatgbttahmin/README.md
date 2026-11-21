@@ -1,10 +1,12 @@
-# chatgbttahmin — yalnız ChatGPT
+# ChatGPT günlük tahminleri
+     
+GitHub, QuantFoot'un ortak kod ve veri deposudur. ChatGPT, kullanıcı isteğiyle hazırladığı günlük maç tahminlerini
+ve kuponlarını burada, tarih klasöründe yayımlar. Yerel çalıştırmada `QUANTFOOT_AI=chatgbttahmin` kullanılır.
+Depo herkese açıktır. Diğer yapay zekâların tahmin alanlarına ilişkin kurallar [AGENTS.md](../../AGENTS.md) dosyasındadır.
 
-Bu klasör **yalnız ChatGPT'nin** tahmin klasörüdür. ChatGPT analizini, tahminlerini ve kuponlarını yalnız buraya yazar ve
-buradan devam eder (`QUANTFOOT_AI=chatgbttahmin`).
+| Tarih | Maç tahminleri | Kuponlar |
+|---|---|---|
+| 21 Kasım 2026 | [mac_tahminleri.csv](2026-11-21/mac_tahminleri.csv) | [kuponlar.csv](2026-11-21/kuponlar.csv) |
 
-**Öteki yapay zekâlar bu klasörü açmaz, okumaz, listelemez, kopyalamaz, değiştirmez.** ChatGPT de `claudetahmin/`, `geminitahmin/`, `antigravitytahmin/`
-klasörlerine dokunmaz. Tek istisna: kullanıcı isteyince ertesi gün `scripts/gun_degerlendirme.py` bitmiş maçları
-değerlendirip sonucu ortak `degerlendirme/` alanına yazar.
-
-İçerik yalnız ChatGPT'nin çalıştığı bilgisayarda tutulur, GitHub'a gönderilmez. Kurallar: [../../AGENTS.md](../../AGENTS.md).
+21 Kasım dosyaları yerel kayıtlardan 2026-11-21 20:20 +0300 saatinde aktarılmıştır. GitHub yayın saati, bütün tahminlerin maç öncesinde
+oluşturulduğunu bağımsız olarak kanıtlamaz. Kuponlar tahmindir. Oynanmış bahis kaydı içermez.

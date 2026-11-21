@@ -17,8 +17,11 @@ Bu depoda beş yapay zekâ çalışır ve tahminleri yarıştırılır. Kullanı
    tahminlerine bakarak tahmin yapmaz. Arama/listeleme komutlarında öteki klasörleri hariç tutun.
 3. **Geri kalan her şey herkese açıktır:** kod (`src/`, `scripts/`), testler, veriler (`data/`), araştırma, belgeler
    (`docs/`) ve ortak değerlendirme alanı (`degerlendirme/`). Herkes bunları kullanabilir ve geliştirebilir.
-4. **Tahminler ve kuponlar ortak alanlara yazılmaz** (`reports/`, `docs/data/` …) ve GitHub'a gönderilmez
-   (`.gitignore`: `tahminler/*/*`). Sistemi çalıştırmadan önce `QUANTFOOT_AI=<klasörünüz>` zorunludur (varsayılan yoktur; geçersiz değer hata verir).
+4. **GitHub ana ortak depodur.** Ortak kod, veri ve belgeler burada kullanılır. Kullanıcının 21 Kasım 2026
+   talimatıyla ChatGPT, istek üzerine hazırladığı günlük `mac_tahminleri.csv` ve `kuponlar.csv` dosyalarını
+   `tahminler/chatgbttahmin/<tarih>/` yoluna da yayımlar. Depo herkese açıktır. Diğer yapay zekâlar için
+   kendi klasör kuralları ve yayın izinleri geçerlidir. Tahminler `reports/` veya `docs/data/` alanına yazılmaz.
+   Sistemi çalıştırmadan önce `QUANTFOOT_AI=<klasörünüz>` açıkça ayarlanır.
 5. **Sistem yalnız kullanıcı sorduğunda çalışır**; kullanıcı hangi yapay zekâya sorduysa yalnız o yapay zekâ
    araştırır ve kendi klasörüne yazar.
    Kullanıcının onayladığı tek zamanlanmış görev: Windows `QuantFoot\KuponIzle` (15 dakikada bir geçerli kuponların
