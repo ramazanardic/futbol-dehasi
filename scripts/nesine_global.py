@@ -52,7 +52,7 @@ from quantfoot.markets.devig import devig
 from quantfoot.markets.goal_markets import goal_probability
 from quantfoot.markets.goal_timing import GoalTimingModel
 from quantfoot.markets.omni_markets import compute_omni_markets
-from quantfoot.markets.tail_goals import fit_tail_rates_from_markets, league_tail_regime
+from quantfoot.markets.tail_goals import fit_tail_rates_from_markets, league_tail_regime, rake_score_matrix_to_markets
 from quantfoot.strategy.coupon_builder import is_uncalibrated_competition
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -404,7 +404,7 @@ def price_event(event, ref: dict, league: str) -> dict:
 
     regime_key = _nesine_league_regime_key(league)
     nu, alpha, kappa = league_tail_regime(regime_key)
-    mu_h, mu_a, _ = fit_tail_rates_from_markets(
+    mu_h, mu_a, fit_mat = fit_tail_rates_from_markets(
         p_1x2=p1x2,
         ou_lines=ou_lines or None,
         p_btts=p_btts_direct,
@@ -414,7 +414,11 @@ def price_event(event, ref: dict, league: str) -> dict:
         com_nu=nu,
         fund_weight=0.0,
     )
-    joint = compute_omni_markets(mu_h, mu_a, league=regime_key).joint
+    # Two goal rates cannot reproduce 1X2 + O/U (+ KG) at once; rake the score matrix onto the quotes so every derived
+    # market agrees with them (21 Nov audit: the unraked joint under-priced draws by 0.8 pp, hence 1-1, 2-2,
+    # 'MS 0 & KG Var', KG Var — reports/research/bahis_aileleri_kalibrasyon*.json).
+    ft_mat = rake_score_matrix_to_markets(fit_mat, p_1x2=p1x2, ou_lines=ou_lines, p_btts=p_btts_direct)
+    joint = compute_omni_markets(mu_h, mu_a, league=regime_key, ft_matrix=ft_mat).joint
     timing = GoalTimingModel.from_joint(joint).markets()["İlk Golü Atan Takım"]
 
     exact_direct: dict[str, float] = {

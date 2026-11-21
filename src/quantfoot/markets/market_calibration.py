@@ -163,6 +163,21 @@ def load_market_calibration(path: Path | str | None = None) -> dict[str, Any] | 
 _COMPLEMENT = {"2.5 Alt": "2.5 Üst", "3.5 Alt": "3.5 Üst", "KG Yok": "KG Var"}
 
 
+def _complement_key(name: str) -> str | None:
+    """Binary complement of a selection whose curve is stored on the other side (Alt↔Üst, Yok↔Var, Çift↔Tek).
+
+    21 Nov: only three fixed pairs were mapped, so e.g. a stored '4.5 Üst' curve left '4.5 Alt' raw and the two sides of
+    one market no longer summed to 1. Combinations ('A & B') have no single-selection complement."""
+    if name in _COMPLEMENT:
+        return _COMPLEMENT[name]
+    if "&" in name:
+        return None
+    for a, b in ((" Alt", " Üst"), (" Yok", " Var"), ("Çift", "Tek")):
+        if name.endswith(a.strip()) and name[: len(name) - len(a.strip())] + b.strip() != name:
+            return name[: len(name) - len(a.strip())] + b.strip()
+    return None
+
+
 def calibrate_market_probability(
     name: str,
     p: float,
@@ -178,10 +193,15 @@ def calibrate_market_probability(
     if calibration is None or not math.isfinite(p):
         return p
     markets = calibration.get("markets") or {}
+    if name.startswith("DEĞİL(") and name.endswith(")"):  # Nesine outcome = complement of the engine event
+        inner = calibrate_market_probability(name[6:-1], 1.0 - p, league, calibration, home_odds, direct)
+        return 1.0 - inner
     flip = False
     key = name
-    if name in _COMPLEMENT:
-        key, flip = _COMPLEMENT[name], True
+    if key not in markets:
+        comp = _complement_key(name)
+        if comp and comp in markets:
+            key, flip = comp, True
     params = markets.get(key)
     if not params:
         return p
