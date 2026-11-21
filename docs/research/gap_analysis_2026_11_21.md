@@ -142,16 +142,21 @@ Multiplicative (oranları oranlayarak bölmek) ortalama oranda anlamlı biçimde
 | OpenLigaDB | getmatchdata | ✅ | Almanya |
 | FPL | bootstrap-static | ✅ | Premier Lig oyuncu durumu/şüphe yüzdesi |
 | eloratings.net | World.tsv | ✅ | Milli takım Elo |
-| FotMob | `/api/data/matches`, `matchDetails`, `teams` | ✅ (resmî olmayan uç; kullanım koşulları otomatik erişimi kısıtlayabilir) | xG, ilk 11, eksikler, stat koordinatı, hakem, bütün turnuva fikstürü — **entegre edilmedi**, kullanıcı kararı |
-| Understat | sayfa ✅, `getLeagueData` | ⚠️ veri ucu JSON yerine HTML döndürüyor | Kullanılamadı |
+| FotMob | `/api/data/matches`, `matchDetails`, `teams` | ✅ (resmî olmayan uç) | xG, ilk 11, eksikler, stat koordinatı, hakem, canlı dakika/skor/kırmızı kart/istatistik — **kullanıcı onayıyla (t27u) entegre**: önbellekli, nazik bekleme, açık User-Agent |
+| Understat | lig sayfası | ⚠️ "We will come back soon" bakım sayfası | Gömülü `JSON.parse` ayrıştırıcısı hazır; site dönünce çalışır |
+| Nesine canlı bülten | `bulten.nesine.com/api/bulten/getlivebultenfull` | ✅ (okuma) | Canlı oranlar (skor/dakika yok) |
+| Nesine canlı skor | `ls.nesine.com/.../GetLiveMatches` vb. | ❌ 404 (yalnız `GetUnliveMatches` var: başlamamış/biten) | — |
+| ESPN canlı | scoreboard + summary | ✅ ama kapsam dar (tarama anında Nesine'nin 12 canlı maçından 0'ı) | Dakika, skor, kırmızı kart, şut, korner |
+| API-Football canlı | `/fixtures?live=all`, `/odds/live` | ✅ ücretsiz planda çalışıyor | **Kullanıcı kararıyla (t25u) canlıda kullanılmıyor** |
 | FBref | lig sayfası | ❌ 403 (Cloudflare) | — |
 | Sofascore | api.sofascore.com | ❌ 403 | — |
 | Club Elo | api.clubelo.com | ❌ 500 | — |
 | Transfermarkt | sakatlık sayfası | ❌ 202 boş gövde | — |
 
-API-Football kullanımı bugün: erişim denemeleri 10 istek; maç dosyası geliştirme/deneme 26 istek (16'sı ücretsiz
-planın tarih penceresi dışındaki günlerdi; plan hatası artık önbelleğe alınmıyor ve pencere dışı günler istek
-harcamadan atlanıyor). Toplam yaklaşık 36/100.
+API-Football kullanımı bugün (yaklaşık): erişim denemeleri 12 istek (canlı uçların 2 denemesi dahil); maç dosyası
+geliştirme/deneme ≈32 istek (16'sı ücretsiz planın tarih penceresi dışındaki günlerdi — plan hatası artık önbelleğe
+alınmıyor ve pencere dışı günler istek harcamadan atlanıyor); xG birikimi 3 istek. API-Football'un kendi sayacı bir
+ara 15 gösterdi (plan hatalı yanıtları saymıyor gibi); kesin sayı için `/status`.
 
 ---
 
@@ -186,9 +191,21 @@ reyting özellikleri + gradyan artırma; bu depoda `models/ensemble.py` olarak v
 
 ## 7. Bu dalda yapılanlar
 
-1. `src/quantfoot/strategy/accumulator_policy.py` + `scripts/kupon_politikasi.py` + 9 test.
-2. `src/quantfoot/data/match_dossier.py` + `scripts/tam_analiz.py` + 9 test (çevrimdışı sahte istemciyle).
-3. `scripts/kombine_dogrulama.py`, `scripts/devig_karsilastirma.py` (yeniden üretilebilir kanıt).
+1. `strategy/accumulator_policy.py` + `scripts/kupon_politikasi.py`: EV/marj/çift maruziyet politikası; kullanıcı
+   ayarlı kasa dağıtımı (varsayılan günlük %100, kupon başı %20, 5 TL katları, +EV yoksa 0); Monte Carlo risk raporu
+   (ortak bacak tek değişken); hedef katlama planı (P(kasa ≥ hedef) + Markov üst sınırı + Kelly karşılaştırması);
+   canlı rezerv. 17 test.
+2. `data/match_dossier.py` + `scripts/tam_analiz.py`: tam maç dosyası (API-Football, ESPN, Open-Meteo, football-data
+   hakem, FotMob, Understat, yerel xG). 9 test.
+3. `data/fotmob.py`, `data/understat.py`, `scripts/xg_doldur.py`: gerçek xG / ilk 11 / eksik kaynakları. 5 test.
+4. `markets/inplay.py`, `data/live_scan.py`, `scripts/canli_tarama.py`: canlı tarayıcı (API-Football yok). 7 test,
+   kayıtlı gerçek yanıtlarla, ağsız.
+5. `scripts/kombine_dogrulama.py`, `scripts/devig_karsilastirma.py` (yeniden üretilebilir kanıt).
+
+**Canlı model hakkında dürüst not:** parametreler (yoğunluk eğimi 0.4, kırmızı kart ×0.75/×1.20, skor durumu,
+baskı büzülmesi) literatürden esinlenmiş varsayımlardır; geçmiş canlı oran verisi olmadığı için ileri-yürüyen testle
+doğrulanamadı. Bağımsız Poisson beraberliği biraz düşük fiyatlar (örnek uydurmada %27 hedefe karşı %24.5). Uyarılar
+inceleme listesidir; canlı CLV/sonuç defteri biriktikçe ölçülmelidir.
 
 ## 8. Sonraki adımlar (öncelik sırası)
 
@@ -198,4 +215,6 @@ reyting özellikleri + gradyan artırma; bu depoda `models/ensemble.py` olarak v
    keskin referans zincirine taze yedek olarak ekle; böylece 3 saat kuralı GitHub iş akışını beklemeden sağlanır.
 3. Nesine CLV defteri: oynanan her bacak için oynama anı Nesine oranı + kapanıştaki keskin fiyat.
 4. Maç dosyası her gün çalıştıkça biriken bütün-turnuva fikstürüyle dinlenme/rotasyon etkisini piyasaya karşı yeniden test et.
-5. Kullanıcı onaylarsa FotMob (xG, ilk 11, eksikler) — kullanım koşulları nedeniyle şimdilik kapalı.
+5. Canlı uyarıların sonuçlarını ve Nesine kapanış oranını kaydedip canlı modelin kalibrasyonunu ölç; beraberlik için
+   Dixon-Coles düzeltmesi ekle.
+6. Gerçek xG birikimi (API-Football + FotMob) yeterli olunca xG formunun piyasaya bilgi katıp katmadığını test et.
