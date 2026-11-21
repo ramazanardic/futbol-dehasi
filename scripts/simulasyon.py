@@ -3,15 +3,20 @@ detaylı araştırıp maçları karşılaştır, simülasyonlar yaratıp gerçek
 
 Per match, three independent views of each candidate bet are put side by side:
 
-1. market   — the sharp global price (no-vig probability, already in derin_tahminler.json);
-2. simulation — N simulated matches (Poisson goals per half) whose scoring rates blend the market's expected goals
-   with the teams' own recent attack/defence (ESPN or Wikipedia goals for/against) and the known absences
-   (top scorer out: that team scores 8 % less; first-choice goalkeeper out: the opponent scores 8 % more);
-3. history  — how often the same bet won in both teams' recent games (deep-research verdict).
+1. market   — the sharp global price, margin removed (no-vig probability with the settled-history correction, the
+   same calibrated number as in derin_tahminler.json);
+2. simulation — N simulated matches (Poisson goals per half) whose scoring rates do NOT use the market: the league
+   model's xG (scripts/dc_model.py) and the teams' own recent attack/defence (ESPN or Wikipedia goals for/against),
+   averaged when both exist, then the known absences (top scorer out: that team scores 8 % less; first-choice
+   goalkeeper out: the opponent scores 8 % more); no independent data = no simulation view;
+3. history  — how often the same bet won in both teams' recent games (deep-research rate; none when the verdict is
+   'geçmiş yetersiz' — too few games — free-text notes never stand in for it).
 
 A bet is "üçlü onay" (triple confirmed) only when all three views give it at least the leg floor (55 %) and the
 simulation and history do not fall more than 5 points below the market. The table ranks bets by the lowest of the
-three views, i.e. by the most pessimistic evidence — the honest number to plan with.
+three views, i.e. by the most pessimistic evidence. The main pick (update_picks) is the triple-confirmed bet with the
+highest calibrated EV (market p × Nesine odds − 1 ≥ settings.PICK_MIN_EV): evidence filters, value decides.
+League base rates (Data Lake) are display-only context, not an input.
 
 Nothing here can know a result in advance; the simulation tells how often a bet wins in matches like this one.
 
@@ -104,10 +109,11 @@ def simulate(mh: float, ma: float, n: int, seed: int, share: float = HT_SHARE) -
 def history(leg: dict) -> float | None:
     """Team-history rate of a bet: the deep-research rate, averaged with the recent-form rate read from the open
     match previews ("son 6+6 maç %N" in the web note) when there is one."""
+    if leg["verdict"].startswith("geçmiş"):
+        return None  # 'geçmiş yetersiz': too few games — neither the stored rate nor a free-text note counts as history
     m = re.search(r"son 6\+6 maç %(\d+)", leg.get("web") or "")
     recent = int(m.group(1)) / 100 if m else None
-    base = leg.get("mean") if not leg["verdict"].startswith("geçmiş") or recent is not None else None
-    vals = [v for v in (base, recent) if v is not None]
+    vals = [v for v in (leg.get("mean"), recent) if v is not None]
     return sum(vals) / len(vals) if vals else None
 
 
@@ -179,7 +185,7 @@ def to_markdown(date: str, res: list[dict], n: int) -> str:
     best = sorted((b | {"match": r["match"], "kickoff": r["kickoff"]} for r in res for b in r["bets"]
                    if b["verdict"] == "üçlü onay"), key=lambda b: -b["low"])
     md = [f"# {date} — maç simülasyonu ({dt.datetime.now(dr.TSI):%H:%M} TSİ, maç başına {n:,} simülasyon)", "",
-          "Her bahis üç bağımsız açıdan: **piyasa** (keskin global fiyat), **simülasyon** (piyasadan BAĞIMSIZ: lig "
+          "Her bahis üç bağımsız açıdan: **piyasa** (keskin global fiyat, marjsız ve kalibre olasılık), **simülasyon** (piyasadan BAĞIMSIZ: lig "
           "modeli xG + takımların son formu + eksikler + maçın kendi ilk yarı gol payı ile oynatılan maçlar), **geçmiş** (aynı bahsin iki takımın son maçlarında tutma oranı). "
           "'Üçlü onay': üçü de %55 ve üstü, simülasyon ve geçmiş piyasanın 5 puan altına düşmüyor. 'En düşük' sütunu "
           "üç görüşün en kötümseridir; plan yaparken bu sayıya bakın. Simülasyon sonucu bilemez, bu tür maçlarda "
@@ -188,7 +194,7 @@ def to_markdown(date: str, res: list[dict], n: int) -> str:
           "1/X/2 sıklıkları (yalnız maç sonucu ve çifte şans). İkisinden biri piyasanın 10 puandan fazla altındaysa üçlü "
           "onay kısmi onaya düşer.", "",
           f"## Üçlü onaylı bahisler ({len(best)})", "",
-          "| Saat | Maç | Bahis | Oran | Piyasa | Simülasyon | Geçmiş | Model | En düşük |", "|---|---|---|---|---|---|---|---|---|"]
+          "| Saat | Maç | Bahis | Oran | Piyasa (keskin, marjsız) | Simülasyon | Geçmiş | Model | En düşük |", "|---|---|---|---|---|---|---|---|---|"]
     md += [f"| {b['kickoff'][11:16]} | {b['match']} | {b['label']} | {b['odds']:.2f} | {pct(b['market'])} | {pct(b['sim'])} | "
            f"{pct(b['hist'])} | {pct(b.get('dc'))} | **{pct(b['low'])}** |" for b in best]
     md += ["", "## Maç maç", ""]
@@ -199,11 +205,11 @@ def to_markdown(date: str, res: list[dict], n: int) -> str:
                 else f"Simülasyon yok: {'; '.join(r['why'])}.")
                + (f" Lig modeli ({r['dc']['source']}) xG {r['dc']['xg'][0]}-{r['dc']['xg'][1]}." if r.get("dc") else "")
                + (f" Club Elo: {r['elo']}." if r.get("elo") else "")
-               + (f" Lig ortalaması (Data Lake, {lr['n']} maç): {lr['goals']} gol, KG %{100 * float(lr['btts']):.0f}, "
+               + (f" Lig ortalaması (yalnız bilgi, simülasyona girmez; Data Lake, {lr['n']} maç): {lr['goals']} gol, KG %{100 * float(lr['btts']):.0f}, "
                   f"2,5 üst %{100 * float(lr['over25']):.0f}, 3,5 üst %{100 * float(lr['over35']):.0f}, ev/ber/dep "
                   f"%{100 * float(lr['home']):.0f}/%{100 * float(lr['draw']):.0f}/%{100 * float(lr['away']):.0f}."
                   if (lr := r.get("league_rates")) else ""), "",
-               "| Bahis | Oran | Piyasa | Simülasyon | Geçmiş | Model | Elo | Sonuç |", "|---|---|---|---|---|---|---|---|"]
+               "| Bahis | Oran | Piyasa (keskin, marjsız) | Simülasyon | Geçmiş | Model | Elo | Sonuç |", "|---|---|---|---|---|---|---|---|"]
         md += [f"| {b['label']} | {b['odds']:.2f} | {pct(b['market'])} | {pct(b['sim'])} | {pct(b['hist'])} | {pct(b.get('dc'))} | "
                f"{pct(b.get('elo'))} | {b['verdict']} |" for b in r["bets"]]
         md.append("")
@@ -218,19 +224,26 @@ def main() -> None:
     write_day(args.tarih, args.n)
 
 
+def best_value_bet(bets: list[dict], min_ev: float | None = None) -> dict | None:
+    """Triple-confirmed bet with the highest calibrated EV (market p × odds − 1), EV >= min_ev; ties -> higher 'low'."""
+    from quantfoot.settings import PICK_MIN_EV
+    floor = PICK_MIN_EV if min_ev is None else min_ev
+    tri = [b for b in bets if b["verdict"] == "üçlü onay" and b.get("odds") and b["market"] * b["odds"] - 1.0 >= floor]
+    return max(tri, key=lambda b: (round(b["market"] * b["odds"] - 1.0, 6), b["low"])) if tri else None
+
+
 def update_picks(date: str, res: list[dict]) -> int:
-    """Main pick of a not-started match = its triple-confirmed bet with the best pessimistic view (user, 21 Nov:
-    "böyle devam"); a match without one keeps the deep-research pick."""
+    """Main pick of a not-started match = its triple-confirmed bet with the highest calibrated EV (evidence filters,
+    value decides; 22 Nov audit); a match without one keeps the deep-research pick (itself EV-ranked)."""
     import derin_tahmin as dtah
     out = dr.AREA / date
     rows = json.loads((out / "derin_tahminler.json").read_text(encoding="utf-8"))
     by = {str(r["code"]): r for r in res}
     n = 0
     for row in rows:
-        tri = [b for b in (by.get(str(row["code"])) or {}).get("bets", []) if b["verdict"] == "üçlü onay"]
-        if not tri:
+        best = best_value_bet((by.get(str(row["code"])) or {}).get("bets", []))
+        if not best:
             continue
-        best = max(tri, key=lambda b: b["low"])
         leg = next((x for x in row["legs"] if x["label"] == best["label"]), None)
         if leg:
             n += (row.get("pick") or {}).get("label") != leg["label"]

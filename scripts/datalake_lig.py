@@ -3,8 +3,9 @@ CC BY 4.0; user decision, 21 Nov).
 
 The Data Lake holds 673,966 fixtures of 271 leagues (API-Football + football-data.co.uk), current to 5 July 2026,
 full-time scores only. Its use here: how a league usually plays — goals per match, both-teams-score, over 2.5,
-home win and draw rates over the last two seasons — so a pick in a thin league can be compared with what is normal
-in that league. Files are downloaded once into data/cache/datalake (git-ignored); the derived table is
+home win and draw rates over the last two seasons. These rates are DISPLAY-ONLY context in simulasyon.md (shown next
+to each match so a reader can compare a pick with what is normal in that league); they are NOT an input of the
+simulation, the market price or any verdict (no walk-forward evidence that they add information beyond the price). Files are downloaded once into data/cache/datalake (git-ignored); the derived table is
 data/lig_oranlari.csv (with attribution).
 
     python scripts/datalake_lig.py            # (re)build data/lig_oranlari.csv
@@ -18,6 +19,7 @@ from __future__ import annotations
 import argparse
 import csv
 import difflib
+import re
 from pathlib import Path
 import sys
 
@@ -92,24 +94,62 @@ def table() -> list[dict]:
         return list(csv.DictReader(ln for ln in fh if not ln.startswith("#")))
 
 
+# Exact Nesine name -> Data Lake league name. Needed because Nesine's tier words are country-specific
+# ("İngiltere 1. Lig" = League One, tier 3; "İspanya 2. Lig" = Segunda División, tier 2; "Hollanda 1. Lig" = Eerste
+# Divisie) and a fuzzy name match picks the top flight for "Almanya Bundesliga 2" / "İspanya La Liga 2".
+ALIASES = {
+    "İngiltere Premier Lig": "Premier League", "İngiltere Championship": "Championship", "İngiltere 1. Lig": "League One",
+    "İngiltere 2. Lig": "League Two", "İngiltere Ulusal Lig": "National League",
+    "Almanya Bundesliga": "Bundesliga", "Almanya Bundesliga 2": "2. Bundesliga", "Almanya 3. Lig": "3. Liga",
+    "İspanya La Liga": "La Liga", "İspanya La Liga 2": "Segunda Division", "İspanya 2. Lig": "Segunda Division",
+    "İtalya Serie A": "Serie A", "İtalya Serie B": "Serie B",
+    "Fransa Ligue 1": "Ligue 1", "Fransa Ligue 2": "Ligue 2", "Fransa Ulusal Lig": "National 1",
+    "Hollanda Eredivisie": "Eredivisie", "Hollanda 1. Lig": "Eerste Divisie",
+    "Türkiye Süper Ligi": "Süper Lig", "Türkiye Süper Lig": "Süper Lig", "Türkiye 1. Lig": "1. Lig",
+    "Belçika Pro Lig": "Jupiler Pro League", "Belçika 2. Lig": "Challenger Pro League",
+    "Portekiz Premier Lig": "Primeira Liga", "Portekiz 2. Lig": "Liga Portugal 2",
+    "Yunanistan Süper Lig": "Super League 1", "Yunanistan Süper Lig 2": "Super League 2",
+    "İskoçya Premiership": "Premiership", "İskoçya Championship": "Championship", "İskoçya 1. Lig": "League One",
+    "İskoçya 2. Lig": "League Two",
+}
+SPECIAL_WORDS = ("Bahisler", "U19", "U21", "U23", "U17", "Gençlik", "Gençler", "Kupa", "Kupası")
+
+
+def _digits(s: str) -> set[str]:
+    """Tier tokens of a league name: digits and single-letter grades ("Serie C", "Bundesliga 2")."""
+    return set(re.findall(r"\d", s)) | {t.upper() for t in re.findall(r"\b([A-Za-z])\b", s)}
+
+
 def league_rates(nesine_league: str, rows: list[dict] | None = None) -> dict | None:
-    """Base rates of the Data Lake league matching a Nesine league name (country + closest league name)."""
+    """Base rates of the Data Lake league matching a Nesine league name.
+
+    1. exact alias table (tiers checked by hand); 2. same country + closest name, but only when the tier digits
+    agree ("Bundesliga 2" never matches "Bundesliga"); 3. a country's single league for a top-flight name."""
     rows = table() if rows is None else rows
-    country = next((v for k, v in sorted(COUNTRY.items(), key=lambda kv: -len(kv[0])) if nesine_league.startswith(k)), None)
+    name = " ".join(nesine_league.split())
+    if any(w in name for w in SPECIAL_WORDS):
+        return None
+    country = next((v for k, v in sorted(COUNTRY.items(), key=lambda kv: -len(kv[0])) if name.startswith(k)), None)
     if not country:
         return None
     cands = [r for r in rows if r["country"] == country]
     if not cands:
         return None
-    rest = nesine_league.split(" ", 1)[1] if " " in nesine_league else nesine_league
+    base = name.split(",")[0].strip()  # "Belçika 2. Lig, İlk Etap" -> "Belçika 2. Lig"
+    if base in ALIASES:
+        hit = [r for r in cands if r["league"] == ALIASES[base]]
+        return hit[0] if hit else None
+    rest = base[len(next(k for k in sorted(COUNTRY, key=len, reverse=True) if base.startswith(k))):].strip()
     tier = next((t for w, t in TIER_WORDS.items() if w in rest), "1")
     if tier == "cup":
         return None
-    named = max(cands, key=lambda r: difflib.SequenceMatcher(None, rest.lower(), r["league"].lower()).ratio())
-    if difflib.SequenceMatcher(None, rest.lower(), named["league"].lower()).ratio() >= 0.6:
-        return named
+    same_tier = [r for r in cands if _digits(r["league"]) == _digits(rest)]
+    if same_tier:
+        named = max(same_tier, key=lambda r: difflib.SequenceMatcher(None, rest.lower(), r["league"].lower()).ratio())
+        if difflib.SequenceMatcher(None, rest.lower(), named["league"].lower()).ratio() >= 0.6:
+            return named
     top = sorted(cands, key=lambda r: -int(r["n"]))
-    return top[0] if tier == "1" and len(top) == 1 else None
+    return top[0] if tier == "1" and len(top) == 1 and not _digits(rest) else None
 
 
 def main() -> None:

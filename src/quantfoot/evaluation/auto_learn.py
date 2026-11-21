@@ -353,16 +353,36 @@ def analyze_settled_history(daily_dir: Path) -> dict[str, Any]:
     }
 
 
-def load_live_calibration(path: Path | None = None) -> dict[str, Any]:
-    """Load persisted live calibration adjustments (empty dict if missing/corrupt)."""
+# Settled matches a live snapshot needs before its learned adjustments may touch production prices.
+# 22 Nov audit: the shipped snapshot (60 matches, 19–20 Nov) was tested on the archive (scripts/pazar_kalibrasyonu.py):
+# its 'model' prob_shift (−1.8 / −2.8 pts) made KG Var log-loss significantly WORSE (+0.00085, 95 % CI
+# [+0.00065, +0.00105]) and the other shifts were indistinguishable from zero -> neutral until enough data.
+MIN_LIVE_CAL_MATCHES = 300
+
+
+def load_live_calibration(path: Path | None = None, min_matches: int | None = None) -> dict[str, Any]:
+    """Load persisted live calibration adjustments (empty dict if missing/corrupt).
+
+    A snapshot built from fewer than ``min_matches`` (default MIN_LIVE_CAL_MATCHES) settled matches is returned with
+    neutral adjustments (no prob_shift, no sigma deltas) and ``neutralized_reason`` set, so tiny samples never move
+    production probabilities or uncertainty."""
     target = path or (Path(__file__).resolve().parents[3] / "data" / "calibration" / "live_calibration.json")
     if not target.exists():
         return {}
     try:
         data = json.loads(target.read_text(encoding="utf-8"))
-        return data if isinstance(data, dict) else {}
     except (OSError, json.JSONDecodeError):
         return {}
+    if not isinstance(data, dict):
+        return {}
+    floor = MIN_LIVE_CAL_MATCHES if min_matches is None else int(min_matches)
+    n = int(data.get("total_matches_settled") or 0)
+    if n < floor:
+        adj = dict(data.get("adjustments") or {})
+        adj.update({"prob_shift": {}, "source_sigma_delta": {}, "family_sigma_delta": {}})
+        data = dict(data, adjustments=adj,
+                    neutralized_reason=f"{n} sonuçlanmış maç < {floor}: öğrenilen düzeltmeler nötr (22 Kasım denetimi)")
+    return data
 
 
 def calibration_sigma_adjustment(

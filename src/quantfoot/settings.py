@@ -36,6 +36,15 @@ REFERENCE_LOAD_AGE_H = 30.0
 # Selections with EV above this are listed as "reference error suspected", never as tips.
 MAX_PLAUSIBLE_EV = 0.25
 
+# Main pick of a match (derin_tahmin.choose / simulasyon.update_picks): value, not just probability.
+# A pick needs calibrated EV = p × Nesine odds − 1 ≥ this; evidence verdicts only FILTER (⚠ / not triple-confirmed).
+PICK_MIN_EV = 0.02
+
+# "Hard" markets the user lost most on (21 Nov post-mortem: Üst 2.5/3.5, KG Var, weak-favourite MS 1, İY/MS).
+# Not banned: they enter a coupon only with a larger margin over the calibrated global fair price.
+HARD_MARKET_MIN_EV = 0.03
+HARD_MARKET_SIGMA_ADD = 0.010
+
 # Kasa / pay politikası (kullanıcı kararı, 21 Kasım: %2 / %6 çok düşük bulundu). Hepsi CLI ile değiştirilebilir:
 # scripts/kupon_politikasi.py --kasa 250 --gunluk-limit-oran 1.0 --kupon-limit-oran 0.2
 STAKE_DAILY_FRAC = 1.0      # gün içinde +EV kuponlara dağıtılabilecek en çok kasa oranı
