@@ -17,8 +17,13 @@ Saf fonksiyonlar; ağ erişimi yok. Olasılıkları değiştirmez, yalnız kupon
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import itertools
 import math
 from typing import Iterable, Sequence
+
+import numpy as np
+
+from quantfoot import settings as S
 
 
 @dataclass(frozen=True)
@@ -44,14 +49,16 @@ class Leg:
 @dataclass(frozen=True)
 class PolicyConfig:
     min_leg_ev: float = 0.0          # her bacak en az bu EV'de olmalı (dolgu bacak yok)
-    min_coupon_ev: float = 0.02      # kupon EV eşiği
+    min_coupon_ev: float = S.MIN_COUPON_EV  # kupon EV eşiği
     max_legs: int = 4                # EV'ye göre en çok bacak (marj bileşikleşmesi)
     min_leg_odds: float = 1.20
     max_coupon_odds: float = 60.0
     max_matches_per_day_exposure: int = 1  # bir maç gün içinde en çok kaç kupona girebilir
-    kelly_multiplier: float = 0.25
-    max_stake_frac: float = 0.02     # kupon başı kasa payı tavanı
-    max_daily_frac: float = 0.06     # gün toplam kasa payı tavanı
+    kelly_multiplier: float = S.KELLY_MULTIPLIER
+    max_stake_frac: float = S.STAKE_COUPON_FRAC   # kupon başı kasa payı tavanı (kullanıcı ayarı)
+    max_daily_frac: float = S.STAKE_DAILY_FRAC    # gün toplam kasa payı tavanı (kullanıcı ayarı)
+    stake_step: float = S.STAKE_STEP_TL
+    min_stake: float = S.MIN_STAKE_TL
     max_plausible_leg_ev: float = 0.25  # bunun üstü referans hatası şüphesi
 
 
