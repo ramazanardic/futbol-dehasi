@@ -24,6 +24,14 @@ ESPN_SUMMARY = "https://site.api.espn.com/apis/site/v2/sports/soccer/all/summary
 LIVE_MS = 53                      # canlı Maç Sonucu
 LIVE_TOTALS = {66: 1.5, 67: 2.5, 68: 3.5}   # canlı toplam gol Alt/Üst (1 = Alt, 2 = Üst)
 PRE_MS, PRE_OU25 = 1, 12
+# Nesine market durumu (MA[].MS): 1 = açık, 0 = kapalı, -2 = askıda. Yalnız açık market fiyatlanır
+# (21 Kasım denetimi: kapalı/askıdaki marketlerin son fiyatı fırsat gibi görünüp kupon reddine yol açtı).
+MARKET_OPEN = 1
+# Canlı model parametreleri doğrulanmadı; 21 Kasım'da oynanan 3 canlı bacakta model P piyasadan ortalama
+# +14 puan yüksekti (Kokand 0.32 vs 0.21, Khor Fakkan 0.81 vs 0.63, Reading 0.64 vs 0.51). Karar P'si
+# model ile marjsız Nesine canlı fiyatının karışımıdır; model ağırlığı kalibrasyon kanıtı gelene kadar ≤ 0.5.
+LIVE_MODEL_WEIGHT = 0.5
+LIVE_MODEL_WEIGHT_NO_STATS = 0.3   # şut/xG istatistiği yoksa modele daha da az güven
 
 
 def _odd(x: Any) -> float | None:
@@ -34,6 +42,51 @@ def _odd(x: Any) -> float | None:
     return o if o > 1.01 else None   # Nesine kapalı/askıdaki seçimi 1.00 gösterir
 
 
+def market_open(m: dict) -> bool:
+    """Nesine canlı market durumu: alan yoksa (eski kayıt) açık say; 0 / -2 / diğer → kapalı."""
+    st = m.get("MS", MARKET_OPEN)
+    try:
+        return int(st) == MARKET_OPEN
+    except (TypeError, ValueError):
+        return False
+
+
+def red_cards(status_red: Any, stats: dict | None) -> list[int]:
+    """Kırmızı kart: FotMob/ESPN durum alanı ile istatistik ('red') alanının büyüğü (biri gecikebiliyor)."""
+    st = stats or {}
+    out = []
+    for i, side in enumerate(("home", "away")):
+        a = (status_red or [0, 0])[i] if status_red is not None else 0
+        b = (st.get(side) or {}).get("red")
+        out.append(max(int(a or 0), int(b or 0)))
+    return out
+
+
+def market_fair_probs(markets: dict[str, float]) -> dict[str, float]:
+    """Nesine canlı oranlarından marjsız piyasa olasılığı (MS 1/X/2 üçlüsü ve her Alt/Üst çifti ayrı)."""
+    out: dict[str, float] = {}
+    trio = [markets.get(k) for k in ("MS 1", "MS X", "MS 2")]
+    if all(trio):
+        p = inplay.devig_power(trio)
+        if p:
+            out.update({"MS 1": p[0], "MS X": p[1], "MS 2": p[2]})
+    for ln in sorted(set(LIVE_TOTALS.values())):
+        a, u = markets.get(f"{ln} Alt"), markets.get(f"{ln} Üst")
+        if a and u:
+            p = inplay.devig_power([a, u])
+            if p:
+                out[f"{ln} Alt"], out[f"{ln} Üst"] = p[0], p[1]
+    return out
+
+
+def blend_with_market(p_model: float, p_market: float | None, weight: float) -> float:
+    """Model olasılığını piyasaya doğru büz: w·model + (1−w)·piyasa. Piyasa yoksa model aynen döner."""
+    if p_market is None:
+        return p_model
+    w = min(max(weight, 0.0), 1.0)
+    return w * p_model + (1.0 - w) * p_market
+
+
 def parse_nesine_live(payload: dict) -> list[dict]:
     out = []
     for e in ((payload or {}).get("sg") or {}).get("EA") or []:
@@ -41,6 +94,8 @@ def parse_nesine_live(payload: dict) -> list[dict]:
             continue
         mk: dict[str, float] = {}
         for m in e.get("MA") or []:
+            if not market_open(m):
+                continue
             oc = {o.get("N"): _odd(o.get("O")) for o in m.get("OCA") or []}
             if m.get("MTID") == LIVE_MS:
                 for n, lab in ((1, "MS 1"), (2, "MS X"), (3, "MS 2")):
@@ -167,9 +222,10 @@ def live_from_fotmob(m: dict, details: dict | None) -> dict:
     from quantfoot.data.fotmob import parse_details
     d = parse_details(details or {}) if details else {"red": [0, 0], "stats": {}}
     score = d.get("score") or [m.get("hg"), m.get("ag")]
+    reds = red_cards(d.get("red"), d.get("stats"))
     return {"source": "FotMob", "fotmob_id": m["id"], "home": m["home"], "away": m["away"], "minute": m.get("minute"),
-            "hg": int(score[0] or 0), "ag": int(score[1] or 0), "home_red": int(d["red"][0] or 0),
-            "away_red": int(d["red"][1] or 0), "espn_odds": {}, "stats": d.get("stats") or {}}
+            "hg": int(score[0] or 0), "ag": int(score[1] or 0), "home_red": reds[0],
+            "away_red": reds[1], "espn_odds": {}, "stats": d.get("stats") or {}}
 
 
 def match_prematch(nes: dict, pre: dict[int, dict]) -> dict | None:
@@ -201,19 +257,25 @@ def prematch_lambdas(pre: dict | None, espn_odds: dict | None) -> tuple[float, f
 
 def evaluate(nes: dict, live: dict, lambdas: tuple[float, float, str], stats: dict | None, *,
              min_ev: float, reserve: float, kelly_mult: float, cap_frac: float, step: float, min_stake: float,
-             max_minute: float = 85.0) -> list[dict]:
+             max_minute: float = 85.0, model_weight: float | None = None) -> list[dict]:
     if live.get("minute") is None or live["minute"] >= max_minute:
         return []
     lh, la, src = lambdas
+    reds = red_cards([live.get("home_red"), live.get("away_red")], stats)
     s = inplay.LiveState(minute=live["minute"], home_goals=live["hg"], away_goals=live["ag"],
-                         home_red=live["home_red"], away_red=live["away_red"], stats=stats or {})
+                         home_red=reds[0], away_red=reds[1], stats=stats or {})
     rh, ra, notes = inplay.remaining_lambdas(lh, la, s)
     fair = inplay.final_probabilities(rh, ra, live["hg"], live["ag"])
+    mkt = market_fair_probs(nes["markets"])
+    has_stats = bool((stats or {}).get("home"))
+    w = model_weight if model_weight is not None else (LIVE_MODEL_WEIGHT if has_stats else LIVE_MODEL_WEIGHT_NO_STATS)
+    live = {**live, "home_red": reds[0], "away_red": reds[1]}
     ops = []
     for mk, odds in nes["markets"].items():
-        p = fair.get(mk)
-        if p is None or p <= 0.0 or odds < 1.20:
+        p_model = fair.get(mk)
+        if p_model is None or p_model <= 0.0 or odds < 1.20:
             continue
+        p = blend_with_market(p_model, mkt.get(mk), w)
         ev = p * odds - 1.0
         if ev < min_ev or ev > 0.6:   # > %60 → veri/eşleşme hatası şüphesi, uyarı yok
             continue
@@ -221,6 +283,8 @@ def evaluate(nes: dict, live: dict, lambdas: tuple[float, float, str], stats: di
         ops.append({"code": nes["code"], "match": f"{nes['home']} - {nes['away']}", "minute": live["minute"],
                     "score": f"{live['hg']}-{live['ag']}", "red": f"{live['home_red']}-{live['away_red']}",
                     "market": mk, "nesine_odds": odds, "fair_prob": round(p, 4), "fair_odds": round(1 / p, 2),
+                    "model_prob": round(p_model, 4), "market_prob": (round(mkt[mk], 4) if mk in mkt else None),
+                    "model_weight": w,
                     "ev": round(ev, 4), "stake_tl": stake, "prematch_source": src,
                     "lambda_remaining": [round(rh, 3), round(ra, 3)], "notes": notes})
     return ops

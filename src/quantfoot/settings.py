@@ -13,6 +13,13 @@ TSI = dt.timezone(dt.timedelta(hours=3))
 
 # Official Nesine coupon rules (tahminler/README.md, 20 Nov 2026).
 MIN_LEG_ODDS = 1.20
+
+# Banko/garanti modu (kullanıcı kuralı t57u, 21 Kas; 21 Kas denetimiyle sıkılaştırıldı — strategy/banko_guard.py).
+BANKO_MIN_PROB = 0.65          # her bacak kalibre P ≥ %65
+BANKO_MAX_LEG_ODDS = 1.80      # tek bir yüksek oranlı bacakla toplamı şişirme yok
+BANKO_SELECT_MIN_ODDS = 1.22   # seçerken 1.20 tabanına tampon: 1.20–1.21'lik bacaklar oynarken 1.17–1.19'a düştü
+BANKO_MAX_COUPONS_PER_MATCH = 2  # aynı maç en çok 2 açık kuponda (korelasyonlu risk)
+LOTTERY_P_WIN = 0.05           # P(kupon) bunun altındaysa "piyango kuponu" uyarısı (banko modunda reddedilir)
 MAX_LEGS = 7
 MAX_LEGS_HIGH = 8
 HIGH_TARGET = 20.0
