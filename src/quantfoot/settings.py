@@ -45,6 +45,42 @@ PICK_MIN_EV = 0.02
 HARD_MARKET_MIN_EV = 0.03
 HARD_MARKET_SIGMA_ADD = 0.010
 
+# Per bet-family value rules (21 Nov bet-family audit; docs/research/bahis_aileleri_2026_11_21.md,
+# reports/research/bahis_aileleri_kalibrasyon.json). family -> (minimum calibrated EV, extra σ on the leg probability).
+# Coupon legs (nesine_kupon.candidates): every leg gets σ + family σ (+ the hard-market σ); a MODEL-DERIVED leg (no
+# direct global quote) needs EV >= max(family floor, HARD_MARKET_MIN_EV if hard); a directly quoted leg keeps the PR #3
+# rule (EV floor only on hard markets). Main picks (derin_tahmin / simulasyon) need EV >= max(PICK_MIN_EV, family
+# floor). quantfoot.markets.families maps a selection name to its family.
+# Floors grow with (a) the family's residual out-of-sample miscalibration after raking + Platt and (b) its payout
+# variance (long odds need a bigger margin before the edge is distinguishable from noise):
+#   - archive best-price test: MS / 2.5 Üst only turned reliably positive at EV >= 3 % (2.5 Üst: +12 %, CI [+0.5, +24]);
+#   - raw derived Asian handicap LOST at every EV threshold (-4.8 % at EV >= 0, CI [-6.9, -2.9]) -> handicap/margin
+#     families need calibration AND a larger floor; correct score / HT-FT / margin are long-odds families.
+FAMILY_VALUE_RULES: dict[str, tuple[float, float]] = {
+    "Maç Sonucu": (0.03, 0.000),
+    "Çifte Şans": (0.02, 0.000),
+    "Alt/Üst": (0.03, 0.000),
+    "Karşılıklı Gol": (0.03, 0.000),
+    "Takım Golleri": (0.03, 0.000),
+    "Toplam Gol Aralığı": (0.04, 0.005),
+    "İY Sonucu": (0.04, 0.005),
+    "İY Alt/Üst": (0.04, 0.005),
+    "2Y Sonucu": (0.04, 0.005),
+    "2Y Alt/Üst": (0.04, 0.005),
+    "Yarı KG": (0.04, 0.005),
+    "Yarı Özel": (0.04, 0.005),
+    "Tek/Çift": (0.04, 0.005),
+    "Handikap": (0.05, 0.005),
+    "Kombine": (0.05, 0.010),
+    "İlk Gol": (0.05, 0.010),     # not testable on the archive (no first-goal team)
+    "İY/MS": (0.06, 0.010),
+    "Fark": (0.06, 0.010),
+    "Doğru Skor": (0.08, 0.010),
+    "Korner": (0.05, 0.015),      # priced only from a direct exchange quote (no corner odds in the archive)
+    "Kart": (0.05, 0.015),        # idem
+    "Diğer": (0.05, 0.010),
+}
+
 # Kasa / pay politikası (kullanıcı kararı, 21 Kasım: %2 / %6 çok düşük bulundu). Hepsi CLI ile değiştirilebilir:
 # scripts/kupon_politikasi.py --kasa 250 --gunluk-limit-oran 1.0 --kupon-limit-oran 0.2
 STAKE_DAILY_FRAC = 1.0      # gün içinde +EV kuponlara dağıtılabilecek en çok kasa oranı

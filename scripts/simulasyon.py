@@ -226,9 +226,13 @@ def main() -> None:
 
 def best_value_bet(bets: list[dict], min_ev: float | None = None) -> dict | None:
     """Triple-confirmed bet with the highest calibrated EV (market p × odds − 1), EV >= min_ev; ties -> higher 'low'."""
+    from quantfoot.markets.families import leg_min_ev
     from quantfoot.settings import PICK_MIN_EV
-    floor = PICK_MIN_EV if min_ev is None else min_ev
-    tri = [b for b in bets if b["verdict"] == "üçlü onay" and b.get("odds") and b["market"] * b["odds"] - 1.0 >= floor]
+
+    def floor(b: dict) -> float:  # default: the stricter of the pick floor and the bet's family floor
+        return max(PICK_MIN_EV, leg_min_ev(b.get("name", ""))) if min_ev is None else min_ev
+
+    tri = [b for b in bets if b["verdict"] == "üçlü onay" and b.get("odds") and b["market"] * b["odds"] - 1.0 >= floor(b)]
     return max(tri, key=lambda b: (round(b["market"] * b["odds"] - 1.0, 6), b["low"])) if tri else None
 
 

@@ -46,6 +46,7 @@ from quantfoot.settings import MAX_PRICE_AGE_H as SETTINGS_MAX_PRICE_AGE_H  # no
 from quantfoot.settings import MIN_LEG_ODDS as SETTINGS_MIN_LEG_ODDS  # noqa: E402
 from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
 from quantfoot.markets.market_calibration import calibrate_market_probability, load_market_calibration  # noqa: E402
+from quantfoot.markets.families import family_rule, leg_min_ev  # noqa: E402
 from quantfoot.settings import HARD_MARKET_MIN_EV, HARD_MARKET_SIGMA_ADD  # noqa: E402
 from quantfoot.strategy.coupon_builder import (  # noqa: E402
     _conflicting_selections,
@@ -243,11 +244,15 @@ def candidates(
     family: str = "karma",
     calibration: dict | None = None,
     market_calibration=_MCAL_DEFAULT,
+    family_ev: bool = True,
 ) -> list[list[dict]]:
     """Per match: non-dominated legs (higher Nesine odds AND higher global probability dominates).
 
     ``market_calibration``: per-market/per-league Platt curves (data/calibration/market_calibration.json, only
-    markets whose walk-forward test improved out-of-sample); default = load the file, None = off."""
+    markets whose walk-forward test improved out-of-sample); default = load the file, None = off.
+    ``family_ev``: per-family σ on every leg and, for MODEL-DERIVED legs (no direct global quote), the per-family EV
+    floor (settings.FAMILY_VALUE_RULES); directly quoted legs keep the PR #3 rule (floor only on hard markets).
+    False = research switch (hard-market rule only)."""
     mcal = load_market_calibration() if market_calibration is _MCAL_DEFAULT else market_calibration
     pools = []
     for m in matches:
@@ -287,6 +292,8 @@ def candidates(
                 continue
             if hard and p_cal * s["odds"] - 1.0 < HARD_MARKET_MIN_EV:
                 continue  # hard market: allowed only with a real margin over the calibrated global fair price
+            if family_ev and s.get("direct") is False and p_cal * s["odds"] - 1.0 < leg_min_ev(s.get("name", ""), hard):
+                continue  # model-derived leg: per-family value floor (settings.FAMILY_VALUE_RULES, 21 Nov audit)
             if direct_only and not s.get("direct"):
                 continue  # model-derived price: no direct global quote for this selection
             if not in_family(s.get("name", ""), family):
@@ -307,6 +314,8 @@ def candidates(
             sig = leg_sigma(s.get("name", ""), bool(s.get("direct")), m["reference"], researched, flagged, calibration=calibration)
             if hard:
                 sig += HARD_MARKET_SIGMA_ADD
+            if family_ev:
+                sig += family_rule(s.get("name", ""))[1]
             legs[-1]["sigma"] = sig
             legs[-1]["p_low"] = max(0.001, p_cal - Z_LOW * sig)
         legs.sort(key=lambda x: (-x["odds"], -x["p_low"]))
@@ -620,6 +629,8 @@ def main() -> None:
     ap.add_argument("--haric", nargs="*", action="extend", default=[],
                     help="Kupona alınmayacaklar: '<Nesine kodu>|<seçim anahtarı>' (tek seçim, derin araştırma yeniden "
                          "kurulumu) ya da yalnız '<Nesine kodu>' (maçın tamamı, ör. kullanıcının zaten oynadığı maçlar)")
+    ap.add_argument("--aile-ev-kapali", action="store_true",
+                    help="Aile bazlı EV tabanını ve σ eklerini kapat (yalnız araştırma; zor pazar kuralı yine geçerli)")
     ap.add_argument("--kupasiz", action="store_true", help="Kupa, eleme ve playoff maçlarını kupon havuzundan çıkar")
     ap.add_argument("--ana-pazar", action="store_true", help="Yalnızca ana pazarlar (MS, ÇŞ, 1.5/2.5/3.5 Alt/Üst, KG)")
     ap.add_argument("--oddsmath", action="store_true", help="OddsMath referanslarını açıkça etkinleştir (varsayılan açık)")
@@ -677,6 +688,7 @@ def main() -> None:
             allow_mid_researched=not args.yalniz_keskin,
             family=args.aile,
             calibration=live_cal or None,
+            family_ev=not args.aile_ev_kapali,
         )
         n_mid_pools = sum(1 for p in pools if p[0].get("tier") == "orta")
         if attempt == 0:

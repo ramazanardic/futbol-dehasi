@@ -89,6 +89,9 @@ def test_shipped_market_calibration_file_is_consistent():
     cal = json.loads(cal_path.read_text(encoding="utf-8"))
     rep = json.loads((root / "reports" / "research" / "pazar_kalibrasyonu.json").read_text(encoding="utf-8"))
     kept = {k for k, v in rep["kalibrasyon_tutuldu"].items() if v}
+    fam = root / "reports" / "research" / "bahis_aileleri_kalibrasyon.json"  # 21 Nov bet-family audit (all families)
+    if fam.exists():
+        kept |= {r["secim"] for r in json.loads(fam.read_text(encoding="utf-8"))["secimler"] if r.get("tutulan")}
     assert set(cal["markets"]) <= kept
     for name, par in cal["markets"].items():
         assert {"a", "b"} <= set(par) and math.isfinite(par["a"]) and 0.5 < par["b"] < 1.5, name
