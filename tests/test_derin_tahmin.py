@@ -25,13 +25,28 @@ def test_candidates_direct_only_and_thresholds():
     assert [c["name"] for c in dt_.candidates(m, 5, calibration={})] == ["a", "e"]   # odds < 1.20, model-derived and p < 55 % left out
 
 
-def test_choose_skips_warned_legs():
+def test_choose_skips_warned_legs_and_picks_by_value():
     dt_ = _load("derin_tahmin")
-    legs = [{"p": 0.7, "verdict": "⚠ geçmiş desteklemiyor"}, {"p": 0.6, "verdict": "geçmiş yetersiz"},
-            {"p": 0.65, "verdict": "✓ geçmiş destekliyor"}]
-    assert dt_.choose(legs)["p"] == 0.65
+    legs = [{"p": 0.7, "odds": 1.80, "verdict": "⚠ geçmiş desteklemiyor"},      # best EV but history contradicts -> out
+            {"p": 0.6, "odds": 1.75, "verdict": "geçmiş yetersiz"},             # EV +0.05
+            {"p": 0.65, "odds": 1.50, "verdict": "✓ geçmiş destekliyor"}]       # EV -0.025 (most probable survivor)
+    assert dt_.choose(legs)["p"] == 0.6                                          # value decides, evidence filters
     assert dt_.choose([legs[0]]) is None
-    assert dt_.choose([{"p": 0.75, "verdict": "geçmiş yetersiz"}, {"p": 0.58, "verdict": "~ geçmiş zayıf destekliyor"}])["p"] == 0.58
+    assert dt_.choose([legs[2]]) is None                                         # most probable but negative value -> no pick
+    eq = [{"p": 0.6, "odds": 1.75, "verdict": "geçmiş yetersiz"}, {"p": 0.6, "odds": 1.75, "verdict": "✓ geçmiş destekliyor"}]
+    assert dt_.choose(eq)["verdict"].startswith("✓")                             # equal value: better evidence first
+    assert dt_.choose([legs[1]], min_ev=0.06) is None
+
+
+def test_window_crosses_midnight_and_is_validated():
+    import argparse
+    import pytest
+    dt_ = _load("derin_tahmin")
+    assert dt_.in_window("2026-11-21 23:30", "22:00-02:00") and dt_.in_window("2026-11-22 01:15", "22:00-02:00")
+    assert not dt_.in_window("2026-11-21 12:00", "22:00-02:00") and dt_.in_window("2026-11-22 02:00", "22:00-02:00")
+    for bad in ("6-10", "06:00", "25:00-26:00", "06:00–10:00", "06:60-07:00"):
+        with pytest.raises(argparse.ArgumentTypeError):
+            dt_.parse_window(bad)
 
 
 def test_results_matrix_and_crosstable():
@@ -80,7 +95,17 @@ def test_simulation_matches_poisson_and_judges_three_views():
     assert sim.judge(0.65, 0.62, None)[0] == "eksik kanıt"
     assert sim.history({"verdict": "✓ geçmiş destekliyor", "mean": 0.70, "web": "son 6+6 maç %58"}) - 0.64 < 1e-9
     assert sim.history({"verdict": "geçmiş yetersiz", "mean": None}) is None
+    # insufficient history: neither a stored rate nor a free-text note may stand in for it (22 Nov audit)
+    assert sim.history({"verdict": "geçmiş yetersiz", "mean": 0.9, "web": "son 6+6 maç %80"}) is None
 
+
+def test_simulation_main_pick_by_value_among_triple_confirmed():
+    sim = _load("simulasyon")
+    bets = [{"label": "A", "verdict": "üçlü onay", "market": 0.70, "odds": 1.40, "low": 0.68},   # EV -0.02
+            {"label": "B", "verdict": "üçlü onay", "market": 0.60, "odds": 1.75, "low": 0.58},   # EV +0.05
+            {"label": "C", "verdict": "kısmi onay", "market": 0.60, "odds": 2.00, "low": 0.50}]  # best EV, not confirmed
+    assert sim.best_value_bet(bets)["label"] == "B"
+    assert sim.best_value_bet(bets[:1]) is None
 
 def test_simulation_rates_blend_form_and_absences():
     sim = _load("simulasyon")
@@ -98,9 +123,12 @@ def test_single_pick_rule_and_kept_notes():
     dt_ = _load("derin_tahmin")
     old = [{"code": 1, "onizleme": "son 10 maç …", "legs": [{"label": "A", "verdict": "✓ geçmiş destekliyor", "mean": 0.7,
                                                          "web": "son 6+6 maç %70", "p": 0.6}]}]
-    new = [{"code": 1, "legs": [{"label": "A", "verdict": "geçmiş yetersiz", "mean": None, "p": 0.6}]}]
+    new = [{"code": 1, "legs": [{"label": "A", "verdict": "geçmiş yetersiz", "mean": None, "p": 0.6, "odds": 1.8}]}]
     assert dt_.keep_notes(old, new) == 1
-    assert new[0]["legs"][0]["verdict"].startswith("✓") and new[0]["onizleme"] and new[0]["pick"]["label"] == "A"
+    leg = new[0]["legs"][0]
+    assert leg["web"] == "son 6+6 maç %70" and new[0]["onizleme"]                 # note text carried over …
+    assert leg["verdict"] == "geçmiş yetersiz" and leg["mean"] is None            # … but it never overrides the verdict
+    assert new[0]["pick"]["label"] == "A"                                         # EV 0.6×1.8−1 = +0.08
 
 
 def test_coupon_drops_simulation_contradiction(monkeypatch):
@@ -174,6 +202,21 @@ def test_footballcharts_games_with_half_scores():
     assert g[0]["for"] == (1, 1) and g[0]["against"] == (0, 1) and g[1]["for"] == (1, 0) and g[1]["against"] == (0, 3)
     assert fc.leagues_for("Çekya 2. Lig") == ("czech2",) and fc.leagues_for("İtalya Serie C, A Grubu") == ("italy3a", "italy3b")
     assert fc.leagues_for("Almanya Bundesliga 2") == ("germany2",) and fc.leagues_for("Bilinmeyen") == ()
+
+
+def test_datalake_league_rates_tiers():
+    dl = _load("datalake_lig")
+    rows = [{"country": c, "league": lg, "n": "500"} for c, lg in (
+        ("Germany", "Bundesliga"), ("Germany", "2. Bundesliga"), ("Spain", "La Liga"), ("Spain", "Segunda Division"),
+        ("England", "Premier League"), ("England", "Championship"), ("England", "League One"), ("England", "League Two"),
+        ("Netherlands", "Eredivisie"), ("Netherlands", "Eerste Divisie"), ("Italy", "Serie A"), ("Italy", "Serie B"))]
+    got = lambda n: (dl.league_rates(n, rows) or {}).get("league")  # noqa: E731
+    assert got("Almanya Bundesliga 2") == "2. Bundesliga" and got("Almanya Bundesliga") == "Bundesliga"
+    assert got("İspanya La Liga 2") == "Segunda Division" and got("İspanya 2. Lig") == "Segunda Division"
+    assert got("İngiltere 1. Lig") == "League One" and got("İngiltere 2. Lig") == "League Two"
+    assert got("Hollanda 1. Lig") == "Eerste Divisie" and got("Hollanda Eredivisie") == "Eredivisie"
+    assert got("İtalya Serie C") is None                                    # never the top flight for a lower tier
+    assert got("Almanya Bundesliga Günlük Bahisler") is None and got("Almanya U19 Gençlik Ligi") is None
 
 
 def test_datalake_league_rates_mapping():

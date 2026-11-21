@@ -4,11 +4,14 @@
 
 Run after scripts/nesine_global.py (and scripts/ai_tahmin.py) for the same day, in the AI's own folder. Per match:
 
-1. candidates: the most probable DIRECT-price selections (Nesine odds >= 1.20, global probability >= 55 %, at most
-   --aday of them) — model-derived selections are not used (20 Nov: 51 % realised for 62 % predicted);
+1. candidates: DIRECT-price selections at the leg floor (Nesine odds >= 1.20, calibrated global probability >= 55 %),
+   ranked by calibrated EV = p × Nesine odds − 1, at most --aday of them — model-derived selections are not used
+   (20 Nov: 51 % realised for 62 % predicted);
 2. each candidate is settled on both teams' recent games with scripts/derin_arastirma.py (team half profiles, H2H,
    European fixture, absences, weather);
-3. candidates the teams' history contradicts (verdict ⚠) are dropped; the main pick is the most probable survivor.
+3. evidence is a FILTER: candidates the teams' history contradicts (verdict ⚠) are dropped; the main pick is the
+   survivor with the highest calibrated EV, and only if EV >= settings.PICK_MIN_EV (22 Nov audit: picking the most
+   probable selection ignores the price — Nesine's margin makes most of them negative-value). No value = no pick.
 
 Output in tahminler/<ai>/<date>/: derin_tahminler.md / .json, and mac_tahminleri.csv's main-pick columns are
 replaced by the researched pick (note column: verdict and team-history rate), so the next-day evaluation scores it.
@@ -22,6 +25,7 @@ import csv
 import datetime as dt
 import json
 from pathlib import Path
+import re
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -32,6 +36,7 @@ sys.path.insert(0, str(dr.ROOT / "src"))
 AREA = dr.AREA
 TSI = dr.TSI
 MIN_ODDS, MIN_PROB = 1.20, 0.55
+_WINDOW = re.compile(r"^([01]\d|2[0-3]):[0-5]\d-([01]\d|2[0-3]):[0-5]\d$")
 
 
 def candidates(m: dict, n: int, calibration: dict | None = None) -> list[dict]:
@@ -40,9 +45,9 @@ def candidates(m: dict, n: int, calibration: dict | None = None) -> list[dict]:
     from quantfoot.evaluation.auto_learn import calibrated_probability
     cal = calibration if calibration is not None else _calibration()
     sels = [(s, calibrated_probability(s["fair_prob"], True, cal)) for s in m.get("selections") or [] if s.get("direct")]
-    sels = sorted([x for x in sels if x[0]["odds"] >= MIN_ODDS and x[1] >= MIN_PROB], key=lambda x: -x[1])
+    sels = sorted([x for x in sels if x[0]["odds"] >= MIN_ODDS and x[1] >= MIN_PROB], key=lambda x: -(x[1] * x[0]["odds"]))
     return [{"name": s["name"], "label": f"{s['market']}: {s['selection']}", "market": s["market"], "selection": s["selection"],
-             "p": p, "odds": s["odds"], "coupons": []} for s, p in sels[:n]]
+             "p": p, "odds": s["odds"], "ev": round(p * s["odds"] - 1.0, 4), "coupons": []} for s, p in sels[:n]]
 
 
 def _calibration() -> dict:
@@ -50,20 +55,41 @@ def _calibration() -> dict:
     return load_live_calibration() or {}
 
 
-def choose(legs: list[dict]) -> dict | None:
-    """The best-evidenced candidate the teams' history does not contradict: ✓ before ~ before untested, then the most
-    probable (21 Nov: same evidence order as the coupon rule; untested picks lost most often)."""
-    ok = [x for x in legs if not x["verdict"].startswith("⚠")]
+def leg_ev(x: dict) -> float:
+    """Calibrated EV of a leg (p already carries the settled-history correction)."""
+    return float(x["p"]) * float(x["odds"]) - 1.0
+
+
+def choose(legs: list[dict], min_ev: float | None = None) -> dict | None:
+    """Main pick = highest calibrated EV among candidates the teams' history does not contradict, EV >= min_ev.
+
+    Evidence only filters (⚠ out); among equal EV the better-evidenced one wins (✓ before ~ before untested).
+    Picking by probability alone ignored the odds (audit 21 Nov), so a match without value gets no pick."""
+    from quantfoot.settings import PICK_MIN_EV
+    floor = PICK_MIN_EV if min_ev is None else min_ev
+    ok = [x for x in legs if not x["verdict"].startswith("⚠") and x.get("odds") and leg_ev(x) >= floor]
     rank = lambda x: 0 if x["verdict"].startswith("✓") else 1 if x["verdict"].startswith("~") else 2  # noqa: E731
-    return min(ok, key=lambda x: (rank(x), -x["p"])) if ok else None
+    return max(ok, key=lambda x: (round(leg_ev(x), 6), -rank(x))) if ok else None
+
+
+def parse_window(window: str | None) -> str | None:
+    """Validate '--saat HH:MM-HH:MM' (argparse type). Crossing midnight ('22:00-02:00') is allowed."""
+    if window is None:
+        return None
+    w = window.strip()
+    if not _WINDOW.match(w):
+        raise argparse.ArgumentTypeError(f"--saat biçimi SS:DD-SS:DD olmalı (ör. 06:00-10:00 ya da 22:00-02:00): {window!r}")
+    return w
 
 
 def in_window(kickoff: str, window: str | None) -> bool:
-    """Kick-off 'YYYY-MM-DD HH:MM' inside 'HH:MM-HH:MM' (both ends included); no window = every match."""
+    """Kick-off 'YYYY-MM-DD HH:MM' inside 'HH:MM-HH:MM' (both ends included); no window = every match.
+    A window whose start is after its end crosses midnight: '22:00-02:00' = 22:00–23:59 or 00:00–02:00."""
     if not window:
         return True
-    lo, hi = window.split("-")
-    return lo <= kickoff[11:16] <= hi
+    lo, hi = parse_window(window).split("-")
+    t = kickoff[11:16]
+    return lo <= t <= hi if lo <= hi else (t >= lo or t <= hi)
 
 
 def research_day(date: str, n_cand: int, workers: int = 2, window: str | None = None) -> list[dict]:
@@ -94,8 +120,10 @@ def research_day(date: str, n_cand: int, workers: int = 2, window: str | None = 
 
 
 def keep_notes(old_rows: list[dict], rows: list[dict]) -> int:
-    """Carry the hand-made research (web / preview notes and the verdicts they set) into a fresh run, so a rerun
-    never erases it (21 Nov). A note's verdict is kept only when the new run could not test the bet itself."""
+    """Carry the hand-made research (web / preview notes) into a fresh run, so a rerun never erases it (21 Nov).
+
+    The notes are free text: they are shown, but they never set or override a verdict or a history rate (22 Nov
+    audit) — a verdict comes only from the measured team history of this run."""
     old = {(str(r["code"]), x["label"]): (r, x) for r in old_rows for x in r.get("legs") or [] if x.get("web")}
     n = 0
     for r in rows:
@@ -105,8 +133,6 @@ def keep_notes(old_rows: list[dict], rows: list[dict]) -> int:
                 continue
             orow, ox = hit
             x["web"] = ox["web"]
-            if x["verdict"].startswith("geçmiş"):
-                x["verdict"], x["mean"] = ox["verdict"], ox.get("mean")
             r["web"] = True
             if orow.get("onizleme"):
                 r["onizleme"] = orow["onizleme"]
@@ -152,8 +178,9 @@ def to_markdown(date: str, rows: list[dict]) -> str:
           f"{len(rows)} başlamamış global fiyatlı maç · {len(with_pick)} maçta ana tercih · "
           f"{sum(1 for r in rows if r.get('espn'))} maçta ESPN takım geçmişi · {sum(len(r['dropped']) for r in rows)} aday "
           "takım geçmişi çürüttüğü için elendi.", "",
-          "Kurallar: yalnız borsa fiyatlı seçimler (oran ≥ 1,20, olasılık ≥ %55); her aday iki takımın son ~15 maçında "
-          "test edildi; ⚠ alan aday elendi, kalanların en olasısı ana tercih.", "",
+          "Kurallar: yalnız borsa fiyatlı seçimler (oran ≥ 1,20, kalibre olasılık ≥ %55); her aday iki takımın son ~15 maçında "
+          "test edildi; ⚠ alan aday elendi; kalanlardan kalibre beklenen değeri (olasılık × oran − 1) en yüksek olan, "
+          "en az +%2 ise ana tercih. Değer yoksa ana tercih yok.", "",
           "| Saat | Lig | Maç | Ana tercih | Oran | Olasılık | Takım geçmişi | İşaret | Elenen |", "|---|---|---|---|---|---|---|---|---|"]
     for r in rows:
         pk = r["pick"]
@@ -171,7 +198,8 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
     ap.add_argument("--aday", type=int, default=5, help="Maç başına test edilecek en çok aday")
-    ap.add_argument("--saat", help="Yalnız bu başlama saatleri, ör. 06:00-10:00 (kullanıcı, 21 Kasım: sabah maçları)")
+    ap.add_argument("--saat", type=parse_window,
+                    help="Yalnız bu başlama saatleri, ör. 06:00-10:00; gece yarısını geçebilir: 22:00-02:00")
     args = ap.parse_args()
     rows = research_day(args.tarih, args.aday, window=args.saat)
     import footballcharts_gecmis as fc
