@@ -126,13 +126,17 @@ def main() -> None:
     ap.add_argument("--aralik", type=int, default=300, help="döngü aralığı, saniye")
     ap.add_argument("--sure", type=int, default=120, help="döngü süresi, dakika")
     ap.add_argument("--min-ev", type=float, default=S.LIVE_MIN_EV)
-    ap.add_argument("--canli-rezerv", type=float, default=S.LIVE_RESERVE_TL, help="canlı için ayrılan kasa (TL)")
+    ap.add_argument("--canli-rezerv", type=float, default=None,
+                    help="canlı için ayrılan kasa (TL); verilmezse canli/rezerv.json (kupon_politikasi.py yazar)")
     ap.add_argument("--kupon-limit-oran", type=float, default=S.STAKE_COUPON_FRAC, help="tek bahis en çok rezerv oranı")
     ap.add_argument("--fotmob-detay", type=int, default=8, help="tarama başına en çok FotMob maç ayrıntısı isteği")
     ap.add_argument("--ayrintili", action="store_true")
     args = ap.parse_args()
     folder = ai_area() / "canli"
     folder.mkdir(parents=True, exist_ok=True)
+    if args.canli_rezerv is None:
+        rf = folder / "rezerv.json"
+        args.canli_rezerv = float(json.loads(rf.read_text()).get("canli_rezerv_tl", 0)) if rf.exists() else S.LIVE_RESERVE_TL
     end = time.time() + args.sure * 60
     while True:
         t0 = time.time()

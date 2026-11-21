@@ -400,7 +400,8 @@ def season_code(day: dt.date) -> str:
 
 def build_dossier(day: dt.date, home: str, away: str, *, http: CachedHttp | None = None,
                   api: ApiFootball | None = None, history_days: int = 14, future_days: int = 4,
-                  fetch_history: bool = True, today: dt.date | None = None) -> dict[str, Any]:
+                  fetch_history: bool = True, today: dt.date | None = None, use_fotmob: bool | None = None,
+                  use_understat: bool = True, xg_csv: Path | None = None) -> dict[str, Any]:
     http = http or CachedHttp()
     api = api or ApiFootball(http)
     today = today or dt.datetime.now(UTC).date()
@@ -536,6 +537,45 @@ def build_dossier(day: dt.date, home: str, away: str, *, http: CachedHttp | None
                 if prof.get("flag"):
                     dossier["flags"].append(prof["flag"])
         note("Hakem eğilimi (football-data)", "referee_profile" in dossier)
+    # FotMob (kullanıcı onayı 21 Kasım): ilk 11 / eksikler / hakem / stat / xG — yalnız analiz edilen maç
+    from quantfoot.data import fotmob as fmb
+    if use_fotmob if use_fotmob is not None else fmb.enabled():
+        fm = fmb.FotMob(http)
+        mlist = fmb.parse_matches(fm.matches_on(day, ttl_s=3600) or {})
+        m = fmb.find_match(mlist, dossier["home"], dossier["away"])
+        if m:
+            det = fm.details(m["id"], ttl_s=1800 if kickoff - dt.datetime.now(UTC) < dt.timedelta(hours=2) else 6 * 3600)
+            if det:
+                info = fmb.parse_details(det)
+                dossier["fotmob"] = {k: info.get(k) for k in ("referee", "stadium", "lineup_type", "home_lineup",
+                                                               "away_lineup", "weather", "stats")}
+                if not dossier.get("referee") and info.get("referee"):
+                    dossier["referee"] = info["referee"]
+        note("FotMob (ilk 11, eksikler, hakem)", "fotmob" in dossier, "" if m else "maç bulunamadı")
+
+    # Gerçek xG formu: Understat (büyük 5 + RFPL) ve yerel API-Football xG birikimi
+    if use_understat:
+        from quantfoot.data import understat
+        teams, msg = understat.league_teams(http, dossier["league_id"], int(season_code(day)[:2]) + 2000)
+        if teams:
+            dossier["understat"] = {s: understat.team_xg_form(teams, dossier[s]) for s in ("home", "away")}
+            for s in ("home", "away"):
+                f = dossier["understat"].get(s) or {}
+                if f.get("flag"):
+                    dossier["flags"].append(f"{dossier[s]}: {f['flag']} (Understat xG)")
+        if dossier["league_id"] in understat.LEAGUES:
+            note("Understat xG", bool(teams), msg)
+    xg_csv = xg_csv or (REPO_ROOT / "data" / "xg" / "api_football_xg.csv")
+    if xg_csv.exists():
+        rows = list(csv.DictReader(xg_csv.open()))
+        for s in ("home", "away"):
+            mine = [r for r in rows if team_match_score(dossier[s], r["team"]) >= 0.9][-6:]
+            if mine:
+                n = len(mine)
+                dossier.setdefault("xg_local", {})[s] = {
+                    "n": n, "xg": round(sum(float(r["xg"]) for r in mine) / n, 2),
+                    "goals": round(sum(float(r["goals"] or 0) for r in mine) / n, 2)}
+
     dossier["api_football_used_today"] = api.used_today()
     dossier["errors"] = http.errors
     return dossier
@@ -609,6 +649,26 @@ def render_markdown(d: dict[str, Any]) -> str:
         r = d["referee_profile"]
         L += ["", f"## Hakem: {r['referee']} — bu sezon {r['matches']} maç, maç başı {r['yellow']} sarı (lig {r['league_yellow']}), "
                   f"{r['fouls']} faul, {r['goals']} gol (lig {r['league_goals']})"]
+    fm = d.get("fotmob") or {}
+    if fm:
+        L += ["", f"## FotMob ({'kesin ilk 11' if fm.get('lineup_type') == 'standard' else 'tahmini/eksik ilk 11'})"]
+        for s in ("home", "away"):
+            lu = fm.get(f"{s}_lineup") or {}
+            if lu:
+                un = "; ".join(f"{u['name']} ({u.get('reason') or '?'})" for u in lu.get("unavailable") or []) or "yok"
+                L.append(f"- **{d[s]}** {lu.get('formation') or ''}: {', '.join(lu.get('starters') or []) or '-'} · eksik: {un}")
+        st = fm.get("stats") or {}
+        if (st.get("home") or {}).get("xg") is not None:
+            L.append(f"- Maç xG: {st['home']['xg']} - {st['away']['xg']}")
+    for key, title in (("understat", "Understat"), ("xg_local", "API-Football birikimi")):
+        x = d.get(key) or {}
+        if any(x.values()):
+            L += ["", f"## Gerçek xG formu ({title}, son maçlar ortalaması)"]
+            for s in ("home", "away"):
+                f = x.get(s) or {}
+                if f:
+                    L.append(f"- {d[s]}: {f.get('n')} maç, xG {f.get('xg')}" + (f", xGA {f['xga']}" if "xga" in f else "")
+                             + f", gol {f.get('goals')}")
     if d.get("lineups"):
         L += ["", "## İlk 11"] + [f"- {t['team']} ({t['formation']}): {', '.join(t['start_xi'])}" for t in d["lineups"]]
     L += ["", "## Kaynak durumu", ""] + [f"- {k}: {v}" for k, v in d["sources"].items()]
