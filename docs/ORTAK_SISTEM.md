@@ -34,6 +34,12 @@ zekâların 18–21 Kasım dosyaları) çıkan derslerle yazıldı. Çelişki ol
 | 4 | `kupon` | `scripts/kupon_kur.py --hedef H --mod banko` | `nesine_kupon.py` banko modu + `quantfoot.coupons.coupon_rules` süzgeci + bacak bacak derin araştırma; temiz kupon yoksa kupon **yok**. `kuponlar.csv` yazılır. |
 | 5 | `denetim` | (aynı betikte) | `kuponlar.csv` §3 kurallarına göre yeniden denetlenir → `kupon_denetim.md`. İhlal varsa çıkış kodu 3: o kupon önerilmez. |
 
+**Süre ve kota (22 Kas canlı deneme, 476 maçlık bülten):** bülten ≈ 3,5 dk, tahmin ≈ 3,5 dk, derin araştırma ≈ 19 dk
+(bahis aileleri + 20.000'lik simülasyon dahil), kupon ≈ 4 dk/tur. API-Football yalnız maç öncesi kullanılır, canlı
+takipte asla; her istek `quantfoot.data.api_budget` bütçesinden düşer (`API_FOOTBALL_MAX_REQ`, varsayılan 60/gün;
+sayaç `data/cache/api_football/butce_<gün>.json`), günün oranları 3 saat önbellekte tutulur. Bir tam çalıştırma ≈ 9 istek.
+Banko kurallarına uyan bacak yoksa kupon **çıkmaz** — bu doğru sonuçtur; sabah keskin referanslar tazelenince yeniden dene.
+
 Varsayılan hedef 2,5 (5 bacak × ~1,21–1,25). Daha yüksek hedef banko kurallarıyla kurulamıyorsa bunu kullanıcıya
 açıkça söyle; kuralları gevşeterek hedefe ulaşma.
 
