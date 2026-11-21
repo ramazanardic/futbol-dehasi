@@ -113,7 +113,7 @@ def test_apply_live_odds_lowers_and_drops_suspended():
     assert sel["a"]["odds"] == 1.65 and abs(sel["a"]["ev"] - (0.58 * 1.65 - 1)) < 1e-12
     assert sel["b"]["odds"] == 1.30          # a higher live price is not used
     assert "c" not in sel                    # no longer offered
-    assert matches[1]["selections"][0]["odds"] == 1.5  # match not in the bulletin (started): untouched
+    assert matches[1]["selections"] == []  # unavailable matches cannot supply coupon legs
 
 
 def test_prior_legs_block_same_selection_but_allow_other_selection_on_same_match(tmp_path, monkeypatch):
