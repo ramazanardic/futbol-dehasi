@@ -30,6 +30,7 @@ import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import derin_arastirma as dr  # noqa: E402
+from quantfoot.data.api_budget import default_budget  # noqa: E402
 
 BASE = "https://v3.football.api-sports.io"
 CACHE = dr.ROOT / "data" / "cache" / "api_football"
@@ -61,6 +62,8 @@ def get(path: str, ttl_h: float, **params) -> list[dict]:
     k = api_key()
     if not k:
         raise ApiError("API_FOOTBALL_KEY yok")
+    if not default_budget().spend(1, f"{path} {params.get('date', '')}"):
+        raise ApiError("günlük API-Football istek sınırı (API_FOOTBALL_MAX_REQ) doldu")
     try:
         j = requests.get(f"{BASE}/{path}", params=params, headers={"x-apisports-key": k}, timeout=30).json()
     except (requests.RequestException, ValueError) as e:

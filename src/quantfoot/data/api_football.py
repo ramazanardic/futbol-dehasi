@@ -12,7 +12,10 @@ global football slate including Rwanda, Iraq, Bahrain 2nd Div, Saudi 2nd Div, Ni
 from __future__ import annotations
 
 import datetime as dt
+import json
 import os
+from pathlib import Path
+import time
 from typing import Any, Iterable
 
 import requests
@@ -134,8 +137,16 @@ def fetch_api_football_references(
     api_key: str | None = None,
     max_odds_pages: int = 8,
     timeout: int = 20,
+    budget: Any = None,
+    cache_dir: Path | None = None,
+    cache_ttl_h: float = 3.0,
 ) -> list[dict[str, Any]]:
-    """Fetch global odds across 1,100+ leagues from API-Football when ``API_FOOTBALL_KEY`` is configured."""
+    """Fetch global odds across 1,100+ leagues from API-Football when ``API_FOOTBALL_KEY`` is configured.
+
+    ``budget`` (``quantfoot.data.api_budget.ApiBudget``): every HTTP request spends one unit first; when the day's cap
+    is reached the remaining requests are skipped. ``cache_dir``: one day's parsed references are kept for
+    ``cache_ttl_h`` hours so repeated pipeline runs (ai_tahmin, nesine_kupon rounds) do not re-spend the quota.
+    """
     key = api_key or os.environ.get("API_FOOTBALL_KEY", "").strip()
     if not key:
         return []
@@ -144,7 +155,23 @@ def fetch_api_football_references(
     all_refs: list[dict[str, Any]] = []
     ts = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
 
+    def _spend(what: str) -> bool:
+        return budget is None or budget.spend(1, what)
+
     for day_str in dates:
+        cached = Path(cache_dir) / f"odds_refs_{day_str}.json" if cache_dir is not None else None
+        if cached is not None and cached.exists() and time.time() - cached.stat().st_mtime < cache_ttl_h * 3600:
+            try:
+                loaded = json.loads(cached.read_text(encoding="utf-8"))
+                for r in loaded:
+                    r["kickoff"] = dt.datetime.fromisoformat(str(r["kickoff_utc"]).replace("Z", "+00:00"))
+                all_refs.extend(loaded)
+                continue
+            except (ValueError, KeyError, TypeError, AttributeError):
+                pass  # unreadable cache: fetch the day again
+        day_refs: list[dict[str, Any]] = []
+        if not _spend(f"fixtures {day_str}"):
+            continue
         try:
             rf = requests.get(f"{API_FOOTBALL_BASE}/fixtures", params={"date": day_str}, headers=headers, timeout=timeout)
             if rf.status_code != 200:
@@ -159,10 +186,15 @@ def fetch_api_football_references(
             if isinstance(f, dict) and (f.get("fixture") or {}).get("id") is not None
         }
         if not fx_by_id:
+            if cached is not None:  # e.g. a date the free plan does not serve: do not ask again within the TTL
+                cached.parent.mkdir(parents=True, exist_ok=True)
+                cached.write_text("[]", encoding="utf-8")
             continue
 
         odds_items: list[dict[str, Any]] = []
         for page in range(1, max_odds_pages + 1):
+            if not _spend(f"odds {day_str} p{page}"):
+                break
             try:
                 ro = requests.get(
                     f"{API_FOOTBALL_BASE}/odds",
@@ -180,6 +212,10 @@ def fetch_api_football_references(
             if int(paging.get("current") or page) >= int(paging.get("total") or 1):
                 break
 
-        all_refs.extend(parse_api_football_odds(fx_by_id, odds_items, fetched_utc=ts))
+        day_refs = parse_api_football_odds(fx_by_id, odds_items, fetched_utc=ts)
+        all_refs.extend(day_refs)
+        if cached is not None and odds_items:
+            cached.parent.mkdir(parents=True, exist_ok=True)
+            cached.write_text(json.dumps(day_refs, ensure_ascii=False, default=str), encoding="utf-8")
 
     return all_refs

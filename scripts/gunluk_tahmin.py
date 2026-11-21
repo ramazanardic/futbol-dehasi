@@ -128,6 +128,25 @@ def run_audit(date: str, ai: str) -> dict:
     return audit
 
 
+ENV_KEYS = ("API_FOOTBALL_KEY",)  # maç öncesi referans/geçmiş; kota api_budget ile sınırlı (API_FOOTBALL_MAX_REQ)
+
+
+def load_env_keys(env_file: Path | None = None, environ: dict | None = None) -> list[str]:
+    """Git'e girmeyen .env'deki anahtarları (değerleri yazdırmadan) alt süreçlere aktar; ortamdaki değer önce gelir."""
+    env_file = env_file or ROOT / ".env"
+    environ = os.environ if environ is None else environ
+    loaded = []
+    if not env_file.exists():
+        return loaded
+    for line in env_file.read_text(encoding="utf-8").splitlines():
+        name, sep, value = line.partition("=")
+        name, value = name.strip(), value.strip().strip('"').strip("'")
+        if sep and name in ENV_KEYS and value and not environ.get(name):
+            environ[name] = value
+            loaded.append(name)
+    return loaded
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
@@ -138,6 +157,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--atla", nargs="*", choices=STEPS, default=[], help="Bu adımları atla")
     ap.add_argument("--kuru", action="store_true", help="Komutları yazdır, çalıştırma")
     args = ap.parse_args(argv)
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(line_buffering=True)  # adım satırları alt süreç çıktısıyla sıralı görünsün
     if args.ai:
         os.environ["QUANTFOOT_AI"] = args.ai
     try:
@@ -146,9 +167,17 @@ def main(argv: list[str] | None = None) -> int:
         print(e, file=sys.stderr)
         return 2
     dt.date.fromisoformat(args.tarih)
+    load_env_keys()
     steps = [s for s in (args.yalniz or STEPS) if s not in args.atla]
     cmds = step_commands(args.tarih, list(args.hedef))
     print(f"Ortak sistem — {ai} — {args.tarih}: {', '.join(steps)}")
+    try:
+        from quantfoot.data.api_budget import default_budget
+        b = default_budget()
+        api_before = b.used()
+        print(f"API-Football bugün: {api_before}/{b.limit} istek kullanılmış")
+    except Exception:  # noqa: BLE001 — bütçe yalnız bilgi amaçlı
+        b, api_before = None, 0
     for step in steps:
         for cmd in cmds[step]:
             print(f"[{step}] {' '.join(cmd)}")
@@ -164,6 +193,8 @@ def main(argv: list[str] | None = None) -> int:
             if not audit["ok"]:
                 print("Kural dışı kupon var: kupon_denetim.md — bu kupon önerilmez/oynanmaz.", file=sys.stderr)
                 return 3
+    if b is not None and not args.kuru:
+        print(f"API-Football bu çalıştırmada: {b.used() - api_before} istek (bugün toplam {b.used()}/{b.limit})")
     return 0
 
 

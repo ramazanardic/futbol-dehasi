@@ -38,6 +38,7 @@ from quantfoot.settings import MAX_PRICE_AGE_H, REFERENCE_LOAD_AGE_H
 from quantfoot.settings import MARGIN_TILT
 from quantfoot.data.absences import fetch_matchday_absences, format_tm_absence_brief
 from quantfoot.data.api_football import fetch_api_football_references
+from quantfoot.data.api_budget import DEFAULT_DIR as API_BUDGET_DIR, default_budget
 from quantfoot.data.live_espn import fetch_espn_slate
 from quantfoot.data.match_research import espn_events, fpl_availability, motivation, research, staleness_flags
 from quantfoot.data.nesine import TSI, fetch_bulletin, league_names, market_overrounds, parse_bulletin
@@ -652,7 +653,8 @@ def analyze_day(
         else []
     )
     op_refs = fetch_oddspapi_references([day.isoformat(), nxt.isoformat()])
-    af_refs = fetch_api_football_references([day.isoformat(), nxt.isoformat()])
+    af_refs = fetch_api_football_references([day.isoformat(), nxt.isoformat()], budget=default_budget(),
+                                            cache_dir=API_BUDGET_DIR)  # kota: data/cache/api_football/butce_<gün>.json
     if verbose:
         n_spec = len(events) - len(real_events)
         spec_s = f" (+{n_spec} özel bahis)" if n_spec else ""
