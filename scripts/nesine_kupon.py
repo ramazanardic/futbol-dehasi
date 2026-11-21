@@ -517,6 +517,23 @@ def filter_pools_for_mode(pools: list[list[dict]], pol: "KM.ModePolicy") -> list
     return out
 
 
+def apply_coupon_rules_to_pools(pools: list[list[dict]], mode: str = "banko") -> list[list[dict]]:
+    """21 Kas kupon post-mortem kuralları (aile beyaz listesi, düzeltilmiş P ≥ %70, beraberlik/KG/gol yasağı).
+
+    Yalnız banko modunda uygulanır; risk/yüksek oran süzgecine dokunulmaz. ``filter_pools_for_mode``
+    mevcut 0.65 tabanını korur; bu süzgeç daha sıkıdır.
+    """
+    if mode != "banko":
+        return pools
+    from quantfoot.coupons.coupon_rules import leg_decision
+    out: list[list[dict]] = []
+    for pool in pools:
+        kept = [leg for leg in pool if leg_decision(leg).ok]
+        if kept:
+            out.append(kept)
+    return out
+
+
 def apply_mode_guard(coupons: list[dict], mode: str, live: dict | None = None,
                      exposure: dict | None = None) -> tuple[list[dict], list[str]]:
     """Her kuponu kupon modunun koruyucusundan geçir (strategy/kupon_modu.py). Geçemeyen kupon verilmez; geçenlere
@@ -746,6 +763,8 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
             family_ev=not args.aile_ev_kapali,
         )
         pools = filter_pools_for_mode(pools, pol)
+        if pol.name == "banko":
+            pools = apply_coupon_rules_to_pools(pools, pol.name)
         n_mid_pools = sum(1 for p in pools if p[0].get("tier") == "orta")
         if attempt == 0:
             print(f"{sum(1 for m in matches if m.get('status') == 'fiyatlandı')} maç global fiyatlı; {len(pools)} maç kupona uygun "
