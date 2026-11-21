@@ -65,9 +65,13 @@ def choose(legs: list[dict], min_ev: float | None = None) -> dict | None:
 
     Evidence only filters (⚠ out); among equal EV the better-evidenced one wins (✓ before ~ before untested).
     Picking by probability alone ignored the odds (audit 21 Nov), so a match without value gets no pick."""
+    from quantfoot.markets.families import leg_min_ev
     from quantfoot.settings import PICK_MIN_EV
-    floor = PICK_MIN_EV if min_ev is None else min_ev
-    ok = [x for x in legs if not x["verdict"].startswith("⚠") and x.get("odds") and leg_ev(x) >= floor]
+
+    def floor(x: dict) -> float:  # default: the stricter of the pick floor and the leg's bet-family floor
+        return max(PICK_MIN_EV, leg_min_ev(x.get("name", ""))) if min_ev is None else min_ev
+
+    ok = [x for x in legs if not x["verdict"].startswith("⚠") and x.get("odds") and leg_ev(x) >= floor(x)]
     rank = lambda x: 0 if x["verdict"].startswith("✓") else 1 if x["verdict"].startswith("~") else 2  # noqa: E731
     return max(ok, key=lambda x: (round(leg_ev(x), 6), -rank(x))) if ok else None
 

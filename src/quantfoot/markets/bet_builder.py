@@ -68,6 +68,21 @@ def _multinomial_condition(k: int, conds: list[tuple[float, int]]) -> float:
     return float(total)
 
 
+def goal_order_share(g: GoalGrid, which: str, team: str) -> np.ndarray:
+    """P(`team` scores the match's first ('İlk') / last ('Son') goal | joint state), goals exchangeable WITHIN a half.
+
+    The first goal is in the first half whenever the first half had one (the last goal in the second half whenever
+    it had one). Until 21 Nov the share was taken from full-time totals (h / (h + a)), which is wrong for
+    same-match combinations: 1H 0-1 then 2H 2-0 gave 'İlk Gol Ev' weight 2/3 although the away side scored first."""
+    own1, own2 = (g.h1, g.h2) if team == "Ev" else (g.a1, g.a2)
+    t1, t2 = (g.h1 + g.a1).astype(float), (g.h2 + g.a2).astype(float)
+    s1 = np.divide(own1, t1, out=np.zeros_like(t1), where=t1 > 0)
+    s2 = np.divide(own2, t2, out=np.zeros_like(t2), where=t2 > 0)
+    if which == "İlk":
+        return np.where(t1 > 0, s1, s2)
+    return np.where(t2 > 0, s2, s1)
+
+
 def price_bet_builder(
     selections: list[str],
     joint: np.ndarray,
@@ -106,15 +121,12 @@ def price_bet_builder(
                 raise KeyError(f"Bilinmeyen oyuncu pazarı: {prop!r}")
             singles.append(player_book[name][prop])
             q = pl.goal_share * on_pitch_fraction(pl, timing)
-            team_goals = g.fh if pl.team == "Ev" else g.fa
             if prop in _SCORER_MIN:
                 scorer_conds[pl.team].append((q, _SCORER_MIN[prop]))
             elif prop == "İlk Golü Atar":
-                tot = g.fh + g.fa
-                weight = weight * np.divide(team_goals, tot, out=np.zeros_like(weight), where=tot > 0) * pl.goal_share
+                weight = weight * goal_order_share(g, "İlk", pl.team) * pl.goal_share
             elif prop == "Son Golü Atar":
-                tot = g.fh + g.fa
-                weight = weight * np.divide(team_goals, tot, out=np.zeros_like(weight), where=tot > 0) * pl.goal_share
+                weight = weight * goal_order_share(g, "Son", pl.team) * pl.goal_share
             elif prop == "Asist Yapar":
                 assist_q[pl.team].append(pl.assist_share * on_pitch_fraction(pl, timing))
             else:  # shots / passes / player cards / goal-or-assist: independent of the score
@@ -122,9 +134,7 @@ def price_bet_builder(
             continue
         m = re.fullmatch(r"(İlk|Son) Gol (Ev|Dep)", sel)
         if m:
-            tot = g.fh + g.fa
-            team_goals = g.fh if m.group(2) == "Ev" else g.fa
-            weight = weight * np.divide(team_goals, tot, out=np.zeros_like(weight), where=tot > 0)
+            weight = weight * goal_order_share(g, m.group(1), m.group(2))
             singles.append(float(timing.markets()[f"{m.group(1)} Golü Atan Takım"][sel]))
             continue
         if "Korner" in sel:

@@ -335,6 +335,12 @@ def _intl_comp_weight(tournament: str) -> float:
     return 1.0
 
 
+def _ou_share(mat: np.ndarray, line: float) -> float:
+    """Over share of a two-way O/U market, push excluded (whole-goal lines)."""
+    p_over, p_under = over_under_probability(mat, line)
+    return p_over / max(p_over + p_under, 1e-12)
+
+
 def _score_live_fixture(
     fx: LiveFixture,
     sub_mats: tuple[np.ndarray, ...],
@@ -389,7 +395,10 @@ def _score_live_fixture(
 
     if fx.ou_line is not None and fx.ou_odds is not None:
         p_over, p_under = over_under_probability(mat, fx.ou_line)
-        sub_ou = np.array([over_under_probability(m, fx.ou_line)[0] for m in sub_mats])
+        p_push = max(0.0, 1.0 - p_over - p_under)
+        # two-way market shares exclude the push (whole-goal line): blend conditional shares, settle with the push below
+        p_over, p_under = p_over / max(p_over + p_under, 1e-12), p_under / max(p_over + p_under, 1e-12)
+        sub_ou = np.array([_ou_share(m, fx.ou_line) for m in sub_mats])
         ou_std = float(np.std(sub_ou) * args.fund_weight + 0.015)
         p_mkt_ou = devig(list(fx.ou_odds), method=args.devig).probabilities
         p_ou_post = bayesian_log_odds_blend(p_mkt_ou, np.array([p_over, p_under]), fundamental_weight=args.fund_weight)
@@ -397,7 +406,7 @@ def _score_live_fixture(
             (f"Over {fx.ou_line}", float(p_ou_post[0]), fx.ou_odds[0]),
             (f"Under {fx.ou_line}", float(p_ou_post[1]), fx.ou_odds[1]),
         ):
-            ev = p_val * o_val - 1.0
+            ev = (1.0 - p_push) * (p_val * o_val - 1.0)  # a push refunds the stake
             if 1.25 <= o_val <= args.max_odds and ev >= args.min_ev:
                 match_opps.append((f"O/U {fx.ou_line}", label, p_val, o_val, float(ev), ou_std, False))
 

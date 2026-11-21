@@ -97,13 +97,19 @@ def fair_ah_odds(score_matrix: np.ndarray, line: float, is_home: bool = True) ->
 
 
 def over_under_probability(score_matrix: np.ndarray, line: float) -> tuple[float, float]:
-    """Return (P(total > line), P(total < line)) from a normalized score matrix."""
+    """Return (P(total > line), P(total < line)) from a normalized score matrix.
+
+    For a whole-goal line (2.0, 3.0) the push mass P(total == line) belongs to neither side, so the two
+    probabilities sum to 1 - P(push). (Before 21 Nov the under side was 1 - P(over), i.e. it silently counted
+    the push as an under win: +25 pp at line 2.0 for a 1.5 / 1.1 match.)"""
     mat = np.asarray(score_matrix, dtype=float)
     mat = mat / np.sum(mat)
     n_h, n_a = mat.shape
     gi, gj = np.meshgrid(np.arange(n_h), np.arange(n_a), indexing="ij")
-    p_over = float(np.sum(mat[(gi + gj) > line]))
-    return p_over, 1.0 - p_over
+    tot = gi + gj
+    p_over = float(np.sum(mat[tot > line + 1e-9]))
+    p_under = float(np.sum(mat[tot < line - 1e-9]))
+    return p_over, p_under
 
 
 def price_all_markets(score_matrix: np.ndarray, top_scores: int = 5) -> dict[str, object]:

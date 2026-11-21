@@ -21,6 +21,7 @@ import datetime as dt
 import json
 import math
 from pathlib import Path
+import re
 from typing import Any
 
 from quantfoot.paths import ai_area
@@ -57,6 +58,23 @@ def market_family(name: str) -> str:
         return "İY/MS"
     if "&" in n:
         return "Kombine (A & B)"
+    # 21 Nov bet-family audit: these were misfiled ('En Çok Gol' -> Gol aralığı, 'Ev Her İki Yarıyı Kazanır' ->
+    # Ev sahibi golleri, 'Skor 1-0' / 'Fark Ev 1' / 'İki Yarıda KG Var' / 'Kart' -> Diğer, 'Son Gol' -> Gol aralığı),
+    # mixing their settled hit-rates into the wrong family's learned σ.
+    if any(t in n for t in ("En Çok Gol", "Her İki Yarıyı Kazanır", "En Az Bir Yarıyı Kazanır", "İki Yarıda Gol")):
+        return "Yarı özel"
+    if n == "İki Yarıda KG Var":
+        return "Yarı karşılıklı gol"
+    if re.match(r"(?:İY |2Y )?Skor ", n):
+        return "Doğru skor"
+    if n.startswith("Fark "):
+        return "Handikap"
+    if n.startswith("Son Gol"):
+        return "İlk gol"
+    if "Kart" in n:
+        return "Kart"
+    if "Korner" in n:
+        return "İY korner" if n.startswith("İY ") else "Korner"
     for prefix, fam in (
         ("MS ", "Maç sonucu"),
         ("ÇŞ ", "Çifte şans"),
