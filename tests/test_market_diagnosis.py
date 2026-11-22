@@ -267,3 +267,54 @@ def test_gunluk_analiz_best_pick_avoids_diagnosed_trap():
     pick, _ = ga.best_pick(match)
     assert pick is not None
     assert pick["name"] == "3.5 Alt"
+
+
+def test_kupon_kontrol_does_not_crash_on_missing_day_dir(tmp_path, monkeypatch):
+    import datetime as dt
+    kc = _load_script("kupon_kontrol")
+    monkeypatch.setattr(kc, "AREA", tmp_path)
+    monkeypatch.setattr(kc, "DAILY", tmp_path)
+    rows, clv = kc.check("2026-11-22", dt.datetime(2026, 11, 22, 13, 0, tzinfo=kc.TSI), live={})
+    assert rows == [] and clv == {}
+    assert not (tmp_path / "2026-11-22").exists()
+
+
+def test_gunluk_tahmin_audit_recognizes_rehabilitated_legs_and_catches_traps(tmp_path, monkeypatch):
+    import csv
+    import json
+    gt = _load_script("gunluk_tahmin")
+    monkeypatch.setattr(gt, "ROOT", tmp_path)
+    day = tmp_path / "tahminler" / "antigravitytahmin" / "2026-11-22"
+    day.mkdir(parents=True)
+    matches = [
+        {"code": 1, "mu_home": 1.48, "mu_away": 1.32, "fair_1x2": [0.40, 0.27, 0.33], "reference": "Pinnacle",
+         "league": "Almanya Bundesliga", "selections": [{"name": "KG Var", "direct": True, "fair_prob": 0.74}]},
+        {"code": 2, "mu_home": 1.45, "mu_away": 0.90, "fair_1x2": [0.50, 0.27, 0.23], "reference": "Pinnacle",
+         "league": "İspanya La Liga", "selections": [{"name": "Dep 2.5 Alt", "direct": False, "fair_prob": 0.75}]},
+        {"code": 3, "mu_home": 1.15, "mu_away": 0.80, "fair_1x2": [0.46, 0.30, 0.24], "reference": "Pinnacle",
+         "league": "İtalya Serie A", "selections": [{"name": "İY 1.5 Alt", "direct": True, "fair_prob": 0.78}]},
+        {"code": 4, "mu_home": 1.65, "mu_away": 1.25, "fair_1x2": [0.48, 0.21, 0.31], "reference": "Pinnacle",
+         "league": "İngiltere Premier Lig", "selections": [{"name": "ÇŞ 12", "direct": True, "fair_prob": 0.76}]},
+        {"code": 5, "mu_home": 1.30, "mu_away": 1.00, "fair_1x2": [0.45, 0.28, 0.27], "reference": "Pinnacle",
+         "league": "Fransa Ligue 1", "selections": [{"name": "3.5 Alt", "direct": True, "fair_prob": 0.75}]},
+    ]
+    (day / "nesine_global.json").write_text(json.dumps({"matches": matches}), encoding="utf-8")
+    rows = [
+        {"kupon": "kupon_2.5x_1200", "kupon_no": "1", "mac": f"M{i}", "nesine_kodu": str(i),
+         "secim_adi": nm, "secim": nm, "nesine_oran": "1.30", "olasilik": "0.75", "kural_oncesi_olasilik": "0.75"}
+        for i, nm in [(1, "KG Var"), (2, "Dep 2.5 Alt"), (3, "İY 1.5 Alt"), (4, "ÇŞ 12"), (5, "3.5 Alt")]
+    ]
+    with (day / "kuponlar.csv").open("w", encoding="utf-8-sig", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=list(rows[0]))
+        w.writeheader()
+        w.writerows(rows)
+    audit = gt.run_audit("2026-11-22", "antigravitytahmin")
+    assert audit["ok"], audit
+
+    # As kaleci eksik 3.5 Alt tuzağı run_audit tarafından yakalanır
+    matches[4]["research"] = {"tm_absences": {"home": {"gk1_out": True}}}
+    (day / "nesine_global.json").write_text(json.dumps({"matches": matches}), encoding="utf-8")
+    audit_bad = gt.run_audit("2026-11-22", "antigravitytahmin")
+    assert not audit_bad["ok"]
+    assert any("kaleci" in x for x in audit_bad["coupons"][0]["ihlaller"])
+

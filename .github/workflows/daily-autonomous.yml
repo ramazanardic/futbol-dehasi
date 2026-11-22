@@ -27,6 +27,17 @@ on:
           - intraday
           - settle
           - dashboard
+      ai:
+        description: "QUANTFOOT_AI klasörü"
+        required: false
+        default: "antigravitytahmin"
+        type: choice
+        options:
+          - antigravitytahmin
+          - claudetahmin
+          - geminitahmin
+          - chatgbttahmin
+          - grokbottahmin
 
 permissions:
   contents: write
@@ -42,7 +53,7 @@ jobs:
     env:
       PYTHONIOENCODING: utf-8
       TZ: Europe/Istanbul
-      QUANTFOOT_AI: claudetahmin  # explicit: this workflow's historical system folder (no implicit default)
+      QUANTFOOT_AI: ${{ github.event.inputs.ai || 'antigravitytahmin' }}
       API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
       ODDSPAPI_KEY: ${{ secrets.ODDSPAPI_KEY }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}

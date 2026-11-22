@@ -12,7 +12,8 @@ def main() -> int:
     python = Path(sys.executable).with_name("python.exe")
     log = root / "reports" / "daily" / "logs" / "kupon_izle.log"
     log.parent.mkdir(parents=True, exist_ok=True)
-    env = dict(os.environ, QUANTFOOT_AI="chatgbttahmin", PYTHONIOENCODING="utf-8")
+    ai = os.environ.get("QUANTFOOT_AI") or "antigravitytahmin"
+    env = dict(os.environ, QUANTFOOT_AI=ai, PYTHONIOENCODING="utf-8")
     tasks = (
         ("scripts/kupon_kontrol.py", "kontrol", "--sessiz"),
         ("scripts/api_gecmis.py", "--arsiv"),

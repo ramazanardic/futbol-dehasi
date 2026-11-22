@@ -25,6 +25,7 @@ from __future__ import annotations
 import argparse
 import csv
 import datetime as dt
+import json
 import math
 import os
 from pathlib import Path
@@ -60,12 +61,38 @@ def _f(x) -> float | None:
         return None
 
 
-def audit_coupons(rows: list[dict]) -> dict:
+def _match_diag_context(m: dict, name: str) -> dict:
+    """nesine_global.json maç kaydından market_diagnosis bağlamını çıkar."""
+    f1x2 = m.get("fair_1x2") or []
+    res = m.get("research") or {}
+    tm = res.get("tm_absences") or {}
+    ua = res.get("user_absences") or {}
+    sels = m.get("selections") or []
+    sel_hit = next((x for x in sels if x.get("name") == name), None)
+    p_over25 = next((float(x["fair_prob"]) for x in sels if x.get("name") == "2.5 Üst"), None)
+    return {
+        "mu_home": m.get("mu_home"),
+        "mu_away": m.get("mu_away"),
+        "p1": float(f1x2[0]) if len(f1x2) == 3 else None,
+        "p_draw": float(f1x2[1]) if len(f1x2) == 3 else None,
+        "p2": float(f1x2[2]) if len(f1x2) == 3 else None,
+        "p_over25": p_over25,
+        "reference": m.get("reference"),
+        "league": m.get("league"),
+        "direct": bool(sel_hit.get("direct")) if sel_hit is not None else False,
+        "home_gk1_out": bool((tm.get("home") or {}).get("gk1_out") or (ua.get("home") or {}).get("gk_out")),
+        "away_gk1_out": bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out")),
+        "home_top_scorer_out": bool((tm.get("home") or {}).get("top_scorer_out")),
+        "away_top_scorer_out": bool((tm.get("away") or {}).get("top_scorer_out")),
+    }
+
+
+def audit_coupons(rows: list[dict], analysis_by_code: dict[str, dict] | None = None) -> dict:
     """Ortak kupon kurallarını kuponlar.csv satırlarına uygula (docs/ORTAK_SISTEM.md §3).
 
-    Kurallar: her bacak coupon_rules.leg_decision'dan geçer (düzeltilmiş P ≥ %70, oran ≥ 1,20 ve ≤ 1,80, izinli aile,
-    beraberlik/KG/ilk gol/takım golü yok); kupon 5–6 bacak; aynı maçtan tek bacak; aynı tercih iki kuponda yok.
-    Dönen sözlük: ``coupons`` (kupon başına bacak sayısı, toplam oran, tutma olasılığı, ihlaller) ve ``ok``.
+    Kurallar: her bacak coupon_rules.leg_decision'dan geçer (düzeltilmiş P ≥ %70, oran ≥ 1,20 ve ≤ 1,80, izinli
+    veya kök-neden teşhisiyle rehabilite aile, gizli tuzak yok); kupon 5–6 bacak; aynı maçtan tek bacak;
+    aynı tercih iki kuponda yok. ``analysis_by_code`` verilirse maç bağlamı teşhis motoruna aktarılır.
     """
     coupons: dict[str, list[dict]] = {}
     for r in rows:
@@ -84,7 +111,12 @@ def audit_coupons(rows: list[dict]) -> dict:
         for leg in legs:
             name = (leg.get("secim_adi") or leg.get("secim") or "").strip()
             before_rules = leg.get("kural_oncesi_olasilik") or leg.get("olasilik")
-            dec = leg_decision({"name": name, "odds": _f(leg.get("nesine_oran")), "p": _f(before_rules)})
+            payload: dict = {"name": name, "odds": _f(leg.get("nesine_oran")), "p": _f(before_rules)}
+            if analysis_by_code:
+                m = analysis_by_code.get(str(leg.get("nesine_kodu") or ""))
+                if m is not None:
+                    payload.update(_match_diag_context(m, name))
+            dec = leg_decision(payload)
             if not dec.ok:
                 issues.append(f"{leg.get('mac')} — {name}: " + "; ".join(dec.reasons))
             p_total *= dec.p_cal if dec.p_cal is not None else 0.0
@@ -121,7 +153,15 @@ def run_audit(date: str, ai: str) -> dict:
         if not reader.fieldnames or "kupon" not in reader.fieldnames:
             raise ValueError(f"Kupon CSV başlığı eksik: {path}")
         rows = list(reader)
-    audit = audit_coupons(rows)
+    analysis_by_code = None
+    ng_path = day / "nesine_global.json"
+    if ng_path.exists():
+        try:
+            ng = json.loads(ng_path.read_text(encoding="utf-8"))
+            analysis_by_code = {str(m["code"]): m for m in ng.get("matches", [])}
+        except (OSError, ValueError):
+            analysis_by_code = None
+    audit = audit_coupons(rows, analysis_by_code=analysis_by_code)
     day.mkdir(parents=True, exist_ok=True)
     (day / "kupon_denetim.md").write_text(audit_markdown(date, ai, audit), encoding="utf-8")
     for c in audit["coupons"]:

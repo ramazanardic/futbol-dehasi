@@ -160,7 +160,9 @@ def check(date: str, now: dt.datetime | None = None, live: dict | None = None,
         row["new_warn"] = [w for w in row["warn"] if w not in rec["alerted"]]
         rec["alerted"] = sorted(set(rec["alerted"]) | set(row["warn"]))
         rows.append(row)
-    clv_path.write_text(json.dumps(clv, ensure_ascii=False, indent=1), encoding="utf-8")
+    if rows or clv:
+        clv_path.parent.mkdir(parents=True, exist_ok=True)
+        clv_path.write_text(json.dumps(clv, ensure_ascii=False, indent=1), encoding="utf-8")
     return rows, clv
 
 
@@ -254,6 +256,7 @@ def cmd_kontrol(date: str, notify: bool = True) -> None:
                for t in totals]
     md += ["", f"**Kapanış fiyatı (CLV), bugün:** {_fmt_stats(clv_stats(clv, now))}", ""]
     out = AREA / date / "kupon_kontrol.md"
+    out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(md), encoding="utf-8")
     active = active_coupons(date)
     fresh = [r for r in rows if r["new_warn"] and not r["started"]
