@@ -204,6 +204,8 @@ def with_model(verdict: str, low: float, market: float, dc: float | None) -> tup
 
 
 def run(date: str, n: int) -> list[dict]:
+    from bahis_aileleri import top_five
+
     out_dir = dr.AREA / date
     rows = json.loads((out_dir / "derin_tahminler.json").read_text(encoding="utf-8"))
     ms = {str(m["code"]): m for m in json.loads((out_dir / "nesine_global.json").read_text(encoding="utf-8"))["matches"]}
@@ -250,11 +252,14 @@ def run(date: str, n: int) -> list[dict]:
         res.append({"code": row["code"], "kickoff": row["kickoff"], "match": row["match"], "league": row["league"],
                     "xg": [round(mh, 2), round(ma, 2)] if mh is not None else None, "why": why, "top_scores": top, "bets": bets,
                     "dc": dc[1] if dc else None, "elo": (elo or {}).get("_clubs"),
-                    "league_rates": dl.league_rates(row["league"], lig)})
+                    "league_rates": dl.league_rates(row["league"], lig),
+                    "en_yuksek_5": row["en_yuksek_5"] if "en_yuksek_5" in row else top_five(m)})
     return sorted(res, key=lambda r: r["kickoff"])
 
 
 def to_markdown(date: str, res: list[dict], n: int) -> str:
+    from bahis_aileleri import format_top_five
+
     pct = lambda x: "-" if x is None else f"%{100 * x:.0f}"  # noqa: E731
     best = sorted((b | {"match": r["match"], "kickoff": r["kickoff"]} for r in res for b in r["bets"]
                    if b["verdict"] == "üçlü onay"), key=lambda b: -b["low"])
@@ -275,6 +280,7 @@ def to_markdown(date: str, res: list[dict], n: int) -> str:
     for r in res:
         sc = ", ".join(f"{k} {pct(v)}" for k, v in r["top_scores"].items())
         md += [f"### {r['kickoff'][11:16]} {r['match']} — {r['league']}", "",
+               f"**En yüksek 5 aile olasılığı** · {format_top_five(r.get('en_yuksek_5'))}", "",
                (f"Simülasyon xG {r['xg'][0]}-{r['xg'][1]} ({'; '.join(r['why'])}). En olası skorlar: {sc}." if r.get("xg")
                 else f"Simülasyon yok: {'; '.join(r['why'])}.")
                + (f" Lig modeli ({r['dc']['source']}) xG {r['dc']['xg'][0]}-{r['dc']['xg'][1]}." if r.get("dc") else "")

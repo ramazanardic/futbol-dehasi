@@ -38,7 +38,7 @@ AREA = ng.DAILY  # tahminler/<QUANTFOOT_AI>/ (required)
 
 MATCH_COLS = ["tarih", "saat", "lig", "mac", "nesine_kodu", "olasilik_1", "olasilik_X", "olasilik_2",
               "beklenen_gol_ev", "beklenen_gol_dep", "en_olasi_skor", "ana_secim_pazar", "ana_secim",
-              "nesine_oran", "olasilik", "fiyat_kaynagi", "guven", "not", "secim_adi"]
+              "nesine_oran", "olasilik", "fiyat_kaynagi", "guven", "not", "secim_adi", "en_yuksek_5_olasilik"]
 COUPON_COLS = ["tarih", "kupon_turu", "kupon", "kupon_no", "kupon_toplam_oran", "kupon_tutma_olasiligi", "saat", "mac",
                "nesine_kodu", "pazar", "secim", "nesine_oran", "olasilik", "secim_adi", "kural_oncesi_olasilik"]
 
@@ -83,6 +83,10 @@ def kickoff_date(kickoff: str | None, fallback: str) -> str:
 
 def match_rows(date: str, matches: list[dict], frozen: dict[str, dict] | None = None,
                now: dt.datetime | None = None) -> list[dict]:
+    from bahis_aileleri import format_top_five, top_five
+    from quantfoot.evaluation.auto_learn import load_live_calibration
+
+    calibration = load_live_calibration() or {}
     frozen = frozen or {}
     now = now or dt.datetime.now(TSI)
     rows = []
@@ -108,6 +112,7 @@ def match_rows(date: str, matches: list[dict], frozen: dict[str, dict] | None = 
             "fiyat_kaynagi": (m.get("reference") or "") if priced else "",
             "guven": {"keskin": "yüksek", "global_buro": "orta", "dusuk_guven": "düşük"}.get(tier, ""),
             "not": "" if pick and not why else (why or ""),
+            "en_yuksek_5_olasilik": format_top_five(top_five(m, calibration)),
             "secim_adi": pick.get("name", "") if pick else "",  # settlement name, read by gun_degerlendirme.py
         })
     # a frozen (started) match that dropped out of the bulletin keeps its pre-kick-off row

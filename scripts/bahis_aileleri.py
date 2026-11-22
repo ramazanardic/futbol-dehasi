@@ -20,6 +20,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import math
 from pathlib import Path
 import sys
 
@@ -47,21 +48,57 @@ def _history(name: str, games: dict | None, ft_only: bool) -> tuple[float | None
     return hist["mean"], min(hist["home_n"], hist["away_n"]), ""
 
 
+def priced_selections(m: dict, calibration: dict | None = None) -> list[dict]:
+    """Calibrate the match's global quotes without applying coupon thresholds."""
+    if m.get("status") not in (None, "fiyatlandı"):
+        return []
+    market_calibration = load_market_calibration()
+    selections = []
+    for selection in m.get("selections") or []:
+        raw = selection.get("fair_prob")
+        if raw is None or not math.isfinite(raw) or not 0 <= raw <= 1:
+            continue
+        direct = bool(selection.get("direct"))
+        p = calibrated_probability(raw, direct, calibration)
+        p = calibrate_market_probability(selection["name"], p, m.get("league"), market_calibration, direct=direct)
+        selections.append({**selection, "p": p, "family": market_family(selection["name"])})
+    return selections
+
+
+def top_five(m: dict, calibration: dict | None = None) -> list[dict]:
+    """Choose the most probable selection in each family, then rank up to five families."""
+    if calibration is None:
+        calibration = load_live_calibration()
+    ranked = sorted(priced_selections(m, calibration),
+                    key=lambda x: (-x["p"], not x.get("direct"), x["family"], x["name"]))
+    best = {}
+    for selection in ranked:
+        family = selection["family"]
+        best.setdefault(family, {"family": family, "name": selection["name"], "p": selection["p"]})
+        if len(best) == 5:
+            break
+    return list(best.values())
+
+
+def format_top_five(selections: list[dict] | None) -> str:
+    if not selections:
+        return "Doğrulanmış olasılık yok"
+    parts = [f"{x['name']} %{100 * x['p']:.1f}".replace(".", ",") for x in selections]
+    return " · ".join(parts).replace("|", "/")
+
+
 def family_table(m: dict, games: dict | None = None, ft_only: bool = False, calibration: dict | None = None) -> list[dict]:
-    """[{family, suitable: [...], best_other: {...} | None}] in FAMILY_ORDER (families Nesine offers only)."""
+    """All offered selections grouped by market family, with research eligibility."""
     import wiki_gecmis as wg
     fams: dict[str, list[dict]] = {}
-    priced = (m.get("selections") or []) if m.get("status") in (None, "fiyatlandı") else []
+    priced = priced_selections(m, calibration)
     quotes = {s["key"]: s for s in priced if "key" in s}
-    market_calibration = load_market_calibration()
     for offer in m.get("offered_selections", priced):
-        s = quotes.get(offer.get("key"), offer)
-        direct = bool(s.get("direct"))
-        p = None
-        if "fair_prob" in s:
-            p = calibrated_probability(s["fair_prob"], direct, calibration)
-            p = calibrate_market_probability(s["name"], p, m.get("league"), market_calibration, direct=direct)
-        fams.setdefault(market_family(s["name"]), []).append({**s, "p": p})
+        selection = quotes.get(offer.get("key"), offer)
+        if "p" not in selection:
+            selection = {**selection, "p": None}
+        family = selection.get("family") or market_family(selection["name"])
+        fams.setdefault(family, []).append(selection)
     for label in m.get("untranslated_selections") or []:
         fams.setdefault("Eşlenemeyen Nesine pazarları", []).append(
             {"market": "", "selection": label, "p": None, "odds": None}
@@ -122,6 +159,7 @@ def to_markdown(date: str, items: list[tuple[dict, list[dict]]]) -> str:
         if not table:
             continue
         md += [f"## {row['kickoff'][11:16]} {row['match']} — {row['league']}", ""]
+        md += [f"**En yüksek 5 aile olasılığı** · {format_top_five(row.get('en_yuksek_5'))}", ""]
         best = best_families(table)
         if best:
             md += ["**En uygun aileler:** " + " · ".join(f"{fam}: {r['label']} ({pct(r['p'])}, {r['odds']:.2f}, {r['verdict']})"
@@ -145,7 +183,7 @@ def build_day(date: str, *, window: str | None = None) -> Path:
     out = dr.AREA / date
     rows = json.loads((out / "derin_tahminler.json").read_text(encoding="utf-8"))
     ms = {str(m["code"]): m for m in json.loads((out / "nesine_global.json").read_text(encoding="utf-8"))["matches"]}
-    cal = load_live_calibration() or None
+    cal = load_live_calibration() or {}
     items = []
     by_code = {str(r["code"]): r for r in rows}
     now = dt.datetime.now(dr.TSI)
@@ -157,6 +195,7 @@ def build_day(date: str, *, window: str | None = None) -> Path:
         games, ft_only = games_for(m, row) if m.get("status") == "fiyatlandı" else (None, False)
         table = family_table(m, games, ft_only, cal)
         row["families"] = table
+        row["en_yuksek_5"] = top_five(m, cal)
         items.append((row, table))
     (out / "derin_tahminler.json").write_text(json.dumps(rows, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
     path = out / "bahis_aileleri.md"

@@ -344,6 +344,8 @@ def coupon_legs(date: str) -> dict[str, list[dict]]:
 
 
 def to_markdown(date: str, rows: list[dict]) -> str:
+    from bahis_aileleri import format_top_five
+
     pct = lambda x: "-" if x is None else f"%{100 * x:.0f}"  # noqa: E731
     md = [f"# {date} — derin araştırma ({dt.datetime.now(TSI):%H:%M} TSİ)", "",
           "Takım geçmişi: ESPN, her takımın son ~15 bitmiş maçı (yarı skorlarıyla). Bacak testi: aynı bahis o "
@@ -352,6 +354,8 @@ def to_markdown(date: str, rows: list[dict]) -> str:
         md += [f"## {r['kickoff'][11:16]} {r['match']} ({r['league']})", "",
                f"Fiyat: {r['reference']} · gol beklentisi {r['mu'][0]}-{r['mu'][1]}"
                + (f" · ⚠ {'; '.join(r['flags'])}" if r["flags"] else ""), ""]
+        if "en_yuksek_5" in r:
+            md += [f"**En yüksek 5 aile olasılığı** · {format_top_five(r['en_yuksek_5'])}", ""]
         if not r["espn"]:
             md += ["_ESPN takım verisi yok; koşulları otomatik veriye izin veren ücretsiz başka kaynak da yok — bu bacak yalnız piyasa fiyatına ve analizdeki araştırmaya dayanıyor._", ""]
         else:
