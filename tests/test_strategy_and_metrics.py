@@ -419,3 +419,29 @@ def test_v71_portfolio_forbids_contradictions_and_enforces_min_leg_prob():
     assert not (c1_map.get("M2") == "2.5 Üst" and c2_map.get("M2") == "2.5 Alt")
     assert not (c1_map.get("M3") == "KG Var" and c2_map.get("M3") == "KG Yok")
 
+
+def test_v8_universal_zero_pas_mode_and_layer12_penalties():
+    from quantfoot.markets import compute_omni_markets
+    from quantfoot.strategy import MatchRiskContext, audit_match_risks, select_best_valid_bet
+
+    # 1. Layer 1 tightened: Troyes-Le Havre (xG 2.67) / Andorra-Leganes (xG 2.77) blocks 3.5 Alt
+    b_and = compute_omni_markets(1.70, 1.07, league="sp2")
+    blocked_and, pen_and = audit_match_risks(b_and, MatchRiskContext())
+    assert "3.5 Alt" in blocked_and
+    # Layer 12: moderate favorite (< 70%) MS 1 is penalized vs structural goal/BTTS markets
+    assert pen_and.get("MS 1", 1.0) < 1.0
+
+    # 2. Universal Zero-PAS mode (require_prediction=True): even when no_ou blocks goals & min_prob is high,
+    # a safe >= 1.20 fallback prediction is always returned so researched matches never get 0 predictions.
+    b_tight = compute_omni_markets(1.10, 1.05, league="e0")
+    recs = select_best_valid_bet(
+        "M_ZERO_PAS", "TeamA", "TeamB", "E0", "20:00", b_tight,
+        offered_odds_map={"3.5 Alt": 1.22, "KG Yok": 1.65, "MS 1": 2.40, "MS 2": 2.60},
+        risk_ctx=MatchRiskContext(has_ou_market=False),
+        min_prob=0.75,
+        require_prediction=True,
+    )
+    assert len(recs) >= 1
+    assert recs[0].offered_odds >= 1.20
+
+

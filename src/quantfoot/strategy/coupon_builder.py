@@ -192,10 +192,10 @@ def audit_match_risks(
         blocked["0-1 Gol"] = blocked["2.5 Alt"]
         penalties["2.5 Alt & KG Yok"] = 0.72
 
-    if tot >= 2.85 or max_mu >= 1.85 or (ctx.home_must_win and ctx.away_must_win):
+    if tot >= 2.68 or max_mu >= 1.72 or (ctx.home_must_win and ctx.away_must_win):
         blocked["3.5 Alt"] = (
             f"Yüksek Tempo 3.5 Alt Tuzağı: Toplam xG={tot:.2f} / max xG={max_mu:.2f} "
-            "(Örn: Galler-Portekiz 2-3 gibi geçiş maçlarında 3.5 Alt kırılgan)."
+            "(Örn: Troyes 3-1, Andorra 1-3, Galler-Portekiz 2-3 gibi geçiş maçlarında 3.5 Alt kırılgan)."
         )
 
     # 2. FIRST-HALF DRAW (İY 0) EARLY-GOAL FRAGILITY GUARD (1/7 failure mode)
@@ -381,6 +381,25 @@ def audit_match_risks(
             "Eleme maçında zayıf tarafın kapanma riski yüksek (Örn: Dep. La Guaira 0-1).",
         )
 
+    # 12. FRAGILE MODERATE-FAVORITE 1X2 & MARGINAL 2.5-LINE PENALTY
+    # (Nov 18-21 empirical audit across 330 matches: MS 1/2 at P<70% went 7/16=%43.8 on global & 18/33=%54.5 on local,
+    # whereas KG Yok %87.5, 3.5 Alt (xG<2.68) %80.0, İY 0.5 Üst %76.5, KG Var %70.0, and 2.5 Üst (P>=62%) %68+ dominated.)
+    if p_home < 0.64:
+        penalties["MS 1"] = min(penalties.get("MS 1", 1.0), 0.80)
+    elif p_home < 0.70:
+        penalties["MS 1"] = min(penalties.get("MS 1", 1.0), 0.88)
+
+    if p_away < 0.64:
+        penalties["MS 2"] = min(penalties.get("MS 2", 1.0), 0.78)
+    elif p_away < 0.70:
+        penalties["MS 2"] = min(penalties.get("MS 2", 1.0), 0.86)
+
+    p_u25 = float(bundle.ft_ou.get("2.5 Alt", 1.0 - p_o25))
+    if p_o25 < 0.62:
+        penalties["2.5 Üst"] = min(penalties.get("2.5 Üst", 1.0), 0.86)
+    if p_u25 < 0.62:
+        penalties["2.5 Alt"] = min(penalties.get("2.5 Alt", 1.0), 0.86)
+
     return blocked, penalties
 
 
@@ -408,6 +427,7 @@ def select_best_valid_bet(
     allow_uncalibrated: bool = False,
     mbs: int = 1,
     combo_min_prob: float = 0.46,
+    require_prediction: bool = True,
 ) -> list[MarketRecommendation]:
     """Evaluate all markets for a fixture, enforce >= 1.20 odds & risk guards, and rank best valid options.
 
@@ -536,6 +556,71 @@ def select_best_valid_bet(
                 mbs=max(1, int(mbs)),
             )
         )
+
+    recommendations.sort(key=lambda r: (r.safety_score, r.probability), reverse=True)
+    if recommendations or not require_prediction:
+        return recommendations
+
+    # Universal Zero-PAS Step-Down Fallback:
+    # When all primary candidates are filtered out by min_prob or risk blocks, step down to the highest-reliability
+    # >= 1.20 option (preferring unblocked structural buffers first, then least-penalized high-probability buffers)
+    # so every researched match receives an explicit prediction.
+    fallback_keys = [
+        "3.5 Alt", "4.5 Alt", "1.5 Üst", "İY 0.5 Üst", "İY 1.5 Alt", "2Y 0.5 Üst",
+        "KG Yok", "KG Var", "ÇŞ 10", "ÇŞ 02", "2.5 Alt", "2.5 Üst", "2-4 Gol", "2-3 Gol", "MS 1", "MS 2",
+    ]
+    for allow_blk in (False, True):
+        for sel in fallback_keys:
+            if sel not in all_probs:
+                continue
+            is_blk = sel in blocked
+            if is_blk and not allow_blk:
+                continue
+            prob = float(all_probs[sel])
+            if prob < 0.48:
+                continue
+            cat = _categorize_selection(sel)
+            if sel in odds_map and odds_map[sel] is not None:
+                off_odds = float(odds_map[sel])
+                is_est = False
+            else:
+                off_odds = _estimate_offered_odds(prob, cat)
+                is_est = True
+            if off_odds < floor - 1e-9:
+                continue
+            fair = round(1.0 / max(prob, 1e-6), 2)
+            ev = round(prob * off_odds - 1.0, 4)
+            pen = penalties.get(sel, 1.0) * (0.72 if is_blk else 1.0)
+            ev_factor = max(0.65, min(1.18, 1.0 + 0.45 * ev))
+            safety_score = round((prob ** 1.35) * pen * ev_factor * (1.0 + 0.08 * math.log(max(off_odds, 1.20))), 4)
+            rationale = (
+                f"Zorunlu Güvenli Kademe (0 PAS Modu) — Model Olasılığı %{prob*100:.1f} "
+                f"(Adil {fair:.2f}, Oran {off_odds:.2f}) | xG: {bundle.mu_home:.2f}-{bundle.mu_away:.2f}"
+            )
+            recommendations.append(
+                MarketRecommendation(
+                    match_id=match_id,
+                    home=home,
+                    away=away,
+                    league=league,
+                    kickoff=kickoff,
+                    category=cat,
+                    selection=sel,
+                    probability=round(prob, 4),
+                    fair_odds=fair,
+                    offered_odds=round(off_odds, 2),
+                    odds_is_estimated=is_est,
+                    safety_score=safety_score,
+                    ev=ev,
+                    rationale=rationale,
+                    stepped_down_from="Zorunlu Güvenli Kademe (0 PAS Modu)",
+                    blocked_traps=trap_list[:3],
+                    group_id=ctx.group_id,
+                    mbs=max(1, int(mbs)),
+                )
+            )
+        if recommendations:
+            break
 
     recommendations.sort(key=lambda r: (r.safety_score, r.probability), reverse=True)
     return recommendations
