@@ -20,7 +20,7 @@ def _load(name: str):
 def test_candidates_direct_only_and_thresholds():
     dt_ = _load("derin_tahmin")
     sel = lambda n, p, o, d=True: {"name": n, "market": "M", "selection": n, "fair_prob": p, "odds": o, "direct": d}  # noqa: E731
-    m = {"selections": [sel("a", 0.70, 1.30), sel("b", 0.80, 1.15), sel("c", 0.75, 1.40, False), sel("d", 0.54, 1.80),
+    m = {"status": "fiyatlandı", "reference": "OddsMath (BetInAsia/Pinnacle)", "selections": [sel("a", 0.70, 1.30), sel("b", 0.80, 1.15), sel("c", 0.75, 1.40, False), sel("d", 0.54, 1.80),
                         sel("e", 0.60, 1.50)]}
     assert [c["name"] for c in dt_.candidates(m, 5, calibration={})] == ["a", "e"]   # odds < 1.20, model-derived and p < 55 % left out
 
@@ -249,3 +249,31 @@ def test_kickoff_window():
     dt_ = _load("derin_tahmin")
     assert dt_.in_window("2026-11-21 06:00", "06:00-10:00") and dt_.in_window("2026-11-21 10:00", "06:00-10:00")
     assert not dt_.in_window("2026-11-21 10:30", "06:00-10:00") and dt_.in_window("2026-11-21 23:00", None)
+
+
+def test_deep_candidates_respect_main_pick_source_and_floor():
+    deep = _load("derin_tahmin")
+    pick = dict(name="MS 1", market="Maç Sonucu", selection="1", fair_prob=.60, odds=1.6, direct=True)
+    match = dict(status="fiyatlandı", reference="ESPN (DraftKings/ESPN BET)", selections=[pick])
+    assert not deep.candidates(match, 5, calibration={})
+    match.update(reference="OddsMath (Marathonbet)")
+    assert not deep.candidates(match, 5, calibration={})
+    match["research"] = {"teams": {"home": {"rank": 2}, "away": {"rank": 5}}}
+    assert not deep.candidates(match, 5, calibration={})
+    pick["fair_prob"] = .63
+    assert deep.candidates(match, 5, calibration={})[0]["p"] == .63
+
+
+def test_main_pick_ranks_and_exports_calibrated_probability(monkeypatch):
+    ga = _load("gunluk_analiz")
+    monkeypatch.setattr(ga, "load_market_calibration", lambda: {"markets": {"KG Var": {"a": -.4, "b": 1}}})
+    kg = dict(name="KG Var", odds=1.5, fair_prob=.7, ev=.05, direct=False)
+    ms = dict(name="MS 1", odds=1.5, fair_prob=.65, ev=-.025, direct=True)
+    match = dict(status="fiyatlandı", reference="OddsMath (BetInAsia/Pinnacle)", selections=[kg, ms])
+    assert ga.best_pick(match)[0]["name"] == "MS 1"
+    match["selections"] = [kg]
+    pick = ga.best_pick(match)[0]
+    assert .60 < pick["fair_prob"] < .62 and kg["fair_prob"] == .7
+    assert pick["ev"] == pick["fair_prob"] * pick["odds"] - 1
+    kg["direct"] = True
+    assert ga.best_pick(match)[0]["fair_prob"] == .7
