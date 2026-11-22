@@ -1,0 +1,9 @@
+{
+ "lessons": [
+  "Bacak sayısı kuponu öldürüyor: banko kuralına yakın kurulan 3 kuponda bacaklar 16/20 tuttu (%80) — K2000 4/5, GECE-5.00 4/5, MS10 8/10 — ama üçü de yattı. %80'lik 5 bacak = %33, 10 bacak = %11. Kuponu 2–4 bacakta tut; hedef oran (7, 20) bacak sayısını ya da düşük P'li bacakları zorluyorsa hedefi küçült veya sistem (3/4, 4/5) oyna. 20 oranlık riskli kupon (P 0,44–0,57 bacaklar) ise 1/5 tuttu: düşük P'li bacakla oran kovalamak tam beklendiği gibi kaybettirdi.",
+  "MS 1 en kötü kalibre olan seçim: tüm havuzda 16/33 = %48 tuttu (tahmin %62, −14 puan), ana seçimde 3/8; riskli kuponda da Jeonnam 1-2 ve Numazu 0-2 MS 1 bacakları yattı. Yatan bacakların çoğu 'veri az' ligdeki favori: CD Aguila 0-0, CD Fas 1-1 (El Salvador, takım geçmişi yok), D. Bükreş 0-1. Takım geçmişi/xG verisi olmayan ligde MS 1'i kupona koyma; favori bacağı gerekiyorsa ÇŞ ya da İY ÇŞ kullan.",
+  "Deplasman gol pazarları sistematik olarak fazla güvenli: Dep 1.5 Alt 20/40 (−13p), Dep İY 0.5 Alt 34/60 (−6p; ana seçimde 5/13), Dep 0.5 Üst 34/60 (−6p; ana seçimde 10/20). Ev İY 0.5 Üst 10/25 (−20p), Ev 1.5 Üst 9/21 (−18p), ÇŞ 1X 22/41 (−9p). Bunlar kupon dışı kalmalı. İyi giden aileler: İY 1.5 Alt 48/68 (+8.6p), İY ÇŞ X2 32/40 (+16.5p), 3.5 Alt 34/49 (+5.8p), 2.5 Alt 20/26 (+18p), İY KG Yok & 2Y KG Yok 22/34 (+4.8p).",
+  "Kalibrasyon P≥0.70 kuralını doğruluyor: 70–75 bandı ana seçimde 26/32 (%81), tüm havuzda 38/50 (%76) tuttu; 65–70 bandı ana seçimde 56/90 (%62, −6p fazla güvenli), 55–60 bandı ana seçimde 2/7. 1.20–1.25 oranlı 'garanti' bacak da kuponu tek başına yakabiliyor (Pumas İY 0.5 Üst, İY 0-0; Gwangju 3.5 Alt, 4-2): düşük oran düşük risk demek değil, her bacak aynı ağırlıkta öldürür.",
+  "Veri hatası: 22 Kasım mac_tahminleri.csv'deki '00:00–04:10' satırları Nesine'de 23 Kasım gecesi. Pipeline gece yarısı sonrası maçları bir önceki güne yazıyor; tarih Nesine MD alanından alınmalı (ortak sistemde düzeltilecek iş)."
+ ]
+}
