@@ -423,3 +423,39 @@ def test_renamed_reserve_team_pairs_on_same_kickoff_only():
     assert ng._match(ev, [ref])[0] is ref
     late = dict(ref, kickoff=ko + dt.timedelta(hours=2))
     assert ng._match(ev, [late])[0] is None  # weak name match only accepted at the same kick-off
+
+
+def test_v4_nesine_kupon_passes_flags_enforces_banko_min_ev_and_attaches_insured_system():
+    import datetime as dt
+
+    now = dt.datetime(2026, 11, 23, 12, 0, tzinfo=dt.timezone(dt.timedelta(hours=3)))
+    m_steam = {
+        "status": "fiyatlandı", "reference": "Smarkets (borsa)", "kickoff_iso": "2026-11-23T20:00:00+03:00",
+        "kickoff": "2026-11-23 20:00", "code": 501, "league": "İspanya La Liga", "home": "A", "away": "B",
+        "mu_home": 2.0, "mu_away": 0.7, "fair_1x2": [0.74, 0.17, 0.09],
+        "research": {"flags": ["Sharp steam +6.8p"]},
+        "selections": [{"name": "MS 1", "market": "Maç Sonucu", "selection": "1", "odds": 1.32, "fair_prob": 0.74, "ev": -0.023, "mbs": 1, "direct": True}],
+    }
+    pools = kupon.candidates([m_steam], now, min_odds=1.20, min_prob=0.60, allow_espn=False, keep_all=True)
+    assert pools and pools[0][0]["flags"] == ["Sharp steam +6.8p"]
+    assert pools[0][0]["diagnosis_ok"] is False  # sert steam kalkanı nesine_kupon içinde de aktif!
+
+    # EV marj freni: -%14 EV'li 1.20 bacak elenir, -%2 EV'li 1.32 bacak geçer
+    test_pools = [[
+        {"code": 1, "match": "X - Y", "name": "MS 1", "odds": 1.20, "p": 0.73, "p_low": 0.71, "mbs": 1},
+        {"code": 1, "match": "X - Y", "name": "3.5 Alt", "odds": 1.32, "p": 0.76, "p_low": 0.74, "mbs": 1},
+    ]]
+    filtered = kupon.apply_coupon_rules_to_pools(test_pools, "banko", min_ev=-0.115)
+    assert len(filtered) == 1 and [x["name"] for x in filtered[0]] == ["3.5 Alt"]
+
+    # Tek-bacak sigorta eklentisi (5 maç -> Sistem 4,5)
+    sample_coupon = {
+        "legs": [{"code": i, "match": f"M{i}", "name": "3.5 Alt", "odds": 1.32, "p": 0.74, "mbs": 1} for i in range(5)],
+        "nesine_odds": round(1.32 ** 5, 2),
+        "probability": 0.74 ** 5,
+    }
+    ins = kupon.attach_insured_system(sample_coupon, budget_tl=100.0)
+    assert ins is not None and min(ins["sizes"]) == 4
+    assert ins["p_at_least_n_minus_1"] > ins["p_all"] + 0.30
+    assert ins["one_miss_payout_range"][0] > 40.0
+

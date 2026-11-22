@@ -457,23 +457,35 @@ def diagnose_selection(
     # ------------------------------------------------------------------ 5. İzinli Ailelerin İçindeki Gizli Tuzaklar
     elif family == "İlk yarı":
         if cname == "İY ÇŞ 12":
-            # 22 Kas 427 maç: İY ÇŞ 12 [MOD] 48/99 (%48,5 vs P %62,9 = -14,4p)!
-            # İlk yarıda 0-0 / 1-1 beraberlik oranı gerçek futbolda %42–48; model sistematik hafife alıyor.
-            p_adj = max(0.0, p_adj - 0.08)
+            # 22 Kas 428 maç: İY ÇŞ 12 genel 48/99 (%48,5, -14,4p); en ekstrem xG≥3.20 dilimi bile 8/15 (%53,3, -11,9p, ROI -%33,3)!
+            # Kuponlarda koşulsuz yasak; analizde ağır ceza.
+            p_adj = max(0.0, p_adj - 0.10)
+            if for_coupon:
+                reasons.append("İY ÇŞ 12 kupon katili (22 Kas: 48/99 = %48,5, ekstrem dilim bile 8/15 = %53,3 — banko kuponda yasak)")
+            else:
+                diff_mu = abs(mu_h - mu_a) if (mu_h is not None and mu_a is not None) else None
+                if (mu_tot is None or mu_tot < 3.20) or (diff_mu is None or diff_mu < 1.10):
+                    reasons.append("İY ÇŞ 12 gizli ilk-yarı beraberlik tuzağı (22 Kas: %48,5, -14,4p)")
+        elif cname in ("İY 1", "İY 2") and for_coupon:
+            # 22 Kas 428 maç: İY 1/2 45 dk yarı sonucu 6/12 (%50,0, -12,2p, ROI -%24,7) — 0-0 devre riski yüksek
             diff_mu = abs(mu_h - mu_a) if (mu_h is not None and mu_a is not None) else None
-            if (mu_tot is None or mu_tot < 3.20) or (diff_mu is None or diff_mu < 1.10):
-                reasons.append("İY ÇŞ 12 gizli ilk-yarı beraberlik tuzağı (22 Kas: 48/99 = %48,5, -14,4p; xG≥3.20 ve fark≥1.10 şart)")
-            if p_draw is not None and p_draw >= 0.22:
-                reasons.append(f"İY ÇŞ 12 beraberlik riski yüksek (P(X)={p_draw:.2f} ≥ 0.22)")
+            backing_home = cname == "İY 1"
+            if not direct or diff_mu is None or diff_mu < 1.85:
+                p_adj = max(0.0, p_adj - 0.06)
+                reasons.append(f"{cname} 45 dk yarı sonucu yüksek varyans tuzağı (22 Kas: %50,0; doğrudan keskin + xG farkı ≥ 1.85 şart)")
+            if steam_pp >= 4.5:
+                reasons.append(f"{cname} steam volatilitesi ({steam_pp:.1f}p ≥ 4.5p)")
+            if (h_sc_out if backing_home else a_sc_out) or (h_gk_out if backing_home else a_gk_out):
+                reasons.append(f"{cname}: favoride kilit kaleci/golcü eksik")
         elif cname == "İY 1.5 Alt" and for_coupon:
-            # 21 Kas: P>=65%'te min(mu_h, mu_a) >= 1.05 veya p_draw >= 0.27 iken 2. lig/diğer liglerde %44'e çöktü!
-            if lg_tier != "1" and min_mu is not None and min_mu >= 1.05:
-                reasons.append(f"İY 1.5 Alt tuzağı (çift taraflı hücum): her iki takımın xG'si ≥ 1.05 ({min_mu:.2f}; 21 Kas'ta %44,0 tuttu)")
-            if mu_tot is not None and mu_tot >= 2.85:
-                reasons.append(f"İY 1.5 Alt tuzağı (yüksek toplam gol): toplam xG {mu_tot:.2f} ≥ 2.85")
-            if steam_pp >= 5.5:
+            # 22 Kas 428 maç: mt<=2.65 & min_mu<1.00 & steam<5.0 dilimi 8/12 (%66,7 vs %68,5); dışarısı %56–%62'ye çöküyor!
+            if min_mu is not None and min_mu >= 1.00:
+                reasons.append(f"İY 1.5 Alt tuzağı (çift taraflı hücum): zayıf taraf xG {min_mu:.2f} ≥ 1.00")
+            if mu_tot is not None and mu_tot > 2.65:
+                reasons.append(f"İY 1.5 Alt tuzağı (yüksek toplam gol): toplam xG {mu_tot:.2f} > 2.65 (22 Kas: %56,0, -11,1p)")
+            if steam_pp >= 5.0:
                 p_adj = max(0.0, p_adj - 0.04)
-                reasons.append(f"İY 1.5 Alt sert steam tuzağı ({steam_pp:.1f}p ≥ 5.5p; 22 Kas: Getafe İY 0-2, Huancayo İY 3-0)")
+                reasons.append(f"İY 1.5 Alt sert steam tuzağı ({steam_pp:.1f}p ≥ 5.0p; 22 Kas: Getafe İY 0-2, Huancayo İY 3-0)")
             if h_gk_out or a_gk_out:
                 reasons.append("İY 1.5 Alt riskli: 1. kaleci eksik")
         elif cname == "İY 0.5 Üst":
@@ -481,6 +493,12 @@ def diagnose_selection(
                 reasons.append(f"İY 0.5 Üst düşük tempo tuzağı: toplam xG {mu_tot:.2f} < 2.50")
             if h_sc_out and a_sc_out:
                 reasons.append("İY 0.5 Üst riskli: iki takımın da golcüsü eksik")
+
+    elif family == "İkinci yarı":
+        if cname in ("2Y 1", "2Y 2") and for_coupon:
+            # 22 Kas 428 maç: P>=65% 2Y 1 = 2/5 (%40,0, -27,9p; ör. Trabzonspor 1-0/1-0 — devreyi önde kapatan favori 2Y rölantiye alır)
+            p_adj = max(0.0, p_adj - 0.06)
+            reasons.append(f"{cname} 2. yarı oyun-durumu tuzağı (22 Kas P≥%65: 2/5 = %40,0 — 1Y önde olan favori 2Y skoru korur)")
 
     elif family == "Kombine (A & B)":
         if cname == "İY KG Yok & 2Y KG Yok":
@@ -512,18 +530,18 @@ def diagnose_selection(
             if a_sc_out or a_gk_out:
                 reasons.append("Dep En Az Bir Yarıyı Kazanır: deplasmanda kaleci/golcü eksik")
         elif cname == "DEĞİL(Ev İki Yarıda Gol)":
-            # 22 Kas 427 maç: 17/33 (%51,5 vs P %66,4 = -14,9p) — güçlü ev sahibine (mu_h ≥ 1.60) karşı atamaz almak tuzak!
-            if mu_h is not None and mu_h >= 1.60:
+            # 22 Kas 428 maç: mu_h 1.50–1.60 dilimi 0/3 (%0,0, -70,7p), mu_h ≥ 1.60 dilimi 17/30 (%56,7) — eşik 1.45!
+            if mu_h is not None and mu_h >= 1.45:
                 p_adj = max(0.0, p_adj - 0.06)
-                reasons.append(f"DEĞİL(Ev İki Yarıda Gol) güçlü ev hücum tuzağı: ev xG {mu_h:.2f} ≥ 1.60 (22 Kas: %51,5 tuttu, -14,9p)")
+                reasons.append(f"DEĞİL(Ev İki Yarıda Gol) güçlü ev hücum tuzağı: ev xG {mu_h:.2f} ≥ 1.45 (22 Kas: 1.50+ diliminde %51,5)")
             if h_gf is not None and h_gf >= 1.80:
                 reasons.append(f"DEĞİL(Ev İki Yarıda Gol): ev sahibi maç başı {h_gf:.2f} gol atıyor")
             if a_gk_out:
                 reasons.append("DEĞİL(Ev İki Yarıda Gol): deplasman 1. kalecisi eksik")
         elif cname == "DEĞİL(Dep İki Yarıda Gol)":
-            if mu_a is not None and mu_a >= 1.60:
+            if mu_a is not None and mu_a >= 1.45:
                 p_adj = max(0.0, p_adj - 0.05)
-                reasons.append(f"DEĞİL(Dep İki Yarıda Gol) güçlü deplasman hücum tuzağı: dep xG {mu_a:.2f} ≥ 1.60")
+                reasons.append(f"DEĞİL(Dep İki Yarıda Gol) güçlü deplasman hücum tuzağı: dep xG {mu_a:.2f} ≥ 1.45")
             if a_gf is not None and a_gf >= 1.75:
                 reasons.append(f"DEĞİL(Dep İki Yarıda Gol): deplasman maç başı {a_gf:.2f} gol atıyor")
             if h_gk_out:

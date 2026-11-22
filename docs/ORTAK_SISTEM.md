@@ -85,12 +85,15 @@ açıkça söyle; kuralları gevşeterek hedefe ulaşma.
   0,10 büzülür, "diğer" lig katmanında +0,10 (`src/quantfoot/settings.py`).
 - **Aile ve patern kalibrasyonu:** `data/calibration/coupon_family_calibration.json` (James-Stein büzüştürmeli;
   pozitif sapma P'ye **eklenmez**; `^İY ÇŞ 12$` paterni `^İY ÇŞ` paterninden önce eşleşir).
-- **v3 Teşhis Kalkanları (`src/quantfoot/markets/market_diagnosis.py`):**
-  - `İY ÇŞ 12` gizli tuzağı engeli (22 Kas: 48/99 = %48,5 vs %62,9, −14,4p).
-  - Keskin borsa sert steam (`parse_steam_pp`) kalkanı: `≥6,0p` sert steam'de `MS 1/2` (22 Kas: %38,5 vs steam yokken
-    %71,4), `≥5,5p` sert steam'de `İY 1.5 / 2.5 Alt` (%47,4), `≥6,5p` sert steam'de `3.5 Alt` kupon dışı bırakılır.
+- **v4 Teşhis & Kasa Koruma Kalkanları (`src/quantfoot/markets/market_diagnosis.py`, `scripts/nesine_kupon.py`):**
+  - `İY ÇŞ 12` banko kuponlarda **koşulsuz yasak** (22 Kas: genel 48/99 = %48,5, en ekstrem dilim bile 8/15 = %53,3).
+  - `İY 1.5 Alt` sıkı tempo sınırı: `mu_tot ≤ 2,65`, `min_mu < 1,00`, `steam < 5,0p`, kaleci sağlam (22 Kas: geçenler %66,7, dışarısı %56,0).
+  - `İY 1/2` ve `2Y 1/2` 45 dk yarı-sonucu varyans kalkanı (22 Kas: `2Y 1 P≥%65` 2/5 = %40,0).
+  - Keskin borsa sert steam (`parse_steam_pp`) kalkanı artık `nesine_kupon.py` içine de doğrudan `flags` ile bağlı: `≥6,0p` sert steam'de `MS 1/2` (22 Kas: %38,5 vs steam yokken %71,4), `≥5,0p` sert steam'de `İY 1.5 Alt` kupon dışı.
   - `Dep İY 0.5 Üst` (9/24 = %37,5) ve `İY Çift` / Tek-Çift parite gürültüsü (26/58 = %44,8) engelli.
-  - `DEĞİL(Ev İki Yarıda Gol)` eşiği `mu_home ≥ 1,60` ile sıkılaştırıldı (17/33 = %51,5).
+  - `DEĞİL(Ev/Dep İki Yarıda Gol)` eşiği `mu ≥ 1,45` ile sıkılaştırıldı (22 Kas: `1,50–1,60` 0/3 = %0,0, `≥1,60` %56,7).
+  - **Ağır Nesine Marjı Freni (`BANKO_DEFAULT_MIN_EV = -0,115`):** 22 Kas’ta `EV < −%14` bacaklar −%17,3 tekil ROI (5’li kombinede −%61 beklenen kayıp) üretirken `EV ≥ −%10` bacaklar %85 isabet / +%20,8 ROI verdi. Banko modunda `mac_limit = 1` (aynı maç iki kupona girmez) ve her 4–7 maçlık banko kupona otomatik **100 TL Tek-Bacak Sigorta (`Sistem n-1, n`)** karşılaştırması eklenir.
+  - **Kasa Koruma Planlayıcı (`scripts/kasa_koruma.py` + `build_capital_shield_plan`):** 5–6’lı ağır marjlı kombine yerine 3 maçlı (MBS uyumlu), `EV ≥ −%10`, sıfır ortak maçlı, kupon başı maks %3 / günlük maks %10 kasa riskli koruma planı üretir.
   - Tek-taraf geçmiş maskelemesi engeli: iki takımın ayrı ayrı geçmişinden zayıf olanı `<%45` ise reddedilir.
   - `İY KG Yok & 2Y KG Yok` düşük toplamlı (`mu_tot ≤ 2,65`) keskin maçlarda rehabilite edilir (19/26 = %73,1).
 - **Beraberlik riski:** banko MS 1 / MS 2 bacağında adil P(X) ≥ 0,27 → ret; ≥ 0,24 → uyarı (`strategy/banko_guard.py`).

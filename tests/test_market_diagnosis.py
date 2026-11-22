@@ -544,5 +544,28 @@ def test_single_source_helpers_steam_and_american_odds():
     assert american_to_decimal("OFF") is None
 
 
+def test_v4_unconditional_ht_dc_12_ban_half_result_shield_and_degil_145():
+    # İY ÇŞ 12 artık en ekstrem xG'de bile kuponda koşulsuz yasak (22 Kas ekstrem dilim 8/15 = %53.3)
+    extreme_12 = {
+        "name": "İY ÇŞ 12", "p": 0.72, "odds": 1.35, "mu_home": 2.65, "mu_away": 1.05,
+        "p_draw": 0.16, "reference": "Pinnacle", "direct": True, "league": "İspanya La Liga",
+    }
+    assert not diagnose_selection("İY ÇŞ 12", 0.72, extreme_12, for_coupon=True).ok
+
+    # DEĞİL(Ev İki Yarıda Gol) eşiği 1.45'e çekildi (1.50-1.60 dilimi 0/3 = %0.0)
+    degil_150 = {"name": "DEĞİL(Ev İki Yarıda Gol)", "p": 0.72, "odds": 1.24, "mu_home": 1.50, "mu_away": 1.00, "reference": "Pinnacle"}
+    assert not diagnose_selection("DEĞİL(Ev İki Yarıda Gol)", 0.72, degil_150, for_coupon=True).ok
+    assert diagnose_selection("DEĞİL(Ev İki Yarıda Gol)", 0.72, {**degil_150, "mu_home": 1.20}, for_coupon=True).ok
+
+    # 2Y 1 kuponda engellenir; İY 1 zayıf farkta/türetilmişte engellenir
+    assert not diagnose_selection("2Y 1", 0.71, {"mu_home": 2.9, "mu_away": 0.6, "direct": False, "reference": "Pinnacle"}, for_coupon=True).ok
+    assert not diagnose_selection("İY 1", 0.70, {"mu_home": 2.0, "mu_away": 0.8, "direct": True, "reference": "Pinnacle"}, for_coupon=True).ok
+
+    # İY 1.5 Alt: mu_tot > 2.65 veya steam >= 5.0p reddedilir, düşük tempoda geçer
+    assert not diagnose_selection("İY 1.5 Alt", 0.74, {"mu_home": 1.75, "mu_away": 0.95, "reference": "Pinnacle", "league": "İngiltere Premier Lig"}, for_coupon=True).ok
+    assert diagnose_selection("İY 1.5 Alt", 0.74, {"mu_home": 1.40, "mu_away": 0.85, "reference": "Pinnacle", "league": "İngiltere Premier Lig"}, for_coupon=True).ok
+
+
+
 
 

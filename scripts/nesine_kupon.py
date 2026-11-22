@@ -300,7 +300,7 @@ def candidates(
         away_top_scorer_out = bool((tm.get("away") or {}).get("top_scorer_out"))
         has_diag_ctx = any(
             x is not None for x in (mu_home, mu_away)
-        ) or home_gk1_out or away_gk1_out or home_top_scorer_out or away_top_scorer_out
+        ) or home_gk1_out or away_gk1_out or home_top_scorer_out or away_top_scorer_out or bool(res.get("flags"))
         for s in m["selections"]:
             p_cal = calibrated_probability(s["fair_prob"], bool(s.get("direct")), calibration)  # settled-history correction
             p_cal = calibrate_market_probability(s.get("name", ""), p_cal, m.get("league"), mcal, direct=bool(s.get("direct")))  # archive walk-forward curve
@@ -331,6 +331,7 @@ def candidates(
                 "ev_cal": round(p_cal * s["odds"] - 1.0, 4), "hard": hard,
                 "p1": p1, "p2": p2, "p_draw": p_draw, "p_over25": p_over25,
                 "mu_home": mu_home, "mu_away": mu_away,
+                "flags": list(res.get("flags") or []),
                 "home_gk1_out": home_gk1_out, "away_gk1_out": away_gk1_out,
                 "home_top_scorer_out": home_top_scorer_out, "away_top_scorer_out": away_top_scorer_out,
             }
@@ -552,11 +553,19 @@ def filter_pools_for_mode(pools: list[list[dict]], pol: "KM.ModePolicy") -> list
     return out
 
 
-def apply_coupon_rules_to_pools(pools: list[list[dict]], mode: str = "banko") -> list[list[dict]]:
-    """21 Kas kupon post-mortem kuralları (aile beyaz listesi, düzeltilmiş P ≥ %70, beraberlik/KG/gol yasağı).
+BANKO_DEFAULT_MIN_EV = -0.115  # 22 Kas 428 maç: EV < -%14 bacaklar -%17,3 ROI (-%61 5'li kayıp); -%11,5 üstü marj koruma sınırı
 
-    Yalnız banko modunda uygulanır; risk/yüksek oran süzgecine dokunulmaz. ``filter_pools_for_mode``
-    mevcut 0.65 tabanını korur; bu süzgeç daha sıkıdır.
+
+def apply_coupon_rules_to_pools(
+    pools: list[list[dict]],
+    mode: str = "banko",
+    *,
+    min_ev: float | None = None,
+) -> list[list[dict]]:
+    """21–23 Kas kupon kuralları (aile beyaz listesi, düzeltilmiş P ≥ %70, v4 teşhis kalkanları ve EV marj freni).
+
+    Yalnız banko modunda uygulanır; risk/yüksek oran süzgecine dokunulmaz. ``min_ev`` verilirse
+    düzeltilmiş olasılıkla ``p_cal * odds - 1 < min_ev`` olan ağır Nesine marjı bacakları elenir.
     """
     if mode != "banko":
         return pools
@@ -568,12 +577,57 @@ def apply_coupon_rules_to_pools(pools: list[list[dict]], mode: str = "banko") ->
             decision = leg_decision(leg)
             if decision.ok:
                 p = decision.p_cal
+                ev_cal = round(p * leg["odds"] - 1, 4)
+                if min_ev is not None and ev_cal < min_ev - 1e-9:
+                    continue
                 margin = leg["p"] - leg.get("p_low", leg["p"])
                 kept.append({**leg, "p_before_rules": leg["p"], "p": p,
-                             "p_low": max(0.001, p - margin), "ev_cal": round(p * leg["odds"] - 1, 4)})
+                             "p_low": max(0.001, p - margin), "ev_cal": ev_cal})
         if kept:
             out.append(kept)
     return out
+
+
+def attach_insured_system(coupon: dict, budget_tl: float = 100.0) -> dict | None:
+    """4–7 bacaklı banko kupona 100 TL tek-bacak sigortalı sistem (Sistem n-1, n) karşılaştırmasını ekle."""
+    legs = coupon.get("legs") or []
+    if not (4 <= len(legs) <= 7):
+        return None
+    from quantfoot.coupons.system_builder import SystemLeg, optimize_system
+
+    sys_legs = [
+        SystemLeg(
+            match_id=str(lg.get("code") or lg.get("match")),
+            match=str(lg.get("match") or ""),
+            name=str(lg.get("name") or lg.get("selection") or ""),
+            odds=float(lg.get("odds") or 1.0),
+            p=float(lg.get("p") or 0.0),
+            mbs=int(lg.get("mbs") or 1),
+            kickoff=lg.get("kickoff"),
+            league=lg.get("league"),
+        )
+        for lg in legs
+    ]
+    evals = optimize_system(sys_legs, budget_tl=budget_tl, mode="banko_sigorta", top_n=6)
+    sig = next((e for e in evals if min(e.sizes) == len(legs) - 1), evals[0] if evals else None)
+    if sig is None:
+        return None
+    n = len(legs)
+    lo_miss, hi_miss = sig.hit_table.get(n - 1, (0.0, 0.0))
+    info = {
+        "sizes": list(sig.sizes),
+        "n_cols": sig.n_cols,
+        "stake_per_col": sig.stake_per_col,
+        "total_cost": sig.total_cost,
+        "max_payout": sig.max_payout,
+        "one_miss_payout_range": [lo_miss, hi_miss],
+        "p_at_least_n_minus_1": round(sig.p_at_least.get(n - 1, 0.0), 4),
+        "p_all": round(sig.p_at_least.get(n, 0.0), 4),
+        "p_profit": round(sig.p_profit, 4),
+        "expected_return": sig.expected_return,
+    }
+    coupon["insured_system_100tl"] = info
+    return info
 
 
 def apply_mode_guard(coupons: list[dict], mode: str, live: dict | None = None,
@@ -708,8 +762,10 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
     ap.add_argument("--tampon", type=float, default=0.05,
                     help="Kupon minimumun bu oranda üstüne kurulur (varsayılan 0.05 = %%5: 5x için en az 5,25); "
                          "minimumun altı yine asla verilmez")
-    ap.add_argument("--mac-limit", type=int, default=2,
-                    help="Bir maç setin en çok kaç kuponunda yer alabilir (her seferinde farklı tercihle; varsayılan 2)")
+    ap.add_argument("--mac-limit", type=int, default=None,
+                    help="Bir maç setin en çok kaç kuponunda yer alabilir (varsayılan: banko 1 — çapraz çöküş kilidi, risk 2)")
+    ap.add_argument("--min-ev", type=float, default=None,
+                    help="Banko bacak EV tabanı (varsayılan -0.115: ağır Nesine marjı tuzağını keser; kapatmak için -1.0)")
     ap.add_argument("--hic-kullanilmamis", action="store_true",
                     help="Bugün kurulan BÜTÜN kuponlardaki tercihler yasak; bugün --mac-limit kez kullanılmış maçlar da girmez")
     ap.add_argument("--tekrar-serbest", action="store_true",
@@ -746,9 +802,12 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
     args = ap.parse_args(argv)
     if args.min_oran is not None and args.min_oran < MIN_LEG_ODDS:
         ap.error("Bacak başına oran en az 1,20 olmalıdır.")
+    pol = KM.policy(args.mod)
     if args.ayri_mac:
         args.mac_limit = 1  # old behaviour: every match in one coupon only
-    pol = KM.policy(args.mod)
+    elif args.mac_limit is None:
+        args.mac_limit = 1 if pol.name == "banko" else 2  # banko: 1 maç = en çok 1 kupon (çapraz çöküş koruması)
+    banko_min_ev = BANKO_DEFAULT_MIN_EV if (pol.name == "banko" and args.min_ev is None) else args.min_ev
     args.min_oran = max(MIN_LEG_ODDS, args.min_oran if args.min_oran is not None else pol.prefer_min_odds)
     if args.min_mac is None:
         args.min_mac = pol.min_legs
@@ -807,7 +866,7 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
         )
         pools = filter_pools_for_mode(pools, pol)
         if pol.name == "banko":
-            pools = apply_coupon_rules_to_pools(pools, pol.name)
+            pools = apply_coupon_rules_to_pools(pools, pol.name, min_ev=banko_min_ev)
         n_mid_pools = sum(1 for p in pools if p[0].get("tier") == "orta")
         if attempt == 0:
             print(f"{sum(1 for m in matches if m.get('status') == 'fiyatlandı')} maç global fiyatlı; {len(pools)} maç kupona uygun "
@@ -876,10 +935,12 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
     if not coupons:
         print("Bu hedefe uygun kupon kurulamadı.")
         return None
-    for c in coupons:  # scores consistent with each leg (same goal distribution as the leg's probability)
+    for c in coupons:  # scores consistent with each leg + 100 TL tek-bacak sigortalı sistem alternatifi
         for leg in c["legs"]:
             priced = PRICED.get(int(leg["code"]))
             leg["scores"] = consistent_scores(priced["joint"], leg.get("name", "")) if priced else []
+        if pol.name == "banko":
+            attach_insured_system(c, budget_tl=100.0)
     stamp = now.strftime("%H%M")
     fam_txt = "" if args.aile == "karma" else f" — {FAMILIES[args.aile]}"
     md = [f"# {args.tarih} — Nesine en az {args.hedef:g} oranlık kupon{fam_txt} ({now:%H:%M} TSİ)", "",
@@ -918,8 +979,19 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
         if g:
             md += ["", f"**{g['mode'].capitalize()} kontrolü geçti** — {g['honest']}."
                    + ("" if not g["warnings"] else " Uyarılar: " + "; ".join(g["warnings"]))]
-        md += ["", f"Kuponun tutma olasılığı %{c['probability'] * 100:.1f}: düşük oranlı bir bacak bile kesin değildir "
-                   "(ör. 1,20 oranlı seçim globalde ~%75-80 ihtimal demektir; her 4-5 denemeden biri tutmaz).", ""]
+        md += ["", f"Kuponun tutma olasılığı %{c['probability'] * 100:.1f} · **beklenen değer (EV) %{100 * (c.get('ev') or 0.0):+.1f}**: "
+                   "düşük oranlı bir bacak bile kesin değildir (1,20 oranlı seçim globalde ~%75-80 ihtimal demektir).", ""]
+        if (c.get("ev") or 0.0) < -0.25:
+            md += [f"> ⚠ **KASA KORUMA UYARISI (Yüksek Bileşik Nesine Marjı):** Bu düz kombinenin beklenen getirisi "
+                   f"**%{100 * (c['ev']):+.1f}**. Sermayeyi korumak için tüm parayı düz kombineye yatırmak yerine "
+                   "aşağıdaki tek-bacak sigortalı sistemi veya 2–3 maçlı düşük-marjlı değer kuponunu tercih edin.", ""]
+        ins = c.get("insured_system_100tl")
+        if ins:
+            sz_s = ",".join(str(x) for x in ins["sizes"])
+            lo_m, hi_m = ins["one_miss_payout_range"]
+            md += [f"- **100 TL Tek-Bacak Sigorta Alternatifi (`Sistem {sz_s}`):** {ins['n_cols']} kolon × {ins['stake_per_col']:.0f} TL = "
+                   f"**{ins['total_cost']:.0f} TL** · En az {len(c['legs']) - 1}/{len(c['legs'])} isabet: **%{100 * ins['p_at_least_n_minus_1']:.1f}** "
+                   f"(1 firede **{lo_m:.0f}–{hi_m:.0f} TL** kurtarma vs düzde 0 TL · tam isabette **{ins['max_payout']:.0f} TL**)", ""]
     if args.yontem == "guvenli" and coupons:
         ref = best_coupon(pools, args.hedef, max_legs)
         if ref:

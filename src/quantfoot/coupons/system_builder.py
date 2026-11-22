@@ -291,3 +291,108 @@ class PortfolioExposureGuard:
             overexposed_matches=over_m,
             concentration_score=conc,
         )
+
+
+@dataclass(frozen=True)
+class CapitalShieldTicket:
+    ticket_no: int
+    legs: tuple[SystemLeg, ...]
+    total_odds: float
+    p_win: float
+    ev: float
+    stake_tl: float
+    potential_payout_tl: float
+
+
+@dataclass(frozen=True)
+class CapitalShieldPlan:
+    bankroll_tl: float
+    total_staked_tl: float
+    daily_risk_pct: float
+    tickets: tuple[CapitalShieldTicket, ...]
+    skipped_low_ev: int
+    notes: tuple[str, ...] = ()
+
+
+def build_capital_shield_plan(
+    candidates: Sequence[SystemLeg],
+    *,
+    bankroll_tl: float = 1000.0,
+    max_tickets: int = 3,
+    legs_per_ticket: int = 3,
+    min_ev: float = -0.10,
+    min_p: float = 0.60,
+    max_stake_frac: float = 0.03,
+    max_daily_frac: float = 0.10,
+    step_tl: float = 10.0,
+) -> CapitalShieldPlan:
+    """Kasa koruma planı: yüksek Nesine marjlı 5–6'lı kombine yerine düşük-bacaklı (2–3 maç) ve EV tabanlı kuponlar.
+
+    22 Kasım 2026 (428 maç / 1.838 seçim) bulgusu:
+      * EV < -%14 bacaklar 1u ROI -%17,3 (5'li kombinede -%61 beklenen kayıp!).
+      * EV >= -%10 bacaklar 17/20 (%85,0 isabet, +%20,8 1u ROI).
+      * Kasa başına kupon tavanı %3 ve günlük toplam risk tavanı %10 ile tek kötü günde sermaye erimesi engellenir.
+      * PortfolioExposureGuard ile hiçbir maç iki kupona birden girmez (sıfır çapraz çöküş).
+    """
+    if bankroll_tl <= 0 or legs_per_ticket < 1 or max_tickets < 1:
+        return CapitalShieldPlan(bankroll_tl, 0.0, 0.0, (), 0, ("Geçersiz bütçe veya kupon parametresi.",))
+
+    # Maç başına en yüksek EV'li (eşitlikte en yüksek P) bacağı seç, EV tabanı ve MBS sınırını uygula
+    best_by_match: dict[str, SystemLeg] = {}
+    skipped_low_ev = 0
+    for lg in candidates:
+        ev = lg.p * lg.odds - 1.0
+        if lg.p < min_p or lg.odds < 1.20 or int(lg.mbs or 1) > legs_per_ticket:
+            continue
+        if ev < min_ev - 1e-9:
+            skipped_low_ev += 1
+            continue
+        prev = best_by_match.get(lg.match_id)
+        if prev is None or (ev, lg.p) > (prev.p * prev.odds - 1.0, prev.p):
+            best_by_match[lg.match_id] = lg
+
+    ranked = sorted(best_by_match.values(), key=lambda x: (-(x.p * x.odds - 1.0), -x.p, x.match_id))
+    guard = PortfolioExposureGuard(max_coupons_per_match=1, max_coupons_per_selection=1)
+
+    max_daily_tl = bankroll_tl * max_daily_frac
+    raw_per_ticket = min(bankroll_tl * max_stake_frac, max_daily_tl / max_tickets)
+    stake_tl = max(step_tl, math.floor(raw_per_ticket / step_tl) * step_tl) if raw_per_ticket >= step_tl else round(raw_per_ticket, 2)
+
+    tickets: list[CapitalShieldTicket] = []
+    total_staked = 0.0
+    idx = 0
+    for tno in range(1, max_tickets + 1):
+        if idx + legs_per_ticket > len(ranked) or total_staked + stake_tl > max_daily_tl + 1e-9:
+            break
+        batch = tuple(ranked[idx : idx + legs_per_ticket])
+        idx += legs_per_ticket
+        cid = f"kasa_koruma_{tno}"
+        if guard.register_coupon(cid, batch):
+            continue
+        tot_odds = round(math.prod(x.odds for x in batch), 2)
+        p_win = round(math.prod(x.p for x in batch), 4)
+        ev = round(p_win * tot_odds - 1.0, 4)
+        tickets.append(CapitalShieldTicket(
+            ticket_no=tno,
+            legs=batch,
+            total_odds=tot_odds,
+            p_win=p_win,
+            ev=ev,
+            stake_tl=round(stake_tl, 2),
+            potential_payout_tl=round(stake_tl * tot_odds, 2),
+        ))
+        total_staked += stake_tl
+
+    notes: list[str] = []
+    if not tickets:
+        notes.append(f"EV ≥ %{100*min_ev:+.0f} ve P ≥ %{100*min_p:.0f} kasa koruma eşiğini geçen yeterli maç yok — BUGÜN PAS (kasa korundu).")
+    if skipped_low_ev:
+        notes.append(f"{skipped_low_ev} yüksek Nesine marjlı bacak (EV < %{100*min_ev:+.0f}) kasa koruma kalkanıyla elendi.")
+    return CapitalShieldPlan(
+        bankroll_tl=round(bankroll_tl, 2),
+        total_staked_tl=round(total_staked, 2),
+        daily_risk_pct=round(100.0 * total_staked / bankroll_tl, 2) if bankroll_tl > 0 else 0.0,
+        tickets=tuple(tickets),
+        skipped_low_ev=skipped_low_ev,
+        notes=tuple(notes),
+    )

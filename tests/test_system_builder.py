@@ -8,6 +8,7 @@ import pytest
 from quantfoot.coupons.system_builder import (
     PortfolioExposureGuard,
     SystemLeg,
+    build_capital_shield_plan,
     evaluate_system,
     optimize_system,
     poisson_binomial_tail,
@@ -109,3 +110,28 @@ def test_portfolio_exposure_guard_detects_duplicate_selection_and_match_wipeout(
     assert len(audit.duplicate_selections) == 1
     assert len(audit.overexposed_matches) == 2
     assert audit.concentration_score > 0.0
+
+
+def test_build_capital_shield_plan_enforces_ev_floor_zero_overlap_and_bankroll_cap():
+    # 6 sağlıklı yüksek-EV bacak + 2 ağır marjlı (-%16 EV) tuzak bacak
+    cands = [
+        SystemLeg(str(100 + i), f"Ev{i} - Dep{i}", "MS 1", odds=1.45, p=0.66, mbs=3)
+        for i in range(6)
+    ] + [
+        SystemLeg("901", "Marj1 - Tuzak1", "3.5 Alt", odds=1.20, p=0.70, mbs=1),  # EV = -16% -> elenmeli!
+        SystemLeg("902", "Marj2 - Tuzak2", "3.5 Alt", odds=1.20, p=0.71, mbs=1),  # EV = -14.8% -> elenmeli!
+    ]
+    plan = build_capital_shield_plan(cands, bankroll_tl=1000.0, max_tickets=3, legs_per_ticket=3, min_ev=-0.10, min_p=0.60)
+    assert len(plan.tickets) == 2
+    assert plan.skipped_low_ev == 2
+    assert plan.daily_risk_pct <= 10.0
+    assert all(t.stake_tl <= 30.0 for t in plan.tickets)
+    # Sıfır ortak maç kontrolü
+    all_mids = [lg.match_id for t in plan.tickets for lg in t.legs]
+    assert len(all_mids) == len(set(all_mids)) == 6
+    assert "901" not in all_mids and "902" not in all_mids
+
+    # Yalnız ağır marjlı bacaklar varsa PAS döner (kasa korunur!)
+    bad_only = build_capital_shield_plan(cands[-2:], bankroll_tl=1000.0, legs_per_ticket=3, min_ev=-0.10)
+    assert len(bad_only.tickets) == 0 and bad_only.total_staked_tl == 0.0
+
