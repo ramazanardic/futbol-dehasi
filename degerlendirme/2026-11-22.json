@@ -1,15 +1,15 @@
 {
  "date": "2026-11-22",
- "built": "2026-11-22T22:54+03:00",
+ "built": "2026-11-22T22:57+03:00",
  "ais": {
   "antigravitytahmin": {
-   "main_picks": 197,
+   "main_picks": 198,
    "hits": 131,
-   "avg_pred": 0.6715314720812182,
-   "flat_return": -33.52,
-   "brier_1x2": 0.5584525892639595,
-   "logloss_1x2": 0.940903919760341,
-   "n_1x2": 394,
+   "avg_pred": 0.6717116161616161,
+   "flat_return": -34.52,
+   "brier_1x2": 0.5583177225063292,
+   "logloss_1x2": 0.9407066616339904,
+   "n_1x2": 395,
    "coupons": [
     {
      "coupon": "kupon_30maks_k1_2 #2",
@@ -35,6 +35,19 @@
       "Burnley - Blackburn R. — 3,5 Gol Alt/Üst: 3,5 Alt",
       "Barcelona - Villarreal — Ev Sahibi İki Yarıda da Gol: Atar",
       "Kortrijk - U. S. Gilloise — Deplasman 1,5 Gol Alt/Üst: 1,5 Üst"
+     ]
+    },
+    {
+     "coupon": "kupon_30maks_k2_3 #8",
+     "type": "dengeli_yuksek",
+     "odds": 6.05,
+     "p": 0.048519,
+     "won": false,
+     "legs_won": 4,
+     "legs": 6,
+     "lost_legs": [
+      "BSC Young Boys - YF Juventus — Deplasman 1,5 Gol Alt/Üst: 1,5 Üst",
+      "Basel - Luzern — 2,5 Alt/Üst ve Karşılıklı Gol: Üst&Var"
      ]
     },
     {
@@ -111,7 +124,7 @@
      ]
     }
    ],
-   "coupons_open": 26,
+   "coupons_open": 25,
    "biggest_misses": [
     {
      "p": 0.7217,
@@ -130,6 +143,12 @@
      "match": "Santander - R. Sociedad",
      "pick": "Gol Alt/Üst: 4.5 Alt",
      "score": "2-1 / 3-2"
+    },
+    {
+     "p": 0.7072,
+     "match": "Kfum Oslo - Brann",
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "score": "1-2 / 3-4"
     },
     {
      "p": 0.7066,
@@ -166,12 +185,6 @@
      "match": "CD Atletico Paso - Real Valladolid B",
      "pick": "2. Yarı Karşılıklı Gol: Yok",
      "score": "0-0 / 2-1"
-    },
-    {
-     "p": 0.7006,
-     "match": "Kristiansund - Sandefjord",
-     "pick": "1. Yarı Çifte Şans: X-2",
-     "score": "2-1 / 2-2"
     }
    ],
    "research_verdicts": {
@@ -184,12 +197,12 @@
      "h_n": 8
     },
     "✓": {
-     "n": 77,
-     "won": 49,
-     "p_sum": 48.20927999999999,
-     "p_n": 77,
-     "h_sum": 52.40023865023864,
-     "h_n": 77
+     "n": 78,
+     "won": 50,
+     "p_sum": 48.86692999999999,
+     "p_n": 78,
+     "h_sum": 53.133571983571976,
+     "h_n": 78
     },
     "⚠": {
      "n": 123,
@@ -218,12 +231,12 @@
      "h_n": 2
     },
     "üçlü onay": {
-     "n": 86,
-     "won": 57,
-     "p_sum": 53.787780000000005,
-     "p_n": 86,
-     "h_sum": 57.8786,
-     "h_n": 86
+     "n": 87,
+     "won": 58,
+     "p_sum": 54.44543,
+     "p_n": 87,
+     "h_sum": 58.5139,
+     "h_n": 87
     },
     "kısmi onay": {
      "n": 55,
@@ -248,14 +261,29 @@
     "positive": 99
    }
   },
+  "chatgbttahmin": {
+   "main_picks": 0,
+   "hits": 0,
+   "avg_pred": null,
+   "flat_return": 0.0,
+   "brier_1x2": null,
+   "logloss_1x2": null,
+   "n_1x2": 0,
+   "coupons": [],
+   "coupons_open": 0,
+   "biggest_misses": [],
+   "research_verdicts": {},
+   "simulation_verdicts": {},
+   "clv": null
+  },
   "grokbottahmin": {
-   "main_picks": 188,
-   "hits": 135,
-   "avg_pred": 0.6773143617021277,
-   "flat_return": -20.540000000000003,
-   "brier_1x2": 0.56527955274463,
-   "logloss_1x2": 0.9509877084886885,
-   "n_1x2": 419,
+   "main_picks": 189,
+   "hits": 136,
+   "avg_pred": 0.6771444444444444,
+   "flat_return": -20.260000000000005,
+   "brier_1x2": 0.5652062883571428,
+   "logloss_1x2": 0.9508643754303213,
+   "n_1x2": 420,
    "coupons": [],
    "coupons_open": 0,
    "biggest_misses": [
@@ -6622,6 +6650,33 @@
    ],
    "picks": {}
   },
+  "3318522": {
+   "match": "Kfum Oslo - Brann",
+   "league": "Norveç Eliteserien",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    3,
+    4
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.7072,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.6452,
+     "odds": 1.28,
+     "won": true
+    }
+   }
+  },
   "3318617": {
    "match": "Arandina - Mirandes B",
    "league": "İspanya 3. Federasyon",
@@ -9378,24 +9433,27 @@
  },
  "source_commit": "6fea6df9fa177829ee268e98843a196f1f4630bc",
  "status": "interim",
- "score_snapshot_tsi": "2026-11-22T22:53+03:00",
+ "supplemental_sources": {
+  "chatgbttahmin": "22 Kasım 21.14 TSİ tarihli yerel QuantFoot tahmin dosyası"
+ },
+ "score_snapshot_tsi": "2026-11-22T22:57+03:00",
  "coverage": {
   "antigravitytahmin": {
    "has_prediction_csv": true,
    "csv_rows": 455,
    "main_predictions": 245,
    "correct": 131,
-   "wrong": 66,
-   "not_final_or_missing": 48,
+   "wrong": 67,
+   "not_final_or_missing": 47,
    "final_but_ungraded": 0
   },
   "chatgbttahmin": {
-   "has_prediction_csv": false,
-   "csv_rows": 0,
-   "main_predictions": 0,
+   "has_prediction_csv": true,
+   "csv_rows": 51,
+   "main_predictions": 42,
    "correct": 0,
    "wrong": 0,
-   "not_final_or_missing": 0,
+   "not_final_or_missing": 42,
    "final_but_ungraded": 0
   },
   "claudetahmin": {
@@ -9420,9 +9478,9 @@
    "has_prediction_csv": true,
    "csv_rows": 478,
    "main_predictions": 226,
-   "correct": 135,
+   "correct": 136,
    "wrong": 53,
-   "not_final_or_missing": 38,
+   "not_final_or_missing": 37,
    "final_but_ungraded": 0
   }
  },
@@ -9430,9 +9488,9 @@
   [
    "antigravitytahmin",
    "grokbottahmin",
-   166,
+   167,
    108,
-   120
+   121
   ]
  ]
 }
