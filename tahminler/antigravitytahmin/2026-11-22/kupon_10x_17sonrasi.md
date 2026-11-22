@@ -1,6 +1,6 @@
 # 22 Kasım 2026 — 17:00 Sonrası En Sağlam 10 Oranlık Kupon (14:07 TSİ)
 
-- **Toplam Canlı Nesine Oranı:** **10.01x** (6 maç · `17:30 – 20:30 TSİ`)
+- **Toplam Canlı Nesine Oranı:** **10.01x** (6 maç · `18:15 – 23:00 TSİ`)
 - **Düzeltilmiş Tutma İhtimali:** **%4.15** (yaklaşık **24'de 1** · ham global olasılık `%4.38`)
 - **Kaynak & Doğrulama:** 6/6 maç **Matchbook + Smarkets** çift keskin borsa onaylı, `0` risk/steam bayrağı, 6/6 maçta iki takımın son 9–15 maçında **en zayıf taraf bile ≥ %53** (`✓` çift taraflı geçmiş), `market_diagnosis.py` tuzak süzgecinden tam onaylı.
 - **Dürüstlük Notu:** 10 oranlı kupon matematiksel olarak `banko` (%70+ bacak) değil, **orta-yüksek güven (`%56–%60` bacak) risk kuponu** sınıfındadır; kullanıcı onayı olmadan bahis oynanmaz.
