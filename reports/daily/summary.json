@@ -3,7 +3,6 @@
     "2026-11-18",
     "2026-11-19"
   ],
-<<<<<<< Updated upstream
   "n_matches_1x2": 19,
   "pool": {
     "n": 19,
@@ -13,17 +12,6 @@
     "logloss_market": 0.8160733090787353,
     "logloss_model": 0.8206957746315282,
     "logloss_pool": 0.8160733090787353
-=======
-  "n_matches_1x2": 18,
-  "pool": {
-    "n": 18,
-    "weight": 0.23,
-    "ci_low": 0.0,
-    "ci_high": 1.0,
-    "logloss_market": 0.7842810985543632,
-    "logloss_model": 0.7848438482699813,
-    "logloss_pool": 0.7842267310620303
->>>>>>> Stashed changes
   },
   "n_value_singles": 3,
   "clv_fair": [

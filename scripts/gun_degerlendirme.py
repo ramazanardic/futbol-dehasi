@@ -29,6 +29,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+from ai_tahmin import clv_summary
 from quantfoot.data.nesine import fetch_results  # noqa: E402
 from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
 
@@ -173,9 +174,8 @@ def clv_of(ai_dir: Path) -> dict | None:
     path = ai_dir / "tahmin_clv.json"
     if not path.exists():
         return None
-    d = [v["p_close"] - v["p_pick"] for v in json.loads(path.read_text(encoding="utf-8")).values()
-         if v.get("p_close") is not None and v.get("p_pick") is not None]
-    return {"n": len(d), "mean": sum(d) / len(d) if d else None, "positive": sum(1 for x in d if x > 0)} if d else None
+    summary = clv_summary(json.loads(path.read_text(encoding="utf-8")))
+    return summary if summary["n"] else None
 
 
 SIM_CLASSES = ("üçlü onay", "kısmi onay", "çelişki", "eksik kanıt")
@@ -208,15 +208,22 @@ def evaluate(date: str, results: dict[int, dict] | None = None) -> dict:
     files = {ai: (_read(TAHMIN / ai / date / "mac_tahminleri.csv"), _read(TAHMIN / ai / date / "kuponlar.csv")) for ai in ais}
     if results is None:
         d0 = dt.date.fromisoformat(date)
-        results = fetch_results([d0.isoformat(), (d0 + dt.timedelta(days=1)).isoformat()])
+        results = fetch_results([d0.isoformat(), (d0 + dt.timedelta(days=1)).isoformat()], strict=True)
+        if not any(result["completed"] for result in results.values()):
+            raise RuntimeError("Nesine sonuçlarında doğrulanmış bitmiş maç yok")
     matches: dict[str, dict] = {}
     report = {"date": date, "built": dt.datetime.now(TSI).isoformat(timespec="minutes"), "ais": {}, "matches": matches}
     for ai, (rows, legs) in files.items():
         lookup = _lookup_for(TAHMIN / ai / date)
         labels = label_names(TAHMIN / ai / date)
         picks, brier, logloss, misses = [], [], [], []
+        # Keep the last explicitly recorded pick per Nesine event; blank duplicates never erase a pick.
+        by_code = {}
         for r in rows:
             code = str(r.get("nesine_kodu") or "")
+            if code not in by_code or r.get("secim_adi") or r.get("ana_secim"):
+                by_code[code] = r
+        for code, r in by_code.items():
             res = results.get(int(code)) if code.isdigit() else None
             if not res or not res.get("completed"):
                 continue  # open / unknown match: never revealed
@@ -373,7 +380,19 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--tarih", default=(dt.datetime.now(TSI).date() - dt.timedelta(days=1)).isoformat())
     args = ap.parse_args()
-    rep = evaluate(args.tarih)
+    try:
+        rep = evaluate(args.tarih)
+        old_file = OUT / f"{args.tarih}.json"
+        if old_file.exists():
+            previous = json.loads(old_file.read_text(encoding="utf-8"))
+            missing = previous.get("matches", {}).keys() - rep["matches"].keys()
+            if missing:
+                raise RuntimeError(f"Daha önce puanlanan {len(missing)} maç eksik, mevcut karne korundu")
+            for ai, old in previous.get("ais", {}).items():
+                if rep["ais"].get(ai, {}).get("main_picks", 0) < old.get("main_picks", 0):
+                    raise RuntimeError(f"{ai} için önceki tahminler eksik, mevcut karne korundu")
+    except (RuntimeError, OSError, ValueError) as exc:
+        ap.exit(2, f"Değerlendirme tamamlanamadı: {exc}\n")
     OUT.mkdir(exist_ok=True)
     (OUT / f"{args.tarih}.json").write_text(json.dumps(rep, ensure_ascii=False, indent=1), encoding="utf-8")
     (OUT / f"{args.tarih}.md").write_text(to_markdown(rep), encoding="utf-8")

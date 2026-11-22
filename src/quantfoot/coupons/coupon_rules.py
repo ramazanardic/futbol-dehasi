@@ -45,6 +45,8 @@ BANNED_FAMILIES = frozenset({
     "Ev sahibi golleri",
     "Deplasman golleri",
     "İlk gol",
+    "Çifte şans",
+    "Handikap",
 })
 
 # 2Y KG ailesi bugün yalnız "Yok" ile ölçüldü; "Var" aynı ailede olsa da yasak.
@@ -288,6 +290,11 @@ def leg_decision(obj: Any, cal: Calibration | None = None, *,
     except (TypeError, ValueError):
         p = None
 
+    if p is not None and not (math.isfinite(p) and 0 <= p <= 1):
+        p = None
+    if odds is not None and not math.isfinite(odds):
+        odds = None
+
     diag: MarketDiagnosis | None = None
     if name and _has_diagnosis_context(obj):
         diag = diagnose_selection(name, p if p is not None else 0.0, obj, for_coupon=True)
@@ -317,13 +324,12 @@ def leg_decision(obj: Any, cal: Calibration | None = None, *,
         reasons.append("seçim adı yok")
     if is_draw_leg(name):
         reasons.append("beraberlik bacağı yasak")
-    if not is_rehabilitated:
-        if family in BANNED_FAMILIES:
-            reasons.append(f"{family} ailesi yasak")
-        elif not family_allowed(family, cal):
-            reasons.append(f"{family} ailesi kupon beyaz listesinde değil")
+    if family in BANNED_FAMILIES:
+        reasons.append(f"{family} ailesi yasak")
+    elif not is_rehabilitated and not family_allowed(family, cal):
+        reasons.append(f"{family} ailesi kupon beyaz listesinde değil")
     allowed_names = FAMILY_NAME_ALLOW.get(family)
-    if allowed_names is not None and name not in allowed_names and not is_rehabilitated:
+    if allowed_names is not None and name not in allowed_names:
         reasons.append(f"{family} ailesinde yalnız {', '.join(sorted(allowed_names))} kabul")
     if diag is not None and not diag.ok:
         for r in diag.reasons:
@@ -334,7 +340,7 @@ def leg_decision(obj: Any, cal: Calibration | None = None, *,
         pf = classify_family(part)
         if is_draw_leg(part):
             reasons.append(f"kombine parça beraberlik: {part}")
-        if pf in BANNED_FAMILIES and not is_rehabilitated:
+        if pf in BANNED_FAMILIES:
             reasons.append(f"kombine parça yasak aile ({pf}): {part}")
     if odds is None:
         reasons.append("oran yok")

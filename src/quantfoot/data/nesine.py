@@ -276,13 +276,14 @@ def parse_results(payload: dict) -> dict[int, dict]:
             continue
         sc = {e.get("T"): (int(e.get("H", 0)), int(e.get("A", 0))) for e in m.get("ES") or []}
         rec = {"completed": False, "status": m.get("ST")}
-        if m.get("ST") in FINISHED and 2 in sc and (3 in sc or 1 in sc):
-            rec.update(completed=True, ht=list(sc[2]), ft90=list(sc.get(3, sc.get(1))))
+        ft90 = sc.get(3, sc.get(1) if m.get("ST") == "MS" else None)
+        if m.get("ST") in FINISHED and 2 in sc and ft90 is not None:
+            rec.update(completed=True, ht=list(sc[2]), ft90=list(ft90))
         out[code] = rec
     return out
 
 
-def fetch_results(dates: list[str], timeout: float = 30.0) -> dict[int, dict]:
+def fetch_results(dates: list[str], timeout: float = 30.0, *, strict: bool = False) -> dict[int, dict]:
     """Finished football matches of the given calendar dates (YYYY-MM-DD), keyed by Nesine event code."""
     out: dict[int, dict] = {}
     for d in dates:
@@ -290,7 +291,13 @@ def fetch_results(dates: list[str], timeout: float = 30.0) -> dict[int, dict]:
             r = requests.get(RESULTS_URL, params={"sportType": 1, "date": d}, timeout=timeout,
                              headers={"User-Agent": "Mozilla/5.0"})
             r.raise_for_status()
-            out.update(parse_results(r.json()))
-        except (requests.RequestException, ValueError):
-            continue
+            payload = r.json()
+            if not isinstance(payload, dict) or not isinstance(payload.get("d"), list):
+                raise ValueError("Beklenmeyen Nesine yanıtı")
+            for code, result in parse_results(payload).items():
+                if result["completed"] or not out.get(code, {}).get("completed"):
+                    out[code] = result
+        except (requests.RequestException, ValueError, TypeError) as exc:
+            if strict:
+                raise RuntimeError(f"{d} Nesine sonuçları alınamadı: {exc}") from exc
     return out

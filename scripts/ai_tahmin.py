@@ -145,11 +145,7 @@ def _write(path: Path, cols: list[str], rows: list[dict]) -> None:
 
 
 def record_clv(out: Path, picks: list[dict], matches: list[dict], now: dt.datetime) -> dict:
-    """Closing price of every main pick (user, 21 Nov: CLV for all predictions, not only coupon legs).
-
-    Each analysis run before kick-off updates the pick's last seen global probability; the first one stays as the
-    probability the pick was made at. CLV = closing - pick probability: a sharp market moving towards our picks
-    (positive CLV) is evidence of skill long before results are. -> tahmin_clv.json in the AI's day folder."""
+    """Measure movement between pre-match quotes from the same market source."""
     path = out / "tahmin_clv.json"
     clv = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
     by = {str(m["code"]): m for m in matches}
@@ -161,15 +157,27 @@ def record_clv(out: Path, picks: list[dict], matches: list[dict], now: dt.dateti
         s = next((x for x in m.get("selections") or [] if x.get("name") == name), None)
         rec = clv.setdefault(f"{code}|{name}", {"match": r.get("mac"), "pick": name, "p_pick": float(r["olasilik"]),
                                                 "first_seen": now.isoformat(timespec="minutes")})
-        if s and m.get("status") == "fiyatlandı":
-            rec.update(p_close=s["fair_prob"], close_seen=now.isoformat(timespec="minutes"))
+        stamp = m.get("ref_fetched_utc")
+        source = m.get("reference")
+        if not s or m.get("status") != "fiyatlandı" or not stamp or not ng.is_sharp_source(source):
+            continue
+        quote_time = dt.datetime.fromisoformat(stamp)
+        if quote_time > now or quote_time >= dt.datetime.fromisoformat(m["kickoff_iso"]):
+            continue
+        if "p_market_open" not in rec:
+            rec.pop("p_close", None)
+            rec.pop("close_seen", None)
+            rec.update(p_market_open=s["fair_prob"], market_open_at=stamp, market_source=source)
+        elif source == rec["market_source"] and quote_time > dt.datetime.fromisoformat(rec.get("close_seen") or rec["market_open_at"]):
+            rec.update(p_close=s["fair_prob"], close_seen=stamp)
     out.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(clv, ensure_ascii=False, indent=1), encoding="utf-8")
     return clv
 
 
 def clv_summary(clv: dict) -> dict:
-    d = [v["p_close"] - v["p_pick"] for v in clv.values() if v.get("p_close") is not None]
+    d = [v["p_close"] - v["p_market_open"] for v in clv.values()
+         if v.get("p_close") is not None and v.get("p_market_open") is not None]
     return {"n": len(d), "mean": sum(d) / len(d) if d else None, "positive": sum(1 for x in d if x > 0)}
 
 
