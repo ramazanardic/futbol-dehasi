@@ -466,7 +466,10 @@ def price_event(event, ref: dict, league: str) -> dict:
         elif s.name.startswith("İlk Gol"):
             p = timing.get(s.name)
         else:
-            p = goal_probability(s.name, joint)
+            try:
+                p = goal_probability(s.name, joint)
+            except KeyError:
+                continue  # keep the offer in the inventory even when the model cannot price it
         if p is None:
             continue
         if s.negate:
@@ -683,6 +686,12 @@ def analyze_day(
         rec = {"code": e.code, "kickoff": e.kickoff.strftime("%Y-%m-%d %H:%M"), "kickoff_iso": e.kickoff.isoformat(),
                "league": league, "home": e.home, "away": e.away,
                "nesine_ms": [e.odds_of(f"MS {c}") for c in "102"], "n_nesine_selections": len(e.selections)}
+        rec["offered_selections"] = [
+            {"key": selection_key(s), "name": s.name if not s.negate else f"DEĞİL({s.name})",
+             "market": s.market_title, "selection": s.label, "odds": s.odds}
+            for s in e.selections
+        ]
+        rec["untranslated_selections"] = e.untranslated
         if is_synthetic_special(league, e.home):
             rec["status"] = "özel bahis (maç değil) — fiyatlanmadı"
             rec["price_tier"] = "ozel_bahis"

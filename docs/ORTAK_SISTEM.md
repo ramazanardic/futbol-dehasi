@@ -43,6 +43,16 @@ Banko kurallarına uyan bacak yoksa kupon **çıkmaz** — bu doğru sonuçtur; 
 Varsayılan hedef 2,5 (5 bacak × ~1,21–1,25). Daha yüksek hedef banko kurallarıyla kurulamıyorsa bunu kullanıcıya
 açıkça söyle; kuralları gevşeterek hedefe ulaşma.
 
+### Tüm futbol bahis aileleri
+
+- Her başlamamış maçta Nesine’nin açık tuttuğu bütün aileleri ve seçimleri tara. Maç sonucu, gol pazarları, yarılar, özel
+  pazarlar ve kombineler aynı araştırma kapsamına girer. Aile başına aday sınırı yoktur.
+- Doğrulanmış fiyatı olan seçimleri kaynak, kalibre olasılık, Nesine oranı ve beklenen değerle karşılaştır. Araştırma eşiğini
+  geçen seçimleri iki takımın geçmişiyle sınamaya çalış. Fiyatı ya da pazar eşlemesi bulunmayan seçenekleri gerekçesiyle yaz.
+- Varsayılan kupon taraması doğrudan fiyatları ve mevcut model, değer ve güven filtrelerini geçen türetilmiş fiyatları
+  değerlendirir. Kupon önerisine yalnız seçilen modun kurallarını ve son canlı denetimi geçen en uygun bacaklar girer.
+  Banko kuralları §3’teki gibidir. Uygun bacak bulunamazsa kupon çıkmaz. Bahis işlemi için kullanıcının açık onayı gerekir.
+
 ## 2. Olasılık kalibrasyonu (tahminin kendisi)
 
 - Kaynak sırası: doğrudan keskin fiyat > keskin fiyattan türetilmiş pazar > model. Doğrudan fiyatlı seçimler

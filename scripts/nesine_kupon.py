@@ -245,6 +245,7 @@ def candidates(
     calibration: dict | None = None,
     market_calibration=_MCAL_DEFAULT,
     family_ev: bool = True,
+    keep_all: bool = False,
 ) -> list[list[dict]]:
     """Per match: non-dominated legs (higher Nesine odds AND higher global probability dominates).
 
@@ -346,6 +347,10 @@ def candidates(
             leg_obj["p_low"] = max(0.001, p_cal - Z_LOW * sig)
             legs.append(leg_obj)
         legs.sort(key=lambda x: (-x["odds"], -x["p_low"]))
+        if keep_all:
+            if legs:
+                pools.append(legs)
+            continue
         front, best_p, best_p_clean = [], -1.0, -1.0
         for leg in legs:  # descending odds: a trap/rejected leg cannot Pareto-dominate a diagnosis-clean leg
             is_clean = bool(leg.get("diagnosis_ok", True))
@@ -798,6 +803,7 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
             family=args.aile,
             calibration=live_cal or None,
             family_ev=not args.aile_ev_kapali,
+            keep_all=pol.name == "banko",
         )
         pools = filter_pools_for_mode(pools, pol)
         if pol.name == "banko":

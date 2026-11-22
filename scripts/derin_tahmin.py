@@ -254,7 +254,7 @@ def main() -> None:
     (out / "derin_tahminler_ayrinti.md").write_text(dr.to_markdown(args.tarih, [r for r in rows if r["legs"]]), encoding="utf-8")
     n = update_table(args.tarih, rows)
     import bahis_aileleri
-    bahis_aileleri.build_day(args.tarih)  # every bet family of every match, with probabilities -> bahis_aileleri.md
+    bahis_aileleri.build_day(args.tarih, window=args.saat)  # every bet family of every match, with probabilities -> bahis_aileleri.md
     import simulasyon
     simulasyon.write_day(args.tarih, 20000)  # market / simulation / history side by side -> simulasyon.md
     import ai_tahmin

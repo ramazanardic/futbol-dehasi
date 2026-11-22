@@ -28,9 +28,9 @@ import derin_arastirma as dr  # noqa: E402
 
 sys.path.insert(0, str(dr.ROOT / "src"))
 from quantfoot.evaluation.auto_learn import calibrated_probability, load_live_calibration, market_family  # noqa: E402
+from quantfoot.markets.market_calibration import calibrate_market_probability, load_market_calibration  # noqa: E402
 
 MIN_ODDS, MIN_PROB = 1.20, 0.55
-PER_FAMILY = 3
 FAMILY_ORDER = ("Maç sonucu", "Çifte şans", "Alt/Üst", "Gol aralığı", "Karşılıklı gol", "İY karşılıklı gol",
                 "2Y karşılıklı gol", "İlk yarı", "İkinci yarı", "İY/MS", "Ev sahibi golleri", "Deplasman golleri",
                 "Handikap", "İlk gol", "Tek/Çift", "Korner", "İY korner", "Kombine (A & B)", "Diğer")
@@ -51,23 +51,38 @@ def family_table(m: dict, games: dict | None = None, ft_only: bool = False, cali
     """[{family, suitable: [...], best_other: {...} | None}] in FAMILY_ORDER (families Nesine offers only)."""
     import wiki_gecmis as wg
     fams: dict[str, list[dict]] = {}
-    for s in m.get("selections") or []:
-        p = calibrated_probability(s["fair_prob"], bool(s.get("direct")), calibration)
+    priced = (m.get("selections") or []) if m.get("status") in (None, "fiyatlandı") else []
+    quotes = {s["key"]: s for s in priced if "key" in s}
+    market_calibration = load_market_calibration()
+    for offer in m.get("offered_selections", priced):
+        s = quotes.get(offer.get("key"), offer)
+        direct = bool(s.get("direct"))
+        p = None
+        if "fair_prob" in s:
+            p = calibrated_probability(s["fair_prob"], direct, calibration)
+            p = calibrate_market_probability(s["name"], p, m.get("league"), market_calibration, direct=direct)
         fams.setdefault(market_family(s["name"]), []).append({**s, "p": p})
+    for label in m.get("untranslated_selections") or []:
+        fams.setdefault("Eşlenemeyen Nesine pazarları", []).append(
+            {"market": "", "selection": label, "p": None, "odds": None}
+        )
     out = []
     for fam in sorted(fams, key=lambda f: FAMILY_ORDER.index(f) if f in FAMILY_ORDER else len(FAMILY_ORDER)):
-        sels = sorted(fams[fam], key=lambda x: -x["p"])
-        ok = [x for x in sels if x["odds"] >= MIN_ODDS and x["p"] >= MIN_PROB][:PER_FAMILY]
-        rows = []
-        for x in ok:
+        sels = sorted(fams[fam], key=lambda x: -(x["p"] or 0))
+        rows, rejected = [], []
+        for x in sels:
+            label = f"{x['market'].strip()}: {x['selection']}" if x["market"] else x["selection"]
+            if x["p"] is None or x["odds"] < MIN_ODDS or x["p"] < MIN_PROB:
+                reason = ("Pazar eşlemesi yok" if not x["market"] else "Doğrulanmış fiyat yok") if x["p"] is None else "Araştırma eşiğinin altında"
+                rejected.append({"label": label, "p": x["p"], "odds": x["odds"], "reason": reason})
+                continue
             mean, n, _ = _history(x["name"], games, ft_only)
             hist = {"mean": mean, "home_n": n, "away_n": n}
             verdict = (wg.verdict if ft_only else dr.verdict)(x["p"], hist)
             rows.append({"label": f"{x['market'].strip()}: {x['selection']}", "name": x["name"], "p": x["p"], "odds": x["odds"],
                          "direct": bool(x.get("direct")), "hist": mean, "n": n, "verdict": verdict})
-        other = next(({"label": f"{x['market'].strip()}: {x['selection']}", "p": x["p"], "odds": x["odds"]}
-                      for x in sels if x["odds"] >= MIN_ODDS), None) if not ok else None
-        out.append({"family": fam, "suitable": rows, "best_other": other})
+        other = next((x for x in rejected if x["p"] is not None and x["odds"] >= MIN_ODDS), None) if not rows else None
+        out.append({"family": fam, "suitable": rows, "best_other": other, "other": rejected})
     return out
 
 
@@ -99,9 +114,10 @@ def games_for(m: dict, row: dict) -> tuple[dict | None, bool]:
 def to_markdown(date: str, items: list[tuple[dict, list[dict]]]) -> str:
     pct = lambda x: "-" if x is None else f"%{100 * x:.0f}"  # noqa: E731
     md = [f"# {date} — maç başına bütün bahis aileleri ({dt.datetime.now(dr.TSI):%H:%M} TSİ)", "",
-          "Her ailede kurala uyan seçimler (Nesine oranı ≥ 1,20, olasılık ≥ %55; olasılık bitmiş günlere göre düzeltilmiş), "
-          "en olasısı önce. 'Takım geçmişi': aynı bahsin iki takımın son maçlarında tutma oranı (ev sahibi evinde, "
+          "Nesine’deki açık seçimler ailelerine göre listelenir. Takım geçmişi testi için oran ≥ 1,20 ve olasılık ≥ %55 gerekir. "
+          "Takım geçmişi aynı bahsin iki takımın son maçlarında tutma oranını gösterir (ev sahibi evinde, "
           "deplasman deplasmanda). Borsa = doğrudan global fiyat, model = gol modelinden türetilmiş.", ""]
+    ev = lambda p, odds: "—" if p is None or odds is None else f"%{100 * (p * odds - 1):+.1f}"  # noqa: E731
     for row, table in items:
         if not table:
             continue
@@ -110,31 +126,35 @@ def to_markdown(date: str, items: list[tuple[dict, list[dict]]]) -> str:
         if best:
             md += ["**En uygun aileler:** " + " · ".join(f"{fam}: {r['label']} ({pct(r['p'])}, {r['odds']:.2f}, {r['verdict']})"
                                                           for fam, r in best), ""]
-        md += ["| Aile | Seçim | Olasılık | Oran | Fiyat | Takım geçmişi | İşaret |", "|---|---|---|---|---|---|---|"]
+        md += ["| Aile | Seçim | Olasılık | Oran | Beklenen değer | Fiyat | Takım geçmişi | İşaret |", "|---|---|---|---|---|---|---|---|"]
         for f in table:
             if f["suitable"]:
                 for i, r in enumerate(f["suitable"]):
-                    md.append(f"| {f['family'] if i == 0 else ''} | {r['label']} | {pct(r['p'])} | {r['odds']:.2f} | "
+                    md.append(f"| {f['family'] if i == 0 else ''} | {r['label']} | {pct(r['p'])} | {r['odds']:.2f} | {ev(r['p'], r['odds'])} | "
                               f"{'borsa' if r['direct'] else 'model'} | {pct(r['hist'])} ({r['n']}) | {r['verdict']} |")
-            else:
-                o = f["best_other"]
-                md.append(f"| {f['family']} | uygun seçim yok" + (f" (en olası: {o['label']} {pct(o['p'])}, {o['odds']:.2f})" if o else "")
-                          + " | | | | | |")
+            for i, r in enumerate(f["other"]):
+                odds = f"{r['odds']:.2f}" if r["odds"] is not None else "—"
+                md.append(f"| {f['family'] if i == 0 and not f['suitable'] else ''} | {r['label']} | "
+                          f"{pct(r['p'])} | {odds} | {ev(r['p'], r['odds'])} | | | {r['reason']} |")
         md.append("")
     return "\n".join(md)
 
 
-def build_day(date: str) -> Path:
+def build_day(date: str, *, window: str | None = None) -> Path:
+    from derin_tahmin import in_window
     out = dr.AREA / date
     rows = json.loads((out / "derin_tahminler.json").read_text(encoding="utf-8"))
     ms = {str(m["code"]): m for m in json.loads((out / "nesine_global.json").read_text(encoding="utf-8"))["matches"]}
     cal = load_live_calibration() or None
     items = []
-    for row in rows:
-        m = ms.get(str(row["code"]))
-        if not m:
+    by_code = {str(r["code"]): r for r in rows}
+    now = dt.datetime.now(dr.TSI)
+    for code, m in sorted(ms.items(), key=lambda entry: entry[1]["kickoff"]):
+        if (m.get("price_tier") == "ozel_bahis" or dt.datetime.fromisoformat(m["kickoff_iso"]) <= now
+                or not in_window(m["kickoff"], window)):
             continue
-        games, ft_only = games_for(m, row)
+        row = by_code.get(code) or {"kickoff": m["kickoff"], "match": f"{m['home']} - {m['away']}", "league": m["league"]}
+        games, ft_only = games_for(m, row) if m.get("status") == "fiyatlandı" else (None, False)
         table = family_table(m, games, ft_only, cal)
         row["families"] = table
         items.append((row, table))
