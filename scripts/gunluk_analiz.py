@@ -25,6 +25,7 @@ from nesine_global import (  # noqa: E402
     classify_price_tier,
     is_sharp_source,
 )
+from quantfoot.markets.market_calibration import calibrate_market_probability, load_market_calibration
 from quantfoot.strategy.coupon_builder import is_uncalibrated_competition  # noqa: E402
 
 EXCLUDED_MODEL = ("İY/MS", "2Y 0", "2Y 1", "2Y 2")
@@ -64,8 +65,8 @@ def _form(r: dict, side: str) -> str:
     return " · ".join(bits) or "-"
 
 
-def best_pick(m: dict) -> tuple[dict | None, str]:
-    """Most probable selection with Nesine odds >= 1.20 that the coupon rules allow; reason when none."""
+def main_pick_floor(m: dict) -> tuple[float | None, str]:
+    """Minimum probability for this source, or the reason the match is ineligible."""
     tier = m.get("price_tier") or classify_price_tier(m["status"], m.get("reference"))
     if tier == "ozel_bahis":
         return None, "özel bahis (maç değil)"
@@ -86,12 +87,29 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
         if is_uncalibrated_competition(m.get("league")):
             return None, "orta güven — kalibre edilmemiş yarışma"
         min_p = MID_GLOBAL_MIN_PROB
-    ok = [s for s in m["selections"] if s["odds"] >= 1.20 and s["fair_prob"] >= min_p and s["ev"] <= 0.25
-          and (s.get("direct") or not s["name"].startswith(EXCLUDED_MODEL))
-          and "Skor" not in s["name"] and not s["name"].startswith("İki Yarıda")]
-    if not ok:
-        return None, ("orta güven — %62+ uygun seçim yok" if not is_sharp else "1,20+ uygun seçim yok")
-    return max(ok, key=lambda s: (s["fair_prob"], s["odds"])), ("" if is_sharp else "orta güven · araştırmalı")
+    return min_p, ("" if is_sharp else "orta güven · araştırmalı")
+
+
+def best_pick(m: dict) -> tuple[dict | None, str]:
+    """Rank eligible selections using the same validated market curves as the coupon engine."""
+    min_p, reason = main_pick_floor(m)
+    if min_p is None:
+        return None, reason
+    calibration = load_market_calibration()
+    eligible = []
+    for selection in m["selections"]:
+        name = selection["name"]
+        direct = bool(selection.get("direct"))
+        if ("Skor" in name or name.startswith("İki Yarıda") or (not direct and name.startswith(EXCLUDED_MODEL))
+                or selection["odds"] < 1.20 or selection["ev"] > 0.25):
+            continue
+        p = calibrate_market_probability(name, selection["fair_prob"], m.get("league"), calibration, direct=direct)
+        ev = p * selection["odds"] - 1
+        if p >= min_p and ev <= 0.25:
+            eligible.append({**selection, "fair_prob": p, "fair_odds": 1 / p, "ev": ev})
+    if not eligible:
+        return None, ("orta güven — %62+ uygun seçim yok" if reason else "1,20+ uygun seçim yok")
+    return max(eligible, key=lambda s: (s["fair_prob"], s["odds"])), reason
 
 
 def main() -> None:

@@ -35,7 +35,7 @@ sys.path.insert(0, str(dr.ROOT / "src"))
 
 AREA = dr.AREA
 TSI = dr.TSI
-MIN_ODDS, MIN_PROB = 1.20, 0.55
+MIN_ODDS = 1.20
 _WINDOW = re.compile(r"^([01]\d|2[0-3]):[0-5]\d-([01]\d|2[0-3]):[0-5]\d$")
 
 
@@ -43,9 +43,13 @@ def candidates(m: dict, n: int, calibration: dict | None = None) -> list[dict]:
     """Direct-price selections at the leg floor; probability = the global one corrected by the settled-history
     calibration, the same number the coupon builder and the family table use (21 Nov)."""
     from quantfoot.evaluation.auto_learn import calibrated_probability
+    from gunluk_analiz import main_pick_floor
+    min_p, _ = main_pick_floor(m)
+    if min_p is None:
+        return []
     cal = calibration if calibration is not None else _calibration()
     sels = [(s, calibrated_probability(s["fair_prob"], True, cal)) for s in m.get("selections") or [] if s.get("direct")]
-    sels = sorted([x for x in sels if x[0]["odds"] >= MIN_ODDS and x[1] >= MIN_PROB], key=lambda x: -(x[1] * x[0]["odds"]))
+    sels = sorted([x for x in sels if x[0]["odds"] >= MIN_ODDS and x[1] >= min_p], key=lambda x: -(x[1] * x[0]["odds"]))
     return [{"name": s["name"], "label": f"{s['market']}: {s['selection']}", "market": s["market"], "selection": s["selection"],
              "p": p, "odds": s["odds"], "ev": round(p * s["odds"] - 1.0, 4), "coupons": []} for s, p in sels[:n]]
 
