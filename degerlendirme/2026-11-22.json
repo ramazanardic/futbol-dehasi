@@ -1,0 +1,9438 @@
+{
+ "date": "2026-11-22",
+ "built": "2026-11-22T22:54+03:00",
+ "ais": {
+  "antigravitytahmin": {
+   "main_picks": 197,
+   "hits": 131,
+   "avg_pred": 0.6715314720812182,
+   "flat_return": -33.52,
+   "brier_1x2": 0.5584525892639595,
+   "logloss_1x2": 0.940903919760341,
+   "n_1x2": 394,
+   "coupons": [
+    {
+     "coupon": "kupon_30maks_k1_2 #2",
+     "type": "yuksek_guven",
+     "odds": 3.28,
+     "p": 0.137279,
+     "won": false,
+     "legs_won": 4,
+     "legs": 5,
+     "lost_legs": [
+      "Reus Reddis - UE Olot — Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt"
+     ]
+    },
+    {
+     "coupon": "kupon_30maks_k1_3 #3",
+     "type": "yuksek_guven",
+     "odds": 3.18,
+     "p": 0.133483,
+     "won": false,
+     "legs_won": 2,
+     "legs": 5,
+     "lost_legs": [
+      "Burnley - Blackburn R. — 3,5 Gol Alt/Üst: 3,5 Alt",
+      "Barcelona - Villarreal — Ev Sahibi İki Yarıda da Gol: Atar",
+      "Kortrijk - U. S. Gilloise — Deplasman 1,5 Gol Alt/Üst: 1,5 Üst"
+     ]
+    },
+    {
+     "coupon": "kupon_30maks_k2_5 #10",
+     "type": "dengeli_yuksek",
+     "odds": 5.7,
+     "p": 0.051186,
+     "won": false,
+     "legs_won": 4,
+     "legs": 6,
+     "lost_legs": [
+      "Burnley - Blackburn R. — 1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+      "Odds BK - Bryne — Karşılıklı Gol: Var"
+     ]
+    },
+    {
+     "coupon": "kupon_30maks_k3_2 #12",
+     "type": "orta_ust_maks",
+     "odds": 13.34,
+     "p": 0.03167,
+     "won": false,
+     "legs_won": 3,
+     "legs": 6,
+     "lost_legs": [
+      "Stoke City U21 - Stockport U21 — Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Üst",
+      "S. Gijon - Las Palmas — Deplasman Herhangi Bir Yarıyı Kazanır: Hayır",
+      "SS Arezzo - Padova — Deplasman Herhangi Bir Yarıyı Kazanır: Hayır"
+     ]
+    },
+    {
+     "coupon": "kupon_30maks_k4_3 #18",
+     "type": "orta_yuksek_carpan",
+     "odds": 52.91,
+     "p": 0.005769,
+     "won": false,
+     "legs_won": 4,
+     "legs": 7,
+     "lost_legs": [
+      "AS Avellino 1912 - Mantova 1911 — Toplam Gol Aralığı: 2-3 Gol",
+      "Sassuolo - Genoa — Deplasman Herhangi Bir Yarıyı Kazanır: Hayır",
+      "Lausanne - Vaduz — Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Üst"
+     ]
+    },
+    {
+     "coupon": "kupon_30maks_k6_2 #27",
+     "type": "maks_surpriz",
+     "odds": 68200.81,
+     "p": 3e-06,
+     "won": false,
+     "legs_won": 3,
+     "legs": 8,
+     "lost_legs": [
+      "Stuttgart II - Ingolstadt — Maç Sonucu ve Karşılıklı Gol: 1 & Var",
+      "UD Llanera - Ourense — 1. Yarı Karşılıklı Gol: Var",
+      "Brommapojkarna - Halmstads — Toplam Gol Aralığı: 0-1 Gol",
+      "Nordsjælland - Kopenhag — Maç Sonucu ve Karşılıklı Gol: X & Var",
+      "PAOK - AE Kifisia — 1. Yarı / 2. Yarı Karşılıklı Gol: Hayır/Evet"
+     ]
+    },
+    {
+     "coupon": "kupon_30maks_k6_4 #29",
+     "type": "maks_surpriz",
+     "odds": 53109.45,
+     "p": 3e-06,
+     "won": false,
+     "legs_won": 3,
+     "legs": 8,
+     "lost_legs": [
+      "Manisa FK - Pendikspor — 1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol: 2 & Yok",
+      "Alcione Milano - Acd Ospitaletto — Maç Sonucu ve Karşılıklı Gol: X & Var",
+      "Paneitolikos - Volos — 1. Yarı / 2. Yarı Karşılıklı Gol: Hayır/Evet",
+      "Saarbrucken - W. Wiesbaden — Maç Sonucu ve Karşılıklı Gol: X & Var",
+      "Liverpool - Man. Utd — Maç Sonucu: 2"
+     ]
+    }
+   ],
+   "coupons_open": 26,
+   "biggest_misses": [
+    {
+     "p": 0.7217,
+     "match": "Celta Vigo B - Real Valladolid",
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "score": "0-0 / 1-1"
+    },
+    {
+     "p": 0.7163,
+     "match": "Basel - Luzern",
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "score": "0-1 / 0-2"
+    },
+    {
+     "p": 0.7128,
+     "match": "Santander - R. Sociedad",
+     "pick": "Gol Alt/Üst: 4.5 Alt",
+     "score": "2-1 / 3-2"
+    },
+    {
+     "p": 0.7066,
+     "match": "Saarbrucken - W. Wiesbaden",
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "score": "1-0 / 2-1"
+    },
+    {
+     "p": 0.7059,
+     "match": "Stuttgart II - Ingolstadt",
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "score": "1-0 / 5-0"
+    },
+    {
+     "p": 0.7057,
+     "match": "UD Llanera - Ourense",
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "score": "0-0 / 2-0"
+    },
+    {
+     "p": 0.7046,
+     "match": "Arsenal Dzerzhinsk - Neman Grodno",
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Alt",
+     "score": "2-0 / 2-3"
+    },
+    {
+     "p": 0.7013,
+     "match": "RC Deportivo Fabril - CD Coria",
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "score": "1-1 / 3-3"
+    },
+    {
+     "p": 0.7011,
+     "match": "CD Atletico Paso - Real Valladolid B",
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "score": "0-0 / 2-1"
+    },
+    {
+     "p": 0.7006,
+     "match": "Kristiansund - Sandefjord",
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "score": "2-1 / 2-2"
+    }
+   ],
+   "research_verdicts": {
+    "?": {
+     "n": 56,
+     "won": 34,
+     "p_sum": 34.768440000000005,
+     "p_n": 56,
+     "h_sum": 4.459523809523809,
+     "h_n": 8
+    },
+    "✓": {
+     "n": 77,
+     "won": 49,
+     "p_sum": 48.20927999999999,
+     "p_n": 77,
+     "h_sum": 52.40023865023864,
+     "h_n": 77
+    },
+    "⚠": {
+     "n": 123,
+     "won": 69,
+     "p_sum": 74.66976999999999,
+     "p_n": 123,
+     "h_sum": 50.939919802419816,
+     "h_n": 94
+    },
+    "~": {
+     "n": 21,
+     "won": 13,
+     "p_sum": 13.73617,
+     "p_n": 21,
+     "h_sum": 12.123018648018649,
+     "h_n": 21
+    }
+   },
+   "simulation_verdicts": {
+    "eksik kanıt": {
+     "n": 87,
+     "won": 48,
+     "p_sum": 53.1604,
+     "p_n": 87,
+     "h_sum": 1.0443,
+     "h_n": 2
+    },
+    "üçlü onay": {
+     "n": 86,
+     "won": 57,
+     "p_sum": 53.787780000000005,
+     "p_n": 86,
+     "h_sum": 57.8786,
+     "h_n": 86
+    },
+    "kısmi onay": {
+     "n": 55,
+     "won": 28,
+     "p_sum": 34.036930000000005,
+     "p_n": 55,
+     "h_sum": 31.68775,
+     "h_n": 55
+    },
+    "çelişki": {
+     "n": 49,
+     "won": 32,
+     "p_sum": 30.398550000000004,
+     "p_n": 49,
+     "h_sum": 22.98035,
+     "h_n": 49
+    }
+   },
+   "clv": {
+    "n": 253,
+    "mean": -0.0028132806324110715,
+    "positive": 99
+   }
+  },
+  "grokbottahmin": {
+   "main_picks": 188,
+   "hits": 135,
+   "avg_pred": 0.6773143617021277,
+   "flat_return": -20.540000000000003,
+   "brier_1x2": 0.56527955274463,
+   "logloss_1x2": 0.9509877084886885,
+   "n_1x2": 419,
+   "coupons": [],
+   "coupons_open": 0,
+   "biggest_misses": [
+    {
+     "p": 0.7174,
+     "match": "Liverpool - Man. Utd",
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "score": "2-0 / 4-0"
+    },
+    {
+     "p": 0.7174,
+     "match": "AZ Picerno - Giugliano 1928",
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "score": "2-0 / 4-2"
+    },
+    {
+     "p": 0.7164,
+     "match": "Hull City - Brighton",
+     "pick": "Ev Sahibi Herhangi Bir Yarıyı Kazanır: Hayır",
+     "score": "0-0 / 2-0"
+    },
+    {
+     "p": 0.7081,
+     "match": "Santander - R. Sociedad",
+     "pick": "Çifte Şans: X-2",
+     "score": "2-1 / 3-2"
+    },
+    {
+     "p": 0.7045,
+     "match": "Stuttgart II - Ingolstadt",
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "score": "1-0 / 5-0"
+    },
+    {
+     "p": 0.7037,
+     "match": "SK Beveren - KAA Gent",
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "score": "0-0 / 1-0"
+    },
+    {
+     "p": 0.7014,
+     "match": "Getafe B - RSD Alcala",
+     "pick": "Deplasman 1,5 Gol Alt/Üst: 1,5 Alt",
+     "score": "0-1 / 1-3"
+    },
+    {
+     "p": 0.7005,
+     "match": "Brommapojkarna - Halmstads",
+     "pick": "Çifte Şans: 1-X",
+     "score": "0-3 / 0-3"
+    },
+    {
+     "p": 0.6999,
+     "match": "B. Honved - Paksi",
+     "pick": "Çifte Şans: X-2",
+     "score": "1-1 / 2-1"
+    },
+    {
+     "p": 0.6982,
+     "match": "Rodina Moscow - L. Moskova",
+     "pick": "1. Yarı Çifte Şans: 1-X",
+     "score": "0-1 / 0-1"
+    }
+   ],
+   "research_verdicts": {
+    "?": {
+     "n": 258,
+     "won": 152,
+     "p_sum": 157.25558999999993,
+     "p_n": 258,
+     "h_sum": 10.54761904761905,
+     "h_n": 17
+    },
+    "✓": {
+     "n": 58,
+     "won": 35,
+     "p_sum": 35.33443,
+     "p_n": 58,
+     "h_sum": 37.954756354756356,
+     "h_n": 58
+    },
+    "⚠": {
+     "n": 18,
+     "won": 13,
+     "p_sum": 10.975480000000001,
+     "p_n": 18,
+     "h_sum": 6.782190032190032,
+     "h_n": 18
+    },
+    "~": {
+     "n": 18,
+     "won": 13,
+     "p_sum": 11.309940000000001,
+     "p_n": 18,
+     "h_sum": 9.402908202908202,
+     "h_n": 18
+    }
+   },
+   "simulation_verdicts": {
+    "eksik kanıt": {
+     "n": 258,
+     "won": 152,
+     "p_sum": 157.25558999999993,
+     "p_n": 258,
+     "h_sum": 5.7364500000000005,
+     "h_n": 10
+    },
+    "üçlü onay": {
+     "n": 42,
+     "won": 26,
+     "p_sum": 25.883479999999995,
+     "p_n": 42,
+     "h_sum": 27.504500000000004,
+     "h_n": 42
+    },
+    "kısmi onay": {
+     "n": 25,
+     "won": 15,
+     "p_sum": 15.23057,
+     "p_n": 25,
+     "h_sum": 14.194799999999999,
+     "h_n": 25
+    },
+    "çelişki": {
+     "n": 27,
+     "won": 20,
+     "p_sum": 16.5058,
+     "p_n": 27,
+     "h_sum": 12.56805,
+     "h_n": 27
+    }
+   },
+   "clv": null
+  }
+ },
+ "matches": {
+  "3319501": {
+   "match": "Fundacio Esportiva G. - Peralada",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "13:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3307600": {
+   "match": "PFK Dinamo Samarqand - Bunyodkor",
+   "league": "Özbekistan Süper Ligi",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6272,
+     "odds": 1.34,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6612,
+     "odds": 1.28,
+     "won": true
+    }
+   }
+  },
+  "3312847": {
+   "match": "FK Bregalnica Stip - Struga Trim",
+   "league": "Kuzey Makedonya 1. MFL",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3312914": {
+   "match": "Veres Rivne - Bukovina Chernovtsy",
+   "league": "Ukrayna Premier Ligi",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6422,
+     "odds": 1.29,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6985,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3313047": {
+   "match": "Hutnik Krakow - Resovia",
+   "league": "Polonya 2. Lig",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.631,
+     "odds": 1.29,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6923,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3313311": {
+   "match": "Dinamo Kiev - Obolon Kiev",
+   "league": "Ukrayna Premier Ligi",
+   "kickoff": "14:00",
+   "ht": [
+    3,
+    1
+   ],
+   "ft": [
+    4,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.643,
+     "odds": 1.3,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 1.5 Alt",
+     "p": 0.6571,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3314144": {
+   "match": "Unia Skier - Pogon Siedl.",
+   "league": "Polonya 1. Lig",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6807,
+     "odds": 1.25,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6554,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3318102": {
+   "match": "İskenderunspor - Ankaragücü",
+   "league": "Türkiye Nesine 2. Lig, Kırmızı Grup",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {}
+  },
+  "3318139": {
+   "match": "Illescas - Toledo",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3318182": {
+   "match": "De San Vicente - CD Utiel",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3318209": {
+   "match": "Bangkok Utd - Ayutthaya Utd",
+   "league": "Tayland 1.Lig",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6917,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6756,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3318239": {
+   "match": "Mijas Las Lagunas - Las Palmas B",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6356,
+     "odds": 1.29,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6484,
+     "odds": 1.34,
+     "won": true
+    }
+   }
+  },
+  "3318265": {
+   "match": "CD Cayon - Castro",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3318276": {
+   "match": "Erzincan FY - Karacabey Bld Spor",
+   "league": "Türkiye Nesine 2. Lig, Kırmızı Grup",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    3
+   ],
+   "ft": [
+    2,
+    3
+   ],
+   "picks": {}
+  },
+  "3318286": {
+   "match": "SHB Da Nang - Phu Dong",
+   "league": "Vietnam V-Ligi",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6448,
+     "odds": 1.28,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6618,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3318301": {
+   "match": "Hong Linh - TP HO Chi Minh",
+   "league": "Vietnam V-Ligi",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Tek/Çift: Çift",
+     "p": 0.5675,
+     "odds": 1.42,
+     "won": true
+    }
+   }
+  },
+  "3318368": {
+   "match": "CE Mercadal - Manacor",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3318426": {
+   "match": "Palencia - Guijuelo",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3318428": {
+   "match": "UC Ceares - Covadonga",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {}
+  },
+  "3318459": {
+   "match": "Torre Del Mar - UD San Pedro",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3318465": {
+   "match": "Alaves II - Compostela",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6876,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6876,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3318490": {
+   "match": "Alcorcon - Algeciras",
+   "league": "İspanya Primera RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6754,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3318498": {
+   "match": "Racing Club Portuense - Cordoba B",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3318513": {
+   "match": "Ef Mareo Logrono U19 - SD Leioa U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {}
+  },
+  "3318585": {
+   "match": "CE Europa B - Mollerussa",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3318587": {
+   "match": "Don Benito - Marbella",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "p": 0.674,
+     "odds": 1.2,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "p": 0.671,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318592": {
+   "match": "Viveiro - UD Somozas",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3318596": {
+   "match": "SD Formentera - CD Cardassar",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3318604": {
+   "match": "Real Valladolid U19 - CD Un. Salamanca U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3318659": {
+   "match": "Utebo - Calamocha",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.686,
+     "odds": 1.34,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.686,
+     "odds": 1.27,
+     "won": true
+    }
+   }
+  },
+  "3318661": {
+   "match": "San Cristobal Cp - UE Tona",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {}
+  },
+  "3318676": {
+   "match": "Lyon U19 - Stade Reims U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3318699": {
+   "match": "Botev Vratsa - CSKA 1948 Sofia",
+   "league": "Bulgaristan Parva Ligi",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6763,
+     "odds": 1.22,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6599,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3318700": {
+   "match": "Arenas Armilla - Granada B",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3318759": {
+   "match": "Ucam Murcia - Y.Deportivo",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6884,
+     "odds": 1.2,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6884,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318765": {
+   "match": "Valencia U19 - Cartagena U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "14:00",
+   "ht": [
+    3,
+    1
+   ],
+   "ft": [
+    5,
+    1
+   ],
+   "picks": {}
+  },
+  "3318829": {
+   "match": "CD A. Baleares - Real Murcia B",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3318848": {
+   "match": "Club Atletico Central - CD Xerez",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-X",
+     "p": 0.6595,
+     "odds": 1.22,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Alt",
+     "p": 0.6786,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3318874": {
+   "match": "Songkhla - SGB Kanchanaburi",
+   "league": "Tayland Şampiyonası",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {}
+  },
+  "3318903": {
+   "match": "CD Guarnizo - CD Tropezon",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3318914": {
+   "match": "A.Club De Getxo - Real Aviles",
+   "league": "İspanya Primera RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6924,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6786,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318943": {
+   "match": "Huesca - I. Eivissa",
+   "league": "İspanya Primera RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    4
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "p": 0.6724,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3318975": {
+   "match": "CD Roda U19 - UCAM Murcia U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {}
+  },
+  "3318980": {
+   "match": "Naxara CD - CD Ebro",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6794,
+     "odds": 1.23,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6714,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3319056": {
+   "match": "Real Sociedad (K) - Sevilla (K)",
+   "league": "İspanya Primera Ligi Kadınlar",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.66,
+     "odds": 1.35,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.66,
+     "odds": 1.34,
+     "won": true
+    }
+   }
+  },
+  "3319065": {
+   "match": "CD Utrera U19 - Alhendin Balompie U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3319104": {
+   "match": "Cartagena B - Mazarron",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3319107": {
+   "match": "Atl Mancha Real - Malagueno",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3319117": {
+   "match": "Racing Club Villalbes - CD Barco",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {}
+  },
+  "3319144": {
+   "match": "Varea - Casalarreina",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3319148": {
+   "match": "Pozuelo De Alarcon - Mostoles Urjc",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3319168": {
+   "match": "Girona B - UD Logrones B",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.7138,
+     "odds": 1.24,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Üst",
+     "p": 0.6636,
+     "odds": 1.25,
+     "won": false
+    }
+   }
+  },
+  "3319193": {
+   "match": "CD Huetor Vega - Atletico Porcuna",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3319195": {
+   "match": "UD Ourense - Racing  Ferrol",
+   "league": "İspanya Primera RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman İki Yarıda da Gol: Atamaz",
+     "p": 0.6651,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Alt",
+     "p": 0.6779,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3319253": {
+   "match": "Cuarte - CD Binefar",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3319291": {
+   "match": "Menemen FK - Şanlıurfaspor",
+   "league": "Türkiye Nesine  2. Lig, Beyaz Grup",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3319305": {
+   "match": "Real Oviedo B - Atletico Astorga",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.647,
+     "odds": 1.28,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6675,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3319322": {
+   "match": "Martinenc - UE Cornella",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3319344": {
+   "match": "Burgos Promesas - Atl Bembibre",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3319356": {
+   "match": "Hercules B - Atl Saguntino",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3319362": {
+   "match": "D. Moskova - Krasnodar",
+   "league": "Rusya Premier Lig",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7089,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.7238,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3319375": {
+   "match": "CD Castellon B - UD Castellonense",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6877,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6703,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3319544": {
+   "match": "Torrent - Levante B",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3319548": {
+   "match": "CD Subiza - CD Pamplona",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3319555": {
+   "match": "Granada (K) - Real Madrid (K)",
+   "league": "İspanya Primera Ligi Kadınlar",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    1,
+    5
+   ],
+   "picks": {}
+  },
+  "3319575": {
+   "match": "RC Celta de Vigo U19 - CD Marina U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "14:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {}
+  },
+  "3319606": {
+   "match": "Sevilla C - RB Linense",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3319649": {
+   "match": "Rennes Ta U19 - Rennes U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3319652": {
+   "match": "Kaohsiung Attackers - AC Taipei",
+   "league": "Tayvan Premier Ligi",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3319783": {
+   "match": "Montanesa - Atletic Lleida CE",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3319786": {
+   "match": "RCD Mallorca B - CD Cieza",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6636,
+     "odds": 1.24,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6636,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3319799": {
+   "match": "El San Martin Ra - UP Langreo",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    1,
+    5
+   ],
+   "picks": {}
+  },
+  "3319858": {
+   "match": "Condal Club - Sporting Gijon B",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3319859": {
+   "match": "Nakhon R. - Khon Kaen Utd",
+   "league": "Tayland Şampiyonası",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3319871": {
+   "match": "Sevilla U19 - Granada U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3319955": {
+   "match": "Chiclana - UD Tomares",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3319968": {
+   "match": "LAS Rozas - Cdb Siello",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3319995": {
+   "match": "UD Socuellamos - Villacanas",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3320017": {
+   "match": "Real Sireti - Petrocub",
+   "league": "Moldova Ulusal Lig ",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3351684": {
+   "match": "AD Sanjoanense - Academica",
+   "league": "Portekiz Kupası",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6302,
+     "odds": 1.29,
+     "won": false
+    }
+   }
+  },
+  "3391056": {
+   "match": "Arsenal Dzerzhinsk - Neman Grodno",
+   "league": "Belarus Premier Lig",
+   "kickoff": "14:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Alt",
+     "p": 0.7046,
+     "odds": 1.25,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.6815,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3409535": {
+   "match": "Smorgon - Molodechno",
+   "league": "Belarus Pervaya Ligi",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3409537": {
+   "match": "Soligorsk - Orsha",
+   "league": "Belarus Pervaya Ligi",
+   "kickoff": "14:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {}
+  },
+  "3313134": {
+   "match": "Rakow C. - Widzew Lodz",
+   "league": "Polonya Ekstraklasa",
+   "kickoff": "14:15",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.694,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3318258": {
+   "match": "Ural U19 - G. de Torrelavega U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "14:15",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3318362": {
+   "match": "SC Heerenveen (K) - ADO Den Haag (K)",
+   "league": "Hollanda Eredivisie Kadınlar",
+   "kickoff": "14:15",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3320031": {
+   "match": "Twente - Willem II",
+   "league": "Hollanda Eredivisie",
+   "kickoff": "14:15",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.7089,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3314471": {
+   "match": "Olimpia - G. Leczna",
+   "league": "Polonya 2. Lig",
+   "kickoff": "14:30",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    4,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6844,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.6636,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318136": {
+   "match": "Hougang Utd - Tampines Rov.",
+   "league": "Singapur Premier Lig",
+   "kickoff": "14:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    5
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6893,
+     "odds": 1.23,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 1.5 Alt",
+     "p": 0.6693,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3318155": {
+   "match": "Scafatese Calcio 1922 - Foggia",
+   "league": "İtalya Serie C",
+   "kickoff": "14:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6692,
+     "odds": 1.24,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6734,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3318202": {
+   "match": "Reus Reddis - UE Olot",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "14:30",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6812,
+     "odds": 1.28,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6753,
+     "odds": 1.27,
+     "won": false
+    }
+   }
+  },
+  "3318253": {
+   "match": "Pro Vercelli - Novara Calcio",
+   "league": "İtalya Serie C",
+   "kickoff": "14:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6923,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6675,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3318313": {
+   "match": "CA Antoniano - Salerm Puente Genil",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "14:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Tek/Çift: Çift",
+     "p": 0.5642,
+     "odds": 1.43,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6477,
+     "odds": 1.3,
+     "won": true
+    }
+   }
+  },
+  "3318381": {
+   "match": "Rayo Vallecano B - AD Union Adarve",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3318422": {
+   "match": "Lion C. Sailors - Geylang",
+   "league": "Singapur Premier Lig",
+   "kickoff": "14:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    5,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6985,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3318536": {
+   "match": "Xerez Deportivo - Cd Pozoblanco",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:30",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    6,
+    2
+   ],
+   "picks": {}
+  },
+  "3318696": {
+   "match": "Chiangrai Utd - Lamphun Warrior",
+   "league": "Tayland 1.Lig",
+   "kickoff": "14:30",
+   "ht": [
+    5,
+    0
+   ],
+   "ft": [
+    5,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.678,
+     "odds": 1.23,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6705,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3318958": {
+   "match": "Moralo CP - AD Llerenense",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3319090": {
+   "match": "UD Los Garres - Atl Santa Cruz",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:30",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {}
+  },
+  "3319235": {
+   "match": "Union Brescia - AC Renate",
+   "league": "İtalya Serie C",
+   "kickoff": "14:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6852,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3319296": {
+   "match": "Muang Loei Utd - Uttaradit",
+   "league": "Tayland Şampiyonası",
+   "kickoff": "14:30",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3319340": {
+   "match": "A. Coruna Montaneros - Pontevedra B",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    4
+   ],
+   "picks": {}
+  },
+  "3319498": {
+   "match": "Juventus - Venezia",
+   "league": "İtalya Serie A",
+   "kickoff": "14:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "İlk Golü Hangi Takım Atar?: 1",
+     "p": 0.6966,
+     "odds": 1.24,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.7188,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3319536": {
+   "match": "Como (K) - AS Roma (K)",
+   "league": "İtalya Serie A, Kadınlar",
+   "kickoff": "14:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3319580": {
+   "match": "Ternana (K) - Inter (K)",
+   "league": "İtalya Serie A, Kadınlar",
+   "kickoff": "14:30",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    4
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6101,
+     "odds": 1.37,
+     "won": true
+    }
+   }
+  },
+  "3319880": {
+   "match": "Lanzarote UD - CD Union Sur Yaiza",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "14:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3313666": {
+   "match": "NK Croatia Zmijavci - NK Karlovac 1919",
+   "league": "Hırvatistan Prva NL",
+   "kickoff": "14:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3235180": {
+   "match": "KCB Nairobi - 3K",
+   "league": "Kenya Premier Lig",
+   "kickoff": "15:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3313277": {
+   "match": "Radnicki - FK Cukaricki",
+   "league": "Sırbistan Superliga",
+   "kickoff": "15:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6403,
+     "odds": 1.29,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6638,
+     "odds": 1.25,
+     "won": false
+    }
+   }
+  },
+  "3314213": {
+   "match": "FK Pardubice - Brno",
+   "league": "Çekya 1. Lig",
+   "kickoff": "15:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.6372,
+     "odds": 1.28,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6907,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318140": {
+   "match": "Burnley - Blackburn R.",
+   "league": "İngiltere Championship",
+   "kickoff": "15:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6815,
+     "odds": 1.26,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7166,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3318142": {
+   "match": "Man. City (K) - Tottenham Hotspur (K)",
+   "league": "İngiltere Kadınlar Süper Ligi",
+   "kickoff": "15:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6743,
+     "odds": 1.24,
+     "won": false
+    }
+   }
+  },
+  "3318188": {
+   "match": "PTE Peac - Budafoki Mte",
+   "league": "Macaristan NB III, Güneybatı Grubu",
+   "kickoff": "15:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3318307": {
+   "match": "Birmingham City (K) - Man. Utd (K)",
+   "league": "İngiltere Kadınlar Süper Ligi",
+   "kickoff": "15:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 2",
+     "p": 0.6343,
+     "odds": 1.34,
+     "won": true
+    }
+   }
+  },
+  "3318518": {
+   "match": "Beyoğlu Y. Çarşı - İnegölspor",
+   "league": "Türkiye Nesine 2. Lig, Kırmızı Grup",
+   "kickoff": "15:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {}
+  },
+  "3318548": {
+   "match": "Esmtk Budapest - Csepel",
+   "league": "Macaristan NB III, Güneydoğu Grubu",
+   "kickoff": "15:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3318629": {
+   "match": "Rayong - Rasisalai Utd",
+   "league": "Tayland 1.Lig",
+   "kickoff": "15:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-2",
+     "p": 0.6357,
+     "odds": 1.25,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6573,
+     "odds": 1.29,
+     "won": false
+    }
+   }
+  },
+  "3318774": {
+   "match": "İnegöl Kafkas SK - Arnavutköy Bld FSK",
+   "league": "Türkiye Nesine  2. Lig, Beyaz Grup",
+   "kickoff": "15:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {}
+  },
+  "3318842": {
+   "match": "Szentlorinc SE - Kecskemeti TE",
+   "league": "Macaristan 2. Ligi",
+   "kickoff": "15:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3318858": {
+   "match": "Dabas - Bss Monor",
+   "league": "Macaristan NB III, Güneydoğu Grubu",
+   "kickoff": "15:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3319062": {
+   "match": "UD Las Palmas U19 - Longuera Toscal U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "15:00",
+   "ht": [
+    3,
+    0
+   ],
+   "ft": [
+    7,
+    0
+   ],
+   "picks": {}
+  },
+  "3319376": {
+   "match": "Linares Dep. - A. Sanluqueno",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "15:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6759,
+     "odds": 1.23,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6759,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3319710": {
+   "match": "Karşıyaka - Alanya 1221 Futbol SK",
+   "league": "Türkiye Nesine 3. Lig, 2. Grup",
+   "kickoff": "15:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    4,
+    1
+   ],
+   "picks": {}
+  },
+  "3319814": {
+   "match": "Phrae Utd - Nongbua Pitc.",
+   "league": "Tayland Şampiyonası",
+   "kickoff": "15:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3319844": {
+   "match": "Persib Bandung - Bali Utd",
+   "league": "Endonezya 1. Lig",
+   "kickoff": "15:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6869,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3319954": {
+   "match": "CD Atletico Paso - Real Valladolid B",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "15:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7011,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.6848,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3389683": {
+   "match": "Ballkani - SC Gjilani",
+   "league": "Kosova Superliga",
+   "kickoff": "15:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {}
+  },
+  "3314552": {
+   "match": "Tripoli AC - Reyady Abaseya",
+   "league": "Lübnan Premier Lig",
+   "kickoff": "15:15",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3318766": {
+   "match": "AL Tadamon Sour - Jwaaya",
+   "league": "Lübnan Premier Lig",
+   "kickoff": "15:15",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    5
+   ],
+   "picks": {}
+  },
+  "3235202": {
+   "match": "Posta Ranger - Gor Mahia",
+   "league": "Kenya Premier Lig",
+   "kickoff": "15:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3313493": {
+   "match": "Kaiserslautern - D. Dresden",
+   "league": "Almanya Bundesliga 2",
+   "kickoff": "15:30",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7016,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.7078,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3313936": {
+   "match": "Montana 1921 - Dobrudzha Dobrich",
+   "league": "Bulgaristan 2. Lig",
+   "kickoff": "15:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6707,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3314320": {
+   "match": "NK Jadran LP - HNK Cibalia Vinkovci",
+   "league": "Hırvatistan Prva NL",
+   "kickoff": "15:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6424,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3318336": {
+   "match": "S B Vlasim - SK Prostej",
+   "league": "Çekya 2. Lig",
+   "kickoff": "15:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6342,
+     "odds": 1.3,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6895,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3318478": {
+   "match": "Sakaryaspor - Serik Spor",
+   "league": "Türkiye Nesine 2. Lig, Kırmızı Grup",
+   "kickoff": "15:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {}
+  },
+  "3318748": {
+   "match": "E. Cottbus - Hertha Berlin",
+   "league": "Almanya Bundesliga 2",
+   "kickoff": "15:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    4
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Gol Alt/Üst: 4.5 Alt",
+     "p": 0.703,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Gol Alt/Üst: 4.5 Alt",
+     "p": 0.7157,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318782": {
+   "match": "Karlsruhe - Osnabrück",
+   "league": "Almanya Bundesliga 2",
+   "kickoff": "15:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7036,
+     "odds": 1.23,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.6993,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3319159": {
+   "match": "Zalaegerszeg - Vasas",
+   "league": "Macaristan 1. Ligi",
+   "kickoff": "15:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.701,
+     "odds": 1.2,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.6778,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3319420": {
+   "match": "Stuttgart II - Ingolstadt",
+   "league": "Almanya 3. Lig",
+   "kickoff": "15:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    5,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.7059,
+     "odds": 1.2,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.7045,
+     "odds": 1.2,
+     "won": false
+    }
+   }
+  },
+  "3319578": {
+   "match": "SK Beveren - KAA Gent",
+   "league": "Belçika Pro Lig",
+   "kickoff": "15:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.7103,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7037,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3319617": {
+   "match": "FK Vora - KF Tirana",
+   "league": "Arnavutluk Süper Ligi",
+   "kickoff": "15:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3319722": {
+   "match": "SK Kladno - Jihlava",
+   "league": "Çekya 2. Lig",
+   "kickoff": "15:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-X",
+     "p": 0.6839,
+     "odds": 1.2,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-X",
+     "p": 0.6959,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3319854": {
+   "match": "52 Orduspor FK - 12 Bingöl Spor",
+   "league": "Türkiye Nesine 2. Lig, Kırmızı Grup",
+   "kickoff": "15:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    3
+   ],
+   "picks": {}
+  },
+  "3391064": {
+   "match": "Odds BK - Bryne",
+   "league": "Norveç Eliteserien, Düş./Yük.",
+   "kickoff": "15:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.674,
+     "odds": 1.28,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.6989,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3396862": {
+   "match": "Davao Aguilas - Stallion",
+   "league": "Filipinler Futbol Ligi",
+   "kickoff": "15:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3414172": {
+   "match": "Ethiopia Electricity - Halaba Ketema",
+   "league": "Etiyopya Premier Lig",
+   "kickoff": "15:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Karşılıklı Gol: Yok",
+     "p": 0.6135,
+     "odds": 1.31,
+     "won": true
+    }
+   }
+  },
+  "3309915": {
+   "match": "Hetten - Arar",
+   "league": "Suudi Arabistan 2. Lig, 1. Grup",
+   "kickoff": "15:35",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3415355": {
+   "match": "Sur SC - Sohar",
+   "league": "Umman Ligi",
+   "kickoff": "15:35",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3319003": {
+   "match": "Emirates Club - AL Ittifaq",
+   "league": "BAE 1.Lig",
+   "kickoff": "15:40",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3319906": {
+   "match": "Fujairah - Al Urooba (Bae)",
+   "league": "BAE 1.Lig",
+   "kickoff": "15:40",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {}
+  },
+  "3319399": {
+   "match": "Elche U19 - Kelme U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "15:45",
+   "ht": [
+    3,
+    0
+   ],
+   "ft": [
+    4,
+    1
+   ],
+   "picks": {}
+  },
+  "3309676": {
+   "match": "FK Kapaz - Karabağ",
+   "league": "Azerbaycan Premier Lig",
+   "kickoff": "16:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6504,
+     "odds": 1.29,
+     "won": true
+    }
+   }
+  },
+  "3313741": {
+   "match": "Eintracht Norder. - FSV Schoningen 2011",
+   "league": "Almanya Böl. Lig, Kuzey ",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3313962": {
+   "match": "Hannoverscher - Lubeck",
+   "league": "Almanya Böl. Lig, Kuzey ",
+   "kickoff": "16:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3314054": {
+   "match": "Phonix Lubeck - St. Pauli II",
+   "league": "Almanya Böl. Lig, Kuzey ",
+   "kickoff": "16:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3318339": {
+   "match": "Balti - Dacia Buiucani",
+   "league": "Moldova Ulusal Lig ",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    2,
+    5
+   ],
+   "picks": {}
+  },
+  "3318482": {
+   "match": "Barcelona - Villarreal",
+   "league": "İspanya La Liga",
+   "kickoff": "16:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7071,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Gol Alt/Üst: 5.5 Alt",
+     "p": 0.7132,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318595": {
+   "match": "Konyaspor - Beşiktaş",
+   "league": "Türkiye Süper Ligi",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    2,
+    4
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi Herhangi Bir Yarıyı Kazanır: Hayır",
+     "p": 0.6898,
+     "odds": 1.26,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Maç Sonucu: 2",
+     "p": 0.5966,
+     "odds": 1.42,
+     "won": true
+    }
+   }
+  },
+  "3318684": {
+   "match": "Nürnberg (Amt) - Vilzing",
+   "league": "Almanya Böl. Lig, Bavyera",
+   "kickoff": "16:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    4,
+    2
+   ],
+   "picks": {}
+  },
+  "3318740": {
+   "match": "Gicumbi - Musanze",
+   "league": "Ruanda Ulusal Lig",
+   "kickoff": "16:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3318846": {
+   "match": "Peterborough Utd U21 - Luton Town U21",
+   "league": "İngiltere U21 Premier Lig Kupası",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    1,
+    5
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.6555,
+     "odds": 1.49,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.6557,
+     "odds": 1.49,
+     "won": true
+    }
+   }
+  },
+  "3318872": {
+   "match": "SC Freiburg (K) - VfB Stuttgart (K)",
+   "league": "Almanya Kadınlar Bundesliga",
+   "kickoff": "16:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.5962,
+     "odds": 1.39,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.5962,
+     "odds": 1.39,
+     "won": true
+    }
+   }
+  },
+  "3318882": {
+   "match": "Mukura - Sunrise",
+   "league": "Ruanda Ulusal Lig",
+   "kickoff": "16:00",
+   "ht": [
+    3,
+    0
+   ],
+   "ft": [
+    4,
+    1
+   ],
+   "picks": {}
+  },
+  "3318887": {
+   "match": "Al Merrikh (Sdn) - Gorilla",
+   "league": "Ruanda Ulusal Lig",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3318902": {
+   "match": "Tabor Sezana - NK Jesenice",
+   "league": "Slovenya 2. Lig",
+   "kickoff": "16:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    5,
+    2
+   ],
+   "picks": {}
+  },
+  "3318956": {
+   "match": "Manisa FK - Pendikspor",
+   "league": "Türkiye 1. Lig",
+   "kickoff": "16:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.6957,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.6933,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3319127": {
+   "match": "Etincelles - AS Kigali",
+   "league": "Ruanda Ulusal Lig",
+   "kickoff": "16:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3319304": {
+   "match": "Esenler Erokspor - Antalyaspor",
+   "league": "Türkiye 1. Lig",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6785,
+     "odds": 1.23,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6834,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3319367": {
+   "match": "Cordoba - Real Oviedo",
+   "league": "İspanya 2. Lig",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6959,
+     "odds": 1.25,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6788,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3319424": {
+   "match": "Sandhausen - Stuttgarter Kickers",
+   "league": "Almanya Böl. Lig, Güney Batı",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3319427": {
+   "match": "Zürih - St. Gallen",
+   "league": "İsviçre Süper Lig",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.7115,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3319672": {
+   "match": "Viborg - Randers",
+   "league": "Danimarka Süper Ligi",
+   "kickoff": "16:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6957,
+     "odds": 1.24,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6169,
+     "odds": 1.41,
+     "won": false
+    }
+   }
+  },
+  "3319704": {
+   "match": "IK Sirius - Djurgarden",
+   "league": "İsveç Allsvenskan",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7037,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.7057,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3319708": {
+   "match": "Brentford U21 - Hull City U21",
+   "league": "İngiltere U21 Premier Lig Kupası",
+   "kickoff": "16:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-2",
+     "p": 0.7011,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Üst",
+     "p": 0.7148,
+     "odds": 1.28,
+     "won": true
+    }
+   }
+  },
+  "3319863": {
+   "match": "AC Horsens - Silkeborg",
+   "league": "Danimarka Süper Ligi",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.72,
+     "odds": 1.2,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.6792,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3319960": {
+   "match": "Kasımpaşa - Alanyaspor",
+   "league": "Türkiye Süper Ligi",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7015,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3320000": {
+   "match": "BK Hacken - IF Elfsborg",
+   "league": "İsveç Allsvenskan",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7135,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.7106,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3402570": {
+   "match": "CD Maxaquene - Baia de Pemba",
+   "league": "Mozambik Mocambola",
+   "kickoff": "16:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3404885": {
+   "match": "Negelle Arsi - Gamo Chencha",
+   "league": "Etiyopya Premier Lig",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6872,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3406837": {
+   "match": "Nchanga Rangers - Trident",
+   "league": "Zambiya Süper Lig, Grup A",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3409571": {
+   "match": "Green Eagles - Red Arrows",
+   "league": "Zambiya Süper Lig, Grup B",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    3
+   ],
+   "picks": {}
+  },
+  "3313530": {
+   "match": "Lechia Gdansk - Odra Opole",
+   "league": "Polonya 1. Lig",
+   "kickoff": "16:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.6683,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.6681,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3318150": {
+   "match": "Valenciennes U19 - Versailles 78 U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "16:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3318236": {
+   "match": "Racing U19 - US Orleans U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "16:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3318393": {
+   "match": "Alcione Milano - Acd Ospitaletto",
+   "league": "İtalya Serie C",
+   "kickoff": "16:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-X",
+     "p": 0.6936,
+     "odds": 1.2,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-X",
+     "p": 0.6823,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318648": {
+   "match": "US Cap D Ail U19 - Bastia U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "16:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3318713": {
+   "match": "Livorno - Ravenna 1913",
+   "league": "İtalya Serie C",
+   "kickoff": "16:30",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman İki Yarıda da Gol: Atamaz",
+     "p": 0.6804,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman İki Yarıda da Gol: Atamaz",
+     "p": 0.6894,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318722": {
+   "match": "Rouen U19 - SM Caen U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "16:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {}
+  },
+  "3318839": {
+   "match": "Metz U19 - Nancy-Lorraine U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "16:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3318954": {
+   "match": "Wolfsberger - SV Ried",
+   "league": "Avusturya Bundesliga",
+   "kickoff": "16:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman İki Yarıda da Gol: Atamaz",
+     "p": 0.6984,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman İki Yarıda da Gol: Atamaz",
+     "p": 0.6984,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3318990": {
+   "match": "US Pianese - AS Gubbio 1910",
+   "league": "İtalya Serie C",
+   "kickoff": "16:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6751,
+     "odds": 1.26,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6839,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3319142": {
+   "match": "Stade Briochin U19 - Stade Laval U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "16:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3319485": {
+   "match": "Torres Sassari - Spezia",
+   "league": "İtalya Serie C",
+   "kickoff": "16:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6792,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6776,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3319519": {
+   "match": "S. Rotterdam - AZ Alkmaar",
+   "league": "Hollanda Eredivisie",
+   "kickoff": "16:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    5
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman Herhangi Bir Yarıyı Kazanır: Evet",
+     "p": 0.7008,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3319535": {
+   "match": "Altamura - Casarano",
+   "league": "İtalya Serie C",
+   "kickoff": "16:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6797,
+     "odds": 1.22,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6754,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3319630": {
+   "match": "Ajax - ADO Den Haag",
+   "league": "Hollanda Eredivisie",
+   "kickoff": "16:30",
+   "ht": [
+    3,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7053,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6954,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3319788": {
+   "match": "Amiens U19 - C Chartres Football U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "16:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3319970": {
+   "match": "Dyn. Makhachkala - S. Moskova",
+   "league": "Rusya Premier Lig",
+   "kickoff": "16:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6335,
+     "odds": 1.34,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Alt",
+     "p": 0.6879,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3319978": {
+   "match": "USL Dunkerque U19 - Le Havre U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "16:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3320018": {
+   "match": "Levski Sofya - Loko Sofya",
+   "league": "Bulgaristan Parva Ligi",
+   "kickoff": "16:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    4,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.5961,
+     "odds": 1.39,
+     "won": false
+    }
+   }
+  },
+  "3320034": {
+   "match": "Altach - Sturm Graz",
+   "league": "Avusturya Bundesliga",
+   "kickoff": "16:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7065,
+     "odds": 1.2,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7063,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3391066": {
+   "match": "Mamel Sundow - Kaizer Chiefs",
+   "league": "Güney Afrika Lig Kupası",
+   "kickoff": "16:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6801,
+     "odds": 1.24,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6736,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3391070": {
+   "match": "ES Zarzis - US Ben Guerdane",
+   "league": "Tunus 1. Lig",
+   "kickoff": "16:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "p": 0.676,
+     "odds": 1.25,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.7066,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3391071": {
+   "match": "Club Africain - Esperance T.",
+   "league": "Tunus 1. Lig",
+   "kickoff": "16:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Tek/Çift: Çift",
+     "p": 0.6038,
+     "odds": 1.37,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Alt",
+     "p": 0.6749,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3314613": {
+   "match": "Katowice - Lech Poznan",
+   "league": "Polonya Ekstraklasa",
+   "kickoff": "16:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.6994,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3309693": {
+   "match": "Stoke City U21 - Stockport U21",
+   "league": "İngiltere U21 Premier Lig Kupası",
+   "kickoff": "17:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-2",
+     "p": 0.7045,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Üst",
+     "p": 0.7151,
+     "odds": 1.27,
+     "won": true
+    }
+   }
+  },
+  "3312545": {
+   "match": "NK Maribor - Nafta",
+   "league": "Slovenya PrvaLiga",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    5,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6849,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6782,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3312608": {
+   "match": "O. Lyon (K) - RC Strasbourg (K)",
+   "league": "Fransa Kadınlar 1. Lig",
+   "kickoff": "17:00",
+   "ht": [
+    3,
+    0
+   ],
+   "ft": [
+    5,
+    2
+   ],
+   "picks": {}
+  },
+  "3313127": {
+   "match": "D. Zagreb - NK Istra 61",
+   "league": "Hırvatistan 1. HNL",
+   "kickoff": "17:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Sonucu: 1",
+     "p": 0.6036,
+     "odds": 1.35,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 1.5 Alt",
+     "p": 0.6254,
+     "odds": 1.32,
+     "won": false
+    }
+   }
+  },
+  "3313557": {
+   "match": "Schaffhausen - SC Cham",
+   "league": "İsviçre Yükselme 1.Ligi",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    2,
+    6
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi 1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.5864,
+     "odds": 1.4,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Karşılıklı Gol: Var",
+     "p": 0.6797,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3313834": {
+   "match": "Hamburg II - W. Bremen II",
+   "league": "Almanya Böl. Lig, Kuzey ",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {}
+  },
+  "3314103": {
+   "match": "FK IMT Novi Beograd - Partizan",
+   "league": "Sırbistan Superliga",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6538,
+     "odds": 1.25,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.6773,
+     "odds": 1.24,
+     "won": false
+    }
+   }
+  },
+  "3314187": {
+   "match": "Slovacko - H. Kralove",
+   "league": "Çekya 1. Lig",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    4,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6864,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6615,
+     "odds": 1.25,
+     "won": false
+    }
+   }
+  },
+  "3314585": {
+   "match": "Paris (K) - Fleury (K)",
+   "league": "Fransa Kadınlar 1. Lig",
+   "kickoff": "17:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3318296": {
+   "match": "Calcio Catania - SSC Bari",
+   "league": "İtalya Serie C",
+   "kickoff": "17:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6841,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6867,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3318380": {
+   "match": "AS Beziers U19 - US Colomiers U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3318471": {
+   "match": "Charlton Ath (K) - Aston Villa (K)",
+   "league": "İngiltere Kadınlar Süper Ligi",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 2",
+     "p": 0.639,
+     "odds": 1.37,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Maç Sonucu: 2",
+     "p": 0.5535,
+     "odds": 1.4,
+     "won": false
+    }
+   }
+  },
+  "3318546": {
+   "match": "Fiorentina (K) - Como 1907 (K)",
+   "league": "İtalya Serie A, Kadınlar",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    4,
+    3
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.5937,
+     "odds": 1.39,
+     "won": true
+    }
+   }
+  },
+  "3318674": {
+   "match": "Sassuolo - Genoa",
+   "league": "İtalya Serie A",
+   "kickoff": "17:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6848,
+     "odds": 1.27,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6861,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3318929": {
+   "match": "Hull City - Brighton",
+   "league": "İngiltere Premier Lig",
+   "kickoff": "17:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Alt",
+     "p": 0.6857,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi Herhangi Bir Yarıyı Kazanır: Hayır",
+     "p": 0.7164,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3319323": {
+   "match": "Everton (K) - Brighton (K)",
+   "league": "İngiltere Kadınlar Süper Ligi",
+   "kickoff": "17:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.5512,
+     "odds": 1.55,
+     "won": false
+    }
+   }
+  },
+  "3319346": {
+   "match": "Biel Bienne - Bellinzona",
+   "league": "İsviçre Yükselme 1.Ligi",
+   "kickoff": "17:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    4,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.643,
+     "odds": 1.28,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6902,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3319431": {
+   "match": "Bologna - Udinese",
+   "league": "İtalya Serie A",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.6836,
+     "odds": 1.24,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6947,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3319453": {
+   "match": "Churchill B. SC - Mohun Bagan",
+   "league": "Hindistan Süper Ligi",
+   "kickoff": "17:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-2",
+     "p": 0.6232,
+     "odds": 1.27,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Alt",
+     "p": 0.6703,
+     "odds": 1.28,
+     "won": true
+    }
+   }
+  },
+  "3319480": {
+   "match": "AS Avellino 1912 - Mantova 1911",
+   "league": "İtalya Serie B",
+   "kickoff": "17:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    4,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6952,
+     "odds": 1.24,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.6946,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3319609": {
+   "match": "APO Levadeiakos - Atromitos",
+   "league": "Yunanistan Süper Lig",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı / 2. Yarı Karşılıklı Gol: Hayır/Hayır",
+     "p": 0.6652,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6975,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3319793": {
+   "match": "Paris - Angers",
+   "league": "Fransa Ligue 1",
+   "kickoff": "17:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6999,
+     "odds": 1.23,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.7214,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3319855": {
+   "match": "BSC Young Boys - YF Juventus",
+   "league": "İsviçre Yükselme 1.Ligi",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.6268,
+     "odds": 1.35,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.6268,
+     "odds": 1.38,
+     "won": false
+    }
+   }
+  },
+  "3319969": {
+   "match": "Mochudi Centre C. - Matebele",
+   "league": "Botsvana Premier Ligi",
+   "kickoff": "17:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3351667": {
+   "match": "Vianense - Rio Ave",
+   "league": "Portekiz Kupası",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6216,
+     "odds": 1.32,
+     "won": true
+    }
+   }
+  },
+  "3351672": {
+   "match": "Gil Vicente - SC Olhanense",
+   "league": "Portekiz Kupası",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {}
+  },
+  "3351677": {
+   "match": "Vitoria Sernache - Lusitania",
+   "league": "Portekiz Kupası",
+   "kickoff": "17:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6821,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3359426": {
+   "match": "NK Celik Zenica - FK Sloga Doboj",
+   "league": "Bosna Hersek Premier Lig",
+   "kickoff": "17:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Tek/Çift: Çift",
+     "p": 0.5616,
+     "odds": 1.43,
+     "won": false
+    }
+   }
+  },
+  "3380280": {
+   "match": "Hamrun Spartans - Sliema Wanderers",
+   "league": "Malta Premier Lig Top 6 İlk Etap",
+   "kickoff": "17:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6427,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3384812": {
+   "match": "Vizela - CD Feirense",
+   "league": "Portekiz 2. Lig",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.6915,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.6993,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3389680": {
+   "match": "KF Drita - Feronikeli",
+   "league": "Kosova Superliga",
+   "kickoff": "17:00",
+   "ht": [
+    2,
+    2
+   ],
+   "ft": [
+    4,
+    3
+   ],
+   "picks": {}
+  },
+  "3391055": {
+   "match": "D. Minsk - Minsk",
+   "league": "Belarus Premier Lig",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu ve 1,5 Alt/Üst: 1 & Üst",
+     "p": 0.6807,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3391057": {
+   "match": "M. Rogachev - Slavia Mozyr",
+   "league": "Belarus Premier Lig",
+   "kickoff": "17:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu ve 1,5 Alt/Üst: 1 & Üst",
+     "p": 0.6915,
+     "odds": 1.24,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı / 2. Yarı Karşılıklı Gol: Hayır/Hayır",
+     "p": 0.6809,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3391060": {
+   "match": "Isloch - Torpedo Belaz Z.",
+   "league": "Belarus Premier Lig",
+   "kickoff": "17:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    4,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.673,
+     "odds": 1.22,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6725,
+     "odds": 1.23,
+     "won": false
+    }
+   }
+  },
+  "3391078": {
+   "match": "U. Sp. Musulmane Oujda - JS Massira",
+   "league": "Fas Botola 2",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3406818": {
+   "match": "Rosengard (K) - KIF Orebro DFF (K)",
+   "league": "İsveç Allsvenskan Kad. Düş/Yük",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    3,
+    3
+   ],
+   "picks": {}
+  },
+  "3314132": {
+   "match": "FK Kosice - Skalica",
+   "league": "Slovakya Superliga",
+   "kickoff": "17:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6412,
+     "odds": 1.31,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6881,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3318163": {
+   "match": "Arsenal (K) - West Ham Utd (K)",
+   "league": "İngiltere Kadınlar Süper Ligi",
+   "kickoff": "17:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3318197": {
+   "match": "Lugano II - Breitenrain",
+   "league": "İsviçre Yükselme 1.Ligi",
+   "kickoff": "17:30",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    2,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.5559,
+     "odds": 1.47,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Karşılıklı Gol: Var",
+     "p": 0.6759,
+     "odds": 1.27,
+     "won": true
+    }
+   }
+  },
+  "3318463": {
+   "match": "Augsburg - Mainz",
+   "league": "Almanya Bundesliga",
+   "kickoff": "17:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7025,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Karşılıklı Gol: Var",
+     "p": 0.7034,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3318586": {
+   "match": "Colunga - Llanes",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "17:45",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {}
+  },
+  "3318169": {
+   "match": "Port City - Heart of Lions",
+   "league": "Gana Premier Lig",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3318185": {
+   "match": "Express - Vipers SC",
+   "league": "Uganda Premier Ligi",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3318247": {
+   "match": "RC Deportivo Fabril - CD Coria",
+   "league": "İspanya Primera RFEF",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.7013,
+     "odds": 1.2,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6899,
+     "odds": 1.24,
+     "won": false
+    }
+   }
+  },
+  "3318410": {
+   "match": "Cartagena - Real Jaen",
+   "league": "İspanya Primera RFEF",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    4,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.6752,
+     "odds": 1.24,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6688,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3318453": {
+   "match": "Barakaldo - Unionistas",
+   "league": "İspanya Primera RFEF",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.6934,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6812,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318568": {
+   "match": "CDJ Tamarite - CD La Almunia",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {}
+  },
+  "3318625": {
+   "match": "Sonderjyske - Odense",
+   "league": "Danimarka Süper Ligi",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6893,
+     "odds": 1.25,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.6747,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3318639": {
+   "match": "Abia Warriors - Enyimba",
+   "league": "Nijerya Premier Ligi",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3318728": {
+   "match": "Algar - CD Bala Azul",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3318807": {
+   "match": "Bechem Utd - Asante Kotoko",
+   "league": "Gana Premier Lig",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3318826": {
+   "match": "Nyiregyhaza - Debrecen",
+   "league": "Macaristan 1. Ligi",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    2,
+    6
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6941,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6748,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3318873": {
+   "match": "Rivers Utd - Niger Tornadoes",
+   "league": "Nijerya Premier Ligi",
+   "kickoff": "18:00",
+   "ht": [
+    3,
+    0
+   ],
+   "ft": [
+    6,
+    0
+   ],
+   "picks": {}
+  },
+  "3318894": {
+   "match": "Andorra - CD Caspe",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3318919": {
+   "match": "Dreams - Samartex",
+   "league": "Gana Premier Lig",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3319030": {
+   "match": "Kun Khalifat - Katsina Utd",
+   "league": "Nijerya Premier Ligi",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3319035": {
+   "match": "Medeama SC - Ashanti Gold",
+   "league": "Gana Premier Lig",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3319221": {
+   "match": "UD Llanera - Ourense",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7057,
+     "odds": 1.25,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6512,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3319309": {
+   "match": "RB Leipzig (K) - Wolfsburg (K)",
+   "league": "Almanya Kadınlar Bundesliga",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Üst",
+     "p": 0.5838,
+     "odds": 1.41,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Üst",
+     "p": 0.5838,
+     "odds": 1.4,
+     "won": false
+    }
+   }
+  },
+  "3319338": {
+   "match": "Hearts of Oak - Aduana Stars",
+   "league": "Gana Premier Lig",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3319351": {
+   "match": "Getafe U19 - R. Majadahonda U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3319409": {
+   "match": "Bibiani Gold Stars - Swedru All Blacks",
+   "league": "Gana Premier Lig",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3319513": {
+   "match": "Kagera Sugar - Tabora Utd",
+   "league": "Tanzanya Premier Lig",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3319514": {
+   "match": "Kortrijk - U. S. Gilloise",
+   "league": "Belçika Pro Lig",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 2",
+     "p": 0.7188,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Maç Sonucu: 2",
+     "p": 0.7128,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3319552": {
+   "match": "Eng. Rangers - Shooting Stars",
+   "league": "Nijerya Premier Ligi",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3319577": {
+   "match": "Beerschot - J. KRC Genk U23",
+   "league": "Belçika 2. Lig, İlk Etap",
+   "kickoff": "18:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    5,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Gol Alt/Üst: 4.5 Alt",
+     "p": 0.685,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Gol Alt/Üst: 4.5 Alt",
+     "p": 0.685,
+     "odds": 1.2,
+     "won": false
+    }
+   }
+  },
+  "3319662": {
+   "match": "Paneitolikos - Volos",
+   "league": "Yunanistan Süper Lig",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı / 2. Yarı Karşılıklı Gol: Hayır/Hayır",
+     "p": 0.6242,
+     "odds": 1.28,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6933,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3319674": {
+   "match": "Huachipato - Dep. Concepcion",
+   "league": "Şili Premier Lig",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6754,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6597,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3319735": {
+   "match": "Albacete Balompie B - CD Guadalajara",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    3
+   ],
+   "ft": [
+    0,
+    4
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-X",
+     "p": 0.6932,
+     "odds": 1.22,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.6673,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3319920": {
+   "match": "Nasarawa Utd - Warri Wolves",
+   "league": "Nijerya Premier Ligi",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3319962": {
+   "match": "Ucam Murcia B - U. Molinense 2020",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3351670": {
+   "match": "S. Farense - CD De Fatima",
+   "league": "Portekiz Kupası",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-2",
+     "p": 0.6509,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Üst",
+     "p": 0.6608,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3372591": {
+   "match": "Shabab AL Ordon - Ittihad AL Ramtha",
+   "league": "Ürdün Kupası",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3391080": {
+   "match": "S.C. Mhammedia - Mouloudia",
+   "league": "Fas Botola 2",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3391084": {
+   "match": "CJ Ben Guerir - US Yacoub Mansour",
+   "league": "Fas Botola 2",
+   "kickoff": "18:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3415967": {
+   "match": "AL Musannah SC - Dhofar Scsc",
+   "league": "Umman Ligi",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3318983": {
+   "match": "CD Cenicero - Alfaro",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:15",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3319381": {
+   "match": "SFC Minerva - Atletico Pulpileno",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:15",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3319800": {
+   "match": "S. Gijon - Las Palmas",
+   "league": "İspanya 2. Lig",
+   "kickoff": "18:15",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6867,
+     "odds": 1.26,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6877,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3319966": {
+   "match": "Santander - R. Sociedad",
+   "league": "İspanya La Liga",
+   "kickoff": "18:15",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Gol Alt/Üst: 4.5 Alt",
+     "p": 0.7128,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.7081,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3312575": {
+   "match": "UTA Arad - Un. Craiova",
+   "league": "Romanya 1. Lig",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    3
+   ],
+   "ft": [
+    2,
+    6
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman İki Yarıda da Gol: Atamaz",
+     "p": 0.6855,
+     "odds": 1.2,
+     "won": false
+    }
+   }
+  },
+  "3318149": {
+   "match": "Basel - Luzern",
+   "league": "İsviçre Süper Lig",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.7163,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.6529,
+     "odds": 1.28,
+     "won": false
+    }
+   }
+  },
+  "3318164": {
+   "match": "UE Porreres - Ibiza Islas Pitiusas",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3318217": {
+   "match": "Panathinaikos - Ofi Crete",
+   "league": "Yunanistan Süper Lig",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi Her İki Yarıyı da Kazanır: Hayır",
+     "p": 0.6265,
+     "odds": 1.29,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 1.5 Alt",
+     "p": 0.6653,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3318303": {
+   "match": "Ath Torrellano - Crevillente Deportivo",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    3
+   ],
+   "ft": [
+    1,
+    5
+   ],
+   "picks": {}
+  },
+  "3318406": {
+   "match": "Alondras - Gran Pena",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3318467": {
+   "match": "Saarbrucken - W. Wiesbaden",
+   "league": "Almanya 3. Lig",
+   "kickoff": "18:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "p": 0.7066,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman İki Yarıda da Gol: Atamaz",
+     "p": 0.7127,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3318497": {
+   "match": "Bullas Deportivo - Cotillas CD",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3318523": {
+   "match": "Malaga City - CD Alhaurino",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3318583": {
+   "match": "Santa Amalia - Jaraiz",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:30",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    1,
+    4
+   ],
+   "picks": {}
+  },
+  "3318783": {
+   "match": "CD Gevora - Villanovense",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6398,
+     "odds": 1.29,
+     "won": false
+    }
+   }
+  },
+  "3318786": {
+   "match": "Deportivo Maritimo - Aguilas B",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    4
+   ],
+   "picks": {}
+  },
+  "3318864": {
+   "match": "Epila - AD Almudevar",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3318896": {
+   "match": "Navalcarnero - Gimnastica Segoviana",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6936,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7018,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318968": {
+   "match": "CD Boiro - Portonovo SD",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    6,
+    2
+   ],
+   "picks": {}
+  },
+  "3318976": {
+   "match": "Brommapojkarna - Halmstads",
+   "league": "İsveç Allsvenskan",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    3
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7018,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.7005,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3319679": {
+   "match": "UD Vall de Uxo - CD Roda",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3319846": {
+   "match": "Cd Torrijos - AD San Clemente",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3389666": {
+   "match": "Lausanne - Vaduz",
+   "league": "İsviçre Süper Lig",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6668,
+     "odds": 1.28,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.6954,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318190": {
+   "match": "de Graafschap (K) - Ajax (K)",
+   "league": "Hollanda Eredivisie Kadınlar",
+   "kickoff": "18:45",
+   "ht": [
+    0,
+    3
+   ],
+   "ft": [
+    0,
+    5
+   ],
+   "picks": {}
+  },
+  "3318235": {
+   "match": "CD Mosconia - Aviles Stadium",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "18:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    4,
+    2
+   ],
+   "picks": {}
+  },
+  "3318333": {
+   "match": "Utrecht (K) - AZ Alkmaar (K)",
+   "league": "Hollanda Eredivisie Kadınlar",
+   "kickoff": "18:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {}
+  },
+  "3318405": {
+   "match": "Go Ahead Eagles - F. Sittard",
+   "league": "Hollanda Eredivisie",
+   "kickoff": "18:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6926,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3319401": {
+   "match": "PSV Eindhoven (K) - PEC Zwolle (K)",
+   "league": "Hollanda Eredivisie Kadınlar",
+   "kickoff": "18:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3319763": {
+   "match": "Feyenoord (K) - Twente (K)",
+   "league": "Hollanda Eredivisie Kadınlar",
+   "kickoff": "18:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3312899": {
+   "match": "FK M. Sabac - FK Vojvodina",
+   "league": "Sırbistan Superliga",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    1,
+    5
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Alt",
+     "p": 0.6863,
+     "odds": 1.2,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Alt",
+     "p": 0.6745,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3314606": {
+   "match": "Stal Rzeszow - Polonia Bytom",
+   "league": "Polonya 1. Lig",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-X",
+     "p": 0.6856,
+     "odds": 1.2,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6554,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3318111": {
+   "match": "Salamanca - C. Sotelo Puertollano",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6923,
+     "odds": 1.24,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6893,
+     "odds": 1.23,
+     "won": false
+    }
+   }
+  },
+  "3318167": {
+   "match": "CD Mosquito U19 - Arenas Armilla CD U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {}
+  },
+  "3318222": {
+   "match": "Soroksar - Szeged G. A.",
+   "league": "Macaristan 2. Ligi",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6715,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3318359": {
+   "match": "Badalona - Pobla de Mafumet",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    3
+   ],
+   "picks": {}
+  },
+  "3318440": {
+   "match": "Bollullos - Cadiz B",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3318503": {
+   "match": "CD Tarancon - CD Huracan de Balazote",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3318617": {
+   "match": "Arandina - Mirandes B",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:00",
+   "ht": [
+    2,
+    2
+   ],
+   "ft": [
+    4,
+    2
+   ],
+   "picks": {}
+  },
+  "3318645": {
+   "match": "Kristiansund - Sandefjord",
+   "league": "Norveç Eliteserien",
+   "kickoff": "19:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "p": 0.7006,
+     "odds": 1.2,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.6342,
+     "odds": 1.32,
+     "won": true
+    }
+   }
+  },
+  "3318690": {
+   "match": "Arosa SC - SD Eibar B",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "19:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6435,
+     "odds": 1.27,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-X",
+     "p": 0.6779,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3318754": {
+   "match": "Marbelli - UD Almeria B",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3318764": {
+   "match": "CP Villarrobledo - Marchamalo CD",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3318768": {
+   "match": "Tudelano - Pena Sport",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "19:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6328,
+     "odds": 1.29,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6623,
+     "odds": 1.27,
+     "won": true
+    }
+   }
+  },
+  "3318854": {
+   "match": "Cdfc La Calzada - Oyonesa",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3318920": {
+   "match": "Austria Wien - Salzburg",
+   "league": "Avusturya Bundesliga",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.691,
+     "odds": 1.25,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6909,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3318932": {
+   "match": "SD Gernika Club - Rayo Cantabria",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "19:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6577,
+     "odds": 1.26,
+     "won": false
+    }
+   }
+  },
+  "3318971": {
+   "match": "Aalesunds - Rosenborg",
+   "league": "Norveç Eliteserien",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6996,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Maç Sonucu: 2",
+     "p": 0.5874,
+     "odds": 1.46,
+     "won": false
+    }
+   }
+  },
+  "3319024": {
+   "match": "Rayo Ciudad U19 - Leganes U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3319115": {
+   "match": "Botev Plovdiv - CSKA Sofya",
+   "league": "Bulgaristan Parva Ligi",
+   "kickoff": "19:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6311,
+     "odds": 1.33,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6577,
+     "odds": 1.28,
+     "won": true
+    }
+   }
+  },
+  "3319138": {
+   "match": "Rodina Moscow - L. Moskova",
+   "league": "Rusya Premier Lig",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "p": 0.7066,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-X",
+     "p": 0.6982,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3319146": {
+   "match": "Bursaspor - Sivasspor",
+   "league": "Türkiye 1. Lig",
+   "kickoff": "19:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi Her İki Yarıyı da Kazanır: Hayır",
+     "p": 0.6095,
+     "odds": 1.38,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 1.5 Alt",
+     "p": 0.6577,
+     "odds": 1.27,
+     "won": false
+    }
+   }
+  },
+  "3319337": {
+   "match": "CD Barquereno - UM Escobedo",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {}
+  },
+  "3319361": {
+   "match": "Orihuela - La Nucia",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "p": 0.6652,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "p": 0.6626,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3319364": {
+   "match": "Vianes - Yague",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3319366": {
+   "match": "Atl Club Pueblonuevo - SP Villafranca",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    4
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6555,
+     "odds": 1.27,
+     "won": true
+    }
+   }
+  },
+  "3319415": {
+   "match": "Talavera R. - Atl Tordesillas",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6653,
+     "odds": 1.24,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6919,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3319455": {
+   "match": "Real Avila - UB Conquense",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Tek/Çift: Çift",
+     "p": 0.5676,
+     "odds": 1.43,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Alt",
+     "p": 0.6576,
+     "odds": 1.28,
+     "won": true
+    }
+   }
+  },
+  "3319509": {
+   "match": "Trabzonspor - Eyüpspor",
+   "league": "Türkiye Süper Ligi",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Gol Alt/Üst: 4.5 Alt",
+     "p": 0.7103,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3319560": {
+   "match": "CD Quintanar Del Rey - La Solana",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3319655": {
+   "match": "Cd Estradense - Arenteiro",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3319720": {
+   "match": "Bergantinos - CD Basconia",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-2",
+     "p": 0.6172,
+     "odds": 1.3,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6489,
+     "odds": 1.28,
+     "won": true
+    }
+   }
+  },
+  "3319842": {
+   "match": "Comillas - Calahorra",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    4
+   ],
+   "picks": {}
+  },
+  "3319853": {
+   "match": "CD Espanyol Barca U19 - R. Club Zaragoza U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {}
+  },
+  "3319883": {
+   "match": "Granadilla (K) - Madrid Ccf (K)",
+   "league": "İspanya Primera Ligi Kadınlar",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {}
+  },
+  "3319904": {
+   "match": "Javier Mar Menor - Olimpico Totana",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3319963": {
+   "match": "Rudar - ND Beltinci",
+   "league": "Slovenya 2. Lig",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3389670": {
+   "match": "V. Tulevik - Tallinn",
+   "league": "Estonya Esiliiga, Düş./Yük.",
+   "kickoff": "19:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3318347": {
+   "match": "Lorient - Rennes",
+   "league": "Fransa Ligue 1",
+   "kickoff": "19:15",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.7163,
+     "odds": 1.2,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.7106,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3319410": {
+   "match": "SS Arezzo - Padova",
+   "league": "İtalya Serie B",
+   "kickoff": "19:15",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.7262,
+     "odds": 1.2,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.7004,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3312786": {
+   "match": "NK Celje - NK Brinje Grosuplje",
+   "league": "Slovenya PrvaLiga",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6947,
+     "odds": 1.2,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6848,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3313550": {
+   "match": "Wisla Plock - L. Varşova",
+   "league": "Polonya Ekstraklasa",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6958,
+     "odds": 1.23,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6859,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3318218": {
+   "match": "Werder Bremen - Hamburg",
+   "league": "Almanya Bundesliga",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7079,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6913,
+     "odds": 1.27,
+     "won": false
+    }
+   }
+  },
+  "3318270": {
+   "match": "Manta - Delfin",
+   "league": "Ekvador Pro Lig, Düşme Turu",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6751,
+     "odds": 1.26,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.6743,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3318320": {
+   "match": "Ciudad De Lucena - Betis D. Balompie",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6582,
+     "odds": 1.27,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6735,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3318578": {
+   "match": "UE Vilassar de Mar - Vilanova Geltru",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3318606": {
+   "match": "Recreativo - Badajoz",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "19:30",
+   "ht": [
+    4,
+    0
+   ],
+   "ft": [
+    7,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6975,
+     "odds": 1.29,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6909,
+     "odds": 1.25,
+     "won": false
+    }
+   }
+  },
+  "3318613": {
+   "match": "Liverpool - Man. Utd",
+   "league": "İngiltere Premier Lig",
+   "kickoff": "19:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6786,
+     "odds": 1.27,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7174,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3318656": {
+   "match": "Forli - Reggiana",
+   "league": "İtalya Serie C",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6816,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6843,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3318870": {
+   "match": "Dolomiti Bellunesi - Ath Carpi",
+   "league": "İtalya Serie C",
+   "kickoff": "19:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.677,
+     "odds": 1.24,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6662,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3318930": {
+   "match": "AZ Picerno - Giugliano 1928",
+   "league": "İtalya Serie C",
+   "kickoff": "19:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    4,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6987,
+     "odds": 1.21,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.7174,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3318936": {
+   "match": "San Roque - Conil",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:30",
+   "ht": [
+    3,
+    0
+   ],
+   "ft": [
+    5,
+    0
+   ],
+   "picks": {}
+  },
+  "3319294": {
+   "match": "Sestao River Club - Amorebieta",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "19:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6868,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6868,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3319398": {
+   "match": "Desenzano Calvina - US Albinoleffe",
+   "league": "İtalya Serie C",
+   "kickoff": "19:30",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    1,
+    6
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı / 2. Yarı Karşılıklı Gol: Hayır/Hayır",
+     "p": 0.6028,
+     "odds": 1.31,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6607,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3319586": {
+   "match": "SD Logrones - CD Arnedo",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "19:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6832,
+     "odds": 1.24,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6919,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3319698": {
+   "match": "Torredonjimeno - CD Cantoria 2017",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3319805": {
+   "match": "Sambenedettese - Perugia",
+   "league": "İtalya Serie C",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    4
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı / 2. Yarı Karşılıklı Gol: Hayır/Hayır",
+     "p": 0.5713,
+     "odds": 1.34,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.685,
+     "odds": 1.2,
+     "won": false
+    }
+   }
+  },
+  "3359424": {
+   "match": "Sarajevo - Siroki Brijeg",
+   "league": "Bosna Hersek Premier Lig",
+   "kickoff": "19:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6914,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.7036,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3380310": {
+   "match": "Hibernians - Marsaxlokk",
+   "league": "Malta Premier Lig Top 6 İlk Etap",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6385,
+     "odds": 1.28,
+     "won": true
+    }
+   }
+  },
+  "3414069": {
+   "match": "Stade de Mbour - Ajel de Rufisque",
+   "league": "Senegal Premier Lig",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3414072": {
+   "match": "US Ouakam - Hlm",
+   "league": "Senegal Premier Lig",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3414073": {
+   "match": "Teungueth - ASC Diambars",
+   "league": "Senegal Premier Lig",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3312523": {
+   "match": "Dunajska S. - KFC Komarno",
+   "league": "Slovakya Superliga",
+   "kickoff": "20:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6933,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6597,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3312681": {
+   "match": "Rijeka - HNK Gorica",
+   "league": "Hırvatistan 1. HNL",
+   "kickoff": "20:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-2",
+     "p": 0.6349,
+     "odds": 1.25,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6802,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3314516": {
+   "match": "Sparta Prag - Slovan Liberec",
+   "league": "Çekya 1. Lig",
+   "kickoff": "20:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.6305,
+     "odds": 1.28,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6829,
+     "odds": 1.26,
+     "won": false
+    }
+   }
+  },
+  "3318667": {
+   "match": "Nordsjælland - Kopenhag",
+   "league": "Danimarka Süper Ligi",
+   "kickoff": "20:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    5,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7204,
+     "odds": 1.2,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.6399,
+     "odds": 1.31,
+     "won": true
+    }
+   }
+  },
+  "3318677": {
+   "match": "RC Alcobendas - Colonia Moscardo",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3318688": {
+   "match": "Astur - L. Entregu",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3318891": {
+   "match": "Valencia M. - CD Alcoyano",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6784,
+     "odds": 1.23,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6787,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3318899": {
+   "match": "Atl Madrid C - San Sebastian R.",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6735,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6735,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3319167": {
+   "match": "Gutersloh 2000 - Oberhausen",
+   "league": "Almanya Böl. Lig, Batı",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3319169": {
+   "match": "Terrassa - Manresa",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "p": 0.6236,
+     "odds": 1.26,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6732,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3319173": {
+   "match": "Olympiakos - POT Iraklis",
+   "league": "Yunanistan Süper Lig",
+   "kickoff": "20:00",
+   "ht": [
+    2,
+    2
+   ],
+   "ft": [
+    6,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman Hangi Yarıda Daha Çok Gol Atar?: Eşit",
+     "p": 0.6437,
+     "odds": 1.32,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "1. Yarı / 2. Yarı Karşılıklı Gol: Hayır/Hayır",
+     "p": 0.6756,
+     "odds": 1.23,
+     "won": false
+    }
+   }
+  },
+  "3319931": {
+   "match": "AC Milan - Frosinone",
+   "league": "İtalya Serie A",
+   "kickoff": "20:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    5,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.68,
+     "odds": 1.27,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.7106,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3319950": {
+   "match": "Police Xi - Jwaneng Galaxy",
+   "league": "Botsvana Premier Ligi",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3391121": {
+   "match": "IZK Itihad Z Khemisset - Sportive Boujaad",
+   "league": "Fas Botola 2",
+   "kickoff": "20:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3414074": {
+   "match": "Guediawaye - ASC Jaraaf",
+   "league": "Senegal Premier Lig",
+   "kickoff": "20:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3318511": {
+   "match": "Merida AD - Union Irun",
+   "league": "İspanya Primera RFEF",
+   "kickoff": "20:15",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6607,
+     "odds": 1.26,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6795,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3319539": {
+   "match": "Cultural Leonesa - Zamora",
+   "league": "İspanya Primera RFEF",
+   "kickoff": "20:15",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.6836,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.698,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3318489": {
+   "match": "Anderlecht - O. H. Leuven",
+   "league": "Belçika Pro Lig",
+   "kickoff": "20:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman Herhangi Bir Yarıyı Kazanır: Hayır",
+     "p": 0.6998,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman Herhangi Bir Yarıyı Kazanır: Hayır",
+     "p": 0.7199,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318600": {
+   "match": "Celta Vigo B - Real Valladolid",
+   "league": "İspanya 2. Lig",
+   "kickoff": "20:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7217,
+     "odds": 1.2,
+     "won": false
+    },
+    "grokbottahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6956,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3318695": {
+   "match": "Mainz 05 (K) - Nürnberg (K)",
+   "league": "Almanya Kadınlar Bundesliga",
+   "kickoff": "20:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.598,
+     "odds": 1.54,
+     "won": true
+    }
+   }
+  },
+  "3319178": {
+   "match": "PAOK - AE Kifisia",
+   "league": "Yunanistan Süper Lig",
+   "kickoff": "20:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi 1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.6511,
+     "odds": 1.28,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.7047,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3319816": {
+   "match": "Geita Gold - Mashujaa",
+   "league": "Tanzanya Premier Lig",
+   "kickoff": "20:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3319884": {
+   "match": "Girona - Eibar",
+   "league": "İspanya 2. Lig",
+   "kickoff": "20:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7105,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.7144,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3319910": {
+   "match": "Osasuna - Malaga",
+   "league": "İspanya La Liga",
+   "kickoff": "20:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.6996,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atamaz",
+     "p": 0.7037,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3319986": {
+   "match": "B. Honved - Paksi",
+   "league": "Macaristan 1. Ligi",
+   "kickoff": "20:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman İki Yarıda da Gol: Atamaz",
+     "p": 0.672,
+     "odds": 1.22,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.6999,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3318593": {
+   "match": "Barcelona (K) - Ath Bilbao (K)",
+   "league": "İspanya Primera Ligi Kadınlar",
+   "kickoff": "21:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    6,
+    0
+   ],
+   "picks": {}
+  },
+  "3351693": {
+   "match": "Estrela - Portimonense",
+   "league": "Portekiz Kupası",
+   "kickoff": "21:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6962,
+     "odds": 1.21,
+     "won": true
+    },
+    "grokbottahmin": {
+     "pick": "Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt",
+     "p": 0.6946,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3318143": {
+   "match": "Tokyo Musashino City - Honda",
+   "league": "Japonya Futbol Ligi",
+   "kickoff": "07:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {}
+  },
+  "3318383": {
+   "match": "Adelaide City - Broadmeadow Mag",
+   "league": "Avustralya Şampiyonası",
+   "kickoff": "07:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    1,
+    5
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "Karşılıklı Gol: Var",
+     "p": 0.6822,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3318472": {
+   "match": "Okinawa SV - Maruyasu Okazaki",
+   "league": "Japonya Futbol Ligi",
+   "kickoff": "07:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3318941": {
+   "match": "Veertien Mie - Criacao Shinjuku",
+   "league": "Japonya Futbol Ligi",
+   "kickoff": "07:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3319050": {
+   "match": "Honda Lock - Reinmeer Aomori",
+   "league": "Japonya Futbol Ligi",
+   "kickoff": "07:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    2,
+    6
+   ],
+   "picks": {}
+  },
+  "3319091": {
+   "match": "Grulla Morioka - J-Lease",
+   "league": "Japonya Futbol Ligi",
+   "kickoff": "07:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3319481": {
+   "match": "R. Kumamoto - G. Kitakyushu",
+   "league": "Japonya J3 Ligi",
+   "kickoff": "07:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3319528": {
+   "match": "Avondale - Apia Leic.",
+   "league": "Avustralya Şampiyonası",
+   "kickoff": "07:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.6795,
+     "odds": 1.25,
+     "won": false
+    }
+   }
+  },
+  "3319574": {
+   "match": "Melbourne V. (K) - Perth Glory (K)",
+   "league": "Avustralya A-Ligi Kadınlar",
+   "kickoff": "07:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3318282": {
+   "match": "Daegu - Gimhae",
+   "league": "Güney Kore K-Lig 2",
+   "kickoff": "08:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3318516": {
+   "match": "Jeonnam Dragons - Ansan Greene",
+   "league": "Güney Kore K-Lig 2",
+   "kickoff": "08:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6822,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3319456": {
+   "match": "Azul Claro N. - Yscc Yokohama",
+   "league": "Japonya Futbol Ligi",
+   "kickoff": "08:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3319546": {
+   "match": "T. Vortis - S. Bellmare",
+   "league": "Japonya J2 Ligi",
+   "kickoff": "08:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.6443,
+     "odds": 1.27,
+     "won": true
+    }
+   }
+  },
+  "3319592": {
+   "match": "R. Yamaguchi - MIO Biwako Shiga",
+   "league": "Japonya J3 Ligi",
+   "kickoff": "08:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3351674": {
+   "match": "Gimcheon Sangmu - Jeju Utd",
+   "league": "Güney Kore K-Lig 1, Düşme Turu",
+   "kickoff": "08:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.6544,
+     "odds": 1.28,
+     "won": false
+    }
+   }
+  },
+  "3351689": {
+   "match": "Gwangju - Bucheon",
+   "league": "Güney Kore K-Lig 1, Düşme Turu",
+   "kickoff": "08:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    4,
+    2
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.6743,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3318271": {
+   "match": "Metro Gallery - Kui Tan SC",
+   "league": "Hong Kong 1.Lig",
+   "kickoff": "08:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3318655": {
+   "match": "Tung Sing - Hoi King",
+   "league": "Hong Kong 1.Lig",
+   "kickoff": "08:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3318214": {
+   "match": "Beijing BG P. (K) - Wuhan J. Uni. (K)",
+   "league": "Çin Playoff, Kadınlar",
+   "kickoff": "09:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    4,
+    2
+   ],
+   "picks": {}
+  },
+  "3318373": {
+   "match": "Osaka - Kamatamare S",
+   "league": "Japonya J3 Ligi",
+   "kickoff": "09:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3318616": {
+   "match": "Shanghai Shengli (K) - Zhejiang H. (K)",
+   "league": "Çin Playoff, Kadınlar",
+   "kickoff": "09:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    7,
+    0
+   ],
+   "picks": {}
+  },
+  "3319028": {
+   "match": "Jiangsu LFC (K) - Liaoning (K)",
+   "league": "Çin Playoff, Kadınlar",
+   "kickoff": "09:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3318729": {
+   "match": "Taichung Futuro - Hang Yuen",
+   "league": "Tayvan Premier Ligi",
+   "kickoff": "10:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3319419": {
+   "match": "Sha Tin - Eastern Sports",
+   "league": "Hong Kong Premier Lig",
+   "kickoff": "10:00",
+   "ht": [
+    0,
+    3
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {}
+  },
+  "3319795": {
+   "match": "Wofoo SE - Central Western",
+   "league": "Hong Kong 1.Lig",
+   "kickoff": "10:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    5,
+    3
+   ],
+   "picks": {}
+  },
+  "3400310": {
+   "match": "Mendiola - Kaya Iloi",
+   "league": "Filipinler Futbol Ligi",
+   "kickoff": "10:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {}
+  },
+  "3318300": {
+   "match": "Paju Citizen - Cheonan City",
+   "league": "Güney Kore K-Lig 2",
+   "kickoff": "10:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.6699,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3319113": {
+   "match": "Seoul E Land - Chungnam Asan",
+   "league": "Güney Kore K-Lig 2",
+   "kickoff": "10:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6764,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3319489": {
+   "match": "Taiwan Power C. - Tainan City",
+   "league": "Tayvan Premier Ligi",
+   "kickoff": "10:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3319727": {
+   "match": "Resources Capital - Lucky Mile",
+   "league": "Hong Kong 1.Lig",
+   "kickoff": "10:30",
+   "ht": [
+    3,
+    0
+   ],
+   "ft": [
+    5,
+    1
+   ],
+   "picks": {}
+  },
+  "3319888": {
+   "match": "Supreme - Citizen AA",
+   "league": "Hong Kong 1.Lig",
+   "kickoff": "10:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3319990": {
+   "match": "Taichung Rock - Taipei Tatung",
+   "league": "Tayvan Premier Ligi",
+   "kickoff": "10:30",
+   "ht": [
+    0,
+    3
+   ],
+   "ft": [
+    1,
+    4
+   ],
+   "picks": {}
+  },
+  "3402560": {
+   "match": "Jiangxi Dingnan Utd. - Guizhou Zhucheng Ath",
+   "league": "Çin 1. Lig, Düşme/Yükselme Playoff",
+   "kickoff": "10:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3310073": {
+   "match": "Ufa - Ural",
+   "league": "Rusya Ulusal Ligi",
+   "kickoff": "11:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Alt",
+     "p": 0.7053,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3319996": {
+   "match": "Farmel - Pusamania Borneo",
+   "league": "Endonezya 1. Lig",
+   "kickoff": "11:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3319063": {
+   "match": "Vik. Zizkov - Opava",
+   "league": "Çekya 2. Lig",
+   "kickoff": "12:15",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6961,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318553": {
+   "match": "Dagon - Yadanarbon",
+   "league": "Myanmar Ulusal Lig",
+   "kickoff": "12:30",
+   "ht": [
+    3,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {}
+  },
+  "3318922": {
+   "match": "Kuala Lumpur - Penang FA",
+   "league": "Malezya Süper Ligi",
+   "kickoff": "12:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3319947": {
+   "match": "South China - Yuen Long",
+   "league": "Hong Kong 1.Lig",
+   "kickoff": "12:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3318121": {
+   "match": "Estac Troyes U19 - Annecy U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "13:00",
+   "ht": [
+    2,
+    2
+   ],
+   "ft": [
+    2,
+    4
+   ],
+   "picks": {}
+  },
+  "3318457": {
+   "match": "Merignac Sa U19 - SC Beaucouze U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3318904": {
+   "match": "Cavigal Nice SF U19 - AS Saint Etienne U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "13:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3319155": {
+   "match": "Budapest Honved MFA - Vasas SC II",
+   "league": "Macaristan NB III, Güneydoğu Grubu",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3319246": {
+   "match": "AD Cala Pozuelo - AD Torrejon",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3319329": {
+   "match": "Nyiregyhaza Spartacus II - Fuzesabony SC Eross Ut",
+   "league": "Macaristan NB III, Kuzeydoğu Grubu",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3319379": {
+   "match": "Ujpest II - Sandorfalvi Ske",
+   "league": "Macaristan NB III, Güneydoğu Grubu",
+   "kickoff": "13:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3319540": {
+   "match": "CD Leganes B - Fuenlabrada",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    3
+   ],
+   "picks": {}
+  },
+  "3319681": {
+   "match": "Lazio U20 - Milan U20",
+   "league": "İtalya Campionato Primavera 1",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3319682": {
+   "match": "Paris U19 - CA Pontarlier U19",
+   "league": "Fransa U19 Ulusal Şampiyonası",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3318530": {
+   "match": "CD Santurtzi Ke - SD Erandio Club",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "13:15",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3235308": {
+   "match": "Shabana - Mara Sugar",
+   "league": "Kenya Premier Lig",
+   "kickoff": "13:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3309529": {
+   "match": "Araz Nakhchivan PFK - Neftçi",
+   "league": "Azerbaycan Premier Lig",
+   "kickoff": "13:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {}
+  },
+  "3314434": {
+   "match": "Scm Ramnicu V. - AFC Metalul Buzau",
+   "league": "Romanya 2. Lig",
+   "kickoff": "13:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3318456": {
+   "match": "Erzurumspor FK - Göztepe",
+   "league": "Türkiye Süper Ligi",
+   "kickoff": "13:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.6753,
+     "odds": 1.28,
+     "won": true
+    }
+   }
+  },
+  "3318843": {
+   "match": "Santomera - Alcantarilla",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "13:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3319010": {
+   "match": "Galapagar - Mexico",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "13:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3319319": {
+   "match": "T. Valderas Alcorcon - UD Sanse",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "13:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3319601": {
+   "match": "Getafe B - RSD Alcala",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "13:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "Deplasman 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.7014,
+     "odds": 1.23,
+     "won": false
+    }
+   }
+  },
+  "3319646": {
+   "match": "Batman Petrol - Muğlaspor",
+   "league": "Türkiye 1. Lig",
+   "kickoff": "13:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "Deplasman 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6744,
+     "odds": 1.24,
+     "won": false
+    }
+   }
+  },
+  "3319940": {
+   "match": "Pena Deportiva - Lorca Deportiva",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "13:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.7004,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3320023": {
+   "match": "SC Torrevieja - CD Bunol",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "13:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3389669": {
+   "match": "Viimsi JK - Kuressaare",
+   "league": "Estonya Premium Ligi Düş./Yük.",
+   "kickoff": "13:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "grokbottahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6393,
+     "odds": 1.27,
+     "won": true
+    }
+   }
+  }
+ },
+ "source_commit": "6fea6df9fa177829ee268e98843a196f1f4630bc",
+ "status": "interim",
+ "score_snapshot_tsi": "2026-11-22T22:53+03:00",
+ "coverage": {
+  "antigravitytahmin": {
+   "has_prediction_csv": true,
+   "csv_rows": 455,
+   "main_predictions": 245,
+   "correct": 131,
+   "wrong": 66,
+   "not_final_or_missing": 48,
+   "final_but_ungraded": 0
+  },
+  "chatgbttahmin": {
+   "has_prediction_csv": false,
+   "csv_rows": 0,
+   "main_predictions": 0,
+   "correct": 0,
+   "wrong": 0,
+   "not_final_or_missing": 0,
+   "final_but_ungraded": 0
+  },
+  "claudetahmin": {
+   "has_prediction_csv": false,
+   "csv_rows": 0,
+   "main_predictions": 0,
+   "correct": 0,
+   "wrong": 0,
+   "not_final_or_missing": 0,
+   "final_but_ungraded": 0
+  },
+  "geminitahmin": {
+   "has_prediction_csv": false,
+   "csv_rows": 0,
+   "main_predictions": 0,
+   "correct": 0,
+   "wrong": 0,
+   "not_final_or_missing": 0,
+   "final_but_ungraded": 0
+  },
+  "grokbottahmin": {
+   "has_prediction_csv": true,
+   "csv_rows": 478,
+   "main_predictions": 226,
+   "correct": 135,
+   "wrong": 53,
+   "not_final_or_missing": 38,
+   "final_but_ungraded": 0
+  }
+ },
+ "pairwise": [
+  [
+   "antigravitytahmin",
+   "grokbottahmin",
+   166,
+   108,
+   120
+  ]
+ ]
+}
