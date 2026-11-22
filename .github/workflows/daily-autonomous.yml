@@ -121,6 +121,7 @@ jobs:
           if python scripts/nesine_global.py --date "$TODAY"; then
             python scripts/gunluk_analiz.py --tarih "$TODAY" || true
             python scripts/mac_dosyasi.py --tarih "$TODAY" || true
+            python scripts/ekstrem_gol_analiz.py --tarih "$TODAY" || true
             # No automatic coupons (user rule, 20 Nov): coupons are built only when the user asks, by each AI into
             # its own tahminler/<ai>/ folder. This workflow only checks: odds, analysis, settlement, learning.
           else

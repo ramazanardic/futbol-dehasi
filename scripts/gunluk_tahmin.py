@@ -48,7 +48,10 @@ def step_commands(date: str, targets: list[float], py: str = sys.executable) -> 
     return {
         "bulten": [[py, f"{s}/nesine_global.py", "--date", date]],
         "tahmin": [[py, f"{s}/ai_tahmin.py", "--tarih", date]],
-        "derin": [[py, f"{s}/derin_tahmin.py", "--tarih", date]],
+        "derin": [
+            [py, f"{s}/derin_tahmin.py", "--tarih", date],
+            [py, f"{s}/ekstrem_gol_analiz.py", "--tarih", date],
+        ],
         "kupon": [[py, f"{s}/kupon_kur.py", "--hedef", f"{t:g}", "--tarih", date, "--mod", "banko"] for t in targets],
         "denetim": [],
     }
@@ -65,6 +68,7 @@ def _match_diag_context(m: dict, name: str) -> dict:
     """nesine_global.json maç kaydından market_diagnosis bağlamını çıkar."""
     f1x2 = m.get("fair_1x2") or []
     res = m.get("research") or {}
+    teams = res.get("teams") or {}
     tm = res.get("tm_absences") or {}
     ua = res.get("user_absences") or {}
     sels = m.get("selections") or []
@@ -80,10 +84,11 @@ def _match_diag_context(m: dict, name: str) -> dict:
         "reference": m.get("reference"),
         "league": m.get("league"),
         "direct": bool(sel_hit.get("direct")) if sel_hit is not None else False,
-        "home_gk1_out": bool((tm.get("home") or {}).get("gk1_out") or (ua.get("home") or {}).get("gk_out")),
-        "away_gk1_out": bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out")),
-        "home_top_scorer_out": bool((tm.get("home") or {}).get("top_scorer_out")),
-        "away_top_scorer_out": bool((tm.get("away") or {}).get("top_scorer_out")),
+        "teams": teams,
+        "home_gk1_out": bool((tm.get("home") or {}).get("gk1_out") or (ua.get("home") or {}).get("gk_out") or (teams.get("home") or {}).get("gk1_out")),
+        "away_gk1_out": bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out") or (teams.get("away") or {}).get("gk1_out")),
+        "home_top_scorer_out": bool((tm.get("home") or {}).get("top_scorer_out") or (teams.get("home") or {}).get("top_scorer_out")),
+        "away_top_scorer_out": bool((tm.get("away") or {}).get("top_scorer_out") or (teams.get("away") or {}).get("top_scorer_out")),
     }
 
 
