@@ -47,7 +47,7 @@ def main() -> None:
     for env in (ROOT / ".env", Path("/workspace/futbol-dehasi/.env")):
         if env.exists():
             import os
-            for line in env.read_text().splitlines():
+            for line in env.read_text(encoding="utf-8").splitlines():
                 if "=" in line and not line.startswith("#"):
                     k, v = line.split("=", 1)
                     os.environ.setdefault(k.strip(), v.strip())
@@ -56,7 +56,8 @@ def main() -> None:
     api = ApiFootball(http, daily_limit=args.kota)
     done = set()
     if OUT.exists():
-        done = {int(r["fixture_id"]) for r in csv.DictReader(OUT.open())}
+        with OUT.open(encoding="utf-8", newline="") as fh:
+            done = {int(r["fixture_id"]) for r in csv.DictReader(fh)}
     today = dt.datetime.now(dt.timezone.utc).date()
     cands = []
     for d in (today - dt.timedelta(days=1), today):
@@ -66,7 +67,7 @@ def main() -> None:
     cands.sort(key=lambda f: PRIORITY.index(f["league"]["id"]))
     OUT.parent.mkdir(parents=True, exist_ok=True)
     new = 0
-    with OUT.open("a", newline="") as fh:
+    with OUT.open("a", encoding="utf-8", newline="") as fh:
         w = csv.DictWriter(fh, FIELDS)
         if fh.tell() == 0:
             w.writeheader()

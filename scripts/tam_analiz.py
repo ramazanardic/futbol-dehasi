@@ -30,7 +30,7 @@ from quantfoot.settings import TSI  # noqa: E402
 def _load_env() -> None:
     for env in (ROOT / ".env", Path("/workspace/futbol-dehasi/.env")):
         if env.exists():
-            for line in env.read_text().splitlines():
+            for line in env.read_text(encoding="utf-8").splitlines():
                 if "=" in line and not line.lstrip().startswith("#"):
                     k, v = line.split("=", 1)
                     os.environ.setdefault(k.strip(), v.strip().strip('"'))
@@ -55,8 +55,8 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
     folded = unicodedata.normalize("NFKD", f"{args.ev}-{args.dep}".replace("ı", "i")).encode("ascii", "ignore").decode()
     slug = re.sub(r"[^a-z0-9]+", "-", folded.lower()).strip("-")
-    (out / f"{slug}.md").write_text(md)
-    (out / f"{slug}.json").write_text(json.dumps(d, ensure_ascii=False, indent=1, default=str))
+    (out / f"{slug}.md").write_text(md, encoding="utf-8")
+    (out / f"{slug}.json").write_text(json.dumps(d, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
     print(md)
     print(f"→ {out / (slug + '.md')}")
 

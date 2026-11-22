@@ -111,7 +111,7 @@ class CachedHttp:
         params = params or {}
         p = self._path(url, params)
         if p.exists():
-            rec = json.loads(p.read_text())
+            rec = json.loads(p.read_text(encoding="utf-8"))
             if ttl_s is None or time.time() - rec["t"] < ttl_s:
                 return rec["body"]
         if before_fetch:
@@ -125,13 +125,13 @@ class CachedHttp:
             self.errors.append(f"{url}: HTTP {status}")
             return None
         if not (isinstance(body, dict) and body.get("errors")):  # plan/kota hataları önbelleğe alınmaz
-            p.write_text(json.dumps({"t": time.time(), "url": url, "params": params, "body": body}))
+            p.write_text(json.dumps({"t": time.time(), "url": url, "params": params, "body": body}), encoding="utf-8")
         return body
 
     def peek(self, url: str, params: dict | None = None) -> Any:
         """Yalnız önbellekten oku (ağ yok)."""
         p = self._path(url, params or {})
-        return json.loads(p.read_text())["body"] if p.exists() else None
+        return json.loads(p.read_text(encoding="utf-8"))["body"] if p.exists() else None
 
 
 class ApiFootball:
@@ -146,15 +146,15 @@ class ApiFootball:
 
     def _spend(self) -> None:
         today = dt.datetime.now(UTC).strftime("%Y-%m-%d")
-        q = json.loads(self.quota_file.read_text()) if self.quota_file.exists() else {}
+        q = json.loads(self.quota_file.read_text(encoding="utf-8")) if self.quota_file.exists() else {}
         used = q.get(today, 0)
         if used >= self.daily_limit:
             raise QuotaExceeded(f"API-Football günlük koruma sınırı ({self.daily_limit}) doldu")
-        self.quota_file.write_text(json.dumps({today: used + 1}))
+        self.quota_file.write_text(json.dumps({today: used + 1}), encoding="utf-8")
 
     def used_today(self) -> int:
         today = dt.datetime.now(UTC).strftime("%Y-%m-%d")
-        q = json.loads(self.quota_file.read_text()) if self.quota_file.exists() else {}
+        q = json.loads(self.quota_file.read_text(encoding="utf-8")) if self.quota_file.exists() else {}
         return int(q.get(today, 0))
 
     def get(self, endpoint: str, params: dict, ttl_s: float | None) -> list:
@@ -485,9 +485,9 @@ def build_dossier(day: dt.date, home: str, away: str, *, http: CachedHttp | None
     odds = dossier.get("odds")
     if odds:
         snap_file = http.cache_dir / f"odds_snapshots_{fid}.jsonl"
-        lines = snap_file.read_text().splitlines() if snap_file.exists() else []
+        lines = snap_file.read_text(encoding="utf-8").splitlines() if snap_file.exists() else []
         if not lines or json.loads(lines[-1]).get("update") != odds.get("update"):
-            with snap_file.open("a") as fh:
+            with snap_file.open("a", encoding="utf-8") as fh:
                 fh.write(json.dumps({"update": odds.get("update"), "1X2": odds.get("1X2")}) + "\n")
             lines.append(json.dumps({"update": odds.get("update"), "1X2": odds.get("1X2")}))
         mv = odds_movement([json.loads(x) for x in lines])
@@ -567,7 +567,8 @@ def build_dossier(day: dt.date, home: str, away: str, *, http: CachedHttp | None
             note("Understat xG", bool(teams), msg)
     xg_csv = xg_csv or (REPO_ROOT / "data" / "xg" / "api_football_xg.csv")
     if xg_csv.exists():
-        rows = list(csv.DictReader(xg_csv.open()))
+        with xg_csv.open(encoding="utf-8", newline="") as fh:
+            rows = list(csv.DictReader(fh))
         for s in ("home", "away"):
             mine = [r for r in rows if team_match_score(dossier[s], r["team"]) >= 0.9][-6:]
             if mine:

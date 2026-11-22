@@ -140,7 +140,7 @@ def main() -> None:
     a = experiment_a()
     b = experiment_b()
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "kombine_dogrulama_2026_11_21.json").write_text(json.dumps({"A": a, "B": b}, indent=2, ensure_ascii=False))
+    (OUT / "kombine_dogrulama_2026_11_21.json").write_text(json.dumps({"A": a, "B": b}, indent=2, ensure_ascii=False), encoding="utf-8")
     pct = lambda x: f"{x:+.1%}"  # noqa: E731
     md = ["# Kombine politikası — örneklem-dışı doğrulama (21 Kasım 2026)", "",
           "Üretim: `python scripts/kombine_dogrulama.py`. Sonuçlar gerçek maç sonuçlarıyla; güven aralığı gün-kümeli bootstrap.", "",
@@ -158,7 +158,7 @@ def main() -> None:
     md += ["", "Çekinceler: tipsaudit'teki 'en iyi yumuşak oran' ~17 büronun en iyisidir (tek büroda yok) ve alınma anı "
            "bilinmiyor; Nesine marjı bu bürolardan yüksektir, dolayısıyla gerçek Nesine ROI'si daha düşük olur. "
            "Deney B'deki ROI'ler 5 aylık tek bir dönemdir."]
-    (OUT / "kombine_dogrulama_2026_11_21.md").write_text("\n".join(md) + "\n")
+    (OUT / "kombine_dogrulama_2026_11_21.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print("\n".join(md))
 
 

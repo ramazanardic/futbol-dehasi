@@ -43,7 +43,7 @@ def _get(url: str, params: dict | None = None, timeout: float = 12.0) -> dict | 
 def load_prematch(folder: Path, now: float, fetch=_get) -> dict[int, dict]:
     """Maç öncesi Nesine fiyatlarını önbellekte tut: başlayan maç bültenden düşse de son fiyatı kalır."""
     f = folder / "on_bulten.json"
-    data = json.loads(f.read_text()) if f.exists() else {"t": 0, "events": {}}
+    data = json.loads(f.read_text(encoding="utf-8")) if f.exists() else {"t": 0, "events": {}}
     if now - data.get("t", 0) > PRE_REFRESH_S:
         payload = fetch(ls.NESINE_PRE_URL, None, 25.0)
         if payload:
@@ -53,7 +53,7 @@ def load_prematch(folder: Path, now: float, fetch=_get) -> dict[int, dict]:
             cutoff = (now - 36 * 3600) * 1000
             ev = {k: v for k, v in ev.items() if (v.get("kickoff_ms") or 0) >= cutoff}
             data = {"t": now, "events": {str(k): v for k, v in ev.items()}}
-            f.write_text(json.dumps(data, ensure_ascii=False))
+            f.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
     return {int(k): v for k, v in data["events"].items()}
 
 
@@ -121,16 +121,16 @@ def scan_once(args: argparse.Namespace, folder: Path, fetch=_get, now: dt.dateti
     annotate_banko(ops)
     stats["opportunities"] = len(ops)
     sf = folder / "durum.json"
-    state = json.loads(sf.read_text()) if sf.exists() else {}
+    state = json.loads(sf.read_text(encoding="utf-8")) if sf.exists() else {}
     fresh = ls.dedupe(ops, state, now)
-    sf.write_text(json.dumps(state))
+    sf.write_text(json.dumps(state), encoding="utf-8")
     stats["new"] = len(fresh)
     if fresh:
         day = now.strftime("%Y-%m-%d")
-        with (folder / f"{day}.jsonl").open("a") as fh:
+        with (folder / f"{day}.jsonl").open("a", encoding="utf-8") as fh:
             for o in fresh:
                 fh.write(json.dumps({**o, "t": now.isoformat()}, ensure_ascii=False) + "\n")
-        with (folder / f"{day}.md").open("a") as fh:
+        with (folder / f"{day}.md").open("a", encoding="utf-8") as fh:
             for o in fresh:
                 fh.write(f"- {now:%H:%M} TSİ {ls.format_line(o)}\n")
     return fresh, stats
@@ -152,7 +152,7 @@ def main() -> None:
     folder.mkdir(parents=True, exist_ok=True)
     if args.canli_rezerv is None:
         rf = folder / "rezerv.json"
-        args.canli_rezerv = float(json.loads(rf.read_text()).get("canli_rezerv_tl", 0)) if rf.exists() else S.LIVE_RESERVE_TL
+        args.canli_rezerv = float(json.loads(rf.read_text(encoding="utf-8")).get("canli_rezerv_tl", 0)) if rf.exists() else S.LIVE_RESERVE_TL
     end = time.time() + args.sure * 60
     while True:
         t0 = time.time()

@@ -72,7 +72,7 @@ def main() -> None:
         ok = np.isfinite(oo).all(1) & (oo > 1).all(1) & ((1 / oo).sum(1) > 1.0)
         res.append(evaluate(f"tipsaudit {label} (2026-06 – 2026-10)", oo[ok], yt[ok]))
     out = ROOT / "docs" / "research"
-    (out / "devig_karsilastirma_2026_11_21.json").write_text(json.dumps(res, indent=1))
+    (out / "devig_karsilastirma_2026_11_21.json").write_text(json.dumps(res, indent=1), encoding="utf-8")
     md = ["# Marj temizleme yöntemi karşılaştırması (21 Kasım 2026)", "",
           "Repo varsayılanı `power` (markets/devig.py) ile penaltyblog 1.13 (MIT) yöntemleri. Fark = yöntem − power "
           "log-loss'u (negatif = daha iyi), eşleştirilmiş bootstrap %95 GA.", ""]
@@ -84,7 +84,7 @@ def main() -> None:
             x = r["rows"][k]
             md.append(f"| {k} | {x['logloss']:.5f} | {x['brier']:.5f} | {x['d_vs_power']:+.5f} | {x['ci'][0]:+.5f} – {x['ci'][1]:+.5f} |")
         md.append("")
-    (out / "devig_karsilastirma_2026_11_21.md").write_text("\n".join(md))
+    (out / "devig_karsilastirma_2026_11_21.md").write_text("\n".join(md), encoding="utf-8")
     print("\n".join(md))
 
 

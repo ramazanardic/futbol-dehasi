@@ -134,7 +134,7 @@ def main() -> None:
         from quantfoot.paths import ai_area
         d = ai_area() / "canli"
         d.mkdir(parents=True, exist_ok=True)
-        (d / "rezerv.json").write_text(json.dumps({"canli_rezerv_tl": args.canli_rezerv, "kasa_tl": args.kasa}))
+        (d / "rezerv.json").write_text(json.dumps({"canli_rezerv_tl": args.canli_rezerv, "kasa_tl": args.kasa}), encoding="utf-8")
     oyun_kasasi = max(0.0, kasa - args.canli_rezerv)
     cfg = PolicyConfig(max_legs=args.max_mac, min_coupon_ev=args.min_ev, max_coupon_odds=1000.0,
                        max_stake_frac=args.kupon_limit_oran * kasa / oyun_kasasi if oyun_kasasi else 0.0,
