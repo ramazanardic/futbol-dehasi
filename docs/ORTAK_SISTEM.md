@@ -49,6 +49,9 @@ açıkça söyle; kuralları gevşeterek hedefe ulaşma.
   pazarlar ve kombineler aynı araştırma kapsamına girer. Aile başına aday sınırı yoktur.
 - Doğrulanmış fiyatı olan seçimleri kaynak, kalibre olasılık, Nesine oranı ve beklenen değerle karşılaştır. Araştırma eşiğini
   geçen seçimleri iki takımın geçmişiyle sınamaya çalış. Fiyatı ya da pazar eşlemesi bulunmayan seçenekleri gerekçesiyle yaz.
+- Her maç özetinde farklı ailelerden en yüksek beş kalibre olasılığı göster. Önce her ailede en yüksek olasılıklı
+  seçimi bul, sonra aileleri olasılığa göre sırala. Beşten az aile fiyatlandıysa eldeki aileleri göster. Tam aile
+  tablosunda diğer olasılıklar da görünür. Kupon uygunluğu kendi denetiminde belirlenir.
 - Varsayılan kupon taraması doğrudan fiyatları ve mevcut model, değer ve güven filtrelerini geçen türetilmiş fiyatları
   değerlendirir. Kupon önerisine yalnız seçilen modun kurallarını ve son canlı denetimi geçen en uygun bacaklar girer.
   Banko kuralları §3’teki gibidir. Uygun bacak bulunamazsa kupon çıkmaz. Bahis işlemi için kullanıcının açık onayı gerekir.
@@ -96,7 +99,7 @@ Kod karşılığı: `src/quantfoot/coupons/coupon_rules.py` (`leg_decision`, `bu
 
 | Dosya | Zorunlu sütunlar (İngilizce karşılık) |
 |---|---|
-| `mac_tahminleri.csv` | `tarih, saat, lig, mac, nesine_kodu` (code), `olasilik_1, olasilik_X, olasilik_2`, `beklenen_gol_ev, beklenen_gol_dep, en_olasi_skor`, `ana_secim_pazar` (market), `ana_secim` (selection), `nesine_oran` (odds), `olasilik` (p), `fiyat_kaynagi, guven, not`, `secim_adi` (settlement name — doldur) |
+| `mac_tahminleri.csv` | `tarih, saat, lig, mac, nesine_kodu` (code), `olasilik_1, olasilik_X, olasilik_2`, `beklenen_gol_ev, beklenen_gol_dep, en_olasi_skor`, `ana_secim_pazar` (market), `ana_secim` (selection), `nesine_oran` (odds), `olasilik` (p), `fiyat_kaynagi, guven, not`, `secim_adi` (settlement name — doldur), `en_yuksek_5_olasilik` (beş farklı ailenin maç özeti) |
 | `kuponlar.csv` | `tarih, kupon_turu, kupon, kupon_no, kupon_toplam_oran, kupon_tutma_olasiligi, saat, mac, nesine_kodu` (code), `pazar` (market), `secim` (selection), `nesine_oran` (odds), `olasilik` (p), `secim_adi` |
 | `kupon_denetim.md` | §3 denetimi (hat yazar) |
 

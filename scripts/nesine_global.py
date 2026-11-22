@@ -1033,6 +1033,12 @@ def record_predictions(d: Path, out: list[dict]) -> None:
 
 
 def write_report(date: str, out: list[dict], payload: dict, events: list, min_ev: float) -> None:
+    from bahis_aileleri import format_top_five, top_five
+    from quantfoot.evaluation.auto_learn import load_live_calibration
+
+    calibration = load_live_calibration() or {}
+    for match in out:
+        match["en_yuksek_5"] = top_five(match, calibration)
     priced = sum(1 for m in out if m["status"] == "fiyatlandı")
     d = DAILY / date
     d.mkdir(parents=True, exist_ok=True)
@@ -1105,8 +1111,8 @@ def write_report(date: str, out: list[dict], payload: dict, events: list, min_ev
                "Likit bir piyasada keskin fiyata karşı bu büyüklükte fark neredeyse her zaman veri hatasıdır "
                "(ince borsa fiyatı, yanlış eşleşen maç ya da uç favorilerde model dışı bölge).", ""]
         md += _rows(suspicious)
-    md += ["", "## Fiyatlanan maçlar", "", "| Saat | Lig | Maç | Nesine 1/X/2 | Global adil 1/X/2 | Referans | En iyi EV |",
-           "|---|---|---|---|---|---|---|"]
+    md += ["", "## Fiyatlanan maçlar", "", "| Saat | Lig | Maç | Nesine 1/X/2 | Global adil 1/X/2 | Referans | En iyi EV | En yüksek 5 aile olasılığı |",
+           "|---|---|---|---|---|---|---|---|"]
     for m in out:
         if m["status"] != "fiyatlandı":
             continue
@@ -1114,7 +1120,7 @@ def write_report(date: str, out: list[dict], payload: dict, events: list, min_ev
         nes = "/".join(f"{o:.2f}" if o else "-" for o in m["nesine_ms"])
         best = m["selections"][0] if m["selections"] else None
         best_s = f"{best['market']}: {best['selection']} {best['ev']:+.1%}" if best else "-"
-        md.append(f"| {m['kickoff'][11:]} | {m['league']} | {m['home']} - {m['away']} | {nes} | {fair} | {m['reference'].split(' ')[0]} | {best_s} |")
+        md.append(f"| {m['kickoff'][11:]} | {m['league']} | {m['home']} - {m['away']} | {nes} | {fair} | {m['reference'].split(' ')[0]} | {best_s} | {format_top_five(m['en_yuksek_5'])} |")
     md += ["", "## Maç araştırması (ESPN: form, puan durumu, dinlenme, ilk 11)", "",
            "Olasılık global fiyattan gelir; bu bölüm bağlam ve güvenlik kontrolüdür. Önemli bir eksik, global fiyat "
            "çekildikten sonra açıklanan ilk 11'de görülürse maç kupona alınmaz.", "",

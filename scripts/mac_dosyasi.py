@@ -107,6 +107,8 @@ def score_tables(joint: np.ndarray, home: str, away: str, top: int = 12) -> list
 
 
 def dossier(m: dict) -> str:
+    from bahis_aileleri import format_top_five, top_five
+
     priced = ng.PRICED[m["code"]]
     nes = {s["name"]: s["odds"] for s in m.get("selections", [])}
     tier = m.get("price_tier") or ng.classify_price_tier(m["status"], m.get("reference"))
@@ -119,6 +121,7 @@ def dossier(m: dict) -> str:
              f"Kaynak: {m['reference']} — {reliability}. Beklenen gol: {m['mu_home']:.2f} - {m['mu_away']:.2f}. "
              "Bir ailenin sonuçları toplamda %100 eder. 'doğrudan' = borsanın bu seçimi kendisi fiyatlıyor; "
              "'model' = global fiyattan gol dağılımıyla.", ""]
+    lines += [f"**En yüksek 5 aile olasılığı** · {format_top_five(top_five(m))}", ""]
     r = m.get("research") or {}
     if r.get("teams") or r.get("user_absences") or r.get("tm_absences") or r.get("absences"):
         h, a = ng._side_rows(r, "home"), ng._side_rows(r, "away")

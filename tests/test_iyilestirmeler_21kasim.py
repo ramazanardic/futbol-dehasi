@@ -193,3 +193,22 @@ def test_family_table_keeps_every_offered_selection_and_flags_missing_quotes():
     assert len(grouped["Alt/Üst"]["suitable"]) == 5
     assert grouped["Korner"]["other"][0]["p"] is None
     assert grouped["Eşlenemeyen Nesine pazarları"]["other"][0]["reason"] == "Pazar eşlemesi yok"
+
+
+def test_top_five_ranks_distinct_families_and_keeps_full_table():
+    ba = _load("bahis_aileleri")
+    options = [
+        ("2.5 Alt", .92), ("3.5 Alt", .98), ("MS 1", .86), ("İY 1.5 Alt", .83),
+        ("KG Var", .75), ("2Y KG Yok", .73), ("Hnd(+1) 1", .65),
+    ]
+    match = {"status": "fiyatlandı", "selections": [
+        {"name": name, "market": "Pazar", "selection": name, "fair_prob": p, "odds": 1.55, "direct": True}
+        for name, p in options
+    ]}
+    top = ba.top_five(match, {})
+    assert [x["name"] for x in top] == ["3.5 Alt", "MS 1", "İY 1.5 Alt", "KG Var", "2Y KG Yok"]
+    assert len({x["family"] for x in top}) == 5
+    assert sum(len(x["suitable"]) for x in ba.family_table(match)) == len(options)
+    assert len(ba.top_five({"selections": match["selections"][:2]}, {})) == 1
+    assert ba.top_five(dict(match, status="fiyat yok"), {}) == []
+    assert "3,5 Alt %98,0" in ba.format_top_five(top)

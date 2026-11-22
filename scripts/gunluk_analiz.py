@@ -151,6 +151,8 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
 
 
 def main() -> None:
+    from bahis_aileleri import format_top_five, top_five
+
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
     args = ap.parse_args()
@@ -176,11 +178,12 @@ def main() -> None:
              "payıyla) kupona aday olabilir; düşük güvenli (yalnız Nesine) tahminler kupona asla girmez; modelden "
              "türetilen İY/MS ve 2. yarı sonucu bacak olmaz.", "",
              "| Saat | Lig | Maç | Kaynak | 1 / X / 2 | Gol (ev-dep) | 2,5Ü | KG | En olası skorlar | En olası İY/MS | "
-             "En güvenilir tercih (Nesine ≥1,20) | Ev (form / TM) | Dep (form / TM) |",
-             "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+             "En güvenilir tercih (Nesine ≥1,20) | Ev (form / TM) | Dep (form / TM) | En yüksek 5 aile olasılığı |",
+             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for m in real_ms:
+        top = format_top_five(m["en_yuksek_5"] if "en_yuksek_5" in m else top_five(m))
         if m["status"] not in ("fiyatlandı", NESINE_ONLY_STATUS):
-            lines.append(f"| {m['kickoff'][11:]} | {m['league']} | {m['home']} - {m['away']} | fiyat yok | - | - | - | - | - | - | - | {_form(m.get('research'), 'home')} | {_form(m.get('research'), 'away')} |")
+            lines.append(f"| {m['kickoff'][11:]} | {m['league']} | {m['home']} - {m['away']} | fiyat yok | - | - | - | - | - | - | - | {_form(m.get('research'), 'home')} | {_form(m.get('research'), 'away')} | {top} |")
             continue
         sel = {s["name"]: s["fair_prob"] for s in m["selections"]}
         f1x2 = m.get("fair_1x2") or [None] * 3
@@ -210,7 +213,7 @@ def main() -> None:
             f"{'%' + format(sel['2.5 Üst'] * 100, '.0f') if '2.5 Üst' in sel else '-'} | "
             f"{'%' + format(sel['KG Var'] * 100, '.0f') if 'KG Var' in sel else '-'} | {scores} | "
             f"{(htft[0] + ' %' + format(htft[1] * 100, '.0f')) if htft else '-'} | {pick_s} | "
-            f"{_form(m.get('research'), 'home')} | {_form(m.get('research'), 'away')} |")
+            f"{_form(m.get('research'), 'home')} | {_form(m.get('research'), 'away')} | {top} |")
     lines += ["", "Ayrıntılı maç dosyaları (her bahis ailesi, araştırma, skor tabloları): "
               f"`reports/daily/{args.tarih}/mac_dosyalari/<Nesine kodu>.md`."]
     (d / "gunluk_analiz.md").write_text("\n".join(lines) + "\n", encoding="utf-8")

@@ -205,6 +205,8 @@ def update_table(date: str, rows: list[dict]) -> int:
 
 
 def to_markdown(date: str, rows: list[dict]) -> str:
+    from bahis_aileleri import format_top_five
+
     pct = lambda x: "-" if x is None else f"%{100 * x:.0f}"  # noqa: E731
     with_pick = [r for r in rows if r["pick"]]
     md = [f"# {date} — sıfırdan derin araştırma ({dt.datetime.now(TSI):%H:%M} TSİ)", "",
@@ -214,15 +216,16 @@ def to_markdown(date: str, rows: list[dict]) -> str:
           "Kurallar: yalnız borsa fiyatlı seçimler (oran ≥ 1,20, kalibre olasılık ≥ %55); her aday iki takımın son ~15 maçında "
           "test edildi; ⚠ alan aday elendi; kalanlardan kalibre beklenen değeri (olasılık × oran − 1) en yüksek olan, "
           "en az +%2 ise ana tercih. Değer yoksa ana tercih yok.", "",
-          "| Saat | Lig | Maç | Ana tercih | Oran | Olasılık | Takım geçmişi | İşaret | Elenen |", "|---|---|---|---|---|---|---|---|---|"]
+          "| Saat | Lig | Maç | Ana tercih | Oran | Olasılık | Takım geçmişi | İşaret | Elenen | En yüksek 5 aile olasılığı |", "|---|---|---|---|---|---|---|---|---|---|"]
     for r in rows:
         pk = r["pick"]
+        top = format_top_five(r.get("en_yuksek_5"))
         dropped = "; ".join(f"{x['label']} ({pct(x['mean'])})" for x in r["dropped"]) or "-"
         if pk:
             md.append(f"| {r['kickoff'][11:16]} | {r['league']} | {r['match']} | {pk['label']} | {pk['odds']:.2f} | {pct(pk['p'])} | "
-                      f"{pct(pk.get('mean'))} | {pk['verdict']} | {dropped} |")
+                      f"{pct(pk.get('mean'))} | {pk['verdict']} | {dropped} | {top} |")
         else:
-            md.append(f"| {r['kickoff'][11:16]} | {r['league']} | {r['match']} | — | | | | | {dropped} |")
+            md.append(f"| {r['kickoff'][11:16]} | {r['league']} | {r['match']} | — | | | | | {dropped} | {top} |")
     md += ["", "Ayrıntı (takım profilleri, aralarındaki maçlar, eksikler, hava): derin_tahminler_ayrinti.md", ""]
     return "\n".join(md)
 
@@ -249,6 +252,11 @@ def main() -> None:
     out = AREA / args.tarih
     if (out / "derin_tahminler.json").exists():  # hand-made research of an earlier run survives the rerun
         keep_notes(json.loads((out / "derin_tahminler.json").read_text(encoding="utf-8")), rows)
+    from bahis_aileleri import top_five
+
+    calibration = _calibration()
+    for row in rows:
+        row["en_yuksek_5"] = top_five(ms[str(row["code"])], calibration)
     (out / "derin_tahminler.json").write_text(json.dumps(rows, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
     (out / "derin_tahminler.md").write_text(to_markdown(args.tarih, rows), encoding="utf-8")
     (out / "derin_tahminler_ayrinti.md").write_text(dr.to_markdown(args.tarih, [r for r in rows if r["legs"]]), encoding="utf-8")
