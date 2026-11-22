@@ -15,7 +15,7 @@ from typing import Any
 from quantfoot.data.match_dossier import CachedHttp, team_match_score
 
 BASE = "https://understat.com"
-UA = {"User-Agent": "QuantFoot-GrokBot/1.0 (kisisel futbol arastirmasi)"}
+UA = {"User-Agent": "QuantFoot/3.0 (kisisel futbol arastirmasi)"}
 LEAGUES = {39: "EPL", 140: "La_liga", 78: "Bundesliga", 135: "Serie_A", 61: "Ligue_1", 235: "RFPL"}
 _BLOB = re.compile(r"var\s+(\w+)\s*=\s*JSON\.parse\('((?:[^'\\]|\\.)*)'\)")
 

@@ -9,10 +9,14 @@ FIX = Path(__file__).parent / "fixtures"
 
 
 def test_fotmob_flag_defaults():
-    assert fm.enabled({"QUANTFOOT_AI": "grokbottahmin"}) is True
-    assert fm.enabled({"QUANTFOOT_AI": "claudetahmin"}) is False
-    assert fm.enabled({"QUANTFOOT_AI": "grokbottahmin", "QUANTFOOT_FOTMOB": "0"}) is False
-    assert fm.enabled({"QUANTFOOT_AI": "geminitahmin", "QUANTFOOT_FOTMOB": "1"}) is True
+    from quantfoot.paths import VALID_AIS
+
+    # Tüm 5 yapay zekâ eşit veri erişimine sahip (QUANTFOOT_FOTMOB açıkça kapatılmadıkça)
+    for ai in VALID_AIS:
+        assert fm.enabled({"QUANTFOOT_AI": ai}) is True
+        assert fm.enabled({"QUANTFOOT_AI": ai, "QUANTFOOT_FOTMOB": "0"}) is False
+    assert fm.enabled({}) is False
+    assert fm.enabled({"QUANTFOOT_FOTMOB": "1"}) is True
 
 
 def test_fotmob_details_finished_match():

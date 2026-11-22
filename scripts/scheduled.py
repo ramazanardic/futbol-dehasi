@@ -233,7 +233,7 @@ def _publish(log, message: str, paths: list[str] | None = None) -> None:
     commit = nothing happens."""
     paths = [*(paths or PUBLISH_PATHS), *_unsettled_excludes()]
     steps = (["git", "add", "--", *paths],
-             ["git", "commit", "-q", "-m", message + "\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>", "--", *paths],
+             ["git", "commit", "-q", "-m", message, "--", *paths],
              ["git", "pull", "--rebase", "--autostash", "-q"], ["git", "push", "-q"])
     _recover(log)
     for cmd in steps:

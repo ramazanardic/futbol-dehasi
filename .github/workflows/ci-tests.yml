@@ -9,7 +9,12 @@ on:
       - "tests/**"
       - "pyproject.toml"
       - ".github/workflows/ci-tests.yml"
+      - ".github/copilot-instructions.md"
       - "data/calibration/**"
+      - "AGENTS.md"
+      - "CLAUDE.md"
+      - "GEMINI.md"
+      - "docs/ORTAK_SISTEM.md"
   pull_request:
     branches: [main]
   schedule:

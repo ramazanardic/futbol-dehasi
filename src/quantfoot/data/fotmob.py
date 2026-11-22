@@ -1,8 +1,8 @@
 """FotMob (resmî olmayan, herkese açık JSON) — kullanıcı onayı 21 Kasım (t27u).
 
 Kurallar: yalnız analiz edilen maçlar için; agresif önbellek; istekler arası nazik bekleme; kimliğini açıkça
-belirten User-Agent; bot korumasını aşma girişimi yok. Bayrak: ``QUANTFOOT_FOTMOB`` (grokbottahmin için
-varsayılan açık, diğerleri için kapalı).
+belirten ortak User-Agent; bot korumasını aşma girişimi yok. Bayrak: ``QUANTFOOT_FOTMOB`` (tüm geçerli
+``QUANTFOOT_AI`` klasörleri için varsayılan eşit olarak açık; ``0`` ile kapatılabilir).
 """
 
 from __future__ import annotations
@@ -14,9 +14,10 @@ import time
 from typing import Any
 
 from quantfoot.data.match_dossier import CachedHttp, team_match_score
+from quantfoot.paths import VALID_AIS
 
 BASE = "https://www.fotmob.com/api/data"
-UA = {"User-Agent": "QuantFoot-GrokBot/1.0 (kisisel futbol arastirmasi; dusuk hizli okuma)", "Accept": "application/json"}
+UA = {"User-Agent": "QuantFoot/3.0 (kisisel futbol arastirmasi; dusuk hizli okuma)", "Accept": "application/json"}
 
 
 def enabled(environ: dict[str, str] | None = None) -> bool:
@@ -24,7 +25,7 @@ def enabled(environ: dict[str, str] | None = None) -> bool:
     raw = env.get("QUANTFOOT_FOTMOB")
     if raw is not None:
         return raw.strip().lower() in ("1", "true", "evet", "on", "yes")
-    return env.get("QUANTFOOT_AI", "").strip() == "grokbottahmin"
+    return env.get("QUANTFOOT_AI", "").strip() in VALID_AIS
 
 
 class FotMob:

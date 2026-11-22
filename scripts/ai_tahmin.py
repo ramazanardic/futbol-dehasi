@@ -8,13 +8,13 @@ from the shared reports (reports/daily, which other AIs' runs also write). Inste
 
   * the match predictions come from a fresh analysis run made here (nesine_global.analyze_day: live Nesine bulletin,
     sharp global prices, research), and
-  * the coupons are the ones Claude builds with scripts/nesine_kupon.py, which writes them ONLY into this area
-    (kupon_<target>x_<HHMM>.json/.md, one file per build), never into the shared reports.
+  * the coupons are the ones this AI (`QUANTFOOT_AI`) builds with scripts/nesine_kupon.py, which writes them ONLY into
+    this area (kupon_<target>x_<HHMM>.json/.md, one file per build), never into the shared reports.
 
 Output per day, in the common format of tahminler/README.md:
   mac_tahminleri.csv  one row per Nesine match: 1X2 probabilities, expected goals, most likely score and the main
                       pick (the most probable bettable selection under the coupon rules, gunluk_analiz.best_pick)
-  kuponlar.csv        one row per coupon leg of Claude's latest coupon file for each target
+  kuponlar.csv        one row per coupon leg of this AI's latest coupon file for each target
 Rows of matches that have kicked off are frozen, so later runs never change a prediction after the fact.
 """
 

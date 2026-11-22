@@ -1,44 +1,67 @@
-# Ortak sistem — her yapay zekâ için tek bağlayıcı yöntem
+# Ortak sistem (v3) — her yapay zekâ için tek bağlayıcı yöntem
 
-Bu depoya bağlanan **her** yapay zekâ (Claude, Gemini, ChatGPT/Codex, Antigravity, Grok Bot) tahmin ve kuponu bu
-belgedeki hatla üretir. Amaç tek: herkes aynı en iyi sistemi kullansın, kuponlar daha az yatsın, notlar dürüst olsun.
-Belge 22 Kasım 2026'da 21 Kasım denetimlerinden (Grok Bot; 2.924 notlanmış tahmin, 11 oynanmış kupon, diğer yapay
-zekâların 18–21 Kasım dosyaları) çıkan derslerle yazıldı. Çelişki olursa bu belge eski README / rapor metinlerinden
-önce gelir; klasör gizliliği kuralı ([AGENTS.md](../AGENTS.md)) her şeyden önce gelir.
+Bu depoya bağlanan **her** yapay zekâ (**Claude, Gemini, Antigravity, ChatGPT/Codex, Grok Bot**) tahmin, araştırma,
+kupon, denetim ve öz-geliştirmeyi **birebir bu belgedeki ortak hatla** yürütür. Amaç tek: herkes aynı ortak yerden, aynı
+en güncel sistemle, eşit veri erişimiyle çalışsın; kuponlar daha az yatsın; notlar dürüst olsun.
 
-## 0. Bağlanınca ilk yapılacaklar
+- Bu belge 23 Kasım 2026'da v3 yükseltmesiyle (21 Kasım 2.924 tahmin + 22 Kasım 428 bitmiş maç / 1.808 kupon-bölgesi
+  seçimi denetimleri) güncellendi.
+- Çelişki olursa bu belge eski README / rapor metinlerinden önce gelir; klasör gizliliği kuralı
+  ([AGENTS.md](../AGENTS.md)) her şeyden önce gelir.
+- Tüm AI giriş dosyaları (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`) birebir aynı temel
+  sözleşmeyi taşır ve `tests/test_common_ai_parity.py` tarafından GitHub CI'da otomatik denetlenir.
+
+## 0. Bağlanınca ilk yapılacaklar (tüm 5 yapay zekâ için birebir aynı)
 
 1. `AGENTS.md`'yi ve bu belgeyi oku. Kendi klasörünü bil: `QUANTFOOT_AI` = `claudetahmin` · `geminitahmin` ·
    `antigravitytahmin` · `chatgbttahmin` · `grokbottahmin`. Başka bir yapay zekânın klasörünü açma.
 2. `git pull` → `pip install -e .` (gerekirse) → `pytest -q` yeşil olmalı.
-3. Kullanıcı tahmin/kupon isterse **tek komut**:
+3. Kullanıcı günlük tahmin/kupon isterse **tek ortak komut**:
 
    ```bash
    QUANTFOOT_AI=<klasörün> python scripts/gunluk_tahmin.py --tarih <YYYY-AA-GG>
    # Windows: $env:QUANTFOOT_AI="<klasörün>"; .\.venv\Scripts\python.exe scripts\gunluk_tahmin.py --tarih <gün>
    ```
 
-4. Sonucu kullanıcıya `mac_tahminleri.csv`, `kuponlar.csv` ve `kupon_denetim.md`'den aktar: her kupon için bacaklar,
-   toplam oran ve **toplam tutma olasılığı**. Kendi kafandan, hattın dışında tahmin veya kupon uydurma.
+4. Kullanıcı ertesi gün öz-denetim isterse **tek ortak komut**:
 
-## 1. Zorunlu hat (sırası değişmez)
+   ```bash
+   QUANTFOOT_AI=<klasörün> python scripts/oz_gelistirme.py
+   ```
 
-`scripts/gunluk_tahmin.py` aşağıdaki mevcut betikleri sırayla çalıştırır (`--yalniz` / `--atla` ile tek adım,
-`--kuru` ile yalnız komutları görürsün):
+5. Kullanıcı ertesi gün tüm yapay zekâların ortak karnesini isterse **tek ortak komut**:
+
+   ```bash
+   python scripts/gun_degerlendirme.py --tarih <YYYY-AA-GG>
+   ```
+
+6. Sonucu kullanıcıya `mac_tahminleri.csv`, `kuponlar.csv`, `kupon_denetim.md` ve (varsa) `ekstrem_gol_analiz.md`'den
+   aktar: her kupon için bacaklar, toplam oran, **toplam tutma olasılığı** ve çapraz portföy yoğunlaşması. Kendi
+   kafandan, hattın dışında tahmin veya kupon uydurma.
+
+## 1. Zorunlu ortak hat (sırası ve kuralları herkes için aynı)
+
+`scripts/gunluk_tahmin.py` aşağıdaki ortak betikleri her yapay zekâ için aynı ortam değişkenleriyle
+(`PYTHONIOENCODING=utf-8`, `TZ=Europe/Istanbul`) sırayla çalıştırır (`--yalniz` / `--atla` ile tek adım, `--kuru` ile
+yalnız komutları görürsün):
 
 | # | Adım | Komut | Ne yapar |
 |---|---|---|---|
-| 1 | `bulten` | `scripts/nesine_global.py --date D` | Nesine bülteni + keskin referanslar (Pinnacle, Smarkets, OddsMath/BetInAsia; ESPN en zayıf). Marj güç yöntemiyle kaldırılır, gol oranları referansa uydurulur (Dixon-Coles birleşik dağılım), bütün Nesine pazarları fiyatlanır, arşiv Platt kalibrasyonu (`market_calibration`) ve kuyruk düzeltmeleri (`data/calibration/market_tail_calibration.json`, `markets/market_reliability.py`) uygulanır. Nesine'nin kendi oranından adil fiyat türetilmez. |
-| 2 | `tahmin` | `scripts/ai_tahmin.py --tarih D` | `mac_tahminleri.csv` (başlamış maçların satırı dondurulur — sonradan değiştirilmez). |
-| 3 | `derin` | `scripts/derin_tahmin.py --tarih D` | Her maçın ana tercihi takım geçmişiyle (yarı skorları, H2H, Avrupa/rotasyon, eksikler) sınanır; ⚠ çıkan aday düşer. |
-| 4 | `kupon` | `scripts/kupon_kur.py --hedef H --mod banko` | `nesine_kupon.py` banko modu + `quantfoot.coupons.coupon_rules` süzgeci + bacak bacak derin araştırma; temiz kupon yoksa kupon **yok**. `kuponlar.csv` yazılır. |
-| 5 | `denetim` | (aynı betikte) | `kuponlar.csv` §3 kurallarına göre yeniden denetlenir → `kupon_denetim.md`. İhlal varsa çıkış kodu 3: o kupon önerilmez. |
+| 1 | `bulten` | `scripts/nesine_global.py --date D` | Nesine bülteni + keskin referanslar (Pinnacle, Smarkets, Matchbook, OddsMath/BetInAsia; ESPN en zayıf). Marj güç yöntemiyle kaldırılır, gol oranları referansa uydurulur (Dixon-Coles), bütün Nesine pazarları fiyatlanır, arşiv Platt (`market_calibration`) + kuyruk düzeltmeleri (`market_tail_calibration.json`, `market_reliability.py`) uygulanır. Nesine oranından adil fiyat türetilmez. |
+| 2 | `tahmin` | `scripts/ai_tahmin.py --tarih D` | `mac_tahminleri.csv` (ortak biçim; başlamış maçların satırı dondurulur — sonradan değiştirilmez). |
+| 3 | `derin` | `scripts/derin_tahmin.py --tarih D` + `scripts/ekstrem_gol_analiz.py --tarih D` | Her maçın ana tercihi takım geçmişi (ev/dep ayrı ayrı), H2H, Avrupa/rotasyon, eksikler ve 20.000'lik kalibre simülasyonla sınanır (`⚠` düşer); paralelinde `6+ Gol` ve `İki Yarıda KG Var` uzman taraması (`ekstrem_gol_analiz.md/.json`) üretilir. |
+| 4 | `kupon` | `scripts/kupon_kur.py --hedef H --mod banko` | `nesine_kupon.py` banko modu + `coupon_rules` + `market_diagnosis` v3 kalkanları + bacak bacak derin araştırma; temiz kupon yoksa kupon **yok**. `kuponlar.csv` yazılır. |
+| 5 | `denetim` | (aynı betikte `run_audit`) | `kuponlar.csv` §3 kurallarına ve `PortfolioExposureGuard` çapraz yoğunlaşma bekçisine göre yeniden denetlenir → `kupon_denetim.md`. İhlal varsa çıkış kodu 3: o kupon önerilmez. |
+
+**Eşit veri erişimi:** Tüm 5 yapay zekâ aynı veri kaynaklarına (Nesine bülteni, `data/global_odds/latest/`, ESPN,
+API-Football ortak kota `quantfoot.data.api_budget`, FotMob `quantfoot.data.fotmob` — tüm geçerli `QUANTFOOT_AI` için
+varsayılan eşit açık — ve ortak kalibrasyon dosyaları) birebir eşit erişir.
 
 **Süre ve kota (22 Kas canlı deneme, 476 maçlık bülten):** bülten ≈ 3,5 dk, tahmin ≈ 3,5 dk, derin araştırma ≈ 19 dk
-(bahis aileleri + 20.000'lik simülasyon dahil), kupon ≈ 4 dk/tur. API-Football yalnız maç öncesi kullanılır, canlı
-takipte asla; her istek `quantfoot.data.api_budget` bütçesinden düşer (`API_FOOTBALL_MAX_REQ`, varsayılan 60/gün;
-sayaç `data/cache/api_football/butce_<gün>.json`), günün oranları 3 saat önbellekte tutulur. Bir tam çalıştırma ≈ 9 istek.
-Banko kurallarına uyan bacak yoksa kupon **çıkmaz** — bu doğru sonuçtur; sabah keskin referanslar tazelenince yeniden dene.
+(bahis aileleri + 20.000'lik simülasyon + ekstrem gol taraması dahil), kupon ≈ 4 dk/tur. API-Football yalnız maç öncesi
+kullanılır, canlı takipte asla; her istek `quantfoot.data.api_budget` bütçesinden düşer (`API_FOOTBALL_MAX_REQ`,
+varsayılan 60/gün). Banko kurallarına uyan bacak yoksa kupon **çıkmaz** — bu doğru sonuçtur; sabah keskin referanslar
+tazelenince yeniden dene.
 
 Varsayılan hedef 2,5 (5 bacak × ~1,21–1,25). Daha yüksek hedef banko kurallarıyla kurulamıyorsa bunu kullanıcıya
 açıkça söyle; kuralları gevşeterek hedefe ulaşma.
@@ -56,16 +79,22 @@ açıkça söyle; kuralları gevşeterek hedefe ulaşma.
   değerlendirir. Kupon önerisine yalnız seçilen modun kurallarını ve son canlı denetimi geçen en uygun bacaklar girer.
   Banko kuralları §3’teki gibidir. Uygun bacak bulunamazsa kupon çıkmaz. Bahis işlemi için kullanıcının açık onayı gerekir.
 
-## 2. Olasılık kalibrasyonu (tahminin kendisi)
+## 2. Olasılık kalibrasyonu ve v3 kök-neden kalkanları
 
-- Kaynak sırası: doğrudan keskin fiyat > keskin fiyattan türetilmiş pazar > model. Doğrudan fiyatlı seçimler
-  21 Kasım'da neredeyse birebir tuttu; türetilmiş P'ler %50'ye doğru 0,10 büzülür, "diğer" lig katmanında +0,10
-  (PR #5, `src/quantfoot/settings.py`).
-- Aile düzeltmesi: `data/calibration/coupon_family_calibration.json` (aile ve olasılık bandı artıkları, büzülerek;
-  pozitif sapma P'ye **eklenmez**).
-- Beraberlik riski: banko MS 1 / MS 2 bacağında adil P(X) ≥ 0,27 → ret; ≥ 0,24 → uyarı, ÇŞ/handikap düşün
-  (`strategy/banko_guard.py`).
-- Kendi olasılığın her zaman `olasilik` sütununa 0–1 arası yazılır; "garanti", "%90 kesin" gibi ifadeler yok.
+- **Kaynak sırası:** doğrudan keskin fiyat > keskin fiyattan türetilmiş pazar > model. Türetilmiş P'ler %50'ye doğru
+  0,10 büzülür, "diğer" lig katmanında +0,10 (`src/quantfoot/settings.py`).
+- **Aile ve patern kalibrasyonu:** `data/calibration/coupon_family_calibration.json` (James-Stein büzüştürmeli;
+  pozitif sapma P'ye **eklenmez**; `^İY ÇŞ 12$` paterni `^İY ÇŞ` paterninden önce eşleşir).
+- **v3 Teşhis Kalkanları (`src/quantfoot/markets/market_diagnosis.py`):**
+  - `İY ÇŞ 12` gizli tuzağı engeli (22 Kas: 48/99 = %48,5 vs %62,9, −14,4p).
+  - Keskin borsa sert steam (`parse_steam_pp`) kalkanı: `≥6,0p` sert steam'de `MS 1/2` (22 Kas: %38,5 vs steam yokken
+    %71,4), `≥5,5p` sert steam'de `İY 1.5 / 2.5 Alt` (%47,4), `≥6,5p` sert steam'de `3.5 Alt` kupon dışı bırakılır.
+  - `Dep İY 0.5 Üst` (9/24 = %37,5) ve `İY Çift` / Tek-Çift parite gürültüsü (26/58 = %44,8) engelli.
+  - `DEĞİL(Ev İki Yarıda Gol)` eşiği `mu_home ≥ 1,60` ile sıkılaştırıldı (17/33 = %51,5).
+  - Tek-taraf geçmiş maskelemesi engeli: iki takımın ayrı ayrı geçmişinden zayıf olanı `<%45` ise reddedilir.
+  - `İY KG Yok & 2Y KG Yok` düşük toplamlı (`mu_tot ≤ 2,65`) keskin maçlarda rehabilite edilir (19/26 = %73,1).
+- **Beraberlik riski:** banko MS 1 / MS 2 bacağında adil P(X) ≥ 0,27 → ret; ≥ 0,24 → uyarı (`strategy/banko_guard.py`).
+- **Dürüstlük:** Kendi olasılığın her zaman `olasilik` sütununa 0–1 arası yazılır; "garanti", "%90 kesin" gibi ifadeler yok.
 
 ## 3. Kupon kuralları (banko — varsayılan ve zorunlu)
 
@@ -74,23 +103,39 @@ açıkça söyle; kuralları gevşeterek hedefe ulaşma.
 | Bacak olasılığı | **düzeltilmiş P ≥ 0,70** (`coupon_rules.MIN_CALIBRATED_P`); eski %65 tabanı kupon için geçersiz |
 | Bacak oranı | Nesine ≥ 1,20, ≤ 1,80 |
 | Bacak sayısı | 5 (gerekçeliyse 6); 1–2 bacaklı düşük oranlı kupon yok |
-| Maç | Bir kuponda aynı maçtan tek bacak; aynı saat/aynı ligde yığılma varsa uyar |
-| İzinli aileler | İlk yarı (İY 0,5/1,5 Alt-Üst …), maç sonu Alt/Üst, Yarı özel, Maç sonucu (yalnız 1/2 + beraberlik süzgeci), yasak parça içermeyen Kombine, 2Y KG **Yok**. Liste veriden gelir (`family_allowed`); yeni denetimle güncellenir. |
-| Yasak | Beraberlik bacağı (MS 0, İY 0, skor 0-0 …), Karşılıklı gol (KG Var/Yok), "iki yarıda da KG var", İlk gol, Ev sahibi / Deplasman gol sayısı, şu an Çifte şans ve Handikap (21 Kas: banko seçimlerinde −10 / −18 puan) |
-| Piyango yok | Skor, İY/MS, "+6 gol" gibi kuyruk bacakları, 100+ oranlı kuponlar banko kuponuna girmez. Yalnız kullanıcı açıkça "risk"/"yüksek oran" isterse `--mod risk` ve dürüst tutma olasılığıyla. |
-| Tekrar yok | Aynı tercih iki kupona konmaz (21 Kas: tek zayıf bacak birden çok kuponu birlikte yaktı). |
-| Şeffaflık | Her kuponda toplam oran ve toplam tutma olasılığı (= düzeltilmiş P'lerin çarpımı) yazılır. 5 × 0,70 ≈ %17: kullanıcıya bunu söyle. |
+| Maç | Bir kuponda aynı maçtan tek bacak; birden çok kuponda çapraz yoğunlaşma `PortfolioExposureGuard` ile ölçülür |
+| İzinli aileler | İlk yarı (İY 0,5/1,5 Alt-Üst …; İY ÇŞ 12 ve İY Çift hariç), maç sonu Alt/Üst, Yarı özel, Maç sonucu (yalnız 1/2 + beraberlik & sert steam süzgeci), yasak parça içermeyen Kombine, 2Y KG **Yok**. Liste veriden gelir (`family_allowed`). |
+| Yasak | Beraberlik bacağı (MS 0, İY 0, skor 0-0 …), Karşılıklı gol (KG Var/Yok), "iki yarıda da KG var", İlk gol, Ev sahibi / Deplasman gol sayısı, Tek/Çift (İY Çift dahil), şu an Çifte şans ve Handikap |
+| Piyango yok | Skor, İY/MS, "+6 gol" gibi kuyruk bacakları, 100+ oranlı kuponlar banko kuponuna girmez. |
+| Tekrar yok | Aynı tercih iki kupona konmaz (`PortfolioExposureGuard` + `audit_coupons`). |
+| Şeffaflık | Her kuponda toplam oran, toplam tutma olasılığı (= düzeltilmiş P'lerin çarpımı) ve portföy yoğunlaşma skoru yazılır. |
 | Para | Hiçbir yapay zekâ kullanıcı açıkça onaylamadan bahis oynamaz, para yatırmaz/çekmez, kupon bozdurmaz. Oynamadan önce oranlar yeniden kontrol edilir. |
 
-Kod karşılığı: `src/quantfoot/coupons/coupon_rules.py` (`leg_decision`, `build_rules_coupon`), `scripts/nesine_kupon.py`
-(`apply_coupon_rules_to_pools`, banko modunda), `scripts/gunluk_tahmin.py` (`audit_coupons`).
+### 3.1. Kullanıcı açıkça istediğinde ortak özel modüller
 
-## 4. Dürüst notlama
+Kullanıcı **açıkça** tek-bacak sigortalı sistem kuponu, yüksek oranlı `2/1–1/2` sistem kuponu veya `6+ Gol / İki Yarıda KG Var`
+istediğinde her yapay zekâ kendi kafasından hesap yapmak yerine **aynı ortak modülleri** kullanır:
 
-- Notu **sen vermezsin**: ertesi gün `python scripts/gun_degerlendirme.py --tarih <gün>` bütün yapay zekâları Nesine
-  sonuç akışıyla (aynı Nesine kodu) puanlar → `degerlendirme/<gün>.md/.json`. Kendi "x/y tuttu" raporun yalnız bu
-  çıktıdan alıntıdır. (21 Kas: bir yapay zekâ 20 Kasım için 56/103 demiş, gerçek 53/103; tutmayan bacağı tuttu yazmış.)
-- Rapor: verdiğin ortalama P ile gerçekleşen oran yan yana; fark −2 puandan kötü ise o aileyi kupondan çıkar.
+- **Sistem kuponu optimizeri (`src/quantfoot/coupons/system_builder.py`):** `evaluate_system` ve `optimize_system`
+  (`mode="banko_sigorta"` ile 4/5+5/5 veya 5/6+6/6 tek-bacak sigortası; `mode="yuksek_oran"` ile bütçe ve MBS uyumlu
+  yüksek oranlı sistemler; kesin Poisson-Binomial `P(≥k)`, `P(kâr)`, min/max TL ödeme tablosu).
+- **Ekstrem gol tarayıcısı (`src/quantfoot/markets/extreme_goals.py` + `scripts/ekstrem_gol_analiz.py`):** Overdispersed
+  kuyruk olasılıkları, `Sim >> Mkt` şişkin-form tuzağı freni, savunma krizi desteği, %64–70+ güvenli gol merdiveni ve
+  `build_extreme_system` 100 TL sistem önerisi.
+
+Kod karşılığı: `src/quantfoot/coupons/coupon_rules.py`, `src/quantfoot/coupons/system_builder.py`,
+`src/quantfoot/markets/market_diagnosis.py`, `src/quantfoot/markets/extreme_goals.py`, `scripts/nesine_kupon.py`,
+`scripts/gunluk_tahmin.py`.
+
+## 4. Dürüst notlama ve çok-günlük öz-geliştirme
+
+- **Ortak karne (notu kendin vermezsin):** ertesi gün `python scripts/gun_degerlendirme.py --tarih <gün>` bütün yapay
+  zekâları Nesine sonuç akışıyla (aynı Nesine kodu) puanlar → `degerlendirme/<gün>.md/.json`. Kendi "x/y tuttu" raporun
+  yalnız bu çıktıdan alıntıdır.
+- **Kendi çok-günlük öz-geliştirme denetimin:** `QUANTFOOT_AI=<klasörün> python scripts/oz_gelistirme.py`
+  (`src/quantfoot/evaluation/self_improve.py`) yalnızca kendi klasöründeki bitmiş günleri okur; alt-pazar bazında
+  James-Stein büzüştürülmüş artık, steam kırılımı, `market_diagnosis` v3 ayrıştırması, altın havuzlar ve zehirli
+  alarmları `tahminler/<QUANTFOOT_AI>/oz_gelistirme_raporu.md/.json` olarak üretir.
 - Tek günlük örnek küçüktür; kalibrasyon dosyaları büzülerek güncellenir, tek günle kural tersine çevrilmez.
 
 ## 5. Çıktı biçimi ve klasör
@@ -101,43 +146,43 @@ Kod karşılığı: `src/quantfoot/coupons/coupon_rules.py` (`leg_decision`, `bu
 |---|---|
 | `mac_tahminleri.csv` | `tarih, saat, lig, mac, nesine_kodu` (code), `olasilik_1, olasilik_X, olasilik_2`, `beklenen_gol_ev, beklenen_gol_dep, en_olasi_skor`, `ana_secim_pazar` (market), `ana_secim` (selection), `nesine_oran` (odds), `olasilik` (p), `fiyat_kaynagi, guven, not`, `secim_adi` (settlement name — doldur), `en_yuksek_5_olasilik` (beş farklı ailenin maç özeti) |
 | `kuponlar.csv` | `tarih, kupon_turu, kupon, kupon_no, kupon_toplam_oran, kupon_tutma_olasiligi, saat, mac, nesine_kodu` (code), `pazar` (market), `secim` (selection), `nesine_oran` (odds), `olasilik` (p), `secim_adi` |
-| `kupon_denetim.md` | §3 denetimi (hat yazar) |
+| `kupon_denetim.md` | §3 bacak kuralları + `PortfolioExposureGuard` çapraz yoğunlaşma denetimi (hat yazar) |
+| `ekstrem_gol_analiz.md/.json` | 6+ Gol / İki Yarıda KG Var uzman taraması + güvenli merdiven (hat yazar) |
 
 UTF-8, virgül ayraç, ondalık nokta, olasılık 0–1. `secim_adi` boş kalırsa takım golü, yarı KG, kombine pazarlar
 notlanamaz. Ortak alanlara (`reports/`, `docs/data/`) tahmin yazılmaz.
 
-## 6. Dersler (21 Kasım 2026 denetimleri — tek gün, küçük örnek)
+## 6. Dersler (21–22 Kasım 2026 denetimleri)
 
-**Aile kalibrasyonu (Grok Bot, 2.924 bitmiş tahmin; verilen % → gerçekleşen %):**
+### 6.1. 21 Kasım (Grok Bot, 2.924 bitmiş tahmin)
 
 | Aile | n | Verilen | Gerçek | Fark | Kupon |
 |---|---:|---:|---:|---:|---|
 | 2Y KG (çoğu "Yok") | 94 | 64,5 | 72,3 | +7,8 | Yalnız 2Y KG Yok |
 | Yarı özel | 139 | 63,5 | 66,9 | +3,4 | İzinli |
-| Maç sonucu | 117 | 62,2 | 63,2 | +1,1 | İzinli (beraberlik süzgeci) |
-| İlk yarı | 588 | 62,1 | 62,6 | +0,5 | İzinli |
-| Alt/Üst | 330 | 61,5 | 60,6 | −0,9 | İzinli |
+| Maç sonucu | 117 | 62,2 | 63,2 | +1,1 | İzinli (beraberlik + steam süzgeci) |
+| İlk yarı | 588 | 62,1 | 62,6 | +0,5 | İzinli (İY ÇŞ 12 ve İY Çift hariç) |
+| Alt/Üst | 330 | 61,5 | 60,6 | −0,9 | İzinli (sert steam + kaleci süzgeci) |
 | Çifte şans | 224 | 62,3 | 60,3 | −2,0 | Şimdilik yasak |
 | Handikap | 168 | 61,1 | 58,9 | −2,1 | Şimdilik yasak |
 | Ev sahibi golleri | 427 | 61,5 | 57,8 | −3,6 | Yasak |
 | Karşılıklı gol | 229 | 61,6 | 56,8 | −4,8 | Yasak |
 | İlk gol | 36 | 61,3 | 52,8 | −8,5 | Yasak |
 
-- P ≥ 0,60 bantlarında 1,5–4 puan fazla iyimseriz (%70–75 dedik, %67 tuttu) → bacak tabanı 0,70 ve band düzeltmesi.
-- "İki yarıda da KG var": 15 bitmiş adaydan 1'i tuttu (model zaten %10–17 diyordu) → aday listesinde bile gösterme.
-- Oynanan kuponlar: 32 kesinleşen bacağın 15'i tuttu (%47) — bacaklara ortalama yalnız %53 P verilmişti. Kuponları
-  beraberlik bacakları, ~%55'lik MS tahminleri, Alt/Üst ve kombine/KG bacakları yaktı. Sorun tahmin değil, bacak seçimi.
-- 1X2 oranı → sonuç (418 maç): favori %52,2 kazandı (oranlar %49,8 ima ediyordu); favori 1,50 altı 135 maçın 47'sinde
-  favori kazanamadı (31 beraberlik). Beraberlik oranı ≤ 3,10 iken beraberlik ima edilenden az geldi (%24,5 / %28,5).
-  İlk yarı beraberliği yaygın (%42; dengeli maçlarda %60).
-- Diğer yapay zekâlar (Nesine sonuçlarıyla yeniden notlandı): ChatGPT 21 Kas %62,0 (verdiği %62,7 — en gerçekçi);
-  Gemini 20 Kas %51,5 (verdiği %62,6; öz-rapor şişik); Claude 18 Kas %69,8, 19 Kas %53,4 (verdiği %63,1).
-  Gemini/Claude MS tahminleri ~%31 tuttu (verilen ~%62); KG %46–47. Aynı zayıf bacak birden çok kupona girdi;
-  900–300.000 oranlı piyango kuponları hiç tutmadı. Tutan tek örnek: Gemini'nin 21 Kas gecesi 4 bacaklı, kısa oranlı
-  Alt/Üst + ÇŞ kuponu (2,62).
+### 6.2. 22 Kasım v3 Denetimi (428 bitmiş maç · 1.808 kupon-bölgesi seçimi)
+
+- **`İY ÇŞ 12` gizli tuzağı:** 48/99 (%48,5 vs %62,9 = −14,4p) → özel kalibrasyon paterni ve teşhis engeli eklendi.
+- **Keskin borsa sert steam (≥6p):** `MS 1/2` steam yokken 40/56 (%71,4, +4,8p), sert steam'de 5/13 (%38,5, −27,3p);
+  `ALT` sert steam'de 9/17 (%52,9, −10,5p) → `parse_steam_pp` kalkanı tüm AI'lar için aktif edildi.
+- **Çapraz kupon korelasyonu & tek-bacak fireleri:** Aynı tek bacak (Getafe İY 1.5 Alt) 3 kuponu birlikte gömdü; 5
+  tek-bacak kuponda düz kombine 0/500 TL iken `Sistem (n-1, n)` 272,65/500 TL (%54,5 kurtarma) sağladı →
+  `system_builder.py` ve `PortfolioExposureGuard` ortak hatta bağlandı.
+- **Şişkin form tuzağı (`Sim >> Mkt`):** Bağımsız form simülasyonu piyasadan +0,60 xG fazla şiştiğinde gerçek maç 2,00
+  golde kaldı (%0 6+ Gol, %0 2Y KG) → `extreme_goals.py` v3 frenine eklendi.
 
 ## 7. Yeni ders eklemek
 
-Yeni bir günün denetimi bu tabloyu değiştiriyorsa: kalibrasyon JSON'unu güncelle, testleri çalıştır, bu belgeyi ve
-gerekirse `coupon_rules.py`'yi aynı PR'da değiştir. Tüm yapay zekâ giriş dosyaları (AGENTS.md, CLAUDE.md, GEMINI.md)
-buraya işaret eder; kuralları orada çoğaltma.
+Yeni bir günün denetimi bu tabloyu değiştiriyorsa: kalibrasyon JSON'unu güncelle, testleri çalıştır (`pytest -q`,
+`tests/test_common_ai_parity.py` dahil), bu belgeyi ve gerekirse `coupon_rules.py` / `market_diagnosis.py`'yi aynı PR'da
+değiştir. Tüm yapay zekâ giriş dosyaları (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`)
+buraya işaret eder ve birebir eşgüdümlü kalır.

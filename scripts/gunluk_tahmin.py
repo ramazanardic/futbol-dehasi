@@ -35,6 +35,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from quantfoot.coupons.coupon_rules import DEFAULT_MAX_LEGS, DEFAULT_MIN_LEGS, canonical_name, leg_decision  # noqa: E402
+from quantfoot.coupons.system_builder import PortfolioExposureGuard, SystemLeg  # noqa: E402
 from quantfoot.paths import VALID_AIS, QuantfootAIError, ai_name  # noqa: E402
 
 TSI = dt.timezone(dt.timedelta(hours=3))
@@ -108,6 +109,7 @@ def audit_coupons(rows: list[dict], analysis_by_code: dict[str, dict] | None = N
     for r in rows:
         coupons.setdefault(f"{r.get('kupon', '')}#{r.get('kupon_no', '')}", []).append(r)
     seen_legs: dict[tuple[str, str], str] = {}
+    guard = PortfolioExposureGuard(max_coupons_per_match=1, max_coupons_per_selection=1)
     out = []
     for cid, legs in coupons.items():
         issues: list[str] = []
@@ -118,6 +120,7 @@ def audit_coupons(rows: list[dict], analysis_by_code: dict[str, dict] | None = N
         if len(set(codes)) < len(codes):
             issues.append("aynı maçtan birden çok bacak")
         p_total, odds_total = 1.0, 1.0
+        sys_legs: list[SystemLeg] = []
         for leg in legs:
             name = (leg.get("secim_adi") or leg.get("secim") or "").strip()
             before_rules = leg.get("kural_oncesi_olasilik") or leg.get("olasilik")
@@ -149,13 +152,34 @@ def audit_coupons(rows: list[dict], analysis_by_code: dict[str, dict] | None = N
                 issues.append(f"{leg.get('mac')} — {name}: " + "; ".join(dec.reasons))
             p_total *= dec.p_cal if dec.p_cal is not None else 0.0
             odds_total *= checked_odds or 0.0
-            key = (str(leg.get("nesine_kodu") or leg.get("mac")), canonical_name(name))
+            mid = str(leg.get("nesine_kodu") or leg.get("mac"))
+            cname = canonical_name(name)
+            sys_legs.append(SystemLeg(
+                match_id=mid,
+                match=str(leg.get("mac") or mid),
+                name=cname,
+                odds=float(checked_odds or 0.0),
+                p=float(dec.p_cal if dec.p_cal is not None else 0.0),
+            ))
+            key = (mid, cname)
             if key in seen_legs and seen_legs[key] != cid:
                 issues.append(f"{leg.get('mac')} — {name}: aynı tercih {seen_legs[key]} kuponunda da var")
             seen_legs.setdefault(key, cid)
+        guard.register_coupon(cid, sys_legs)
         out.append({"kupon": cid, "bacak": n, "toplam_oran": round(odds_total, 2),
                     "tutma_olasiligi": round(p_total, 4), "ihlaller": issues})
-    return {"coupons": out, "ok": all(not c["ihlaller"] for c in out)}
+    pa = guard.audit()
+    return {
+        "coupons": out,
+        "ok": all(not c["ihlaller"] for c in out),
+        "portfolio": {
+            "ok": pa.ok,
+            "n_coupons": pa.n_coupons,
+            "duplicate_selections": pa.duplicate_selections,
+            "overexposed_matches": pa.overexposed_matches,
+            "concentration_score": pa.concentration_score,
+        },
+    }
 
 
 def audit_markdown(date: str, ai: str, audit: dict) -> str:
@@ -169,6 +193,17 @@ def audit_markdown(date: str, ai: str, audit: dict) -> str:
         lines.append(f"- {c['bacak']} bacak, toplam oran {c['toplam_oran']:.2f}, tutma olasılığı "
                      f"%{100 * c['tutma_olasiligi']:.1f} (≈ {('1/' + str(round(1 / c['tutma_olasiligi']))) if c['tutma_olasiligi'] > 0 else '—'})")
         lines += [f"- ⚠ {x}" for x in c["ihlaller"]]
+        lines.append("")
+    port = audit.get("portfolio") or {}
+    if port.get("n_coupons", 0) > 1:
+        lines.append("## Çapraz Kupon Portföy Yoğunlaşması")
+        lines.append(
+            f"- Yoğunlaşma skoru: **%{port.get('concentration_score', 0.0):.1f}** · "
+            f"Tekrarlı tercih: **{len(port.get('duplicate_selections') or [])}** · "
+            f"Birden çok kupona giren maç: **{len(port.get('overexposed_matches') or [])}**"
+        )
+        for om in (port.get("overexposed_matches") or [])[:10]:
+            lines.append(f"- ⚠ Çapraz maruziyet: {om}")
         lines.append("")
     return "\n".join(lines) + "\n"
 
@@ -251,6 +286,8 @@ def main(argv: list[str] | None = None) -> int:
         sys.stdout.reconfigure(line_buffering=True)  # adım satırları alt süreç çıktısıyla sıralı görünsün
     if args.ai:
         os.environ["QUANTFOOT_AI"] = args.ai
+    os.environ.setdefault("PYTHONIOENCODING", "utf-8")
+    os.environ.setdefault("TZ", "Europe/Istanbul")
     try:
         ai = ai_name()
     except QuantfootAIError as e:

@@ -28,7 +28,7 @@ from quantfoot.data import live_scan as ls  # noqa: E402
 from quantfoot.data.match_dossier import CachedHttp  # noqa: E402
 from quantfoot.paths import ai_area  # noqa: E402
 
-UA = {"User-Agent": "QuantFoot-GrokBot/1.0 (kisisel arastirma; okuma)", "Accept": "application/json"}
+UA = {"User-Agent": "QuantFoot/3.0 (kisisel arastirma; okuma)", "Accept": "application/json"}
 PRE_REFRESH_S = 30 * 60
 
 
