@@ -88,6 +88,9 @@ def test_candidates_keep_only_non_dominated_legs():
     pools = kupon.candidates([match, espn], now, min_odds=1.15, min_prob=0.0, allow_espn=False)
     assert len(pools) == 1
     assert {(leg["market"], leg["odds"]) for leg in pools[0]} == {("MS", 1.50), ("AÜ", 1.90)}
+    complete = kupon.candidates([match, espn], now, min_odds=1.15, min_prob=0.0, allow_espn=False, keep_all=True)
+    assert {(leg["market"], leg["odds"]) for leg in complete[0]} == {("MS", 1.50), ("ÇŞ", 1.20), ("AÜ", 1.90)}
+
 
 
 def test_direct_quote_names_map_to_nesine_selections():

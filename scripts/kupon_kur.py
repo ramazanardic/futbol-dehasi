@@ -149,6 +149,8 @@ def main() -> None:
     for rnd in range(1, args.tur + 1):
         bad, rows = [], []
         options = [*args.ekstra, "--hedef", f"{args.hedef:g}", "--tarih", args.tarih, "--adet", "1", "--kupasiz", "--no-pull", "--mod", args.mod]
+        if "--dogrudan" not in args.ekstra:
+            options.append("--model-bacak")
         if haric:
             options.extend(["--haric", *haric])
         f = nesine_kupon.main(options, review=review)

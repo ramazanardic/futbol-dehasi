@@ -7,6 +7,9 @@
 > toplam tutma olasılığı yazılır. Notu kendin vermezsin: `scripts/gun_degerlendirme.py`. Kullanıcı onayı olmadan bahis
 > oynanmaz, para yatırılmaz/çekilmez. Bu dosyadaki klasör kuralları ortak sistemden de önce gelir.
 
+> **Her maçta Nesine’nin açtığı bütün futbol bahis ailelerini ve seçimlerini değerlendir.** Kupon önerisine,
+> araştırma ve seçilen kupon modunun kurallarını geçen en uygun seçimler girer. [Ayrıntılar](docs/ORTAK_SISTEM.md#tüm-futbol-bahis-aileleri)
+
 Bu depoda beş yapay zekâ çalışır ve tahminleri yarıştırılır. Kullanıcının kuralı (20 Kasım 2026):
 
 1. **Her yapay zekâ yalnız kendi tahmin klasörüne yazar ve kendi klasöründen devam eder.**

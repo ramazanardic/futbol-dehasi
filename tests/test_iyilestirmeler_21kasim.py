@@ -175,3 +175,21 @@ def test_settle_negated_selection_and_label_names(tmp_path):
             {"market": "X", "selection": "Y", "name": f"N{day}"}]}]}), encoding="utf-8")
     lb = g.label_names(tmp_path / "2026-11-20")
     assert lb[("Deplasman 0,5 Gol Alt/Üst", "0,5 Üst")] == "Dep 0.5 Üst" and ("X", "Y") not in lb   # ambiguous: dropped
+
+
+def test_family_table_keeps_every_offered_selection_and_flags_missing_quotes():
+    import bahis_aileleri as ba
+
+    selections = [
+        {"key": str(i), "name": f"{i}.5 Üst", "market": "Gol Alt/Üst", "selection": str(i),
+         "fair_prob": .60, "odds": 1.25, "direct": True}
+        for i in range(1, 6)
+    ]
+    offer_without_price = {"key": "x", "name": "Korner 8.5 Üst", "market": "Korner", "selection": "8,5 Üst", "odds": 1.80}
+    grouped = {r["family"]: r for r in ba.family_table({
+        "status": "fiyatlandı", "selections": selections,
+        "offered_selections": [*selections, offer_without_price], "untranslated_selections": ["Açık bir pazar"],
+    })}
+    assert len(grouped["Alt/Üst"]["suitable"]) == 5
+    assert grouped["Korner"]["other"][0]["p"] is None
+    assert grouped["Eşlenemeyen Nesine pazarları"]["other"][0]["reason"] == "Pazar eşlemesi yok"
