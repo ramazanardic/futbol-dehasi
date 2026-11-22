@@ -68,6 +68,19 @@ def _top_score(code) -> str:
     return f"{k} ({v:.3f})"
 
 
+def kickoff_date(kickoff: str | None, fallback: str) -> str:
+    """Takvim günü = Nesine'nin başlama zamanı (ESD/MD) — bahis günü değil.
+
+    Nesine bülteni bir "bahis günü"nü 07:00'den ertesi sabah 06:59'a kadar verir; 00:00 sonrası maçlar ertesi
+    takvim gününe aittir (22 Kas denetimi: 23 Kas 00:00–04:10 maçları 22 Kas diye yazılmıştı).
+    """
+    ko = (kickoff or "").strip()
+    try:
+        return dt.date.fromisoformat(ko[:10]).isoformat()
+    except ValueError:
+        return fallback
+
+
 def match_rows(date: str, matches: list[dict], frozen: dict[str, dict] | None = None,
                now: dt.datetime | None = None) -> list[dict]:
     frozen = frozen or {}
@@ -79,13 +92,14 @@ def match_rows(date: str, matches: list[dict], frozen: dict[str, dict] | None = 
             continue
         if dt.datetime.fromisoformat(m["kickoff_iso"]) <= now:
             if str(m["code"]) in frozen:
-                rows.append(frozen[str(m["code"])])
+                # donmuş satır olduğu gibi kalır; yalnız (eski sürümün yanlış yazdığı) takvim günü düzeltilir
+                rows.append({**frozen[str(m["code"])], "tarih": kickoff_date(m["kickoff"], date)})
             continue
         priced = m["status"] in ("fiyatlandı", ng.NESINE_ONLY_STATUS)
         f = (m.get("fair_1x2") or [None] * 3) if priced else [None] * 3
         pick, why = best_pick(m) if priced else (None, "global fiyat yok")
         rows.append({
-            "tarih": date, "saat": m["kickoff"][11:16], "lig": m["league"], "mac": f"{m['home']} - {m['away']}",
+            "tarih": kickoff_date(m["kickoff"], date), "saat": m["kickoff"][11:16], "lig": m["league"], "mac": f"{m['home']} - {m['away']}",
             "nesine_kodu": m["code"], "olasilik_1": _pct(f[0]), "olasilik_X": _pct(f[1]), "olasilik_2": _pct(f[2]),
             "beklenen_gol_ev": m.get("mu_home") if priced else "", "beklenen_gol_dep": m.get("mu_away") if priced else "",
             "en_olasi_skor": _top_score(m["code"]) if priced else "",
@@ -114,7 +128,7 @@ def coupon_rows(date: str, area: Path = AREA) -> list[dict]:
         data = json.loads(f.read_text(encoding="utf-8"))
         for i, c in enumerate(data.get("coupons", []), 1):
             for leg in c["legs"]:
-                rows.append({"tarih": date, "kupon_turu": coupon_group(f)[1], "kupon": f.stem, "kupon_no": i, "kupon_toplam_oran": c["nesine_odds"],
+                rows.append({"tarih": kickoff_date(leg.get("kickoff"), date), "kupon_turu": coupon_group(f)[1], "kupon": f.stem, "kupon_no": i, "kupon_toplam_oran": c["nesine_odds"],
                              "kupon_tutma_olasiligi": _pct(c["probability"]), "saat": leg["kickoff"][11:16],
                              "mac": leg["match"], "nesine_kodu": leg["code"], "pazar": leg["market"],
                              "secim": leg["selection"], "nesine_oran": leg["odds"], "olasilik": _pct(leg["p"]),
