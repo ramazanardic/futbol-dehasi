@@ -28,6 +28,7 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from kupon_dosyalari import coupon_group, latest_coupons
 from gunluk_analiz import best_pick  # noqa: E402
 import nesine_global as ng  # noqa: E402
 
@@ -39,7 +40,7 @@ MATCH_COLS = ["tarih", "saat", "lig", "mac", "nesine_kodu", "olasilik_1", "olasi
               "beklenen_gol_ev", "beklenen_gol_dep", "en_olasi_skor", "ana_secim_pazar", "ana_secim",
               "nesine_oran", "olasilik", "fiyat_kaynagi", "guven", "not", "secim_adi"]
 COUPON_COLS = ["tarih", "kupon_turu", "kupon", "kupon_no", "kupon_toplam_oran", "kupon_tutma_olasiligi", "saat", "mac",
-               "nesine_kodu", "pazar", "secim", "nesine_oran", "olasilik", "secim_adi"]
+               "nesine_kodu", "pazar", "secim", "nesine_oran", "olasilik", "secim_adi", "kural_oncesi_olasilik"]
 
 
 def _pct(x) -> str:
@@ -76,8 +77,9 @@ def match_rows(date: str, matches: list[dict], frozen: dict[str, dict] | None = 
         tier = m.get("price_tier") or ng.classify_price_tier(m["status"], m.get("reference"))
         if tier == "ozel_bahis":
             continue
-        if str(m["code"]) in frozen and dt.datetime.fromisoformat(m["kickoff_iso"]) <= now:
-            rows.append(frozen[str(m["code"])])
+        if dt.datetime.fromisoformat(m["kickoff_iso"]) <= now:
+            if str(m["code"]) in frozen:
+                rows.append(frozen[str(m["code"])])
             continue
         priced = m["status"] in ("fiyatlandı", ng.NESINE_ONLY_STATUS)
         f = (m.get("fair_1x2") or [None] * 3) if priced else [None] * 3
@@ -102,15 +104,8 @@ def match_rows(date: str, matches: list[dict], frozen: dict[str, dict] | None = 
 
 def coupon_files(date: str, area: Path = AREA) -> list[Path]:
     """This AI's coupon files of the day (written by nesine_kupon.py into this area), latest per target."""
-    latest: dict[tuple[str, str], Path] = {}
-    for f in sorted((area / date).glob("kupon_*x_*.json")):
-        latest[_group(f)] = f  # HHMM order: latest file per (target, family) wins
+    latest = latest_coupons(area / date)
     return [latest[k] for k in sorted(latest, key=lambda g: (g[1] != "karma", g[1], float(g[0].rstrip("x"))))]
-
-
-def _group(f: Path) -> tuple[str, str]:
-    parts = f.stem.split("_")  # kupon_5x_0926 / kupon_5x_iyms_1030
-    return parts[1], (parts[2] if len(parts) >= 4 else "karma")
 
 
 def coupon_rows(date: str, area: Path = AREA) -> list[dict]:
@@ -119,11 +114,11 @@ def coupon_rows(date: str, area: Path = AREA) -> list[dict]:
         data = json.loads(f.read_text(encoding="utf-8"))
         for i, c in enumerate(data.get("coupons", []), 1):
             for leg in c["legs"]:
-                rows.append({"tarih": date, "kupon_turu": _group(f)[1], "kupon": f.stem, "kupon_no": i, "kupon_toplam_oran": c["nesine_odds"],
+                rows.append({"tarih": date, "kupon_turu": coupon_group(f)[1], "kupon": f.stem, "kupon_no": i, "kupon_toplam_oran": c["nesine_odds"],
                              "kupon_tutma_olasiligi": _pct(c["probability"]), "saat": leg["kickoff"][11:16],
                              "mac": leg["match"], "nesine_kodu": leg["code"], "pazar": leg["market"],
                              "secim": leg["selection"], "nesine_oran": leg["odds"], "olasilik": _pct(leg["p"]),
-                             "secim_adi": leg.get("name", "")})
+                             "kural_oncesi_olasilik": leg.get("p_before_rules", ""), "secim_adi": leg.get("name", "")})
     return rows
 
 
@@ -171,13 +166,14 @@ def export(date: str, matches: list[dict] | None = None, area: Path = AREA,
     before = _read(out / "mac_tahminleri.csv")
     frozen = {r["nesine_kodu"]: r for r in before}
     matches = own_analysis(date) if matches is None else matches
-    record_clv(out, before, matches, now or dt.datetime.now(TSI))
     m = match_rows(date, matches, frozen, now)
     c = coupon_rows(date, area)
     _write(out / "mac_tahminleri.csv", MATCH_COLS, m)
     _write(out / "kuponlar.csv", COUPON_COLS, c)
     if area == AREA:
         apply_research_picks(date)
+        m = _read(out / "mac_tahminleri.csv")
+    record_clv(out, before + m, matches, now or dt.datetime.now(TSI))
     return len(m), len(c)
 
 

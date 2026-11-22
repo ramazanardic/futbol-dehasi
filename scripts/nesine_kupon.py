@@ -528,7 +528,14 @@ def apply_coupon_rules_to_pools(pools: list[list[dict]], mode: str = "banko") ->
     from quantfoot.coupons.coupon_rules import leg_decision
     out: list[list[dict]] = []
     for pool in pools:
-        kept = [leg for leg in pool if leg_decision(leg).ok]
+        kept = []
+        for leg in pool:
+            decision = leg_decision(leg)
+            if decision.ok:
+                p = decision.p_cal
+                margin = leg["p"] - leg.get("p_low", leg["p"])
+                kept.append({**leg, "p_before_rules": leg["p"], "p": p,
+                             "p_low": max(0.001, p - margin), "ev_cal": round(p * leg["odds"] - 1, 4)})
         if kept:
             out.append(kept)
     return out
@@ -903,8 +910,8 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
     try:  # keep this AI's mac_tahminleri.csv in step with the new coupons
         import ai_tahmin  # noqa: PLC0415
         ai_tahmin.export(args.tarih, matches)  # this run's own analysis, not the shared report files
-    except Exception as exc:  # noqa: BLE001 - the coupon itself is already written
-        print(f"⚠ mac_tahminleri güncellenemedi: {exc}")
+    except Exception as exc:
+        raise RuntimeError(f"Kupon kaydedildi ancak CSV güncellenemedi: {base}") from exc
     return base.with_suffix(".json")
 
 

@@ -85,3 +85,33 @@ def test_audit_writes_report_only_in_own_folder(tmp_path, monkeypatch):
     md = (day / "kupon_denetim.md").read_text(encoding="utf-8")
     assert "UYGUN" in md and "tutma olasılığı" in md
     assert [p.name for p in (tmp_path / "tahminler").iterdir()] == ["grokbottahmin"]
+
+
+def test_failed_steps_do_not_report_success(tmp_path, monkeypatch):
+    from subprocess import CompletedProcess
+    monkeypatch.setattr(G, "ROOT", tmp_path)
+    monkeypatch.setattr(G.subprocess, "run", lambda cmd, **kw: CompletedProcess(cmd, 7))
+    args = ["--ai", "chatgbttahmin", "--tarih", "2026-11-21", "--yalniz"]
+    for step in ["derin", "kupon"]:
+        assert G.main(args + [step, "denetim"]) == 7
+    assert G.main(args + ["denetim"]) != 0
+
+
+def test_midnight_coupon_export_and_probability_match_audit(tmp_path):
+    import json
+    import ai_tahmin
+    import nesine_kupon
+
+    day = tmp_path / "2026-11-21"
+    day.mkdir()
+    legs = [dict(code=i, name="1.5 Üst", odds=1.25, p=.76, mbs=1, market="Alt/Üst",
+                 selection="Üst", match=f"A{i}-B{i}", kickoff="2026-11-22 02:00") for i in range(1, 6)]
+    pools = nesine_kupon.apply_coupon_rules_to_pools([[leg] for leg in legs])
+    coupon = nesine_kupon._summary([pool[0] for pool in pools])
+    for stamp in ["2350", "0010"]:
+        (day / f"kupon_2.5x_{stamp}.json").write_text(json.dumps({"coupons": [coupon]}))
+    rows = ai_tahmin.coupon_rows(day.name, tmp_path)
+    assert len(rows) == 5 and all(row["kupon"].endswith("0010") for row in rows)
+    audit = G.audit_coupons(rows)
+    assert audit["ok"]
+    assert audit["coupons"][0]["tutma_olasiligi"] == float(rows[0]["kupon_tutma_olasiligi"]) == .2409

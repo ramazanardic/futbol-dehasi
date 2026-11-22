@@ -85,3 +85,17 @@ def test_simulation_scorecard(tmp_path):
         {"name": "MS 1", "verdict": "çelişki", "market": 0.60, "sim": 0.45}]}]), encoding="utf-8")
     v = g.simulation_verdicts(tmp_path, {5: {"completed": True, "ht": [1, 0], "ft90": [2, 1]}})
     assert v["üçlü onay"]["won"] == 1 and v["çelişki"]["won"] == 1 and v["üçlü onay"]["n"] == 1
+
+
+def test_export_records_first_pick_and_omits_new_started_matches(tmp_path, monkeypatch):
+    at = _load("ai_tahmin")
+    date = "2026-11-20"
+    now = dt.datetime(2026, 11, 20, 18, tzinfo=TSI)
+    pick = dict(name="MS 1", market="MS", selection="1", odds=1.25, fair_prob=.8)
+    monkeypatch.setattr(at, "best_pick", lambda m: (pick, ""))
+    match = dict(code=1, kickoff="2026-11-20 22:00", kickoff_iso="2026-11-20T22:00:00+03:00",
+                 status="fiyatlandı", price_tier="keskin", league="L", home="A", away="B", selections=[pick])
+    started = dict(match, code=2, kickoff_iso=now.isoformat())
+    assert at.export(date, [match, started], area=tmp_path, now=now) == (1, 0)
+    rec = json.loads((tmp_path / date / "tahmin_clv.json").read_text())["1|MS 1"]
+    assert rec["p_pick"] == rec["p_close"] == .8

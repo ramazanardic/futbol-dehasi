@@ -83,7 +83,8 @@ def audit_coupons(rows: list[dict]) -> dict:
         p_total, odds_total = 1.0, 1.0
         for leg in legs:
             name = (leg.get("secim_adi") or leg.get("secim") or "").strip()
-            dec = leg_decision({"name": name, "odds": _f(leg.get("nesine_oran")), "p": _f(leg.get("olasilik"))})
+            before_rules = leg.get("kural_oncesi_olasilik") or leg.get("olasilik")
+            dec = leg_decision({"name": name, "odds": _f(leg.get("nesine_oran")), "p": _f(before_rules)})
             if not dec.ok:
                 issues.append(f"{leg.get('mac')} — {name}: " + "; ".join(dec.reasons))
             p_total *= dec.p_cal if dec.p_cal is not None else 0.0
@@ -115,10 +116,11 @@ def audit_markdown(date: str, ai: str, audit: dict) -> str:
 def run_audit(date: str, ai: str) -> dict:
     day = ROOT / "tahminler" / ai / date
     path = day / "kuponlar.csv"
-    rows = []
-    if path.exists():
-        with path.open(encoding="utf-8-sig", newline="") as fh:
-            rows = list(csv.DictReader(fh))
+    with path.open(encoding="utf-8-sig", newline="") as fh:
+        reader = csv.DictReader(fh)
+        if not reader.fieldnames or "kupon" not in reader.fieldnames:
+            raise ValueError(f"Kupon CSV başlığı eksik: {path}")
+        rows = list(reader)
     audit = audit_coupons(rows)
     day.mkdir(parents=True, exist_ok=True)
     (day / "kupon_denetim.md").write_text(audit_markdown(date, ai, audit), encoding="utf-8")
@@ -186,10 +188,13 @@ def main(argv: list[str] | None = None) -> int:
             r = subprocess.run(cmd, cwd=ROOT, env=os.environ.copy())
             if r.returncode != 0:
                 print(f"[{step}] çıkış kodu {r.returncode}", file=sys.stderr)
-                if step in ("bulten", "tahmin"):
-                    return r.returncode  # bülten/tahmin olmadan sonraki adımlar anlamsız
+                return r.returncode
         if step == "denetim" and not args.kuru:
-            audit = run_audit(args.tarih, ai)
+            try:
+                audit = run_audit(args.tarih, ai)
+            except (OSError, ValueError, csv.Error) as exc:
+                print(f"Kupon denetimi tamamlanamadı: {exc}", file=sys.stderr)
+                return 2
             if not audit["ok"]:
                 print("Kural dışı kupon var: kupon_denetim.md — bu kupon önerilmez/oynanmaz.", file=sys.stderr)
                 return 3

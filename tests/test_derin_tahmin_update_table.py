@@ -34,8 +34,23 @@ def test_no_value_keeps_probable_pick_but_drops_contradicted(tmp_path, monkeypat
         {"code": 3, "pick": {"market": "2,5 Gol Alt/Üst", "sel": "2,5 Alt", "odds": 1.6, "name": "2.5 Alt",
                              "p": 0.66, "verdict": "✓", "mean": 0.7}, "dropped": []},
     ]
+    for row in rows:
+        row["kickoff"] = "2099-11-22 18:00"
     assert dt_mod.update_table("2026-11-22", rows) == 3
     out = {r["nesine_kodu"]: r for r in csv.DictReader((day / "mac_tahminleri.csv").open(encoding="utf-8-sig"))}
     assert out["1"]["secim_adi"] == "İY 0.5 Üst" and out["1"]["not"] == dt_mod.NO_VALUE_NOTE
     assert out["2"]["secim_adi"] == "" and out["2"]["olasilik"] == ""
     assert out["3"]["secim_adi"] == "2.5 Alt" and out["3"]["nesine_oran"] == "1.6"
+
+
+def test_past_match_and_header_only_table_remain_unchanged(tmp_path, monkeypatch):
+    import derin_tahmin
+    monkeypatch.setattr(derin_tahmin, "AREA", tmp_path)
+    day = tmp_path / "2000-01-01"
+    day.mkdir()
+    path = day / "mac_tahminleri.csv"
+    rows = [{"code": 1, "kickoff": "2000-01-02 00:10", "pick": None, "dropped": []}]
+    for contents in ["nesine_kodu,secim_adi,not\n1,MS 1,\n", "nesine_kodu,secim_adi,not\n"]:
+        path.write_text(contents)
+        assert derin_tahmin.update_table(day.name, rows) == 0
+        assert path.read_text() == contents
