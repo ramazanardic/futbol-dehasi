@@ -318,3 +318,101 @@ def test_gunluk_tahmin_audit_recognizes_rehabilitated_legs_and_catches_traps(tmp
     assert not audit_bad["ok"]
     assert any("kaleci" in x for x in audit_bad["coupons"][0]["ihlaller"])
 
+
+def test_dep_iy_05_ust_never_falls_into_fulltime_team_goals_branch():
+    # 22 Kas kritik bug: "Dep İY 0.5 Üst" önceden endswith("0.5 Üst") ile tam-maç dalına düşüp
+    # team_mu=1.40 iken rehabilite ediliyordu (sahada 9/24 = %37.5, -21.5p, kuponlarda 0/4!).
+    ctx = {
+        "name": "Dep İY 0.5 Üst",
+        "p": 0.65,
+        "odds": 1.55,
+        "mu_home": 1.25,
+        "mu_away": 1.45,
+        "reference": "Pinnacle",
+        "direct": False,
+        "league": "İngiltere U21",
+    }
+    diag = diagnose_selection("Dep İY 0.5 Üst", 0.65, ctx, for_coupon=True)
+    assert not diag.ok and not diag.rehabilitated
+    assert diag.residual_adjustment <= -0.08
+    assert not CR.leg_decision(ctx).ok
+
+
+def test_parity_noise_and_strong_home_not_both_halves_traps_caught():
+    # İY Çift: 22 Kas'ta 26/58 (%44.8 vs %56.4 = -11.6p) — parite gürültüsü reddedilir
+    parity_ctx = {
+        "name": "İY Çift",
+        "p": 0.62,
+        "odds": 1.40,
+        "mu_home": 1.20,
+        "mu_away": 1.10,
+        "reference": "Pinnacle",
+        "direct": False,
+    }
+    d_par = diagnose_selection("İY Çift", 0.62, parity_ctx, for_coupon=False)
+    assert not d_par.ok and not d_par.rehabilitated
+
+    # gunluk_analiz.best_pick de İY Çift'i eler
+    ga = _load_script("gunluk_analiz")
+    m = {
+        "status": "fiyatlandı",
+        "reference": "Pinnacle",
+        "league": "Almanya Bundesliga",
+        "mu_home": 1.30,
+        "mu_away": 1.10,
+        "fair_1x2": [0.45, 0.28, 0.27],
+        "selections": [
+            {"name": "İY Çift", "market": "1. Yarı Tek/Çift", "selection": "Çift", "fair_prob": 0.72, "odds": 1.40, "ev": 0.008, "direct": False},
+            {"name": "3.5 Alt", "market": "3,5 Gol Alt/Üst", "selection": "Alt", "fair_prob": 0.66, "odds": 1.28, "ev": -0.15, "direct": True},
+        ],
+    }
+    pick, _ = ga.best_pick(m)
+    assert pick is not None and pick["name"] == "3.5 Alt"
+
+    # DEĞİL(Ev İki Yarıda Gol): güçlü ev sahibinde (mu_h >= 1.75) tuzak yakalanır, düşük xG'de geçer
+    strong_home = {
+        "name": "DEĞİL(Ev İki Yarıda Gol)",
+        "p": 0.74,
+        "odds": 1.22,
+        "mu_home": 1.95,
+        "mu_away": 0.90,
+        "reference": "Pinnacle",
+        "direct": False,
+    }
+    assert not diagnose_selection("DEĞİL(Ev İki Yarıda Gol)", 0.74, strong_home, for_coupon=True).ok
+    weak_home = {**strong_home, "mu_home": 1.15}
+    assert diagnose_selection("DEĞİL(Ev İki Yarıda Gol)", 0.74, weak_home, for_coupon=True).ok
+
+
+def test_dep_15_over_requires_direct_or_dominant_xg_and_cs1x_blocks_strong_away():
+    # Türetilmiş Dep 1.5 Üst mu_a=2.02 iken reddedilir, direct=True veya mu_a>=2.15 iken geçer
+    derived_weak = {
+        "name": "Dep 1.5 Üst",
+        "p": 0.72,
+        "odds": 1.30,
+        "mu_home": 1.10,
+        "mu_away": 2.02,
+        "reference": "Pinnacle",
+        "direct": False,
+        "league": "Belçika Pro Lig",
+    }
+    assert not diagnose_selection("Dep 1.5 Üst", 0.72, derived_weak, for_coupon=True).ok
+    direct_ok = {**derived_weak, "direct": True}
+    d_ok = diagnose_selection("Dep 1.5 Üst", 0.72, direct_ok, for_coupon=True)
+    assert d_ok.ok and d_ok.rehabilitated
+
+    # ÇŞ 1X güçlü deplasmana karşı reddedilir
+    cs1x_bad = {
+        "name": "ÇŞ 1X",
+        "p": 0.72,
+        "odds": 1.28,
+        "mu_home": 1.35,
+        "mu_away": 1.45,
+        "p2": 0.40,
+        "reference": "Pinnacle",
+        "direct": True,
+        "league": "İtalya Serie A",
+    }
+    assert not diagnose_selection("ÇŞ 1X", 0.72, cs1x_bad, for_coupon=True).ok
+
+

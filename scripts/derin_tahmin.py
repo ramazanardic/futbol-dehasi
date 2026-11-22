@@ -48,7 +48,9 @@ def candidates(m: dict, n: int, calibration: dict | None = None) -> list[dict]:
     if min_p is None:
         return []
     cal = calibration if calibration is not None else _calibration()
-    sels = [(s, calibrated_probability(s["fair_prob"], True, cal)) for s in m.get("selections") or [] if s.get("direct")]
+    _NOISE_MARKETS = {"Tek", "Çift", "İY Tek", "İY Çift", "2Y Tek", "2Y Çift"}
+    sels = [(s, calibrated_probability(s["fair_prob"], True, cal)) for s in m.get("selections") or []
+            if s.get("direct") and s.get("name") not in _NOISE_MARKETS]
     sels = sorted([x for x in sels if x[0]["odds"] >= MIN_ODDS and x[1] >= min_p], key=lambda x: -(x[1] * x[0]["odds"]))
     return [{"name": s["name"], "label": f"{s['market']}: {s['selection']}", "market": s["market"], "selection": s["selection"],
              "p": p, "odds": s["odds"], "ev": round(p * s["odds"] - 1.0, 4), "coupons": []} for s, p in sels[:n]]

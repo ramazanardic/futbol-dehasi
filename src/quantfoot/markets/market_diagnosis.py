@@ -222,22 +222,31 @@ def diagnose_selection(
 
     rehabilitated = False
 
+    # ------------------------------------------------------------------ 0. Tek/Çift (Parite Gürültüsü — İY Çift dahil!)
+    # Not: market_family("İY Çift") "İlk yarı" döndürdüğü için aileye değil isme göre en başta yakalanır!
+    if family == "Tek/Çift" or cname in ("Tek", "Çift", "İY Tek", "İY Çift", "2Y Tek", "2Y Çift"):
+        # 22 Kas: İY Çift 26/58 (%44,8 vs P %56,4 = -11,6p); parite pazarları yüksek varyanslı gürültüdür
+        p_adj = max(0.0, p_adj - 0.06)
+        reasons.append(f"{cname}: Tek/Çift yüksek varyanslı parite gürültüsüdür (22 Kas: İY Çift %44,8 vs P %56,4, -11,6p)")
+
     # ------------------------------------------------------------------ 1. Karşılıklı Gol (KG Var / KG Yok)
-    if family == "Karşılıklı gol":
+    elif family == "Karşılıklı gol":
         if not sharp:
             reasons.append("KG ailesinde keskin referans zorunlu (21 Kas: orta bürolarda KG Yok %45,7'de kaldı)")
         if cname == "KG Var":
-            if min_mu is not None and min_mu < 1.05:
-                reasons.append(f"KG Var tek taraflı xG tuzağı: zayıf taraf xG {min_mu:.2f} < 1.05 (21 Kas: <0.90'da %25 tuttu)")
+            if min_mu is not None and min_mu < 1.12:
+                reasons.append(f"KG Var tek taraflı xG tuzağı: zayıf taraf xG {min_mu:.2f} < 1.12 (21-22 Kas: dengesiz maçta çöküyor)")
+            if mu_tot is not None and mu_tot < 2.75:
+                reasons.append(f"KG Var düşük toplam gol riski: toplam xG {mu_tot:.2f} < 2.75")
             if h_sc_out or a_sc_out:
                 reasons.append("KG Var riskli: takımlardan birinin 1. golcüsü eksik")
             if (h_gf is not None and h_gf < 1.05) or (a_gf is not None and a_gf < 1.05):
                 reasons.append("KG Var riskli: takımlardan birinin maç başı gol ortalaması < 1.05")
             if lg_tier in ("2", "other") and not direct and (min_side is None or min_side < 0.60):
                 reasons.append("KG Var 2. kademe/diğer ligde doğrudan borsa kotasyonu veya ≥%60 çift taraflı geçmiş şart")
-            if not reasons and (direct or (min_mu is not None and min_mu >= 1.10)) and (min_side is None or min_side >= 0.58):
+            if not reasons and (min_mu is not None and min_mu >= 1.12) and (mu_tot is None or mu_tot >= 2.75) and (min_side is None or min_side >= 0.60):
                 rehabilitated = True
-                strengths.append("KG Var rehabilite: dengeli çift taraflı xG (≥1.10) ve geçmiş uyumlu")
+                strengths.append("KG Var rehabilite: dengeli çift taraflı xG (≥1.12), tempo ≥2.75 ve geçmiş uyumlu")
         elif cname == "KG Yok":
             if mu_tot is not None and mu_tot > 2.45:
                 reasons.append(f"KG Yok yüksek toplam gol tuzağı: toplam xG {mu_tot:.2f} > 2.45 (fark maçlarında teselli golü riski)")
@@ -259,57 +268,84 @@ def diagnose_selection(
         my_gf = h_gf if is_home_team else a_gf
         opp_ga = a_ga if is_home_team else h_ga
         my_s1 = h_s1 if is_home_team else a_s1
+        opp_c1 = a_c1 if is_home_team else h_c1
+        is_half_team_market = (" İY " in cname) or (" 2Y " in cname)
 
-        if cname == "Ev İY 0.5 Üst":
-            # 21 Kas: 39/90 (%43.3 vs P %60.5, -17.2p) — her kademede ağır negatif; yalnız çok yüksek 1Y gol profilinde
+        if cname in ("Ev İY 0.5 Üst", "Dep İY 0.5 Üst"):
+            # 21 Kas Ev İY 0.5 Üst: %43,3 (-17,2p); 22 Kas Dep İY 0.5 Üst: %37,5 (-21,5p, kuponda 0/4).
+            # Deplasman takımları gollerinin yalnız ~%41,7'sini 1. yarıda atıyor; asla tam-maç kuralına düşmemeli!
             p_adj = max(0.0, p_adj - 0.08)
-            if h_s1 is None or h_s1 < 0.70 or a_c1 is None or a_c1 < 0.60 or (mu_h is not None and mu_h < 1.90):
-                reasons.append("Ev İY 0.5 Üst kapanan savunma tuzağı (21 Kas: %43,3 tuttu, -17,2p sapma)")
-            elif not my_sc_out and sharp:
+            need_mu_1h = 1.90 if is_home_team else 1.95
+            need_s1 = 0.70 if is_home_team else 0.68
+            need_c1 = 0.60 if is_home_team else 0.58
+            if lg_tier == "3":
+                reasons.append(f"{cname}: alt/genç/kadın liglerinde ilk yarı takım golü varyansı aşırı yüksek")
+            if my_s1 is None or my_s1 < need_s1 or opp_c1 is None or opp_c1 < need_c1 or (team_mu is not None and team_mu < need_mu_1h):
+                reasons.append(f"{cname} ilk yarı düşük blok / geç açılma tuzağı (21-22 Kas: -17p ila -21p sapma)")
+            elif my_sc_out or not sharp:
+                reasons.append(f"{cname}: keskin referans ve 1. golcünün kadroda olması şart")
+            elif not reasons:
                 rehabilitated = True
-                strengths.append("Ev İY 0.5 Üst rehabilite: ev İY gol ≥%70 ve dep İY gol yeme ≥%60")
-        elif "İY 0.5 Alt" in cname:
-            # Dep İY 0.5 Alt / Ev İY 0.5 Alt: yalnız karşı takımın xG'si < 0.85, yetişkin lig ve kaleci tam ise kalibre (%68.6)
+                strengths.append(f"{cname} rehabilite: 1Y gol ≥%{int(100*need_s1)} ve rakip 1Y gol yeme ≥%{int(100*need_c1)}")
+        elif " İY 0.5 Alt" in cname:
+            # Dep İY 0.5 Alt / Ev İY 0.5 Alt: yalnız karşı takımın xG'si < 0.88, yetişkin keskin lig ve kaleci tam ise kalibre
+            # (21 Kas: %68,6; 22 Kas rehabilite Dep İY 0.5 Alt: 7/10 = %70,0, +0,7p)
             if not sharp:
                 reasons.append(f"{cname}: orta büroda %44,4'te kaldı, keskin referans şart")
             if lg_tier == "3":
                 reasons.append(f"{cname}: alt/genç/kadın liglerinde %39,1'de kaldı (erken gol varyansı yüksek)")
-            if team_mu is not None and team_mu >= 0.88:
-                reasons.append(f"{cname}: takımın maç gol beklentisi {team_mu:.2f} ≥ 0.88 (dengeli maçta %42,2'ye düşüyor)")
+            mu_cap = 0.88 if lg_tier in ("1", "2", None) else 0.80
+            if team_mu is not None and team_mu >= mu_cap:
+                reasons.append(f"{cname}: takımın maç gol beklentisi {team_mu:.2f} ≥ {mu_cap:.2f} (dengeli maçta %42,2'ye düşüyor)")
             if my_s1 is not None and my_s1 >= 0.42:
                 reasons.append(f"{cname}: takım son maçlarının %{100 * my_s1:.0f}'inde ilk yarı gol attı")
             if opp_gk_out:
                 reasons.append(f"{cname}: savunan takımın 1. kalecisi eksik")
-            if not reasons and sharp and lg_tier in ("1", "2", "other", None) and (team_mu is not None and team_mu < 0.88):
+            if not reasons and sharp and lg_tier in ("1", "2", "other", None) and (team_mu is not None and team_mu < mu_cap):
                 rehabilitated = True
-                strengths.append(f"{cname} rehabilite: düşük rakip xG ({team_mu:.2f} < 0.88) + keskin referans")
+                strengths.append(f"{cname} rehabilite: düşük rakip xG ({team_mu:.2f} < {mu_cap:.2f}) + keskin referans")
+        elif is_half_team_market:
+            # Ev/Dep 2Y ... veya İY 1.5 ... gibi diğer takım-yarı pazarları yüksek varyanslı; tam-maç dalına düşmez
+            p_adj = max(0.0, p_adj - 0.05)
+            reasons.append(f"{cname}: takım yarı-bazlı türev pazar (yüksek varyans, kupon rehabilitasyonu kapalı)")
         elif cname.endswith("1.5 Alt"):
+            # 22 Kas: Dep 1.5 Alt %66,3 (+3,6p), Ev 1.5 Alt %64,4 (+2,6p) — kaleci sağlam + xG < 1.12 iken güçlü
             if not sharp:
                 reasons.append(f"{cname}: keskin referans şart")
-            if team_mu is not None and team_mu >= 1.05:
-                reasons.append(f"{cname}: takım gol beklentisi {team_mu:.2f} ≥ 1.05 (2+ gol sürpriz riski yüksek)")
-            if my_gf is not None and my_gf >= 1.40:
+            if team_mu is not None and team_mu >= 1.12:
+                reasons.append(f"{cname}: takım gol beklentisi {team_mu:.2f} ≥ 1.12 (2+ gol sürpriz riski yüksek)")
+            if my_gf is not None and my_gf >= 1.45:
                 reasons.append(f"{cname}: takım maç başı {my_gf:.2f} gol atıyor")
             if opp_gk_out:
                 reasons.append(f"{cname}: savunan takımın 1. kalecisi eksik")
             if is_home_team is False and lg_tier == "other" and (min_side is None or min_side < 0.68):
                 reasons.append("Dep 1.5 Alt 'diğer' lig kademesinde %50,8'de kaldı; çift taraflı ≥%68 geçmiş şart")
-            if not reasons and sharp and (team_mu is not None and team_mu < 1.05) and (min_side is None or min_side >= 0.65):
+            if not reasons and sharp and (team_mu is not None and team_mu < 1.12) and (min_side is None or min_side >= 0.65):
                 rehabilitated = True
-                strengths.append(f"{cname} rehabilite: takım xG {team_mu:.2f} < 1.05 ve geçmiş uyumlu")
+                strengths.append(f"{cname} rehabilite: takım xG {team_mu:.2f} < 1.12 ve geçmiş uyumlu")
         elif cname.endswith("2.5 Alt"):
-            # Ev 2.5 Alt (%75.0) ve Dep 2.5 Alt (%75.0 / P>=65%'te 8/8 %100): ailenin en sağlam dilimi!
-            if team_mu is not None and team_mu >= 1.55:
-                reasons.append(f"{cname}: takım gol beklentisi {team_mu:.2f} ≥ 1.55")
+            # Ev 2.5 Alt (21 Kas %75,0; 22 Kas 16/21 = %76,2) ve Dep 2.5 Alt (%75+): ailenin en sağlam dilimi!
+            if team_mu is not None and team_mu >= 1.68:
+                reasons.append(f"{cname}: takım gol beklentisi {team_mu:.2f} ≥ 1.68")
             if opp_gk_out:
                 reasons.append(f"{cname}: savunan takımın 1. kalecisi eksik")
-            if not reasons and sharp and (team_mu is None or team_mu < 1.55):
+            if not reasons and sharp and (team_mu is None or team_mu < 1.68):
                 rehabilitated = True
-                strengths.append(f"{cname} rehabilite: 21 Kas denetiminde %75+ isabetli güvenli dilim")
+                strengths.append(f"{cname} rehabilite: 21-22 Kas denetiminde %75+ isabetli güvenli dilim")
         elif cname.endswith(("0.5 Üst", "1.5 Üst")):
-            need_mu = 1.25 if cname.endswith("0.5 Üst") else 1.85
+            # Yalnız TAM MAÇ takım gol üstleri (İY/2Y yukarıda ayrıldı)
+            if cname.endswith("0.5 Üst"):
+                need_mu = 1.25
+            else:
+                # 22 Kas: Ev 1.5 Üst rehabilite 12/19 (%63,2, +3,3p), Dep 1.5 Üst 8/15 (%53,3, -7,3p) → Dep eşiği 2.00
+                need_mu = 1.85 if is_home_team else 2.00
             if not sharp:
                 reasons.append(f"{cname}: keskin referans şart")
+            if not is_home_team and cname.endswith("1.5 Üst"):
+                if lg_tier == "3":
+                    reasons.append("Dep 1.5 Üst: alt/genç/kadın liglerinde deplasman 2+ gol varyansı yüksek")
+                if not direct and (team_mu is None or team_mu < 2.15):
+                    reasons.append("Dep 1.5 Üst: doğrudan borsa fiyatı yoksa deplasman xG ≥ 2.15 şart (22 Kas: türetilmiş Dep 1.5 Üst %44,4)")
             if my_sc_out:
                 reasons.append(f"{cname}: gol beklenen takımın 1. golcüsü eksik")
             if team_mu is not None and team_mu < need_mu:
@@ -365,10 +401,17 @@ def diagnose_selection(
                 reasons.append(f"{cname}: desteklenen tarafın 1. kalecisi veya gol kralı eksik")
             if cname in ("ÇŞ X2", "Hnd(-1) 2"):
                 # 21 Kas: p_draw < 0.25 veya mu_tot >= 2.8 iken Hnd(-1) 2 / ÇŞ X2 %42–%51'e çöktü
+                # 22 Kas: engellenen ÇŞ X2 %45,2 (-16p), rehabilite edilen ÇŞ X2 6/8 (%75,0, +9,2p)!
                 if p1 is not None and p1 >= 0.42:
                     reasons.append(f"{cname}: ev sahibi güçlü ({p1:.2f} ≥ 0.42), deplasman çifte şans %42,3'e düşüyor")
                 if mu_tot is not None and mu_tot >= 2.80 and cname == "Hnd(-1) 2":
                     reasons.append(f"{cname}: yüksek gollü maçta ({mu_tot:.2f} ≥ 2.80) +1 handikap %51,0'da kaldı")
+            if cname == "ÇŞ 1X":
+                # 22 Kas: rehabilite ÇŞ 1X 2/5 (%40,0) — güçlü deplasmana karşı ev çifte şans tuzağı
+                if p2 is not None and p2 >= 0.36:
+                    reasons.append(f"ÇŞ 1X: deplasman güçlü ({p2:.2f} ≥ 0.36), ev çifte şansı kırılgan")
+                if mu_a is not None and mu_a >= 1.30:
+                    reasons.append(f"ÇŞ 1X: deplasman gol beklentisi yüksek ({mu_a:.2f} ≥ 1.30)")
             if lg_tier in ("2", "other") and not direct and cname != "Hnd(-2) 2" and (min_side is None or min_side < 0.70):
                 reasons.append(f"{cname}: 2. kademe/diğer ligde doğrudan borsa kotasyonu veya ≥%70 çift taraflı geçmiş şart")
             if not reasons and sharp and (direct or lg_tier == "1" or cname in ("Hnd(+1) 1", "Hnd(-2) 2")) and (min_side is None or min_side >= 0.68):
@@ -413,6 +456,31 @@ def diagnose_selection(
                 reasons.append("Ev En Az Bir Yarıyı Kazanır gizli tuzak dilimi (21 Kas: %48,1 tuttu; net xG farkı ≥ 1.10 şart)")
             if h_sc_out or h_gk_out:
                 reasons.append("Ev En Az Bir Yarıyı Kazanır: ev sahibinde kaleci/golcü eksik")
+        elif cname == "Dep En Az Bir Yarıyı Kazanır":
+            p_adj = max(0.0, p_adj - 0.05)
+            if p_draw is not None and p_draw >= 0.23:
+                reasons.append("Dep En Az Bir Yarıyı Kazanır beraberlik tuzağı (P(X) ≥ 0.23)")
+            if mu_h is None or mu_a is None or (mu_a - mu_h) < 1.10:
+                reasons.append("Dep En Az Bir Yarıyı Kazanır için net deplasman xG farkı ≥ 1.10 şart")
+            if a_sc_out or a_gk_out:
+                reasons.append("Dep En Az Bir Yarıyı Kazanır: deplasmanda kaleci/golcü eksik")
+        elif cname == "DEĞİL(Ev İki Yarıda Gol)":
+            # 22 Kas: 16/32 (%50,0 vs P %64,8 = -14,8p) — güçlü ev sahibine (mu_h ≥ 1.75) karşı atamaz almak tuzak!
+            if mu_h is not None and mu_h >= 1.75:
+                p_adj = max(0.0, p_adj - 0.06)
+                reasons.append(f"DEĞİL(Ev İki Yarıda Gol) güçlü ev hücum tuzağı: ev xG {mu_h:.2f} ≥ 1.75 (22 Kas: %50,0 tuttu, -14,8p)")
+            if h_gf is not None and h_gf >= 1.85:
+                reasons.append(f"DEĞİL(Ev İki Yarıda Gol): ev sahibi maç başı {h_gf:.2f} gol atıyor")
+            if a_gk_out:
+                reasons.append("DEĞİL(Ev İki Yarıda Gol): deplasman 1. kalecisi eksik")
+        elif cname == "DEĞİL(Dep İki Yarıda Gol)":
+            if mu_a is not None and mu_a >= 1.65:
+                p_adj = max(0.0, p_adj - 0.05)
+                reasons.append(f"DEĞİL(Dep İki Yarıda Gol) güçlü deplasman hücum tuzağı: dep xG {mu_a:.2f} ≥ 1.65")
+            if a_gf is not None and a_gf >= 1.75:
+                reasons.append(f"DEĞİL(Dep İki Yarıda Gol): deplasman maç başı {a_gf:.2f} gol atıyor")
+            if h_gk_out:
+                reasons.append("DEĞİL(Dep İki Yarıda Gol): ev sahibi 1. kalecisi eksik")
 
     elif family == "Alt/Üst":
         if cname == "2.5 Üst":
@@ -423,8 +491,9 @@ def diagnose_selection(
             if h_sc_out and a_sc_out:
                 reasons.append("2.5 Üst riskli: iki takımın da golcüsü eksik")
         elif cname == "3.5 Alt":
-            if mu_tot is not None and mu_tot > 2.90:
-                reasons.append(f"3.5 Alt yüksek gol beklentisi tuzağı: toplam xG {mu_tot:.2f} > 2.90")
+            # 21 Kas %69,7 (+6,8p), 22 Kas %68,4 (+6,2p) — 2.90 eşiği gereksiz çok iyi bacağı eliyordu; 3.10 dengeli tavan
+            if mu_tot is not None and mu_tot > 3.10:
+                reasons.append(f"3.5 Alt yüksek gol beklentisi tuzağı: toplam xG {mu_tot:.2f} > 3.10")
             if h_gk_out or a_gk_out:
                 reasons.append("3.5 Alt riskli: 1. kaleci eksik (4+ gol patlama riski)")
         elif cname == "2.5 Alt":
@@ -443,6 +512,11 @@ def diagnose_selection(
                 reasons.append(f"{cname} kısır maç 0-0/1-1 tuzağı (toplam xG {mu_tot:.2f} < 2.25, fark < 1.00)")
             if (h_gk_out if backing_home else a_gk_out) or (h_sc_out if backing_home else a_sc_out):
                 reasons.append(f"{cname}: favori takımda 1. kaleci veya gol kralı eksik")
+
+    # Alt/genç/kadın liglerinde (tier 3) türetilmiş + yüksek-P (≥%70) aşırı iyimserlik koruması
+    # (yetişkin liglerde bant kırpması coupon_rules.calibrate_p ile uygulanır, çift sayım yapılmaz).
+    if for_coupon and not direct and float(p or 0.0) >= 0.70 and lg_tier == "3":
+        p_adj = max(0.0, p_adj - 0.025)
 
     p_base = float(p or 0.0)
     final_p_adj = round(min(1.0, max(0.0, p_adj)), 5)

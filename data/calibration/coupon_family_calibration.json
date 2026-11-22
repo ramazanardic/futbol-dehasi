@@ -103,6 +103,8 @@
     {"pattern": "^ÇŞ X2$", "n": 87, "hit_rate": 0.5747, "mean_p": 0.631, "residual": -0.0563},
     {"pattern": "^Hnd\\(\\+1\\) 1$", "n": 100, "hit_rate": 0.610, "mean_p": 0.607, "residual": 0.003},
     {"pattern": "^Hnd\\(-2\\) 2$", "n": 25, "hit_rate": 0.640, "mean_p": 0.624, "residual": 0.016},
-    {"pattern": "^Hnd\\(-1\\) 2$", "n": 112, "hit_rate": 0.5536, "mean_p": 0.610, "residual": -0.0564}
+    {"pattern": "^Hnd\\(-1\\) 2$", "n": 112, "hit_rate": 0.5536, "mean_p": 0.610, "residual": -0.0564},
+    {"pattern": "^Dep İY 0\\.5 Üst$", "n": 24, "hit_rate": 0.375, "mean_p": 0.590, "residual": -0.215, "note": "22 Kas denetimi: deplasman 1Y gol payı %41.7; model ağır iyimser"},
+    {"pattern": "^İY Çift$", "n": 58, "hit_rate": 0.4483, "mean_p": 0.564, "residual": -0.1157, "note": "22 Kas denetimi: parite gürültüsü, yüksek negatif sapma"}
   ]
 }

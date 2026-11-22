@@ -44,6 +44,10 @@ from quantfoot.markets.goal_markets import goal_probability  # noqa: E402
 
 HT_SHARE = 0.44        # first-half share of goals (184k matches in the repo's archive, docs/markets.md)
 HT_PRIOR = 20.0        # goals of prior weight when a match's own first-half share is estimated
+AWAY_HT_DELTA = -0.015 # 22 Nov audit: away 1H goal share (%41.7) lags home (%43.5) by ~1.5-1.8 pts
+SIM_KAPPA = 0.030      # shared Gamma match-tempo variance (matches halves_btts 184k-match archive calibration)
+HOME_ADV_FORM = 1.08   # home/away multiplier when form gf/ga is pooled across venues
+AWAY_ADV_FORM = 0.92
 ABSENCE = 0.08
 FLOOR, MAX_GAP = 0.55, 0.05
 G = 9                  # goals per team per half kept in the joint grid
@@ -62,22 +66,55 @@ def half_share(row: dict) -> float:
     return (g1 + HT_SHARE * HT_PRIOR) / (gt + HT_PRIOR)
 
 
-def rates(row: dict, m: dict, league: dict | None = None) -> tuple[float | None, float | None, list[str]]:
+def _venue_adjusted_form(row: dict, th: dict, ta: dict) -> tuple[float, float]:
+    """Form xG with home-advantage adjustment (prevents pooled gf/ga from flattening strong home favourites)."""
+    raw_fh = (th["gf"] + ta["ga"]) / 2.0
+    raw_fa = (ta["gf"] + th["ga"]) / 2.0
+    # Use venue-specific games when at least 4 home games for home team and 4 away games for away team exist
+    games = row.get("games") or {}
+    hg = [g for g in (games.get("home") or []) if g.get("side") == "home" and g.get("for") and g.get("against")]
+    ag = [g for g in (games.get("away") or []) if g.get("side") == "away" and g.get("for") and g.get("against")]
+    if len(hg) >= 4 and len(ag) >= 4:
+        def _ft_tot(pair):
+            return (pair[0] or 0) + (pair[1] or 0)
+        h_gf = sum(_ft_tot(g["for"]) for g in hg) / len(hg)
+        h_ga = sum(_ft_tot(g["against"]) for g in hg) / len(hg)
+        a_gf = sum(_ft_tot(g["for"]) for g in ag) / len(ag)
+        a_ga = sum(_ft_tot(g["against"]) for g in ag) / len(ag)
+        vh, va = (h_gf + a_ga) / 2.0, (a_gf + h_ga) / 2.0
+        # Blend 50% venue-specific + 50% home-advantage-scaled overall form to control small-sample noise
+        return 0.5 * vh + 0.5 * (raw_fh * HOME_ADV_FORM), 0.5 * va + 0.5 * (raw_fa * AWAY_ADV_FORM)
+    return raw_fh * HOME_ADV_FORM, raw_fa * AWAY_ADV_FORM
+
+
+def rates(row: dict, m: dict, league: dict | None = None, *, home_adv: bool = False) -> tuple[float | None, float | None, list[str]]:
     """Expected goals (home, away) WITHOUT the market (21 Nov: the market is one of the views, so the simulation must
     not lean on it): the league model's xG and the teams' own form, averaged when both exist, then the absences.
-    (None, None) when neither exists — the simulation then gives no independent view."""
-    why, views = [], []
+    (None, None) when neither exists — the simulation then gives no independent view.
+
+    When ``home_adv=True`` (production runs), pooled form gf/ga is adjusted for home advantage / venue splits
+    and the league Dixon-Coles model gets 60 % weight when both views exist (22 Nov audit: raw pooled form
+    flattened favourites and produced false 'çelişki' flags on winning MS/Over picks).
+    """
+    why, views, weights = [], [], []
     if league:
         views.append(tuple(league["xg"]))
+        weights.append(0.60 if home_adv else 1.0)
         why.append(f"lig modeli xG {league['xg'][0]:.2f}-{league['xg'][1]:.2f}")
     th, ta = (row.get("teams") or {}).get("home") or {}, (row.get("teams") or {}).get("away") or {}
     if th.get("gf") is not None and ta.get("gf") is not None and th.get("n", 0) >= 6 and ta.get("n", 0) >= 6:
-        fh, fa = (th["gf"] + ta["ga"]) / 2, (ta["gf"] + th["ga"]) / 2
+        if home_adv:
+            fh, fa = _venue_adjusted_form(row, th, ta)
+        else:
+            fh, fa = (th["gf"] + ta["ga"]) / 2, (ta["gf"] + th["ga"]) / 2
         views.append((fh, fa))
+        weights.append(0.40 if home_adv else 1.0)
         why.append(f"form xG {fh:.2f}-{fa:.2f}")
     if not views:
         return None, None, ["bağımsız veri yok (yalnız piyasa)"]
-    mh, ma = sum(v[0] for v in views) / len(views), sum(v[1] for v in views) / len(views)
+    w_sum = sum(weights)
+    mh = sum(w * v[0] for w, v in zip(weights, views)) / w_sum
+    ma = sum(w * v[1] for w, v in zip(weights, views)) / w_sum
     flags = " ".join((m.get("research") or {}).get("flags") or []) + " " + " ".join(row.get("flags") or [])
     for side, me in (("home", "Ev"), ("away", "Dep")):
         t = th if side == "home" else ta
@@ -90,11 +127,32 @@ def rates(row: dict, m: dict, league: dict | None = None) -> tuple[float | None,
     return mh, ma, why
 
 
-def simulate(mh: float, ma: float, n: int, seed: int, share: float = HT_SHARE) -> tuple[np.ndarray, dict]:
-    """Joint (h1, a1, h2, a2) distribution from n simulated matches, and the most common final scores."""
+def simulate(
+    mh: float,
+    ma: float,
+    n: int,
+    seed: int,
+    share: float = HT_SHARE,
+    *,
+    kappa: float = 0.0,
+    away_share_delta: float = 0.0,
+) -> tuple[np.ndarray, dict]:
+    """Joint (h1, a1, h2, a2) distribution from n simulated matches, and the most common final scores.
+
+    Optional ``kappa`` adds shared Gamma match-tempo overdispersion (mean 1, variance ``kappa``) so both
+    low-scoring (0-0) and high-scoring (6+ Gol) tails are realistic. Optional ``away_share_delta``
+    captures away teams' empirically lower 1H goal share (~1.5 pts lower than home).
+    """
     rng = np.random.default_rng(seed)
-    h1, a1 = rng.poisson(mh * share, n), rng.poisson(ma * share, n)
-    h2, a2 = rng.poisson(mh * (1 - share), n), rng.poisson(ma * (1 - share), n)
+    s_h = float(np.clip(share, 0.30, 0.55))
+    s_a = float(np.clip(share + away_share_delta, 0.28, 0.55))
+    if kappa > 1e-6:
+        tempo = rng.gamma(1.0 / kappa, kappa, n)
+        mh_arr, ma_arr = mh * tempo, ma * tempo
+    else:
+        mh_arr, ma_arr = mh, ma
+    h1, a1 = rng.poisson(mh_arr * s_h, n), rng.poisson(ma_arr * s_a, n)
+    h2, a2 = rng.poisson(mh_arr * (1.0 - s_h), n), rng.poisson(ma_arr * (1.0 - s_a), n)
     c = lambda x: np.minimum(x, G - 1)  # noqa: E731
     joint = np.zeros((G, G, G, G))
     np.add.at(joint, (c(h1), c(a1), c(h2), c(a2)), 1.0)
@@ -117,11 +175,16 @@ def history(leg: dict) -> float | None:
     return sum(vals) / len(vals) if vals else None
 
 
-def judge(market: float, sim: float | None, hist: float | None) -> tuple[str, float]:
+def judge(market: float, sim: float | None, hist: float | None, *, min_side: float | None = None) -> tuple[str, float]:
     views = [v for v in (market, sim, hist) if v is not None]
     low = min(views)
     if sim is None or hist is None:
         return "eksik kanıt", low
+    if min_side is not None and min_side < 0.45:
+        low = min(low, min_side)
+        if min_side < market - 0.22:
+            return "çelişki", low
+        return "kısmi onay", low
     if min(market, sim, hist) >= FLOOR and sim >= market - MAX_GAP and hist >= market - MAX_GAP:
         return "üçlü onay", low
     if sim < market - 0.10 or hist < market - 0.15:
@@ -153,10 +216,16 @@ def run(date: str, n: int) -> list[dict]:
         if not m or dt.datetime.fromisoformat(m["kickoff_iso"]) <= now or not row.get("legs"):
             continue
         dc = dc_model.match_view(m)
-        mh, ma, why = rates(row, m, dc[1] if dc else None)
+        mh, ma, why = rates(row, m, dc[1] if dc else None, home_adv=True)
         share = half_share(row)
-        joint, top = simulate(mh, ma, n, seed=int(row["code"]) % 2**32, share=share) if mh is not None else (None, {})
-        why.append(f"ilk yarı gol payı %{100 * share:.0f}")
+        joint, top = (
+            simulate(
+                mh, ma, n, seed=int(row["code"]) % 2**32, share=share,
+                kappa=SIM_KAPPA, away_share_delta=AWAY_HT_DELTA,
+            )
+            if mh is not None else (None, {})
+        )
+        why.append(f"ilk yarı gol payı %{100 * share:.0f} (dep {100 * AWAY_HT_DELTA:+.1f}p, κ={SIM_KAPPA:.2f})")
         elo = elo_gorus.match_view(m)
         bets = []
         for x in row["legs"]:
@@ -165,7 +234,10 @@ def run(date: str, n: int) -> list[dict]:
             except (KeyError, ValueError):
                 sim = None
             hist = history(x)
-            verdict, low = judge(x["p"], sim, hist)
+            side_vals = [v for v, cnt in ((x.get("home_rate"), x.get("home_n") or 0), (x.get("away_rate"), x.get("away_n") or 0))
+                         if v is not None and cnt >= 5]
+            min_side = min(side_vals) if len(side_vals) == 2 else None
+            verdict, low = judge(x["p"], sim, hist, min_side=min_side)
             dcp = dc_model.bet_probability(x["name"], dc[0]) if dc else None
             verdict, low = with_model(verdict, low, x["p"], dcp)
             elp = (elo or {}).get(x["name"])

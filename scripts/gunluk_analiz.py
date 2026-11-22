@@ -98,11 +98,13 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
         return None, reason
     calibration = load_market_calibration()
     res = m.get("research") or {}
+    teams = res.get("teams") or {}
     tm = res.get("tm_absences") or {}
     ua = res.get("user_absences") or {}
     has_diag_ctx = (
         m.get("mu_home") is not None
         or m.get("mu_away") is not None
+        or bool(teams)
         or bool(tm)
         or bool(ua)
     )
@@ -112,6 +114,7 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
         name = selection["name"]
         direct = bool(selection.get("direct"))
         if ("Skor" in name or name.startswith("İki Yarıda") or (not direct and name.startswith(EXCLUDED_MODEL))
+                or name in ("Tek", "Çift", "İY Tek", "İY Çift", "2Y Tek", "2Y Çift")
                 or selection["odds"] < 1.20 or selection["ev"] > 0.25):
             continue
         p = calibrate_market_probability(name, selection["fair_prob"], m.get("league"), calibration, direct=direct)
@@ -125,10 +128,11 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
                 "reference": m.get("reference"),
                 "league": m.get("league"),
                 "direct": direct,
-                "home_gk1_out": bool((tm.get("home") or {}).get("gk1_out") or (ua.get("home") or {}).get("gk_out")),
-                "away_gk1_out": bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out")),
-                "home_top_scorer_out": bool((tm.get("home") or {}).get("top_scorer_out")),
-                "away_top_scorer_out": bool((tm.get("away") or {}).get("top_scorer_out")),
+                "teams": teams,
+                "home_gk1_out": bool((tm.get("home") or {}).get("gk1_out") or (ua.get("home") or {}).get("gk_out") or (teams.get("home") or {}).get("gk1_out")),
+                "away_gk1_out": bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out") or (teams.get("away") or {}).get("gk1_out")),
+                "home_top_scorer_out": bool((tm.get("home") or {}).get("top_scorer_out") or (teams.get("home") or {}).get("top_scorer_out")),
+                "away_top_scorer_out": bool((tm.get("away") or {}).get("top_scorer_out") or (teams.get("away") or {}).get("top_scorer_out")),
             }
             diag = diagnose_selection(name, p, diag_ctx, for_coupon=False)
             diag_ok = bool(diag.ok)
@@ -139,7 +143,9 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
             eligible.append({**selection, "fair_prob": p, "fair_odds": 1 / p, "ev": ev, "_diag_ok": diag_ok})
     if not eligible:
         return None, ("orta güven — %62+ uygun seçim yok" if reason else "1,20+ uygun seçim yok")
-    best = max(eligible, key=lambda s: (bool(s.get("_diag_ok", True)), s["fair_prob"], s["odds"]))
+    # 22 Kas denetimi: doğrudan borsa kotasyonları (direct=True) türetilmiş model fiyatlarından her bantta
+    # +2 ila +7 puan daha kalibre; fair_prob'u değiştirmeden sıralamada +1.5p öncelik ver.
+    best = max(eligible, key=lambda s: (bool(s.get("_diag_ok", True)), s["fair_prob"] + (0.015 if s.get("direct") else 0.0), s["odds"]))
     out_pick = {k: v for k, v in best.items() if k != "_diag_ok"}
     return out_pick, reason
 
