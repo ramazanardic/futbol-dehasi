@@ -72,6 +72,7 @@ class MatchRiskContext:
     is_knockout: bool = False               # Single-leg cup / playoff (90' extra-time & penalty draw trap)
     has_ou_market: bool = True              # False when only 1X2 exists without a live O/U total-goals anchor
     btts_market_prob: float | None = None   # Devigged 2-way market P(KG Var) for blowout phantom-+EV check
+    btts_is_direct: bool = False            # True when KG Var/Yok comes from a direct sharp exchange quote
 
 
 @dataclass(frozen=True)
@@ -400,6 +401,25 @@ def audit_match_risks(
     if p_u25 < 0.62:
         penalties["2.5 Alt"] = min(penalties.get("2.5 Alt", 1.0), 0.86)
 
+    # 13. FIRST-HALF UNDER 1.5 (İY 1.5 ALT) HIGH-TEMPO LEAKAGE GUARD
+    # (Nov 22 forensic audit: n=56 predicted %63.8 vs realized %55.4 = -8.4p overconfidence; 41 high-xG matches
+    # leaked from blocked 3.5 Alt into İY 1.5 Alt and collapsed at %42.9-%58.5.)
+    if tot >= 2.40 or bundle.exp_1h_total >= 1.05 or max_mu >= 1.50:
+        blocked.setdefault(
+            "İY 1.5 Alt",
+            f"Yüksek Tempo İY 1.5 Alt Tuzağı (xG={tot:.2f}, 1Y xG={bundle.exp_1h_total:.2f}, max xG={max_mu:.2f}): "
+            "3.5 Alt bloke olan maçlarda İY 1.5 Alt'a kaçılmamalı (Nov 22: -8.4 puan aşırı özgüven).",
+        )
+
+    # 14. UNVERIFIED MODEL-BTTS OVERCONFIDENCE GUARD
+    # (Nov 22 forensic audit: direct=False Model KG Var >=67% went 4/10=%40.0 vs direct exchange %65.4;
+    # balanced gap<0.50 Model KG Var went 25/48=%52.1.)
+    if not ctx.btts_is_direct:
+        if p_btts_model >= 0.67:
+            penalties["KG Var"] = min(penalties.get("KG Var", 1.0), 0.82)
+        elif p_btts_model >= 0.65 or gap < 0.50:
+            penalties["KG Var"] = min(penalties.get("KG Var", 1.0), 0.88)
+
     return blocked, penalties
 
 
@@ -428,6 +448,7 @@ def select_best_valid_bet(
     mbs: int = 1,
     combo_min_prob: float = 0.46,
     require_prediction: bool = True,
+    direct_selections: frozenset[str] | set[str] | None = None,
 ) -> list[MarketRecommendation]:
     """Evaluate all markets for a fixture, enforce >= 1.20 odds & risk guards, and rank best valid options.
 
@@ -522,10 +543,17 @@ def select_best_valid_bet(
         fair = round(1.0 / max(prob, 1e-6), 2)
         ev = round(prob * off_odds - 1.0, 4)
         pen = penalties.get(sel, 1.0)
+        if direct_selections is not None:
+            is_direct = sel in direct_selections
+            p_sigma = 0.010 if is_direct else (0.032 if ("İY" in sel or "2Y" in sel) else 0.025)
+            eff_prob = max(0.001, prob - 1.28 * p_sigma)
+        else:
+            p_sigma = 0.0
+            eff_prob = prob
 
-        # Safety utility: prioritizes high hit probability while rewarding healthy odds (>=1.22) and low margin loss
+        # Safety utility: prioritizes high reliable hit probability while rewarding healthy odds (>=1.22) and low margin loss
         ev_factor = max(0.65, min(1.18, 1.0 + 0.45 * ev))
-        safety_score = round((prob ** 1.35) * pen * ev_factor * (1.0 + 0.08 * math.log(max(off_odds, 1.20))), 4)
+        safety_score = round((eff_prob ** 1.35) * pen * ev_factor * (1.0 + 0.08 * math.log(max(off_odds, 1.20))), 4)
 
         rationale = (
             f"Model Olasılığı %{prob*100:.1f} (Adil {fair:.2f}, Oran {off_odds:.2f}) | "
@@ -554,6 +582,7 @@ def select_best_valid_bet(
                 blocked_traps=trap_list[:3],
                 group_id=ctx.group_id,
                 mbs=max(1, int(mbs)),
+                prob_sigma=p_sigma,
             )
         )
 
@@ -630,9 +659,18 @@ def _category_share_ok(legs: tuple[MarketRecommendation, ...], max_share: float 
     if max_share is None or len(legs) < 3:
         return True
     counts: dict[str, int] = {}
+    sel_counts: dict[str, int] = {}
     for leg in legs:
         counts[leg.category] = counts.get(leg.category, 0) + 1
-    return (max(counts.values()) / len(legs)) <= float(max_share) + 1e-9
+        sel_counts[leg.selection] = sel_counts.get(leg.selection, 0) + 1
+    if (max(counts.values()) / len(legs)) > float(max_share) + 1e-9:
+        return False
+    # Never let a single exact selection (e.g. İY 1.5 Alt) dominate > 50% on 4-leg or > 45% on 5+ leg coupons
+    if len(legs) >= 4:
+        sel_cap = min(float(max_share), 0.45 if len(legs) >= 5 else 0.50)
+        if (max(sel_counts.values()) / len(legs)) > sel_cap + 1e-9:
+            return False
+    return True
 
 
 def _conflicting_selections(selection: str) -> frozenset[str]:
@@ -706,10 +744,19 @@ def build_target_odds_coupon(
             valid_opts.sort(key=lambda r: (r.safety_score, r.probability), reverse=True)
             best_safe = valid_opts[0]
             chosen_opts = [best_safe]
+            # Preserve up to 2 distinct alternative-category options so category/selection diversity stays feasible
+            if max_same_category_share is not None:
+                seen_cats = {best_safe.category}
+                for r in valid_opts[1:]:
+                    if r.category not in seen_cats:
+                        chosen_opts.append(r)
+                        seen_cats.add(r.category)
+                        if len(seen_cats) >= 3:
+                            break
             # Keep up to 3 Pareto options per match: safest, balanced mid-odds, and high-efficiency combo/odds
             higher_odds = [
                 r for r in valid_opts[1:]
-                if r.offered_odds >= best_safe.offered_odds + 0.06
+                if r not in chosen_opts and r.offered_odds >= best_safe.offered_odds + 0.06
             ]
             if higher_odds:
                 higher_odds.sort(key=lambda r: (r.offered_odds * (r.probability ** 1.15), r.safety_score), reverse=True)

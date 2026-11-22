@@ -445,3 +445,66 @@ def test_v8_universal_zero_pas_mode_and_layer12_penalties():
     assert recs[0].offered_odds >= 1.20
 
 
+def test_v81_ht_under15_guard_model_btts_penalty_and_selection_diversity():
+    from quantfoot.markets import compute_omni_markets
+    from quantfoot.strategy import (
+        MarketRecommendation,
+        MatchRiskContext,
+        audit_match_risks,
+        build_target_odds_coupon,
+        select_best_valid_bet,
+    )
+
+    # 1. Layer 13: High-tempo fixture (xG=2.75) blocks BOTH 3.5 Alt and İY 1.5 Alt (prevents leakage)
+    b_open = compute_omni_markets(1.55, 1.20, league="e0")
+    blk_open, pen_open = audit_match_risks(b_open, MatchRiskContext(btts_is_direct=False))
+    assert "3.5 Alt" in blk_open
+    assert "İY 1.5 Alt" in blk_open
+    # Layer 14: Balanced (gap=0.35 < 0.50) unverified model BTTS gets reliability penalty
+    assert pen_open.get("KG Var", 1.0) < 1.0
+
+    # True tight match (xG=2.05) still permits İY 1.5 Alt
+    b_tight = compute_omni_markets(1.10, 0.95, league="e0")
+    blk_tight, _ = audit_match_risks(b_tight, MatchRiskContext())
+    assert "İY 1.5 Alt" not in blk_tight
+
+    # 2. Direct exchange selections get lower sigma (higher reliable safety) than model derivatives
+    b_mid = compute_omni_markets(1.70, 1.30, league="e0")
+    recs = select_best_valid_bet(
+        "M_DIR", "TeamA", "TeamB", "E0", "20:00", b_mid,
+        offered_odds_map={"2.5 Üst": 1.45, "İY 0.5 Üst": 1.32},
+        risk_ctx=MatchRiskContext(),
+        direct_selections={"2.5 Üst"},
+    )
+    by_sel = {r.selection: r for r in recs}
+    if "2.5 Üst" in by_sel and "İY 0.5 Üst" in by_sel:
+        assert by_sel["2.5 Üst"].prob_sigma < by_sel["İY 0.5 Üst"].prob_sigma
+
+    # 3. Selection diversity cap: never stack >45% of a 4+ leg coupon with the same exact selection
+    pool = []
+    for i in range(6):
+        pool.append([
+            MarketRecommendation(
+                f"M{i}", f"H{i}", f"A{i}", "E0", "21:00", "İlk Yarı Alt/Üst", "İY 1.5 Alt",
+                0.72, 1.39, 1.35, False, 0.72, -0.028, "test", group_id=f"G{i}", mbs=1,
+            ),
+            MarketRecommendation(
+                f"M{i}", f"H{i}", f"A{i}", "E0", "21:00", "Maç Geneli Alt/Üst", "2.5 Üst",
+                0.69, 1.45, 1.36, False, 0.69, -0.06, "test", group_id=f"G{i}", mbs=1,
+            ),
+            MarketRecommendation(
+                f"M{i}", f"H{i}", f"A{i}", "E0", "21:00", "Karşılıklı Gol", "KG Yok",
+                0.68, 1.47, 1.37, False, 0.68, -0.068, "test", group_id=f"G{i}", mbs=1,
+            ),
+        ])
+    plan = build_target_odds_coupon(
+        pool, target_odds=3.2, max_legs=5, min_leg_ev=None, max_same_category_share=0.50
+    )
+    assert plan.reached_target and len(plan.legs) >= 4
+    sel_counts = {}
+    for l in plan.legs:
+        sel_counts[l.selection] = sel_counts.get(l.selection, 0) + 1
+    assert max(sel_counts.values()) / len(plan.legs) <= (0.45 if len(plan.legs) >= 5 else 0.50) + 1e-9
+
+
+

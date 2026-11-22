@@ -382,7 +382,13 @@ def _nesine_league_regime_key(league: str) -> str:
     return "e0"  # empirically optimal CLUB_REGIME (nu=1.0, alpha=0.0, kappa=0.0)
 
 
+def shrink_local_probability(prob: float, weight: float = 0.78) -> float:
+    """Pull local Nesine-only devig probabilities gently toward 0.50 (fixes Nov 22 -9.8pt local overconfidence)."""
+    return float(max(0.01, min(0.99, 0.5 + weight * (float(prob) - 0.5))))
+
+
 def price_event(event, ref: dict, league: str) -> dict:
+    is_local_fallback = str(ref.get("source", "")).startswith("Nesine")
     p1x2 = devig(ref["x12"], method="power").probabilities
     quoted = direct_probabilities(ref)
 
@@ -465,6 +471,8 @@ def price_event(event, ref: dict, league: str) -> dict:
             continue
         if s.negate:
             p = 1.0 - p
+        if is_local_fallback and p > 0.50:
+            p = shrink_local_probability(p, weight=0.78)
         # Nesine templates ("{{handicap}} Gol Alt/Üst" / "{{SOV}} Üst"): show the resolved name instead.
         market = s.market_title.replace("{{handicap}} ", "").replace(" ({{handicap}})", "")
         label = s.name if "{{" in s.label or "{{" in s.market_title else s.label
