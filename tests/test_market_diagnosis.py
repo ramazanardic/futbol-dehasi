@@ -35,7 +35,7 @@ def test_btts_rehabilitated_in_balanced_match_and_blocked_in_lopsided_match():
     diag_good = diagnose_selection("KG Var", 0.74, good_ctx, for_coupon=True)
     assert diag_good.ok and diag_good.rehabilitated
     dec_good = CR.leg_decision(good_ctx)
-    assert dec_good.ok, dec_good.reasons
+    assert not dec_good.ok and any("ailesi yasak" in r for r in dec_good.reasons)
 
     # Tek taraflı maç (min(mu) < 0.90): KG Var tuzağı yakalanır ve reddedilir
     bad_ctx = {
@@ -63,7 +63,7 @@ def test_btts_no_rehabilitated_in_low_total_sharp_and_blocked_in_blowout_or_gk_o
     }
     diag = diagnose_selection("KG Yok", 0.74, good_no, for_coupon=True)
     assert diag.ok and diag.rehabilitated
-    assert CR.leg_decision(good_no).ok
+    assert not CR.leg_decision(good_no).ok
 
     # Yüksek toplamlı fark maçında teselli golü tuzağı (Vihren 6-1 / GS 2-1 tipi)
     blowout_no = {**good_no, "mu_home": 2.40, "mu_away": 0.70}
@@ -88,7 +88,7 @@ def test_team_goals_rehabilitate_strong_slices_and_catch_first_half_low_block_tr
         "direct": False,
         "league": "İspanya La Liga",
     }
-    assert CR.leg_decision(dep25_alt).ok
+    assert not CR.leg_decision(dep25_alt).ok
 
     ev25_alt = {
         "name": "Ev 2.5 Alt",
@@ -100,7 +100,7 @@ def test_team_goals_rehabilitate_strong_slices_and_catch_first_half_low_block_tr
         "direct": False,
         "league": "İspanya La Liga",
     }
-    assert CR.leg_decision(ev25_alt).ok
+    assert not CR.leg_decision(ev25_alt).ok
 
     dep05_ust = {
         "name": "Dep 0.5 Üst",
@@ -112,7 +112,7 @@ def test_team_goals_rehabilitate_strong_slices_and_catch_first_half_low_block_tr
         "direct": True,
         "league": "Almanya Bundesliga",
     }
-    assert CR.leg_decision(dep05_ust).ok
+    assert not CR.leg_decision(dep05_ust).ok
 
     # Ev İY 0.5 Üst: ilk yarı düşük blok tuzağı (%43.3 isabet, -17.2p) yakalanır
     ev_iy_trap = {
@@ -141,7 +141,7 @@ def test_team_goals_rehabilitate_strong_slices_and_catch_first_half_low_block_tr
         "direct": False,
         "league": "Fransa Ligue 1",
     }
-    assert CR.leg_decision(dep_iy_good).ok
+    assert not CR.leg_decision(dep_iy_good).ok
 
     dep_iy_youth = {**dep_iy_good, "league": "Almanya U19 Gençlik Ligi"}
     assert not CR.leg_decision(dep_iy_youth).ok
@@ -206,7 +206,7 @@ def test_double_chance_handicap_and_first_goal_rehabilitation():
         "reference": "Pinnacle",
         "direct": True,
     }
-    assert CR.leg_decision(cs12).ok
+    assert not CR.leg_decision(cs12).ok
 
     # Hnd(+1) 1 (%75.0 isabet @ P>=65% & sharp) rehabilite edilir
     hnd1 = {
@@ -219,7 +219,7 @@ def test_double_chance_handicap_and_first_goal_rehabilitation():
         "reference": "Pinnacle",
         "direct": True,
     }
-    assert CR.leg_decision(hnd1).ok
+    assert not CR.leg_decision(hnd1).ok
 
     # İlk Gol Ev: belirgin hücum asimetrisinde (%70.0 isabet) rehabilite edilir, dengeli maçta (%44.0) reddedilir
     fg_good = {
@@ -232,7 +232,7 @@ def test_double_chance_handicap_and_first_goal_rehabilitation():
         "reference": "Pinnacle",
         "direct": True,
     }
-    assert CR.leg_decision(fg_good).ok
+    assert not CR.leg_decision(fg_good).ok
 
     fg_balanced = {**fg_good, "mu_home": 1.35, "mu_away": 1.25, "p_draw": 0.27}
     assert not CR.leg_decision(fg_balanced).ok
@@ -279,7 +279,7 @@ def test_kupon_kontrol_does_not_crash_on_missing_day_dir(tmp_path, monkeypatch):
     assert not (tmp_path / "2026-11-22").exists()
 
 
-def test_gunluk_tahmin_audit_recognizes_rehabilitated_legs_and_catches_traps(tmp_path, monkeypatch):
+def test_gunluk_tahmin_audit_keeps_banned_families_out_and_catches_traps(tmp_path, monkeypatch):
     import csv
     import json
     gt = _load_script("gunluk_tahmin")
@@ -309,7 +309,8 @@ def test_gunluk_tahmin_audit_recognizes_rehabilitated_legs_and_catches_traps(tmp
         w.writeheader()
         w.writerows(rows)
     audit = gt.run_audit("2026-11-22", "antigravitytahmin")
-    assert audit["ok"], audit
+    assert not audit["ok"]
+    assert sum("ailesi yasak" in reason for reason in audit["coupons"][0]["ihlaller"]) == 3
 
     # As kaleci eksik 3.5 Alt tuzağı run_audit tarafından yakalanır
     matches[4]["research"] = {"tm_absences": {"home": {"gk1_out": True}}}

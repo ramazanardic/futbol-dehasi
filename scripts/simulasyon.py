@@ -238,6 +238,8 @@ def run(date: str, n: int) -> list[dict]:
                          if v is not None and cnt >= 5]
             min_side = min(side_vals) if len(side_vals) == 2 else None
             verdict, low = judge(x["p"], sim, hist, min_side=min_side)
+            if x["verdict"].startswith("⚠"):
+                verdict = "çelişki"
             dcp = dc_model.bet_probability(x["name"], dc[0]) if dc else None
             verdict, low = with_model(verdict, low, x["p"], dcp)
             elp = (elo or {}).get(x["name"])
@@ -321,7 +323,7 @@ def update_picks(date: str, res: list[dict]) -> int:
         if not best:
             continue
         leg = next((x for x in row["legs"] if x["label"] == best["label"]), None)
-        if leg:
+        if leg and not leg["verdict"].startswith("⚠"):
             n += (row.get("pick") or {}).get("label") != leg["label"]
             row["pick"] = leg
     (out / "derin_tahminler.json").write_text(json.dumps(rows, ensure_ascii=False, indent=1, default=str), encoding="utf-8")

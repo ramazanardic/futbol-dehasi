@@ -4,13 +4,8 @@ Günler: 2026-11-18, 2026-11-19
 
 ## Model piyasaya bilgi katıyor mu?
 
-<<<<<<< Updated upstream
 - 1X2 log-loss (19 maç) — piyasa: **0.8161**, model: **0.8207**, en iyi havuz: 0.8161
 - Havuzda modelin ağırlığı **w = 0.00** (%95 güven aralığı 0.00 – 1.00). Aralık 0'ı içeriyor: model piyasaya **kanıtlanmış bilgi katmıyor**.
-=======
-- 1X2 log-loss (18 maç) — piyasa: **0.7843**, model: **0.7848**, en iyi havuz: 0.7842
-- Havuzda modelin ağırlığı **w = 0.23** (%95 güven aralığı 0.00 – 1.00). Aralık 0'ı içeriyor: model piyasaya **kanıtlanmış bilgi katmıyor**.
->>>>>>> Stashed changes
 
 ## Değer tekilleri: kapanış çizgisi (CLV) ve kâr/zarar
 

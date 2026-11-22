@@ -34,7 +34,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from quantfoot.coupons.coupon_rules import DEFAULT_MAX_LEGS, DEFAULT_MIN_LEGS, leg_decision  # noqa: E402
+from quantfoot.coupons.coupon_rules import DEFAULT_MAX_LEGS, DEFAULT_MIN_LEGS, canonical_name, leg_decision  # noqa: E402
 from quantfoot.paths import VALID_AIS, QuantfootAIError, ai_name  # noqa: E402
 
 TSI = dt.timezone(dt.timedelta(hours=3))
@@ -59,7 +59,8 @@ def step_commands(date: str, targets: list[float], py: str = sys.executable) -> 
 
 def _f(x) -> float | None:
     try:
-        return float(str(x).replace(",", "."))
+        value = float(str(x).replace(",", "."))
+        return value if math.isfinite(value) else None
     except (TypeError, ValueError):
         return None
 
@@ -92,13 +93,16 @@ def _match_diag_context(m: dict, name: str) -> dict:
     }
 
 
-def audit_coupons(rows: list[dict], analysis_by_code: dict[str, dict] | None = None) -> dict:
+def audit_coupons(rows: list[dict], analysis_by_code: dict[str, dict] | None = None,
+                  *, live_legs: dict | None = None, live_odds: dict | None = None,
+                  now: dt.datetime | None = None) -> dict:
     """Ortak kupon kurallarını kuponlar.csv satırlarına uygula (docs/ORTAK_SISTEM.md §3).
 
     Kurallar: her bacak coupon_rules.leg_decision'dan geçer (düzeltilmiş P ≥ %70, oran ≥ 1,20 ve ≤ 1,80, izinli
-    veya kök-neden teşhisiyle rehabilite aile, gizli tuzak yok); kupon 5–6 bacak; aynı maçtan tek bacak;
+    aile, gizli tuzak yok); kupon 5–6 bacak; aynı maçtan tek bacak;
     aynı tercih iki kuponda yok. ``analysis_by_code`` verilirse maç bağlamı teşhis motoruna aktarılır.
     """
+    now = now or dt.datetime.now(TSI)
     coupons: dict[str, list[dict]] = {}
     for r in rows:
         coupons.setdefault(f"{r.get('kupon', '')}#{r.get('kupon_no', '')}", []).append(r)
@@ -121,12 +125,30 @@ def audit_coupons(rows: list[dict], analysis_by_code: dict[str, dict] | None = N
                 m = analysis_by_code.get(str(leg.get("nesine_kodu") or ""))
                 if m is not None:
                     payload.update(_match_diag_context(m, name))
+            checked_odds = _f(leg.get("nesine_oran"))
+            if live_legs is not None:
+                saved = live_legs.get((leg["kupon"], str(leg["kupon_no"]), str(leg["nesine_kodu"]), name))
+                if not saved or not saved.get("key") or not saved.get("kickoff"):
+                    issues.append(f"{leg.get('mac')} — canlı kontrol için kupon kaydı eksik")
+                else:
+                    kickoff = dt.datetime.fromisoformat(saved["kickoff"])
+                    if kickoff.tzinfo is None:
+                        kickoff = kickoff.replace(tzinfo=TSI)
+                    if kickoff <= now:
+                        issues.append(f"{leg.get('mac')} — maç başladı")
+                    current = (live_odds or {}).get(int(saved["code"]), {}).get(saved["key"])
+                    if current is None:
+                        issues.append(f"{leg.get('mac')} — seçim bültende açık değil")
+                    elif checked_odds is None or abs(current - checked_odds) > 1e-9:
+                        issues.append(f"{leg.get('mac')} — Nesine oranı değişti ({current:.2f})")
+                    # Reuse the same diagnosis inputs the builder used.
+                    payload = {**saved, "name": name, "odds": checked_odds, "p": _f(before_rules)}
             dec = leg_decision(payload)
             if not dec.ok:
                 issues.append(f"{leg.get('mac')} — {name}: " + "; ".join(dec.reasons))
             p_total *= dec.p_cal if dec.p_cal is not None else 0.0
-            odds_total *= _f(leg.get("nesine_oran")) or 1.0
-            key = (str(leg.get("nesine_kodu") or leg.get("mac")), name)
+            odds_total *= checked_odds or 0.0
+            key = (str(leg.get("nesine_kodu") or leg.get("mac")), canonical_name(name))
             if key in seen_legs and seen_legs[key] != cid:
                 issues.append(f"{leg.get('mac')} — {name}: aynı tercih {seen_legs[key]} kuponunda da var")
             seen_legs.setdefault(key, cid)
@@ -150,7 +172,8 @@ def audit_markdown(date: str, ai: str, audit: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
-def run_audit(date: str, ai: str) -> dict:
+def run_audit(date: str, ai: str, *, current_files: set[str] | None = None,
+              live: bool = False) -> dict:
     day = ROOT / "tahminler" / ai / date
     path = day / "kuponlar.csv"
     with path.open(encoding="utf-8-sig", newline="") as fh:
@@ -158,6 +181,10 @@ def run_audit(date: str, ai: str) -> dict:
         if not reader.fieldnames or "kupon" not in reader.fieldnames:
             raise ValueError(f"Kupon CSV başlığı eksik: {path}")
         rows = list(reader)
+    if current_files is not None:
+        rows = [row for row in rows if row["kupon"] in current_files]
+        if current_files - {row["kupon"] for row in rows}:
+            raise ValueError("Yeni kupon dosyası CSV’de eksik")
     analysis_by_code = None
     ng_path = day / "nesine_global.json"
     if ng_path.exists():
@@ -166,7 +193,22 @@ def run_audit(date: str, ai: str) -> dict:
             analysis_by_code = {str(m["code"]): m for m in ng.get("matches", [])}
         except (OSError, ValueError):
             analysis_by_code = None
-    audit = audit_coupons(rows, analysis_by_code=analysis_by_code)
+    live_legs = live_odds = now = None
+    if live and rows:
+        from nesine_kupon import read_bulletin_odds
+
+        live_legs = {}
+        for stem in {row["kupon"] for row in rows}:
+            # CSV values are identifiers, not paths.
+            if Path(stem).name != stem or not stem.startswith("kupon_"):
+                raise ValueError("Geçersiz kupon dosyası adı")
+            data = json.loads((day / f"{stem}.json").read_text(encoding="utf-8"))
+            for index, coupon in enumerate(data.get("coupons", []), 1):
+                for leg in coupon["legs"]:
+                    live_legs[stem, str(index), str(leg["code"]), leg["name"]] = leg
+        live_odds, _ = read_bulletin_odds()
+        now = dt.datetime.now(TSI)
+    audit = audit_coupons(rows, analysis_by_code=analysis_by_code, live_legs=live_legs, live_odds=live_odds, now=now)
     day.mkdir(parents=True, exist_ok=True)
     (day / "kupon_denetim.md").write_text(audit_markdown(date, ai, audit), encoding="utf-8")
     for c in audit["coupons"]:
@@ -225,7 +267,11 @@ def main(argv: list[str] | None = None) -> int:
         print(f"API-Football bugün: {api_before}/{b.limit} istek kullanılmış")
     except Exception:  # noqa: BLE001 — bütçe yalnız bilgi amaçlı
         b, api_before = None, 0
+    coupon_day = ROOT / "tahminler" / ai / args.tarih
+    before = None
     for step in steps:
+        if step == "kupon" and not args.kuru:
+            before = {p.name: p.stat().st_mtime_ns for p in coupon_day.glob("kupon_*x_*.json")}
         for cmd in cmds[step]:
             print(f"[{step}] {' '.join(cmd)}")
             if args.kuru:
@@ -236,7 +282,10 @@ def main(argv: list[str] | None = None) -> int:
                 return r.returncode
         if step == "denetim" and not args.kuru:
             try:
-                audit = run_audit(args.tarih, ai)
+                current = None if before is None else {
+                    p.stem for p in coupon_day.glob("kupon_*x_*.json") if p.stat().st_mtime_ns != before.get(p.name)
+                }
+                audit = run_audit(args.tarih, ai, current_files=current, live=True)
             except (OSError, ValueError, csv.Error) as exc:
                 print(f"Kupon denetimi tamamlanamadı: {exc}", file=sys.stderr)
                 return 2

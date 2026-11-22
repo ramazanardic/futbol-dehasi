@@ -67,7 +67,10 @@ def test_record_clv_keeps_pick_price_and_updates_close(tmp_path):
          "selections": [{"name": "2.5 Üst", "fair_prob": 0.66}]}
     picks = [{"nesine_kodu": "1", "mac": "A - B", "secim_adi": "2.5 Üst", "olasilik": "0.6300"}]
     t1, t2 = dt.datetime(2026, 11, 20, 18, 0, tzinfo=TSI), dt.datetime(2026, 11, 20, 21, 0, tzinfo=TSI)
-    at.record_clv(tmp_path, picks, [m], t1)
+    m.update(reference="Pinnacle (test)", ref_fetched_utc=t1.isoformat())
+    assert at.clv_summary(at.record_clv(tmp_path, picks, [m], t1))["n"] == 0
+    assert at.clv_summary(at.record_clv(tmp_path, picks, [m], t2))["n"] == 0
+    m["ref_fetched_utc"] = t2.isoformat()
     m["selections"][0]["fair_prob"] = 0.68
     clv = at.record_clv(tmp_path, picks, [m], t2)
     rec = clv["1|2.5 Üst"]
@@ -75,7 +78,7 @@ def test_record_clv_keeps_pick_price_and_updates_close(tmp_path):
     m["selections"][0]["fair_prob"] = 0.50
     at.record_clv(tmp_path, picks, [m], dt.datetime(2026, 11, 20, 22, 30, tzinfo=TSI))   # after kick-off: frozen
     assert json.loads((tmp_path / "tahmin_clv.json").read_text(encoding="utf-8"))["1|2.5 Üst"]["p_close"] == 0.68
-    assert at.clv_summary(clv) == {"n": 1, "mean": 0.68 - 0.63, "positive": 1}
+    assert at.clv_summary(clv) == {"n": 1, "mean": 0.68 - 0.66, "positive": 1}
 
 
 def test_simulation_scorecard(tmp_path):
@@ -94,8 +97,9 @@ def test_export_records_first_pick_and_omits_new_started_matches(tmp_path, monke
     pick = dict(name="MS 1", market="MS", selection="1", odds=1.25, fair_prob=.8)
     monkeypatch.setattr(at, "best_pick", lambda m: (pick, ""))
     match = dict(code=1, kickoff="2026-11-20 22:00", kickoff_iso="2026-11-20T22:00:00+03:00",
-                 status="fiyatlandı", price_tier="keskin", league="L", home="A", away="B", selections=[pick])
+                 status="fiyatlandı", price_tier="keskin", league="L", home="A", away="B", selections=[pick],
+                 reference="Pinnacle (test)", ref_fetched_utc=now.isoformat())
     started = dict(match, code=2, kickoff_iso=now.isoformat())
     assert at.export(date, [match, started], area=tmp_path, now=now) == (1, 0)
     rec = json.loads((tmp_path / date / "tahmin_clv.json").read_text())["1|MS 1"]
-    assert rec["p_pick"] == rec["p_close"] == .8
+    assert rec["p_pick"] == rec["p_market_open"] == .8 and "p_close" not in rec
