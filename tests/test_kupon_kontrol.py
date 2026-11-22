@@ -474,3 +474,37 @@ def test_watcher_day_and_active_coupons(tmp_path, monkeypatch):
     for n in ("kupon_5x_0851", "kupon_5x_1629", "kupon_3x_1620", "kupon_5x_kg_1141"):
         (d / f"{n}.json").write_text("{}")
     assert kontrol.active_coupons("2026-11-20") == {"kupon_5x_1629", "kupon_3x_1620", "kupon_5x_kg_1141"}
+
+
+def test_kupon_kontrol_reads_single_custom_and_system_coupon_schemas_and_skips_meta(tmp_path, monkeypatch):
+    monkeypatch.setattr(kontrol, "DAILY", tmp_path)
+    monkeypatch.setattr(kontrol, "AREA", tmp_path)
+    day = tmp_path / "2026-11-22"
+    day.mkdir()
+    # 1. Tekil şema (top-level legs)
+    (day / "kupon_10x_17sonrasi.json").write_text(json.dumps({
+        "target": 10.0,
+        "nesine_odds": 10.1,
+        "legs": [{"code": 11, "key": "k1", "kickoff": "2026-11-22 20:00", "match": "A - B",
+                  "market": "Alt/Üst", "selection": "2.5 Üst", "odds": 1.40, "p": 0.65}],
+    }), encoding="utf-8")
+    # 2. Özel isimli çoklu şema (kupon_en_emin_*)
+    (day / "kupon_en_emin_17sonrasi.json").write_text(json.dumps({
+        "coupons": [{"nesine_odds": 3.1, "legs": [{"code": 12, "key": "k2", "kickoff": "2026-11-22 21:00",
+                                                  "match": "C - D", "market": "Alt/Üst", "selection": "3.5 Alt",
+                                                  "odds": 1.30, "p_raw": 0.72}]}],
+    }), encoding="utf-8")
+    # 3. Sistem şeması (primary_system.legs)
+    (day / "kupon_sistem_21_12_100tl.json").write_text(json.dumps({
+        "primary_system": {"legs": [{"code": 13, "kickoff": "2026-11-22 22:00", "match": "E - F",
+                                     "name": "İY/MS 2/1", "odds": 25.0, "p": 0.05}]},
+    }), encoding="utf-8")
+    # Meta dosyaları kesinlikle kupon olarak sayılmamalı
+    (day / "kupon_clv.json").write_text(json.dumps({"11|k1": {"p_pick": 0.65}}), encoding="utf-8")
+
+    legs = kontrol.coupon_legs("2026-11-22")
+    assert set(legs) == {"11|k1", "12|k2", "13|İY/MS 2/1"}
+    assert legs["12|k2"]["p"] == 0.72
+    act = kontrol.active_coupons("2026-11-22")
+    assert act == {"kupon_10x_17sonrasi", "kupon_en_emin_17sonrasi", "kupon_sistem_21_12_100tl"}
+

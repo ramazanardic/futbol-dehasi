@@ -113,6 +113,26 @@ def _get(ctx: Mapping[str, Any] | Any, *keys: str, default: Any = None) -> Any:
     return default
 
 
+def parse_steam_pp(ctx: Mapping[str, Any] | Any, extra_flags: Any = None) -> float:
+    """Keskin borsa steam büyüklüğünü (puan, mutlak değer) ctx/maç sözlüğünden çıkar."""
+    res = _get(ctx, "research") if isinstance(ctx, Mapping) else None
+    direct = _flt(_get(ctx, "steam_pp", "sharp_steam_pp"))
+    if direct is None and isinstance(res, Mapping):
+        direct = _flt(res.get("steam_pp") or res.get("sharp_steam_pp"))
+    if direct is not None:
+        return abs(direct)
+    raw_flags = _get(ctx, "flags")
+    if not raw_flags and isinstance(res, Mapping):
+        raw_flags = res.get("flags")
+    if not raw_flags:
+        raw_flags = extra_flags
+    flag_text = " ".join(str(x) for x in raw_flags) if isinstance(raw_flags, (list, tuple)) else str(raw_flags or "")
+    if "steam" not in flag_text.lower():
+        return 0.0
+    mags = [abs(float(x.replace(",", "."))) for x in re.findall(r"([+-]?\d+(?:[.,]\d+)?)p\b", flag_text)]
+    return max(mags) if mags else 0.0
+
+
 def diagnose_selection(
     name: str | None,
     p: float,
@@ -210,15 +230,7 @@ def diagnose_selection(
 
     # Keskin borsa steam büyüklüğü (puan): 22 Kas 427 maç denetiminde ≥6p sert steam varken
     # MS 1/2 %43,8 (-20,6p; steam yokken %68,6) ve Alt bahisleri %58,6 (-3,0p; Getafe İY 0-2, Huancayo İY 3-0) çöktü!
-    steam_pp = _flt(_get(ctx, "steam_pp", "sharp_steam_pp"))
-    if steam_pp is None:
-        raw_flags = _get(ctx, "flags")
-        flag_text = " ".join(str(x) for x in raw_flags) if isinstance(raw_flags, (list, tuple)) else str(raw_flags or "")
-        if "steam" in flag_text.lower():
-            mags = [abs(float(x.replace(",", "."))) for x in re.findall(r"([+-]?\d+(?:[.,]\d+)?)p\b", flag_text)]
-            steam_pp = max(mags) if mags else 0.0
-        else:
-            steam_pp = 0.0
+    steam_pp = parse_steam_pp(ctx)
 
     # Genel kural 1: Tek taraf geçmiş çelişkisi (bir takımın son maçlarında bu bahis <%45 veya modelin >20p altında)
     if min_side is not None and len(side_rates) == 2:

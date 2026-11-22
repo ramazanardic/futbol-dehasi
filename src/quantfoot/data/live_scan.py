@@ -141,14 +141,7 @@ def parse_minute(clock: str | None, period: int | None = None) -> float | None:
     return float(m.group(1)) + (float(m.group(2)) if m.group(2) else 0.0) * 0.0  # uzatma dakikası "90" sayılır
 
 
-def american_to_decimal(ml: Any) -> float | None:
-    try:
-        v = float(str(ml).replace("+", ""))
-    except (TypeError, ValueError):
-        return None
-    if v == 0:
-        return None
-    return 1 + v / 100 if v > 0 else 1 + 100 / abs(v)
+from quantfoot.data.live_espn import american_to_decimal  # tek kaynak: EVEN/OFF desteği dahil
 
 
 def parse_espn_scoreboard(payload: dict) -> list[dict]:

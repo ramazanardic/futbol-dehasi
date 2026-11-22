@@ -531,4 +531,18 @@ def test_v3_not_both_halves_tightened_and_both_halves_kg_yok_rehabilitated():
     assert not diagnose_selection("İY KG Yok & 2Y KG Yok", 0.74, {**kg_yok_ok, "away_gk1_out": True}, for_coupon=True).ok
 
 
+def test_single_source_helpers_steam_and_american_odds():
+    from quantfoot.data.live_scan import american_to_decimal
+    from quantfoot.markets.market_diagnosis import parse_steam_pp
+
+    assert parse_steam_pp({"flags": ["Sharp steam +7,4p"]}) == 7.4
+    assert parse_steam_pp({"research": {"flags": ["steam -6.2p"]}}) == 6.2
+    assert parse_steam_pp({"flags": ["normal uyarı +8p"]}) == 0.0
+    assert american_to_decimal("EVEN") == 2.0
+    assert american_to_decimal("+150") == 2.5
+    assert american_to_decimal("-200") == 1.5
+    assert american_to_decimal("OFF") is None
+
+
+
 

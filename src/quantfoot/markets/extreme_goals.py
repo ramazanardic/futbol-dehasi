@@ -19,13 +19,13 @@ from __future__ import annotations
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 import math
-import re
 from typing import Any
 
 import numpy as np
 
 from quantfoot.coupons.system_builder import SystemEvaluation, SystemLeg, optimize_system
 from quantfoot.markets.halves_btts import compute_halves_btts, half_model_params
+from quantfoot.markets.market_diagnosis import parse_steam_pp
 from quantfoot.markets.tail_goals import league_tail_regime, regime_score_matrix, summarize_tail_goals
 from quantfoot.strategy.banko_guard import league_tier
 
@@ -258,15 +258,7 @@ def _defensive_crisis_and_steam(match: Mapping[str, Any], row: Mapping[str, Any]
             if tot_out is not None and tot_out >= 4:
                 def_crisis = max(def_crisis, 2)
 
-    steam_pp = _flt(match.get("steam_pp") or match.get("sharp_steam_pp") or res.get("steam_pp"))
-    if steam_pp is None:
-        raw_flags = res.get("flags") or match.get("flags") or (row or {}).get("flags")
-        flag_text = " ".join(str(x) for x in raw_flags) if isinstance(raw_flags, (list, tuple)) else str(raw_flags or "")
-        if "steam" in flag_text.lower():
-            mags = [abs(float(x.replace(",", "."))) for x in re.findall(r"([+-]?\d+(?:[.,]\d+)?)p\b", flag_text)]
-            steam_pp = max(mags) if mags else 0.0
-        else:
-            steam_pp = 0.0
+    steam_pp = parse_steam_pp(match, extra_flags=(row or {}).get("flags"))
     return def_crisis, float(steam_pp)
 
 

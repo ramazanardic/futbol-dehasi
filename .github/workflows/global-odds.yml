@@ -29,12 +29,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
+          cache: "pip"
       - name: Install
-        run: pip install requests
+        run: pip install requests numpy
       - name: Fetch global odds
         run: |
           git pull -q --ff-only || true   # a light run merges into the newest snapshot, not the one at trigger time
@@ -44,7 +45,7 @@ jobs:
             python scripts/fetch_global_odds.py
           fi
       - name: Club Elo ratings
-        run: pip install numpy && python scripts/elo_gorus.py --cek || echo "Club Elo unavailable"
+        run: python scripts/elo_gorus.py --cek || echo "Club Elo unavailable"
       - name: Commit data
         run: |
           git config user.name "global-odds-bot"

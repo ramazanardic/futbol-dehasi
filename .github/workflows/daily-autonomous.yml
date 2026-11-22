@@ -11,8 +11,8 @@ name: daily-autonomous
 # settle: settle completed matches, update learning calibration and dashboard.
 # dashboard: calibration + dashboard only.
 #
-# Predictions stay in tahminler/<QUANTFOOT_AI>/ (gitignored). This job must set QUANTFOOT_AI
-# explicitly (historical system folder: claudetahmin). It does not add tahminler/ or today's
+# Predictions stay in tahminler/<QUANTFOOT_AI>/ (gitignored). This job sets QUANTFOOT_AI
+# explicitly (default: antigravitytahmin). It does not add tahminler/ or today's
 # unsettled prediction files to git.
 on:
   workflow_dispatch:
@@ -60,11 +60,11 @@ jobs:
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: "pip"
@@ -80,15 +80,7 @@ jobs:
           TODAY=$(TZ=Europe/Istanbul date +%F)
           YESTERDAY=$(TZ=Europe/Istanbul date -d "yesterday" +%F)
           HOUR=$(TZ=Europe/Istanbul date +%H)
-          if [ -n "${{ github.event.inputs.mode }}" ]; then
-            MODE="${{ github.event.inputs.mode }}"
-          elif [ "${{ github.event.schedule }}" = "30 22 * * *" ]; then
-            MODE="settle"
-          elif [ "${{ github.event.schedule }}" = "0 11,16 * * *" ]; then
-            MODE="intraday"
-          else
-            MODE="morning"
-          fi
+          MODE="${{ github.event.inputs.mode || 'morning' }}"
           echo "mode=$MODE" >> "$GITHUB_OUTPUT"
           echo "today=$TODAY" >> "$GITHUB_OUTPUT"
           echo "yesterday=$YESTERDAY" >> "$GITHUB_OUTPUT"
@@ -162,6 +154,7 @@ jobs:
           done
           python scripts/nesine_takip.py rapor || true
           python scripts/daily.py summary || true
+          python scripts/oz_gelistirme.py || true
           python scripts/auto_learn.py
           python scripts/build_dashboard.py
 
@@ -182,9 +175,9 @@ jobs:
           if [ "$(TZ=Europe/Istanbul date +%H)" -lt 7 ]; then OPEN_FROM=$(TZ=Europe/Istanbul date -d yesterday +%F); else OPEN_FROM=$(TZ=Europe/Istanbul date +%F); fi
           for i in 1 2 3 4; do
             # Shared data only. tahminler/ is gitignored and must never be added.
-          git add data/global_odds data/calibration reports/takip reports/weekly docs/data || true
-          # Legacy settled reports/daily may be published; open betting days are unstaged below.
-          git add reports/daily || true
+            git add data/global_odds data/calibration reports/takip reports/weekly docs/data || true
+            # Legacy settled reports/daily may be published; open betting days are unstaged below.
+            git add reports/daily || true
             for p in reports/daily/20* docs/data/20*.json; do
               [ -e "$p" ] || continue
               d=$(basename "$p" .json)

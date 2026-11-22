@@ -30,7 +30,7 @@ from typing import Any
 from quantfoot.data.nesine import fetch_results
 from quantfoot.evaluation.auto_learn import market_family
 from quantfoot.evaluation.settlement import settle_selection
-from quantfoot.markets.market_diagnosis import canonical_name, diagnose_selection
+from quantfoot.markets.market_diagnosis import canonical_name, diagnose_selection, parse_steam_pp
 
 TSI = dt.timezone(dt.timedelta(hours=3))
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -65,16 +65,7 @@ def _shrink(raw_residual: float, n: int, prior_n: float = DEFAULT_PRIOR_N) -> fl
 
 
 def _steam_pp(match: Mapping[str, Any]) -> float:
-    res = match.get("research") or {}
-    direct = _flt(match.get("steam_pp") or match.get("sharp_steam_pp") or res.get("steam_pp"))
-    if direct is not None:
-        return abs(direct)
-    flags = res.get("flags") or match.get("flags") or []
-    text = " ".join(str(x) for x in flags) if isinstance(flags, (list, tuple)) else str(flags)
-    if "steam" not in text.lower():
-        return 0.0
-    mags = [abs(float(x.replace(",", "."))) for x in re.findall(r"([+-]?\d+(?:[.,]\d+)?)p\b", text)]
-    return max(mags) if mags else 0.0
+    return parse_steam_pp(match)
 
 
 def _steam_bucket(pp: float) -> str:

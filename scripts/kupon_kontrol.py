@@ -27,6 +27,7 @@ import json
 import logging
 import os
 from pathlib import Path
+import re
 import subprocess
 import sys
 
@@ -68,24 +69,70 @@ def betting_day(now: dt.datetime | None = None) -> str:
     return (now.date() if now.hour >= 7 else now.date() - dt.timedelta(days=1)).isoformat()
 
 
+_META_JSON_PREFIXES = ("kupon_clv", "kupon_kontrol", "kupon_postmortem", "kupon_denetim")
+_TARGET_STEM_RE = re.compile(r"^kupon_(\d+(?:\.\d+)?)x_")
+
+
+def _iter_coupon_files(date: str) -> list[Path]:
+    """Günün tüm kupon JSON dosyalarını döndür (CLV / kontrol / postmortem meta dosyaları hariç)."""
+    day_dir = AREA / date
+    if not day_dir.exists():
+        return []
+    return [
+        f for f in sorted(day_dir.glob("kupon_*.json"))
+        if not any(f.stem.startswith(pfx) for pfx in _META_JSON_PREFIXES)
+    ]
+
+
+def _extract_coupons(data: dict) -> list[dict]:
+    """Çoklu ('coupons'), tekil ('legs') ve sistem ('primary_system.legs') kupon şemalarını ortak listeye çevir."""
+    if not isinstance(data, dict):
+        return []
+    if isinstance(data.get("coupons"), list):
+        return [c for c in data["coupons"] if isinstance(c, dict) and c.get("legs")]
+    if isinstance(data.get("legs"), list) and data["legs"]:
+        return [data]
+    ps = data.get("primary_system")
+    if isinstance(ps, dict) and isinstance(ps.get("legs"), list) and ps["legs"]:
+        return [ps]
+    return []
+
+
 def active_coupons(date: str) -> set[str]:
     """Stems of the coupons currently in force: the latest file of every (target, family) group."""
     latest: dict[tuple[str, str], str] = {}
-    for f in sorted((AREA / date).glob("kupon_*x_*.json")):
-        parts = f.stem.split("_")
-        latest[(parts[1], parts[2] if len(parts) >= 4 else "karma")] = f.stem
+    for f in _iter_coupon_files(date):
+        if _TARGET_STEM_RE.match(f.stem):
+            parts = f.stem.split("_")
+            latest[(parts[1], parts[2] if len(parts) >= 4 else "karma")] = f.stem
+        else:
+            latest[(f.stem, "ozel")] = f.stem
     return set(latest.values())
 
 
 def coupon_legs(date: str) -> dict[str, dict]:
     """Every leg of the day's coupon files, keyed by code|key (a leg in several coupons is checked once)."""
     legs: dict[str, dict] = {}
-    for f in sorted((AREA / date).glob("kupon_*x_*.json")):
+    for f in _iter_coupon_files(date):
         data = _load(f) or {}
-        for i, c in enumerate(data.get("coupons", []), 1):
+        for i, c in enumerate(_extract_coupons(data), 1):
             for leg in c.get("legs", []):
-                lid = f"{leg['code']}|{leg.get('key')}"
-                e = legs.setdefault(lid, {**leg, "coupons": []})
+                if "code" not in leg:
+                    continue
+                key = leg.get("key")
+                lid = f"{leg['code']}|{key}" if key is not None else f"{leg['code']}|{leg.get('name') or leg.get('selection') or ''}"
+                p_val = leg.get("p")
+                if p_val is None:
+                    p_val = leg.get("p_cal", leg.get("p_raw", 0.0))
+                norm = {
+                    **leg,
+                    "p": float(p_val or 0.0),
+                    "odds": float(leg.get("odds") or 0.0),
+                    "market": str(leg.get("market") or ""),
+                    "selection": str(leg.get("selection") or leg.get("name") or ""),
+                    "kickoff": str(leg.get("kickoff") or ""),
+                }
+                e = legs.setdefault(lid, {**norm, "coupons": []})
                 e["coupons"].append(f"{f.stem} #{i}")
     return legs
 
@@ -171,18 +218,33 @@ def coupon_totals(date: str, rows: list[dict]) -> list[dict]:
     the target is a MINIMUM (user rule), so a coupon that slipped under it must be flagged before it is played."""
     now_odds = {r["lid"]: r["odds_now"] for r in rows if not r["started"]}
     out = []
-    for f in sorted((AREA / date).glob("kupon_*x_*.json")):
+    for f in _iter_coupon_files(date):
         data = _load(f) or {}
-        target = float(data.get("target") or f.name.split("_")[1].rstrip("x"))
-        for i, c in enumerate(data.get("coupons", []), 1):
+        m_tgt = _TARGET_STEM_RE.match(f.stem)
+        raw_tgt = data.get("target")
+        if raw_tgt is None and m_tgt:
+            raw_tgt = m_tgt.group(1)
+        if raw_tgt is None:
+            continue
+        try:
+            target = float(raw_tgt)
+        except (TypeError, ValueError):
+            continue
+        for i, c in enumerate(_extract_coupons(data), 1):
+            built = c.get("nesine_odds", c.get("total_odds"))
+            if built is None:
+                continue
             total, missing = 1.0, False
             for leg in c.get("legs", []):
-                lid = f"{leg['code']}|{leg.get('key')}"
-                o = now_odds[lid] if lid in now_odds else leg["odds"]
+                if "code" not in leg:
+                    continue
+                key = leg.get("key")
+                lid = f"{leg['code']}|{key}" if key is not None else f"{leg['code']}|{leg.get('name') or leg.get('selection') or ''}"
+                o = now_odds[lid] if lid in now_odds else leg.get("odds")
                 if o is None:
-                    missing, o = True, leg["odds"]
-                total *= o
-            out.append({"coupon": f"{f.stem} #{i}", "target": target, "built": c["nesine_odds"], "now": round(total, 2),
+                    missing, o = True, float(leg.get("odds") or 1.0)
+                total *= float(o)
+            out.append({"coupon": f"{f.stem} #{i}", "target": target, "built": float(built), "now": round(total, 2),
                         "below": total < target - 1e-9, "missing": missing})
     return out
 

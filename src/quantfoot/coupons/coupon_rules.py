@@ -31,8 +31,12 @@ from pathlib import Path
 from typing import Any
 
 from quantfoot import settings as S
-from quantfoot.evaluation.auto_learn import market_family
-from quantfoot.markets.market_diagnosis import MarketDiagnosis, diagnose_selection
+from quantfoot.markets.market_diagnosis import (
+    MarketDiagnosis,
+    canonical_name,
+    classify_family,
+    diagnose_selection,
+)
 from quantfoot.paths import REPO_ROOT
 
 MIN_CALIBRATED_P = 0.70
@@ -54,33 +58,10 @@ FAMILY_NAME_ALLOW = {
     "2Y karşılıklı gol": frozenset({"2Y KG Yok"}),
 }
 
-_NAMEFIX = {
-    "MS 0 (beraberlik)": "MS 0",
-    "X": "MS 0",
-    "0": "MS 0",
-    "1": "MS 1",
-    "2": "MS 2",
-}
-
 _DRAW_EXACT = frozenset({
     "MS 0", "MS X", "İY 0", "İY X", "2Y 0", "2Y X", "X", "0",
     "Skor 0-0", "İY Skor 0-0", "2Y Skor 0-0",
 })
-
-
-def canonical_name(name: str | None) -> str:
-    """Seçim adını denetim/kalibrasyon taksonomisine yaklaştır (virgül, eşanlam)."""
-    n = (name or "").strip()
-    n = _NAMEFIX.get(n, n)
-    n = n.replace(",", ".")
-    if re.fullmatch(r"[12X0]", n):
-        n = "MS " + ("0" if n in "X0" else n)
-    return n
-
-
-def classify_family(name: str | None) -> str:
-    """Denetim ailesi (``auto_learn.market_family`` — 21 Kas gece notlamasıyla aynı)."""
-    return market_family(canonical_name(name))
 
 
 def is_draw_leg(name: str | None) -> bool:
