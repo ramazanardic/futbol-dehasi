@@ -1,0 +1,2880 @@
+{
+ "date": "2026-11-20",
+ "built": "2026-11-22T12:14+03:00",
+ "ais": {
+  "claudetahmin": {
+   "main_picks": 93,
+   "hits": 66,
+   "avg_pred": 0.6242408602150538,
+   "flat_return": -4.130000000000001,
+   "brier_1x2": 0.637367586275862,
+   "logloss_1x2": 1.0575827266583897,
+   "n_1x2": 145,
+   "coupons": [
+    {
+     "coupon": "kupon_5x_2122 #1",
+     "type": "karma",
+     "odds": 5.33,
+     "p": 0.1024,
+     "won": false,
+     "legs_won": 3,
+     "legs": 4,
+     "lost_legs": [
+      "Miramar Rangers - Cashmere Technical — 3,5 Gol Alt/Üst: 3,5 Üst"
+     ]
+    }
+   ],
+   "coupons_open": 0,
+   "biggest_misses": [
+    {
+     "p": 0.7025,
+     "match": "Botosani - Voluntari",
+     "pick": "Deplasman 1,5 Gol Alt/Üst: 1,5 Alt",
+     "score": "2-0 / 3-3"
+    },
+    {
+     "p": 0.6897,
+     "match": "Jong Utrecht - Emmen",
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "score": "0-0 / 1-0"
+    },
+    {
+     "p": 0.6864,
+     "match": "AL Gharrafa - Arabi Doha",
+     "pick": "1. Yarı Çifte Şans: 1-X",
+     "score": "1-2 / 3-2"
+    },
+    {
+     "p": 0.6626,
+     "match": "Lierse K. - KSC Lokeren Temse",
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "score": "1-0 / 1-0"
+    },
+    {
+     "p": 0.6538,
+     "match": "Std. Nyonnis - Wil 1900",
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "score": "0-0 / 0-1"
+    },
+    {
+     "p": 0.6528,
+     "match": "Karvina - Banik Ostrava B",
+     "pick": "Maç Sonucu: 1",
+     "score": "1-1 / 1-3"
+    },
+    {
+     "p": 0.6514,
+     "match": "MC Oran - JS Saoura",
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "score": "2-0 / 3-1"
+    },
+    {
+     "p": 0.6491,
+     "match": "Cercle Brugge - Westerlo",
+     "pick": "Karşılıklı Gol: Var",
+     "score": "0-0 / 1-0"
+    },
+    {
+     "p": 0.6456,
+     "match": "Independiente D. V. - CSD Macara",
+     "pick": "Maç Sonucu: 1",
+     "score": "0-1 / 0-1"
+    },
+    {
+     "p": 0.6363,
+     "match": "Piast Gliwice - Korona Kielce",
+     "pick": "Karşılıklı Gol: Var",
+     "score": "1-0 / 2-0"
+    }
+   ],
+   "research_verdicts": {
+    "✓": {
+     "n": 70,
+     "won": 47,
+     "p_sum": 43.38311,
+     "p_n": 70,
+     "h_sum": 47.107466977467,
+     "h_n": 69
+    },
+    "?": {
+     "n": 12,
+     "won": 9,
+     "p_sum": 7.244020000000001,
+     "p_n": 12,
+     "h_sum": 3.791666666666667,
+     "h_n": 7
+    },
+    "⚠": {
+     "n": 28,
+     "won": 13,
+     "p_sum": 17.18632,
+     "p_n": 28,
+     "h_sum": 11.117352092352093,
+     "h_n": 27
+    },
+    "~": {
+     "n": 33,
+     "won": 23,
+     "p_sum": 19.962550000000004,
+     "p_n": 33,
+     "h_sum": 16.00382783882784,
+     "h_n": 30
+    }
+   },
+   "simulation_verdicts": {
+    "üçlü onay": {
+     "n": 4,
+     "won": 3,
+     "p_sum": 2.43318,
+     "p_n": 4,
+     "h_sum": 2.6454,
+     "h_n": 4
+    },
+    "kısmi onay": {
+     "n": 6,
+     "won": 3,
+     "p_sum": 3.5218400000000005,
+     "p_n": 6,
+     "h_sum": 3.4600999999999997,
+     "h_n": 6
+    },
+    "çelişki": {
+     "n": 6,
+     "won": 4,
+     "p_sum": 3.6953400000000003,
+     "p_n": 6,
+     "h_sum": 2.84405,
+     "h_n": 6
+    }
+   },
+   "clv": null
+  },
+  "geminitahmin": {
+   "main_picks": 0,
+   "hits": 0,
+   "avg_pred": null,
+   "flat_return": 0.0,
+   "brier_1x2": null,
+   "logloss_1x2": null,
+   "n_1x2": 0,
+   "coupons": [],
+   "coupons_open": 9,
+   "biggest_misses": [],
+   "research_verdicts": {},
+   "simulation_verdicts": {},
+   "clv": null
+  },
+  "ortak_arena": {
+   "main_picks": 0,
+   "hits": 0,
+   "avg_pred": null,
+   "flat_return": 0.0,
+   "brier_1x2": null,
+   "logloss_1x2": null,
+   "n_1x2": 0,
+   "coupons": [],
+   "coupons_open": 0,
+   "biggest_misses": [],
+   "research_verdicts": {},
+   "simulation_verdicts": {},
+   "clv": null
+  }
+ },
+ "matches": {
+  "3310137": {
+   "match": "UD Anaza - CD Marino",
+   "league": "İspanya 3. Federasyon",
+   "kickoff": "00:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {}
+  },
+  "3319081": {
+   "match": "Cobresal - Audax Ital.",
+   "league": "Şili Premier Lig",
+   "kickoff": "00:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.56,
+     "odds": 1.48,
+     "won": true
+    }
+   }
+  },
+  "3405878": {
+   "match": "I. Medellin - I. Santa Fe",
+   "league": "Kolombiya DIMAYOR Grup A",
+   "kickoff": "00:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.5548,
+     "odds": 1.46,
+     "won": true
+    }
+   }
+  },
+  "3391095": {
+   "match": "V. Sarsfield - Belgrano",
+   "league": "Arjantin Primera Lpf, Clausura Playoff",
+   "kickoff": "02:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.5789,
+     "odds": 1.44,
+     "won": true
+    }
+   }
+  },
+  "3319804": {
+   "match": "Palestino - D. Union La Calera",
+   "league": "Şili Premier Lig",
+   "kickoff": "02:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Karşılıklı Gol: Var",
+     "p": 0.5583,
+     "odds": 1.47,
+     "won": false
+    }
+   }
+  },
+  "3405880": {
+   "match": "CA Bucaramanga - America De Cali",
+   "league": "Kolombiya DIMAYOR Grup B",
+   "kickoff": "02:35",
+   "ht": [
+    2,
+    2
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.5926,
+     "odds": 1.4,
+     "won": false
+    }
+   }
+  },
+  "3314565": {
+   "match": "Auckland City - Napier City R.",
+   "league": "Yeni Zelanda Premiership",
+   "kickoff": "03:00",
+   "ht": [
+    4,
+    0
+   ],
+   "ft": [
+    7,
+    1
+   ],
+   "picks": {}
+  },
+  "3406228": {
+   "match": "Rancho Santana - ART Jalapa",
+   "league": "Nikaragua Prmr Ligi, Açılış",
+   "kickoff": "03:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {}
+  },
+  "3313267": {
+   "match": "Wellington Oly. - Birkenhead Utd AFC",
+   "league": "Yeni Zelanda Premiership",
+   "kickoff": "04:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3314254": {
+   "match": "Miramar Rangers - Cashmere Technical",
+   "league": "Yeni Zelanda Premiership",
+   "kickoff": "04:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Üst",
+     "p": 0.5507,
+     "odds": 1.55,
+     "won": false
+    }
+   }
+  },
+  "3314534": {
+   "match": "Puebla - Atl San Luis",
+   "league": "Meksika Prmr Ligi, Açılış",
+   "kickoff": "04:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6604,
+     "odds": 1.31,
+     "won": true
+    }
+   }
+  },
+  "3405881": {
+   "match": "Deport Cali - Millonarios",
+   "league": "Kolombiya DIMAYOR Grup B",
+   "kickoff": "04:40",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.5809,
+     "odds": 1.41,
+     "won": true
+    }
+   }
+  },
+  "3312976": {
+   "match": "Ferrymead Bays - Auckland",
+   "league": "Yeni Zelanda Premiership",
+   "kickoff": "05:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3351706": {
+   "match": "CD Esc. Belen - AD San Carlos",
+   "league": "Kosta Rika Prmr Ligi, Açılış",
+   "kickoff": "05:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Maç Sonucu: 2",
+     "p": 0.5769,
+     "odds": 1.55,
+     "won": false
+    }
+   }
+  },
+  "3312622": {
+   "match": "Juarez - Atlas",
+   "league": "Meksika Prmr Ligi, Açılış",
+   "kickoff": "06:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    3
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.5651,
+     "odds": 1.51,
+     "won": true
+    }
+   }
+  },
+  "3313591": {
+   "match": "Club Tijuana - Atlante",
+   "league": "Meksika Prmr Ligi, Açılış",
+   "kickoff": "06:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3310213": {
+   "match": "Sumgayit - Sabah",
+   "league": "Azerbaycan Premier Lig",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    1,
+    5
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7316,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3318804": {
+   "match": "KF Skenderbeu Korce - KF Egnatia R.",
+   "league": "Arnavutluk Süper Ligi",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6652,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3343173": {
+   "match": "AL Ittihad Bhr - Bouri",
+   "league": "Bahreyn 2. Lig",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3343233": {
+   "match": "Qalali Club - Etehad Alreef",
+   "league": "Bahreyn 2. Lig",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3398365": {
+   "match": "Kahrabaa Ismailia - Cer. Cleopatra",
+   "league": "Mısır Kupası",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6488,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3310080": {
+   "match": "Al Ahli Dubai - Ajman Club",
+   "league": "BAE - Arap Körfez Ligi",
+   "kickoff": "18:25",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "İlk Golü Hangi Takım Atar?: 1",
+     "p": 0.6554,
+     "odds": 1.3,
+     "won": true
+    }
+   }
+  },
+  "3310114": {
+   "match": "Namungo - Mbeya City",
+   "league": "Tanzanya Premier Lig",
+   "kickoff": "18:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3314736": {
+   "match": "Botosani - Voluntari",
+   "league": "Romanya 1. Lig",
+   "kickoff": "18:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    3
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Deplasman 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.7025,
+     "odds": 1.26,
+     "won": false
+    }
+   }
+  },
+  "3333037": {
+   "match": "AL Gharrafa - Arabi Doha",
+   "league": "Katar Yıldızlar Ligi",
+   "kickoff": "18:30",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "1. Yarı Çifte Şans: 1-X",
+     "p": 0.6864,
+     "odds": 1.2,
+     "won": false
+    }
+   }
+  },
+  "3343160": {
+   "match": "AL Zawraa - AL Talaba",
+   "league": "Irak Ligi",
+   "kickoff": "18:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    4,
+    1
+   ],
+   "picks": {}
+  },
+  "3266485": {
+   "match": "ES Setif - US Biskra",
+   "league": "Cezayir 1. Lig",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3266499": {
+   "match": "ASO Chlef - USM Khenchela",
+   "league": "Cezayir 1. Lig",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.6503,
+     "odds": 1.27,
+     "won": true
+    }
+   }
+  },
+  "3309557": {
+   "match": "Taborsko - Slavia Praha B",
+   "league": "Çekya 2. Lig",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.5965,
+     "odds": 1.37,
+     "won": true
+    }
+   }
+  },
+  "3309711": {
+   "match": "FK Septemvri Sofia - Loko Plovdiv",
+   "league": "Bulgaristan Parva Ligi",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6323,
+     "odds": 1.34,
+     "won": false
+    }
+   }
+  },
+  "3310071": {
+   "match": "Dinamo Tiflis - Torpedo",
+   "league": "Gürcistan Erovnuli Ligi",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3319214": {
+   "match": "Nd Dravinja - NK Ilirija",
+   "league": "Slovenya 2. Lig",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3319467": {
+   "match": "Triglav - NK Dren Vrhnika",
+   "league": "Slovenya 2. Lig",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {}
+  },
+  "3372569": {
+   "match": "Al Wehdat - AL Arabi",
+   "league": "Ürdün Kupası",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3389667": {
+   "match": "Shakhtar D. - Levy Bereg Kiev",
+   "league": "Ukrayna Premier Ligi",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3389682": {
+   "match": "Prishtina - KF Drenica Skenderaj",
+   "league": "Kosova Superliga",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3343158": {
+   "match": "Duhok - Erbil SC",
+   "league": "Irak Ligi",
+   "kickoff": "19:15",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.5584,
+     "odds": 1.47,
+     "won": true
+    }
+   }
+  },
+  "3309970": {
+   "match": "Police - AL Hilal (Sdn)",
+   "league": "Ruanda Ulusal Lig",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3310031": {
+   "match": "FK Rostov - Krylia Sovetov",
+   "league": "Rusya Premier Lig",
+   "kickoff": "19:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Çifte Şans: 1-2",
+     "p": 0.6936,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3343076": {
+   "match": "ISA Town - Busaiteen Club",
+   "league": "Bahreyn 2. Lig",
+   "kickoff": "19:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3309643": {
+   "match": "Karvina - Banik Ostrava B",
+   "league": "Çekya 2. Lig",
+   "kickoff": "20:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6528,
+     "odds": 1.28,
+     "won": false
+    }
+   }
+  },
+  "3310054": {
+   "match": "Pribram - Usti Nad Labem",
+   "league": "Çekya 2. Lig",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.5738,
+     "odds": 1.41,
+     "won": false
+    }
+   }
+  },
+  "3310103": {
+   "match": "Iğdır FK - Ümraniyespor",
+   "league": "Türkiye 1. Lig",
+   "kickoff": "20:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3313915": {
+   "match": "C. Glogow - Puszcza",
+   "league": "Polonya 1. Lig",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3313986": {
+   "match": "Lechia Zielona G. - Chojniczanka",
+   "league": "Polonya 2. Lig",
+   "kickoff": "20:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6284,
+     "odds": 1.37,
+     "won": true
+    }
+   }
+  },
+  "3314310": {
+   "match": "Prisons Xi Gaborone - Tafic",
+   "league": "Botsvana Premier Ligi",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3314357": {
+   "match": "Piast Gliwice - Korona Kielce",
+   "league": "Polonya Ekstraklasa",
+   "kickoff": "20:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Karşılıklı Gol: Var",
+     "p": 0.6363,
+     "odds": 1.32,
+     "won": false
+    }
+   }
+  },
+  "3318464": {
+   "match": "Independiente D. V. - CSD Macara",
+   "league": "Ekvador Pro Lig",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6456,
+     "odds": 1.28,
+     "won": false
+    }
+   }
+  },
+  "3380282": {
+   "match": "Zabbar Saint Patrick - Gzira Utd",
+   "league": "Malta Premier Lig, Düşme Turu",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3404855": {
+   "match": "Black Bulls - Fer. de Maputo",
+   "league": "Mozambik Mocambola",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.6288,
+     "odds": 1.3,
+     "won": false
+    }
+   }
+  },
+  "3309493": {
+   "match": "Union Berlin (K) - B. Leverkusen (K)",
+   "league": "Almanya Kadınlar Bundesliga",
+   "kickoff": "20:30",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.5772,
+     "odds": 1.41,
+     "won": true
+    }
+   }
+  },
+  "3309539": {
+   "match": "R. Wien (Amt) - Blau Weiss L.",
+   "league": "Avusturya 2. Lig",
+   "kickoff": "20:30",
+   "ht": [
+    1,
+    3
+   ],
+   "ft": [
+    1,
+    6
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Maç Sonucu: 2",
+     "p": 0.6892,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3309798": {
+   "match": "FK Auda - Riga",
+   "league": "Letonya Kupası",
+   "kickoff": "20:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.5995,
+     "odds": 1.4,
+     "won": true
+    }
+   }
+  },
+  "3309815": {
+   "match": "Kapfenberger SV - Wsc Hertha",
+   "league": "Avusturya 2. Lig",
+   "kickoff": "20:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6694,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3309886": {
+   "match": "Floridsdorfer - Austria Wien II",
+   "league": "Avusturya 2. Lig",
+   "kickoff": "20:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {}
+  },
+  "3309901": {
+   "match": "A. Bielefeld - Magdeburg",
+   "league": "Almanya Bundesliga 2",
+   "kickoff": "20:30",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3309928": {
+   "match": "St. Polten - ASK Voitsberg",
+   "league": "Avusturya 2. Lig",
+   "kickoff": "20:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.672,
+     "odds": 1.27,
+     "won": true
+    }
+   }
+  },
+  "3310112": {
+   "match": "Darmstadt 98 - Heidenheim",
+   "league": "Almanya Bundesliga 2",
+   "kickoff": "20:30",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Karşılıklı Gol: Var",
+     "p": 0.6583,
+     "odds": 1.29,
+     "won": true
+    }
+   }
+  },
+  "3318781": {
+   "match": "Real Madrid U19 - Trival U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "20:30",
+   "ht": [
+    4,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {}
+  },
+  "3318799": {
+   "match": "Af Elbasani - D. Tirana",
+   "league": "Arnavutluk Süper Ligi",
+   "kickoff": "20:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.5608,
+     "odds": 1.5,
+     "won": true
+    }
+   }
+  },
+  "3389664": {
+   "match": "Ahli Saudi - AL Nassr",
+   "league": "Suudi Arabistan Pro Lig",
+   "kickoff": "20:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6434,
+     "odds": 1.29,
+     "won": true
+    }
+   }
+  },
+  "3309535": {
+   "match": "Illertissen - Eichstatt",
+   "league": "Almanya Böl. Lig, Bavyera",
+   "kickoff": "21:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.5536,
+     "odds": 1.49,
+     "won": true
+    }
+   }
+  },
+  "3309542": {
+   "match": "TSV Havelse - Viktoria Köln",
+   "league": "Almanya 3. Lig",
+   "kickoff": "21:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    1,
+    6
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Maç Sonucu: 2",
+     "p": 0.7085,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3309603": {
+   "match": "Molde - Bodo Glimt",
+   "league": "Norveç Eliteserien",
+   "kickoff": "21:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    2,
+    4
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "1. Yarı 2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.696,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3309779": {
+   "match": "Mainz 05 II - Steinb. 1921",
+   "league": "Almanya Böl. Lig, Güney Batı",
+   "kickoff": "21:00",
+   "ht": [
+    0,
+    3
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6003,
+     "odds": 1.4,
+     "won": true
+    }
+   }
+  },
+  "3309842": {
+   "match": "Azam - Black Star",
+   "league": "Tanzanya Premier Lig",
+   "kickoff": "21:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    2,
+    4
+   ],
+   "picks": {}
+  },
+  "3309936": {
+   "match": "Aarhus Fremad - Hobro",
+   "league": "Danimarka 1. Lig",
+   "kickoff": "21:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6727,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3310038": {
+   "match": "Buchbach - TSV S. Augsburg",
+   "league": "Almanya Böl. Lig, Bavyera",
+   "kickoff": "21:00",
+   "ht": [
+    3,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6061,
+     "odds": 1.42,
+     "won": true
+    }
+   }
+  },
+  "3310065": {
+   "match": "AGF Aarhus - Lyngby BK",
+   "league": "Danimarka Süper Ligi",
+   "kickoff": "21:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6192,
+     "odds": 1.36,
+     "won": true
+    }
+   }
+  },
+  "3310083": {
+   "match": "Magdeburg II - Zwickau",
+   "league": "Almanya Böl. Lig, Kuzey Doğu",
+   "kickoff": "21:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    3
+   ],
+   "picks": {}
+  },
+  "3310144": {
+   "match": "Weiss Erfurt - Altglienicke",
+   "league": "Almanya Böl. Lig, Kuzey Doğu",
+   "kickoff": "21:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.5585,
+     "odds": 1.47,
+     "won": true
+    }
+   }
+  },
+  "3310203": {
+   "match": "Kolding - Aalborg BK",
+   "league": "Danimarka 1. Lig",
+   "kickoff": "21:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6822,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3313162": {
+   "match": "Kickers Emden - Bremer SV 1906",
+   "league": "Almanya Böl. Lig, Kuzey ",
+   "kickoff": "21:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6021,
+     "odds": 1.38,
+     "won": true
+    }
+   }
+  },
+  "3318509": {
+   "match": "CD Teruel - Hercules",
+   "league": "İspanya Primera RFEF",
+   "kickoff": "21:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.6305,
+     "odds": 1.29,
+     "won": true
+    }
+   }
+  },
+  "3309589": {
+   "match": "Rapperswil - Aarau",
+   "league": "İsviçre Challenge Ligi",
+   "kickoff": "21:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6631,
+     "odds": 1.27,
+     "won": true
+    }
+   }
+  },
+  "3309786": {
+   "match": "Std. Nyonnis - Wil 1900",
+   "league": "İsviçre Challenge Ligi",
+   "kickoff": "21:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6538,
+     "odds": 1.3,
+     "won": false
+    }
+   }
+  },
+  "3309938": {
+   "match": "Wiedenbrück - VfL Bochum II",
+   "league": "Almanya Böl. Lig, Batı",
+   "kickoff": "21:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6201,
+     "odds": 1.4,
+     "won": false
+    }
+   }
+  },
+  "3310043": {
+   "match": "Stade Ouchy - Kriens",
+   "league": "İsviçre Challenge Ligi",
+   "kickoff": "21:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6646,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3310047": {
+   "match": "N. Xamax - Etoile Carouge",
+   "league": "İsviçre Challenge Ligi",
+   "kickoff": "21:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Karşılıklı Gol: Var",
+     "p": 0.5825,
+     "odds": 1.41,
+     "won": false
+    }
+   }
+  },
+  "3314586": {
+   "match": "Farul Cons. - U. Cluj",
+   "league": "Romanya 1. Lig",
+   "kickoff": "21:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    3
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Karşılıklı Gol: Var",
+     "p": 0.5523,
+     "odds": 1.51,
+     "won": true
+    }
+   }
+  },
+  "3404854": {
+   "match": "KV Waasland Beveren U21 - Lierse K. U21",
+   "league": "Belçika U21 Pro Ligi, 1. Grup",
+   "kickoff": "21:30",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    4,
+    1
+   ],
+   "picks": {}
+  },
+  "3266492": {
+   "match": "MC Oran - JS Saoura",
+   "league": "Cezayir 1. Lig",
+   "kickoff": "22:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.6514,
+     "odds": 1.28,
+     "won": false
+    }
+   }
+  },
+  "3309459": {
+   "match": "AS Nancy - Dijon",
+   "league": "Fransa Ligue 2",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6221,
+     "odds": 1.41,
+     "won": true
+    }
+   }
+  },
+  "3309498": {
+   "match": "Almere City - NAC Breda",
+   "league": "Hollanda 1. Lig",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    3
+   ],
+   "ft": [
+    1,
+    4
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6398,
+     "odds": 1.31,
+     "won": true
+    }
+   }
+  },
+  "3309502": {
+   "match": "Graafschap - Maastricht",
+   "league": "Hollanda 1. Lig",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.5721,
+     "odds": 1.43,
+     "won": true
+    }
+   }
+  },
+  "3309517": {
+   "match": "Lierse K. - KSC Lokeren Temse",
+   "league": "Belçika 2. Lig, İlk Etap",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6626,
+     "odds": 1.25,
+     "won": false
+    }
+   }
+  },
+  "3309530": {
+   "match": "Jong Utrecht - Emmen",
+   "league": "Hollanda 1. Lig",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6897,
+     "odds": 1.2,
+     "won": false
+    }
+   }
+  },
+  "3309551": {
+   "match": "Metz - US Boulogne",
+   "league": "Fransa Ligue 2",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Karşılıklı Gol: Var",
+     "p": 0.557,
+     "odds": 1.55,
+     "won": true
+    }
+   }
+  },
+  "3309579": {
+   "match": "TOP Oss - Roda",
+   "league": "Hollanda 1. Lig",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6341,
+     "odds": 1.31,
+     "won": true
+    }
+   }
+  },
+  "3309612": {
+   "match": "Bristol City U21 - Norwich City U21",
+   "league": "İngiltere U21 Premier Lig Kupası",
+   "kickoff": "22:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    3
+   ],
+   "picks": {}
+  },
+  "3309639": {
+   "match": "Volendam - Jong Ajax",
+   "league": "Hollanda 1. Lig",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Gol Alt/Üst: 4.5 Alt",
+     "p": 0.6253,
+     "odds": 1.34,
+     "won": true
+    }
+   }
+  },
+  "3309714": {
+   "match": "RFC Seraing U21 - RWD Molenbeek U21",
+   "league": "Belçika U21 Pro Ligi, 1. Grup",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3309724": {
+   "match": "C. Brugge U23 - Excelsior V.",
+   "league": "Belçika 2. Lig, İlk Etap",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3309729": {
+   "match": "Burnley U21 - Fleetwood T. U21",
+   "league": "İngiltere U21 Premier Lig Kupası",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    4
+   ],
+   "picks": {}
+  },
+  "3309789": {
+   "match": "Vitesse - Jong AZ Alkmaar",
+   "league": "Hollanda 1. Lig",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    3
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.5815,
+     "odds": 1.4,
+     "won": true
+    }
+   }
+  },
+  "3309839": {
+   "match": "QPR U21 - Blackburn R. U21",
+   "league": "İngiltere U21 Premier Lig Kupası",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Üst",
+     "p": 0.5707,
+     "odds": 1.41,
+     "won": false
+    }
+   }
+  },
+  "3309912": {
+   "match": "Heracles - Jong PSV",
+   "league": "Hollanda 1. Lig",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Gol Alt/Üst: 4.5 Alt",
+     "p": 0.5787,
+     "odds": 1.4,
+     "won": true
+    }
+   }
+  },
+  "3309937": {
+   "match": "Annecy - Clermont",
+   "league": "Fransa Ligue 2",
+   "kickoff": "22:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    4,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6895,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3310059": {
+   "match": "W. Bromwich Albion U21 - Coventry City U21",
+   "league": "İngiltere U21 Premier Lig Kupası",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.5821,
+     "odds": 1.45,
+     "won": true
+    }
+   }
+  },
+  "3310077": {
+   "match": "Guingamp - Rodez AF",
+   "league": "Fransa Ligue 2",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.5818,
+     "odds": 1.44,
+     "won": true
+    }
+   }
+  },
+  "3310089": {
+   "match": "Helmond - Dordrecht",
+   "league": "Hollanda 1. Lig",
+   "kickoff": "22:00",
+   "ht": [
+    3,
+    0
+   ],
+   "ft": [
+    5,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6241,
+     "odds": 1.33,
+     "won": true
+    }
+   }
+  },
+  "3310131": {
+   "match": "K Beerschot VA U21 - R. F. Borains U21",
+   "league": "Belçika U21 Pro Ligi, 1. Grup",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Üst",
+     "p": 0.5825,
+     "odds": 1.47,
+     "won": true
+    }
+   }
+  },
+  "3310134": {
+   "match": "Den Bosch - VVV Venlo",
+   "league": "Hollanda 1. Lig",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3310155": {
+   "match": "Cardiff City U21 - Plymouth Argyle U21",
+   "league": "İngiltere U21 Premier Lig Kupası",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {}
+  },
+  "3310187": {
+   "match": "Leeds Utd U21 - Charlton Ath U21",
+   "league": "İngiltere U21 Premier Lig Kupası",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3310218": {
+   "match": "Red Star - Pau",
+   "league": "Fransa Ligue 2",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3313462": {
+   "match": "FK Mornar Bar - FK Sutjeska",
+   "league": "Karadağ 1. CFL",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3309859": {
+   "match": "Yverdon - Winterthur",
+   "league": "İsviçre Challenge Ligi",
+   "kickoff": "22:15",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6103,
+     "odds": 1.35,
+     "won": false
+    }
+   }
+  },
+  "3309547": {
+   "match": "Hellas Verona - AC Cesena",
+   "league": "İtalya Serie B",
+   "kickoff": "22:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6782,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3309847": {
+   "match": "Pontypridd Town - Carmarthen",
+   "league": "Galler Championship, Güney",
+   "kickoff": "22:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6726,
+     "odds": 1.28,
+     "won": true
+    }
+   }
+  },
+  "3309848": {
+   "match": "Casertana - Salernitana",
+   "league": "İtalya Serie C",
+   "kickoff": "22:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3309868": {
+   "match": "Raal La Louviere U21 - KV Kortrijk U21",
+   "league": "Belçika U21 Pro Ligi, 1. Grup",
+   "kickoff": "22:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3309940": {
+   "match": "SV Austria Salzburg - Admira Wacker",
+   "league": "Avusturya 2. Lig",
+   "kickoff": "22:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.5976,
+     "odds": 1.38,
+     "won": true
+    }
+   }
+  },
+  "3310063": {
+   "match": "Swansea U. - Trethomas Bluebirds",
+   "league": "Galler Championship, Güney",
+   "kickoff": "22:30",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6122,
+     "odds": 1.35,
+     "won": true
+    }
+   }
+  },
+  "3310081": {
+   "match": "Inverness - Ayr Utd",
+   "league": "İskoçya Championship",
+   "kickoff": "22:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3310095": {
+   "match": "AC Trento - Cittadella",
+   "league": "İtalya Serie C",
+   "kickoff": "22:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.5506,
+     "odds": 1.48,
+     "won": true
+    }
+   }
+  },
+  "3310130": {
+   "match": "Bayern Münih - Köln",
+   "league": "Almanya Bundesliga",
+   "kickoff": "22:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Gol Alt/Üst: 5.5 Alt",
+     "p": 0.6655,
+     "odds": 1.29,
+     "won": true
+    }
+   }
+  },
+  "3313399": {
+   "match": "Pogon Szczecin - Slask Wroclaw",
+   "league": "Polonya Ekstraklasa",
+   "kickoff": "22:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6823,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3314377": {
+   "match": "M. Legnica - LKS Lodz",
+   "league": "Polonya 1. Lig",
+   "kickoff": "22:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.5512,
+     "odds": 1.46,
+     "won": false
+    }
+   }
+  },
+  "3355412": {
+   "match": "Andorra - Leganes",
+   "league": "İspanya 2. Lig",
+   "kickoff": "22:30",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6292,
+     "odds": 1.33,
+     "won": false
+    }
+   }
+  },
+  "3406918": {
+   "match": "Ca Cerro - Nacional",
+   "league": "Uruguay Prmr Ligi, Kapanış",
+   "kickoff": "22:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Maç Sonucu: 2",
+     "p": 0.563,
+     "odds": 1.5,
+     "won": false
+    }
+   }
+  },
+  "3406919": {
+   "match": "R. Montevideo - Central Espanol",
+   "league": "Uruguay Prmr Ligi, Kapanış",
+   "kickoff": "22:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.5584,
+     "odds": 1.45,
+     "won": true
+    }
+   }
+  },
+  "3406920": {
+   "match": "Liverpool M. - Montevideo",
+   "league": "Uruguay Prmr Ligi, Kapanış",
+   "kickoff": "22:30",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3309472": {
+   "match": "Cercle Brugge - Westerlo",
+   "league": "Belçika Pro Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Karşılıklı Gol: Var",
+     "p": 0.6491,
+     "odds": 1.3,
+     "won": false
+    }
+   }
+  },
+  "3309512": {
+   "match": "TNS - Trefelin",
+   "league": "Galler Premier Lig",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3309519": {
+   "match": "Troyes - Le Havre",
+   "league": "Fransa Ligue 1",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6856,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3309625": {
+   "match": "Broughton - Colwyn Bay",
+   "league": "Galler Premier Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    3
+   ],
+   "ft": [
+    3,
+    4
+   ],
+   "picks": {}
+  },
+  "3309669": {
+   "match": "Caerau Ely - Newport City",
+   "league": "Galler Championship, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3309698": {
+   "match": "Cliftonville - Glentoran",
+   "league": "Kuzey İrlanda Premiership",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.5503,
+     "odds": 1.53,
+     "won": true
+    }
+   }
+  },
+  "3309718": {
+   "match": "Flint Town Utd - Cambrian & Clydach",
+   "league": "Galler Premier Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6293,
+     "odds": 1.32,
+     "won": false
+    }
+   }
+  },
+  "3309765": {
+   "match": "Southend - Boreham Wood",
+   "league": "İngiltere Ulusal Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    3
+   ],
+   "ft": [
+    2,
+    3
+   ],
+   "picks": {}
+  },
+  "3309906": {
+   "match": "Penybont - Haverfordwest C.",
+   "league": "Galler Premier Lig",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6468,
+     "odds": 1.32,
+     "won": true
+    }
+   }
+  },
+  "3309925": {
+   "match": "Llandudno - Barry Town",
+   "league": "Galler Premier Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.5891,
+     "odds": 1.41,
+     "won": false
+    }
+   }
+  },
+  "3309932": {
+   "match": "Briton Ferry - Holywell Town",
+   "league": "Galler Premier Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3310106": {
+   "match": "Caernarfon - Connah's",
+   "league": "Galler Premier Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3310126": {
+   "match": "Cardiff Metro. - Ammanford",
+   "league": "Galler Premier Lig",
+   "kickoff": "22:45",
+   "ht": [
+    3,
+    1
+   ],
+   "ft": [
+    4,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6834,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3310209": {
+   "match": "Caerphilly Ath - Llanelli",
+   "league": "Galler Championship, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3312685": {
+   "match": "Strabane Athletic - Dundela",
+   "league": "Kuzey İrlanda Championship",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6834,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3313418": {
+   "match": "Ballinamallard Utd - Loughgall",
+   "league": "Kuzey İrlanda Championship",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.705,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3380284": {
+   "match": "Balzan - Mosta",
+   "league": "Malta Premier Lig, Düşme Turu",
+   "kickoff": "22:45",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    3
+   ],
+   "picks": {}
+  },
+  "3310205": {
+   "match": "Barnsley - S. Wednesday",
+   "league": "İngiltere 1. Lig",
+   "kickoff": "23:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Karşılıklı Gol: Var",
+     "p": 0.6632,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3312877": {
+   "match": "Toulouse (K) - Marsilya (K)",
+   "league": "Fransa Kadınlar 1. Lig",
+   "kickoff": "23:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3318141": {
+   "match": "Villarreal B - Gimnastic",
+   "league": "İspanya Primera RFEF",
+   "kickoff": "23:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.598,
+     "odds": 1.45,
+     "won": false
+    }
+   }
+  },
+  "3318599": {
+   "match": "Ath Bilbao - Espanyol",
+   "league": "İspanya La Liga",
+   "kickoff": "23:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "claudetahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6539,
+     "odds": 1.32,
+     "won": true
+    }
+   }
+  },
+  "3319075": {
+   "match": "Real Madrid B - Murcia",
+   "league": "İspanya Primera RFEF",
+   "kickoff": "23:15",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3351685": {
+   "match": "Porto - Paredes",
+   "league": "Portekiz Kupası",
+   "kickoff": "23:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  }
+ }
+}
