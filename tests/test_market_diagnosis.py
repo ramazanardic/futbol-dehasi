@@ -417,3 +417,118 @@ def test_dep_15_over_requires_direct_or_dominant_xg_and_cs1x_blocks_strong_away(
     assert not diagnose_selection("ÇŞ 1X", 0.72, cs1x_bad, for_coupon=True).ok
 
 
+def test_v3_ht_dc_12_trap_caught_and_calibration_pattern_applied():
+    # 22 Kas 427 maç bulgusu: İY ÇŞ 12 48/99 (%48.5 vs %62.9 = -14.4p) gizli kupon katili
+    normal_ctx = {
+        "name": "İY ÇŞ 12",
+        "p": 0.72,
+        "odds": 1.48,
+        "mu_home": 1.55,
+        "mu_away": 1.20,
+        "p_draw": 0.25,
+        "reference": "Pinnacle",
+        "direct": False,
+        "league": "İngiltere Premier Lig",
+    }
+    diag = diagnose_selection("İY ÇŞ 12", 0.72, normal_ctx, for_coupon=True)
+    assert not diag.ok and not diag.rehabilitated
+    assert diag.residual_adjustment <= -0.075
+    assert any("İY ÇŞ 12" in r for r in diag.reasons)
+    assert not CR.leg_decision(normal_ctx).ok
+
+    # Kalibrasyon tablosunda ^İY ÇŞ 12$ paterni genel ^İY ÇŞ paterninden önce eşleşir ve daha düşük P üretir
+    p_12 = CR.calibrate_p(0.70, "İY ÇŞ 12")
+    p_1x = CR.calibrate_p(0.70, "İY ÇŞ 1X")
+    assert p_12 < p_1x - 0.04
+
+
+def test_v3_strong_steam_shields_ms_and_unders():
+    # MS 1: steam yokken geçer, >=6p sert steam varken reddedilir (22 Kas: %43.8 vs %68.6!)
+    ms_clean = {
+        "name": "MS 1",
+        "p": 0.74,
+        "odds": 1.35,
+        "mu_home": 2.05,
+        "mu_away": 0.72,
+        "p_draw": 0.19,
+        "reference": "Pinnacle",
+        "direct": True,
+        "league": "İspanya La Liga",
+        "flags": [],
+    }
+    d_clean = diagnose_selection("MS 1", 0.74, ms_clean, for_coupon=True)
+    assert d_clean.ok
+
+    ms_steam = {**ms_clean, "flags": ["keskin borsa steam +6.8p"]}
+    d_steam = diagnose_selection("MS 1", 0.74, ms_steam, for_coupon=True)
+    assert not d_steam.ok and d_steam.residual_adjustment <= -0.075
+    assert not CR.leg_decision(ms_steam).ok
+
+    # Virgüllü Türkçe ondalık bayrak da (+6,2p) yakalanır
+    ms_comma = {**ms_clean, "flags": ["steam +6,2p"]}
+    assert not diagnose_selection("MS 1", 0.74, ms_comma, for_coupon=True).ok
+
+    # İY 1.5 Alt: düşük xG'de temizken geçer, >=5.5p sert steam'de reddedilir (Getafe İY 0-2 dersi)
+    iy15_clean = {
+        "name": "İY 1.5 Alt",
+        "p": 0.75,
+        "odds": 1.28,
+        "mu_home": 1.15,
+        "mu_away": 0.80,
+        "reference": "Pinnacle",
+        "direct": True,
+        "league": "İspanya La Liga",
+        "flags": [],
+    }
+    assert CR.leg_decision(iy15_clean).ok
+    iy15_steam = {**iy15_clean, "flags": ["keskin steam +5.8p"]}
+    assert not diagnose_selection("İY 1.5 Alt", 0.75, iy15_steam, for_coupon=True).ok
+    assert not CR.leg_decision(iy15_steam).ok
+
+    # 3.5 Alt: >=6.5p sert steam'de reddedilir
+    u35_steam = {
+        "name": "3.5 Alt",
+        "p": 0.76,
+        "odds": 1.26,
+        "mu_home": 1.20,
+        "mu_away": 0.90,
+        "reference": "Pinnacle",
+        "direct": True,
+        "steam_pp": 7.1,
+    }
+    assert not diagnose_selection("3.5 Alt", 0.76, u35_steam, for_coupon=True).ok
+
+
+def test_v3_not_both_halves_tightened_and_both_halves_kg_yok_rehabilitated():
+    # v3: DEĞİL(Ev İki Yarıda Gol) eşiği 1.75 -> 1.60'a daraltıldı (22 Kas: 17/33 = %51.5, -14.9p)
+    mid_home = {
+        "name": "DEĞİL(Ev İki Yarıda Gol)",
+        "p": 0.74,
+        "odds": 1.24,
+        "mu_home": 1.65,
+        "mu_away": 0.95,
+        "reference": "Pinnacle",
+        "direct": False,
+    }
+    assert not diagnose_selection("DEĞİL(Ev İki Yarıda Gol)", 0.74, mid_home, for_coupon=True).ok
+
+    # v3: İY KG Yok & 2Y KG Yok düşük toplamlı keskin maçta rehabilite edilir (22 Kas: 19/26 = %73.1, +10.0p)
+    kg_yok_ok = {
+        "name": "İY KG Yok & 2Y KG Yok",
+        "p": 0.74,
+        "odds": 1.32,
+        "mu_home": 1.25,
+        "mu_away": 0.95,
+        "reference": "Pinnacle",
+        "direct": False,
+        "league": "İtalya Serie A",
+    }
+    d_rehab = diagnose_selection("İY KG Yok & 2Y KG Yok", 0.74, kg_yok_ok, for_coupon=True)
+    assert d_rehab.ok and d_rehab.rehabilitated
+
+    # Yüksek toplamlı maçta veya kaleci eksikken reddedilir
+    assert not diagnose_selection("İY KG Yok & 2Y KG Yok", 0.74, {**kg_yok_ok, "mu_home": 1.90, "mu_away": 1.30}, for_coupon=True).ok
+    assert not diagnose_selection("İY KG Yok & 2Y KG Yok", 0.74, {**kg_yok_ok, "away_gk1_out": True}, for_coupon=True).ok
+
+
+

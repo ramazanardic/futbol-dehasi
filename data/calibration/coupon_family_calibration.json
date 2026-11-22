@@ -84,6 +84,7 @@
   "name_patterns": [
     {"pattern": "^2\\.5 Üst$", "n": 124, "hit_rate": 0.492, "mean_p": 0.602, "residual": -0.110, "note": "aile içi en kötü Alt/Üst dilimi; aile residualinin yerine geçer"},
     {"pattern": "^3\\.5 Alt$", "n": 122, "hit_rate": 0.697, "mean_p": 0.629, "residual": 0.068},
+    {"pattern": "^İY ÇŞ 12$", "n": 99, "hit_rate": 0.4848, "mean_p": 0.629, "residual": -0.1442, "note": "22 Kas 427 maç: ilk yarı 0-0/1-1 beraberlikleri İY ÇŞ 12'yi -14.4p çökertiyor; İY ÇŞ 1X/X2'den ayrıldı"},
     {"pattern": "^İY ÇŞ", "n": 311, "hit_rate": 0.621, "mean_p": 0.621, "residual": -0.001},
     {"pattern": "^İY \\d+\\.5 Alt$", "n": 151, "hit_rate": 0.609, "mean_p": 0.623, "residual": -0.014},
     {"pattern": "^2Y KG Yok$", "n": 93, "hit_rate": 0.7204, "mean_p": 0.6451, "residual": 0.0753},

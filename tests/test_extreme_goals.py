@@ -8,6 +8,7 @@ import sys
 
 from quantfoot.markets.extreme_goals import (
     both_halves_btts_probability,
+    build_extreme_system,
     scan_extreme_goals,
     score_6plus_match,
     score_both_halves_btts_match,
@@ -156,3 +157,48 @@ def test_simulasyon_home_adv_gamma_tempo_and_min_side_guard():
     assert v_masked != "üçlü onay"
     v_ok, _ = sim.judge(0.65, 0.66, 0.68, min_side=0.60)
     assert v_ok == "üçlü onay"
+
+
+def test_v3_sim_xg_disagreement_penalty_defensive_crisis_and_system_builder():
+    base = {
+        "code": 3001,
+        "kickoff": "2026-11-23 20:00",
+        "league": "İtalya Serie A",
+        "home": "Atalanta",
+        "away": "Inter",
+        "status": "fiyatlandı",
+        "mbs": 2,
+        "mu_home": 1.55,
+        "mu_away": 1.85,
+        "selections": [
+            {"name": "6+ Gol", "market": "Toplam Gol Aralığı", "selection": "6+ Gol", "odds": 6.00, "fair_prob": 0.14},
+            {"name": "İki Yarıda KG Var", "market": "1Y/2Y KG", "selection": "Evet/Evet", "odds": 8.50, "fair_prob": 0.10},
+        ],
+    }
+    # Sim xG piyasadan >= 0.60 şişkinse (Sim >> Mkt tuzağı) her iki skordan da ceza kesilir
+    c6_base = score_6plus_match(base)
+    c6_inflated = score_6plus_match(base, {"sim_xg": [2.25, 2.05]})
+    c6_agreed = score_6plus_match(base, {"sim_xg": [1.65, 1.80]})
+    assert c6_inflated.dna_score < c6_base.dna_score - 5.0
+    assert any("aşırı iyimser" in w for w in c6_inflated.warnings)
+    assert c6_agreed.dna_score > c6_base.dna_score
+
+    ckg_base = score_both_halves_btts_match(base)
+    ckg_inflated = score_both_halves_btts_match(base, {"sim_xg": [2.25, 2.05]})
+    assert ckg_inflated.dna_score < ckg_base.dna_score - 5.0
+
+    # Savunma krizi (>=2 savunmacı eksik) gol patlaması puanını artırır
+    crisis = {**base, "research": {"tm_absences": {"home": {"defenders_out": 3}}}}
+    assert score_6plus_match(crisis).dna_score > c6_base.dna_score
+    assert score_both_halves_btts_match(crisis).dna_score > ckg_base.dna_score
+
+    # build_extreme_system MBS'ye ve bütçeye uyumlu sistem kuponu üretir
+    cands = [
+        score_6plus_match({**base, "code": 3000 + i, "home": f"Ev{i}", "away": f"Dep{i}", "mbs": 2})
+        for i in range(1, 6)
+    ]
+    sys_evals = build_extreme_system(cands, budget_tl=100.0, max_legs=5, top_n=2)
+    assert sys_evals
+    best = sys_evals[0]
+    assert best.mbs_ok and min(best.sizes) >= 2 and best.total_cost <= 100.0
+

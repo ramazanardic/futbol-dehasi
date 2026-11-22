@@ -257,6 +257,9 @@ _DIAG_CTX_KEYS = (
     "home_rate",
     "away_rate",
     "min_side_rate",
+    "flags",
+    "steam_pp",
+    "sharp_steam_pp",
 )
 
 

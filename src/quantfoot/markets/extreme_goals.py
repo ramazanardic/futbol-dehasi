@@ -19,10 +19,12 @@ from __future__ import annotations
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 import math
+import re
 from typing import Any
 
 import numpy as np
 
+from quantfoot.coupons.system_builder import SystemEvaluation, SystemLeg, optimize_system
 from quantfoot.markets.halves_btts import compute_halves_btts, half_model_params
 from quantfoot.markets.tail_goals import league_tail_regime, regime_score_matrix, summarize_tail_goals
 from quantfoot.strategy.banko_guard import league_tier
@@ -216,9 +218,63 @@ def _absences(match: Mapping[str, Any], row: Mapping[str, Any] | None) -> tuple[
     return h_gk, a_gk, h_sc, a_sc
 
 
+def _extract_sim_xg(
+    match: Mapping[str, Any],
+    row: Mapping[str, Any] | None,
+    sim_xg: Sequence[float] | None = None,
+) -> tuple[float, float] | None:
+    """Bağımsız form/DC simülasyonu xG çiftini çıkar (varsa)."""
+    raw = sim_xg
+    if raw is None and row:
+        raw = row.get("sim_xg") or row.get("xg")
+    if raw is None:
+        raw = match.get("sim_xg")
+    if isinstance(raw, (list, tuple)) and len(raw) == 2:
+        a, b = _flt(raw[0]), _flt(raw[1])
+        if a is not None and b is not None and (a + b) > 0:
+            return (a, b)
+    return None
+
+
+def _defensive_crisis_and_steam(match: Mapping[str, Any], row: Mapping[str, Any] | None) -> tuple[int, float]:
+    """Savunma krizi sayısını (>=2 savunmacı/kritik eksik) ve keskin borsa steam büyüklüğünü (puan) çıkar."""
+    res = match.get("research") or {}
+    tm = res.get("tm_absences") or {}
+    ua = res.get("user_absences") or {}
+    teams = (row or {}).get("teams") or res.get("teams") or {}
+
+    def_crisis = 0
+    for side in ("home", "away"):
+        for src in (tm.get(side) or {}, ua.get(side) or {}, teams.get(side) or {}):
+            if not isinstance(src, Mapping):
+                continue
+            for key in ("defenders_out", "missing_defenders", "critical_defenders_out"):
+                v = _flt(src.get(key))
+                if v is not None and v > 0:
+                    def_crisis = max(def_crisis, int(v))
+            if src.get("defensive_crisis"):
+                def_crisis = max(def_crisis, 2)
+            tot_out = _flt(src.get("n_out") or src.get("missing_count"))
+            if tot_out is not None and tot_out >= 4:
+                def_crisis = max(def_crisis, 2)
+
+    steam_pp = _flt(match.get("steam_pp") or match.get("sharp_steam_pp") or res.get("steam_pp"))
+    if steam_pp is None:
+        raw_flags = res.get("flags") or match.get("flags") or (row or {}).get("flags")
+        flag_text = " ".join(str(x) for x in raw_flags) if isinstance(raw_flags, (list, tuple)) else str(raw_flags or "")
+        if "steam" in flag_text.lower():
+            mags = [abs(float(x.replace(",", "."))) for x in re.findall(r"([+-]?\d+(?:[.,]\d+)?)p\b", flag_text)]
+            steam_pp = max(mags) if mags else 0.0
+        else:
+            steam_pp = 0.0
+    return def_crisis, float(steam_pp)
+
+
 def score_6plus_match(
     match: Mapping[str, Any],
     research_row: Mapping[str, Any] | None = None,
+    *,
+    sim_xg: Sequence[float] | None = None,
 ) -> ExtremeGoalCandidate | None:
     """Bir maçı 6+ Gol / 5,5 Üst için kuyruk olasılığı + DNA (0–100) ile puanla."""
     mh = _flt(match.get("mu_home"))
@@ -240,6 +296,8 @@ def score_6plus_match(
 
     hist = _extract_history_metrics(research_row)
     h_gk, a_gk, h_sc, a_sc = _absences(match, research_row)
+    s_xg = _extract_sim_xg(match, research_row, sim_xg)
+    def_crisis, steam_pp = _defensive_crisis_and_steam(match, research_row)
 
     reasons: list[str] = []
     warnings: list[str] = []
@@ -297,10 +355,27 @@ def score_6plus_match(
             score += min(8.0, mean_o45 * 22.0)
             reasons.append(f"5+ gol maç geçmişi güçlü (ort %{100*mean_o45:.0f})")
 
-    # 4. Kadro / kaleci açığı ve lig temposu (-12..+13 puan)
+    # 4. Bağımsız simülasyon vs piyasa xG uyumu (v3 — 22 Kas 427 maç bulgusu)
+    # Sim xG piyasadan >=0.60 fazla şiştiğinde gerçek maç 2.00 golde kalıyor (%0 6+ gol tuzağı!).
+    sim_tot = (s_xg[0] + s_xg[1]) if s_xg is not None else None
+    if sim_tot is not None:
+        if sim_tot - mtot >= 0.60:
+            score -= 10.0
+            warnings.append(f"form simülasyonu piyasadan aşırı iyimser (Sim {sim_tot:.2f} vs Piyasa {mtot:.2f} — şişkin form tuzağı)")
+        elif mtot >= 3.30 and abs(sim_tot - mtot) <= 0.55:
+            score += 5.0
+            reasons.append(f"piyasa ve bağımsız simülasyon yüksek tempoda hemfikir (Sim {sim_tot:.2f})")
+
+    # 5. Kadro / kaleci / savunma krizi / keskin steam (-12..+18 puan)
     if h_gk or a_gk:
         score += 8.0
         reasons.append("1. kaleci eksikliği gol patlaması riskini artırıyor")
+    if def_crisis >= 2:
+        score += 6.0
+        reasons.append(f"savunma hattında çoklu eksik ({def_crisis}+ savunma/kritik eksik)")
+    if steam_pp >= 5.0 and mtot >= 3.20 and mdiff >= 0.80:
+        score += 4.0
+        reasons.append(f"keskin borsada güçlü favori akışı (+{steam_pp:.1f}p)")
     if h_sc and a_sc:
         score -= 12.0
         warnings.append("iki takımın da 1. golcüsü eksik")
@@ -339,12 +414,20 @@ def score_6plus_match(
         reasons=tuple(reasons),
         warnings=tuple(warnings),
         safe_ladder=_safe_ladder(match),
+        extra={
+            "mbs": int(match.get("mbs") or 1),
+            "sim_total": round(sim_tot, 3) if sim_tot is not None else None,
+            "def_crisis": def_crisis,
+            "steam_pp": round(steam_pp, 2),
+        },
     )
 
 
 def score_both_halves_btts_match(
     match: Mapping[str, Any],
     research_row: Mapping[str, Any] | None = None,
+    *,
+    sim_xg: Sequence[float] | None = None,
 ) -> ExtremeGoalCandidate | None:
     """Bir maçı 'İki Yarıda KG Var' için asimetrik yarı-tempo modeli + DNA (0–100) ile puanla."""
     mh = _flt(match.get("mu_home"))
@@ -367,6 +450,8 @@ def score_both_halves_btts_match(
 
     hist = _extract_history_metrics(research_row)
     h_gk, a_gk, h_sc, a_sc = _absences(match, research_row)
+    s_xg = _extract_sim_xg(match, research_row, sim_xg)
+    def_crisis, steam_pp = _defensive_crisis_and_steam(match, research_row)
 
     reasons: list[str] = []
     warnings: list[str] = []
@@ -423,10 +508,23 @@ def score_both_halves_btts_match(
         score += 6.0
         reasons.append(f"2. yarı gol sürekliliği yüksek (en düşük %{100*min(s2_vals):.0f})")
 
-    # 4. Kadro / kaleci + EV ayarı
+    # 4. Bağımsız simülasyon vs piyasa xG uyumu (v3 — 22 Kas 427 maç bulgusu)
+    sim_tot = (s_xg[0] + s_xg[1]) if s_xg is not None else None
+    if sim_tot is not None:
+        if sim_tot - mtot >= 0.60:
+            score -= 10.0
+            warnings.append(f"form simülasyonu piyasadan aşırı iyimser (Sim {sim_tot:.2f} vs Piyasa {mtot:.2f} — 2Y KG tuzağı)")
+        elif mmin >= 1.25 and abs(sim_tot - mtot) <= 0.55:
+            score += 4.0
+            reasons.append(f"piyasa ve simülasyon çift taraflı yüksek tempoda hemfikir (Sim {sim_tot:.2f})")
+
+    # 5. Kadro / kaleci / savunma krizi + EV ayarı
     if h_gk or a_gk:
         score += 7.0
         reasons.append("1. kaleci eksikliği iki yarıda da gol şansını artırıyor")
+    if def_crisis >= 2 and mmin >= 1.15:
+        score += 5.0
+        reasons.append(f"savunma hattı eksikleri ({def_crisis}+) iki yarıda da gol şansını artırıyor")
     if h_sc or a_sc:
         score -= 10.0
         warnings.append("1. golcü eksikliği çift taraflı gol beklentisini zayıflatıyor")
@@ -462,7 +560,46 @@ def score_both_halves_btts_match(
         reasons=tuple(reasons),
         warnings=tuple(warnings),
         safe_ladder=_safe_ladder(match),
+        extra={
+            "mbs": int(match.get("mbs") or 1),
+            "sim_total": round(sim_tot, 3) if sim_tot is not None else None,
+            "def_crisis": def_crisis,
+            "steam_pp": round(steam_pp, 2),
+        },
     )
+
+
+def build_extreme_system(
+    candidates: Sequence[ExtremeGoalCandidate],
+    budget_tl: float = 100.0,
+    *,
+    max_legs: int = 6,
+    top_n: int = 3,
+) -> list[SystemEvaluation]:
+    """En yüksek DNA skorlu ekstrem gol adaylarından bütçeye uygun MBS-uyumlu sistem kuponları üretir."""
+    legs: list[SystemLeg] = []
+    seen: set[int] = set()
+    for c in candidates:
+        if c.code in seen or c.nesine_odds is None or c.nesine_odds < 2.0:
+            continue
+        seen.add(c.code)
+        legs.append(
+            SystemLeg(
+                match_id=str(c.code),
+                match=c.match,
+                name=c.kind,
+                odds=float(c.nesine_odds),
+                p=float(c.p_tail),
+                mbs=int(c.extra.get("mbs") or 1),
+                kickoff=c.kickoff,
+                league=c.league,
+            )
+        )
+        if len(legs) >= max_legs:
+            break
+    if len(legs) < 2:
+        return []
+    return optimize_system(legs, budget_tl, mode="yuksek_oran", top_n=top_n)
 
 
 def scan_extreme_goals(

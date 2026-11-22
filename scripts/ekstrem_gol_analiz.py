@@ -20,7 +20,11 @@ sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from nesine_global import DAILY, TSI  # noqa: E402
-from quantfoot.markets.extreme_goals import ExtremeGoalCandidate, scan_extreme_goals  # noqa: E402
+from quantfoot.markets.extreme_goals import (  # noqa: E402
+    ExtremeGoalCandidate,
+    build_extreme_system,
+    scan_extreme_goals,
+)
 
 
 def _render_section(title: str, items: list[ExtremeGoalCandidate]) -> list[str]:
@@ -55,7 +59,13 @@ def run(date: str, *, only_offered: bool = True, top_n: int = 10, min_dna: float
     if dr_path.exists():
         for row in json.loads(dr_path.read_text(encoding="utf-8")):
             if str(row.get("code", "")).isdigit():
-                res_map[int(row["code"])] = row
+                res_map[int(row["code"])] = dict(row)
+    sim_path = day_dir / "simulasyon.json"
+    if sim_path.exists():
+        for srow in json.loads(sim_path.read_text(encoding="utf-8")):
+            if str(srow.get("code", "")).isdigit() and srow.get("xg"):
+                code = int(srow["code"])
+                res_map.setdefault(code, {})["sim_xg"] = srow["xg"]
     now = dt.datetime.now(TSI)
     upcoming = [m for m in ng.get("matches", []) if dt.datetime.fromisoformat(m["kickoff_iso"]) > now]
     scanned = scan_extreme_goals(
@@ -66,6 +76,24 @@ def run(date: str, *, only_offered: bool = True, top_n: int = 10, min_dna: float
         min_dna_both_btts=min_dna,
         top_n=top_n,
     )
+    sys_6 = build_extreme_system(scanned["6plus"], budget_tl=100.0, max_legs=6, top_n=2)
+    sys_kg = build_extreme_system(scanned["both_halves_btts"], budget_tl=100.0, max_legs=6, top_n=2)
+
+    def _sys_md(label: str, evals: list) -> list[str]:
+        if not evals:
+            return []
+        best = evals[0]
+        sz_s = ",".join(str(x) for x in best.sizes)
+        min_k = min(best.sizes)
+        p_min = best.p_at_least.get(min_k, 0.0)
+        lo_m, hi_m = best.hit_table.get(min_k, (0.0, 0.0))
+        return [
+            f"- **{label} ({best.n_legs} maç, Sistem {sz_s}):** {best.n_cols} kolon × {best.stake_per_col:.0f} TL = "
+            f"**{best.total_cost:.0f} TL** | Tavan: **{best.max_payout:,.0f} TL** (efektif @{best.effective_max_odds:.1f}) | "
+            f"{min_k}+ isabet: %{100*p_min:.1f} ({lo_m:.0f}–{hi_m:.0f} TL) | P(Kâr): %{100*best.p_profit:.1f}",
+        ]
+
+    sys_lines = _sys_md("6+ Gol", sys_6) + _sys_md("İki Yarıda KG Var", sys_kg)
     md = [
         f"# {date} — 6+ Gol ve İki Yarıda KG Var Uzman Analizi ({now:%H:%M} TSİ)",
         "",
@@ -75,6 +103,8 @@ def run(date: str, *, only_offered: bool = True, top_n: int = 10, min_dna: float
         *_render_section("6+ Gol / 5,5 Üst Adayları", scanned["6plus"]),
         *_render_section("İki Yarıda KG Var Adayları", scanned["both_halves_btts"]),
     ]
+    if sys_lines:
+        md += ["## 100 TL Öneri Sistem Kuponu Özeti (MBS Uyumlu)", "", *sys_lines, ""]
     payload = {
         "date": date,
         "generated_at": now.isoformat(timespec="minutes"),
@@ -82,6 +112,10 @@ def run(date: str, *, only_offered: bool = True, top_n: int = 10, min_dna: float
         "min_dna": min_dna,
         "6plus": [asdict(x) for x in scanned["6plus"]],
         "both_halves_btts": [asdict(x) for x in scanned["both_halves_btts"]],
+        "systems_100tl": {
+            "6plus": [asdict(x) for x in sys_6],
+            "both_halves_btts": [asdict(x) for x in sys_kg],
+        },
     }
     (day_dir / "ekstrem_gol_analiz.md").write_text("\n".join(md), encoding="utf-8")
     (day_dir / "ekstrem_gol_analiz.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")

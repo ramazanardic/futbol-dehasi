@@ -86,6 +86,7 @@ def _match_diag_context(m: dict, name: str) -> dict:
         "league": m.get("league"),
         "direct": bool(sel_hit.get("direct")) if sel_hit is not None else False,
         "teams": teams,
+        "flags": res.get("flags") or [],
         "home_gk1_out": bool((tm.get("home") or {}).get("gk1_out") or (ua.get("home") or {}).get("gk_out") or (teams.get("home") or {}).get("gk1_out")),
         "away_gk1_out": bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out") or (teams.get("away") or {}).get("gk1_out")),
         "home_top_scorer_out": bool((tm.get("home") or {}).get("top_scorer_out") or (teams.get("home") or {}).get("top_scorer_out")),
