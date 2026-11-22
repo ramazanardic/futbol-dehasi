@@ -53,6 +53,7 @@ class BankoLeg:
     p_over25: float | None = None  # maçın marjsız P(2.5 Üst)
     p_model: float | None = None   # yüksek oranlı pazar: model P'si (keskin ile uyum kontrolü)
     p_sharp: float | None = None   # yüksek oranlı pazar: seçimin kendi keskin P'si
+    rehabilitated: bool = False    # market_diagnosis.diagnose_selection ile kök-neden rehabilitasyonundan geçti mi
 
 
 # ---------------------------------------------------------------- aile / lig kademesi / büzme
@@ -187,7 +188,7 @@ def check_leg(leg: BankoLeg, cfg: GuardConfig = DEFAULT, at_selection: bool = Tr
     min_p = cfg.min_prob
     fam = leg.family or selection_family(_sel_name(leg.label))
     if fam and fam in cfg.weak_families and not leg.live:
-        if cfg.weak_family_require_direct and leg.direct is not True:
+        if cfg.weak_family_require_direct and leg.direct is not True and not leg.rehabilitated:
             err.append(f"{leg.label}: {fam} ailesi banko'da yalnız doğrudan keskin fiyatla (21 Kas: ana tercihte ~%50 tuttu)")
         min_p = cfg.min_prob + cfg.weak_family_extra_min_prob
     if p < min_p:

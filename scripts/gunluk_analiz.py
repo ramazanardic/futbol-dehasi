@@ -26,6 +26,7 @@ from nesine_global import (  # noqa: E402
     is_sharp_source,
 )
 from quantfoot.markets.market_calibration import calibrate_market_probability, load_market_calibration
+from quantfoot.markets.market_diagnosis import diagnose_selection
 from quantfoot.strategy.coupon_builder import is_uncalibrated_competition  # noqa: E402
 
 EXCLUDED_MODEL = ("İY/MS", "2Y 0", "2Y 1", "2Y 2")
@@ -91,11 +92,21 @@ def main_pick_floor(m: dict) -> tuple[float | None, str]:
 
 
 def best_pick(m: dict) -> tuple[dict | None, str]:
-    """Rank eligible selections using the same validated market curves as the coupon engine."""
+    """Rank eligible selections using the same validated market curves and root-cause diagnostics as the coupon engine."""
     min_p, reason = main_pick_floor(m)
     if min_p is None:
         return None, reason
     calibration = load_market_calibration()
+    res = m.get("research") or {}
+    tm = res.get("tm_absences") or {}
+    ua = res.get("user_absences") or {}
+    has_diag_ctx = (
+        m.get("mu_home") is not None
+        or m.get("mu_away") is not None
+        or bool(tm)
+        or bool(ua)
+    )
+    p_over25 = next((float(x["fair_prob"]) for x in m.get("selections") or [] if x.get("name") == "2.5 Üst"), None)
     eligible = []
     for selection in m["selections"]:
         name = selection["name"]
@@ -104,12 +115,33 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
                 or selection["odds"] < 1.20 or selection["ev"] > 0.25):
             continue
         p = calibrate_market_probability(name, selection["fair_prob"], m.get("league"), calibration, direct=direct)
+        diag_ok = True
+        if has_diag_ctx:
+            diag_ctx = {
+                "mu_home": m.get("mu_home"),
+                "mu_away": m.get("mu_away"),
+                "fair_1x2": m.get("fair_1x2"),
+                "p_over25": p_over25,
+                "reference": m.get("reference"),
+                "league": m.get("league"),
+                "direct": direct,
+                "home_gk1_out": bool((tm.get("home") or {}).get("gk1_out") or (ua.get("home") or {}).get("gk_out")),
+                "away_gk1_out": bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out")),
+                "home_top_scorer_out": bool((tm.get("home") or {}).get("top_scorer_out")),
+                "away_top_scorer_out": bool((tm.get("away") or {}).get("top_scorer_out")),
+            }
+            diag = diagnose_selection(name, p, diag_ctx, for_coupon=False)
+            diag_ok = bool(diag.ok)
+            if diag.residual_adjustment < 0:
+                p = min(1.0, max(0.0, p + float(diag.residual_adjustment)))
         ev = p * selection["odds"] - 1
         if p >= min_p and ev <= 0.25:
-            eligible.append({**selection, "fair_prob": p, "fair_odds": 1 / p, "ev": ev})
+            eligible.append({**selection, "fair_prob": p, "fair_odds": 1 / p, "ev": ev, "_diag_ok": diag_ok})
     if not eligible:
         return None, ("orta güven — %62+ uygun seçim yok" if reason else "1,20+ uygun seçim yok")
-    return max(eligible, key=lambda s: (s["fair_prob"], s["odds"])), reason
+    best = max(eligible, key=lambda s: (bool(s.get("_diag_ok", True)), s["fair_prob"], s["odds"]))
+    out_pick = {k: v for k, v in best.items() if k != "_diag_ok"}
+    return out_pick, reason
 
 
 def main() -> None:

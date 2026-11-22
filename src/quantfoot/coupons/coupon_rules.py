@@ -32,6 +32,7 @@ from typing import Any
 
 from quantfoot import settings as S
 from quantfoot.evaluation.auto_learn import market_family
+from quantfoot.markets.market_diagnosis import MarketDiagnosis, diagnose_selection
 from quantfoot.paths import REPO_ROOT
 
 MIN_CALIBRATED_P = 0.70
@@ -244,11 +245,31 @@ def _get(obj: Any, *names: str, default: Any = None) -> Any:
     return default
 
 
+_DIAG_CTX_KEYS = (
+    "mu_home",
+    "mu_away",
+    "home_gk1_out",
+    "away_gk1_out",
+    "home_top_scorer_out",
+    "away_top_scorer_out",
+    "home_rate",
+    "away_rate",
+    "min_side_rate",
+)
+
+
+def _has_diagnosis_context(obj: Any) -> bool:
+    for k in _DIAG_CTX_KEYS:
+        if _get(obj, k, default=None) is not None:
+            return True
+    return False
+
+
 def leg_decision(obj: Any, cal: Calibration | None = None, *,
                  min_p: float = MIN_CALIBRATED_P,
                  min_odds: float = S.MIN_LEG_ODDS,
                  max_odds: float | None = S.BANKO_MAX_LEG_ODDS) -> RuleDecision:
-    """Tek bacak kural süzgecinden geçer mi?"""
+    """Tek bacak kural ve teşhis/rehabilitasyon süzgecinden geçer mi?"""
     cal = cal or default_calibration()
     raw_name = _get(obj, "name", "sel", "selection", default="") or ""
     name = canonical_name(raw_name)
@@ -266,26 +287,54 @@ def leg_decision(obj: Any, cal: Calibration | None = None, *,
         p = float(p_v) if p_v is not None else None
     except (TypeError, ValueError):
         p = None
-    p_cal = calibrate_p(p, name, cal, family) if p is not None else None
+
+    diag: MarketDiagnosis | None = None
+    if name and _has_diagnosis_context(obj):
+        diag = diagnose_selection(name, p if p is not None else 0.0, obj, for_coupon=True)
+    explicit_rehab = _get(obj, "rehabilitated", default=None)
+    is_rehabilitated = (
+        (explicit_rehab is True and (diag is None or diag.ok))
+        or (explicit_rehab is None and diag is not None and diag.ok and diag.rehabilitated)
+    )
+
+    if p is not None:
+        if is_rehabilitated:
+            # Rehabilite edilmiş alt-dilim negatif aile/isim sapmasından arındırılmıştır;
+            # yalnız bant düzeltmesi ve varsa negatif teşhis düzeltmesi uygulanır.
+            b_raw, b_n = _band_residual(float(p), cal)
+            band_delta = _clip_positive(shrink_residual(b_raw, b_n, cal.prior_n))
+            diag_delta = min(0.0, float(diag.residual_adjustment)) if diag is not None else 0.0
+            p_cal = min(1.0, max(0.0, float(p) + band_delta + diag_delta))
+        else:
+            base_cal = calibrate_p(p, name, cal, family)
+            diag_delta = min(0.0, float(diag.residual_adjustment)) if diag is not None else 0.0
+            p_cal = min(1.0, max(0.0, base_cal + diag_delta))
+    else:
+        p_cal = None
+
     reasons: list[str] = []
     if not name:
         reasons.append("seçim adı yok")
     if is_draw_leg(name):
         reasons.append("beraberlik bacağı yasak")
-    if family in BANNED_FAMILIES:
-        reasons.append(f"{family} ailesi yasak")
-    elif not family_allowed(family, cal):
-        reasons.append(f"{family} ailesi kupon beyaz listesinde değil")
+    if not is_rehabilitated:
+        if family in BANNED_FAMILIES:
+            reasons.append(f"{family} ailesi yasak")
+        elif not family_allowed(family, cal):
+            reasons.append(f"{family} ailesi kupon beyaz listesinde değil")
     allowed_names = FAMILY_NAME_ALLOW.get(family)
-    if allowed_names is not None and name not in allowed_names:
+    if allowed_names is not None and name not in allowed_names and not is_rehabilitated:
         reasons.append(f"{family} ailesinde yalnız {', '.join(sorted(allowed_names))} kabul")
+    if diag is not None and not diag.ok:
+        for r in diag.reasons:
+            reasons.append(r)
     for part in _combo_parts(name):
         if part == name and "&" not in name and " ve " not in name:
             continue
         pf = classify_family(part)
         if is_draw_leg(part):
             reasons.append(f"kombine parça beraberlik: {part}")
-        if pf in BANNED_FAMILIES:
+        if pf in BANNED_FAMILIES and not is_rehabilitated:
             reasons.append(f"kombine parça yasak aile ({pf}): {part}")
     if odds is None:
         reasons.append("oran yok")

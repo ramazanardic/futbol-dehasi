@@ -48,6 +48,7 @@ from quantfoot.settings import MAX_PRICE_AGE_H as SETTINGS_MAX_PRICE_AGE_H  # no
 from quantfoot.settings import MIN_LEG_ODDS as SETTINGS_MIN_LEG_ODDS  # noqa: E402
 from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
 from quantfoot.markets.market_calibration import calibrate_market_probability, load_market_calibration  # noqa: E402
+from quantfoot.markets.market_diagnosis import diagnose_selection  # noqa: E402
 from quantfoot.markets.families import family_rule, leg_min_ev  # noqa: E402
 from quantfoot.settings import HARD_MARKET_MIN_EV, HARD_MARKET_SIGMA_ADD  # noqa: E402
 from quantfoot.strategy import kupon_modu as KM  # noqa: E402
@@ -284,8 +285,21 @@ def candidates(
         researched = bool(res.get("teams") or res.get("user_absences") or res.get("tm_absences"))
         eff_min_prob = max(min_prob, MID_GLOBAL_MIN_PROB) if (not is_sharp and is_mid_global) else min_prob
         f1x2 = m.get("fair_1x2") or []
+        p1 = float(f1x2[0]) if len(f1x2) == 3 else None
         p_draw = float(f1x2[1]) if len(f1x2) == 3 else None  # beraberlik riski (21 Kas gece analizi, banko_guard)
+        p2 = float(f1x2[2]) if len(f1x2) == 3 else None
         p_over25 = next((float(x["fair_prob"]) for x in m["selections"] if x.get("name") == "2.5 Üst"), None)
+        mu_home = m.get("mu_home")
+        mu_away = m.get("mu_away")
+        tm = res.get("tm_absences") or {}
+        ua = res.get("user_absences") or {}
+        home_gk1_out = bool((tm.get("home") or {}).get("gk1_out") or (ua.get("home") or {}).get("gk_out"))
+        away_gk1_out = bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out"))
+        home_top_scorer_out = bool((tm.get("home") or {}).get("top_scorer_out"))
+        away_top_scorer_out = bool((tm.get("away") or {}).get("top_scorer_out"))
+        has_diag_ctx = any(
+            x is not None for x in (mu_home, mu_away)
+        ) or home_gk1_out or away_gk1_out or home_top_scorer_out or away_top_scorer_out
         for s in m["selections"]:
             p_cal = calibrated_probability(s["fair_prob"], bool(s.get("direct")), calibration)  # settled-history correction
             p_cal = calibrate_market_probability(s.get("name", ""), p_cal, m.get("league"), mcal, direct=bool(s.get("direct")))  # archive walk-forward curve
@@ -307,26 +321,42 @@ def candidates(
                 # legs went 1/5 in the 19 Nov coupons (favourites: 46 % hit vs 62 % predicted): direct quotes only
                 continue
             ref_lbl = m["reference"].split(" (")[0] if is_sharp else f"{m['reference']} [orta]"
-            legs.append({"code": m["code"], "kickoff": m["kickoff"], "league": m["league"], "match": f"{m['home']} - {m['away']}",
-                         "market": s["market"], "selection": s["selection"], "odds": s["odds"], "p": p_cal, "p_raw": s["fair_prob"],
-                         "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": ref_lbl,
-                         "direct": bool(s.get("direct")), "context": context, "key": s.get("key"),
-                         "name": s.get("name", ""), "researched": researched, "tier": "keskin" if is_sharp else "orta",
-                         "ev_cal": round(p_cal * s["odds"] - 1.0, 4), "hard": hard,
-                         "p_draw": p_draw, "p_over25": p_over25})
+            leg_obj = {
+                "code": m["code"], "kickoff": m["kickoff"], "league": m["league"], "match": f"{m['home']} - {m['away']}",
+                "market": s["market"], "selection": s["selection"], "odds": s["odds"], "p": p_cal, "p_raw": s["fair_prob"],
+                "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": ref_lbl,
+                "direct": bool(s.get("direct")), "context": context, "key": s.get("key"),
+                "name": s.get("name", ""), "researched": researched, "tier": "keskin" if is_sharp else "orta",
+                "ev_cal": round(p_cal * s["odds"] - 1.0, 4), "hard": hard,
+                "p1": p1, "p2": p2, "p_draw": p_draw, "p_over25": p_over25,
+                "mu_home": mu_home, "mu_away": mu_away,
+                "home_gk1_out": home_gk1_out, "away_gk1_out": away_gk1_out,
+                "home_top_scorer_out": home_top_scorer_out, "away_top_scorer_out": away_top_scorer_out,
+            }
+            if has_diag_ctx:
+                diag = diagnose_selection(s.get("name", ""), p_cal, leg_obj, for_coupon=True)
+                leg_obj["rehabilitated"] = bool(diag.rehabilitated)
+                leg_obj["diagnosis_ok"] = bool(diag.ok)
             sig = leg_sigma(s.get("name", ""), bool(s.get("direct")), m["reference"], researched, flagged, calibration=calibration)
             if hard:
                 sig += HARD_MARKET_SIGMA_ADD
             if family_ev:
                 sig += family_rule(s.get("name", ""))[1]
-            legs[-1]["sigma"] = sig
-            legs[-1]["p_low"] = max(0.001, p_cal - Z_LOW * sig)
+            leg_obj["sigma"] = sig
+            leg_obj["p_low"] = max(0.001, p_cal - Z_LOW * sig)
+            legs.append(leg_obj)
         legs.sort(key=lambda x: (-x["odds"], -x["p_low"]))
-        front, best_p = [], -1.0
-        for leg in legs:  # descending odds: keep a leg only if no higher-odds leg is more reliably probable
+        front, best_p, best_p_clean = [], -1.0, -1.0
+        for leg in legs:  # descending odds: a trap/rejected leg cannot Pareto-dominate a diagnosis-clean leg
+            is_clean = bool(leg.get("diagnosis_ok", True))
             if leg["p_low"] > best_p + 1e-12:
                 front.append(leg)
                 best_p = leg["p_low"]
+                if is_clean:
+                    best_p_clean = max(best_p_clean, leg["p_low"])
+            elif is_clean and leg["p_low"] > best_p_clean + 1e-12:
+                front.append(leg)
+                best_p_clean = leg["p_low"]
         if front:
             pools.append(front)
     return pools

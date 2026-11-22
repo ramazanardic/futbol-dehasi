@@ -89,6 +89,20 @@
     {"pattern": "^2Y KG Yok$", "n": 93, "hit_rate": 0.7204, "mean_p": 0.6451, "residual": 0.0753},
     {"pattern": "^MS 1$", "n": 84, "hit_rate": 0.643, "mean_p": 0.625, "residual": 0.018},
     {"pattern": "^İY \\d+\\.5 Üst$", "n": 64, "hit_rate": 0.688, "mean_p": 0.647, "residual": 0.041},
-    {"pattern": "^2\\.5 Alt$", "n": 43, "hit_rate": 0.628, "mean_p": 0.596, "residual": 0.032}
+    {"pattern": "^2\\.5 Alt$", "n": 43, "hit_rate": 0.628, "mean_p": 0.596, "residual": 0.032},
+    {"pattern": "^Ev İY 0\\.5 Üst$", "n": 90, "hit_rate": 0.4333, "mean_p": 0.605, "residual": -0.1717, "note": "ev sahibi golleri ailesini aşağı çeken ana tuzak dilimi (ilk yarı düşük blok)"},
+    {"pattern": "^Ev 2\\.5 Alt$", "n": 48, "hit_rate": 0.750, "mean_p": 0.637, "residual": 0.113},
+    {"pattern": "^Ev 1\\.5 Alt$", "n": 157, "hit_rate": 0.6178, "mean_p": 0.614, "residual": 0.0038},
+    {"pattern": "^Dep İY 0\\.5 Alt$", "n": 215, "hit_rate": 0.5628, "mean_p": 0.627, "residual": -0.0642, "note": "deplasman golleri ailesinde dengeli/gençlik maçlarında çöken dilim"},
+    {"pattern": "^Dep 2\\.5 Alt$", "n": 20, "hit_rate": 0.750, "mean_p": 0.638, "residual": 0.112},
+    {"pattern": "^Dep 0\\.5 Üst$", "n": 162, "hit_rate": 0.6049, "mean_p": 0.617, "residual": -0.0121},
+    {"pattern": "^Dep 1\\.5 Üst$", "n": 66, "hit_rate": 0.6061, "mean_p": 0.595, "residual": 0.0111},
+    {"pattern": "^Ev En Az Bir Yarıyı Kazanır$", "n": 27, "hit_rate": 0.4815, "mean_p": 0.624, "residual": -0.1425, "note": "Yarı özel ailesi içindeki gizli tuzak dilimi"},
+    {"pattern": "^DEĞİL\\(Dep İki Yarıda Gol\\)$", "n": 21, "hit_rate": 0.8571, "mean_p": 0.696, "residual": 0.1611},
+    {"pattern": "^ÇŞ 12$", "n": 139, "hit_rate": 0.6187, "mean_p": 0.618, "residual": 0.0007},
+    {"pattern": "^ÇŞ X2$", "n": 87, "hit_rate": 0.5747, "mean_p": 0.631, "residual": -0.0563},
+    {"pattern": "^Hnd\\(\\+1\\) 1$", "n": 100, "hit_rate": 0.610, "mean_p": 0.607, "residual": 0.003},
+    {"pattern": "^Hnd\\(-2\\) 2$", "n": 25, "hit_rate": 0.640, "mean_p": 0.624, "residual": 0.016},
+    {"pattern": "^Hnd\\(-1\\) 2$", "n": 112, "hit_rate": 0.5536, "mean_p": 0.610, "residual": -0.0564}
   ]
 }

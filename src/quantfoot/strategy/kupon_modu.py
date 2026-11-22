@@ -155,7 +155,8 @@ def to_leg(obj: Any, offered: Offered | None = None) -> BankoLeg:
                     direct=None if direct is None else bool(direct), league=str(league) if league else None,
                     family=selection_family(str(name)) if name else None, name=str(name) if name else None,
                     p_draw=None if p_draw is None else float(p_draw), p_over25=None if p_over25 is None else float(p_over25),
-                    p_model=None if p_model is None else float(p_model), p_sharp=None if p_sharp is None else float(p_sharp))
+                    p_model=None if p_model is None else float(p_model), p_sharp=None if p_sharp is None else float(p_sharp),
+                    rehabilitated=bool(_get(obj, "rehabilitated", default=False)))
 
 
 def guard_legs(legs: Iterable[Any], mode: str = DEFAULT_MODE, *, open_exposure: Mapping[Any, int] | None = None,

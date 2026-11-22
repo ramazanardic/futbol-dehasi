@@ -34,6 +34,7 @@ import requests
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
+from quantfoot.markets.market_diagnosis import diagnose_selection  # noqa: E402
 from quantfoot.paths import LazyAiArea  # noqa: E402
 
 AREA = LazyAiArea()
@@ -164,15 +165,36 @@ def leg_history(name: str, home_games: list[dict], away_games: list[dict]) -> di
         return (sum(res) / len(res), len(res)) if res else (None, 0)
     h, nh = rate(home_games, "home")
     a, na = rate(away_games, "away")
+    hv, nhv = rate([g for g in home_games if g.get("side") == "home"], "home")
+    av, nav = rate([g for g in away_games if g.get("side") == "away"], "away")
     vals = [x for x in (h, a) if x is not None]
-    return {"home_rate": h, "home_n": nh, "away_rate": a, "away_n": na, "mean": sum(vals) / len(vals) if vals else None}
+    min_side = min(h, a) if (h is not None and a is not None) else None
+    return {
+        "home_rate": h,
+        "home_n": nh,
+        "away_rate": a,
+        "away_n": na,
+        "home_venue_rate": hv,
+        "home_venue_n": nhv,
+        "away_venue_rate": av,
+        "away_venue_n": nav,
+        "min_side": min_side,
+        "mean": sum(vals) / len(vals) if vals else None,
+    }
 
 
 def verdict(p_model: float | None, hist: dict) -> str:
     m, n = hist.get("mean"), min(hist.get("home_n") or 0, hist.get("away_n") or 0)
     if m is None or p_model is None or n < 6:
         return "geçmiş yetersiz"
+    min_side = hist.get("min_side")
+    if min_side is None and hist.get("home_rate") is not None and hist.get("away_rate") is not None:
+        min_side = min(float(hist["home_rate"]), float(hist["away_rate"]))
+    if min_side is not None and (min_side < 0.45 or min_side < p_model - 0.22):
+        return "⚠ geçmiş desteklemiyor (tek taraf çöküşü)"
     if m >= p_model - 0.05:
+        if min_side is not None and min_side < p_model - 0.12:
+            return "~ geçmiş zayıf destekliyor (taraf dengesiz)"
         return "✓ geçmiş destekliyor"
     if m >= p_model - 0.15:
         return "~ geçmiş zayıf destekliyor"
@@ -250,11 +272,55 @@ def research_match(m: dict, legs: list[dict]) -> dict:
             out["h2h"] = [f"{g['date']}: {out['teams']['home']['name']} {sum(g['for'])}-{sum(g['against'])} "
                           f"(İY {g['for'][0]}-{g['against'][0]})" for g in seen.values()]
     out["games"] = games  # both teams' recent games (half scores), reused by the bet-family table
+    th = out["teams"]["home"]
+    ta = out["teams"]["away"]
     for leg in legs:
         hist = leg_history(leg["name"], games["home"], games["away"])
-        out["legs"].append({"selection": leg.get("label") or leg["name"], "name": leg["name"], "p": leg.get("p"),
-                            "odds": leg.get("odds"), "coupons": leg.get("coupons", []), **hist,
-                            "verdict": verdict(leg.get("p"), hist)})
+        base_v = verdict(leg.get("p"), hist)
+        has_both_hist = (hist.get("home_n") or 0) >= 6 and (hist.get("away_n") or 0) >= 6
+        diag_ctx = {
+            "mu_home": m.get("mu_home"),
+            "mu_away": m.get("mu_away"),
+            "fair_1x2": m.get("fair_1x2"),
+            "p_over25": m.get("p_over25"),
+            "reference": m.get("reference"),
+            "league": m.get("league"),
+            "direct": leg.get("direct", True),
+            "home_gk1_out": th.get("gk1_out", False),
+            "away_gk1_out": ta.get("gk1_out", False),
+            "home_top_scorer_out": th.get("top_scorer_out", False),
+            "away_top_scorer_out": ta.get("top_scorer_out", False),
+            "home_gf": th.get("gf"),
+            "home_ga": th.get("ga"),
+            "away_gf": ta.get("gf"),
+            "away_ga": ta.get("ga"),
+            "home_score1H": th.get("score1H"),
+            "home_concede1H": th.get("concede1H"),
+            "away_score1H": ta.get("score1H"),
+            "away_concede1H": ta.get("concede1H"),
+            "home_rate": hist.get("home_rate") if (hist.get("home_n") or 0) >= 6 else None,
+            "away_rate": hist.get("away_rate") if (hist.get("away_n") or 0) >= 6 else None,
+            "min_side_rate": hist.get("min_side") if has_both_hist else None,
+        }
+        diag = None
+        if m.get("mu_home") is not None or th.get("gk1_out") or ta.get("gk1_out"):
+            diag = diagnose_selection(leg["name"], float(leg.get("p") or 0.0), diag_ctx, for_coupon=False)
+        final_v = base_v
+        if diag is not None and not diag.ok and not final_v.startswith("⚠"):
+            final_v = f"⚠ geçmiş desteklemiyor ({'; '.join(diag.reasons)})"
+        out["legs"].append({
+            "selection": leg.get("label") or leg["name"],
+            "name": leg["name"],
+            "p": leg.get("p"),
+            "odds": leg.get("odds"),
+            "coupons": leg.get("coupons", []),
+            **hist,
+            "rehabilitated": bool(diag.rehabilitated) if diag is not None else False,
+            "diagnosis_ok": bool(diag.ok) if diag is not None else True,
+            "diagnosis_reasons": list(diag.reasons) if diag is not None else [],
+            "diagnosis_strengths": list(diag.strengths) if diag is not None else [],
+            "verdict": final_v,
+        })
     return out
 
 
