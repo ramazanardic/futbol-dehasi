@@ -73,3 +73,18 @@ def test_empty_day_is_cached_so_quota_is_not_respent(tmp_path, monkeypatch):
     for _ in range(3):
         AF.fetch_api_football_references(["2026-11-24"], api_key="k", budget=b, cache_dir=tmp_path)
     assert len(calls) == 1 and b.used() == 1
+
+
+def test_concurrent_reservations_share_one_limit(tmp_path):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Barrier
+
+    start = Barrier(8)
+    def reserve(_):
+        budget = ApiBudget(tmp_path, limit=1)
+        start.wait()
+        return budget.spend()
+
+    with ThreadPoolExecutor(8) as workers:
+        assert sum(workers.map(reserve, range(8))) == 1
+    assert ApiBudget(tmp_path).used() == 1

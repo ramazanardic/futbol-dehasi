@@ -159,7 +159,19 @@ def update_table(date: str, rows: list[dict]) -> int:
     n = 0
     for t in table:
         r = by.get(str(t.get("nesine_kodu")))
-        if not r:
+        if not r or not r.get("kickoff"):
+            continue
+        kickoff = dt.datetime.fromisoformat(r["kickoff"])
+        if kickoff.tzinfo is None:
+            kickoff = kickoff.replace(tzinfo=TSI)
+        # A replay can use research from before the fixture was rescheduled.
+        if t.get("saat"):
+            clock = dt.time.fromisoformat(t["saat"])
+            match_day = dt.date.fromisoformat(date) + dt.timedelta(days=int(clock.hour < 7))
+            recorded = dt.datetime.combine(match_day, clock, tzinfo=TSI)
+            if kickoff != recorded:
+                continue
+        if kickoff <= dt.datetime.now(TSI):
             continue
         pk = r["pick"]
         if pk:
@@ -176,6 +188,8 @@ def update_table(date: str, rows: list[dict]) -> int:
             t.update({"ana_secim_pazar": "", "ana_secim": "", "nesine_oran": "", "olasilik": "", "secim_adi": "",
                       "not": "derin araştırma: uygun borsa fiyatlı tercih yok ya da geçmiş çürüttü"})
         n += 1
+    if not n:
+        return 0
     with path.open("w", encoding="utf-8-sig", newline="") as fh:
         cols = list(table[0]) + ([] if "secim_adi" in table[0] else ["secim_adi"])
         w = csv.DictWriter(fh, fieldnames=cols)
@@ -237,6 +251,8 @@ def main() -> None:
     bahis_aileleri.build_day(args.tarih)  # every bet family of every match, with probabilities -> bahis_aileleri.md
     import simulasyon
     simulasyon.write_day(args.tarih, 20000)  # market / simulation / history side by side -> simulasyon.md
+    import ai_tahmin
+    ai_tahmin.record_clv(out, ai_tahmin._read(out / "mac_tahminleri.csv"), list(ms.values()), dt.datetime.now(TSI))
     print(f"{len(rows)} maç araştırıldı, {sum(1 for r in rows if r['pick'])} ana tercih; mac_tahminleri.csv'de {n} satır "
           f"güncellendi -> {out / 'derin_tahminler.md'}")
 

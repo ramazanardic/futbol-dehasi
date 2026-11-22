@@ -13,6 +13,8 @@ import json
 import os
 from pathlib import Path
 
+from filelock import FileLock
+
 from quantfoot.paths import REPO_ROOT
 
 TSI = dt.timezone(dt.timedelta(hours=3))
@@ -48,18 +50,24 @@ class ApiBudget:
 
     def spend(self, n: int = 1, what: str = "") -> bool:
         """Reserve ``n`` requests; False (nothing reserved) when the cap would be exceeded."""
-        u = self.used()
-        if u + n > self.limit:
-            return False
+        if n < 1:
+            raise ValueError("Request count must be positive")
         self.dir.mkdir(parents=True, exist_ok=True)
-        try:
-            log = json.loads(self.path.read_text(encoding="utf-8")).get("log", [])
-        except (FileNotFoundError, ValueError, json.JSONDecodeError):
-            log = []
-        log.append({"t": dt.datetime.now(TSI).isoformat(timespec="seconds"), "n": n, "what": what})
-        self.path.write_text(json.dumps({"used": u + n, "limit": self.limit, "log": log[-200:]}, ensure_ascii=False),
-                             encoding="utf-8")
-        return True
+        with FileLock(str(self.path) + ".lock"):
+            try:
+                state = json.loads(self.path.read_text(encoding="utf-8"))
+            except FileNotFoundError:
+                state = {"used": 0, "log": []}
+            used = int(state["used"])
+            if used + n > self.limit:
+                return False
+            log = state.get("log", [])
+            log.append({"t": dt.datetime.now(TSI).isoformat(timespec="seconds"), "n": n, "what": what})
+            updated = {"used": used + n, "limit": self.limit, "log": log[-200:]}
+            temp = self.path.with_suffix(".tmp")
+            temp.write_text(json.dumps(updated, ensure_ascii=False), encoding="utf-8")
+            temp.replace(self.path)
+            return True
 
 
 def default_budget() -> ApiBudget:

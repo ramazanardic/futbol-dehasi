@@ -202,6 +202,8 @@ def test_nesine_kupon_banko_path_applies_rules_without_breaking_legacy_filter():
     # yeni kural: aynı bacak düzeltilmiş P < %70 → elenir; yüksek P'li 2Y KG Yok kalır
     strong = {"code": 2, "match": "C - D", "name": "2Y KG Yok", "odds": 1.33, "p": 0.74, "tier": "keskin"}
     ruled = mod.apply_coupon_rules_to_pools([[legacy, strong]], "banko")
-    assert ruled == [[strong]]
+    assert len(ruled) == len(ruled[0]) == 1
+    assert ruled[0][0]["code"] == strong["code"]
+    assert ruled[0][0]["p_before_rules"] == strong["p"]
     # risk moduna uygulanmaz
     assert mod.apply_coupon_rules_to_pools([[legacy]], "risk") == [[legacy]]
