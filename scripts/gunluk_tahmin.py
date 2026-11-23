@@ -280,6 +280,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--hedef", type=float, nargs="*", default=[DEFAULT_TARGET],
                     help="Banko kupon hedef toplam oranları (varsayılan 2,5; boş verilirse kupon kurulmaz)")
     ap.add_argument("--yalniz", nargs="*", choices=STEPS, help="Yalnız bu adımlar (varsayılan: hepsi)")
+    ap.add_argument("--derin-veri", action="store_true", help="Başlamamış tüm maçlarda fiyat durumundan bağımsız takım araştırması")
     ap.add_argument("--atla", nargs="*", choices=STEPS, default=[], help="Bu adımları atla")
     ap.add_argument("--kuru", action="store_true", help="Komutları yazdır, çalıştırma")
     args = ap.parse_args(argv)
@@ -300,6 +301,9 @@ def main(argv: list[str] | None = None) -> int:
     cmds = step_commands(args.tarih, list(args.hedef))
     if "bulten" in steps and "tahmin" in steps[steps.index("bulten") + 1:]:
         cmds["tahmin"][0].append("--hazir-bulten")
+    if args.derin_veri:
+        cmds["bulten"][0].append("--tum-istatistikler")
+        cmds["derin"][0].append("--tum-istatistikler")
     print(f"Ortak sistem — {ai} — {args.tarih}: {', '.join(steps)}")
     try:
         from quantfoot.data.api_budget import default_budget

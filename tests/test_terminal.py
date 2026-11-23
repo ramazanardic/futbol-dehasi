@@ -15,6 +15,7 @@ def test_terminal_runs_the_shared_commands():
     assert command("2026-11-23", "analiz")[-6:] == [
         "--tarih", "2026-11-23", "--yalniz", "bulten", "tahmin", "derin",
     ]
+    assert command("2026-11-23", "derin")[-5:] == ["--derin-veri", "--yalniz", "bulten", "tahmin", "derin"]
     assert command("2026-11-23", "kupon")[-2:] == ["--tarih", "2026-11-23"]
     assert command("2026-11-23", "kontrol")[-4:] == ["kontrol", "--date", "2026-11-23", "--sessiz"]
 

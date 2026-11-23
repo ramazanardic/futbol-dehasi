@@ -27,39 +27,48 @@
     <section id="bulletin" class="view">
       <header class="hero">
         <div class="hero-copy">
-          <h1>Maç bülteni</h1>
-          <p>Maçları, en yüksek beş bahis ailesini ve diğer hesaplanan olasılıkları aynı yerden incele.</p>
+          <h1>Bugünün maçları</h1>
+          <p>Başlamamış maçları, takım istatistiklerini ve en yüksek beş bahis olasılığını incele.</p>
           <div class="actions">
-            <label class="btn primary">Bülten yükle<input id="bulletin-file" type="file" accept=".json,.csv,application/json,text/csv"></label>
-            <button class="btn" id="load-archive">21 Kasım arşivini aç</button>
+            <button class="btn primary" id="start-analysis">Derin araştırmayı başlat</button>
+            <button class="btn" id="today-matches">Bugünün bültenini aç</button>
           </div>
         </div>
         <div class="pitch" aria-hidden="true"><i></i><b></b><em></em><span></span></div>
       </header>
-      <div class="panel padded run-panel" id="engine-panel">
-        <div><h2>QuantFoot motoru</h2><p class="muted" id="engine-description">GitHub’da yayımlanan tahminleri tarihe göre aç.</p></div>
+      <div class="panel padded run-panel" id="deep-panel" hidden>
+        <div><h2>Derin araştırma</h2><p class="muted" id="engine-description">Kadro, sakatlık, form, lig tablosu, geçmiş maçlar, oran hareketi ve hava. Her maçta bulunan veriler gösterilir.</p></div>
+        <div class="actions" id="hosted-research">
+          <a class="btn primary" href="http://127.0.0.1:8765/">Yerel QuantFoot’u aç</a>
+          <label class="btn">Araştırma dosyası aç<input id="research-file" type="file" accept=".json,application/json"></label>
+        </div>
+        <p class="muted" id="hosted-explanation">Canlı araştırmayı depo motoru bilgisayarında yapar. Bu panel araştırma dosyanı açar ve yayımlanan tahminleri gösterir.</p>
+        <progress id="engine-progress" aria-label="Araştırılan maç sayısı" hidden></progress>
+        <p class="form-msg" role="status" id="engine-status"></p>
+        <button class="btn" id="download-research" hidden>Araştırma dosyasını indir</button>
+      </div>
+      <details class="panel secondary-actions">
+        <summary>Arşiv ve dosya yükleme</summary>
         <div class="run-controls">
           <label><span>Bahis günü</span><input type="date" id="engine-date"></label>
-          <button class="btn" id="github-report">GitHub raporunu aç</button>
-          <a class="btn" id="local-link" href="http://127.0.0.1:8765/">Yerel terminali aç</a>
+          <button class="btn" id="github-report">Seçilen günü aç</button>
+          <label class="btn">Bülten yükle<input id="bulletin-file" type="file" accept=".json,.csv,application/json,text/csv"></label>
+          <button class="btn" id="load-archive">21 Kasım örnek arşivi</button>
         </div>
         <div class="actions" id="local-actions" hidden>
-          <button class="btn primary" id="start-analysis">Maçları analiz et</button>
-          <button class="btn" id="start-coupon">Analiz et ve kupon hesapla</button>
+          <button class="btn" id="start-coupon">Kupon hesapla</button>
           <button class="btn" id="start-check">Kuponları kontrol et</button>
-          <button class="btn" id="load-local">Kayıtlı bülteni aç</button>
           <a class="btn" id="family-report" hidden>Bahis aileleri raporunu indir</a>
         </div>
-        <p class="form-msg" role="status" id="engine-status"></p>
-      </div>
-      <div class="notice" id="bulletin-notice" role="status">Başlamak için QuantFoot <code>nesine_global.json</code> veya <code>mac_tahminleri.csv</code> dosyanı seç.</div>
+      </details>
+      <div class="notice" id="bulletin-notice" role="status">Bugünün kaydını aç veya derin araştırmayı başlat.</div>
       <div class="metrics" id="metrics" hidden></div>
       <div class="panel">
         <div class="panel-head"><h2>Karşılaşmalar</h2><span class="source" id="bulletin-source">Dosya bekleniyor</span></div>
         <div class="filters">
           <label><span>Maç veya lig ara</span><input type="search" id="search" placeholder="Takım, lig veya maç kodu"></label>
           <label><span>Lig</span><select id="league"><option value="">Tüm ligler</option></select></label>
-          <label><span>Durum</span><select id="status"><option value="">Tüm maçlar</option><option value="upcoming">Başlamamış</option><option value="started">Başlamış</option><option value="unknown">Saat doğrulanamadı</option></select></label>
+          <label><span>Durum</span><select id="status"><option value="upcoming">Başlamamış</option><option value="">Tüm maçlar</option><option value="started">Başlamış</option><option value="unknown">Saat doğrulanamadı</option></select></label>
         </div>
         <div id="match-list"></div>
         <div class="pagination" id="paging" hidden><button class="btn" id="prev">Önceki</button><span id="page-count"></span><button class="btn" id="next">Sonraki</button></div>
@@ -109,7 +118,7 @@
   </div>
 </main>
 </div>
-<dialog id="match-dialog">
+<dialog id="match-dialog" aria-labelledby="match-title">
   <div class="panel-head"><span class="source" id="dialog-league"></span><button type="button" id="close-dialog" class="btn" aria-label="Maç detayını kapat">Kapat</button></div>
   <div id="match-detail" class="padded"></div>
 </dialog>

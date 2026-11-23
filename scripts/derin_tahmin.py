@@ -102,15 +102,18 @@ def in_window(kickoff: str, window: str | None) -> bool:
     return lo <= t <= hi if lo <= hi else (t >= lo or t <= hi)
 
 
-def research_day(date: str, n_cand: int, workers: int = 2, window: str | None = None) -> list[dict]:
+def research_day(date: str, n_cand: int, workers: int = 2, window: str | None = None,
+                 *, all_upcoming: bool = False) -> list[dict]:
     data = json.loads((AREA / date / "nesine_global.json").read_text(encoding="utf-8"))
     now = dt.datetime.now(TSI)
-    todo = [m for m in data["matches"] if m.get("status") == "fiyatlandı" and in_window(m["kickoff"], window)
-            and dt.datetime.fromisoformat(m["kickoff_iso"]) > now + dt.timedelta(minutes=5)]
+    cutoff = now if all_upcoming else now + dt.timedelta(minutes=5)
+    todo = [m for m in data["matches"]
+            if (m.get("status") == "fiyatlandı" or (all_upcoming and m.get("price_tier") != "ozel_bahis"))
+            and in_window(m["kickoff"], window) and dt.datetime.fromisoformat(m["kickoff_iso"]) > cutoff]
 
     def one(m):
-        legs = candidates(m, n_cand)
-        row = dr.research_match(m, legs) if legs else {"code": m["code"], "match": f"{m['home']} - {m['away']}",
+        legs = candidates(m, n_cand) if m.get("status") == "fiyatlandı" else []
+        row = dr.research_match(m, legs) if (legs or all_upcoming) else {"code": m["code"], "match": f"{m['home']} - {m['away']}",
                                                          "kickoff": m["kickoff"], "league": m["league"], "legs": [], "espn": False}
         cand = {x["name"]: x for x in legs}
         for x in row["legs"]:
@@ -236,15 +239,17 @@ def main() -> None:
     ap.add_argument("--aday", type=int, default=5, help="Maç başına test edilecek en çok aday")
     ap.add_argument("--saat", type=parse_window,
                     help="Yalnız bu başlama saatleri, ör. 06:00-10:00; gece yarısını geçebilir: 22:00-02:00")
+    ap.add_argument("--tum-istatistikler", action="store_true", help="Aday fiyatı olmasa da başlamamış maçın takım geçmişini araştır")
     args = ap.parse_args()
-    rows = research_day(args.tarih, args.aday, window=args.saat)
+    rows = research_day(args.tarih, args.aday, window=args.saat, all_upcoming=args.tum_istatistikler)
     import footballcharts_gecmis as fc
     import openligadb_gecmis as ol
     import openmatchday_gecmis as om
     import wiki_gecmis as wg
     ms = {str(m["code"]): m for m in json.loads((AREA / args.tarih / "nesine_global.json").read_text(encoding="utf-8"))["matches"]}
     for r in rows:  # leagues ESPN lacks: Football Charts (half scores), Open Matchday, else the Wikipedia table
-        if not r.get("espn") and r.get("legs") and str(r["code"]) in ms:
+        if (r.get("legs") or args.tum_istatistikler) and str(r["code"]) in ms and (
+                not r.get("espn") or (args.tum_istatistikler and not all((r.get("games") or {}).values()))):
             r.setdefault("teams", {})
             m = ms[str(r["code"])]
             if ol.research(r, m) or fc.research(r, m) or om.research(r, m) or wg.research(r, m):

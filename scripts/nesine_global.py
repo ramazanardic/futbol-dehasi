@@ -573,17 +573,22 @@ def nesine_fallback_reference(event) -> dict | None:
     return {"source": "Nesine (yerel, düşük güven)", "x12": x12, "ou": [2.5, ou] if all(ou) else None}
 
 
-def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated: str | None) -> None:
+def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated: str | None,
+                    *, all_upcoming: bool = False) -> None:
     """Add ESPN research (form, table, rest, line-ups, absences) to priced matches; flag stale prices."""
     pool = []
     for d in (day - dt.timedelta(days=1), day, day + dt.timedelta(days=1)):
         pool += [{**x, "source": "ESPN"} for x in espn_events(d.strftime("%Y%m%d"))]
     by_code = {e.code: e for e in events}
     jobs = {}
+    now = dt.datetime.now(TSI)
     for rec in out:
-        if rec.get("status") not in ("fiyatlandı", NESINE_ONLY_STATUS):
+        event = by_code[rec["code"]]
+        priced = rec.get("status") in ("fiyatlandı", NESINE_ONLY_STATUS)
+        extra = all_upcoming and rec.get("price_tier") != "ozel_bahis" and event.kickoff > now
+        if not (priced or extra):
             continue
-        hit, _ = _match(by_code[rec["code"]], pool)
+        hit, _ = _match(event, pool)
         if hit:
             jobs[rec["code"]] = hit["id"]
     with ThreadPoolExecutor(max_workers=8) as ex:
@@ -596,7 +601,7 @@ def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated
         if rec.get("ref_fetched_utc"):
             price_time = dt.datetime.fromisoformat(rec["ref_fetched_utc"])
         else:  # ESPN references are fetched live, now
-            price_time = None if rec["reference"].startswith("ESPN") else gen
+            price_time = None if str(rec.get("reference") or "").startswith("ESPN") else gen
         flags = staleness_flags(res, price_time)
         res["motivation"] = {side: motivation(t, res.get("league_slug")) for side, t in res["teams"].items()}
         res["flags"] = flags
@@ -644,6 +649,7 @@ def analyze_day(
     use_oddsmath: bool = True,
     use_tm: bool = False,
     use_weather: bool = True,
+    all_upcoming_research: bool = False,
 ) -> tuple[list[dict], dict, list]:
     """Fetch the live Nesine bulletin and price every match of `day` against the best global reference.
 
@@ -733,7 +739,10 @@ def analyze_day(
             rec["price_tier"] = classify_price_tier(rec["status"], rec.get("reference"))
         out.append(rec)
     if with_research:
-        attach_research(out, events, day, generated)
+        if all_upcoming_research:
+            attach_research(out, events, day, generated, all_upcoming=True)
+        else:
+            attach_research(out, events, day, generated)
     if use_tm:
         tm_map = fetch_matchday_absences([m for m in out if m.get("price_tier") != "ozel_bahis"])
         if not tm_map:
@@ -788,6 +797,7 @@ def main() -> None:
     ap.add_argument("--no-oddsmath", action="store_true", help="OddsMath canlı referans/steam çekimini kapat")
     ap.add_argument("--tm", action="store_true", help="Transfermarkt 2026/27 sakat/cezalı çekimini aç (varsayılan: kapalı, kullanım koşulları)")
     ap.add_argument("--no-tm", action="store_true", help="Transfermarkt çekimini kapat (varsayılan davranış; açıkça geçmek için yeterlidir)")
+    ap.add_argument("--tum-istatistikler", action="store_true", help="Fiyatlanmamış başlamamış maçlarda da takım verisi ara")
     ap.add_argument("--no-weather", action="store_true", help="Open-Meteo maç saati şiddetli hava kontrolünü kapat")
     args = ap.parse_args()
     start = dt.date.fromisoformat(args.date)
@@ -804,6 +814,7 @@ def main() -> None:
             use_oddsmath=run_om,
             use_tm=run_tm,
             use_weather=run_wx,
+            **({"all_upcoming_research": True} if args.tum_istatistikler else {}),
         )
         write_report(day, out, payload, events, args.min_ev)
         week.append((day, out))

@@ -18,9 +18,14 @@ $env:QUANTFOOT_AI = "chatgbttahmin"
 ```
 
 Linux/macOS: `QUANTFOOT_AI=chatgbttahmin python scripts/terminal.py`. Tarayıcıda `http://127.0.0.1:8765/` adresini
-aç ve bahis gününü seç. **Maçları analiz et**, **Analiz et ve kupon hesapla** ve **Kuponları kontrol et** istek üzerine
-mevcut komutları başlatır. Raporlar kendi tahmin klasöründen okunur. [Buradan açılan panel](https://quantfoot-terminal-ramazan.ramazanardic.chatgpt.site)
-GitHub'da yayımlanan raporları ve yüklediğin dosyaları açar. Canlı Python analizi için yerel terminali kullan.
+aç. **Derin araştırmayı başlat** Türkiye saatiyle aktif bahis gününü alır ve ortak günlük hattı
+`--derin-veri` seçeneğiyle çalıştırır. Başlamamış tüm gerçek maçlar için takım istatistiklerini arar.
+Araştırma çıktısında eşleşen form, lig sırası, dinlenme, son maçlar, gol ortalamaları, sakatlık/kadro, ikili geçmiş,
+hava ve bahis verileri bulunur. Bulunamayan istatistikler eksik gösterilir. **Arşiv ve dosya yükleme** bölümünde
+geçmiş günleri açabilir, kupon hesaplayabilir ve kuponlarını kontrol edebilirsin.
+
+[Web paneli](https://quantfoot-terminal-ramazan.ramazanardic.chatgpt.site) yayımlanmış GitHub tahminlerini ve
+yerel terminalde indirilen araştırma JSON dosyasını gösterir. Canlı araştırma yerel Python motorunda yürür.
 
 ## Çalışma düzeni
 
