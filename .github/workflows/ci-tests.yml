@@ -51,7 +51,7 @@ jobs:
   research_requested_fixtures:
     if: github.event_name == 'pull_request' && github.head_ref == 'codex/canli-23-24-kasim-derin-mac-taramasi-v2'
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 50
     env:
       QUANTFOOT_AI: chatgbttahmin
       PYTHONUNBUFFERED: "1"
@@ -84,7 +84,7 @@ jobs:
         run: |
           for day in 2026-11-24 2026-11-23; do
             if [ -s "tahminler/chatgbttahmin/$day/nesine_global.json" ]; then
-              timeout 930 python scripts/derin_tahmin.py --tarih "$day" --aday 5 --tum-istatistikler \
+              timeout 1700 python scripts/derin_tahmin.py --tarih "$day" --aday 5 --workers 4 --tum-istatistikler \
                 2>&1 | tee "/tmp/football-fixtures/source/derin_$day.log" || echo "$day: some historical profiles unavailable"
             fi
           done
