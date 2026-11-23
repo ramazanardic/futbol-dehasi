@@ -2,8 +2,11 @@
 
 import csv
 import json
+import sys
+from pathlib import Path
 
-from scripts.ai_history_audit import (
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+from ai_history_audit import (
     add_reference, audit_coupons, audit_placed_ledger, audit_prediction_file,
     canonical_selection, index_reference, normal, number, resolve_reference,
     run, score, summary,
