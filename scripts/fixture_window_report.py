@@ -152,6 +152,10 @@ def build_report(first, last, now):
             "reference_age_h": m.get("ref_age_hours"),
             "number_of_offered_markets": m.get("n_nesine_selections"),
             "number_of_priced_selections": len(m.get("selections") or []),
+            # All 21+ market families, prices, probabilities and EV—not just top five.
+            "all_priced_selections": m.get("selections") or [],
+            "all_offered_selections": m.get("offered_selections") or [],
+            "research_full": research,
             "mu_home": m.get("mu_home"), "mu_away": m.get("mu_away"),
             "fair_1x2": m.get("fair_1x2"),
             "goal_over_2_5": next((s.get("fair_prob") for s in m.get("selections") or []
@@ -197,7 +201,7 @@ def save(report, out):
           f"- Toplam fiyatlanan pazar tercihi: **{stat['markets_with_price']}**",
           "",
           "## Gün bazlı eksiksiz maç listesi", "",
-          "Her maçta mevcut olan tüm 1X2 oranları, xG beklentileri, piyasa olasılıkları, sakatlık ve",
+          "Her maçta mevcut olan tüm 1X2 oranları, xG beklentileri, tüm fiyatlı 21+ pazarın oran/olasılık/EV değerleri, sakatlık ve",
           "form verileri JSON'da saklıdır. Sayısı veya güveni bilinmeyen hiçbir istatistik uydurulmaz.", ""]
     for day in report["calendar_window"]:
         pass
