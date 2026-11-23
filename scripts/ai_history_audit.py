@@ -533,16 +533,47 @@ def audit_placed_ledger(root):
     return out
 
 
+
+def shared_scorecards(root):
+    """Secondary coverage: reports whose raw AI predictions are not in Git.
+
+    Never merge these with independently regenerated counts. They may be
+    interim, and originate from the same shared score pipeline.
+    """
+    out = {}
+    for path in sorted((root / "degerlendirme").glob("????-??-??.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        for ai, entry in (data.get("ais") or {}).items():
+            if ai not in AIS or not isinstance(entry, dict):
+                continue
+            out.setdefault(ai, {})[str(data.get("date") or path.stem)] = {
+                "source": str(path.relative_to(root)),
+                "as_of": data.get("score_snapshot_tsi") or data.get("built"),
+                "interim": data.get("status") == "interim",
+                "graded": entry.get("main_picks"),
+                "hits": entry.get("hits"),
+                "flat_units": entry.get("flat_return"),
+                "coupons_graded": len(entry.get("coupons") or []),
+                "coupons_won": sum(x.get("won") is True for x in entry.get("coupons") or []),
+                "caution": "Shared secondary scoreboard, not raw prediction reprocessing."
+            }
+    return out
+
 def run(root):
     refs = load_references(root)
     nameindex = index_reference(refs)
+    historical_shared = shared_scorecards(root)
     output = {"method": {
         "settlement": "Archived external result scores + shared goal-market settlement parser",
         "joining": "exact numeric Nesine code first; else unique normalized match name for the same date",
         "publication": "Earliest Git commit is a file-level upper bound on publication time, not proof of per-row pre-match creation",
         "scope": "Standard prediction and coupon CSVs, all available global market pricing, supplemental JSON coupon proposals and screen-transcribed placed-bet ledger",
         "caution": "This is a historical audit, not a live forward test or proof of profitability."},
-        "reference_matches": len(refs), "ais": {}, "placed_ledger": audit_placed_ledger(root)}
+        "reference_matches": len(refs), "ais": {}, "placed_ledger": audit_placed_ledger(root),
+        "secondary_shared_scorecards": historical_shared}
     for ai in AIS:
         area = root / "tahminler" / ai
         entries = {}
@@ -588,6 +619,18 @@ def render(report):
         hit = f"%{100 * m['hit_rate']:.1f}" if m["hit_rate"] is not None else "-"
         roi = f"%{100 * m['flat_roi']:+.1f}" if m["flat_roi"] is not None else "-"
         out.append(f"| {ai} | {m['rows']} | {m['settled']} | {m['wins']} | {hit} | {roi} | {m['negative_ev_winners']} | {m['positive_ev_losers']} |")
+    out += ["", "## Ham verisi GitHub'da bulunmayan / ikincil ortak skor raporları", "",
+            "Buradaki skorlar ham CSV'den yeniden hesaplanmadı. Günler ve yöntemler farklıdır; "
+            "yukarıdaki ana tahmin tablosuna EKLENMEZ. Ara raporlar geçici olabilir.", "",
+            "| AI | Gün | Raporlanan doğru / puanlanan | 1 birim getiri | Durum |",
+            "|---|---|---:|---:|---|"]
+    for ai, dates in report["secondary_shared_scorecards"].items():
+        for day, x in dates.items():
+            if x["graded"] is None:
+                continue
+            status = "ara" if x["interim"] else "dosyadaki"
+            out.append(f"| {ai} | {day} | {x['hits']}/{x['graded']} | "
+                       f"{x['flat_units'] if x['flat_units'] is not None else '-'} | {status} |")
     out += ["", "## Tüm maçların 1X2 olasılık kalitesi (ana seçim olmayanlar dahil)", "",
             "| Yapay zekâ | Sonucu bilinen 1X2 dağılımı | Brier (düşük iyi) | Log-loss (düşük iyi) |",
             "|---|---:|---:|---:|"]
