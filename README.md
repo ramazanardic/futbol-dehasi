@@ -9,6 +9,11 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
 
 ## QuantFoot Terminal
 
+[Web panelindeki **Maç araştır** ekranı](https://quantfoot-terminal-ramazan.ramazanardic.chatgpt.site)
+iki takım ve maç tarihini alır. ESPN'den karşılaşmayı eşleştirir ve maç ayrıntısını getirir. Uygun maçlarda
+Premier League oyuncu durumu ve Open-Meteo hava verisi eklenir. Bu araştırma tarayıcıdan kullanıcı
+başlattığında çalışır. Nesine bülteni ve QuantFoot olasılık hesapları yerel motorda yürür.
+
 Yerel web uygulaması depodaki mevcut QuantFoot motorunu çağırır. Projenin Python ortamında paketi kurduktan sonra
 kendi `QUANTFOOT_AI` değerinle terminali aç:
 

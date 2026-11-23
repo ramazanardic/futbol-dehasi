@@ -20,7 +20,7 @@ from quantfoot.paths import QuantfootAIError, ai_area
 ROOT = Path(__file__).resolve().parents[1]
 STATIC = ROOT / "terminal"
 ASSETS = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "text/javascript"),
-          "/style.css": ("style.css", "text/css")}
+          "/style.css": ("style.css", "text/css"), "/match-research.js": ("match-research.js", "text/javascript")}
 REPORTS = {"bulten": ("nesine_global.json", "application/json"),
            "tahmin": ("mac_tahminleri.csv", "text/csv"),
            "kupon": ("kuponlar.csv", "text/csv"),

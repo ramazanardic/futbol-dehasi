@@ -36,3 +36,5 @@ jobs:
           pip install -e . pytest lxml
       - name: Run full test suite
         run: pytest -q
+      - name: Verify online match research
+        run: node --test tests/test_terminal_research.mjs

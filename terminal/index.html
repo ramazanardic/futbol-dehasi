@@ -8,13 +8,15 @@
 <title>QuantFoot Terminal</title>
 <link rel="stylesheet" href="style.css">
 <script defer src="app.js"></script>
+<script defer src="match-research.js"></script>
 </head>
 <body>
 <div class="shell">
 <aside>
   <div class="logo"><span class="mark" aria-hidden="true">Q</span><div><strong>QuantFoot</strong><small>FUTBOL TERMİNALİ</small></div></div>
   <nav aria-label="Çalışma alanı">
-    <button type="button" data-tab="bulletin" aria-current="page"><span aria-hidden="true">▤</span> Maç bülteni</button>
+    <button type="button" data-tab="live-research" aria-current="page"><span aria-hidden="true">⌕</span> Maç araştır</button>
+    <button type="button" data-tab="bulletin"><span aria-hidden="true">▤</span> Maç bülteni</button>
     <button type="button" data-tab="simulation"><span aria-hidden="true">∿</span> xG simülatörü</button>
     <button type="button" data-tab="coupons"><span aria-hidden="true">◇</span> Kuponlar</button>
     <button type="button" data-tab="arena"><span aria-hidden="true">▥</span> AI Arena</button>
@@ -24,7 +26,24 @@
 <main>
   <div class="topbar"><span>Çalışma alanı</span><span id="local-date">TSİ</span></div>
   <div class="content">
-    <section id="bulletin" class="view">
+    <section id="live-research" class="view">
+      <header class="page-title">
+        <h1>Maç araştır</h1>
+        <p>İki takım adını yaz. Terminal maç kaydını bulup takım formunu, istatistikleri ve güncel bilgileri kaynaklarından toplar.</p>
+      </header>
+      <form id="match-research-form" class="panel padded match-search">
+        <div class="live-fields">
+          <label><span>Birinci takım</span><input id="live-home" required minlength="2" maxlength="90" placeholder="Takım adı"></label>
+          <label><span>İkinci takım</span><input id="live-away" required minlength="2" maxlength="90" placeholder="Takım adı"></label>
+          <label><span>Maç tarihi (TSİ)</span><input id="live-date" type="date" required></label>
+        </div>
+        <div class="actions"><button class="btn primary" id="submit-live" type="submit">Karşılaşmayı derinlemesine araştır</button></div>
+        <p class="form-msg" id="live-status" role="status" aria-live="polite"></p>
+      </form>
+      <div id="live-result"></div>
+    </section>
+
+    <section id="bulletin" class="view" hidden>
       <header class="hero">
         <div class="hero-copy">
           <h1>Bugünün maçları</h1>
