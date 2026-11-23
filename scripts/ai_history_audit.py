@@ -511,8 +511,13 @@ def audit_placed_ledger(root):
             recorded_leg_count = number(legs[0].get("n_legs"))
             coherent = (recorded_leg_count is not None and int(recorded_leg_count) == len(legs)
                         and all(r.get("selection") not in ("", "?") for r in legs))
-            if not coherent or stake is None or payout is None:
-                uncertain.append({"ticket": cid, "reason": "incomplete_legs_or_stake_or_payout",
+            screen_states = {str(r.get("coupon_screen") or "").casefold().strip()
+                             for r in legs if str(r.get("coupon_screen") or "").strip()}
+            # An unfinalized ticket can have a zero/blank interim payout.
+            # Do NOT treat this as a financial loss before settlement.
+            unsettled = bool(screen_states & {"bekliyor", "açık", "acik", "canlı", "canli"})
+            if not coherent or stake is None or payout is None or unsettled:
+                uncertain.append({"ticket": cid, "reason": "pending_settlement" if unsettled else "incomplete_legs_or_stake_or_payout",
                                   "rows": len(legs), "expected_legs": recorded_leg_count,
                                   "stake": stake, "payout": payout})
             else:
