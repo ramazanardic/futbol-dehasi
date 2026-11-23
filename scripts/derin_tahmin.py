@@ -237,11 +237,14 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
     ap.add_argument("--aday", type=int, default=5, help="Maç başına test edilecek en çok aday")
+    ap.add_argument("--workers", type=int, default=2, choices=range(1, 9), metavar="1..8",
+                    help="Eşzamanlı takım geçmişi araştırması; 4 önerilir, ESPN hız limiti korunur")
     ap.add_argument("--saat", type=parse_window,
                     help="Yalnız bu başlama saatleri, ör. 06:00-10:00; gece yarısını geçebilir: 22:00-02:00")
     ap.add_argument("--tum-istatistikler", action="store_true", help="Aday fiyatı olmasa da başlamamış maçın takım geçmişini araştır")
     args = ap.parse_args()
-    rows = research_day(args.tarih, args.aday, window=args.saat, all_upcoming=args.tum_istatistikler)
+    rows = research_day(args.tarih, args.aday, workers=args.workers, window=args.saat,
+                        all_upcoming=args.tum_istatistikler)
     import footballcharts_gecmis as fc
     import openligadb_gecmis as ol
     import openmatchday_gecmis as om
