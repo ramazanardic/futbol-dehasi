@@ -235,6 +235,7 @@ def audit_prediction_file(root, refs, nameindex, ai, day, path):
         except ValueError:
             pass
     predictions = []
+    one_x_two = []
     quality = Counter()
     quality["raw_rows"] = len(prediction_rows)
     scores_mismatched = []
@@ -260,6 +261,18 @@ def audit_prediction_file(root, refs, nameindex, ai, day, path):
             quality["published_after_kickoff" if pub_dt > ko else "file_published_before_kickoff"] += 1
         elif ko and not pub_dt:
             quality["no_git_provenance"] += 1
+        # Score the 1X2 probability triple even when the AI did not recommend
+        # a main bet. Otherwise blank main picks hide model forecasting errors.
+        vector = [number(row.get(k)) for k in ("olasilik_1", "olasilik_X", "olasilik_2")]
+        if match is not None and all(pv is not None for pv in vector):
+            if all(0 <= pv <= 1 for pv in vector) and abs(sum(vector) - 1) <= 0.02:
+                ft = match["ft"]
+                actual = [ft[0] > ft[1], ft[0] == ft[1], ft[0] < ft[1]]
+                probability_actual = next(pv for pv, y in zip(vector, actual) if y)
+                one_x_two.append({"brier": sum((pv - int(y)) ** 2 for pv, y in zip(vector, actual)),
+                                  "logloss": -math.log(max(1e-9, probability_actual))})
+            else:
+                quality["invalid_1x2"] += 1
         won = evaluate_selection(select, match)
         if select and match is not None and won is None:
             quality["ungradeable_market"] += 1
@@ -281,6 +294,11 @@ def audit_prediction_file(root, refs, nameindex, ai, day, path):
             "by_market": {k: summary([x for x in predictions if x["market"] == k])
                           for k in sorted({x["market"] for x in predictions})},
             "scores_mismatched": scores_mismatched, "statuses_mismatched": statuses_mismatched,
+            "one_x_two": {
+                "n": len(one_x_two),
+                "brier": round(sum(v["brier"] for v in one_x_two) / len(one_x_two), 6) if one_x_two else None,
+                "logloss": round(sum(v["logloss"] for v in one_x_two) / len(one_x_two), 6) if one_x_two else None,
+            },
             "predictions": predictions}
 
 
@@ -471,7 +489,15 @@ def run(root):
             market_file = directory / "nesine_global.json"
             market_prices = audit_market_prices(root, refs, nameindex, day, market_file) if market_file.is_file() else None
             entries[day] = {"predictions": predict, "coupons": coupons, "market_prices": market_prices}
+        one_x_two_by_day = [v["predictions"]["one_x_two"] for v in entries.values() if v["predictions"]]
+        n_1x2 = sum(v["n"] for v in one_x_two_by_day)
+        overall_1x2 = {
+            "n": n_1x2,
+            "brier": round(sum(v["brier"] * v["n"] for v in one_x_two_by_day if v["n"]) / n_1x2, 6) if n_1x2 else None,
+            "logloss": round(sum(v["logloss"] * v["n"] for v in one_x_two_by_day if v["n"]) / n_1x2, 6) if n_1x2 else None,
+        }
         output["ais"][ai] = {"dates": entries, "overall": summary(all_preds),
+                             "one_x_two": overall_1x2,
                              "available_prediction_files": sum(v["predictions"] is not None for v in entries.values())}
     return output
 
@@ -489,6 +515,14 @@ def render(report):
         hit = f"%{100 * m['hit_rate']:.1f}" if m["hit_rate"] is not None else "-"
         roi = f"%{100 * m['flat_roi']:+.1f}" if m["flat_roi"] is not None else "-"
         out.append(f"| {ai} | {m['rows']} | {m['settled']} | {m['wins']} | {hit} | {roi} | {m['negative_ev_winners']} | {m['positive_ev_losers']} |")
+    out += ["", "## Tüm maçların 1X2 olasılık kalitesi (ana seçim olmayanlar dahil)", "",
+            "| Yapay zekâ | Sonucu bilinen 1X2 dağılımı | Brier (düşük iyi) | Log-loss (düşük iyi) |",
+            "|---|---:|---:|---:|"]
+    for ai, info in report["ais"].items():
+        one = info["one_x_two"]
+        brier = f"{one['brier']:.4f}" if one["brier"] is not None else "-"
+        loss = f"{one['logloss']:.4f}" if one["logloss"] is not None else "-"
+        out.append(f"| {ai} | {one['n']} | {brier} | {loss} |")
     out += ["", "## Veri kalitesi, tarihe göre", ""]
     for ai, info in report["ais"].items():
         out += [f"### {ai}", ""]
