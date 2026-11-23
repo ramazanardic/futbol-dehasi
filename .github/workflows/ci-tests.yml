@@ -49,7 +49,7 @@ jobs:
           retention-days: 30
 
   research_requested_fixtures:
-    if: github.event_name == 'pull_request' && github.head_ref == 'codex/canli-23-24-kasim-derin-mac-taramasi'
+    if: github.event_name == 'pull_request' && github.head_ref == 'codex/canli-23-24-kasim-derin-mac-taramasi-v2'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
