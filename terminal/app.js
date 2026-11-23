@@ -103,11 +103,12 @@ function kickoffFromCsv(date, hour) {
 function parseBulletin(text) {
   if (/^\s*[\[{]/.test(text)) {
     const data = JSON.parse(text);
-    if (!Array.isArray(data?.matches) || !data.matches.length) throw new Error("JSON’da maç listesi bulunamadı.");
+    if (!Array.isArray(data?.matches)) throw new Error("JSON’da maç listesi bulunamadı.");
     if (data.matches.some(m => !m || typeof m !== "object" || !m.home || !m.away || m.code == null)) {
       throw new Error("Bülten en az bir eksik maç kaydı içeriyor.");
     }
-    return data.matches.map(m => {
+    const deepRows = new Map(safeArray(data.deep_research).filter(r=>r?.code != null).map(r=>[String(r.code),r]));
+    return data.matches.filter(m=>m.price_tier !== "ozel_bahis").map(m => {
       const selections = safeArray(m.selections).filter(s => s && s.name);
       const pricedByKey = new Map(selections.filter(s => s.key).map(s => [s.key, s]));
       const offered = Array.isArray(m.offered_selections) ? m.offered_selections : selections;
@@ -125,7 +126,8 @@ function parseBulletin(text) {
       const timestamp = Date.parse(m.kickoff_iso || "");
       return {code:String(m.code), name:m.home + " - " + m.away, league:m.league || "Lig belirtilmemiş",
         timestamp:Number.isFinite(timestamp) ? timestamp : null, clock:typeof m.kickoff === "string" ? m.kickoff.slice(-5) : "",
-        xg:[num(m.mu_home),num(m.mu_away)], outcome:safeArray(m.fair_1x2).map(probability), source:m.reference,
+        xg:[num(m.mu_home),num(m.mu_away)], outcome:safeArray(m.fair_1x2).map(probability), source:m.reference, research:m.research, deep:deepRows.get(String(m.code)),
+        steam:safeArray(m.steam_1x2).map(num),
         top:top.length ? top : topFamilies(selectionsShown), adjusted:top.length > 0, other:selectionsShown, complete:true};
     });
   }
@@ -143,13 +145,13 @@ function notice(id, message, error = false) {
   target.classList.toggle("error", error);
 }
 
-function useMatchSource(text, source) {
+function useMatchSource(text, source, onlyUpcoming = false) {
   const matches = parseBulletin(text);
   state.matches = matches;
   state.page = 0;
   get("bulletin-source").textContent = source;
   get("search").value = "";
-  get("status").value = "";
+  get("status").value = onlyUpcoming ? "upcoming" : "";
   const leagues = [...new Set(matches.map(m => m.league))].sort((a,b) => a.localeCompare(b,"tr"));
   get("league").replaceChildren(new Option("Tüm ligler", ""), ...leagues.map(l => new Option(l, l)));
   notice("bulletin", matches.some(m => m.complete)
@@ -164,6 +166,8 @@ function matchStatus(m, now) {
 
 function renderBulletin() {
   if (!state.matches.length) {
+    get("metrics").hidden = true;
+    get("paging").hidden = true;
     get("match-list").innerHTML = '<div class="empty">Yüklediğin maçlar burada görünecek.</div>';
     return;
   }
@@ -171,7 +175,7 @@ function renderBulletin() {
   const metrics = [
     ["Bültendeki maç",state.matches.length],
     ["Başlamamış",state.matches.filter(m => matchStatus(m,now) === "upcoming").length],
-    ["İlk beşi hesaplanmış",state.matches.filter(m => m.top.length).length]
+    ["Araştırma verisi olan",state.matches.filter(m => Boolean(m.deep?.games?.home?.length || m.deep?.games?.away?.length || Object.keys(m.research?.teams || {}).length)).length]
   ];
   get("metrics").hidden = false;
   get("metrics").innerHTML = metrics.map(([label,value]) => '<div class="metric"><strong>' + whole.format(value) + '</strong><span>' + label + '</span></div>').join("");
@@ -219,16 +223,103 @@ function familyDetails(options, includeOdds = true) {
     '</tbody></table></div></details>').join("");
 }
 
+function statValue(value) {
+  if (value === null || value === undefined || value === "" || value === "-") return "—";
+  return typeof value === "number" ? display(value) : escapeHtml(value);
+}
+
+function listStat(value) {
+  const entries = safeArray(value).filter(item=>typeof item === "string" && item.trim());
+  return entries.length ? "<ul>" + entries.map(item=>"<li>"+escapeHtml(item)+"</li>").join("") + "</ul>" : "—";
+}
+
+function teamData(research, deep, side) {
+  const team = research.teams?.[side] || {};
+  const history = deep.teams?.[side] || {};
+  const injuries = [
+    ...safeArray(research.absences?.[side]?.players).map(p=>[p?.name,p?.status].filter(Boolean).join(" · ")),
+    ...safeArray(research.tm_absences?.[side]?.players).map(p=>[p?.name,p?.reason].filter(Boolean).join(" · ")),
+    ...safeArray(team.likely_absent).map(p=>p?.name),
+    ...safeArray(team.missing_regulars).map(p=>p?.name),
+  ].filter(Boolean);
+  const rows = new Map([
+    ["Son form",statValue(history.form || team.form)],
+    ["Lig sırası",statValue(team.table?.rank)],
+    ["Puan",statValue(team.table?.points)],
+    ["Dinlenme (gün)",statValue(team.rest_days)],
+    ["Geçmiş maç örneklemi",statValue(history.n ?? (safeArray(deep.games?.[side]).length || null))],
+    ["Maç başına atılan gol",statValue(history.gf)],
+    ["Maç başına yenilen gol",statValue(history.ga)],
+    ["İlk yarıda gol atma",pct(probability(history.score1H))],
+    ["İkinci yarıda gol atma",pct(probability(history.score2H))],
+    ["Karşılıklı gol",pct(probability(history.btts))],
+    ["2,5 üst",pct(probability(history.over25))],
+    ["Golcü",statValue(team.top_scorer?.name || team.team_stats?.top_scorers?.[0]?.name)],
+    ["İlk 11",team.lineup_announced === true ? "Açıklandı" : "—"],
+    ["Eksik / şüpheli oyuncular",listStat([...new Set(injuries)])],
+    ["Son maçlar",listStat(team.last5)]
+  ]);
+  return rows;
+}
+
+function renderResearch(match) {
+  const research = match.research || {}, deep = match.deep || {};
+  const home = teamData(research, deep, "home"), away = teamData(research, deep, "away");
+  const rows = [...home.entries()].filter(([key,value])=>value !== "—" || away.get(key) !== "—");
+  const metrics = rows.length ? '<div class="scroll"><table class="research-table"><thead><tr><th>İstatistik</th><th>Ev sahibi</th><th>Deplasman</th></tr></thead><tbody>' +
+    rows.map(([key,value])=>'<tr><th scope="row">'+key+'</th><td>'+value+'</td><td>'+away.get(key)+'</td></tr>').join("") + '</tbody></table></div>'
+    : '<p class="muted">Takım istatistiği kaynaklardan doğrulanamadı veya bu dosyada bulunmuyor.</p>';
+  const history = safeArray(deep.h2h).length ? deep.h2h : typeof research.h2h === "string" ? [research.h2h] : [];
+  const news = [...new Set([...safeArray(research.news), ...safeArray(research.flags), ...safeArray(deep.flags)])];
+  const moveLabels = ["MS 1","MS X","MS 2"];
+  const movements = safeArray(match.steam).slice(0,3).flatMap((value,index)=>value === null ? [] :
+    [moveLabels[index]+" "+(value > 0 ? "+" : "")+format.format(value * 100)+" puan"]);
+  const weather = research.weather || deep.weather;
+  const weatherParts = weather && typeof weather === "object" ? [
+    typeof weather.temp_c === "number" ? display(weather.temp_c)+" °C" : "",
+    typeof weather.wind_kmh === "number" ? display(weather.wind_kmh)+" km/sa rüzgâr" : "",
+    typeof weather.rain_mm === "number" ? display(weather.rain_mm)+" mm yağış" : "",
+    typeof weather.snow_cm === "number" && weather.snow_cm > 0 ? display(weather.snow_cm)+" cm kar" : "",
+    typeof weather.flag === "string" ? weather.flag : ""
+  ].filter(x=>typeof x === "string" && x) : [];
+  const recent = ["home","away"].map(side=>safeArray(deep.games?.[side]).filter(game=>Array.isArray(game?.for) && Array.isArray(game?.against)).slice(-10).reverse().map(game=>{
+    const goals = scores=>scores.reduce((total,value)=>total+(num(value) ?? 0),0);
+    return [game.date,game.opp || game.opponent,goals(game.for)+"–"+goals(game.against)].filter(Boolean).join(" · ");
+  }));
+  const evidence = safeArray(deep.legs).filter(item=>item?.name);
+  return metrics +
+    '<details class="research-block"><summary>Takımların geçmiş skorları</summary><p>Ev sahibi</p>'+listStat(recent[0])+
+    '<p>Deplasman</p>'+listStat(recent[1])+'</details>'+
+    '<details class="research-block"><summary>İkili geçmiş</summary>'+listStat(history)+'</details>'+
+    '<details class="research-block"><summary>Haberler ve risk uyarıları</summary>'+listStat(news)+'</details>'+
+    '<details class="research-block"><summary>Oran hareketi</summary>'+listStat(movements)+'</details>'+
+    '<details class="research-block"><summary>Hava koşulları</summary>'+listStat(weatherParts)+'</details>'+
+    '<details class="research-block"><summary>Geçmişle karşılaştırılan bahisler</summary>'+
+    listStat(evidence.map(item=>[item.name,item.verdict].filter(Boolean).join(" · ")))+'</details>'+
+    '<p class="research-note">Çizgi, ilgili istatistiğin dosyada bulunmadığını gösterir. İstatistik kapsamı maça ve kaynağa göre değişir.</p>';
+}
+
 function openMatch(match) {
   get("dialog-league").textContent = match.league;
   const labels = ["MS 1", "MS X", "MS 2"];
   const outcomes = match.outcome.slice(0,3).map((p,i) => '<span class="tag">' + labels[i] + ' ' + pct(p) + '</span>').join("");
   const topSource = match.adjusted ? "Raporda kayıtlı kalibre olasılıklar." : "Dosyadaki adil piyasa olasılıklarından sıralandı.";
-  get("match-detail").innerHTML = '<h2>' + escapeHtml(match.name) + '</h2><p class="muted">' + escapeHtml(match.source || "Kaynak belirtilmemiş") +
+  get("match-detail").innerHTML = '<h2 id="match-title">' + escapeHtml(match.name) + '</h2><p class="muted">' + escapeHtml(match.source || "Kaynak belirtilmemiş") +
     ' · Ev / Dep. xG ' + match.xg.map(display).join(" / ") + '</p><div class="tags">' + outcomes + '</div>' +
-    '<h3 class="section-space">En yüksek 5 bahis ailesi</h3>' + (match.top.length ? '<p class="subtle">' + topSource + '</p>' : "") + probList(match.top) +
+    '<div class="section-tabs" aria-label="Maç ayrıntıları"><button class="btn" id="show-odds" aria-pressed="true">Olasılıklar</button><button class="btn" id="show-stats" aria-pressed="false">İstatistikler</button></div>'+
+    '<div class="match-tab" id="match-odds"><h3>En yüksek 5 bahis ailesi</h3>' +
+    (match.top.length ? '<p class="subtle">' + topSource + '</p>' : "") + probList(match.top) +
     '<h3 class="section-space">Tüm bahis aileleri</h3>' + (match.other.length ? '<p class="subtle">Ayrıntıda dosyadaki adil piyasa olasılıkları ve kayıtlı oranlar gösterilir.</p>' + familyDetails(match.other) : '<p class="muted">Bu dosyada aile ayrıntıları bulunmuyor.</p>') +
-    (match.xg.every(x => x !== null) ? '<button class="btn section-space" id="simulate-match">Bu xG ile simüle et</button>' : "");
+    (match.xg.every(x => x !== null) ? '<button class="btn section-space" id="simulate-match">Bu xG ile simüle et</button>' : "") +
+    '</div><div class="match-tab" id="match-stats" hidden><h3>Takım karşılaştırması</h3>' + renderResearch(match) + '</div>';
+  for (const side of ["odds","stats"]) {
+    get("show-"+side).onclick = () => {
+      for (const pane of ["odds","stats"]) {
+        get("match-"+pane).hidden = side !== pane;
+        get("show-"+pane).setAttribute("aria-pressed",String(side === pane));
+      }
+    };
+  }
   if (get("simulate-match")) get("simulate-match").onclick = () => {
     const [home, ...away] = match.name.split(" - ");
     get("match-dialog").close();
@@ -454,14 +545,32 @@ function fromGithub(button, path, handler, target) {
   });
 }
 
-async function loadLocalBulletin(day) {
+async function loadLocalBulletin(day, justResearched = false) {
   const base = "/api/reports/" + day;
-  const text = await readText(base + "/bulten","Bu güne ait bülten kaydı bulunamadı. Önce analiz başlat.");
-  useMatchSource(text,day + " · Yerel QuantFoot");
-  const familyReport = get("family-report");
-  familyReport.href = base + "/aile";
-  familyReport.download = day + "_bahis_aileleri.md";
-  familyReport.hidden = false;
+  const text = await readText(base + "/bulten","Bu güne ait bülten kaydı bulunamadı. Derin araştırmayı başlatabilirsin.");
+  const bundle = JSON.parse(text);
+  const download = get("download-research");
+  download.hidden = true;
+  try {
+    bundle.deep_research = JSON.parse(await readText(base + "/derin","Derin araştırma dosyası yok."));
+    if (!Array.isArray(bundle.deep_research)) throw new Error("Derin araştırma dosyasının biçimi geçersiz.");
+    get("family-report").href = base + "/aile";
+    get("family-report").download = day + "_bahis_aileleri.md";
+    get("family-report").hidden = false;
+    download.onclick = () => {
+      const url = URL.createObjectURL(new Blob([JSON.stringify(bundle)],{type:"application/json"}));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = day + "_quantfoot_arastirma.json";
+      link.click();
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+    };
+    download.hidden = false;
+  } catch (error) {
+    if (justResearched) throw error;
+    get("family-report").hidden = true;
+  }
+  useMatchSource(JSON.stringify(bundle),day + " · Yerel QuantFoot",day === currentDay());
 }
 
 async function statusFromEngine() {
@@ -470,7 +579,7 @@ async function statusFromEngine() {
 }
 
 function engineBusy(busy) {
-  for (const id of ["start-analysis","start-coupon","start-check","load-local"]) get(id).disabled = busy;
+  for (const id of ["start-analysis","start-coupon","start-check","today-matches"]) get(id).disabled = busy;
 }
 
 async function watchRun() {
@@ -480,7 +589,17 @@ async function watchRun() {
   try {
     let snapshot = (await statusFromEngine()).run;
     while (snapshot.state === "running") {
-      engineStatus(snapshot.date + " · " + snapshot.stage + " sürüyor.");
+      const progress = get("engine-progress");
+      if (snapshot.progress) {
+        const [done,total] = snapshot.progress;
+        progress.max = total;
+        progress.value = done;
+        progress.hidden = false;
+        engineStatus(snapshot.stage + " · " + done + "/" + total + " maç tarandı");
+      } else {
+        progress.hidden = true;
+        engineStatus(snapshot.date + " · " + snapshot.stage + " sürüyor.");
+      }
       await new Promise(resolve=>setTimeout(resolve,1600));
       snapshot = (await statusFromEngine()).run;
     }
@@ -489,23 +608,24 @@ async function watchRun() {
     }
     if (snapshot.state === "finished") {
       engineStatus(snapshot.date + " · İşlem tamamlandı.");
-      if (snapshot.mode !== "kontrol") await loadLocalBulletin(snapshot.date);
+      if (snapshot.mode !== "kontrol") await loadLocalBulletin(snapshot.date,snapshot.mode === "derin");
     }
   } catch (error) {
     engineStatus(error.message,true);
   } finally {
     tracking = false;
+    get("engine-progress").hidden = true;
     engineBusy(false);
   }
 }
 
-async function startRun(mode) {
+async function startRun(mode, day = selectedDay()) {
   if (tracking) return;
   engineBusy(true);
   try {
     const response = await fetch("/api/terminal", {
       method:"POST", headers:{"Content-Type":"application/json","X-QuantFoot-Terminal":"1"},
-      body:JSON.stringify({date:selectedDay(),mode})
+      body:JSON.stringify({date:day,mode})
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error);
@@ -517,28 +637,70 @@ async function startRun(mode) {
 }
 
 get("engine-date").value = currentDay();
-fromGithub("github-report",day=>"tahminler/chatgbttahmin/"+day+"/mac_tahminleri.csv",useMatchSource,"bulletin");
+importFile("research-file",useMatchSource,"bulletin");
 fromGithub("github-coupons",day=>"tahminler/chatgbttahmin/"+day+"/kuponlar.csv",renderCoupons,"coupons");
 fromGithub("github-arena",day=>"degerlendirme/"+day+".json",useArena,"arena");
 
+let engineAvailable = false;
 if (localRuntime) {
-  statusFromEngine().then(({day,profile,run})=>{
+  statusFromEngine().then(({day,run})=>{
+    engineAvailable = true;
     get("engine-date").value = day;
-    get("engine-description").textContent = profile + " · Bu bilgisayardaki ortak QuantFoot motoru";
     get("local-actions").hidden = false;
     get("local-coupons").hidden = false;
-    get("local-link").hidden = true;
-    for (const id of ["load-archive","github-report","load-coupons","github-coupons","load-arena"]) get(id).hidden = true;
-    if (run.state === "running") watchRun();
+    get("hosted-research").hidden = true;
+    get("hosted-explanation").hidden = true;
+    for (const id of ["load-archive","load-coupons","github-coupons","load-arena"]) get(id).hidden = true;
+    if (run.state === "running") {
+      get("deep-panel").hidden = false;
+      watchRun();
+    }
   }).catch(()=>{});
 }
-get("start-analysis").onclick = ()=>startRun("analiz");
-get("start-coupon").onclick = ()=>startRun("kupon");
-get("start-check").onclick = ()=>startRun("kontrol");
-get("load-local").onclick = async ()=>{
-  try { await loadLocalBulletin(selectedDay()); }
-  catch (error) { engineStatus(error.message,true); }
+
+async function openDay(day, button) {
+  button.disabled = true;
+  try {
+    if (engineAvailable) await loadLocalBulletin(day);
+    else {
+      const path = "tahminler/chatgbttahmin/"+day+"/mac_tahminleri.csv";
+      const text = await readText(rawRoot+path,"GitHub’da bu bahis günü için rapor yayımlanmamış. Derin araştırmayı yerel QuantFoot’ta başlatabilir veya bir araştırma dosyası açabilirsin.");
+      useMatchSource(text,day+" · GitHub main",day === currentDay());
+    }
+  } catch (error) {
+    notice("bulletin",error.message,true);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+get("start-analysis").onclick = ()=>{
+  get("deep-panel").hidden = false;
+  if (engineAvailable) {
+    const day = currentDay();
+    get("engine-date").value = day;
+    get("download-research").hidden = true;
+    startRun("derin",day);
+  } else {
+    get("deep-panel").scrollIntoView({block:"nearest"});
+  }
 };
+get("today-matches").onclick = event=>{
+  const day = currentDay();
+  get("engine-date").value = day;
+  openDay(day,event.currentTarget);
+};
+get("github-report").onclick = event=>{
+  try { openDay(selectedDay(),event.currentTarget); }
+  catch (error) { notice("bulletin",error.message,true); }
+};
+for (const [id,mode] of [["start-coupon","kupon"],["start-check","kontrol"]]) {
+  get(id).onclick = ()=>{
+    get("deep-panel").hidden = false;
+    try { startRun(mode); }
+    catch (error) { engineStatus(error.message,true); }
+  };
+}
 get("local-coupons").onclick = async ()=>{
   try {
     const day = selectedDay();

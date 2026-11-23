@@ -24,8 +24,10 @@ ASSETS = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "text/javascri
 REPORTS = {"bulten": ("nesine_global.json", "application/json"),
            "tahmin": ("mac_tahminleri.csv", "text/csv"),
            "kupon": ("kuponlar.csv", "text/csv"),
-           "aile": ("bahis_aileleri.md", "text/plain")}
+           "aile": ("bahis_aileleri.md", "text/plain"),
+           "derin": ("derin_tahminler.json", "application/json")}
 MODES = {"analiz": ["--yalniz", "bulten", "tahmin", "derin"],
+         "derin": ["--derin-veri", "--yalniz", "bulten", "tahmin", "derin"],
          "kupon": [], "kontrol": []}
 STAGES = {"bulten": "Bülten", "tahmin": "Tahminler", "derin": "Derin araştırma",
           "kupon": "Kupon", "denetim": "Kupon denetimi"}
@@ -68,9 +70,13 @@ class TerminalServer(ThreadingHTTPServer):
                 for line in process.stdout:
                     print(line, end="", file=sys.stderr, flush=True)
                     step = line.split("]", 1)[0].removeprefix("[") if line.startswith("[") else ""
-                    if step in STAGES:
+                    progress = re.match(r"^([0-9]+)/([0-9]+) maç araştırıldı", line)
+                    if step in STAGES or progress:
                         with self.lock:
-                            self.run["stage"] = STAGES[step]
+                            if step in STAGES:
+                                self.run["stage"] = STAGES[step]
+                            if progress:
+                                self.run["progress"] = [int(value) for value in progress.groups()]
                 code = process.wait()
         except OSError as exc:
             print(f"QuantFoot başlatılamadı: {exc}", file=sys.stderr)

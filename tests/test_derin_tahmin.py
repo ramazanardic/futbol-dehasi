@@ -277,3 +277,28 @@ def test_main_pick_ranks_and_exports_calibrated_probability(monkeypatch):
     assert pick["ev"] == pick["fair_prob"] * pick["odds"] - 1
     kg["direct"] = True
     assert ga.best_pick(match)[0]["fair_prob"] == .7
+
+
+def test_deep_statistics_include_unpriced_upcoming_matches(tmp_path, monkeypatch):
+    import datetime as dt
+    import json
+
+    module = _load("derin_tahmin")
+    now = dt.datetime.now(module.TSI)
+    day = now.date().isoformat()
+    folder = tmp_path / day
+    folder.mkdir()
+
+    def row(code, offset, **values):
+        kickoff = now + dt.timedelta(hours=offset)
+        return {"code": code, "home": "A", "away": "B", "league": "L",
+                "status": "fiyat yok", "kickoff": kickoff.strftime("%Y-%m-%d %H:%M"),
+                "kickoff_iso": kickoff.isoformat(), **values}
+
+    matches = [row(1, 1), row(2, -1), row(3, 2, price_tier="ozel_bahis")]
+    (folder / "nesine_global.json").write_text(json.dumps({"matches": matches}), encoding="utf-8")
+    monkeypatch.setattr(module, "AREA", tmp_path)
+    monkeypatch.setattr(module.dr, "research_match", lambda match, legs: {"code":match["code"], "kickoff":match["kickoff"], "legs":legs})
+
+    assert module.research_day(day, 5) == []
+    assert [r["code"] for r in module.research_day(day, 5, all_upcoming=True)] == [1]
