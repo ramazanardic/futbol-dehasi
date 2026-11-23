@@ -459,3 +459,25 @@ def test_v4_nesine_kupon_passes_flags_enforces_banko_min_ev_and_attaches_insured
     assert ins["p_at_least_n_minus_1"] > ins["p_all"] + 0.30
     assert ins["one_miss_payout_range"][0] > 40.0
 
+
+
+def test_final_guard_probability_is_published_and_traceable(monkeypatch):
+    """Builder may be optimistic; the last guard MUST own the displayed coupon P/EV."""
+    from quantfoot.strategy.banko_guard import GuardResult
+
+    monkeypatch.setattr(kupon.KM, "guard_legs", lambda *_args, **_kw:
+                        GuardResult(ok=True, p_win=0.42, total_odds=2.40))
+    monkeypatch.setattr(kupon.KM, "leg_effective_prob", lambda *_args: 0.70)
+    coupon = {"legs": [{"code": 42, "name": "MS 1", "odds": 1.50, "p_raw": 0.82,
+                        "p_before_rules": 0.79, "p": 0.74}],
+              "nesine_odds": 2.40, "probability": 0.58, "probability_low": 0.45,
+              "ev": 0.392}
+    kept, notes = kupon.apply_mode_guard([coupon], "banko")
+    assert kept == [coupon] and not notes
+    assert coupon["probability_before_guard"] == 0.58
+    assert coupon["probability"] == 0.42
+    assert coupon["probability_low"] == 0.42
+    assert coupon["ev"] == pytest.approx(0.42 * 2.40 - 1)
+    trace = coupon["legs"][0]["probability_trace"]
+    assert trace == {"market_raw": 0.82, "market_and_history_calibrated": 0.79,
+                     "coupon_rules": 0.74, "guard_final": 0.70}
