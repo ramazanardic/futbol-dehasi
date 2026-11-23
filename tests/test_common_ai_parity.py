@@ -25,6 +25,7 @@ def test_all_ai_instruction_files_share_identical_agents_contract():
     agents = _norm((ROOT / "AGENTS.md").read_text(encoding="utf-8"))
     assert "docs/ORTAK_SISTEM.md" in agents
     assert "scripts/gunluk_tahmin.py" in agents
+    assert "scripts/kasa_koruma.py" in agents
     assert "scripts/oz_gelistirme.py" in agents
     assert "scripts/gun_degerlendirme.py" in agents
 

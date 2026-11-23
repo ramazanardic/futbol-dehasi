@@ -1,11 +1,12 @@
-# Ortak sistem (v3) — her yapay zekâ için tek bağlayıcı yöntem
+# Ortak sistem (v4) — her yapay zekâ için tek bağlayıcı yöntem
 
 Bu depoya bağlanan **her** yapay zekâ (**Claude, Gemini, Antigravity, ChatGPT/Codex, Grok Bot**) tahmin, araştırma,
-kupon, denetim ve öz-geliştirmeyi **birebir bu belgedeki ortak hatla** yürütür. Amaç tek: herkes aynı ortak yerden, aynı
-en güncel sistemle, eşit veri erişimiyle çalışsın; kuponlar daha az yatsın; notlar dürüst olsun.
+kupon, kasa koruma, denetim ve öz-geliştirmeyi **birebir bu belgedeki ortak hatla** yürütür. Amaç tek: herkes aynı
+ortak yerden, aynı en güncel sistemle, eşit veri erişimiyle çalışsın; kuponlar daha az yatsın; kasa korunsun; notlar
+dürüst olsun.
 
-- Bu belge 23 Kasım 2026'da v3 yükseltmesiyle (21 Kasım 2.924 tahmin + 22 Kasım 428 bitmiş maç / 1.808 kupon-bölgesi
-  seçimi denetimleri) güncellendi.
+- Bu belge 23 Kasım 2026'da v4 kasa koruma yükseltmesiyle (21 Kasım 2.924 tahmin + 22 Kasım 439 bitmiş maç / 1.864
+  kupon-bölgesi seçimi denetimleri) güncellendi.
 - Çelişki olursa bu belge eski README / rapor metinlerinden önce gelir; klasör gizliliği kuralı
   ([AGENTS.md](../AGENTS.md)) her şeyden önce gelir.
 - Tüm AI giriş dosyaları (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`) birebir aynı temel

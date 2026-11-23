@@ -19,7 +19,8 @@ Her yapay zekâ **yalnız kendi klasörüne** yazar; başkasının klasörüne d
   [AGENTS.md](../AGENTS.md) (aynısı `GEMINI.md` ve `CLAUDE.md`).
 - **Ortak olan:** depodaki bütün kod, algoritmalar, modeller, kalibrasyon dosyaları ve veri kaynakları (`src/`,
   `scripts/`, `data/` — FotMob dahil tüm kaynaklara 5 yapay zekâ eşit erişir). Tek ortak giriş komutu:
-  `QUANTFOOT_AI=<klasör> python scripts/gunluk_tahmin.py --tarih <gün>`, öz-denetim:
+  `QUANTFOOT_AI=<klasör> python scripts/gunluk_tahmin.py --tarih <gün>`, kasa koruma planı:
+  `QUANTFOOT_AI=<klasör> python scripts/kasa_koruma.py --tarih <gün> --kasa <TL>`, öz-denetim:
   `QUANTFOOT_AI=<klasör> python scripts/oz_gelistirme.py`.
 - **Sistem yalnız kullanıcı sorduğunda çalışır**; otomatik zamanlanmış analiz yoktur. Kullanıcı hangi yapay zekâya
   sorduysa o yapay zekâ araştırır ve yazar.

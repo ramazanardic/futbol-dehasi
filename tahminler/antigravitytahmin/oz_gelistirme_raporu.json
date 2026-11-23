@@ -1,10 +1,10 @@
 {
   "ai": "antigravitytahmin",
-  "generated_at": "2026-11-23T01:44+03:00",
+  "generated_at": "2026-11-23T03:12+03:00",
   "dates": [
     "2026-11-22"
   ],
-  "settled_matches": 428,
+  "settled_matches": 439,
   "filters": {
     "min_p": 0.6,
     "min_odds": 1.2,
@@ -12,113 +12,113 @@
     "min_n": 20
   },
   "overall_coupon_zone": {
-    "n": 1808,
-    "hits": 1178,
-    "hit_rate": 0.6515,
-    "mean_p": 0.6473,
-    "raw_residual": 0.0043,
-    "shrunk_residual": 0.0039,
-    "brier": 0.226,
-    "flat_roi": -0.1611
+    "n": 1864,
+    "hits": 1214,
+    "hit_rate": 0.6513,
+    "mean_p": 0.6475,
+    "raw_residual": 0.0038,
+    "shrunk_residual": 0.0035,
+    "brier": 0.2262,
+    "flat_roi": -0.1616
   },
   "main_picks": {
-    "n": 217,
-    "hits": 143,
-    "hit_rate": 0.659,
-    "mean_p": 0.6725,
-    "raw_residual": -0.0135,
-    "shrunk_residual": -0.008,
-    "brier": 0.2215,
-    "flat_roi": -0.1786
+    "n": 228,
+    "hits": 150,
+    "hit_rate": 0.6579,
+    "mean_p": 0.6723,
+    "raw_residual": -0.0144,
+    "shrunk_residual": -0.0087,
+    "brier": 0.2227,
+    "flat_roi": -0.1792
   },
   "days": [
     {
       "date": "2026-11-22",
-      "settled_matches": 428,
+      "settled_matches": 439,
       "coupon_zone": {
-        "n": 1808,
-        "hits": 1178,
-        "hit_rate": 0.6515,
-        "mean_p": 0.6473,
-        "raw_residual": 0.0043,
-        "shrunk_residual": 0.0039,
-        "brier": 0.226,
-        "flat_roi": -0.1611
+        "n": 1864,
+        "hits": 1214,
+        "hit_rate": 0.6513,
+        "mean_p": 0.6475,
+        "raw_residual": 0.0038,
+        "shrunk_residual": 0.0035,
+        "brier": 0.2262,
+        "flat_roi": -0.1616
       },
       "main_picks": {
-        "n": 217,
-        "hits": 143,
-        "hit_rate": 0.659,
-        "mean_p": 0.6725,
-        "raw_residual": -0.0135,
-        "shrunk_residual": -0.008,
-        "brier": 0.2215,
-        "flat_roi": -0.1786
+        "n": 228,
+        "hits": 150,
+        "hit_rate": 0.6579,
+        "mean_p": 0.6723,
+        "raw_residual": -0.0144,
+        "shrunk_residual": -0.0087,
+        "brier": 0.2227,
+        "flat_roi": -0.1792
       }
     }
   ],
   "by_diagnosis_v3": {
     "REHAB": {
-      "n": 111,
-      "hits": 74,
-      "hit_rate": 0.6667,
-      "mean_p": 0.6522,
-      "raw_residual": 0.0144,
-      "shrunk_residual": 0.0061,
-      "brier": 0.2188,
-      "flat_roi": -0.145
+      "n": 116,
+      "hits": 77,
+      "hit_rate": 0.6638,
+      "mean_p": 0.6533,
+      "raw_residual": 0.0105,
+      "shrunk_residual": 0.0046,
+      "brier": 0.2204,
+      "flat_roi": -0.1497
     },
     "OK": {
-      "n": 515,
-      "hits": 343,
-      "hit_rate": 0.666,
-      "mean_p": 0.6576,
-      "raw_residual": 0.0084,
-      "shrunk_residual": 0.0065,
-      "brier": 0.2222,
-      "flat_roi": -0.1484
+      "n": 479,
+      "hits": 325,
+      "hit_rate": 0.6785,
+      "mean_p": 0.6582,
+      "raw_residual": 0.0203,
+      "shrunk_residual": 0.0154,
+      "brier": 0.2176,
+      "flat_roi": -0.1335
     },
     "TUZAK_RED": {
-      "n": 1182,
-      "hits": 761,
-      "hit_rate": 0.6438,
-      "mean_p": 0.6423,
-      "raw_residual": 0.0015,
-      "shrunk_residual": 0.0013,
-      "brier": 0.2282,
-      "flat_roi": -0.1682
+      "n": 1269,
+      "hits": 812,
+      "hit_rate": 0.6399,
+      "mean_p": 0.6429,
+      "raw_residual": -0.0031,
+      "shrunk_residual": -0.0028,
+      "brier": 0.23,
+      "flat_roi": -0.1733
     }
   },
   "by_band": {
     "60-65%": {
-      "n": 1019,
-      "hits": 642,
-      "hit_rate": 0.63,
-      "mean_p": 0.6246,
-      "raw_residual": 0.0055,
-      "shrunk_residual": 0.0048,
-      "brier": 0.2326,
-      "flat_roi": -0.1651
+      "n": 1041,
+      "hits": 658,
+      "hit_rate": 0.6321,
+      "mean_p": 0.6245,
+      "raw_residual": 0.0076,
+      "shrunk_residual": 0.0066,
+      "brier": 0.2322,
+      "flat_roi": -0.1623
     },
     "65-70%": {
-      "n": 694,
-      "hits": 478,
-      "hit_rate": 0.6888,
+      "n": 725,
+      "hits": 496,
+      "hit_rate": 0.6841,
       "mean_p": 0.6721,
-      "raw_residual": 0.0167,
-      "shrunk_residual": 0.0137,
-      "brier": 0.2133,
-      "flat_roi": -0.1423
+      "raw_residual": 0.012,
+      "shrunk_residual": 0.01,
+      "brier": 0.2149,
+      "flat_roi": -0.1481
     },
     "70-75%": {
-      "n": 94,
-      "hits": 57,
-      "hit_rate": 0.6064,
+      "n": 97,
+      "hits": 59,
+      "hit_rate": 0.6082,
       "mean_p": 0.7094,
-      "raw_residual": -0.1031,
+      "raw_residual": -0.1012,
       "shrunk_residual": -0.0397,
-      "brier": 0.249,
-      "flat_roi": -0.2609
+      "brier": 0.2483,
+      "flat_roi": -0.2589
     },
     "75-85%": {
       "n": 1,
@@ -133,24 +133,24 @@
   },
   "by_price_kind": {
     "direct": {
-      "n": 256,
-      "hits": 167,
-      "hit_rate": 0.6523,
-      "mean_p": 0.6551,
-      "raw_residual": -0.0027,
-      "shrunk_residual": -0.0017,
-      "brier": 0.2252,
-      "flat_roi": -0.1516
+      "n": 265,
+      "hits": 173,
+      "hit_rate": 0.6528,
+      "mean_p": 0.6547,
+      "raw_residual": -0.0019,
+      "shrunk_residual": -0.0012,
+      "brier": 0.2251,
+      "flat_roi": -0.151
     },
     "derived": {
-      "n": 1552,
-      "hits": 1011,
-      "hit_rate": 0.6514,
-      "mean_p": 0.646,
-      "raw_residual": 0.0054,
-      "shrunk_residual": 0.0049,
-      "brier": 0.2261,
-      "flat_roi": -0.1627
+      "n": 1599,
+      "hits": 1041,
+      "hit_rate": 0.651,
+      "mean_p": 0.6463,
+      "raw_residual": 0.0047,
+      "shrunk_residual": 0.0043,
+      "brier": 0.2264,
+      "flat_roi": -0.1634
     }
   },
   "by_steam": {
@@ -165,24 +165,24 @@
       "flat_roi": -0.0379
     },
     "sert_steam (>=6p)": {
-      "n": 208,
-      "hits": 121,
-      "hit_rate": 0.5817,
-      "mean_p": 0.6458,
-      "raw_residual": -0.064,
-      "shrunk_residual": -0.0372,
-      "brier": 0.2434,
-      "flat_roi": -0.2593
+      "n": 215,
+      "hits": 126,
+      "hit_rate": 0.586,
+      "mean_p": 0.6455,
+      "raw_residual": -0.0594,
+      "shrunk_residual": -0.035,
+      "brier": 0.2425,
+      "flat_roi": -0.2535
     },
     "steam_yok (<3p)": {
-      "n": 1515,
-      "hits": 994,
-      "hit_rate": 0.6561,
-      "mean_p": 0.6474,
-      "raw_residual": 0.0087,
-      "shrunk_residual": 0.0079,
-      "brier": 0.2252,
-      "flat_roi": -0.1546
+      "n": 1564,
+      "hits": 1025,
+      "hit_rate": 0.6554,
+      "mean_p": 0.6477,
+      "raw_residual": 0.0077,
+      "shrunk_residual": 0.007,
+      "brier": 0.2256,
+      "flat_roi": -0.1557
     }
   },
   "by_steam_market": {
@@ -197,24 +197,24 @@
       "flat_roi": -0.1633
     },
     "ALT | sert_steam (>=6p)": {
-      "n": 17,
-      "hits": 9,
-      "hit_rate": 0.5294,
-      "mean_p": 0.6349,
-      "raw_residual": -0.1055,
-      "shrunk_residual": -0.0107,
-      "brier": 0.2583,
-      "flat_roi": -0.3118
+      "n": 19,
+      "hits": 11,
+      "hit_rate": 0.5789,
+      "mean_p": 0.6347,
+      "raw_residual": -0.0557,
+      "shrunk_residual": -0.0063,
+      "brier": 0.2453,
+      "flat_roi": -0.2468
     },
     "ALT | steam_yok (<3p)": {
-      "n": 193,
-      "hits": 124,
-      "hit_rate": 0.6425,
-      "mean_p": 0.6468,
-      "raw_residual": -0.0043,
-      "shrunk_residual": -0.0024,
-      "brier": 0.2337,
-      "flat_roi": -0.1611
+      "n": 198,
+      "hits": 128,
+      "hit_rate": 0.6465,
+      "mean_p": 0.6471,
+      "raw_residual": -0.0006,
+      "shrunk_residual": -0.0004,
+      "brier": 0.2322,
+      "flat_roi": -0.1563
     },
     "MS 1/2 | orta_steam (3-6p)": {
       "n": 6,
@@ -227,66 +227,66 @@
       "flat_roi": 0.0883
     },
     "MS 1/2 | sert_steam (>=6p)": {
-      "n": 13,
-      "hits": 5,
-      "hit_rate": 0.3846,
-      "mean_p": 0.6572,
-      "raw_residual": -0.2726,
-      "shrunk_residual": -0.0217,
-      "brier": 0.3022,
-      "flat_roi": -0.5085
+      "n": 14,
+      "hits": 6,
+      "hit_rate": 0.4286,
+      "mean_p": 0.6554,
+      "raw_residual": -0.2268,
+      "shrunk_residual": -0.0194,
+      "brier": 0.2903,
+      "flat_roi": -0.4514
     },
     "MS 1/2 | steam_yok (<3p)": {
-      "n": 56,
-      "hits": 40,
-      "hit_rate": 0.7143,
-      "mean_p": 0.6659,
-      "raw_residual": 0.0484,
-      "shrunk_residual": 0.0132,
-      "brier": 0.2001,
-      "flat_roi": -0.0791
+      "n": 58,
+      "hits": 41,
+      "hit_rate": 0.7069,
+      "mean_p": 0.6646,
+      "raw_residual": 0.0423,
+      "shrunk_residual": 0.0118,
+      "brier": 0.2032,
+      "flat_roi": -0.0867
     }
   },
   "by_family": {
     "Maç sonucu": {
-      "n": 75,
-      "hits": 50,
+      "n": 78,
+      "hits": 52,
       "hit_rate": 0.6667,
-      "mean_p": 0.6648,
-      "raw_residual": 0.0019,
-      "shrunk_residual": 0.0006,
-      "brier": 0.2163,
-      "flat_roi": -0.1401
+      "mean_p": 0.6635,
+      "raw_residual": 0.0032,
+      "shrunk_residual": 0.0011,
+      "brier": 0.2171,
+      "flat_roi": -0.1387
     },
     "Karşılıklı gol": {
-      "n": 96,
+      "n": 99,
       "hits": 60,
-      "hit_rate": 0.625,
-      "mean_p": 0.6382,
-      "raw_residual": -0.0132,
-      "shrunk_residual": -0.0052,
-      "brier": 0.2346,
-      "flat_roi": -0.1718
+      "hit_rate": 0.6061,
+      "mean_p": 0.638,
+      "raw_residual": -0.0319,
+      "shrunk_residual": -0.0127,
+      "brier": 0.2396,
+      "flat_roi": -0.1969
     },
     "Deplasman golleri": {
-      "n": 303,
-      "hits": 211,
-      "hit_rate": 0.6964,
-      "mean_p": 0.6494,
-      "raw_residual": 0.047,
-      "shrunk_residual": 0.0314,
-      "brier": 0.2115,
-      "flat_roi": -0.1032
+      "n": 313,
+      "hits": 219,
+      "hit_rate": 0.6997,
+      "mean_p": 0.6497,
+      "raw_residual": 0.05,
+      "shrunk_residual": 0.0338,
+      "brier": 0.2104,
+      "flat_roi": -0.0995
     },
     "Alt/Üst": {
-      "n": 159,
-      "hits": 103,
-      "hit_rate": 0.6478,
-      "mean_p": 0.649,
-      "raw_residual": -0.0012,
-      "shrunk_residual": -0.0006,
-      "brier": 0.2295,
-      "flat_roi": -0.1536
+      "n": 164,
+      "hits": 107,
+      "hit_rate": 0.6524,
+      "mean_p": 0.6493,
+      "raw_residual": 0.0031,
+      "shrunk_residual": 0.0016,
+      "brier": 0.2281,
+      "flat_roi": -0.1483
     },
     "Çifte şans": {
       "n": 157,
@@ -299,34 +299,34 @@
       "flat_roi": -0.2009
     },
     "İlk yarı": {
-      "n": 407,
-      "hits": 250,
-      "hit_rate": 0.6143,
-      "mean_p": 0.6443,
-      "raw_residual": -0.03,
-      "shrunk_residual": -0.0219,
+      "n": 422,
+      "hits": 260,
+      "hit_rate": 0.6161,
+      "mean_p": 0.6444,
+      "raw_residual": -0.0283,
+      "shrunk_residual": -0.0209,
       "brier": 0.2373,
-      "flat_roi": -0.2123
+      "flat_roi": -0.2097
     },
     "2Y karşılıklı gol": {
-      "n": 70,
-      "hits": 47,
-      "hit_rate": 0.6714,
-      "mean_p": 0.6598,
-      "raw_residual": 0.0117,
-      "shrunk_residual": 0.0037,
-      "brier": 0.2172,
-      "flat_roi": -0.1644
+      "n": 73,
+      "hits": 50,
+      "hit_rate": 0.6849,
+      "mean_p": 0.6593,
+      "raw_residual": 0.0257,
+      "shrunk_residual": 0.0084,
+      "brier": 0.2134,
+      "flat_roi": -0.147
     },
     "Handikap": {
-      "n": 102,
-      "hits": 64,
-      "hit_rate": 0.6275,
-      "mean_p": 0.6353,
-      "raw_residual": -0.0079,
-      "shrunk_residual": -0.0032,
-      "brier": 0.2331,
-      "flat_roi": -0.1971
+      "n": 104,
+      "hits": 65,
+      "hit_rate": 0.625,
+      "mean_p": 0.636,
+      "raw_residual": -0.011,
+      "shrunk_residual": -0.0045,
+      "brier": 0.2345,
+      "flat_roi": -0.2001
     },
     "İkinci yarı": {
       "n": 18,
@@ -339,44 +339,44 @@
       "flat_roi": -0.1844
     },
     "Ev sahibi golleri": {
-      "n": 260,
-      "hits": 177,
-      "hit_rate": 0.6808,
-      "mean_p": 0.6441,
-      "raw_residual": 0.0367,
-      "shrunk_residual": 0.0233,
-      "brier": 0.2167,
-      "flat_roi": -0.1167
+      "n": 266,
+      "hits": 179,
+      "hit_rate": 0.6729,
+      "mean_p": 0.6443,
+      "raw_residual": 0.0286,
+      "shrunk_residual": 0.0183,
+      "brier": 0.2192,
+      "flat_roi": -0.127
     },
     "Kombine (A & B)": {
-      "n": 39,
-      "hits": 27,
-      "hit_rate": 0.6923,
-      "mean_p": 0.6352,
-      "raw_residual": 0.0571,
-      "shrunk_residual": 0.0118,
-      "brier": 0.2145,
-      "flat_roi": -0.1074
+      "n": 40,
+      "hits": 28,
+      "hit_rate": 0.7,
+      "mean_p": 0.6357,
+      "raw_residual": 0.0643,
+      "shrunk_residual": 0.0135,
+      "brier": 0.2121,
+      "flat_roi": -0.0995
     },
     "Yarı özel": {
-      "n": 98,
-      "hits": 61,
-      "hit_rate": 0.6224,
-      "mean_p": 0.6564,
-      "raw_residual": -0.0339,
-      "shrunk_residual": -0.0134,
-      "brier": 0.2406,
-      "flat_roi": -0.1931
+      "n": 104,
+      "hits": 65,
+      "hit_rate": 0.625,
+      "mean_p": 0.658,
+      "raw_residual": -0.033,
+      "shrunk_residual": -0.0135,
+      "brier": 0.2401,
+      "flat_roi": -0.1913
     },
     "İlk gol": {
-      "n": 15,
-      "hits": 12,
-      "hit_rate": 0.8,
-      "mean_p": 0.6539,
-      "raw_residual": 0.1461,
-      "shrunk_residual": 0.0133,
-      "brier": 0.1758,
-      "flat_roi": 0.04
+      "n": 17,
+      "hits": 13,
+      "hit_rate": 0.7647,
+      "mean_p": 0.6531,
+      "raw_residual": 0.1116,
+      "shrunk_residual": 0.0114,
+      "brier": 0.1883,
+      "flat_roi": -0.0035
     },
     "İY karşılıklı gol": {
       "n": 7,
@@ -401,44 +401,44 @@
   },
   "by_selection": {
     "MS 1": {
-      "n": 57,
-      "hits": 38,
+      "n": 60,
+      "hits": 40,
       "hit_rate": 0.6667,
-      "mean_p": 0.6677,
-      "raw_residual": -0.0011,
-      "shrunk_residual": -0.0003,
-      "brier": 0.215,
-      "flat_roi": -0.1439
+      "mean_p": 0.6659,
+      "raw_residual": 0.0008,
+      "shrunk_residual": 0.0002,
+      "brier": 0.2162,
+      "flat_roi": -0.1418
     },
     "KG Var": {
-      "n": 73,
+      "n": 76,
       "hits": 43,
-      "hit_rate": 0.589,
-      "mean_p": 0.6399,
-      "raw_residual": -0.0508,
-      "shrunk_residual": -0.0166,
-      "brier": 0.2437,
-      "flat_roi": -0.2236
+      "hit_rate": 0.5658,
+      "mean_p": 0.6395,
+      "raw_residual": -0.0737,
+      "shrunk_residual": -0.0248,
+      "brier": 0.2498,
+      "flat_roi": -0.2542
     },
     "Dep 1.5 Alt": {
-      "n": 83,
-      "hits": 64,
-      "hit_rate": 0.7711,
-      "mean_p": 0.6485,
-      "raw_residual": 0.1225,
-      "shrunk_residual": 0.0437,
-      "brier": 0.1962,
-      "flat_roi": -0.0035
+      "n": 85,
+      "hits": 66,
+      "hit_rate": 0.7765,
+      "mean_p": 0.6494,
+      "raw_residual": 0.1271,
+      "shrunk_residual": 0.046,
+      "brier": 0.1939,
+      "flat_roi": 0.0018
     },
     "3.5 Alt": {
-      "n": 69,
-      "hits": 45,
-      "hit_rate": 0.6522,
-      "mean_p": 0.6522,
-      "raw_residual": -0.0001,
-      "shrunk_residual": -0.0,
-      "brier": 0.2343,
-      "flat_roi": -0.1457
+      "n": 70,
+      "hits": 46,
+      "hit_rate": 0.6571,
+      "mean_p": 0.6528,
+      "raw_residual": 0.0043,
+      "shrunk_residual": 0.0014,
+      "brier": 0.2323,
+      "flat_roi": -0.1403
     },
     "ÇŞ X2": {
       "n": 71,
@@ -451,34 +451,34 @@
       "flat_roi": -0.1682
     },
     "İY ÇŞ X2": {
-      "n": 69,
-      "hits": 44,
-      "hit_rate": 0.6377,
+      "n": 73,
+      "hits": 46,
+      "hit_rate": 0.6301,
       "mean_p": 0.6488,
-      "raw_residual": -0.0111,
-      "shrunk_residual": -0.0035,
-      "brier": 0.2324,
-      "flat_roi": -0.1941
+      "raw_residual": -0.0187,
+      "shrunk_residual": -0.0061,
+      "brier": 0.2356,
+      "flat_roi": -0.2033
     },
     "2Y KG Yok": {
-      "n": 70,
-      "hits": 47,
-      "hit_rate": 0.6714,
-      "mean_p": 0.6598,
-      "raw_residual": 0.0117,
-      "shrunk_residual": 0.0037,
-      "brier": 0.2172,
-      "flat_roi": -0.1644
+      "n": 73,
+      "hits": 50,
+      "hit_rate": 0.6849,
+      "mean_p": 0.6593,
+      "raw_residual": 0.0257,
+      "shrunk_residual": 0.0084,
+      "brier": 0.2134,
+      "flat_roi": -0.147
     },
     "İY ÇŞ 12": {
-      "n": 99,
-      "hits": 48,
-      "hit_rate": 0.4848,
-      "mean_p": 0.6288,
-      "raw_residual": -0.1439,
-      "shrunk_residual": -0.0572,
-      "brier": 0.2706,
-      "flat_roi": -0.374
+      "n": 101,
+      "hits": 50,
+      "hit_rate": 0.495,
+      "mean_p": 0.6287,
+      "raw_residual": -0.1337,
+      "shrunk_residual": -0.0538,
+      "brier": 0.268,
+      "flat_roi": -0.3608
     },
     "ÇŞ 1X": {
       "n": 72,
@@ -511,104 +511,104 @@
       "flat_roi": -0.1594
     },
     "Dep İY 0.5 Alt": {
-      "n": 83,
-      "hits": 56,
-      "hit_rate": 0.6747,
-      "mean_p": 0.6516,
-      "raw_residual": 0.0231,
-      "shrunk_residual": 0.0082,
-      "brier": 0.2142,
-      "flat_roi": -0.137
+      "n": 88,
+      "hits": 60,
+      "hit_rate": 0.6818,
+      "mean_p": 0.6518,
+      "raw_residual": 0.03,
+      "shrunk_residual": 0.0111,
+      "brier": 0.2117,
+      "flat_roi": -0.1284
     },
     "Ev İY 1.5 Alt": {
-      "n": 10,
+      "n": 11,
       "hits": 6,
-      "hit_rate": 0.6,
-      "mean_p": 0.6527,
-      "raw_residual": -0.0527,
-      "shrunk_residual": -0.0033,
-      "brier": 0.2454,
-      "flat_roi": -0.232
+      "hit_rate": 0.5455,
+      "mean_p": 0.6528,
+      "raw_residual": -0.1074,
+      "shrunk_residual": -0.0073,
+      "brier": 0.262,
+      "flat_roi": -0.3018
     },
     "Ev 1.5 Alt": {
-      "n": 81,
-      "hits": 60,
-      "hit_rate": 0.7407,
-      "mean_p": 0.646,
-      "raw_residual": 0.0947,
-      "shrunk_residual": 0.0332,
-      "brier": 0.1994,
-      "flat_roi": -0.0463
+      "n": 83,
+      "hits": 61,
+      "hit_rate": 0.7349,
+      "mean_p": 0.6455,
+      "raw_residual": 0.0894,
+      "shrunk_residual": 0.0319,
+      "brier": 0.2015,
+      "flat_roi": -0.0529
     },
     "İY 1.5 Alt": {
-      "n": 126,
-      "hits": 78,
-      "hit_rate": 0.619,
-      "mean_p": 0.6435,
-      "raw_residual": -0.0244,
-      "shrunk_residual": -0.0111,
-      "brier": 0.2384,
-      "flat_roi": -0.196
+      "n": 131,
+      "hits": 82,
+      "hit_rate": 0.626,
+      "mean_p": 0.6438,
+      "raw_residual": -0.0178,
+      "shrunk_residual": -0.0083,
+      "brier": 0.2363,
+      "flat_roi": -0.1872
     },
     "Ev 2.5 Alt": {
-      "n": 22,
-      "hits": 14,
-      "hit_rate": 0.6364,
-      "mean_p": 0.6435,
-      "raw_residual": -0.0072,
-      "shrunk_residual": -0.0009,
-      "brier": 0.229,
-      "flat_roi": -0.1718
+      "n": 23,
+      "hits": 15,
+      "hit_rate": 0.6522,
+      "mean_p": 0.6461,
+      "raw_residual": 0.0061,
+      "shrunk_residual": 0.0008,
+      "brier": 0.2229,
+      "flat_roi": -0.1552
     },
     "Ev İY 0.5 Üst": {
-      "n": 33,
+      "n": 34,
       "hits": 18,
-      "hit_rate": 0.5455,
-      "mean_p": 0.6425,
-      "raw_residual": -0.0971,
-      "shrunk_residual": -0.0175,
-      "brier": 0.2541,
-      "flat_roi": -0.2915
+      "hit_rate": 0.5294,
+      "mean_p": 0.6426,
+      "raw_residual": -0.1132,
+      "shrunk_residual": -0.0209,
+      "brier": 0.2588,
+      "flat_roi": -0.3124
     },
     "Dep 0.5 Üst": {
-      "n": 89,
-      "hits": 63,
-      "hit_rate": 0.7079,
-      "mean_p": 0.6546,
-      "raw_residual": 0.0533,
+      "n": 92,
+      "hits": 65,
+      "hit_rate": 0.7065,
+      "mean_p": 0.6545,
+      "raw_residual": 0.052,
       "shrunk_residual": 0.0198,
-      "brier": 0.2083,
-      "flat_roi": -0.0989
+      "brier": 0.2095,
+      "flat_roi": -0.0997
     },
     "1.5 Üst": {
-      "n": 18,
-      "hits": 11,
-      "hit_rate": 0.6111,
-      "mean_p": 0.6569,
-      "raw_residual": -0.0458,
-      "shrunk_residual": -0.0049,
-      "brier": 0.2376,
-      "flat_roi": -0.2239
+      "n": 20,
+      "hits": 13,
+      "hit_rate": 0.65,
+      "mean_p": 0.6578,
+      "raw_residual": -0.0078,
+      "shrunk_residual": -0.0009,
+      "brier": 0.225,
+      "flat_roi": -0.176
     },
     "İY ÇŞ 1X": {
-      "n": 40,
+      "n": 41,
       "hits": 27,
-      "hit_rate": 0.675,
-      "mean_p": 0.6543,
-      "raw_residual": 0.0207,
-      "shrunk_residual": 0.0044,
-      "brier": 0.2205,
-      "flat_roi": -0.1507
+      "hit_rate": 0.6585,
+      "mean_p": 0.6547,
+      "raw_residual": 0.0039,
+      "shrunk_residual": 0.0008,
+      "brier": 0.2261,
+      "flat_roi": -0.1715
     },
     "İY 0.5 Üst": {
-      "n": 57,
-      "hits": 41,
-      "hit_rate": 0.7193,
-      "mean_p": 0.662,
-      "raw_residual": 0.0573,
-      "shrunk_residual": 0.0158,
-      "brier": 0.2036,
-      "flat_roi": -0.0991
+      "n": 60,
+      "hits": 43,
+      "hit_rate": 0.7167,
+      "mean_p": 0.661,
+      "raw_residual": 0.0556,
+      "shrunk_residual": 0.0159,
+      "brier": 0.2057,
+      "flat_roi": -0.1005
     },
     "Ev 0.5 Üst": {
       "n": 44,
@@ -631,44 +631,44 @@
       "flat_roi": -0.1665
     },
     "İY KG Yok & 2Y KG Yok": {
-      "n": 26,
-      "hits": 19,
-      "hit_rate": 0.7308,
-      "mean_p": 0.6304,
-      "raw_residual": 0.1003,
-      "shrunk_residual": 0.0148,
-      "brier": 0.2063,
-      "flat_roi": -0.0604
+      "n": 27,
+      "hits": 20,
+      "hit_rate": 0.7407,
+      "mean_p": 0.6314,
+      "raw_residual": 0.1093,
+      "shrunk_residual": 0.0167,
+      "brier": 0.2031,
+      "flat_roi": -0.0504
     },
     "Ev 1.5 Üst": {
-      "n": 30,
+      "n": 31,
       "hits": 21,
-      "hit_rate": 0.7,
-      "mean_p": 0.628,
-      "raw_residual": 0.072,
-      "shrunk_residual": 0.012,
-      "brier": 0.2109,
-      "flat_roi": -0.0517
+      "hit_rate": 0.6774,
+      "mean_p": 0.6297,
+      "raw_residual": 0.0477,
+      "shrunk_residual": 0.0082,
+      "brier": 0.2189,
+      "flat_roi": -0.0823
     },
     "DEĞİL(Ev İki Yarıda Gol)": {
-      "n": 33,
-      "hits": 17,
-      "hit_rate": 0.5152,
+      "n": 35,
+      "hits": 18,
+      "hit_rate": 0.5143,
       "mean_p": 0.6637,
-      "raw_residual": -0.1485,
-      "shrunk_residual": -0.0268,
-      "brier": 0.282,
-      "flat_roi": -0.3415
+      "raw_residual": -0.1494,
+      "shrunk_residual": -0.0283,
+      "brier": 0.2843,
+      "flat_roi": -0.3409
     },
     "İlk Gol Ev": {
-      "n": 9,
-      "hits": 8,
-      "hit_rate": 0.8889,
-      "mean_p": 0.6528,
-      "raw_residual": 0.2361,
-      "shrunk_residual": 0.0134,
-      "brier": 0.1538,
-      "flat_roi": 0.1611
+      "n": 11,
+      "hits": 9,
+      "hit_rate": 0.8182,
+      "mean_p": 0.6517,
+      "raw_residual": 0.1665,
+      "shrunk_residual": 0.0114,
+      "brier": 0.1772,
+      "flat_roi": 0.0718
     },
     "Ev İY 0.5 Alt": {
       "n": 36,
@@ -691,24 +691,24 @@
       "flat_roi": -0.0074
     },
     "2.5 Üst": {
-      "n": 45,
+      "n": 46,
       "hits": 29,
-      "hit_rate": 0.6444,
-      "mean_p": 0.6424,
-      "raw_residual": 0.002,
-      "shrunk_residual": 0.0005,
-      "brier": 0.2276,
-      "flat_roi": -0.1493
+      "hit_rate": 0.6304,
+      "mean_p": 0.643,
+      "raw_residual": -0.0126,
+      "shrunk_residual": -0.003,
+      "brier": 0.2323,
+      "flat_roi": -0.1678
     },
     "2.5 Alt": {
-      "n": 16,
-      "hits": 10,
-      "hit_rate": 0.625,
-      "mean_p": 0.6229,
-      "raw_residual": 0.0021,
-      "shrunk_residual": 0.0002,
-      "brier": 0.2289,
-      "flat_roi": -0.1644
+      "n": 17,
+      "hits": 11,
+      "hit_rate": 0.6471,
+      "mean_p": 0.6219,
+      "raw_residual": 0.0251,
+      "shrunk_residual": 0.0026,
+      "brier": 0.2246,
+      "flat_roi": -0.1329
     },
     "Dep 1.5 Üst": {
       "n": 20,
@@ -831,14 +831,14 @@
       "flat_roi": 0.31
     },
     "Ev En Az Bir Yarıyı Kazanır": {
-      "n": 10,
-      "hits": 8,
-      "hit_rate": 0.8,
-      "mean_p": 0.6483,
-      "raw_residual": 0.1517,
-      "shrunk_residual": 0.0095,
-      "brier": 0.1844,
-      "flat_roi": 0.052
+      "n": 11,
+      "hits": 9,
+      "hit_rate": 0.8182,
+      "mean_p": 0.6513,
+      "raw_residual": 0.1669,
+      "shrunk_residual": 0.0114,
+      "brier": 0.1769,
+      "flat_roi": 0.0691
     },
     "2Y 2": {
       "n": 2,
@@ -981,24 +981,24 @@
       "flat_roi": -0.385
     },
     "Hnd(-2) 2": {
-      "n": 6,
-      "hits": 2,
-      "hit_rate": 0.3333,
-      "mean_p": 0.6398,
-      "raw_residual": -0.3064,
-      "shrunk_residual": -0.0118,
-      "brier": 0.3136,
-      "flat_roi": -0.5717
+      "n": 8,
+      "hits": 3,
+      "hit_rate": 0.375,
+      "mean_p": 0.6482,
+      "raw_residual": -0.2732,
+      "shrunk_residual": -0.0138,
+      "brier": 0.3119,
+      "flat_roi": -0.5175
     },
     "DEĞİL(Dep En Az Bir Yarıyı Kazanır)": {
-      "n": 11,
-      "hits": 9,
-      "hit_rate": 0.8182,
-      "mean_p": 0.6569,
-      "raw_residual": 0.1613,
-      "shrunk_residual": 0.011,
-      "brier": 0.1869,
-      "flat_roi": 0.0891
+      "n": 14,
+      "hits": 11,
+      "hit_rate": 0.7857,
+      "mean_p": 0.6661,
+      "raw_residual": 0.1197,
+      "shrunk_residual": 0.0102,
+      "brier": 0.1929,
+      "flat_roi": 0.03
     },
     "İY Çift": {
       "n": 2,
@@ -1125,60 +1125,71 @@
     },
     {
       "selection": "DEĞİL(Ev İki Yarıda Gol)",
-      "n": 33,
-      "hits": 17,
-      "hit_rate": 0.5152,
+      "n": 35,
+      "hits": 18,
+      "hit_rate": 0.5143,
       "mean_p": 0.6637,
-      "raw_residual": -0.1485,
-      "shrunk_residual": -0.0268,
-      "brier": 0.282,
-      "flat_roi": -0.3415
+      "raw_residual": -0.1494,
+      "shrunk_residual": -0.0283,
+      "brier": 0.2843,
+      "flat_roi": -0.3409
     },
     {
       "selection": "İY ÇŞ 12",
-      "n": 99,
-      "hits": 48,
-      "hit_rate": 0.4848,
-      "mean_p": 0.6288,
-      "raw_residual": -0.1439,
-      "shrunk_residual": -0.0572,
-      "brier": 0.2706,
-      "flat_roi": -0.374
+      "n": 101,
+      "hits": 50,
+      "hit_rate": 0.495,
+      "mean_p": 0.6287,
+      "raw_residual": -0.1337,
+      "shrunk_residual": -0.0538,
+      "brier": 0.268,
+      "flat_roi": -0.3608
     },
     {
       "selection": "Ev İY 0.5 Üst",
-      "n": 33,
+      "n": 34,
       "hits": 18,
-      "hit_rate": 0.5455,
-      "mean_p": 0.6425,
-      "raw_residual": -0.0971,
-      "shrunk_residual": -0.0175,
-      "brier": 0.2541,
-      "flat_roi": -0.2915
+      "hit_rate": 0.5294,
+      "mean_p": 0.6426,
+      "raw_residual": -0.1132,
+      "shrunk_residual": -0.0209,
+      "brier": 0.2588,
+      "flat_roi": -0.3124
+    },
+    {
+      "selection": "KG Var",
+      "n": 76,
+      "hits": 43,
+      "hit_rate": 0.5658,
+      "mean_p": 0.6395,
+      "raw_residual": -0.0737,
+      "shrunk_residual": -0.0248,
+      "brier": 0.2498,
+      "flat_roi": -0.2542
     }
   ],
   "golden_pools": [
     {
       "selection": "Dep 1.5 Alt",
-      "n": 83,
-      "hits": 64,
-      "hit_rate": 0.7711,
-      "mean_p": 0.6485,
-      "raw_residual": 0.1225,
-      "shrunk_residual": 0.0437,
-      "brier": 0.1962,
-      "flat_roi": -0.0035
+      "n": 85,
+      "hits": 66,
+      "hit_rate": 0.7765,
+      "mean_p": 0.6494,
+      "raw_residual": 0.1271,
+      "shrunk_residual": 0.046,
+      "brier": 0.1939,
+      "flat_roi": 0.0018
     },
     {
-      "selection": "Ev 1.5 Alt",
-      "n": 81,
-      "hits": 60,
+      "selection": "İY KG Yok & 2Y KG Yok",
+      "n": 27,
+      "hits": 20,
       "hit_rate": 0.7407,
-      "mean_p": 0.646,
-      "raw_residual": 0.0947,
-      "shrunk_residual": 0.0332,
-      "brier": 0.1994,
-      "flat_roi": -0.0463
+      "mean_p": 0.6314,
+      "raw_residual": 0.1093,
+      "shrunk_residual": 0.0167,
+      "brier": 0.2031,
+      "flat_roi": -0.0504
     },
     {
       "selection": "KG Yok",
@@ -1192,26 +1203,26 @@
       "flat_roi": -0.0074
     },
     {
-      "selection": "İY KG Yok & 2Y KG Yok",
-      "n": 26,
-      "hits": 19,
-      "hit_rate": 0.7308,
-      "mean_p": 0.6304,
-      "raw_residual": 0.1003,
-      "shrunk_residual": 0.0148,
-      "brier": 0.2063,
-      "flat_roi": -0.0604
+      "selection": "Ev 1.5 Alt",
+      "n": 83,
+      "hits": 61,
+      "hit_rate": 0.7349,
+      "mean_p": 0.6455,
+      "raw_residual": 0.0894,
+      "shrunk_residual": 0.0319,
+      "brier": 0.2015,
+      "flat_roi": -0.0529
     },
     {
       "selection": "İY 0.5 Üst",
-      "n": 57,
-      "hits": 41,
-      "hit_rate": 0.7193,
-      "mean_p": 0.662,
-      "raw_residual": 0.0573,
-      "shrunk_residual": 0.0158,
-      "brier": 0.2036,
-      "flat_roi": -0.0991
+      "n": 60,
+      "hits": 43,
+      "hit_rate": 0.7167,
+      "mean_p": 0.661,
+      "raw_residual": 0.0556,
+      "shrunk_residual": 0.0159,
+      "brier": 0.2057,
+      "flat_roi": -0.1005
     },
     {
       "selection": "Hnd(-1) 2",
@@ -1226,25 +1237,14 @@
     },
     {
       "selection": "Dep 0.5 Üst",
-      "n": 89,
-      "hits": 63,
-      "hit_rate": 0.7079,
-      "mean_p": 0.6546,
-      "raw_residual": 0.0533,
+      "n": 92,
+      "hits": 65,
+      "hit_rate": 0.7065,
+      "mean_p": 0.6545,
+      "raw_residual": 0.052,
       "shrunk_residual": 0.0198,
-      "brier": 0.2083,
-      "flat_roi": -0.0989
-    },
-    {
-      "selection": "Ev 1.5 Üst",
-      "n": 30,
-      "hits": 21,
-      "hit_rate": 0.7,
-      "mean_p": 0.628,
-      "raw_residual": 0.072,
-      "shrunk_residual": 0.012,
-      "brier": 0.2109,
-      "flat_roi": -0.0517
+      "brier": 0.2095,
+      "flat_roi": -0.0997
     }
   ],
   "calibration_suggestions": [
@@ -1258,27 +1258,35 @@
     },
     {
       "pattern": "^DEĞİL\\(Ev\\ İki\\ Yarıda\\ Gol\\)$",
-      "n": 33,
-      "hit_rate": 0.5152,
+      "n": 35,
+      "hit_rate": 0.5143,
       "mean_p": 0.6637,
-      "residual": -0.1485,
-      "shrunk_residual": -0.0268
+      "residual": -0.1494,
+      "shrunk_residual": -0.0283
     },
     {
       "pattern": "^İY\\ ÇŞ\\ 12$",
-      "n": 99,
-      "hit_rate": 0.4848,
-      "mean_p": 0.6288,
-      "residual": -0.1439,
-      "shrunk_residual": -0.0572
+      "n": 101,
+      "hit_rate": 0.495,
+      "mean_p": 0.6287,
+      "residual": -0.1337,
+      "shrunk_residual": -0.0538
     },
     {
       "pattern": "^Ev\\ İY\\ 0\\.5\\ Üst$",
-      "n": 33,
-      "hit_rate": 0.5455,
-      "mean_p": 0.6425,
-      "residual": -0.0971,
-      "shrunk_residual": -0.0175
+      "n": 34,
+      "hit_rate": 0.5294,
+      "mean_p": 0.6426,
+      "residual": -0.1132,
+      "shrunk_residual": -0.0209
+    },
+    {
+      "pattern": "^KG\\ Var$",
+      "n": 76,
+      "hit_rate": 0.5658,
+      "mean_p": 0.6395,
+      "residual": -0.0737,
+      "shrunk_residual": -0.0248
     }
   ]
 }
