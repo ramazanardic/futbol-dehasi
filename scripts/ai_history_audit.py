@@ -19,11 +19,13 @@ import subprocess
 import sys
 import unicodedata
 from collections import Counter, defaultdict
+from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from quantfoot.evaluation.settlement import settle_selection  # noqa: E402
+from quantfoot.markets.market_diagnosis import classify_family  # noqa: E402
 
 AIS = ("antigravitytahmin", "chatgbttahmin", "claudetahmin",
        "geminitahmin", "grokbottahmin")
@@ -159,6 +161,14 @@ def resolve_reference(refs, by_name, day, row):
     return None, "ambiguous_name" if len(choices) > 1 else "no_reference"
 
 
+@lru_cache(maxsize=200_000)
+def _grade_cached(name, ht, ft):
+    try:
+        return settle_selection(name, ht, ft)
+    except (KeyError, TypeError, ValueError, IndexError):
+        return None
+
+
 def evaluate_selection(name, reference):
     if not name or reference is None:
         return None
@@ -168,10 +178,7 @@ def evaluate_selection(name, reference):
         if group_market(name) not in {"MS", "KG", "Gol alt/üst", "Çifte şans", "Takım golü"}:
             return None
         ht = [0, 0]
-    try:
-        return settle_selection(name, tuple(ht), tuple(ft))
-    except (KeyError, TypeError, ValueError, IndexError):
-        return None
+    return _grade_cached(name, tuple(ht), tuple(ft))
 
 
 def first_git_publication(root, relpath):
@@ -318,6 +325,89 @@ def audit_coupons(root, refs, nameindex, ai, day, path):
                         "max_coupons_using_same_match": max((len(v) for v in used_match.values()), default=0)}}
 
 
+
+def audit_market_prices(root, refs, nameindex, day, path):
+    """Settle ALL priced selections, not only the single main CSV pick.
+
+    A priced selection is not evidence that a bet was advised or placed.
+    All selections for one match are correlated; family counts are NOT
+    independent trial counts. Retain match counts by family for context.
+    """
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (ValueError, OSError, MemoryError) as exc:
+        return {"file": str(path.relative_to(root)), "error": type(exc).__name__}
+    games = data.get("matches") or []
+    match_count = len(games)
+    counters = Counter()
+    buckets = defaultdict(lambda: {"n": 0, "settled": 0, "won": 0, "p_sum": 0.0,
+                                    "p_n": 0, "priced": 0, "units": 0.0,
+                                    "negative_ev_winners": 0, "positive_ev_losers": 0,
+                                    "match_ids": set()})
+    for game in games:
+        code = game.get("code")
+        match_name = game.get("match") or f"{game.get('home', '')} - {game.get('away', '')}"
+        ref, how = resolve_reference(refs, nameindex, day, {
+            "nesine_kodu": code, "mac": match_name})
+        counters["matches"] += 1
+        counters["match_join_" + how] += 1
+        for sel in game.get("selections") or []:
+            if not isinstance(sel, dict):
+                continue
+            name = sel.get("name")
+            if not name:
+                counters["selections_no_name"] += 1
+                continue
+            counters["selections_total"] += 1
+            family = classify_family(str(name)) or group_market(str(name))
+            direct = "direct" if sel.get("direct") is True else (
+                "derived" if sel.get("direct") is False else "unknown")
+            p = number(sel.get("fair_prob"))
+            price = number(sel.get("odds"))
+            if p is not None and not 0 <= p <= 1:
+                counters["invalid_probabilities"] += 1
+                p = None
+            w = evaluate_selection(str(name), ref)
+            for key in (family, "DIRECT:" + direct):
+                group = buckets[key]
+                group["n"] += 1
+                if p is not None:
+                    group["p_sum"] += p
+                    group["p_n"] += 1
+                if w is None:
+                    continue
+                group["settled"] += 1
+                group["won"] += bool(w)
+                group["match_ids"].add(str(code) if code is not None else normal(match_name))
+                if price is not None and price > 1:
+                    group["priced"] += 1
+                    group["units"] += price - 1 if w else -1
+                    if p is not None:
+                        ev = p * price - 1
+                        group["negative_ev_winners"] += bool(w and ev < 0)
+                        group["positive_ev_losers"] += bool(not w and ev > 0)
+            if w is not None:
+                counters["settled_selections"] += 1
+            else:
+                counters["unsettled_selections"] += 1
+    summarized = {}
+    for family, group in buckets.items():
+        n = group["settled"]
+        priced = group["priced"]
+        summarized[family] = {
+            "total_choices": group["n"], "settled_choices": n,
+            "distinct_matches": len(group["match_ids"]),
+            "hits": group["won"],
+            "hit_rate": round(group["won"] / n, 6) if n else None,
+            "avg_predicted": round(group["p_sum"] / group["p_n"], 6) if group["p_n"] else None,
+            "flat_roi": round(group["units"] / priced, 6) if priced else None,
+            "negative_ev_winners": group["negative_ev_winners"],
+            "positive_ev_losers": group["positive_ev_losers"],
+        }
+    return {"file": str(path.relative_to(root)), "matches": match_count,
+            "coverage": dict(counters), "families": summarized,
+            "caution": "Same-match choices are highly correlated; raw fair_prob may differ from final calibrated P."}
+
 def audit_placed_ledger(root):
     out = {}
     for path in sorted((root / "reports/ledger").glob("placed_bets_*.csv")):
@@ -378,7 +468,9 @@ def run(root):
             coupons = audit_coupons(root, refs, nameindex, ai, day, cp) if cp.exists() else None
             if predict:
                 all_preds.extend(predict.pop("predictions"))
-            entries[day] = {"predictions": predict, "coupons": coupons}
+            market_file = directory / "nesine_global.json"
+            market_prices = audit_market_prices(root, refs, nameindex, day, market_file) if market_file.is_file() else None
+            entries[day] = {"predictions": predict, "coupons": coupons, "market_prices": market_prices}
         output["ais"][ai] = {"dates": entries, "overall": summary(all_preds),
                              "available_prediction_files": sum(v["predictions"] is not None for v in entries.values())}
     return output
@@ -418,7 +510,29 @@ def render(report):
                 out.append(f"  Kupon: {cs['coupons']} kupon, {cs['verified']} doğrulanabilir, "
                            f"{cs['won']} kazanan, {cs['reused_matches']} kuponlar arası tekrarlanan maç.")
         out.append("")
-    out += ["## Gerçekten oynandığı bildirilen arşiv kayıtları", "",
+    out += ["## Tüm fiyatlanan bahis pazarları (yalnız ana seçimler değil)", "",
+            "Bu tarama nesine_global.json kayıtlarındaki bütün sunulan pazarları kapsar. "
+            "Aynı maçın farklı bahisleri bağımsız değildir. Ham fair_prob son kupon kalibrasyonu değildir.", ""]
+    for ai, info in report["ais"].items():
+        for day, entry in info["dates"].items():
+            market = entry.get("market_prices")
+            if not market:
+                continue
+            if market.get("error"):
+                out.append(f"- {ai} {day}: fiyatlama dosyası okunamadı ({market['error']}).")
+                continue
+            q = market["coverage"]
+            out.append(f"- {ai} {day}: {market['matches']} bülten maçı, "
+                       f"{q.get('selections_total', 0)} pazar seçimi, "
+                       f"{q.get('settled_selections', 0)} skorla karara bağlanabilen seçim.")
+            groups = [(name, rec) for name, rec in market["families"].items()
+                      if not name.startswith("DIRECT:") and rec["settled_choices"] >= 30]
+            groups.sort(key=lambda x: x[1]["settled_choices"], reverse=True)
+            for name, rec in groups[:8]:
+                roi = f"%{100 * rec['flat_roi']:+.1f}" if rec["flat_roi"] is not None else "-"
+                out.append(f"  - {name}: {rec['hits']}/{rec['settled_choices']} tercih; "
+                           f"{rec['distinct_matches']} farklı maç; varsayımsal ROI {roi}.")
+    out += ["", "## Gerçekten oynandığı bildirilen arşiv kayıtları", "",
             "Yalnız placed_bets dosyaları; öneri kuponları bunlara dahil edilmez. "
             "Ekran aktarımı ödeme sisteminden bağımsız kanıt değildir.", ""]
     for filename, item in report["placed_ledger"].items():
@@ -448,8 +562,10 @@ def main(argv=None):
     (out / "ai_history_audit.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     (out / "ai_history_audit.md").write_text(render(report), encoding="utf-8")
-    print(f"Audited {sum(v['overall']['rows'] for v in report['ais'].values())} prediction rows; "
-          f"results: {out / 'ai_history_audit.md'}")
+    total_choices = sum((entry.get("market_prices") or {}).get("coverage", {}).get("selections_total", 0)
+                        for a in report["ais"].values() for entry in a["dates"].values())
+    print(f"Audited {sum(v['overall']['rows'] for v in report['ais'].values())} prediction rows "
+          f"and {total_choices} priced-market selections; results: {out / 'ai_history_audit.md'}")
 
 
 if __name__ == "__main__":
