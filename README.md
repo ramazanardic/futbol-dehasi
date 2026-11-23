@@ -7,16 +7,27 @@
 
 Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power & Rimella JRSS-C 2024; Baker & McHale; Constantinou & Fenton) ve **238.858+ tarihsel kulüp maçı** (`matches.csv` + canlı ESPN 2026-27 senkronizasyonu) + **10.660 uluslararası milli maç** (2016–2026) + **7.348 Pinnacle 2026 açılış/kapanış oran verisi** üzerinde sıfır veri sızıntısı (*zero look-ahead leakage*, genişleyen *walk-forward*) ile araştırılmış, kalibre edilmiş ve doğrulanmış kantitatif futbol tahmin ve bahis motoru.
 
-## Çalışma düzeni (20 Kasım 2026) — önce bunu okuyun
+## QuantFoot Terminal
 
-- **Sistem yalnız kullanıcı sorduğunda çalışır.** Analiz iş akışları zamanlanmış değildir (`gh workflow run global-odds.yml` veya `daily-autonomous.yml` ile istek üzerine çalışır).
-  GitHub'daki tek zamanlama: `ci-tests.yml` haftalık Pazar pytest koşusu (analiz yapmaz).
-  Kullanıcının onayladığı kupon izleyici: Windows `QuantFoot\KuponIzle` 15 dakikada bir geçerli kuponların
-  bacaklarını canlı Nesine bülteninde kontrol eder (`scripts/kupon_izle.cmd`); Linux karşılığı
-  `scripts/kupon_izle.sh` (cron olarak kurulmaz, istek üzerine veya kendi zamanlayıcınızla).
-  Kapanan / askıya alınan pazarda bir kez uyarı verir.
-  Aynı görev günde bir kez dünün API-Football sonuçlarını yerel arşive ekler (`api_gecmis.py --arsiv`, 1 istek;
-  ücretsiz plan yalnız dün/bugün/yarın verdiği için takım geçmişi böyle birikir).
+Yerel web uygulaması depodaki mevcut QuantFoot motorunu çağırır. Projenin Python ortamında paketi kurduktan sonra
+kendi `QUANTFOOT_AI` değerinle terminali aç:
+
+```powershell
+$env:QUANTFOOT_AI = "chatgbttahmin"
+.\.venv\Scripts\python.exe scripts/terminal.py
+```
+
+Linux/macOS: `QUANTFOOT_AI=chatgbttahmin python scripts/terminal.py`. Tarayıcıda `http://127.0.0.1:8765/` adresini
+aç ve bahis gününü seç. **Maçları analiz et**, **Analiz et ve kupon hesapla** ve **Kuponları kontrol et** istek üzerine
+mevcut komutları başlatır. Raporlar kendi tahmin klasöründen okunur. [Buradan açılan panel](https://quantfoot-terminal-ramazan.ramazanardic.chatgpt.site)
+GitHub'da yayımlanan raporları ve yüklediğin dosyaları açar. Canlı Python analizi için yerel terminali kullan.
+
+## Çalışma düzeni
+
+- **Futbol işlemleri yalnız kullanıcı istediğinde başlatılır.** [Ortak komut ve kurallar](docs/ORTAK_SISTEM.md).
+  Gerekirse oran verisi elle yenilenir (`gh workflow run global-odds.yml`), kupon kontrolü
+  `python scripts/kupon_kontrol.py kontrol` ve sonuç arşivi `python scripts/api_gecmis.py --arsiv` ile çalıştırılır.
+  Kod testleri GitHub'da değişiklik gönderildiğinde veya elle başlatıldığında çalışır.
 - **Her yapay zekâ yalnız kendi klasörüne yazar:** `tahminler/<klasör>/<tarih>/` (Claude `claudetahmin`, Gemini
   `geminitahmin`, Antigravity `antigravitytahmin`, ChatGPT `chatgbttahmin`, Grok Bot `grokbottahmin`).
   Kod bunu zorunlu `QUANTFOOT_AI=<klasör>` ile yapar (varsayılan yoktur). Başka bir yapay zekânın klasörü açılmaz, okunmaz; bağlayıcı kural: [AGENTS.md](AGENTS.md).
@@ -60,7 +71,7 @@ Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power &
   pozitif CLV ve ROI (geçmiş veride). Canlıda keskin referans: Smarkets + Matchbook borsaları (GitHub Actions, yurt dışı).
 - **20 pazar ailesi + Bet Builder** tek tutarlı dağılımdan: [docs/markets.md](docs/markets.md). Kulüp gol
   rejimi piyasaya sabitlenmiş türev pazarlarda yeniden kalibre edildi (ν = 1.0, ρ = −0.03).
-- **Günlük akış:** `scripts/daily.py` (CLV ve havuz testi dahil), istek üzerine; `scripts/scheduled.py` eski zamanlanmış görev girişi (görevler kapalı).
+- **Günlük akış:** `scripts/gunluk_tahmin.py`. Genel model ve CLV araçları `scripts/daily.py` üzerinden elle çalıştırılabilir.
 - **Nesine analizi:** bültenin her seçimi keskin global fiyata göre fiyatlanır (Smarkets ve Matchbook borsaları,
   ikisi varsa ortalaması; doğrudan kote edilen KG, Alt/Üst, İY… pazarları doğrudan): `scripts/nesine_global.py
   --date <gün>`, [docs/nesine.md](docs/nesine.md). Her maç için ESPN takım dosyası (form, son maçlar, puan durumu,
@@ -132,7 +143,7 @@ export TZ=Europe/Istanbul
 python scripts/daily.py run --date 2026-11-21          # model-only ESPN taraması (resmi kupon değil)
 python scripts/nesine_global.py --date 2026-11-21      # anahtar gerekmez; Transfermarkt için ayrıca --tm
 python scripts/kupon_kur.py --hedef 5 --tarih 2026-11-21
-python scripts/kupon_izle.sh                           # kupon bacak kontrolü; cron kurulmaz
+python scripts/kupon_kontrol.py kontrol                # istek üzerine kupon bacak kontrolü
 pytest -q
 ```
 

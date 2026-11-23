@@ -25,6 +25,14 @@ RESULTS_URL = "https://ls.nesine.com/api/v2/LiveScore/GetUnliveMatches"  # publi
 FINISHED = {"MS", "UZT", "PEN"}  # full time, after extra time, after penalties (Ksl. = abandoned: not settled)
 MARKETS_FILE = Path(__file__).with_name("nesine_markets.json")
 TSI = dt.timezone(dt.timedelta(hours=3))
+BETTING_DAY_START = dt.time(7)
+
+
+def betting_day(now: dt.datetime | None = None) -> str:
+    """Return the Istanbul date at the start of the active 07:00–07:00 betting day."""
+    now = now or dt.datetime.now(TSI)
+    local = now.replace(tzinfo=TSI) if now.tzinfo is None else now.astimezone(TSI)
+    return (local.date() - dt.timedelta(days=local.time() < BETTING_DAY_START)).isoformat()
 
 _RES = {"1": "1", "X": "0", "2": "2"}
 

@@ -50,9 +50,8 @@ Bu depoda beş yapay zekâ çalışır ve tahminleri eşit koşullarda yarışt�
    zekâlar için kendi klasör kuralları ve yayın izinleri geçerlidir. Tahminler `reports/` veya `docs/data/` alanına
    yazılmaz. Sistemi çalıştırmadan önce `QUANTFOOT_AI=<klasörünüz>` açıkça ayarlanır.
 5. **Sistem yalnız kullanıcı sorduğunda çalışır**; kullanıcı hangi yapay zekâya sorduysa yalnız o yapay zekâ
-   araştırır ve kendi klasörüne yazar.
-   Kullanıcının onayladığı tek zamanlanmış görev: Windows `QuantFoot\KuponIzle` (15 dakikada bir geçerli kuponların
-   bacaklarını Nesine'de kontrol eder ve günde bir kez dünün API-Football sonuçlarını yerel arşive ekler); analiz yapmaz.
+   araştırır ve kendi klasörüne yazar. Sabah raporu, Windows kupon izleyicisi ve diğer zamanlanmış futbol işleri
+   emekliye ayrılmıştır. Analiz, oran yenileme, kupon kontrolü ve sonuç arşivi istek üzerine başlatılır.
 6. **Tek istisna — ertesi gün değerlendirmesi:** kullanıcı isteyince önceki günün tahminleri yalnız
    `scripts/gun_degerlendirme.py --tarih <gün>` ile, bitmiş maçlar üzerinden değerlendirilir ve sonuç ortak
    `degerlendirme/<gün>.md` dosyasına yazılır. Bu araç dışında öteki klasörlerin içeriği açılmaz.

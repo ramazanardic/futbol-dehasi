@@ -80,13 +80,11 @@ pazarlar), ClubElo (sunucu yurt dışından da 502 veriyor).
 Her analiz çalıştırması doğrudan borsa fiyatlı seçimlerin (Nesine oranı, borsa olasılığı) bir kaydını
 `tahminler/<yapay zekâ>/<tarih>/nesine_history.jsonl` dosyasına ekler (git'e girmez). Raporun ilk bölümü, son 8
 saatte borsa olasılığı **en az 3 puan artan** ama Nesine'nin **aynı oranı** vermeye devam ettiği seçimleri
-listeler: haber ya da kadro sonrası geç kalan oran. Saatlik `QuantFoot\Analiz` görevi bu kaydı biriktirir.
+listeler. Elle çalıştırılan her analiz yeni gözlemi kaydeder.
 
 ## Tetikleme (istek üzerine)
 
-Global çekim yalnız istek üzerine çalışır: analizden önce `gh workflow run global-odds.yml` (bitince `git pull`);
-`gh` çalışmazsa `data/global_odds/trigger.txt` dosyasını göndermek de iş akışını tetikler. Kupon 3 saatten eski
-global fiyatı kullanmaz. Aynı anda biten iki çalıştırma JSON dosyalarını satır satır birleştirmez:
+Global çekimi istek üzerine `gh workflow run global-odds.yml` veya GitHub Actions’taki **Run workflow** düğmesiyle başlat. İş bitince `git pull` ile veriyi al. Kupon 3 saatten eski global fiyatı kullanmaz. Aynı anda biten iki çalıştırma JSON dosyalarını satır satır birleştirmez:
 geç kalan, en yeni veriyi alıp kendi sonucunu onun üzerine yeniden kurar. Raporların başında verinin yaşı yazar.
 
 ## Sizin sağladığınız sakatlık / ceza dosyası
@@ -118,16 +116,10 @@ Rapor: olasılık bandına göre tahmin vs gerçekleşen (kalibrasyon), Brier sk
 bahis ailesine göre, maç başına en güvenilir tercih ve üretilen her kuponun sonucu. ESPN'de olmayan
 maçlar sonuçlanamaz.
 
-## Sistem durumu ve uyarı
+## Kadro ve kupon kontrolü
 
-Zamanlanmış görevler kapalıyken (20 Kasım) durum dosyası yazılmaz; analiz raporunun başında global verinin
-yaşı yazar, kupon 3 saatten eski fiyatı kullanmaz.
-
-## İlk 11 saati
-
-`QuantFoot\Kadro10` ve `QuantFoot\Kadro30` görevleri her saatin 10. ve 30. dakikasında bugünü yeniden
-analiz eder (saatlik `Analiz` :50'de): kadrolar maçtan ~1 saat önce açıklandığında eksik kilit oyuncu ve
-geç kalan fiyat 20 dakika içinde rapora ve kupon filtresine yansır.
+Kadro açıklandığında yeni analiz için `scripts/nesine_global.py`, kayıtlı kuponların güncel oran ve kadro kontrolü için
+`scripts/kupon_kontrol.py kontrol` komutunu istek üzerine çalıştır. Analiz raporu global verinin yaşını gösterir.
 
 ## Yeni bahis aileleri (19 Kasım)
 
@@ -158,8 +150,7 @@ python scripts/nesine_global.py --date 2026-11-19 --hafta 7 --haftalik   # yaln�
 
 Her bahis günü (07:00–07:00 TSİ) için ayrı rapor + `tahminler/<yapay zekâ>/hafta/<başlangıç>_nesine_hafta.md` özeti
 (gün başına kapsam ve haftanın Nesine'nin global adil fiyatın üstünde ödediği seçimleri). Global çekim
-1X2 ve Alt/Üst için 7 gün, türev pazarlar için 48 saat ileriye bakar; maç öncesi saatlik yenileme tüm
-pazarları tazeler.
+1X2 ve Alt/Üst için 7 gün, türev pazarlar için 48 saat ileriye bakar; maç öncesinde istenen yenileme pazar fiyatlarını tazeler.
 
 ## Kupon: olasılık globalden, oran Nesine'den
 

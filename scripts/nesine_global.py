@@ -41,7 +41,7 @@ from quantfoot.data.api_football import fetch_api_football_references
 from quantfoot.data.api_budget import DEFAULT_DIR as API_BUDGET_DIR, default_budget
 from quantfoot.data.live_espn import fetch_espn_slate
 from quantfoot.data.match_research import espn_events, fpl_availability, motivation, research, staleness_flags
-from quantfoot.data.nesine import TSI, fetch_bulletin, league_names, market_overrounds, parse_bulletin
+from quantfoot.data.nesine import TSI, betting_day, fetch_bulletin, league_names, market_overrounds, parse_bulletin
 from quantfoot.data.oddsmath import (
     TEAM_ALIASES,
     fetch_oddsmath_references,
@@ -653,8 +653,8 @@ def analyze_day(
     payload = fetch_bulletin()
     leagues = league_names(payload)
     # Betting day = 07:00–07:00 TSİ, so consecutive days never share a match.
-    events = [e for e in parse_bulletin(payload)
-              if (e.kickoff.date() == day and e.kickoff.hour >= 7) or (e.kickoff.date() == nxt and e.kickoff.hour < 7)]
+    date = day.isoformat()
+    events = [e for e in parse_bulletin(payload) if betting_day(e.kickoff) == date]
     real_events = [e for e in events if not is_synthetic_special(leagues.get(e.league_code, ""), e.home)]
     sharp, generated = global_references()
     espn = espn_references([day.isoformat(), nxt.isoformat()])
@@ -779,7 +779,7 @@ def analyze_day(
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--date", default=dt.datetime.now(TSI).date().isoformat())
+    ap.add_argument("--date", default=betting_day())
     ap.add_argument("--min-ev", type=float, default=0.0)
     ap.add_argument("--haftalik", action="store_true",
                     help="Yalnız kullanıcı isterse: haftalık tahmin raporu (tahminler/<ai>/hafta/); --hafta 7 ile birlikte")

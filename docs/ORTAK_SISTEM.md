@@ -49,7 +49,7 @@ yalnız komutları görürsün):
 | # | Adım | Komut | Ne yapar |
 |---|---|---|---|
 | 1 | `bulten` | `scripts/nesine_global.py --date D` | Nesine bülteni + keskin referanslar (Pinnacle, Smarkets, Matchbook, OddsMath/BetInAsia; ESPN en zayıf). Marj güç yöntemiyle kaldırılır, gol oranları referansa uydurulur (Dixon-Coles), bütün Nesine pazarları fiyatlanır, arşiv Platt (`market_calibration`) + kuyruk düzeltmeleri (`market_tail_calibration.json`, `market_reliability.py`) uygulanır. Nesine oranından adil fiyat türetilmez. |
-| 2 | `tahmin` | `scripts/ai_tahmin.py --tarih D` | `mac_tahminleri.csv` (ortak biçim; başlamış maçların satırı dondurulur — sonradan değiştirilmez). |
+| 2 | `tahmin` | `scripts/ai_tahmin.py --tarih D --hazir-bulten` | `mac_tahminleri.csv` (ortak biçim; başlamış maçların satırı dondurulur — sonradan değiştirilmez). |
 | 3 | `derin` | `scripts/derin_tahmin.py --tarih D` + `scripts/ekstrem_gol_analiz.py --tarih D` | Her maçın ana tercihi takım geçmişi (ev/dep ayrı ayrı), H2H, Avrupa/rotasyon, eksikler ve 20.000'lik kalibre simülasyonla sınanır (`⚠` düşer); paralelinde `6+ Gol` ve `İki Yarıda KG Var` uzman taraması (`ekstrem_gol_analiz.md/.json`) üretilir. |
 | 4 | `kupon` | `scripts/kupon_kur.py --hedef H --mod banko` | `nesine_kupon.py` banko modu + `coupon_rules` + `market_diagnosis` v3 kalkanları + bacak bacak derin araştırma; temiz kupon yoksa kupon **yok**. `kuponlar.csv` yazılır. |
 | 5 | `denetim` | (aynı betikte `run_audit`) | `kuponlar.csv` §3 kurallarına ve `PortfolioExposureGuard` çapraz yoğunlaşma bekçisine göre yeniden denetlenir → `kupon_denetim.md`. İhlal varsa çıkış kodu 3: o kupon önerilmez. |

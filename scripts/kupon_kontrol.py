@@ -1,6 +1,6 @@
 """Pre-kick-off check of every coupon leg, and closing-price (CLV) record.
 
-    python scripts/kupon_kontrol.py kontrol --date 2026-11-20   # after nesine_global.py (scheduled.py kadro)
+    python scripts/kupon_kontrol.py kontrol --date 2026-11-20   # after running nesine_global.py on request
     python scripts/kupon_kontrol.py ozet                         # all days: does the pick beat the closing price?
 
 `kontrol` compares each not-started leg of the day's coupons (tahminler/<QUANTFOOT_AI>/<date>/kupon_*x_*.json) with the
@@ -32,11 +32,12 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+from kupon_dosyalari import latest_coupons
+from quantfoot.data.nesine import TSI, betting_day
 from quantfoot.paths import LazyAiArea  # noqa: E402
 
 AREA = LazyAiArea()  # the asking AI's own folder
 DAILY = AREA  # analysis, coupons, checks and CLV all live there
-TSI = dt.timezone(dt.timedelta(hours=3))
 MIN_PROB = 0.55     # coupon leg floor (user rule)
 MIN_ODDS = 1.20
 DROP_ALERT = 0.05   # global probability fell this much since the coupon was built
@@ -61,12 +62,6 @@ def _load(path: Path):
         return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return None
-
-
-def betting_day(now: dt.datetime | None = None) -> str:
-    """The Nesine betting day runs 07:00-07:00 TSİ (late kick-offs belong to the previous day)."""
-    now = now or dt.datetime.now(TSI)
-    return (now.date() if now.hour >= 7 else now.date() - dt.timedelta(days=1)).isoformat()
 
 
 _META_JSON_PREFIXES = ("kupon_clv", "kupon_kontrol", "kupon_postmortem", "kupon_denetim")
@@ -100,14 +95,10 @@ def _extract_coupons(data: dict) -> list[dict]:
 
 def active_coupons(date: str) -> set[str]:
     """Stems of the coupons currently in force: the latest file of every (target, family) group."""
-    latest: dict[tuple[str, str], str] = {}
-    for f in _iter_coupon_files(date):
-        if _TARGET_STEM_RE.match(f.stem):
-            parts = f.stem.split("_")
-            latest[(parts[1], parts[2] if len(parts) >= 4 else "karma")] = f.stem
-        else:
-            latest[(f.stem, "ozel")] = f.stem
-    return set(latest.values())
+    standard = {path.stem for path in latest_coupons(AREA / date).values()}
+    special = {path.stem for path in _iter_coupon_files(date)
+               if not _TARGET_STEM_RE.match(path.stem) or not re.search(r"_[0-9]{4}$", path.stem)}
+    return standard | special
 
 
 def coupon_legs(date: str) -> dict[str, dict]:
