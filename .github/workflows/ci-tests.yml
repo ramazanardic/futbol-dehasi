@@ -47,3 +47,57 @@ jobs:
           name: ai-history-audit
           path: /tmp/quantfoot-ai-audit/
           retention-days: 30
+
+  research_requested_fixtures:
+    if: github.event_name == 'pull_request' && github.head_ref == 'codex/canli-23-24-kasim-derin-mac-taramasi'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      QUANTFOOT_AI: chatgbttahmin
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: "pip"
+      - name: Install research dependencies
+        run: |
+          pip install -e .
+      - name: Refresh sharp global odds (no scheduled automation)
+        continue-on-error: true
+        run: |
+          timeout 180 python scripts/fetch_global_odds.py --light 72
+      - name: Fetch all current and next-day Nesine market and team research
+        run: |
+          mkdir -p /tmp/football-fixtures/source
+          for day in 2026-11-23 2026-11-24; do
+            echo "::group::$day: live Nesine + all team stats"
+            timeout 390 python scripts/nesine_global.py --date "$day" --tum-istatistikler 2>&1 | tee "/tmp/football-fixtures/source/bulten_$day.log" || echo "Source limited/timed out; partial date is not claimed complete"
+            echo "::endgroup::"
+            if [ -s "tahminler/chatgbttahmin/$day/nesine_global.json" ]; then
+              timeout 90 python scripts/ai_tahmin.py --tarih "$day" --hazir-bulten || true
+            fi
+          done
+      - name: Check full historical team profiles for not-yet-started matches
+        continue-on-error: true
+        run: |
+          for day in 2026-11-24 2026-11-23; do
+            if [ -s "tahminler/chatgbttahmin/$day/nesine_global.json" ]; then
+              timeout 260 python scripts/derin_tahmin.py --tarih "$day" --aday 5 --tum-istatistikler \
+                2>&1 | tee "/tmp/football-fixtures/source/derin_$day.log" || echo "$day: some historical profiles unavailable"
+            fi
+          done
+      - name: Build unstarted calendar-day fixture inventory, full source-backed JSON and CSV
+        if: always()
+        run: |
+          python scripts/fixture_window_report.py --date-from 2026-11-23 --date-to 2026-11-24 \
+            --out /tmp/football-fixtures/
+          cat /tmp/football-fixtures/all_upcoming_matches.md
+      - name: Upload user-requested full research and source evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: futbol-dehasi-23-24-tum-baslamamis-maclar
+          path: /tmp/football-fixtures/
+          retention-days: 15
