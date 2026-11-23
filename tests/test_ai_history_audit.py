@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from ai_history_audit import (
-    add_reference, audit_coupons, audit_placed_ledger, audit_prediction_file,
+    add_reference, audit_coupons, audit_market_prices, audit_placed_ledger, audit_prediction_file,
     canonical_selection, index_reference, normal, number, resolve_reference,
     run, score, summary,
 )
@@ -143,3 +143,24 @@ def test_full_scan_never_mutates_prediction_files(tmp_path):
     assert source.read_bytes() == before
     assert report["ais"]["chatgbttahmin"]["overall"]["wins"] == 1
     assert report["ais"]["claudetahmin"]["overall"]["rows"] == 0
+
+
+def test_every_offered_market_is_scored_not_just_main_csv_selection(tmp_path):
+    refs = _refs()
+    path = tmp_path / "tahminler/antigravitytahmin/2026-11-21/nesine_global.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({"date": "2026-11-21", "matches": [
+        {"code": 42, "home": "Ev", "away": "Dep",
+         "selections": [
+             {"name": "KG Var", "fair_prob": 0.65, "odds": 1.35, "direct": True},
+             {"name": "MS 2", "fair_prob": 0.4, "odds": 5.0, "direct": False},
+             {"name": "not-a-real-market", "fair_prob": 0.55, "odds": 1.8},
+         ]},
+    ]}), encoding="utf-8")
+    result = audit_market_prices(tmp_path, refs, index_reference(refs),
+                                 "2026-11-21", path)
+    assert result["coverage"]["selections_total"] == 3
+    assert result["coverage"]["settled_selections"] == 2
+    assert result["families"]["DIRECT:direct"]["hits"] == 1
+    assert result["families"]["DIRECT:direct"]["negative_ev_winners"] == 1
+    assert result["families"]["DIRECT:derived"]["positive_ev_losers"] == 1
