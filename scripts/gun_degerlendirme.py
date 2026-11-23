@@ -217,6 +217,17 @@ def evaluate(date: str, results: dict[int, dict] | None = None) -> dict:
         lookup = _lookup_for(TAHMIN / ai / date)
         labels = label_names(TAHMIN / ai / date)
         picks, brier, logloss, misses = [], [], [], []
+        expected_columns = {"nesine_kodu", "ana_secim", "olasilik_1", "olasilik_X", "olasilik_2"}
+        columns = set(rows[0]) if rows else set()
+        quality = {
+            "prediction_rows": len(rows), "coupon_rows": len(legs),
+            "schema": "standard" if expected_columns.issubset(columns) else
+                      ("incompatible" if rows else "no_prediction_rows"),
+            "missing_nesine_code": sum(not str(x.get("nesine_kodu") or "").isdigit() for x in rows),
+            "missing_main_pick": sum(not (x.get("ana_secim") or x.get("secim_adi")) for x in rows),
+            "unmatched_or_open": 0, "ungradeable_selection": 0,
+            "invalid_1x2_distribution": 0,
+        }
         # Keep the last explicitly recorded pick per Nesine event; blank duplicates never erase a pick.
         by_code = {}
         for r in rows:
@@ -226,18 +237,25 @@ def evaluate(date: str, results: dict[int, dict] | None = None) -> dict:
         for code, r in by_code.items():
             res = results.get(int(code)) if code.isdigit() else None
             if not res or not res.get("completed"):
+                quality["unmatched_or_open"] += 1
                 continue  # open / unknown match: never revealed
             ht, ft = res["ht"], res["ft90"]
             mrec = matches.setdefault(code, {"match": r.get("mac"), "league": r.get("lig"), "kickoff": r.get("saat"),
                                              "ht": ht, "ft": ft, "picks": {}})
             p1, px, p2 = (_f(r.get(k)) for k in ("olasilik_1", "olasilik_X", "olasilik_2"))
             if None not in (p1, px, p2):
-                outcome = (1, 0, 0) if ft[0] > ft[1] else ((0, 1, 0) if ft[0] == ft[1] else (0, 0, 1))
-                brier.append(sum((p - o) ** 2 for p, o in zip((p1, px, p2), outcome)))
-                logloss.append(-math.log(max(1e-6, (p1, px, p2)[outcome.index(1)])))
+                # Do not score impossible/non-normalized distributions as if they were valid forecasts.
+                if all(math.isfinite(p) and 0 <= p <= 1 for p in (p1, px, p2)) and abs(p1 + px + p2 - 1) <= 0.02:
+                    outcome = (1, 0, 0) if ft[0] > ft[1] else ((0, 1, 0) if ft[0] == ft[1] else (0, 0, 1))
+                    brier.append(sum((p - o) ** 2 for p, o in zip((p1, px, p2), outcome)))
+                    logloss.append(-math.log(max(1e-6, (p1, px, p2)[outcome.index(1)])))
+                else:
+                    quality["invalid_1x2_distribution"] += 1
             name = row_name(r, "ana_secim_pazar", "ana_secim", lookup.get(code), labels)
             won = _settle(name, res)
             if won is None:
+                if name:
+                    quality["ungradeable_selection"] += 1
                 continue
             p, odds = _f(r.get("olasilik")), _f(r.get("nesine_oran"))
             picks.append((won, p, odds))
@@ -258,7 +276,9 @@ def evaluate(date: str, results: dict[int, dict] | None = None) -> dict:
         n = len(picks)
         report["ais"][ai] = {
             "main_picks": n, "hits": sum(1 for w, *_ in picks if w),
-            "avg_pred": (sum(p for _, p, _ in picks if p is not None) / max(1, sum(1 for _, p, _ in picks if p is not None))) if n else None,
+            "data_quality": quality,
+            "avg_pred": (sum(p for _, p, _ in picks if p is not None) / sum(1 for _, p, _ in picks if p is not None))
+                        if any(p is not None for _, p, _ in picks) else None,
             "flat_return": sum(((o - 1) if w else -1) for w, _, o in picks if o) if n else 0.0,
             "brier_1x2": sum(brier) / len(brier) if brier else None, "logloss_1x2": sum(logloss) / len(logloss) if logloss else None,
             "n_1x2": len(brier),
@@ -288,7 +308,18 @@ def to_markdown(rep: dict) -> str:
                   f"{pct(a['avg_pred'])} | {a['flat_return']:+.2f} | "
                   f"{_fmt3(a['brier_1x2'])} | {_fmt3(a['logloss_1x2'])} | "
                   f"{won_c}/{len(a['coupons'])}" + (f" (+{a['coupons_open']} açık)" if a["coupons_open"] else "") + " |")
-    md += ["", "Brier ve log-loss: düşük olan daha iyi. Sabit bahis: her ana tercihe 1 birim, Nesine oranıyla.", ""]
+    md += ["", "Brier ve log-loss: düşük olan daha iyi. Sabit bahis: her ana tercihe 1 birim, Nesine oranıyla.", "",
+           "## Girdi kapsamı / eksik kayıt uyarıları", "",
+           "| Yapay zekâ | CSV satırı | Şema | Kimliksiz | Ana seçim yok | Sonuçsuz/eşleşmeyen | Puanlanamayan seçim | Hatalı 1X2 |",
+           "|---|---:|---|---:|---:|---:|---:|---:|"]
+    for ai, a in rep["ais"].items():
+        q = a.get("data_quality") or {}
+        md.append(f"| {ai} | {q.get('prediction_rows', 0)} | {q.get('schema', 'belirsiz')} | "
+                  f"{q.get('missing_nesine_code', 0)} | {q.get('missing_main_pick', 0)} | "
+                  f"{q.get('unmatched_or_open', 0)} | {q.get('ungradeable_selection', 0)} | "
+                  f"{q.get('invalid_1x2_distribution', 0)} |")
+    md += ["", "Şeması uyumsuz dosyalar 0 başarı olarak yorumlanmaz. Sonuçsuz/eşleşmeyen sayısı açık maçları da içerir.",
+           "Skor kaynağı ve ilk yayımlanma zamanı ayrı geçmiş denetiminde kontrol edilir.", ""]
     for ai, a in rep["ais"].items():
         md += [f"## {ai}", ""]
         if a.get("clv"):
