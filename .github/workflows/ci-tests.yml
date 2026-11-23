@@ -36,3 +36,12 @@ jobs:
           pip install -e . pytest lxml
       - name: Run full test suite
         run: pytest -q
+      - name: Audit all accessible AI predictions and coupons (read-only)
+        run: |
+          python scripts/ai_history_audit.py --out /tmp/quantfoot-ai-audit
+          cat /tmp/quantfoot-ai-audit/ai_history_audit.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ai-history-audit
+          path: /tmp/quantfoot-ai-audit/
+          retention-days: 30
