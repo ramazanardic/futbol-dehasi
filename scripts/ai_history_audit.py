@@ -67,7 +67,8 @@ def canonical_selection(row, coupon=False):
     """Strict legacy conversion; never infer an unspecified market."""
     raw = str(row.get("secim_adi") or row.get("ana_tahmin")
               or row.get("tercih") or row.get("ana_secim")
-              or row.get("secim") or "").strip()
+              or row.get("secim") or row.get("name") or row.get("selection")
+              or row.get("sel") or "").strip()
     market = str(row.get("ana_secim_pazar") or row.get("bahis_ailesi")
                  or row.get("pazar") or "").strip()
     if not raw:
@@ -150,7 +151,8 @@ def index_reference(refs):
 
 
 def resolve_reference(refs, by_name, day, row):
-    raw_code = str(row.get("nesine_kodu") or row.get("kod") or "").strip()
+    raw_code = str(row.get("nesine_kodu") or row.get("kod") or row.get("code")
+                   or row.get("match_id") or "").strip()
     # Exact Nesine ID wins; synthetic MBS codes are NOT authentic IDs.
     if raw_code.isdigit() and (day, raw_code) in refs:
         return refs[(day, raw_code)], "exact_code"
@@ -426,6 +428,70 @@ def audit_market_prices(root, refs, nameindex, day, path):
             "coverage": dict(counters), "families": summarized,
             "caution": "Same-match choices are highly correlated; raw fair_prob may differ from final calibrated P."}
 
+
+def audit_alternative_coupons(root, refs, nameindex, day, directory):
+    """Examine supplementary JSON coupon proposals without double-counting CSV.
+
+    An array of market candidates is NOT a set of tickets. Only objects with
+    concrete non-empty legs under named coupons/tickets qualify. Neither
+    the name of a file nor its simulation labels establish an actual bet.
+    """
+    files = []
+    for path in sorted(directory.glob("*.json")):
+        stem = path.stem.lower()
+        if not (("kupon" in stem or "coupon" in stem or stem == "kasa_koruma_plani")
+                and path.stat().st_size <= 8_000_000):
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError, MemoryError):
+            continue
+        if not isinstance(data, dict):
+            continue
+        records = data.get("coupons") or data.get("tickets") or []
+        if isinstance(records, dict):
+            iterator = [(str(k), v) for k, v in records.items()]
+        elif isinstance(records, list):
+            iterator = [(str(i + 1), v) for i, v in enumerate(records)]
+        else:
+            continue
+        proposals = []
+        for key, proposal in iterator:
+            if not isinstance(proposal, dict) or not isinstance(proposal.get("legs"), list) or not proposal["legs"]:
+                continue
+            graded = []
+            for leg in proposal["legs"]:
+                if not isinstance(leg, dict):
+                    continue
+                ref, how = resolve_reference(refs, nameindex, day, leg)
+                sel = canonical_selection(leg, coupon=True)
+                won = evaluate_selection(sel, ref)
+                graded.append({"code": leg.get("code") or leg.get("nesine_kodu"),
+                               "name": sel, "match": leg.get("match"),
+                               "odds": number(leg.get("odds") or leg.get("nesine_oran")),
+                               "won": won, "match_status": how})
+            if not graded:
+                continue
+            full = all(leg["won"] is not None for leg in graded)
+            proposals.append({
+                "id": str(proposal.get("coupon_id") or proposal.get("kupon") or
+                          proposal.get("title") or key),
+                "n_legs": len(graded),
+                "settled_legs": sum(x["won"] is not None for x in graded),
+                "status": ("won" if all(x["won"] for x in graded) else "lost") if full else "unverified",
+                "losing_legs": [str(x["match"]) + " | " + str(x["name"])
+                                for x in graded if x["won"] is False and x["match"]],
+                "legs": graded,
+            })
+        if proposals:
+            files.append({"file": str(path.relative_to(root)),
+                          "proposals": proposals,
+                          "count": len(proposals),
+                          "scored": sum(p["status"] != "unverified" for p in proposals),
+                          "won": sum(p["status"] == "won" for p in proposals),
+                          "warning": "Alternative proposal formats may overlap standard CSV; do not add counts."})
+    return files
+
 def audit_placed_ledger(root):
     out = {}
     for path in sorted((root / "reports/ledger").glob("placed_bets_*.csv")):
@@ -469,7 +535,7 @@ def run(root):
         "settlement": "Archived external result scores + shared goal-market settlement parser",
         "joining": "exact numeric Nesine code first; else unique normalized match name for the same date",
         "publication": "Earliest Git commit is a file-level upper bound on publication time, not proof of per-row pre-match creation",
-        "scope": "All available standard prediction and coupon CSVs; missing/alternative formats flagged, not invented",
+        "scope": "Standard prediction and coupon CSVs, all available global market pricing, supplemental JSON coupon proposals and screen-transcribed placed-bet ledger",
         "caution": "This is a historical audit, not a live forward test or proof of profitability."},
         "reference_matches": len(refs), "ais": {}, "placed_ledger": audit_placed_ledger(root)}
     for ai in AIS:
@@ -488,7 +554,9 @@ def run(root):
                 all_preds.extend(predict.pop("predictions"))
             market_file = directory / "nesine_global.json"
             market_prices = audit_market_prices(root, refs, nameindex, day, market_file) if market_file.is_file() else None
-            entries[day] = {"predictions": predict, "coupons": coupons, "market_prices": market_prices}
+            alternative_coupons = audit_alternative_coupons(root, refs, nameindex, day, directory)
+            entries[day] = {"predictions": predict, "coupons": coupons,
+                            "market_prices": market_prices, "alternative_coupons": alternative_coupons}
         one_x_two_by_day = [v["predictions"]["one_x_two"] for v in entries.values() if v["predictions"]]
         n_1x2 = sum(v["n"] for v in one_x_two_by_day)
         overall_1x2 = {
@@ -566,6 +634,17 @@ def render(report):
                 roi = f"%{100 * rec['flat_roi']:+.1f}" if rec["flat_roi"] is not None else "-"
                 out.append(f"  - {name}: {rec['hits']}/{rec['settled_choices']} tercih; "
                            f"{rec['distinct_matches']} farklı maç; varsayımsal ROI {roi}.")
+    out += ["", "## Alternatif JSON kupon taslakları (CSV kuponlardan ayrı)", "",
+            "Yalnızca legs içeren kupon/ticket taslakları notlanır. "
+            "Aynı taslağın farklı dosyalarda tekrarı olabilir; toplamlar birleştirilmez. "
+            "Bunlar oynanmış kupon kanıtı değildir.", ""]
+    for ai, info in report["ais"].items():
+        for day, entry in info["dates"].items():
+            files = entry.get("alternative_coupons") or []
+            for obj in files:
+                out.append(f"- {ai} {day} / {obj['file'].split('/')[-1]}: "
+                           f"{obj['count']} taslak; {obj['scored']} sonucu bilinen; "
+                           f"{obj['won']} tam isabet.")
     out += ["", "## Gerçekten oynandığı bildirilen arşiv kayıtları", "",
             "Yalnız placed_bets dosyaları; öneri kuponları bunlara dahil edilmez. "
             "Ekran aktarımı ödeme sisteminden bağımsız kanıt değildir.", ""]
