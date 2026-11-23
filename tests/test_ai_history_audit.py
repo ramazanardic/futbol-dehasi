@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from ai_history_audit import (
-    add_reference, audit_coupons, audit_market_prices, audit_placed_ledger, audit_prediction_file,
+    add_reference, audit_alternative_coupons, audit_coupons, audit_market_prices, audit_placed_ledger, audit_prediction_file,
     canonical_selection, index_reference, normal, number, resolve_reference,
     run, score, summary,
 )
@@ -164,3 +164,61 @@ def test_every_offered_market_is_scored_not_just_main_csv_selection(tmp_path):
     assert result["families"]["DIRECT:direct"]["hits"] == 1
     assert result["families"]["DIRECT:direct"]["negative_ev_winners"] == 1
     assert result["families"]["DIRECT:derived"]["positive_ev_losers"] == 1
+
+
+def test_alternative_json_coupons_not_confused_with_candidate_list(tmp_path):
+    refs = _refs()
+    area = tmp_path / "tahminler/grokbottahmin/2026-11-21"
+    area.mkdir(parents=True)
+    (area / "kupon5000_havuz.json").write_text(json.dumps([
+        {"code": 42, "name": "KG Var", "odds": 1.4},
+    ]), encoding="utf-8")
+    (area / "banko_kupon.json").write_text(json.dumps({
+        "note": "Hazırlık, oynanmadı",
+        "coupons": {
+            "test_1": {"legs": [{"code": 42, "match": "Ev - Dep",
+                                  "name": "KG Var", "odds": 1.5},
+                                 {"code": 43, "match": "Başka Ev - Başka Dep",
+                                  "name": "MS 1", "odds": 1.5}]},
+            "empty": {"legs": []},
+        },
+    }), encoding="utf-8")
+    plans = audit_alternative_coupons(tmp_path, refs, index_reference(refs),
+                                     "2026-11-21", area)
+    assert len(plans) == 1
+    assert plans[0]["file"].endswith("banko_kupon.json")
+    assert plans[0]["count"] == 1
+    assert plans[0]["scored"] == 1
+    assert plans[0]["won"] == 0
+    assert plans[0]["proposals"][0]["settled_legs"] == 2
+    assert plans[0]["proposals"][0]["status"] == "lost"
+
+
+def test_open_coupon_with_zero_interim_payout_is_not_reported_as_financial_loss(tmp_path):
+    path = tmp_path / "reports/ledger/placed_bets_2026_11_19.csv"
+    _csv(path, ["coupon_id", "stake_tl", "payout_tl", "n_legs", "selection", "coupon_screen"],
+         [{"coupon_id": "PENDING", "stake_tl": "50", "payout_tl": "0", "n_legs": "1",
+           "selection": "MS 1", "coupon_screen": "bekliyor"},
+          {"coupon_id": "LOST", "stake_tl": "20", "payout_tl": "0", "n_legs": "1",
+           "selection": "MS 1", "coupon_screen": "yattı"}])
+    x = audit_placed_ledger(tmp_path)[path.name]
+    assert x["ticket_ids"] == 2
+    assert x["fully_specified_with_payout"] == 1
+    assert x["known_stakes_tl"] == 20
+    assert x["known_net_tl"] == -20
+    assert x["excluded"][0]["reason"] == "pending_settlement"
+
+
+def test_all_1x2_predictions_scored_even_with_no_recommended_main_pick(tmp_path):
+    refs = _refs()
+    path = tmp_path / "tahminler/grokbottahmin/2026-11-21/mac_tahminleri.csv"
+    _csv(path, ["nesine_kodu", "mac", "olasilik_1", "olasilik_X", "olasilik_2",
+                "ana_secim", "tarih"],
+         [{"nesine_kodu": "42", "mac": "Ev - Dep",
+           "olasilik_1": "0.7", "olasilik_X": "0.2", "olasilik_2": "0.1",
+           "ana_secim": "", "tarih": "2026-11-21"}])
+    scorecard = audit_prediction_file(tmp_path, refs, index_reference(refs),
+                                      "grokbottahmin", "2026-11-21", path)
+    assert scorecard["metrics"]["settled"] == 0
+    assert scorecard["one_x_two"]["n"] == 1
+    assert scorecard["one_x_two"]["brier"] == 0.14
