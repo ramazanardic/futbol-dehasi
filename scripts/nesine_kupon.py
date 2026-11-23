@@ -642,6 +642,26 @@ def apply_mode_guard(coupons: list[dict], mode: str, live: dict | None = None,
         c["guard"] = {"mode": mode, "ok": res.ok, "errors": res.errors, "warnings": res.warnings,
                       "p_win": round(res.p_win, 4), "total_odds": round(res.total_odds, 2), "honest": KM.honest_line(res)}
         if res.ok:
+            # The published coupon probability must match the FINAL guard, not the
+            # earlier builder product (which may omit shrink/tail/draw corrections).
+            # Keep both stages for audit; never silently display a higher P than
+            # the last safety gate actually approved.
+            c["probability_before_guard"] = c.get("probability")
+            c["probability"] = res.p_win
+            if c.get("probability_low") is not None:
+                c["probability_low"] = min(float(c["probability_low"]), res.p_win)
+            else:
+                c["probability_low"] = res.p_win
+            if res.p_win > 0:
+                c["global_fair_odds"] = round(1.0 / res.p_win, 2)
+            c["ev"] = res.p_win * float(c.get("nesine_odds", res.total_odds)) - 1.0
+            for leg in c["legs"]:
+                leg["probability_trace"] = {
+                    "market_raw": leg.get("p_raw"),
+                    "market_and_history_calibrated": leg.get("p_before_rules"),
+                    "coupon_rules": leg.get("p"),
+                    "guard_final": KM.leg_effective_prob(leg, mode),
+                }
             kept.append(c)
         else:
             notes.append(f"{mode} kontrolünden geçmeyen kupon verilmedi: " + "; ".join(res.errors))
