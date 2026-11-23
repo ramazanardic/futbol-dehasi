@@ -499,12 +499,17 @@ def audit_placed_ledger(root):
         for r in rows(path):
             tickets[(r.get("coupon_id") or "").strip()].append(r)
         seen, complete, stakes, payouts = 0, 0, 0.0, 0.0
-        uncertain = []
+        uncertain, ticket_details = [], []
+        reused = defaultdict(set)
         for cid, legs in tickets.items():
             if not cid:
                 uncertain.append({"ticket": cid, "reason": "missing_id"})
                 continue
             seen += 1
+            for leg in legs:
+                key = str(leg.get("nesine_code") or leg.get("event_id") or normal(leg.get("match")))
+                if key and key not in ("None", "nan"):
+                    reused[key].add(cid)
             stake = next((number(r.get("stake_tl")) for r in legs if number(r.get("stake_tl")) is not None), None)
             payout_values = {number(r.get("payout_tl")) for r in legs if number(r.get("payout_tl")) is not None}
             payout = next(iter(payout_values)) if len(payout_values) == 1 else None
@@ -516,15 +521,35 @@ def audit_placed_ledger(root):
             # An unfinalized ticket can have a zero/blank interim payout.
             # Do NOT treat this as a financial loss before settlement.
             unsettled = bool(screen_states & {"bekliyor", "açık", "acik", "canlı", "canli"})
-            if not coherent or stake is None or payout is None or unsettled:
-                uncertain.append({"ticket": cid, "reason": "pending_settlement" if unsettled else "incomplete_legs_or_stake_or_payout",
+            odds = [number(r.get("odds")) for r in legs]
+            all_odds = (math.prod(odds) if odds and all(o is not None and o > 1 for o in odds)
+                        else None)
+            screen_status = "/".join(sorted(screen_states)) if screen_states else "unknown"
+            is_verified_record = coherent and stake is not None and payout is not None and not unsettled
+            details = {"ticket": cid, "legs": len(legs), "expected_legs": recorded_leg_count,
+                       "stake_tl": stake, "recorded_payout_tl": payout,
+                       "recorded_total_odds": number(legs[0].get("total_odds")),
+                       "recomputed_leg_odds_product": round(all_odds, 4) if all_odds is not None else None,
+                       "status_from_screen": screen_status,
+                       "settled_for_cash_flow": is_verified_record}
+            if not is_verified_record:
+                reason = "pending_settlement" if unsettled else "incomplete_legs_or_stake_or_payout"
+                uncertain.append({"ticket": cid, "reason": reason,
                                   "rows": len(legs), "expected_legs": recorded_leg_count,
                                   "stake": stake, "payout": payout})
+                details["exclusion"] = reason
             else:
                 complete += 1
                 stakes += stake
                 payouts += payout  # payout is repeated on EACH LEG; count it once per coupon
+                details["net_tl"] = round(payout - stake, 2)
+            ticket_details.append(details)
         out[path.name] = {"ticket_ids": seen, "fully_specified_with_payout": complete,
+                          "ticket_details": ticket_details,
+                          "reused_match_keys": sum(len(ids) > 1 for ids in reused.values()),
+                          "most_reused_matches": sorted(
+                              ({"match_key": k, "coupon_count": len(ids)} for k, ids in reused.items() if len(ids) > 1),
+                              key=lambda x: -x["coupon_count"])[:10],
                           "known_stakes_tl": round(stakes, 2),
                           "known_payouts_tl": round(payouts, 2),
                           "known_net_tl": round(payouts - stakes, 2),
@@ -698,8 +723,21 @@ def render(report):
             "Ekran aktarımı ödeme sisteminden bağımsız kanıt değildir.", ""]
     for filename, item in report["placed_ledger"].items():
         out.append(f"- {filename}: {item['ticket_ids']} kimlikli kupon; "
-                   f"{item['fully_specified_with_payout']} eksiksiz/ödeme bilgili; "
-                   f"{len(item['excluded'])} eksik veya belirsiz.")
+                   f"{item['fully_specified_with_payout']} kapanmış/ödemesi kayıtlı; "
+                   f"{len(item['excluded'])} eksik, açık veya belirsiz; "
+                   f"{item['reused_match_keys']} maç birden fazla kuponda.")
+        for ticket in item["ticket_details"]:
+            net = (f"{ticket['net_tl']:+.2f} TL" if "net_tl" in ticket else "hesaplanamaz")
+            out.append(f"  - {ticket['ticket']}: {ticket['legs']} bacak, "
+                       f"durum: {ticket['status_from_screen']}, "
+                       f"tutar: {ticket['stake_tl'] if ticket['stake_tl'] is not None else '-'} TL, "
+                       f"net: {net}.")
+        if item["fully_specified_with_payout"]:
+            out.append(f"  - Yalnız tam sonuçlu kayıtlarda toplam: "
+                       f"{item['known_stakes_tl']:.2f} TL tutar, "
+                       f"{item['known_payouts_tl']:.2f} TL ödeme, "
+                       f"{item['known_net_tl']:+.2f} TL net. "
+                       f"Eksik/açık kuponlar hariç; tüm günün toplamı değil.")
     out += ["", "## Güvenlik ve yöntem", "",
             "- Sonucu bilinmeyen maç kayıp sayılmaz; aynı kuponun ödemesi her bacakta tekrar sayılmaz.",
             "- Tahmini kaybeden ama pozitif EV olan seçim ile tutan ama negatif EV olan seçim ayrıştırılır.",
