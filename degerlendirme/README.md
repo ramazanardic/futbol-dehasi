@@ -7,4 +7,4 @@ ve kuponları burada değerlendirilir:
 
 `<tarih>.md` / `<tarih>.json`: bitmiş maçların sonuçları, yapay zekâ başına karne (ana tercih isabeti, 1 birim sabit
 bahis getirisi, 1X2 Brier / log-loss, tutan kupon ve bacaklar) ve her yapay zekânın en çok güvenip tutmayan
-tercihleri. Açık maçlar hiçbir zaman yazılmaz. Tahmin klasörleri GitHub'da değildir; bu alan herkese açıktır.
+tercihleri. Açık maçlar hiçbir zaman yazılmaz. Bu alan herkese açıktır. Tahmin CSV’lerinin GitHub’da yayımlanması [AGENTS.md](../AGENTS.md) kurallarına tabidir.

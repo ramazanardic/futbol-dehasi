@@ -12,10 +12,6 @@ on:
         description: "Light refresh window in hours (empty = full fetch)"
         required: false
         default: ""
-  push:
-    branches: [main]
-    paths:
-      - "data/global_odds/trigger.txt"   # backup trigger pushed by scheduled.py when the cron skipped runs
 
 permissions:
   contents: write

@@ -4,6 +4,8 @@ import datetime as dt
 import json
 from pathlib import Path
 
+from quantfoot.data.nesine import BETTING_DAY_START, TSI
+
 
 def coupon_group(path: Path) -> tuple[str, str]:
     parts = path.stem.split("_")
@@ -15,15 +17,24 @@ def latest_coupons(day: Path) -> dict[tuple[str, str], Path]:
     for path in day.glob("kupon_*x_*.json"):
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
-        except (FileNotFoundError, json.JSONDecodeError):
+            if not isinstance(data, dict):
+                continue
+            stamp = data.get("created")
+            if stamp:
+                created = dt.datetime.fromisoformat(stamp)
+            else:  # Legacy filenames record only Istanbul time within the betting day.
+                hhmm = path.stem.rsplit("_", 1)[1]
+                if len(hhmm) != 4:
+                    continue
+                clock = dt.time(int(hhmm[:2]), int(hhmm[2:]))
+                date = dt.date.fromisoformat(day.name) + dt.timedelta(days=clock < BETTING_DAY_START)
+                created = dt.datetime.combine(date, clock)
+            if created.tzinfo is None:
+                created = created.replace(tzinfo=TSI)
+            group = coupon_group(path)
+            candidate = (created.timestamp(), path)
+        except (OSError, ValueError, TypeError, IndexError):
             continue
-        stamp = data.get("created")
-        if not stamp:  # Legacy filenames only record Istanbul time within the 07:00–07:00 betting day.
-            hhmm = path.stem.rsplit("_", 1)[1]
-            date = dt.date.fromisoformat(day.name) + dt.timedelta(days=int(hhmm < "0700"))
-            stamp = f"{date}T{hhmm[:2]}:{hhmm[2:]}:00+03:00"
-        group = coupon_group(path)
-        candidate = (dt.datetime.fromisoformat(stamp).timestamp(), path)
         if group not in latest or candidate > latest[group]:
             latest[group] = candidate
     return {group: path for group, (_, path) in latest.items()}

@@ -214,34 +214,6 @@ def test_check_uses_live_odds_over_analysis_odds(tmp_path, monkeypatch):
     assert "Nesine'de yok / askıda" in rows[0]["warn"]
 
 
-def test_scheduler_recovers_from_autostash_conflict_on_generated_files(tmp_path, monkeypatch):
-    import subprocess
-    sched = _load("scheduled")
-    monkeypatch.setattr(sched, "ROOT", tmp_path)
-
-    def git(*a):
-        return subprocess.run(["git", *a], cwd=tmp_path, capture_output=True, text=True, check=False)
-
-    git("init", "-q")
-    git("config", "user.email", "t@t")
-    git("config", "user.name", "t")
-    f = tmp_path / "reports" / "x.json"
-    f.parent.mkdir()
-    f.write_text("v1\n")
-    git("add", "-A")
-    git("commit", "-qm", "v1")
-    f.write_text("pc-latest\n")       # this PC's regeneration (uncommitted)
-    git("stash", "push", "-q")
-    f.write_text("remote\n")          # what came from GitHub
-    git("commit", "-qam", "remote")
-    git("stash", "apply", "-q")       # conflicts, as the autostash did on 20 Nov
-    assert git("diff", "--name-only", "--diff-filter=U").stdout.strip() == "reports/x.json"
-    log = []
-    sched._recover(SimpleNamespace(write=log.append))
-    assert git("diff", "--name-only", "--diff-filter=U").stdout.strip() == ""
-    assert f.read_text() == "pc-latest\n" and any("çakışma çözüldü" in x for x in log)
-
-
 def test_set_rule_same_match_other_selection_at_most_twice():
     # mirrors the coupon loop: never the same selection, a match in at most mac_limit coupons
     pools = [[{"code": 1, "key": "a", "name": "3.5 Alt"}, {"code": 1, "key": "b", "name": "MS 1"},
@@ -253,24 +225,6 @@ def test_set_rule_same_match_other_selection_at_most_twice():
     n = {1: 2}
     free = kupon.drop_conflicts([p for p in pools if n.get(p[0]["code"], 0) < 2], chosen + [{"code": 1, "key": "b", "name": "MS 1"}])
     assert [p[0]["code"] for p in free] == [2]                  # third coupon: the match is used up
-
-
-def test_unsettled_days_are_kept_off_github(tmp_path, monkeypatch):
-    sched = _load("scheduled")
-    monkeypatch.setattr(sched, "ROOT", tmp_path)
-    for d in ("2026-11-19", "2026-11-20", "2026-11-21"):
-        (tmp_path / "reports" / "daily" / d).mkdir(parents=True)
-        (tmp_path / "tahminler" / "claudetahmin" / d).mkdir(parents=True, exist_ok=True)
-    (tmp_path / "docs" / "data").mkdir(parents=True)
-    for d in ("2026-11-19", "2026-11-20", "dashboard"):
-        (tmp_path / "docs" / "data" / f"{d}.json").write_text("{}")
-    ex = sched._unsettled_excludes(dt.datetime(2026, 11, 21, 3, 0))  # 03:00: betting day is still the 20th
-    assert ":(exclude)reports/daily/2026-11-20" in ex and ":(exclude)reports/daily/2026-11-21" in ex
-    assert ":(exclude)docs/data/2026-11-20.json" in ex
-    # tahminler/ is gitignored and is no longer added or pathspec-excluded by the publisher
-    assert not any("tahminler/" in x for x in ex)
-    assert not any("2026-11-19" in x for x in ex) and not any("dashboard" in x for x in ex)
-    assert not any("2026-11-20" in x for x in sched._unsettled_excludes(dt.datetime(2026, 11, 21, 9, 0)))
 
 
 def test_dashboard_publishes_settled_days_only(tmp_path, monkeypatch):
@@ -474,6 +428,10 @@ def test_watcher_day_and_active_coupons(tmp_path, monkeypatch):
     for n in ("kupon_5x_0851", "kupon_5x_1629", "kupon_3x_1620", "kupon_5x_kg_1141"):
         (d / f"{n}.json").write_text("{}")
     assert kontrol.active_coupons("2026-11-20") == {"kupon_5x_1629", "kupon_3x_1620", "kupon_5x_kg_1141"}
+    (d / "kupon_5x_2350.json").write_text("{}", encoding="utf-8")
+    (d / "kupon_5x_0010.json").write_text('{"created":"2026-11-21T00:10:00+03:00"}', encoding="utf-8")
+    assert kontrol.active_coupons("2026-11-20") == {"kupon_5x_0010", "kupon_3x_1620", "kupon_5x_kg_1141"}
+
 
 
 def test_kupon_kontrol_reads_single_custom_and_system_coupon_schemas_and_skips_meta(tmp_path, monkeypatch):

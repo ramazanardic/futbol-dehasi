@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="İstek üzerine futbol bülteni, maç analizi ve kupon kayıtları.">
+<title>QuantFoot Terminal</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="app.js"></script>
+</head>
+<body>
+<div class="shell">
+<aside>
+  <div class="logo"><span class="mark" aria-hidden="true">Q</span><div><strong>QuantFoot</strong><small>FUTBOL TERMİNALİ</small></div></div>
+  <nav aria-label="Çalışma alanı">
+    <button type="button" data-tab="bulletin" aria-current="page"><span aria-hidden="true">▤</span> Maç bülteni</button>
+    <button type="button" data-tab="simulation"><span aria-hidden="true">∿</span> xG simülatörü</button>
+    <button type="button" data-tab="coupons"><span aria-hidden="true">◇</span> Kuponlar</button>
+    <button type="button" data-tab="arena"><span aria-hidden="true">▥</span> AI Arena</button>
+  </nav>
+  <div class="sidebar-note"><span></span> Elle çalışma modu</div>
+</aside>
+<main>
+  <div class="topbar"><span>Çalışma alanı</span><span id="local-date">TSİ</span></div>
+  <div class="content">
+    <section id="bulletin" class="view">
+      <header class="hero">
+        <div class="hero-copy">
+          <h1>Maç bülteni</h1>
+          <p>Maçları, en yüksek beş bahis ailesini ve diğer hesaplanan olasılıkları aynı yerden incele.</p>
+          <div class="actions">
+            <label class="btn primary">Bülten yükle<input id="bulletin-file" type="file" accept=".json,.csv,application/json,text/csv"></label>
+            <button class="btn" id="load-archive">21 Kasım arşivini aç</button>
+          </div>
+        </div>
+        <div class="pitch" aria-hidden="true"><i></i><b></b><em></em><span></span></div>
+      </header>
+      <div class="panel padded run-panel" id="engine-panel">
+        <div><h2>QuantFoot motoru</h2><p class="muted" id="engine-description">GitHub’da yayımlanan tahminleri tarihe göre aç.</p></div>
+        <div class="run-controls">
+          <label><span>Bahis günü</span><input type="date" id="engine-date"></label>
+          <button class="btn" id="github-report">GitHub raporunu aç</button>
+          <a class="btn" id="local-link" href="http://127.0.0.1:8765/">Yerel terminali aç</a>
+        </div>
+        <div class="actions" id="local-actions" hidden>
+          <button class="btn primary" id="start-analysis">Maçları analiz et</button>
+          <button class="btn" id="start-coupon">Analiz et ve kupon hesapla</button>
+          <button class="btn" id="start-check">Kuponları kontrol et</button>
+          <button class="btn" id="load-local">Kayıtlı bülteni aç</button>
+          <a class="btn" id="family-report" hidden>Bahis aileleri raporunu indir</a>
+        </div>
+        <p class="form-msg" role="status" id="engine-status"></p>
+      </div>
+      <div class="notice" id="bulletin-notice" role="status">Başlamak için QuantFoot <code>nesine_global.json</code> veya <code>mac_tahminleri.csv</code> dosyanı seç.</div>
+      <div class="metrics" id="metrics" hidden></div>
+      <div class="panel">
+        <div class="panel-head"><h2>Karşılaşmalar</h2><span class="source" id="bulletin-source">Dosya bekleniyor</span></div>
+        <div class="filters">
+          <label><span>Maç veya lig ara</span><input type="search" id="search" placeholder="Takım, lig veya maç kodu"></label>
+          <label><span>Lig</span><select id="league"><option value="">Tüm ligler</option></select></label>
+          <label><span>Durum</span><select id="status"><option value="">Tüm maçlar</option><option value="upcoming">Başlamamış</option><option value="started">Başlamış</option><option value="unknown">Saat doğrulanamadı</option></select></label>
+        </div>
+        <div id="match-list"></div>
+        <div class="pagination" id="paging" hidden><button class="btn" id="prev">Önceki</button><span id="page-count"></span><button class="btn" id="next">Sonraki</button></div>
+      </div>
+    </section>
+
+    <section id="simulation" class="view" hidden>
+      <header class="page-title"><h1>xG simülatörü</h1><p>Girdiğin gol beklentileriyle Poisson dağılımı hesapla.</p></header>
+      <div class="workspace">
+        <form id="sim-form" class="panel padded">
+          <h2>Maç bilgileri</h2>
+          <div class="form-grid">
+            <label><span>Ev sahibi</span><input id="home" placeholder="Takım adı" maxlength="80" required></label>
+            <label><span>Deplasman</span><input id="away" placeholder="Takım adı" maxlength="80" required></label>
+            <label><span>Ev sahibi xG</span><input id="home-xg" inputmode="decimal" placeholder="1,60" required></label>
+            <label><span>Deplasman xG</span><input id="away-xg" inputmode="decimal" placeholder="1,10" required></label>
+          </div>
+          <button class="btn primary" type="submit">Olasılıkları hesapla</button>
+          <div class="form-msg" id="sim-message" role="status"></div>
+        </form>
+        <div id="sim-result" class="panel padded" aria-live="polite"><h2>Simülasyon sonucu</h2><p class="muted">İki takım için xG girerek hesaplamayı başlat.</p></div>
+      </div>
+    </section>
+
+    <section id="coupons" class="view" hidden>
+      <header class="page-title"><h1>Kuponlar</h1><p>Kupon dosyasını aç, bacakları ve kaydedilmiş olasılıkları incele.</p></header>
+      <div class="actions">
+        <label class="btn primary">Kupon CSV yükle<input id="coupons-file" type="file" accept=".csv,text/csv"></label>
+        <button class="btn" id="load-coupons">21 Kasım arşivini aç</button>
+        <button class="btn" id="github-coupons">Seçilen günün GitHub kuponları</button>
+        <button class="btn" id="local-coupons" hidden>Kayıtlı yerel kuponları aç</button>
+      </div>
+      <div class="notice" id="coupons-notice" role="status">QuantFoot <code>kuponlar.csv</code> çıktısını yükleyebilirsin.</div>
+      <div id="coupon-list" class="grid"></div>
+    </section>
+
+    <section id="arena" class="view" hidden>
+      <header class="page-title"><h1>AI Arena</h1><p>Ortak değerlendirme kayıtlarındaki doğru ve yanlış ana tahminleri karşılaştır.</p></header>
+      <div class="actions">
+        <button class="btn primary" id="load-arena">GitHub arşivini aç</button>
+        <button class="btn" id="github-arena">Seçilen günün GitHub karnesi</button>
+        <label class="btn">Karne JSON yükle<input id="arena-file" type="file" accept=".json,application/json"></label>
+      </div>
+      <div class="notice" id="arena-notice" role="status">Arşiv 20–22 Kasım 2026 kayıtlarını içerir.</div>
+      <div class="panel"><div class="panel-head"><h2>Günlük karne</h2><select aria-label="Değerlendirme tarihi" id="arena-date" disabled><option>Kayıt bekleniyor</option></select></div><div id="arena-results" class="empty">Bir değerlendirme kaydı aç.</div></div>
+    </section>
+  </div>
+</main>
+</div>
+<dialog id="match-dialog">
+  <div class="panel-head"><span class="source" id="dialog-league"></span><button type="button" id="close-dialog" class="btn" aria-label="Maç detayını kapat">Kapat</button></div>
+  <div id="match-detail" class="padded"></div>
+</dialog>
+</body>
+</html>

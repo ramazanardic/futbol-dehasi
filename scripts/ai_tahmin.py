@@ -28,6 +28,7 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from quantfoot.data.nesine import betting_day
 from kupon_dosyalari import coupon_group, latest_coupons
 from gunluk_analiz import best_pick  # noqa: E402
 import nesine_global as ng  # noqa: E402
@@ -220,10 +221,21 @@ def apply_research_picks(date: str) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
+    ap.add_argument("--tarih", default=betting_day())
+    ap.add_argument("--hazir-bulten", action="store_true", help="Kendi klasöründeki kaydedilmiş bülteni kullan")
     args = ap.parse_args()
-    n_m, n_c = export(args.tarih)
-    print(f"{ng.AI_NAME} {args.tarih}: {n_m} maç tahmini (kendi analiz çalıştırması), {n_c} kupon bacağı -> {AREA / args.tarih}")
+    matches = None
+    if args.hazir_bulten:
+        path = AREA / args.tarih / "nesine_global.json"
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            if data["date"] != args.tarih or not isinstance(data["matches"], list):
+                raise ValueError("bülten tarihi veya maç listesi geçersiz")
+            matches = data["matches"]
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            ap.error(f"Bülten okunamadı ({path}): {exc}")
+    n_m, n_c = export(args.tarih, matches)
+    print(f"{ng.AI_NAME} {args.tarih}: {n_m} maç tahmini, {n_c} kupon bacağı -> {AREA / args.tarih}")
 
 
 if __name__ == "__main__":

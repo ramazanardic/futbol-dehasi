@@ -36,6 +36,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from quantfoot.coupons.coupon_rules import DEFAULT_MAX_LEGS, DEFAULT_MIN_LEGS, canonical_name, leg_decision  # noqa: E402
 from quantfoot.coupons.system_builder import PortfolioExposureGuard, SystemLeg  # noqa: E402
+from quantfoot.data.nesine import betting_day
 from quantfoot.paths import VALID_AIS, QuantfootAIError, ai_name  # noqa: E402
 
 TSI = dt.timezone(dt.timedelta(hours=3))
@@ -274,7 +275,7 @@ def load_env_keys(env_file: Path | None = None, environ: dict | None = None) -> 
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
+    ap.add_argument("--tarih", default=betting_day())
     ap.add_argument("--ai", choices=sorted(VALID_AIS), help="QUANTFOOT_AI (verilmezse ortamdaki değer)")
     ap.add_argument("--hedef", type=float, nargs="*", default=[DEFAULT_TARGET],
                     help="Banko kupon hedef toplam oranları (varsayılan 2,5; boş verilirse kupon kurulmaz)")
@@ -297,6 +298,8 @@ def main(argv: list[str] | None = None) -> int:
     load_env_keys()
     steps = [s for s in (args.yalniz or STEPS) if s not in args.atla]
     cmds = step_commands(args.tarih, list(args.hedef))
+    if "bulten" in steps and "tahmin" in steps[steps.index("bulten") + 1:]:
+        cmds["tahmin"][0].append("--hazir-bulten")
     print(f"Ortak sistem — {ai} — {args.tarih}: {', '.join(steps)}")
     try:
         from quantfoot.data.api_budget import default_budget

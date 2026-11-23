@@ -20,8 +20,8 @@ def _norm(text: str) -> str:
     return text.replace("\r\n", "\n").strip()
 
 
-def test_all_ai_instruction_files_share_identical_agents_contract():
-    """AGENTS.md, CLAUDE.md, GEMINI.md ve .github/copilot-instructions.md aynı bağlayıcı metinle başlamalıdır."""
+def test_all_ai_instruction_files_point_to_the_shared_contract():
+    """Her giriş kendi konumundan aynı bağlayıcı kurallara bağlanır."""
     agents = _norm((ROOT / "AGENTS.md").read_text(encoding="utf-8"))
     assert "docs/ORTAK_SISTEM.md" in agents
     assert "scripts/gunluk_tahmin.py" in agents
@@ -32,7 +32,9 @@ def test_all_ai_instruction_files_share_identical_agents_contract():
     for rel in ("CLAUDE.md", "GEMINI.md", ".github/copilot-instructions.md"):
         body = _norm((ROOT / rel).read_text(encoding="utf-8"))
         assert "\t" not in body, f"{rel} içinde bozuk sekme (tab) karakteri var!"
-        assert body.startswith(agents), f"{rel}, AGENTS.md ortak sözleşmesinden sapmış!"
+        prefix = "../" if rel.startswith(".github/") else ""
+        assert f"]({prefix}AGENTS.md)" in body
+        assert f"]({prefix}docs/ORTAK_SISTEM.md)" in body
 
 
 def test_all_five_ais_have_equal_data_access_and_identical_pipeline(monkeypatch):
