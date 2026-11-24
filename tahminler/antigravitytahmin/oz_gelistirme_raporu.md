@@ -1,6 +1,6 @@
 # Öz-Geliştirme ve Kalibrasyon Denetim Raporu — `antigravitytahmin`
 
-- **Oluşturulma:** 2026-11-24T11:04+03:00
+- **Oluşturulma:** 2026-11-24T11:34+03:00
 - **Denetlenen günler:** 2026-11-22 (453 bitmiş fiyatlı maç)
 - **Kupon bölgesi (P ≥ %60, oran ≥ 1.20):** **1266/1952 (%64.9)** vs beklenen %64.8 (artık **+0.1p**, Brier `0.2268`)
 - **Ana tahminler (`mac_tahminleri.csv`):** **159/240 (%66.2)** vs beklenen %67.3 (artık **-1.1p**)
@@ -9,9 +9,9 @@
 
 | Sınıf | Adet | İsabet | Gerçek % | Beklenen % | Artık | Brier | Düz 1u ROI |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| **REHAB** | 125 | 82 | %65.6 | %65.4 | +0.2p | 0.2225 | %-16.0 |
-| **OK** | 511 | 346 | %67.7 | %65.8 | +1.9p | 0.2180 | %-13.6 |
-| **TUZAK_RED** | 1316 | 838 | %63.7 | %64.3 | -0.6p | 0.2307 | %-17.8 |
+| **REHAB** | 127 | 87 | %68.5 | %65.1 | +3.4p | 0.2140 | %-12.2 |
+| **OK** | 389 | 268 | %68.9 | %66.0 | +2.9p | 0.2122 | %-12.2 |
+| **TUZAK_RED** | 1436 | 911 | %63.4 | %64.4 | -1.0p | 0.2319 | %-18.1 |
 
 ## 2. Keskin Borsa Steam Kırılımı (v3 Kalkan Doğrulaması)
 

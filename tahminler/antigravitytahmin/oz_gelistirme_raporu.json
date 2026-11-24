@@ -1,6 +1,6 @@
 {
   "ai": "antigravitytahmin",
-  "generated_at": "2026-11-24T11:04+03:00",
+  "generated_at": "2026-11-24T11:34+03:00",
   "dates": [
     "2026-11-22"
   ],
@@ -59,34 +59,34 @@
   ],
   "by_diagnosis_v3": {
     "REHAB": {
-      "n": 125,
-      "hits": 82,
-      "hit_rate": 0.656,
-      "mean_p": 0.6536,
-      "raw_residual": 0.0024,
-      "shrunk_residual": 0.0011,
-      "brier": 0.2225,
-      "flat_roi": -0.1604
+      "n": 127,
+      "hits": 87,
+      "hit_rate": 0.685,
+      "mean_p": 0.6515,
+      "raw_residual": 0.0336,
+      "shrunk_residual": 0.0154,
+      "brier": 0.214,
+      "flat_roi": -0.1216
     },
     "OK": {
-      "n": 511,
-      "hits": 346,
-      "hit_rate": 0.6771,
-      "mean_p": 0.6584,
-      "raw_residual": 0.0187,
-      "shrunk_residual": 0.0145,
-      "brier": 0.218,
-      "flat_roi": -0.1355
+      "n": 389,
+      "hits": 268,
+      "hit_rate": 0.6889,
+      "mean_p": 0.6598,
+      "raw_residual": 0.0292,
+      "shrunk_residual": 0.021,
+      "brier": 0.2122,
+      "flat_roi": -0.1217
     },
     "TUZAK_RED": {
-      "n": 1316,
-      "hits": 838,
-      "hit_rate": 0.6368,
-      "mean_p": 0.643,
-      "raw_residual": -0.0062,
-      "shrunk_residual": -0.0056,
-      "brier": 0.2307,
-      "flat_roi": -0.1775
+      "n": 1436,
+      "hits": 911,
+      "hit_rate": 0.6344,
+      "mean_p": 0.6441,
+      "raw_residual": -0.0097,
+      "shrunk_residual": -0.0088,
+      "brier": 0.2319,
+      "flat_roi": -0.1811
     }
   },
   "by_band": {

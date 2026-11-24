@@ -563,20 +563,22 @@ def apply_coupon_rules_to_pools(
     mode: str = "banko",
     *,
     min_ev: float | None = None,
+    min_p: float | None = None,
 ) -> list[list[dict]]:
-    """21–23 Kas kupon kuralları (aile beyaz listesi, düzeltilmiş P ≥ %70, v4 teşhis kalkanları ve EV marj freni).
+    """21–24 Kas kupon kuralları (aile beyaz listesi, düzeltilmiş P ≥ %70, v5 teşhis kalkanları ve EV marj freni).
 
     Yalnız banko modunda uygulanır; risk/yüksek oran süzgecine dokunulmaz. ``min_ev`` verilirse
     düzeltilmiş olasılıkla ``p_cal * odds - 1 < min_ev`` olan ağır Nesine marjı bacakları elenir.
     """
     if mode != "banko":
         return pools
-    from quantfoot.coupons.coupon_rules import leg_decision
+    from quantfoot.coupons.coupon_rules import MIN_CALIBRATED_P, leg_decision
+    eff_min_p = MIN_CALIBRATED_P if min_p is None else min_p
     out: list[list[dict]] = []
     for pool in pools:
         kept = []
         for leg in pool:
-            decision = leg_decision(leg)
+            decision = leg_decision(leg, min_p=eff_min_p, min_odds=MIN_LEG_ODDS)
             if decision.ok:
                 p = decision.p_cal
                 ev_cal = round(p * leg["odds"] - 1, 4)
@@ -608,22 +610,25 @@ def build_Pool_fallback_pools(
     banko_min_ev: float | None,
 ) -> list[list[dict]]:
     """Build candidate match pools; in banko mode progressively widen safe tiers if strict pool has <5 matches."""
+    # (d_only, sharp_only_flag, no_cups, ev_floor, p_floor, rule_min_p, tier_min_odds)
     tiers = [
-        (direct_only, not allow_mid_researched, exclude_cups, banko_min_ev, min_prob),
+        (direct_only, not allow_mid_researched, exclude_cups, banko_min_ev, min_prob, 0.70, min_odds),
     ]
     if pol.name == "banko":
         tiers.extend([
-            # Kademe 1: doğrudan + araştırmalı model-türevi, EV ≥ -%14.5
-            (False, not allow_mid_researched, exclude_cups, min(banko_min_ev or -0.115, -0.145), min_prob),
-            # Kademe 2: araştırmalı orta-güven global büro + kupa dahil, EV ≥ -%18.0
-            (False, False, False, min(banko_min_ev or -0.115, -0.180), min(min_prob, 0.62)),
+            # Kademe 1: doğrudan + model-türevi keskin, P_cal >= 0.70, oran >= 1.20, EV >= -0.165
+            (False, not allow_mid_researched, exclude_cups, min(banko_min_ev or -0.115, -0.165), min_prob, 0.70, MIN_LEG_ODDS),
+            # Kademe 2: doğrudan + model-türevi keskin, P_cal >= 0.68, oran >= 1.20, EV >= -0.165 (22 Kas: 21/24 = %87,5!)
+            (False, not allow_mid_researched, exclude_cups, min(banko_min_ev or -0.115, -0.165), min_prob, 0.68, MIN_LEG_ODDS),
+            # Kademe 3: araştırmalı orta-güven global büro + kupa dahil, P >= 0.65, EV >= -0.180
+            (False, False, False, min(banko_min_ev or -0.115, -0.180), min(min_prob, 0.62), 0.65, MIN_LEG_ODDS),
         ])
     best_pools: list[list[dict]] = []
-    for idx, (d_only, sharp_only_flag, no_cups, ev_floor, p_floor) in enumerate(tiers):
+    for idx, (d_only, sharp_only_flag, no_cups, ev_floor, p_floor, rule_min_p, t_min_odds) in enumerate(tiers):
         raw = candidates(
             matches,
             now,
-            min_odds,
+            t_min_odds,
             p_floor,
             allow_espn,
             d_only,
@@ -637,12 +642,12 @@ def build_Pool_fallback_pools(
             mode=pol.name,
         )
         pol_use = pol if idx == 0 else KM.ModePolicy(
-            pol.name, p_floor, pol.prefer_min_odds, pol.max_leg_odds, pol.min_legs, pol.max_legs, False, pol.guard,
+            pol.name, p_floor, t_min_odds, pol.max_leg_odds, pol.min_legs, pol.max_legs, sharp_only_flag, pol.guard,
         )
         filtered = filter_pools_for_mode(raw, pol_use)
         if pol.name == "banko":
-            if idx < 2:
-                filtered = apply_coupon_rules_to_pools(filtered, pol.name, min_ev=ev_floor)
+            if idx < 3:
+                filtered = apply_coupon_rules_to_pools(filtered, pol.name, min_ev=ev_floor, min_p=rule_min_p)
             else:
                 # Son kademe: tanısal olarak temiz (diagnosis_ok) ve P ≥ %65 olan en sağlam bacaklar
                 from quantfoot.coupons.coupon_rules import is_draw_leg

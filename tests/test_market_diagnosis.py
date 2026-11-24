@@ -566,6 +566,41 @@ def test_v4_unconditional_ht_dc_12_ban_half_result_shield_and_degil_145():
     assert diagnose_selection("İY 1.5 Alt", 0.74, {"mu_home": 1.40, "mu_away": 0.85, "reference": "Pinnacle", "league": "İngiltere Premier Lig"}, for_coupon=True).ok
 
 
+def test_v5_deep_loss_root_cause_shields():
+    from quantfoot.strategy.banko_guard import league_tier
+
+    # 1. Expanded Tier 3 leagues (Serie C, Segunda RFEF, NB III, Böl. Lig, Primavera, Düş./Yük.)
+    for lg in ("İtalya Serie C", "İspanya Segunda RFEF", "Macaristan NB III, Güneybatı Grubu",
+               "Almanya Böl. Lig, Bavyera", "İtalya Campionato Primavera 1", "Estonya Esiliiga, Düş./Yük."):
+        assert league_tier(lg) == "3", lg
+
+    # 2. 3.5 Alt in Tier 3 with balanced attack (min_mu >= 1.15) is rejected (Sambenedettese - Perugia 1-4 lesson)
+    samb = {"mu_home": 1.25, "mu_away": 1.41, "reference": "Smarkets (borsa)", "direct": True, "league": "İtalya Serie C"}
+    assert not diagnose_selection("3.5 Alt", 0.72, samb, for_coupon=True).ok
+    assert diagnose_selection("3.5 Alt", 0.72, {**samb, "league": "İspanya 2. Lig"}, for_coupon=True).ok
+
+    # 3. 4.5 Alt high total xG (>3.45) is rejected (Santander - Real Sociedad 3-2 lesson)
+    assert not diagnose_selection("4.5 Alt", 0.71, {"mu_home": 1.56, "mu_away": 2.02, "reference": "Pinnacle"}, for_coupon=True).ok
+    assert diagnose_selection("4.5 Alt", 0.71, {"mu_home": 1.80, "mu_away": 1.20, "reference": "Pinnacle"}, for_coupon=True).ok
+
+    # 4. Dep/Ev İY 0.5 Alt and İY 0.5 Üst sharp steam shields (Salamanca 1-1, Arsenal Dzerzhinsk 2-0, UD Llanera 0-0)
+    assert not diagnose_selection("Dep İY 0.5 Alt", 0.70, {"mu_home": 1.99, "mu_away": 0.83, "reference": "Pinnacle", "flags": ["Sharp steam +9.9p"]}, for_coupon=True).ok
+    assert not diagnose_selection("Ev İY 0.5 Alt", 0.70, {"mu_home": 0.78, "mu_away": 1.56, "reference": "Pinnacle", "flags": ["Sharp steam -16.3p"]}, for_coupon=True).ok
+    assert not diagnose_selection("İY 0.5 Üst", 0.70, {"mu_home": 1.49, "mu_away": 1.23, "reference": "Pinnacle", "flags": ["Sharp steam +8.7p"]}, for_coupon=True).ok
+
+    # 5. DEĞİL(Dep/Ev En Az Bir Yarıyı Kazanır) opponent threat shields (Marsilya - Le Mans 2-3, Atalanta - Inter 4-4)
+    assert not diagnose_selection("DEĞİL(Dep En Az Bir Yarıyı Kazanır)", 0.71, {"mu_home": 2.26, "mu_away": 0.95, "reference": "Pinnacle"}, for_coupon=True).ok
+    assert diagnose_selection("DEĞİL(Dep En Az Bir Yarıyı Kazanır)", 0.71, {"mu_home": 2.02, "mu_away": 0.85, "reference": "Pinnacle"}, for_coupon=True).ok
+    assert not diagnose_selection("DEĞİL(Ev En Az Bir Yarıyı Kazanır)", 0.69, {"mu_home": 1.18, "mu_away": 2.37, "reference": "Pinnacle"}, for_coupon=True).ok
+
+    # 6. İY ÇŞ X2 / 1X, Hnd(-2) 2, and İY KG Yok traps
+    assert not diagnose_selection("İY ÇŞ X2", 0.70, {"mu_home": 1.68, "mu_away": 1.83, "reference": "Pinnacle"}, for_coupon=False).ok
+    assert not diagnose_selection("İY ÇŞ 1X", 0.70, {"mu_home": 1.97, "mu_away": 1.74, "reference": "Pinnacle"}, for_coupon=False).ok
+    assert not diagnose_selection("Hnd(-2) 2", 0.70, {"mu_home": 1.59, "mu_away": 0.72, "reference": "Pinnacle"}, for_coupon=False).ok
+    assert not diagnose_selection("İY KG Yok", 0.70, {"mu_home": 1.36, "mu_away": 2.37, "reference": "Pinnacle"}, for_coupon=False).ok
+
+
+
 
 
 

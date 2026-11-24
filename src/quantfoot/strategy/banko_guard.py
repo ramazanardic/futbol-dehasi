@@ -74,8 +74,10 @@ def selection_family(name: str) -> str | None:
 
 
 _TIER3 = re.compile(
-    r"u1[5789]|u2\d|gençler|genç |kadın|\(k\)| kdn|rezerv|amatör|bölgesel|isthmian|güney ligi|kuzey premier|"
-    r"ulusal lig|3\. lig|4\. lig|3\. federasyon|4\. federasyon|regionalliga|oberliga|play.?off", re.I)
+    r"u1[5789]|u2\d|gençler|genç |kadın|\(k\)| kdn|kad\.|primavera|rezerv|amatör|bölgesel|böl\. lig|"
+    r"isthmian|güney ligi|kuzey premier|ulusal lig|3\. lig|4\. lig|3\. federasyon|4\. federasyon|"
+    r"segunda rfef|tercera rfef|serie c|serie d|nb iii|yükselme 1\.ligi|düş\./yük\.|düş/yük|yük\. po|"
+    r"düşme turu|regionalliga|oberliga|play.?off", re.I)
 _TIER1 = re.compile(
     r"ingiltere premier|premier league|la liga$|ispanya la liga|bundesliga$|almanya bundesliga|italya serie a|"
     r"serie a$|ligue 1|süper lig$|türkiye süper lig|eredivisie|portekiz liga|belçika pro|iskoçya prem|"
