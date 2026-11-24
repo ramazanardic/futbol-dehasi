@@ -1,9 +1,14 @@
-# QuantFoot v8.2 — Kantitatif Futbol Tahmin, Omni-Market ve Bahis Algoritması
+# QuantFoot v5 (Ortak Sistem) — Kantitatif Futbol Tahmin, Omni-Market ve Bahis Algoritması
 
-> **Her yapay zekâ için güncel ve bağlayıcı yöntem: [docs/ORTAK_SISTEM.md](docs/ORTAK_SISTEM.md)** — tek komut
-> `QUANTFOOT_AI=<klasör> python scripts/gunluk_tahmin.py --tarih <gün>`, banko kupon kuralları (bacak P ≥ %70) ve
-> 21 Kasım denetim dersleri. Aşağıdaki v4–v8.2 sürüm adları, model skorları ve "10x/20x/30x" kupon araçları
-> tarihsel araştırma notlarıdır; canlı Nesine performansı için bir iddia değildir (19 Kasım: modeller piyasayı yenmiyor).
+> **Her yapay zekâ için güncel ve bağlayıcı yöntem (24 Kasım 2026 — v5): [docs/ORTAK_SISTEM.md](docs/ORTAK_SISTEM.md) ve [AGENTS.md](AGENTS.md)**
+> Tüm 5 yapay zekâ (`claudetahmin`, `geminitahmin`, `antigravitytahmin`, `chatgbttahmin`, `grokbottahmin`) aynı ortak koddan, aynı kalibrasyon ve veri kaynaklarından (Pinnacle, BetInAsia, Smarkets, Matchbook, OddsMath, ESPN, API-Football, Transfermarkt, FotMob, openfootball) **eşit** çalışır ve yalnız kendi klasörüne yazar:
+> 1. **Günlük tek ortak üretim hattı:** `QUANTFOOT_AI=<klasör> python scripts/gunluk_tahmin.py --tarih <YYYY-AA-GG>`
+>    (`bulten` → `tahmin` → `derin` + `simulasyon` + `ekstrem_gol_analiz` → `kupon` → `denetim`).
+> 2. **Kasa koruma 3 maçlık düşük-marjlı değer planı:** `QUANTFOOT_AI=<klasör> python scripts/kasa_koruma.py --tarih <YYYY-AA-GG> --kasa <TL>`
+> 3. **Kendi çok-günlük kalibrasyon öz-denetimi:** `QUANTFOOT_AI=<klasör> python scripts/oz_gelistirme.py`
+> 4. **Ertesi gün ortak nesnel karne:** `python scripts/gun_degerlendirme.py --tarih <YYYY-AA-GG>`
+>
+> **v5 Banko Kupon Kuralı:** Her bacak düzeltilmiş `P ≥ %70`, Nesine oranı `1,20 – 1,80`, `EV ≥ −%11,5` marj freni, `mac_limit = 1` (bir maç en fazla tek kuponda), **maksimum en garanti 5 maç (`1–5` bacak; `6+` maç yasak, kullanıcı kupon istediğinde asla reddedilmez)** + otomatik **100 TL `Sistem n-1, n` tek-bacak sigortası**, 19 katmanlı `market_diagnosis` v5 teşhis kalkanı ve 20.000 bağımsız simülasyon çelişki (`çelişki`) koruması. Aşağıdaki tarihsel model skorları ve eski "10x/20x/30x" araştırma notları arşiv niteliğindedir.
 
 Akademik literatür (Dixon & Coles; Koopman & Lit; Wheatcroft; Duffield, Power & Rimella JRSS-C 2024; Baker & McHale; Constantinou & Fenton) ve **238.858+ tarihsel kulüp maçı** (`matches.csv` + canlı ESPN 2026-27 senkronizasyonu) + **10.660 uluslararası milli maç** (2016–2026) + **7.348 Pinnacle 2026 açılış/kapanış oran verisi** üzerinde sıfır veri sızıntısı (*zero look-ahead leakage*, genişleyen *walk-forward*) ile araştırılmış, kalibre edilmiş ve doğrulanmış kantitatif futbol tahmin ve bahis motoru.
 
@@ -61,29 +66,18 @@ yerel terminalde indirilen araştırma JSON dosyasını gösterir. Canlı araşt
   derin araştırma tercihi. Simülasyon piyasadan bağımsızdır (lig modeli + form + eksikler + maçın ilk yarı gol payı);
   kupon kurucu simülasyonun "çelişki" dediği bacağı almaz. Tarayıcıyla elle okunan maç önizleme sitelerinin kullanım
   koşulları doğrulanmadığı için bunlar otomatik toplanmaz; yalnız elle, notu tahmin dosyasına yazılarak kullanılır.
-- **Kupon (21 Kasım):** `scripts/kupon_kur.py` yalnız takım geçmişiyle test edilmiş (✓ / ~) bacak alır
-  (`--kanitsiz` ile gevşer); ertesi gün ölçümünde (`data/calibration/verdict_stats.json`) ~ bacaklar fiyatın 5 puan
-  altında kalırsa yalnız ✓ alınır. Bacak olasılıkları bitmiş günlerden öğrenilen düzeltmeyle (`prob_shift`, doğrudan /
-  model fiyat ve olasılık bandına göre) kullanılır. 15 dakikalık izleyici, başlamaya ≤75 dk kalan bacakları ilk 11'le
-  yeniden kontrol eder.
+- **Kupon (24 Kasım — v5):** `scripts/kupon_kur.py` bacakları takım geçmişi (`derin_arastirma.py`), 20.000 bağımsız simülasyon (`simulasyon.py` — `çelişki` olanlar elenir) ve 19 katmanlı v5 teşhis kalkanı (`src/quantfoot/markets/market_diagnosis.py`) ile denetler. Kullanıcı kupon istediğinde **maksimum en garanti 5 maçtan (`1–5` bacak; `6+` maç yasak)** oluşan kupon kurulur ve asla geri çevrilmez. Bacak olasılıkları bitmiş günlerden öğrenilen düzeltmeyle (`prob_shift` ve `market_calibration.json`) kullanılır. Sabah raporu, Windows kupon izleyicisi (`QuantFoot\KuponIzle`) ve diğer zamanlanmış futbol işleri emekliye ayrılmıştır; tüm işlemler yalnız kullanıcı istediğinde çalışır.
 
-## Güncel Durum (19 Kasım 2026)
+## Güncel Durum (24 Kasım 2026 — QuantFoot v5)
 
-- **Modeller piyasayı yenmiyor.** 16.423 maçlık ileri-yürüyen testte 15 modelin hiçbiri Bet365'in marjsız
-  fiyatına bilgi katmadı (havuz ağırlığı w = 0.00). Aşağıdaki eski bulgular (ör. "16/16 %100") örneklem
-  içidir. Ayrıntı: [docs/research/experiments_2026_11.md](docs/research/experiments_2026_11.md).
-- **Kanıtı olan yöntem keskin–yumuşak oran farkıdır** (Pinnacle marjsız fiyatı vs yumuşak büro):
-  pozitif CLV ve ROI (geçmiş veride). Canlıda keskin referans: Smarkets + Matchbook borsaları (GitHub Actions, yurt dışı).
+- **Tek ortak üretim ve doğrulama hattı (`v5`):**
+  - `scripts/gunluk_tahmin.py --tarih <YYYY-AA-GG>` tek komutta 5 adımı yürütür: `nesine_global.py` (Nesine bülteni + keskin referanslar) → `ai_tahmin.py` (`mac_tahminleri.csv`) → `derin_tahmin.py` + `simulasyon.py` (20.000 bağımsız simülasyon) + `ekstrem_gol_analiz.py` (`6+ Gol` & `İki Yarıda KG Var` DNA taraması) → `kupon_kur.py` (`<= 5` maçlık v5 banko kupon + 100 TL `Sistem n-1, n` tek-bacak sigortası) → `kupon_denetim.md`.
+  - **19 Katmanlı v5 Post-Mortem Teşhis Kalkanı (`market_diagnosis.py` & `banko_guard.py`):** 22 Kasım 453 maçlık kök-neden denetiminden öğrenilen kalkanlar (`İY ÇŞ 12` koşulsuz yasağı, sert steam `MS 1/2` & `Alt`, Tier-3 alt lig `3.5 Alt` dengeli hücum kalkanı, `4.5 Alt` yüksek toplam kalkanı, `Ev/Dep İY 0.5 Alt` & `İY 0.5 Üst` steam kalkanı, `DEĞİL(Ev/Dep En Az Bir Yarıyı Kazanır)` tehdit kalkanı, `İY ÇŞ 1X/X2` & `İY KG Yok` ve `Hnd(-2) 2` kalkanları) hem kupon kurucuda hem de `gunluk_analiz.py`, `derin_tahmin.py` ve `bahis_aileleri.py` üzerinde aktiftir (453 maçlık geri testte `gunluk_analiz` ana tercih isabeti **%70,2**, v5 banko havuzu **20/20 = %100,0**).
+- **Modeller tek başına keskin piyasayı yenmiyor; kanıtı olan yöntem keskin–yumuşak oran farkı + bağımsız simülasyon/geçmiş doğrulamasıdır:**
+  16.423 maçlık ileri-yürüyen testte saf istatistiksel modeller marjsız keskin borsa fiyatına ek bilgi katmadı ([docs/research/experiments_2026_11.md](docs/research/experiments_2026_11.md)). Canlıda temel olasılık keskin referanstan (Pinnacle / BetInAsia / Smarkets / Matchbook) alınır; bağımsız 20.000 simülasyon ve takım geçmişi ise piyasanın şişirdiği tuzak favorileri (`çelişki`) elemek için kullanılır.
 - **20 pazar ailesi + Bet Builder** tek tutarlı dağılımdan: [docs/markets.md](docs/markets.md). Kulüp gol
   rejimi piyasaya sabitlenmiş türev pazarlarda yeniden kalibre edildi (ν = 1.0, ρ = −0.03).
-- **Günlük akış:** `scripts/gunluk_tahmin.py`. Genel model ve CLV araçları `scripts/daily.py` üzerinden elle çalıştırılabilir.
-- **Nesine analizi:** bültenin her seçimi keskin global fiyata göre fiyatlanır (Smarkets ve Matchbook borsaları,
-  ikisi varsa ortalaması; doğrudan kote edilen KG, Alt/Üst, İY… pazarları doğrudan): `scripts/nesine_global.py
-  --date <gün>`, [docs/nesine.md](docs/nesine.md). Her maç için ESPN takım dosyası (form, son maçlar, puan durumu,
-  golcüler, asist, kaleci, kartlar, xG ve sezon istatistikleri, ilk 11) ve Premier Lig resmî sakat/cezalı listesi.
-  Yalnız istek üzerine çalışır; çıktı `tahminler/<yapay zekâ>/<tarih>/`.
-- **Nesine kuponu:** `scripts/nesine_kupon.py --hedef 10` — olasılık keskin global fiyattan, hedef oran
-  Nesine oranlarından (Nesine'de oynanınca hedef tutar). `--yontem optimum|guvenli`, `--min-mac`, `--min-olasilik`, `--dogrudan`.
+- **Nesine analizi ve kuponu:** `scripts/nesine_global.py --date <gün>` ([docs/nesine.md](docs/nesine.md)) ve `scripts/kupon_kur.py --hedef 2.5 --tarih <gün> --mod banko` (maksimum en garanti 5 maç, her bacak `≥ 1,20`).
 - Yol haritası: [docs/research/roadmap_2026_11.md](docs/research/roadmap_2026_11.md).
 
 ---
@@ -133,10 +127,32 @@ yerel terminalde indirilen araştırma JSON dosyasını gösterir. Canlı araşt
 
 ---
 
-## Kullanım
+## Kullanım (Ortak Sistem — v5)
 
+PowerShell (Windows):
 
-Linux (bu depodaki sanal ortam; Windows örneklerindeki `.\.venv\Scripts\python.exe` yerine):
+```powershell
+$env:QUANTFOOT_AI = "antigravitytahmin"   # zorunlu: kendi yapay zekâ klasörünüz
+$env:PYTHONIOENCODING = "utf-8"
+
+# 1. Günlük tam ortak üretim hattı (bülten + tahmin + derin araştırma + 20k simülasyon + ekstrem gol + <=5 maç banko kupon + denetim)
+python scripts/gunluk_tahmin.py --tarih 2026-11-24
+
+# 2. Kasa koruma 3 maçlık düşük-marjlı değer planı (EV >= -%10, P >= %60, sıfır ortak maç)
+python scripts/kasa_koruma.py --tarih 2026-11-24 --kasa 1000
+
+# 3. Tek sayfada günün tüm maçları özeti ve kendi çok-günlük kalibrasyon öz-denetimi
+python scripts/gunluk_analiz.py --tarih 2026-11-24
+python scripts/oz_gelistirme.py
+
+# 4. Ertesi gün bitmiş maçlar üzerinden ortak nesnel değerlendirme karnesi
+python scripts/gun_degerlendirme.py --tarih 2026-11-23
+
+# 5. Birim testler
+pytest -q
+```
+
+Linux / macOS:
 
 ```bash
 cd /path/to/futbol-dehasi
@@ -145,14 +161,14 @@ export QUANTFOOT_AI=grokbottahmin   # zorunlu; kendi klasörünüz
 export PYTHONIOENCODING=utf-8
 export TZ=Europe/Istanbul
 
-python scripts/daily.py run --date 2026-11-21          # model-only ESPN taraması (resmi kupon değil)
-python scripts/nesine_global.py --date 2026-11-21      # anahtar gerekmez; Transfermarkt için ayrıca --tm
-python scripts/kupon_kur.py --hedef 5 --tarih 2026-11-21
+python scripts/gunluk_tahmin.py --tarih 2026-11-24
+python scripts/kasa_koruma.py --tarih 2026-11-24 --kasa 1000
+python scripts/oz_gelistirme.py
 python scripts/kupon_kontrol.py kontrol                # istek üzerine kupon bacak kontrolü
 pytest -q
 ```
 
-`scripts/daily.py coupons` / `run` çıktısı **model-only** taramadır; resmi Nesine kuponu `kupon_kur.py` ile kurulur.
+`scripts/daily.py coupons` / `run` çıktısı **model-only** taramadır; resmi Nesine kuponu `gunluk_tahmin.py` / `kupon_kur.py` ile kurulur.
 Global referans 3 saatten eskiyse analiz yine fiyatlar (raporda ESKİ işaretlenir) ama kupon bu fiyatı kullanmaz.
 
 ```powershell

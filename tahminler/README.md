@@ -23,9 +23,9 @@ Her yapay zekâ **yalnız kendi klasörüne** yazar; başkasının klasörüne d
   `QUANTFOOT_AI=<klasör> python scripts/kasa_koruma.py --tarih <gün> --kasa <TL>`, öz-denetim:
   `QUANTFOOT_AI=<klasör> python scripts/oz_gelistirme.py`.
 - **Sistem yalnız kullanıcı sorduğunda çalışır**; otomatik zamanlanmış analiz yoktur. Kullanıcı hangi yapay zekâya
-  sorduysa o yapay zekâ araştırır ve yazar.
-  Onaylı tek zamanlanmış görev `QuantFoot\KuponIzle`: kupon bacaklarını kontrol eder, dünün API-Football sonuçlarını
-  arşive ekler; analiz yapmaz.
+  sorduysa o yapay zekâ araştırır ve yazar. Sabah raporu, Windows kupon izleyicisi (`QuantFoot\KuponIzle`) ve diğer
+  zamanlanmış futbol işleri emekliye ayrılmıştır. Analiz, oran yenileme, kupon kontrolü ve sonuç arşivi yalnız istek
+  üzerine başlatılır.
 - **Yayın:** ChatGPT'nin istek üzerine hazırladığı günlük `mac_tahminleri.csv` ve `kuponlar.csv`,
   [ChatGPT klasöründe](chatgbttahmin/) herkese açık olarak da yayımlanır. Diğer yapay zekâlar için kendi
   klasör kuralları ve yayın izinleri geçerlidir. Ortak alanlara (`reports/`, `docs/data/`) tahmin yazılmaz.
@@ -34,12 +34,15 @@ Her yapay zekâ **yalnız kendi klasörüne** yazar; başkasının klasörüne d
   `scripts/gun_degerlendirme.py --tarih <gün>` ile değerlendirilir; sonuç herkesin görebileceği
   `degerlendirme/<tarih>.md` / `.json` dosyasına yazılır. Bu dosyada yalnız **bitmiş** maçlar yer alır.
 
-## Günlük kupon (22 Kasım'dan itibaren, her yapay zekâ aynısını yapar)
+## Günlük kupon (24 Kasım'dan itibaren — v5, her yapay zekâ aynısını yapar)
 
 Bağlayıcı yöntem ve kurallar: [docs/ORTAK_SISTEM.md](../docs/ORTAK_SISTEM.md). Kısaca: `scripts/gunluk_tahmin.py`
-ile banko kupon — her bacak düzeltilmiş P ≥ %70, Nesine oranı ≥ 1,20 (≤ 1,80), 5 bacak (gerekçeliyse 6), maç başına
-tek bacak, izinli aileler (İlk yarı, Alt/Üst, Yarı özel, MS 1/2, Kombine, 2Y KG Yok), beraberlik / KG / ilk gol /
-takım golü / piyango bacağı yok, bir tercih iki kuponda tekrar edilmez, toplam tutma olasılığı yazılır.
+ile banko kupon — her bacak düzeltilmiş P ≥ %70, Nesine oranı ≥ 1,20 (≤ 1,80), `EV ≥ −%11,5` marj freni,
+**maksimum en garanti 5 bacak (`1–5` maç; `6+` maç yasak, kullanıcı kupon istediğinde asla reddedilmez)** + otomatik
+100 TL `Sistem n-1, n` tek-bacak sigortası, maç başına tek bacak (`mac_limit = 1`), izinli aileler (İlk yarı, Alt/Üst,
+Yarı özel, MS 1/2, Kombine, 2Y KG Yok), 19 katmanlı `market_diagnosis` v5 teşhis kalkanı ve 20.000 simülasyon çelişki
+koruması aktif, beraberlik / KG / ilk gol / takım golü / piyango bacağı yok, bir tercih iki kuponda tekrar edilmez,
+toplam tutma olasılığı yazılır.
 
 Eski "karma 5x–50x, 7–8 maç, İY/MS / KG kuponu" talebi **kaldırıldı** (21 Kasım denetimi: bu kuponların bacakları
 %47 tuttu, piyango kuponlarının hiçbiri tutmadı). Yüksek hedef yalnız kullanıcı açıkça isterse `--mod risk` ile ve
