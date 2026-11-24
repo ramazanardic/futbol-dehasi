@@ -98,7 +98,7 @@ def test_gunluk_tahmin_audit_reports_portfolio_exposure_guard():
         for i in (0, 10, 11, 12, 13)
     ]
     audit = G.audit_coupons(rows)
-    assert audit["ok"]  # farklı tercih olduğu için bacak kuralı geçer
+    assert not audit["ok"]  # portföy ihlali genel denetimi başarısız kılar
     port = audit["portfolio"]
     assert port["n_coupons"] == 2
     assert not port["ok"]  # maç 0 iki kuponda birden yer aldığı için portföy uyarısı verir

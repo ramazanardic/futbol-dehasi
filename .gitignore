@@ -32,3 +32,7 @@ tahminler/*/*
 # ESPN responses cached by scripts/derin_arastirma.py
 data/cache/
 data/xg/
+
+# Atomic archive update lock and temporary files
+data/matches.csv.lock
+data/matches.csv.*.tmp

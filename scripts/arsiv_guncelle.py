@@ -12,7 +12,12 @@ source); every user of the archive already treats them as optional.
 from __future__ import annotations
 
 import argparse
+import os
+import shutil
+import tempfile
 from pathlib import Path
+
+from filelock import FileLock
 
 import pandas as pd
 
@@ -49,6 +54,11 @@ def key(df: pd.DataFrame) -> pd.Series:
 
 
 def update(archive: Path = ARCHIVE, seasons: Path = SEASONS) -> int:
+    with FileLock(str(archive) + ".lock"):
+        return _update_locked(archive, seasons)
+
+
+def _update_locked(archive: Path, seasons: Path) -> int:
     base = pd.read_csv(archive, low_memory=False)
     seen = set(key(base))
     new = []
@@ -60,12 +70,30 @@ def update(archive: Path = ARCHIVE, seasons: Path = SEASONS) -> int:
         if not {"Div", "Date", "HomeTeam", "AwayTeam", "FTHG", "FTAG"} <= set(fd.columns):
             continue
         rows = convert(fd, list(base.columns))
-        new.append(rows[~key(rows).isin(seen)])
+        keys = key(rows)
+        fresh = rows[~keys.isin(seen) & ~keys.duplicated()]
+        seen.update(key(fresh))
+        new.append(fresh)
     add = pd.concat(new, ignore_index=True) if new else pd.DataFrame(columns=base.columns)
     if len(add):  # appended at the end, the existing rows stay byte for byte as they are
         add = add.sort_values(["MatchDate", "Division"], kind="stable")
-        with archive.open("a", encoding="utf-8", newline="") as fh:
-            add.to_csv(fh, index=False, header=False, lineterminator="\n")
+        fd, name = tempfile.mkstemp(prefix=archive.name + ".", suffix=".tmp", dir=archive.parent)
+        os.close(fd)
+        temp = Path(name)
+        try:
+            shutil.copy2(archive, temp)
+            with temp.open("rb+") as fh:
+                if fh.seek(0, 2):
+                    fh.seek(-1, 2)
+                    if fh.read(1) != b"\n":
+                        fh.write(b"\n")
+            with temp.open("a", encoding="utf-8", newline="") as fh:
+                add.to_csv(fh, index=False, header=False, lineterminator="\n")
+                fh.flush()
+                os.fsync(fh.fileno())
+            temp.replace(archive)
+        finally:
+            temp.unlink(missing_ok=True)
     return len(add)
 
 

@@ -542,3 +542,17 @@ def test_banko_fallback_always_builds_at_most_five_surest_matches():
     kept, notes = kupon.apply_mode_guard([c], "banko")
     assert len(kept) == 1 and not notes
 
+
+
+def test_small_banko_pool_cannot_bypass_strict_rules(monkeypatch):
+    import datetime as dt
+    raw = [[{"code": 1, "name": "İY 0.5 Üst", "p": .66, "p_low": .64, "odds": 1.35, "mbs": 1}]]
+    calls = []
+    monkeypatch.setattr(kupon, "candidates", lambda *a, **kw: calls.append(kw) or raw)
+    monkeypatch.setattr(kupon, "filter_pools_for_mode", lambda pools, policy: pools)
+    result = kupon.build_Pool_fallback_pools([], dt.datetime.now(dt.timezone.utc), kupon.KM.policy("banko"),
+        min_odds=1.2, min_prob=.65, allow_espn=False, direct_only=True, exclude_cups=True,
+        main_markets_only=False, allow_mid_researched=False, family="karma", calibration=None,
+        family_ev=True, banko_min_ev=-.115)
+    assert result == []
+    assert len(calls) == 1

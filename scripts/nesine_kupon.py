@@ -609,60 +609,22 @@ def build_Pool_fallback_pools(
     family_ev: bool,
     banko_min_ev: float | None,
 ) -> list[list[dict]]:
-    """Build candidate match pools; in banko mode progressively widen safe tiers if strict pool has <5 matches."""
-    # (d_only, sharp_only_flag, no_cups, ev_floor, p_floor, rule_min_p, tier_min_odds)
-    tiers = [
-        (direct_only, not allow_mid_researched, exclude_cups, banko_min_ev, min_prob, 0.70, min_odds),
-    ]
+    """Use identical strict coupon rules at every candidate-pool size.
+
+    Retain the public function name for compatibility. A small pool must not
+    bypass probability, family, diagnosis, EV or caller-requested filters.
+    """
+    raw = candidates(
+        matches, now, min_odds, min_prob, allow_espn, direct_only,
+        exclude_cups=exclude_cups, main_markets_only=main_markets_only,
+        allow_mid_researched=allow_mid_researched, family=family,
+        calibration=calibration, family_ev=family_ev,
+        keep_all=pol.name == "banko", mode=pol.name,
+    )
+    filtered = filter_pools_for_mode(raw, pol)
     if pol.name == "banko":
-        tiers.extend([
-            # Kademe 1: doğrudan + model-türevi keskin, P_cal >= 0.70, oran >= 1.20, EV >= -0.165
-            (False, not allow_mid_researched, exclude_cups, min(banko_min_ev or -0.115, -0.165), min_prob, 0.70, MIN_LEG_ODDS),
-            # Kademe 2: doğrudan + model-türevi keskin, P_cal >= 0.68, oran >= 1.20, EV >= -0.165 (22 Kas: 21/24 = %87,5!)
-            (False, not allow_mid_researched, exclude_cups, min(banko_min_ev or -0.115, -0.165), min_prob, 0.68, MIN_LEG_ODDS),
-            # Kademe 3: araştırmalı orta-güven global büro + kupa dahil, P >= 0.65, EV >= -0.180
-            (False, False, False, min(banko_min_ev or -0.115, -0.180), min(min_prob, 0.62), 0.65, MIN_LEG_ODDS),
-        ])
-    best_pools: list[list[dict]] = []
-    for idx, (d_only, sharp_only_flag, no_cups, ev_floor, p_floor, rule_min_p, t_min_odds) in enumerate(tiers):
-        raw = candidates(
-            matches,
-            now,
-            t_min_odds,
-            p_floor,
-            allow_espn,
-            d_only,
-            exclude_cups=no_cups,
-            main_markets_only=main_markets_only,
-            allow_mid_researched=not sharp_only_flag,
-            family=family,
-            calibration=calibration,
-            family_ev=family_ev,
-            keep_all=pol.name == "banko",
-            mode=pol.name,
-        )
-        pol_use = pol if idx == 0 else KM.ModePolicy(
-            pol.name, p_floor, t_min_odds, pol.max_leg_odds, pol.min_legs, pol.max_legs, sharp_only_flag, pol.guard,
-        )
-        filtered = filter_pools_for_mode(raw, pol_use)
-        if pol.name == "banko":
-            if idx < 3:
-                filtered = apply_coupon_rules_to_pools(filtered, pol.name, min_ev=ev_floor, min_p=rule_min_p)
-            else:
-                # Son kademe: tanısal olarak temiz (diagnosis_ok) ve P ≥ %65 olan en sağlam bacaklar
-                from quantfoot.coupons.coupon_rules import is_draw_leg
-                clean = []
-                for p in filtered:
-                    k = [x for x in p if x.get("diagnosis_ok", True) and not is_draw_leg(x.get("name"))
-                         and x.get("p", 0.0) >= 0.65]
-                    if k:
-                        clean.append(k)
-                filtered = clean
-        if len(filtered) > len(best_pools):
-            best_pools = filtered
-        if len(best_pools) >= min(5, pol.max_legs):
-            break
-    return best_pools
+        return apply_coupon_rules_to_pools(filtered, pol.name, min_ev=banko_min_ev)
+    return filtered
 
 
 def attach_insured_system(coupon: dict, budget_tl: float = 100.0) -> dict | None:

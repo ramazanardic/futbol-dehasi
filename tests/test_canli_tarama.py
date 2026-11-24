@@ -127,3 +127,13 @@ def test_scan_once_offline(tmp_path):
     assert again == []                                         # aynı fırsat tekrar gönderilmez
     if fresh:
         assert (tmp_path / "2026-11-21.jsonl").exists() and (tmp_path / "2026-11-21.md").exists()
+
+
+def test_live_match_rejects_wrong_kickoff_and_ambiguous_candidates():
+    nes = {"home": "Example FC", "away": "Other FC", "kickoff_ms": 1795251600000}
+    good = {"home": "Example FC", "away": "Other FC", "kickoff_ms": 1795251600000, "event_id": "1"}
+    late = dict(good, kickoff_ms=1795258800000, event_id="2")
+    assert ls.match_live(nes, [late, good]) == good
+    assert ls.match_live(nes, [late]) is None
+    assert ls.match_live(nes, [good, dict(good, event_id="3")]) is None
+    assert ls.match_prematch(nes, {2: late}) is None

@@ -103,7 +103,7 @@ def audit_coupons(rows: list[dict], analysis_by_code: dict[str, dict] | None = N
     """Ortak kupon kurallarını kuponlar.csv satırlarına uygula (docs/ORTAK_SISTEM.md §3).
 
     Kurallar: her bacak coupon_rules.leg_decision'dan geçer (düzeltilmiş P ≥ %70, oran ≥ 1,20 ve ≤ 1,80, izinli
-    aile, gizli tuzak yok); kupon 5–6 bacak; aynı maçtan tek bacak;
+    aile, gizli tuzak yok); kupon 1–5 bacak; aynı maçtan tek bacak;
     aynı tercih iki kuponda yok. ``analysis_by_code`` verilirse maç bağlamı teşhis motoruna aktarılır.
     """
     now = now or dt.datetime.now(TSI)
@@ -173,7 +173,7 @@ def audit_coupons(rows: list[dict], analysis_by_code: dict[str, dict] | None = N
     pa = guard.audit()
     return {
         "coupons": out,
-        "ok": all(not c["ihlaller"] for c in out),
+        "ok": pa.ok and all(not c["ihlaller"] for c in out),
         "portfolio": {
             "ok": pa.ok,
             "n_coupons": pa.n_coupons,
@@ -199,6 +199,8 @@ def audit_markdown(date: str, ai: str, audit: dict) -> str:
     port = audit.get("portfolio") or {}
     if port.get("n_coupons", 0) > 1:
         lines.append("## Çapraz Kupon Portföy Yoğunlaşması")
+        if not port.get("ok", False):
+            lines.append("**PORTFÖY KURAL DIŞI — set onaylanmadı.**")
         lines.append(
             f"- Yoğunlaşma skoru: **%{port.get('concentration_score', 0.0):.1f}** · "
             f"Tekrarlı tercih: **{len(port.get('duplicate_selections') or [])}** · "
@@ -336,7 +338,7 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"Kupon denetimi tamamlanamadı: {exc}", file=sys.stderr)
                 return 2
             if not audit["ok"]:
-                print("Kural dışı kupon var: kupon_denetim.md — bu kupon önerilmez/oynanmaz.", file=sys.stderr)
+                print("Kupon veya portföy kuralı ihlali: kupon_denetim.md — denetim başarısız.", file=sys.stderr)
                 return 3
     if b is not None and not args.kuru:
         print(f"API-Football bu çalıştırmada: {b.used() - api_before} istek (bugün toplam {b.used()}/{b.limit})")

@@ -88,3 +88,12 @@ def test_concurrent_reservations_share_one_limit(tmp_path):
     with ThreadPoolExecutor(8) as workers:
         assert sum(workers.map(reserve, range(8))) == 1
     assert ApiBudget(tmp_path).used() == 1
+
+
+def test_corrupt_budget_fails_closed(tmp_path):
+    b = ApiBudget(tmp_path, limit=3, today="2026-11-22")
+    for raw in ("{broken", '{"used": -1}', '{"used": "bad"}', '{}'):
+        b.path.write_text(raw, encoding="utf-8")
+        assert b.remaining() == 0
+        assert not b.spend()
+        assert b.path.read_text(encoding="utf-8") == raw

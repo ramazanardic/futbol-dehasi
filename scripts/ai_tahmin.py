@@ -24,6 +24,8 @@ import argparse
 import csv
 import datetime as dt
 import json
+import os
+import tempfile
 from pathlib import Path
 import sys
 
@@ -144,10 +146,19 @@ def coupon_rows(date: str, area: Path = AREA) -> list[dict]:
 
 def _write(path: Path, cols: list[str], rows: list[dict]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8-sig", newline="") as fh:  # BOM: opens correctly in Excel
-        w = csv.DictWriter(fh, fieldnames=cols)
-        w.writeheader()
-        w.writerows(rows)
+    fd, name = tempfile.mkstemp(prefix=path.name + ".", suffix=".tmp", dir=path.parent)
+    os.close(fd)
+    temp = Path(name)
+    try:
+        with temp.open("w", encoding="utf-8-sig", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=cols)
+            w.writeheader()
+            w.writerows(rows)
+            fh.flush()
+            os.fsync(fh.fileno())
+        temp.replace(path)
+    finally:
+        temp.unlink(missing_ok=True)
 
 
 def record_clv(out: Path, picks: list[dict], matches: list[dict], now: dt.datetime) -> dict:

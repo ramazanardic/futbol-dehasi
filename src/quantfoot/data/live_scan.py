@@ -175,6 +175,7 @@ def parse_espn_scoreboard(payload: dict) -> list[dict]:
                 break
         out.append({"event_id": str(e.get("id")), "home": teams["home"]["team"].get("displayName"),
                     "away": teams["away"]["team"].get("displayName"), "home_id": hid, "away_id": aid,
+                    "kickoff_utc": comp.get("date") or e.get("date"),
                     "minute": parse_minute(st.get("displayClock"), st.get("period")), "period": st.get("period"),
                     "hg": int(float(teams["home"].get("score") or 0)), "ag": int(float(teams["away"].get("score") or 0)),
                     "home_red": reds["home"], "away_red": reds["away"], "espn_odds": odds})
@@ -201,13 +202,41 @@ def parse_espn_summary(payload: dict, home_id: str, away_id: str) -> dict[str, d
     return out
 
 
+def _kickoff_seconds(record: dict) -> float | None:
+    try:
+        if record.get("kickoff_ms") is not None:
+            return float(record["kickoff_ms"]) / 1000
+        raw = record.get("kickoff_utc")
+        if raw:
+            value = dt.datetime.fromisoformat(str(raw).replace("Z", "+00:00"))
+            return value.timestamp() if value.tzinfo is not None else None
+    except (ValueError, TypeError, OverflowError, OSError):
+        pass
+    return None
+
+
+def _matching_kickoff(a: dict, b: dict) -> bool:
+    left, right = _kickoff_seconds(a), _kickoff_seconds(b)
+    return left is not None and right is not None and abs(left - right) <= 30 * 60
+
+
+def _unique_timed_match(nes: dict, records, min_score: float) -> dict | None:
+    ranked = []
+    for rec in records:
+        if not _matching_kickoff(nes, rec):
+            continue
+        score = min(team_match_score(nes.get("home") or "", rec.get("home") or ""),
+                    team_match_score(nes.get("away") or "", rec.get("away") or ""))
+        if score >= min_score:
+            ranked.append((score, rec))
+    ranked.sort(key=lambda item: item[0], reverse=True)
+    if not ranked or (len(ranked) > 1 and ranked[0][0] - ranked[1][0] < 0.05):
+        return None  # ambiguous or unverified match
+    return ranked[0][1]
+
+
 def match_live(nes: dict, espn_live: list[dict], min_score: float = 0.72) -> dict | None:
-    best, score = None, 0.0
-    for e in espn_live:
-        s = min(team_match_score(nes["home"] or "", e["home"] or ""), team_match_score(nes["away"] or "", e["away"] or ""))
-        if s > score:
-            best, score = e, s
-    return best if score >= min_score else None
+    return _unique_timed_match(nes, espn_live, min_score)
 
 
 def live_from_fotmob(m: dict, details: dict | None) -> dict:
@@ -223,13 +252,12 @@ def live_from_fotmob(m: dict, details: dict | None) -> dict:
 
 def match_prematch(nes: dict, pre: dict[int, dict]) -> dict | None:
     if nes.get("code") in pre:
-        return pre[nes["code"]]
-    best, score = None, 0.0
-    for rec in pre.values():
-        s = min(team_match_score(nes["home"] or "", rec["home"] or ""), team_match_score(nes["away"] or "", rec["away"] or ""))
-        if s > score:
-            best, score = rec, s
-    return best if score >= 0.8 else None
+        rec = pre[nes["code"]]
+        left, right = _kickoff_seconds(nes), _kickoff_seconds(rec)
+        if left is not None and right is not None and not _matching_kickoff(nes, rec):
+            return None
+        return rec
+    return _unique_timed_match(nes, pre.values(), 0.8)
 
 
 def prematch_lambdas(pre: dict | None, espn_odds: dict | None) -> tuple[float, float, str] | None:

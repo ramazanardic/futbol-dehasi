@@ -41,9 +41,20 @@ class ApiBudget:
 
     def used(self) -> int:
         try:
-            return int(json.loads(self.path.read_text(encoding="utf-8")).get("used", 0))
-        except (FileNotFoundError, ValueError, json.JSONDecodeError):
-            return 0
+            return self._read_state()["used"]
+        except (OSError, ValueError, TypeError, KeyError):
+            return self.limit  # unknown state must not reset the quota
+
+    def _read_state(self) -> dict:
+        try:
+            state = json.loads(self.path.read_text(encoding="utf-8"))
+        except FileNotFoundError:
+            return {"used": 0, "log": []}
+        if not isinstance(state, dict) or type(state.get("used")) is not int or state["used"] < 0:
+            raise ValueError("Invalid API budget state")
+        if not isinstance(state.get("log", []), list):
+            raise ValueError("Invalid API budget log")
+        return state
 
     def remaining(self) -> int:
         return max(0, self.limit - self.used())
@@ -55,10 +66,10 @@ class ApiBudget:
         self.dir.mkdir(parents=True, exist_ok=True)
         with FileLock(str(self.path) + ".lock"):
             try:
-                state = json.loads(self.path.read_text(encoding="utf-8"))
-            except FileNotFoundError:
-                state = {"used": 0, "log": []}
-            used = int(state["used"])
+                state = self._read_state()
+            except (OSError, ValueError, TypeError, KeyError):
+                return False
+            used = state["used"]
             if used + n > self.limit:
                 return False
             log = state.get("log", [])

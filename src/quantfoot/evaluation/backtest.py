@@ -290,8 +290,67 @@ def run_walk_forward_backtest(
     in_div_games: dict[str, dict[str, int]] = {d: {} for d in target_leagues}
     lg_stats = {d: [0.0, 0.0, 0] for d in target_leagues}
 
+    def observe_completed(row):
+        div = str(row.Division)
+        mdate = row.MatchDate
+        home, away = row.HomeTeam, row.AwayTeam
+        hg, ag = float(row.FTHome), float(row.FTAway)
+        hxg, axg = float(row.h_xg_proxy), float(row.a_xg_proxy)
+        hsot = float(row.HomeTarget) if pd.notna(row.HomeTarget) else 4.2
+        asot = float(row.AwayTarget) if pd.notna(row.AwayTarget) else 4.2
+        hsh = float(row.HomeShots) if pd.notna(row.HomeShots) else 12.0
+        ash = float(row.AwayShots) if pd.notna(row.AwayShots) else 12.0
+        hc = float(row.HomeCorners) if pd.notna(row.HomeCorners) else 5.0
+        ac = float(row.AwayCorners) if pd.notna(row.AwayCorners) else 5.0
+        hth = float(row.HTHome) if hasattr(row, "HTHome") and pd.notna(row.HTHome) else 0.5 * hg
+        hta = float(row.HTAway) if hasattr(row, "HTAway") and pd.notna(row.HTAway) else 0.5 * ag
+        ht_gd = hth - hta
+        cards_h = (float(row.HomeYellow) if hasattr(row, "HomeYellow") and pd.notna(row.HomeYellow) else 1.8) + 2.5 * (
+            float(row.HomeRed) if hasattr(row, "HomeRed") and pd.notna(row.HomeRed) else 0.0
+        )
+        cards_a = (float(row.AwayYellow) if hasattr(row, "AwayYellow") and pd.notna(row.AwayYellow) else 2.0) + 2.5 * (
+            float(row.AwayRed) if hasattr(row, "AwayRed") and pd.notna(row.AwayRed) else 0.0
+        )
+        gs_hxg = hxg * (0.90 if ht_gd <= -2.0 else (1.06 if ht_gd >= 2.0 else 1.0))
+        gs_axg = axg * (0.90 if ht_gd >= 2.0 else (1.06 if ht_gd <= -2.0 else 1.0))
+
+        kalman.update(home, away, hg, ag, hxg=gs_hxg, axg=gs_axg, hsot=hsot, asot=asot, match_date=mdate, div=div)
+        glicko.update(home, away, hg, ag, mdate, div=div)
+        gap_sot.update(home, away, hsot, asot, div=div)
+        gap_vol.update(
+            home, away,
+            0.60 * hsot + 0.15 * max(hsh - hsot, 0.0) + 0.25 * hc,
+            0.60 * asot + 0.15 * max(ash - asot, 0.0) + 0.25 * ac,
+            div=div,
+        )
+        gap_xg.update(home, away, gs_hxg, gs_axg, div=div)
+        rating.update(
+            home, away, hg, ag, hxg, axg, hsot, asot, hsh, ash, mdate,
+            div=div, ht_gd=ht_gd, cards_h=cards_h, cards_a=cards_a,
+        )
+
+        if div in target_set:
+            gas_map[div].update(home, away, hg, ag, hxg=gs_hxg, axg=gs_axg, match_date=mdate)
+            dc_hist[div].append({"date": mdate, "home": home, "away": away, "hg": hg, "ag": ag, "hxg": gs_hxg, "axg": gs_axg})
+            in_div_games[div][home] = in_div_games[div].get(home, 0) + 1
+            in_div_games[div][away] = in_div_games[div].get(away, 0) + 1
+            lg_stats[div][0] += hg + ag
+            lg_stats[div][1] += 1.0 if hg > ag else 0.0
+            lg_stats[div][2] += 1
+
+    # Conservative day-level as-of policy: no result from the current calendar
+    # day may update a prediction for that day. Archive kickoff/finish data
+    # are not consistently timestamped. Keep original order inside each day.
     records = []
+    pending = []
+    current_day = None
     for row in df.itertuples(index=False):
+        day = pd.Timestamp(row.MatchDate).normalize()
+        if current_day is not None and day != current_day:
+            for completed in pending:
+                observe_completed(completed)
+            pending.clear()
+        current_day = day
         div = str(row.Division)
         mdate = row.MatchDate
         home, away = row.HomeTeam, row.AwayTeam
@@ -374,49 +433,7 @@ def run_walk_forward_backtest(
                     }
                 )
 
-        hg, ag = float(row.FTHome), float(row.FTAway)
-        hxg, axg = float(row.h_xg_proxy), float(row.a_xg_proxy)
-        hsot = float(row.HomeTarget) if pd.notna(row.HomeTarget) else 4.2
-        asot = float(row.AwayTarget) if pd.notna(row.AwayTarget) else 4.2
-        hsh = float(row.HomeShots) if pd.notna(row.HomeShots) else 12.0
-        ash = float(row.AwayShots) if pd.notna(row.AwayShots) else 12.0
-        hc = float(row.HomeCorners) if pd.notna(row.HomeCorners) else 5.0
-        ac = float(row.AwayCorners) if pd.notna(row.AwayCorners) else 5.0
-        hth = float(row.HTHome) if hasattr(row, "HTHome") and pd.notna(row.HTHome) else 0.5 * hg
-        hta = float(row.HTAway) if hasattr(row, "HTAway") and pd.notna(row.HTAway) else 0.5 * ag
-        ht_gd = hth - hta
-        cards_h = (float(row.HomeYellow) if hasattr(row, "HomeYellow") and pd.notna(row.HomeYellow) else 1.8) + 2.5 * (
-            float(row.HomeRed) if hasattr(row, "HomeRed") and pd.notna(row.HomeRed) else 0.0
-        )
-        cards_a = (float(row.AwayYellow) if hasattr(row, "AwayYellow") and pd.notna(row.AwayYellow) else 2.0) + 2.5 * (
-            float(row.AwayRed) if hasattr(row, "AwayRed") and pd.notna(row.AwayRed) else 0.0
-        )
-        gs_hxg = hxg * (0.90 if ht_gd <= -2.0 else (1.06 if ht_gd >= 2.0 else 1.0))
-        gs_axg = axg * (0.90 if ht_gd >= 2.0 else (1.06 if ht_gd <= -2.0 else 1.0))
-
-        kalman.update(home, away, hg, ag, hxg=gs_hxg, axg=gs_axg, hsot=hsot, asot=asot, match_date=mdate, div=div)
-        glicko.update(home, away, hg, ag, mdate, div=div)
-        gap_sot.update(home, away, hsot, asot, div=div)
-        gap_vol.update(
-            home, away,
-            0.60 * hsot + 0.15 * max(hsh - hsot, 0.0) + 0.25 * hc,
-            0.60 * asot + 0.15 * max(ash - asot, 0.0) + 0.25 * ac,
-            div=div,
-        )
-        gap_xg.update(home, away, gs_hxg, gs_axg, div=div)
-        rating.update(
-            home, away, hg, ag, hxg, axg, hsot, asot, hsh, ash, mdate,
-            div=div, ht_gd=ht_gd, cards_h=cards_h, cards_a=cards_a,
-        )
-
-        if div in target_set:
-            gas_map[div].update(home, away, hg, ag, hxg=gs_hxg, axg=gs_axg, match_date=mdate)
-            dc_hist[div].append({"date": mdate, "home": home, "away": away, "hg": hg, "ag": ag, "hxg": gs_hxg, "axg": gs_axg})
-            in_div_games[div][home] = in_div_games[div].get(home, 0) + 1
-            in_div_games[div][away] = in_div_games[div].get(away, 0) + 1
-            lg_stats[div][0] += hg + ag
-            lg_stats[div][1] += 1.0 if hg > ag else 0.0
-            lg_stats[div][2] += 1
+        pending.append(row)
 
     rdf = pd.DataFrame(records).sort_values("MatchDate").reset_index(drop=True)
     test_ts = pd.Timestamp(test_start)
