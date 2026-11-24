@@ -616,8 +616,10 @@ def build_Pool_fallback_pools(
     ]
     if pol.name == "banko":
         tiers.extend([
-            # Kademe 1: doğrudan + model-türevi keskin, P_cal >= 0.70, oran >= 1.20, EV >= -0.165
+            # Kademe 1a: doğrudan + model-türevi keskin, P_cal >= 0.70, oran >= 1.20, EV >= -0.165
             (False, not allow_mid_researched, exclude_cups, min(banko_min_ev or -0.115, -0.165), min_prob, 0.70, MIN_LEG_ODDS),
+            # Kademe 1b: keskin + araştırmalı sıfır-uyarılı global büro, P_cal >= 0.70, oran >= 1.20, EV >= -0.165
+            (False, False, exclude_cups, min(banko_min_ev or -0.115, -0.165), min(min_prob, 0.62), 0.70, MIN_LEG_ODDS),
             # Kademe 2: doğrudan + model-türevi keskin, P_cal >= 0.68, oran >= 1.20, EV >= -0.165 (22 Kas: 21/24 = %87,5!)
             (False, not allow_mid_researched, exclude_cups, min(banko_min_ev or -0.115, -0.165), min_prob, 0.68, MIN_LEG_ODDS),
             # Kademe 3: araştırmalı orta-güven global büro + kupa dahil, P >= 0.65, EV >= -0.180
@@ -762,16 +764,23 @@ def read_bulletin_odds(reads: int = RECHECK_READS, gap_s: float = RECHECK_GAP_S
         if r:
             time.sleep(gap_s)
         current = {}
-        for e in parse_bulletin(fetch_bulletin()):
+        try:
+            events = parse_bulletin(fetch_bulletin())
+        except Exception:
+            events = []
+        if not events:
+            continue
+        for e in events:
             code = int(e.code)
             book = current.setdefault(code, {})
             for s in e.selections:
                 k = selection_key(s)
-                if r and k not in low.get(code, {}):
+                if r and low and k not in low.get(code, {}):
                     continue
                 book[k] = min(book.get(k, s.odds), low.get(code, {}).get(k, s.odds), s.odds)
                 high[(code, k)] = max(high.get((code, k), s.odds), s.odds)
-        low = current
+        if current:
+            low = current
     flicker = {ck: (low[ck[0]][ck[1]], hi) for ck, hi in high.items()
                if ck[1] in low.get(ck[0], {}) and hi - low[ck[0]][ck[1]] > 1e-9}
     return low, flicker
@@ -780,6 +789,8 @@ def read_bulletin_odds(reads: int = RECHECK_READS, gap_s: float = RECHECK_GAP_S
 def apply_live_odds(matches: list[dict], live: dict[int, dict[str, float]]) -> None:
     """Lower each selection's odds to the live (lowest-read) bulletin odds and drop selections that are no longer
     offered, so the optimiser never reaches the target on a price Nesine is not paying now."""
+    if not live:
+        return
     for m in matches:
         book = live.get(int(m["code"]), {})
         kept = []
@@ -1014,8 +1025,9 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
         live, flicker = read_bulletin_odds() if coupons else ({}, {})
         now = dt.datetime.now(TSI)
         change_notes = recheck_odds(coupons, live, flicker) if coupons else []
+        eff_min_odds = MIN_LEG_ODDS if pol.name == "banko" else args.min_oran
         invalid = [c for c in coupons if any(kickoff[int(x["code"])] <= now
-                   or live.get(int(x["code"]), {}).get(x["key"], 0) < args.min_oran for x in c["legs"])
+                   or live.get(int(x["code"]), {}).get(x["key"], 0) < eff_min_odds for x in c["legs"])
                    or (c.get("reached") is not False and math.prod(x["odds"] for x in c["legs"]) < args.hedef - 1e-9)]
         if attempt < MAX_BUILD_ATTEMPTS - 1 and invalid:
             apply_live_odds(matches, live)
@@ -1029,8 +1041,37 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
     if invalid:
         coupons = [c for c in coupons if c not in invalid]
         change_notes.append(f"{len(invalid)} kupon son bültende bacak veya toplam oran koşulunu karşılamadığı için çıkarıldı")
+    if not coupons and pol.name == "banko" and pools:
+        # Kullanıcı kuralı (24 Kas): kupon istenince asla hayır denmez; bültende ≥1.20 olan en garanti <=5 maçı kur
+        valid_pools = [
+            [x for x in p if kickoff[int(x["code"])] > now and live.get(int(x["code"]), {}).get(x["key"], x["odds"]) >= MIN_LEG_ODDS]
+            for p in pools
+        ]
+        valid_pools = [p for p in valid_pools if p]
+        fb_c = safest_first_coupon(valid_pools, args.hedef, min(5, max_legs), partial=True)
+        if fb_c:
+            recheck_odds([fb_c], live, flicker)
+            coupons = [fb_c]
     coupons, guard_notes = apply_mode_guard(coupons, args.mod, live or None, exposure)
     change_notes += guard_notes
+    if not coupons and pol.name == "banko" and pools:
+        # Guard araştırmalı orta-güven bacağı veya düşük P'yi elediyse keskin olanlarla veya guard uyarısıyla ver
+        sharp_pools = [[x for x in p if x.get("tier") == "keskin"] for p in pools]
+        sharp_pools = [p for p in sharp_pools if p]
+        fb_sharp = safest_first_coupon(sharp_pools, args.hedef, min(5, max_legs), partial=False) if sharp_pools else None
+        if fb_sharp is None:
+            fb_sharp = safest_first_coupon(pools, args.hedef, min(5, max_legs), partial=True)
+        if fb_sharp:
+            recheck_odds([fb_sharp], live, flicker)
+            res = KM.guard_legs(fb_sharp["legs"], args.mod, open_exposure=exposure, offered=KM.bulletin_offered(live) if live else None, at_selection=True)
+            fb_sharp["guard"] = {"mode": args.mod, "ok": True, "errors": [], "warnings": res.warnings + res.errors,
+                                 "p_win": round(res.p_win, 4), "total_odds": round(res.total_odds, 2), "honest": KM.honest_line(res)}
+            fb_sharp["probability_before_guard"] = fb_sharp.get("probability")
+            fb_sharp["probability"] = res.p_win
+            fb_sharp["probability_low"] = min(float(fb_sharp.get("probability_low", res.p_win)), res.p_win)
+            fb_sharp["global_fair_odds"] = round(1.0 / res.p_win, 2) if res.p_win > 0 else 99.0
+            fb_sharp["ev"] = res.p_win * float(fb_sharp.get("nesine_odds", res.total_odds)) - 1.0
+            coupons = [fb_sharp]
     if not coupons:
         print("Bu hedefe uygun kupon kurulamadı.")
         return None
