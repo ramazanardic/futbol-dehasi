@@ -49,8 +49,8 @@ def test_banned_and_weak_legs_are_flagged():
 
 
 def test_leg_count_same_match_and_reuse_across_coupons():
-    short = [_leg(i, "İY 0.5 Üst", kupon="a") for i in range(2)]
-    audit = G.audit_coupons(short)
+    too_many = [_leg(i, "İY 0.5 Üst", kupon="a") for i in range(6)]
+    audit = G.audit_coupons(too_many)
     assert any("bacak" in x for x in audit["coupons"][0]["ihlaller"])
     same_match = [_leg(0, "İY 0.5 Üst", kupon="b"), _leg(0, "1.5 Üst", kupon="b")] + \
                  [_leg(i, "İY 0.5 Üst", kupon="b") for i in range(1, 4)]

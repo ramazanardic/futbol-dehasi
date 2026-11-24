@@ -13,9 +13,9 @@
 > 4. **Ertesi gün ortak nesnel karne:** `python scripts/gun_degerlendirme.py --tarih <YYYY-AA-GG>`
 >    (notu hiçbir yapay zekâ kendisi vermez).
 >
-> Banko kupon (v4): her bacak düzeltilmiş P ≥ %70, oran ≥ 1,20 (≤ 1,80), `EV ≥ −%11,5` ağır Nesine marjı freni aktif,
-> `mac_limit = 1` (bir maç en fazla tek kupona girer), 5 bacak (gerekçeliyse 6) + otomatik 100 TL `Sistem n-1, n`
-> tek-bacak sigortası, beraberlik / KG / ilk gol / takım golü / piyango bacağı yok, `market_diagnosis` v4 kalkanları
+> Banko kupon (v5): her bacak düzeltilmiş P ≥ %70, oran ≥ 1,20 (≤ 1,80), `EV ≥ −%11,5` ağır Nesine marjı freni aktif,
+> `mac_limit = 1` (bir maç en fazla tek kupona girer), **maksimum en garanti 5 bacak (1–5 maç; 6+ maç yasak, kullanıcı kupon istediğinde asla reddedilmez)** + otomatik 100 TL `Sistem n-1, n`
+> tek-bacak sigortası, beraberlik / KG / ilk gol / takım golü / piyango bacağı yok, `market_diagnosis` v5 kalkanları
 > (`İY ÇŞ 12` koşulsuz yasak, sert steam `MS 1/2` & `Alt`, `İY 1.5 Alt` sıkı tempo, `İY 1/2` & `2Y 1/2`, `Dep İY 0.5 Üst`,
 > `İY Çift`, `DEĞİL(Ev/Dep İki Yarıda)` `≥1,45`) aktif, toplam tutma olasılığı, EV uyarısı ve portföy yoğunlaşması yazılır.
 > Kullanıcı açıkça isterse sistem kuponları `quantfoot.coupons.system_builder`, ekstrem gol taraması

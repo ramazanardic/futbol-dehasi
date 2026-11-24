@@ -36,6 +36,14 @@ def test_devig_batch_and_zero_vig():
     assert np.allclose(probs.sum(axis=1), 1.0)
 
 
+def test_power_devig_extends_bracket_for_short_favorite():
+    odds = np.array([1.01, 2.0, 3.0])
+    result = devig(odds, method="power")
+    assert result.parameter > 4.0
+    assert np.sum((1.0 / odds)**result.parameter) == pytest.approx(1.0)
+    assert result.probabilities[0] > result.probabilities[1] > result.probabilities[2]
+
+
 def test_skellam_matches_independent_poisson_matrix():
     mu_h, mu_a = 1.65, 1.15
     skel = skellam_probabilities(mu_h, mu_a, min_diff=-8, max_diff=8)

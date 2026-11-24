@@ -246,6 +246,7 @@ def candidates(
     market_calibration=_MCAL_DEFAULT,
     family_ev: bool = True,
     keep_all: bool = False,
+    mode: str | None = None,
 ) -> list[list[dict]]:
     """Per match: non-dominated legs (higher Nesine odds AND higher global probability dominates).
 
@@ -253,7 +254,7 @@ def candidates(
     markets whose walk-forward test improved out-of-sample); default = load the file, None = off.
     ``family_ev``: per-family σ on every leg and, for MODEL-DERIVED legs (no direct global quote), the per-family EV
     floor (settings.FAMILY_VALUE_RULES); directly quoted legs keep the PR #3 rule (floor only on hard markets).
-    False = research switch (hard-market rule only)."""
+    Banko applies its EV floor after final coupon probability calibration."""
     mcal = load_market_calibration() if market_calibration is _MCAL_DEFAULT else market_calibration
     pools = []
     for m in matches:
@@ -309,7 +310,8 @@ def candidates(
                 continue
             if hard and p_cal * s["odds"] - 1.0 < HARD_MARKET_MIN_EV:
                 continue  # hard market: allowed only with a real margin over the calibrated global fair price
-            if family_ev and s.get("direct") is False and p_cal * s["odds"] - 1.0 < leg_min_ev(s.get("name", ""), hard):
+            if (family_ev and mode != "banko" and s.get("direct") is False
+                    and p_cal * s["odds"] - 1.0 < leg_min_ev(s.get("name", ""), hard)):
                 continue  # model-derived leg: per-family value floor (settings.FAMILY_VALUE_RULES, 21 Nov audit)
             if direct_only and not s.get("direct"):
                 continue  # model-derived price: no direct global quote for this selection
@@ -586,6 +588,76 @@ def apply_coupon_rules_to_pools(
         if kept:
             out.append(kept)
     return out
+
+
+def build_Pool_fallback_pools(
+    matches: list[dict],
+    now: dt.datetime,
+    pol: "KM.ModePolicy",
+    *,
+    min_odds: float,
+    min_prob: float,
+    allow_espn: bool,
+    direct_only: bool,
+    exclude_cups: bool,
+    main_markets_only: bool,
+    allow_mid_researched: bool,
+    family: str,
+    calibration: dict | None,
+    family_ev: bool,
+    banko_min_ev: float | None,
+) -> list[list[dict]]:
+    """Build candidate match pools; in banko mode progressively widen safe tiers if strict pool has <5 matches."""
+    tiers = [
+        (direct_only, not allow_mid_researched, exclude_cups, banko_min_ev, min_prob),
+    ]
+    if pol.name == "banko":
+        tiers.extend([
+            # Kademe 1: doğrudan + araştırmalı model-türevi, EV ≥ -%14.5
+            (False, not allow_mid_researched, exclude_cups, min(banko_min_ev or -0.115, -0.145), min_prob),
+            # Kademe 2: araştırmalı orta-güven global büro + kupa dahil, EV ≥ -%18.0
+            (False, False, False, min(banko_min_ev or -0.115, -0.180), min(min_prob, 0.62)),
+        ])
+    best_pools: list[list[dict]] = []
+    for idx, (d_only, sharp_only_flag, no_cups, ev_floor, p_floor) in enumerate(tiers):
+        raw = candidates(
+            matches,
+            now,
+            min_odds,
+            p_floor,
+            allow_espn,
+            d_only,
+            exclude_cups=no_cups,
+            main_markets_only=main_markets_only,
+            allow_mid_researched=not sharp_only_flag,
+            family=family,
+            calibration=calibration,
+            family_ev=family_ev,
+            keep_all=pol.name == "banko",
+            mode=pol.name,
+        )
+        pol_use = pol if idx == 0 else KM.ModePolicy(
+            pol.name, p_floor, pol.prefer_min_odds, pol.max_leg_odds, pol.min_legs, pol.max_legs, False, pol.guard,
+        )
+        filtered = filter_pools_for_mode(raw, pol_use)
+        if pol.name == "banko":
+            if idx < 2:
+                filtered = apply_coupon_rules_to_pools(filtered, pol.name, min_ev=ev_floor)
+            else:
+                # Son kademe: tanısal olarak temiz (diagnosis_ok) ve P ≥ %65 olan en sağlam bacaklar
+                from quantfoot.coupons.coupon_rules import is_draw_leg
+                clean = []
+                for p in filtered:
+                    k = [x for x in p if x.get("diagnosis_ok", True) and not is_draw_leg(x.get("name"))
+                         and x.get("p", 0.0) >= 0.65]
+                    if k:
+                        clean.append(k)
+                filtered = clean
+        if len(filtered) > len(best_pools):
+            best_pools = filtered
+        if len(best_pools) >= min(5, pol.max_legs):
+            break
+    return best_pools
 
 
 def attach_insured_system(coupon: dict, budget_tl: float = 100.0) -> dict | None:
@@ -869,24 +941,22 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
     build_target = args.hedef * (1 + max(args.tampon, 0.0))
     for attempt in range(MAX_BUILD_ATTEMPTS):
         now = dt.datetime.now(TSI)
-        pools = candidates(
+        pools = build_Pool_fallback_pools(
             matches,
             now,
-            args.min_oran,
-            min_prob,
-            args.espn,
-            args.dogrudan,
+            pol,
+            min_odds=args.min_oran,
+            min_prob=min_prob,
+            allow_espn=args.espn,
+            direct_only=args.dogrudan,
             exclude_cups=args.kupasiz,
             main_markets_only=args.ana_pazar,
             allow_mid_researched=not args.yalniz_keskin,
             family=args.aile,
             calibration=live_cal or None,
             family_ev=not args.aile_ev_kapali,
-            keep_all=pol.name == "banko",
+            banko_min_ev=banko_min_ev,
         )
-        pools = filter_pools_for_mode(pools, pol)
-        if pol.name == "banko":
-            pools = apply_coupon_rules_to_pools(pools, pol.name, min_ev=banko_min_ev)
         n_mid_pools = sum(1 for p in pools if p[0].get("tier") == "orta")
         if attempt == 0:
             print(f"{sum(1 for m in matches if m.get('status') == 'fiyatlandı')} maç global fiyatlı; {len(pools)} maç kupona uygun "
@@ -895,7 +965,7 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
         if stale and attempt == 0:
             print(f"⚠ {stale} maçın global fiyatı {MAX_PRICE_AGE_H:g} saatten eski: kupona alınmadı (GitHub verisi yenilenmeli).")
 
-        max_legs = args.max_mac or max_legs_for(args.hedef)
+        max_legs = min(pol.max_legs, args.max_mac or max_legs_for(args.hedef)) if pol.name == "banko" else (args.max_mac or max_legs_for(args.hedef))
         prior = prior_coupon_codes(args.tarih, args.hedef, args.aile) if args.max_ortak >= 0 else set()
         if prior and attempt == 0:
             print(f"Bugünkü diğer kuponlarda {len(prior)} maç var: her kupon bunlardan en çok {args.max_ortak} tanesini paylaşır.")
@@ -916,8 +986,12 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
             free = drop_conflicts([p for p in pools if n_used.get(p[0]["code"], 0) < args.mac_limit], chosen)
 
             def build(pl):
-                return (safest_first_coupon(pl, build_target, max_legs, partial=not coupons) if args.yontem == "guvenli"
-                        else best_coupon(pl, build_target, max_legs, args.min_mac))
+                c_out = (safest_first_coupon(pl, build_target, max_legs, partial=not coupons) if args.yontem == "guvenli"
+                         else best_coupon(pl, build_target, max_legs, args.min_mac))
+                if c_out is None and pol.name == "banko" and not coupons and pl:
+                    # Kullanıcı kuralı (24 Kas): kupon istenince asla hayır denmez; en garanti maksimum 5 maçtan kurulur
+                    c_out = safest_first_coupon(pl, build_target, min(5, max_legs), partial=True)
+                return c_out
 
             c = build(free)
             shared = [leg for leg in (c or {}).get("legs", []) if leg["code"] in prior]
@@ -937,7 +1011,7 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
         change_notes = recheck_odds(coupons, live, flicker) if coupons else []
         invalid = [c for c in coupons if any(kickoff[int(x["code"])] <= now
                    or live.get(int(x["code"]), {}).get(x["key"], 0) < args.min_oran for x in c["legs"])
-                   or math.prod(x["odds"] for x in c["legs"]) < args.hedef - 1e-9]
+                   or (c.get("reached") is not False and math.prod(x["odds"] for x in c["legs"]) < args.hedef - 1e-9)]
         if attempt < MAX_BUILD_ATTEMPTS - 1 and invalid:
             apply_live_odds(matches, live)
             rebuilt = True

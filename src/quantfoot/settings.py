@@ -21,8 +21,8 @@ BANKO_SELECT_MIN_ODDS = 1.22   # seçerken 1.20 tabanına tampon: 1.20–1.21'li
 BANKO_MAX_COUPONS_PER_MATCH = 2  # aynı maç en çok 2 açık kuponda (korelasyonlu risk)
 LOTTERY_P_WIN = 0.05           # P(kupon) bunun altındaysa "piyango kuponu" uyarısı (banko modunda reddedilir)
 BANKO_PREFER_MIN_ODDS = 1.25   # kurarken tercih edilen en düşük oran (oynayana kadar oran kayması tamponu)
-BANKO_MIN_LEGS = 5             # kullanıcı kuralı (t69u/t70u, 21 Kas): ortalama 5 maç, 1–2 maçlık düşük oranlı kupon yok
-BANKO_MAX_LEGS = 6             # "duruma göre 6 maç da olabilir" — gerekçeliyse 6
+BANKO_MIN_LEGS = 1             # kullanıcı kuralı (24 Kas): kupon istenince asla hayır denmez; en garanti 1–5 maçtan kurulur
+BANKO_MAX_LEGS = 5             # kullanıcı kuralı (24 Kas): maksimum en garanti 5 maç (6+ maç çarpım kaybı yasak)
 # Akşam denetimi dersleri (21 Kas 2026, ~320 bitmiş maç, TEK GÜN — küçük örnek; bkz. reports/research/kalibrasyon_dersleri_21kasim.md).
 # Ana tercihler %67 beklenip %63,4 tuttu; %60–65 bandı %50, %70–75 bandı %64; "diğer" ligler %59,5 (P %66,7);
 # ev sahibi golleri %49 (P %67), çifte şans %50 (P %65,5); Alt/Üst kalibre. Değerler bilinçli olarak ılımlı.

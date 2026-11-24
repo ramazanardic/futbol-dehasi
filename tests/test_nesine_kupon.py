@@ -481,3 +481,64 @@ def test_final_guard_probability_is_published_and_traceable(monkeypatch):
     trace = coupon["legs"][0]["probability_trace"]
     assert trace == {"market_raw": 0.82, "market_and_history_calibrated": 0.79,
                      "coupon_rules": 0.74, "guard_final": 0.70}
+
+
+def test_banko_fallback_always_builds_at_most_five_surest_matches():
+    """When target is unreachable in ≤5 matches, banko mode returns the ≤5 surest legs instead of refusing."""
+    import datetime as dt
+
+    now = dt.datetime(2026, 11, 24, 10, 0, tzinfo=dt.timezone(dt.timedelta(hours=3)))
+    matches = [
+        {
+            "status": "fiyatlandı",
+            "reference": "Smarkets (borsa)",
+            "ref_fetched_utc": "2026-11-24T06:30:00+00:00",
+            "kickoff_iso": f"2026-11-24T{14 + i:02d}:00:00+03:00",
+            "kickoff": f"2026-11-24 {14 + i:02d}:00",
+            "code": 100 + i,
+            "league": "İngiltere Premier Lig",
+            "home": f"Ev{i}",
+            "away": f"Dep{i}",
+            "mu_home": 1.4,
+            "mu_away": 0.7,
+            "fair_1x2": [0.60, 0.22, 0.18],
+            "selections": [
+                {
+                    "name": "3.5 Alt",
+                    "market": "3,5 Gol Alt/Üst",
+                    "selection": "Alt",
+                    "odds": 1.32,
+                    "fair_prob": 0.76 + i * 0.01,
+                    "ev": -0.01,
+                    "mbs": 1,
+                    "direct": True,
+                    "key": f"k{i}",
+                }
+            ],
+        }
+        for i in range(7)
+    ]
+    pol = kupon.KM.policy("banko")
+    pools = kupon.build_Pool_fallback_pools(
+        matches,
+        now,
+        pol,
+        min_odds=1.25,
+        min_prob=0.65,
+        allow_espn=False,
+        direct_only=True,
+        exclude_cups=True,
+        main_markets_only=False,
+        allow_mid_researched=False,
+        family="karma",
+        calibration=None,
+        family_ev=True,
+        banko_min_ev=-0.115,
+    )
+    assert len(pools) == 7
+    c = kupon.safest_first_coupon(pools, 10.0, min(5, pol.max_legs), partial=True)
+    assert c is not None and c["reached"] is False
+    assert len(c["legs"]) == 5  # never >5 matches
+    kept, notes = kupon.apply_mode_guard([c], "banko")
+    assert len(kept) == 1 and not notes
+

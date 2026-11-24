@@ -150,11 +150,11 @@ def test_build_rules_coupon_prefers_five_legs_and_reports_shortfall_honestly():
     five = build_rules_coupon([leg(i) for i in range(5)])
     assert len(five.legs) == 5 and not five.short
     assert five.p_win == pytest.approx(math.prod(L.p_cal for L in five.legs))
-    # 6 aday olsa bile varsayılan 5 bacak (6. bacak ürün P'yi düşürür)
+    # 6 aday olsa bile varsayılan 5 bacak (maksimum 5 maç kuralı, 6. bacak ürün P'yi düşürür)
     six_pool = build_rules_coupon([leg(i) for i in range(6)])
     assert len(six_pool.legs) == 5
-    # açıkça 6 istendiğinde 6
-    six = build_rules_coupon([leg(i) for i in range(6)], prefer_n=6)
+    # açıkça max_legs=6 ve prefer_n=6 istendiğinde 6
+    six = build_rules_coupon([leg(i) for i in range(6)], prefer_n=6, max_legs=6)
     assert len(six.legs) == 6 and not six.short
     # yetersiz havuz: kısa kupon, dürüst çarpım
     short = build_rules_coupon([leg(i) for i in range(3)])

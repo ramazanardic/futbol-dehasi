@@ -114,7 +114,7 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
         name = selection["name"]
         direct = bool(selection.get("direct"))
         if ("Skor" in name or name.startswith("İki Yarıda") or (not direct and name.startswith(EXCLUDED_MODEL))
-                or name in ("Tek", "Çift", "İY Tek", "İY Çift", "2Y Tek", "2Y Çift")
+                or name in ("Tek", "Çift", "İY Tek", "İY Çift", "2Y Tek", "2Y Çift", "İY ÇŞ 12")
                 or selection["odds"] < 1.20 or selection["ev"] > 0.25):
             continue
         p = calibrate_market_probability(name, selection["fair_prob"], m.get("league"), calibration, direct=direct)

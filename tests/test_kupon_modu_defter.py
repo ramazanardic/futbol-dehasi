@@ -42,7 +42,7 @@ BANKO5 = [_leg(i, 1.28, 0.70) for i in range(5)]
 def test_banko_is_default_and_policy_values():
     assert KM.DEFAULT_MODE == "banko"
     b, r = KM.policy("banko"), KM.policy("risk")
-    assert (b.min_prob, b.max_leg_odds, b.min_legs, b.max_legs, b.prefer_min_odds) == (0.65, 1.80, 5, 6, 1.25)
+    assert (b.min_prob, b.max_leg_odds, b.min_legs, b.max_legs, b.prefer_min_odds) == (0.65, 1.80, 1, 5, 1.25)
     assert r.max_leg_odds == 2.10 and r.sharp_only and b.sharp_only
     with pytest.raises(ValueError):
         KM.policy("piyango")
@@ -51,9 +51,9 @@ def test_banko_is_default_and_policy_values():
 def test_banko_accepts_five_safe_legs_and_rejects_short_low_odds_coupons():
     assert KM.guard_legs(BANKO5).ok
     short = KM.guard_legs(BANKO5[:2])
-    assert not short.ok and any("1–2 maçlık" in e for e in short.errors)
-    seven = KM.guard_legs([_leg(i, 1.28, 0.75) for i in range(7)])
-    assert not seven.ok and any("en çok 6" in e for e in seven.errors)
+    assert short.ok and len(BANKO5[:2]) == 2  # en garanti <=5 maç kuralı (24 Kas): 1-5 maçlık banko kupon geçerli
+    six = KM.guard_legs([_leg(i, 1.28, 0.75) for i in range(6)])
+    assert not six.ok and any("en çok 5" in e for e in six.errors)
 
 
 def test_banko_rejects_weak_or_high_odds_or_soft_reference_leg():
@@ -150,8 +150,8 @@ def test_nesine_kupon_mode_filters_and_guard():
     assert [[x["odds"] for x in p] for p in out] == [[1.30], [1.30]]
     assert [x["odds"] for x in nk.filter_pools_for_mode(pools, KM.policy("risk"))[0]] == [1.95, 1.30]
     good = {"legs": [dict(x, key=f"k{x['code']}") for x in BANKO5]}
-    bad = {"legs": BANKO5[:2]}
-    live = {i: {f"k{i}": 1.28} for i in range(5)}
+    bad = {"legs": [_leg(i, 1.28, 0.70, key=f"k{i}") for i in range(6)]}
+    live = {i: {f"k{i}": 1.28} for i in range(6)}
     kept, notes = nk.apply_mode_guard([good, bad], "banko", live, {})
     assert kept == [good] and good["guard"]["ok"] and "tutma ihtimali" in good["guard"]["honest"]
     assert notes and "banko kontrolünden geçmeyen" in notes[0]

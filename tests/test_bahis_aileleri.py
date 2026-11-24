@@ -239,8 +239,10 @@ def test_candidates_family_floor_only_on_derived_legs():
     kw = {"min_odds": 1.2, "min_prob": 0.5, "allow_espn": False, "market_calibration": None}
     names = {x["name"] for pool in kupon.candidates([m], now, **kw) for x in pool}
     assert "2-3 Gol" not in names and "ÇŞ 1X" in names
-    names_off = {x["name"] for pool in kupon.candidates([m], now, family_ev=False, **kw) for x in pool}
-    assert "2-3 Gol" in names_off
+    without_family = {x["name"]: x for pool in kupon.candidates([m], now, family_ev=False, **kw) for x in pool}
+    assert "2-3 Gol" in without_family
+    banko = {x["name"]: x for pool in kupon.candidates([m], now, mode="banko", **kw) for x in pool}
+    assert banko["2-3 Gol"]["sigma"] > without_family["2-3 Gol"]["sigma"]
 
 
 def test_margin_tilt_thins_big_margins_but_keeps_quotes():

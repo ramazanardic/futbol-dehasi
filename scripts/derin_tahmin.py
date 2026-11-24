@@ -43,15 +43,55 @@ def candidates(m: dict, n: int, calibration: dict | None = None) -> list[dict]:
     """Direct-price selections at the leg floor; probability = the global one corrected by the settled-history
     calibration, the same number the coupon builder and the family table use (21 Nov)."""
     from quantfoot.evaluation.auto_learn import calibrated_probability
+    from quantfoot.markets.market_diagnosis import diagnose_selection
     from gunluk_analiz import main_pick_floor
     min_p, _ = main_pick_floor(m)
     if min_p is None:
         return []
     cal = calibration if calibration is not None else _calibration()
-    _NOISE_MARKETS = {"Tek", "Çift", "İY Tek", "İY Çift", "2Y Tek", "2Y Çift"}
-    sels = [(s, calibrated_probability(s["fair_prob"], True, cal)) for s in m.get("selections") or []
-            if s.get("direct") and s.get("name") not in _NOISE_MARKETS]
-    sels = sorted([x for x in sels if x[0]["odds"] >= MIN_ODDS and x[1] >= min_p], key=lambda x: -(x[1] * x[0]["odds"]))
+    _NOISE_MARKETS = {"Tek", "Çift", "İY Tek", "İY Çift", "2Y Tek", "2Y Çift", "İY ÇŞ 12"}
+    res = m.get("research") or {}
+    teams = res.get("teams") or {}
+    tm = res.get("tm_absences") or {}
+    ua = res.get("user_absences") or {}
+    has_diag = (
+        m.get("mu_home") is not None
+        or m.get("mu_away") is not None
+        or bool(teams)
+        or bool(tm)
+        or bool(ua)
+        or bool(res.get("flags"))
+    )
+    p_over25 = next((float(x["fair_prob"]) for x in m.get("selections") or [] if x.get("name") == "2.5 Üst"), None)
+    diag_ctx = {
+        "mu_home": m.get("mu_home"),
+        "mu_away": m.get("mu_away"),
+        "fair_1x2": m.get("fair_1x2"),
+        "p_over25": p_over25,
+        "reference": m.get("reference"),
+        "league": m.get("league"),
+        "direct": True,
+        "teams": teams,
+        "flags": res.get("flags") or [],
+        "home_gk1_out": bool((tm.get("home") or {}).get("gk1_out") or (ua.get("home") or {}).get("gk_out") or (teams.get("home") or {}).get("gk1_out")),
+        "away_gk1_out": bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out") or (teams.get("away") or {}).get("gk1_out")),
+        "home_top_scorer_out": bool((tm.get("home") or {}).get("top_scorer_out") or (teams.get("home") or {}).get("top_scorer_out")),
+        "away_top_scorer_out": bool((tm.get("away") or {}).get("top_scorer_out") or (teams.get("away") or {}).get("top_scorer_out")),
+    }
+    sels = []
+    for s in m.get("selections") or []:
+        if not s.get("direct") or s.get("name") in _NOISE_MARKETS:
+            continue
+        p = calibrated_probability(s["fair_prob"], True, cal)
+        if has_diag:
+            diag = diagnose_selection(s.get("name"), p, diag_ctx, for_coupon=False)
+            if not diag.ok:
+                continue
+            if diag.residual_adjustment < 0:
+                p = min(1.0, max(0.0, p + float(diag.residual_adjustment)))
+        if s["odds"] >= MIN_ODDS and p >= min_p:
+            sels.append((s, p))
+    sels.sort(key=lambda x: -(x[1] * x[0]["odds"]))
     return [{"name": s["name"], "label": f"{s['market']}: {s['selection']}", "market": s["market"], "selection": s["selection"],
              "p": p, "odds": s["odds"], "ev": round(p * s["odds"] - 1.0, 4), "coupons": []} for s, p in sels[:n]]
 
@@ -237,11 +277,14 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
     ap.add_argument("--aday", type=int, default=5, help="Maç başına test edilecek en çok aday")
+    ap.add_argument("--workers", type=int, default=2, choices=range(1, 9), metavar="1..8",
+                    help="Eşzamanlı takım geçmişi araştırması; 4 önerilir, ESPN hız limiti korunur")
     ap.add_argument("--saat", type=parse_window,
                     help="Yalnız bu başlama saatleri, ör. 06:00-10:00; gece yarısını geçebilir: 22:00-02:00")
     ap.add_argument("--tum-istatistikler", action="store_true", help="Aday fiyatı olmasa da başlamamış maçın takım geçmişini araştır")
     args = ap.parse_args()
-    rows = research_day(args.tarih, args.aday, window=args.saat, all_upcoming=args.tum_istatistikler)
+    rows = research_day(args.tarih, args.aday, workers=args.workers, window=args.saat,
+                        all_upcoming=args.tum_istatistikler)
     import footballcharts_gecmis as fc
     import openligadb_gecmis as ol
     import openmatchday_gecmis as om

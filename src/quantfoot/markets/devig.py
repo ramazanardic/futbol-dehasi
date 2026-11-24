@@ -28,7 +28,11 @@ def book_overround(odds: np.ndarray | list[float]) -> float:
 
 
 def _solve_power(inv: np.ndarray) -> tuple[np.ndarray, float]:
-    k = brentq(lambda exp_k: float(np.sum(inv**exp_k) - 1.0), 0.25, 4.0, xtol=1e-10)
+    fn = lambda exp_k: float(np.sum(inv**exp_k) - 1.0)  # noqa: E731
+    upper = 4.0
+    while fn(upper) > 0.0 and upper < 1024.0:
+        upper *= 2.0
+    k = brentq(fn, 0.25, upper, xtol=1e-10)
     probs = inv**k
     return probs / np.sum(probs), float(k)
 

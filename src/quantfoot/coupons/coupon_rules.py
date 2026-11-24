@@ -40,8 +40,8 @@ from quantfoot.markets.market_diagnosis import (
 from quantfoot.paths import REPO_ROOT
 
 MIN_CALIBRATED_P = 0.70
-DEFAULT_MIN_LEGS = 5
-DEFAULT_MAX_LEGS = 6
+DEFAULT_MIN_LEGS = 1
+DEFAULT_MAX_LEGS = 5
 DEFAULT_CALIBRATION_PATH = REPO_ROOT / "data/calibration/coupon_family_calibration.json"
 
 BANNED_FAMILIES = frozenset({
@@ -431,9 +431,9 @@ def build_rules_coupon(
     min_p: float = MIN_CALIBRATED_P,
     min_odds: float = S.MIN_LEG_ODDS,
     max_odds: float | None = S.BANKO_MAX_LEG_ODDS,
-    min_legs: int = DEFAULT_MIN_LEGS,
+    min_legs: int = DEFAULT_MAX_LEGS,
     max_legs: int = DEFAULT_MAX_LEGS,
-    prefer_n: int = DEFAULT_MIN_LEGS,
+    prefer_n: int = DEFAULT_MAX_LEGS,
 ) -> RuleCoupon:
     """Adaylardan kurala uygun banko kupon kur (aynı maçtan en yüksek p_cal, sonra en yüksek p_cal sıralı).
 
