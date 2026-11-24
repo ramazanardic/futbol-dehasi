@@ -66,11 +66,49 @@ def priced_selections(m: dict, calibration: dict | None = None) -> list[dict]:
 
 
 def top_five(m: dict, calibration: dict | None = None) -> list[dict]:
-    """Choose the most probable selection in each family, then rank up to five families."""
+    """Choose the most probable diagnosis-clean selection in each family, then rank up to five families."""
+    from quantfoot.markets.market_diagnosis import diagnose_selection
+
     if calibration is None:
         calibration = load_live_calibration()
-    ranked = sorted(priced_selections(m, calibration),
-                    key=lambda x: (-x["p"], not x.get("direct"), x["family"], x["name"]))
+    _NOISE_TOP = {"Tek", "Çift", "İY Tek", "İY Çift", "2Y Tek", "2Y Çift", "İY ÇŞ 12"}
+    res = m.get("research") or {}
+    teams = res.get("teams") or {}
+    tm = res.get("tm_absences") or {}
+    ua = res.get("user_absences") or {}
+    has_diag = (
+        m.get("mu_home") is not None
+        or m.get("mu_away") is not None
+        or bool(teams)
+        or bool(tm)
+        or bool(ua)
+        or bool(res.get("flags"))
+    )
+    p_over25 = next((float(x["fair_prob"]) for x in m.get("selections") or [] if x.get("name") == "2.5 Üst"), None)
+    diag_ctx = {
+        "mu_home": m.get("mu_home"),
+        "mu_away": m.get("mu_away"),
+        "fair_1x2": m.get("fair_1x2"),
+        "p_over25": p_over25,
+        "reference": m.get("reference"),
+        "league": m.get("league"),
+        "teams": teams,
+        "flags": res.get("flags") or [],
+        "home_gk1_out": bool((tm.get("home") or {}).get("gk1_out") or (ua.get("home") or {}).get("gk_out") or (teams.get("home") or {}).get("gk1_out")),
+        "away_gk1_out": bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out") or (teams.get("away") or {}).get("gk1_out")),
+        "home_top_scorer_out": bool((tm.get("home") or {}).get("top_scorer_out") or (teams.get("home") or {}).get("top_scorer_out")),
+        "away_top_scorer_out": bool((tm.get("away") or {}).get("top_scorer_out") or (teams.get("away") or {}).get("top_scorer_out")),
+    }
+    raw_priced = [s for s in priced_selections(m, calibration) if s.get("name") not in _NOISE_TOP]
+    clean_priced = []
+    for s in raw_priced:
+        if has_diag:
+            d = diagnose_selection(s.get("name"), float(s["p"]), {**diag_ctx, "direct": bool(s.get("direct"))}, for_coupon=False)
+            if not d.ok:
+                continue
+        clean_priced.append(s)
+    pool = clean_priced if clean_priced else raw_priced
+    ranked = sorted(pool, key=lambda x: (-x["p"], not x.get("direct"), x["family"], x["name"]))
     best = {}
     for selection in ranked:
         family = selection["family"]

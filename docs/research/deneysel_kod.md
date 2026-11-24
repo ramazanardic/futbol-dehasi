@@ -5,9 +5,8 @@ Test komutu: `python scripts/pazar_kalibrasyonu.py analiz` → `reports/research
 (walk-forward, 2016+ sezonları, 77 519 test maçı; karar kuralı: log-loss farkının %95 bootstrap güven aralığının
 tamamı 0'ın altında değilse değişiklik tutulmaz).
 
-## 1. `scripts/quantfoot_v82_multi_ai_cross_learner.py` — DENEYSEL
-- Üretimde hiçbir betik tarafından çağrılmaz; docstring'i "DENEYSEL — ÜRETİMDE KULLANILMAZ" diye başlar.
-- İçinde hiçbir veriye uydurulmamış sabitler ve ölü kod var. Silinmedi; sınanmadan üretime bağlanmamalı.
+## 1. `scripts/quantfoot_v82_multi_ai_cross_learner.py` — KALDIRILDI (24 Kasım 2026)
+- Üretimde hiçbir betik tarafından çağrılmayan, veriye uydurulmamış sabitler içeren ölü kod olduğu için depodan temizlendi.
 
 ## 2. 141e724 — yüksek toplam gol beklentisinde Dixon–Coles rho "taper"ı → KAPALI
 `tail_goals.HIGH_TOTAL_RHO_TAPER = False`.
@@ -17,7 +16,7 @@ tamamı 0'ın altında değilse değişiklik tutulmaz).
 
 ## 3. 141e724 — v7 rejim tokenları (uae./qat./aus./usa./afc.cup/svk.cup/svn.cup/jor.cup/egy./alg./irn./zam.) → GERİ ALINDI
 - Bu ligler arşivde yok. `tipsaudit.csv` yalnız 1X2 sonucu içeriyor, bu yüzden sınanamadı.
-- Ayar 19 Kasım'ın kendi maçlarına bakılarak yapılmıştı (in-sample). `scripts/verify_v7_repair_on_nov19.py` bu yüzden "kanıt değil" diye işaretlendi.
+- Ayar 19 Kasım'ın kendi maçlarına bakılarak yapılmıştı (in-sample); kırık `verify_v7_repair_on_nov19.py` betiği depodan temizlendi.
 - Bu ligler artık `CLUB_REGIME`'e düşüyor. Kadın rejimleri de 141e724 öncesi değerlere döndü.
 
 ## 4. 7cb38ea — KG Var ağırlıkları (2.5 / 4.5 "blowout") → GERİ ALINDI

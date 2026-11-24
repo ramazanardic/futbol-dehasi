@@ -286,6 +286,7 @@ def research_match(m: dict, legs: list[dict]) -> dict:
             "reference": m.get("reference"),
             "league": m.get("league"),
             "direct": leg.get("direct", True),
+            "flags": out["flags"],
             "home_gk1_out": th.get("gk1_out", False),
             "away_gk1_out": ta.get("gk1_out", False),
             "home_top_scorer_out": th.get("top_scorer_out", False),
@@ -303,7 +304,7 @@ def research_match(m: dict, legs: list[dict]) -> dict:
             "min_side_rate": hist.get("min_side") if has_both_hist else None,
         }
         diag = None
-        if m.get("mu_home") is not None or th.get("gk1_out") or ta.get("gk1_out"):
+        if m.get("mu_home") is not None or th.get("gk1_out") or ta.get("gk1_out") or out["flags"]:
             diag = diagnose_selection(leg["name"], float(leg.get("p") or 0.0), diag_ctx, for_coupon=False)
         final_v = base_v
         if diag is not None and not diag.ok and not final_v.startswith("⚠"):
