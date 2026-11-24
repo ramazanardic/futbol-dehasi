@@ -78,7 +78,7 @@ açıkça söyle; kuralları gevşeterek hedefe ulaşma.
   tablosunda diğer olasılıklar da görünür. Kupon uygunluğu kendi denetiminde belirlenir.
 - Varsayılan kupon taraması doğrudan fiyatları ve mevcut model, değer ve güven filtrelerini geçen türetilmiş fiyatları
   değerlendirir. Kupon önerisine yalnız seçilen modun kurallarını ve son canlı denetimi geçen en uygun bacaklar girer.
-  Banko kuralları §3’teki gibidir. Kullanıcı kupon istediğinde **maksimum en garanti 5 maçtan (`1–5` maç)** kupon oluşturulur, asla reddedilmez. Bahis işlemi için kullanıcının açık onayı gerekir.
+  Banko kuralları §3’teki gibidir. Kullanıcı kupon istediğinde **kuralları geçen en fazla 5 maçtan (`1–5` maç)** kupon oluşturulur; hedefe ulaşılamazsa gerçek toplam oran belirtilir, uygun bacak yoksa kupon üretilmez. Bahis işlemi için kullanıcının açık onayı gerekir.
 
 ## 2. Olasılık kalibrasyonu ve v3 kök-neden kalkanları
 
@@ -106,7 +106,7 @@ açıkça söyle; kuralları gevşeterek hedefe ulaşma.
 |---|---|
 | Bacak olasılığı | **düzeltilmiş P ≥ 0,70** (`coupon_rules.MIN_CALIBRATED_P`); eski %65 tabanı kupon için geçersiz |
 | Bacak oranı | Nesine ≥ 1,20, ≤ 1,80 |
-| Bacak sayısı | **Maksimum en garanti 5 maç (`1–5` bacak, `BANKO_MAX_LEGS = 5`)**; 6+ maçlık çarpım kaybı yasak. Kullanıcı kupon istediğinde asla "hayır" denmez; eldeki en yüksek güvenilirlikli (`p_low`) maksimum 5 maçla kupon kurulur. |
+| Bacak sayısı | **En fazla 5 uygun maç (`1–5` bacak, `BANKO_MAX_LEGS = 5`)**; 6+ maç yasak. Hedef erişilemiyorsa mevcut uygun bacaklarla gerçek toplam oran raporlanır; uygun bacak yoksa kupon üretilmez. Aday azlığı nedeniyle filtreler gevşetilmez. |
 | Maç | Bir kuponda aynı maçtan tek bacak; birden çok kuponda çapraz yoğunlaşma `PortfolioExposureGuard` ile ölçülür |
 | İzinli aileler | İlk yarı (İY 0,5/1,5 Alt-Üst …; İY ÇŞ 12 ve İY Çift hariç), maç sonu Alt/Üst, Yarı özel, Maç sonucu (yalnız 1/2 + beraberlik & sert steam süzgeci), yasak parça içermeyen Kombine, 2Y KG **Yok**. Liste veriden gelir (`family_allowed`). |
 | Yasak | Beraberlik bacağı (MS 0, İY 0, skor 0-0 …), Karşılıklı gol (KG Var/Yok), "iki yarıda da KG var", İlk gol, Ev sahibi / Deplasman gol sayısı, Tek/Çift (İY Çift dahil), şu an Çifte şans ve Handikap |
