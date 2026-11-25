@@ -246,6 +246,9 @@ def run(date: str, n: int) -> list[dict]:
             verdict, low = with_model(verdict, low, x["p"], dcp)
             elp = (elo or {}).get(x["name"])
             verdict, low = with_model(verdict, low, x["p"], elp)  # Club Elo: 1X2 / double chance only
+            if verdict == "üçlü onay" and x.get("name") in ("2.5 Üst", "3.5 Alt") and float(x.get("p") or 0.0) < 0.61:
+                # 24 Kas denetimi: P < %61 olan sınırda 2.5 Üst / 3.5 Alt üçlü onayları 0/4 (%0) kaldı; P >= %62 olanlar 3/3 (%100) tuttu
+                verdict = "kısmi onay"
             bets.append({"label": x["label"], "name": x["name"], "odds": x["odds"], "market": x["p"], "sim": sim, "hist": hist, "dc": dcp, "elo": elp,
                          "research": x["verdict"], "verdict": verdict, "low": low})
         bets.sort(key=lambda b: (b["verdict"] != "üçlü onay", -b["low"]))

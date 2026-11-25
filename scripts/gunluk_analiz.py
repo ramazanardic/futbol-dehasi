@@ -33,6 +33,62 @@ EXCLUDED_MODEL = ("İY/MS", "2Y 0", "2Y 1", "2Y 2")
 MID_GLOBAL_MIN_PROB = 0.62
 
 
+def macro_coherent_top_score(
+    ft_dist: dict[str, float] | None,
+    f1x2: list[float] | tuple[float, ...] | None = None,
+    p_o25: float | None = None,
+    p_btts: float | None = None,
+) -> tuple[str, float] | None:
+    """Select the #1 exact score coherent with the dominant 1X2, O/U 2.5 and BTTS regime (fixes the 1-1 Poisson Mode Fallacy)."""
+    if not ft_dist:
+        return None
+    p1 = float(f1x2[0]) if f1x2 and len(f1x2) == 3 and f1x2[0] is not None else 0.33
+    px = float(f1x2[1]) if f1x2 and len(f1x2) == 3 and f1x2[1] is not None else 0.33
+    p2 = float(f1x2[2]) if f1x2 and len(f1x2) == 3 and f1x2[2] is not None else 0.33
+    best_sc, best_comp = None, -1.0
+    for sc, p_raw in ft_dist.items():
+        try:
+            h, a = map(int, sc.split("-"))
+        except ValueError:
+            continue
+        p_m = float(p_raw)
+        coh = 1.0
+        if h > a:
+            if p1 >= 0.50:
+                coh *= 1.0 + 0.45 * (p1 - 0.40)
+            elif p2 >= 0.48:
+                coh *= 0.65
+        elif h < a:
+            if p2 >= 0.48:
+                coh *= 1.0 + 0.45 * (p2 - 0.38)
+            elif p1 >= 0.50:
+                coh *= 0.65
+        else:
+            if max(p1, p2) >= 0.52 or abs(p1 - p2) >= 0.18:
+                coh *= 0.72
+            elif px >= 0.27 and abs(p1 - p2) <= 0.10:
+                coh *= 1.12
+        tot = h + a
+        if p_o25 is not None:
+            if p_o25 >= 0.62:
+                coh *= 1.18 if tot >= 3 else 0.80
+            elif (1.0 - p_o25) >= 0.58:
+                coh *= 1.18 if tot <= 2 else 0.80
+        if p_btts is not None:
+            btts_sc = h > 0 and a > 0
+            if p_btts >= 0.62:
+                coh *= 1.12 if btts_sc else 0.88
+            elif p_btts <= 0.45:
+                coh *= 1.15 if not btts_sc else 0.85
+        comp = p_m * coh
+        if comp > best_comp:
+            best_comp = comp
+            best_sc = sc
+    if best_sc is None:
+        best_sc = next(iter(ft_dist))
+    return best_sc, float(ft_dist[best_sc])
+
+
 def _has_full_research(m: dict) -> bool:
     r = m.get("research") or {}
     teams = r.get("teams") or {}
@@ -135,7 +191,7 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
                 "home_top_scorer_out": bool((tm.get("home") or {}).get("top_scorer_out") or (teams.get("home") or {}).get("top_scorer_out")),
                 "away_top_scorer_out": bool((tm.get("away") or {}).get("top_scorer_out") or (teams.get("away") or {}).get("top_scorer_out")),
             }
-            diag = diagnose_selection(name, p, diag_ctx, for_coupon=False)
+            diag = diagnose_selection(name, p, diag_ctx, for_coupon=True)
             diag_ok = bool(diag.ok)
             if diag.residual_adjustment < 0:
                 p = min(1.0, max(0.0, p + float(diag.residual_adjustment)))

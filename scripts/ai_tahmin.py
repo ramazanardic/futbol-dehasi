@@ -30,7 +30,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from quantfoot.data.nesine import betting_day
 from kupon_dosyalari import coupon_group, latest_coupons
-from gunluk_analiz import best_pick  # noqa: E402
+from gunluk_analiz import best_pick, macro_coherent_top_score  # noqa: E402
 import nesine_global as ng  # noqa: E402
 
 TSI = ng.TSI
@@ -61,11 +61,17 @@ def own_analysis(date: str) -> list[dict]:
     return matches
 
 
-def _top_score(code) -> str:
+def _top_score(code, m: dict | None = None) -> str:
     priced = ng.PRICED.get(int(code))
     if not priced:
         return ""
-    k, v = next(iter(ng.score_distributions(priced["joint"])["ft"].items()))
+    ft = ng.score_distributions(priced["joint"])["ft"]
+    if m is not None:
+        sels = {s["name"]: float(s["fair_prob"]) for s in m.get("selections") or [] if "name" in s and "fair_prob" in s}
+        hit = macro_coherent_top_score(ft, m.get("fair_1x2"), sels.get("2.5 Üst"), sels.get("KG Var"))
+        if hit is not None:
+            return f"{hit[0]} ({hit[1]:.3f})"
+    k, v = next(iter(ft.items()))
     return f"{k} ({v:.3f})"
 
 
@@ -107,7 +113,7 @@ def match_rows(date: str, matches: list[dict], frozen: dict[str, dict] | None = 
             "tarih": kickoff_date(m["kickoff"], date), "saat": m["kickoff"][11:16], "lig": m["league"], "mac": f"{m['home']} - {m['away']}",
             "nesine_kodu": m["code"], "olasilik_1": _pct(f[0]), "olasilik_X": _pct(f[1]), "olasilik_2": _pct(f[2]),
             "beklenen_gol_ev": m.get("mu_home") if priced else "", "beklenen_gol_dep": m.get("mu_away") if priced else "",
-            "en_olasi_skor": _top_score(m["code"]) if priced else "",
+            "en_olasi_skor": _top_score(m["code"], m) if priced else "",
             "ana_secim_pazar": pick["market"] if pick else "", "ana_secim": pick["selection"] if pick else "",
             "nesine_oran": pick["odds"] if pick else "", "olasilik": _pct(pick["fair_prob"]) if pick else "",
             "fiyat_kaynagi": (m.get("reference") or "") if priced else "",

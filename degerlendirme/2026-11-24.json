@@ -1,0 +1,2176 @@
+{
+ "date": "2026-11-24",
+ "built": "2026-11-25T08:16+03:00",
+ "ais": {
+  "antigravitytahmin": {
+   "main_picks": 48,
+   "hits": 31,
+   "data_quality": {
+    "prediction_rows": 121,
+    "coupon_rows": 5,
+    "schema": "standard",
+    "missing_nesine_code": 0,
+    "missing_main_pick": 72,
+    "unmatched_or_open": 4,
+    "ungradeable_selection": 0,
+    "invalid_1x2_distribution": 0
+   },
+   "avg_pred": 0.6916041666666667,
+   "flat_return": -9.709999999999999,
+   "brier_1x2": 0.5342353864957265,
+   "logloss_1x2": 0.9082680359422104,
+   "n_1x2": 117,
+   "coupons": [
+    {
+     "coupon": "kupon_2.5x_1830 #1",
+     "type": "karma",
+     "odds": 2.68,
+     "p": 0.1541,
+     "won": false,
+     "legs_won": 4,
+     "legs": 5,
+     "lost_legs": [
+      "Man. City - Napoli — Maç Sonucu ve 1,5 Alt/Üst: 1 & Üst"
+     ]
+    }
+   ],
+   "coupons_open": 0,
+   "biggest_misses": [
+    {
+     "p": 0.7424,
+     "match": "Man. City - Napoli",
+     "pick": "Maç Sonucu ve 1,5 Alt/Üst: 1 & Üst",
+     "score": "0-0 / 2-2"
+    },
+    {
+     "p": 0.7254,
+     "match": "S. Bratislava - Real Betis",
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "score": "0-1 / 0-2"
+    },
+    {
+     "p": 0.7192,
+     "match": "Chapecoense - Palmeiras SP",
+     "pick": "Çifte Şans: X-2",
+     "score": "2-0 / 3-0"
+    },
+    {
+     "p": 0.7174,
+     "match": "Arbroath - Airdrieonian",
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "score": "0-2 / 1-3"
+    },
+    {
+     "p": 0.7122,
+     "match": "Arsenal - B. Dortmund",
+     "pick": "Maç Sonucu: 1",
+     "score": "1-0 / 1-1"
+    },
+    {
+     "p": 0.7119,
+     "match": "Rangers - Aberdeen",
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "score": "0-1 / 3-2"
+    },
+    {
+     "p": 0.7008,
+     "match": "Dunfermline - Kelty Hearts",
+     "pick": "1. Yarı Sonucu: 1",
+     "score": "0-0 / 3-0"
+    },
+    {
+     "p": 0.6974,
+     "match": "Juve Stabia - Catanzaro",
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "score": "0-2 / 1-3"
+    },
+    {
+     "p": 0.6965,
+     "match": "Wolverhampton - Derby County",
+     "pick": "Ev Sahibi Her İki Yarıyı da Kazanır: Hayır",
+     "score": "1-0 / 3-0"
+    },
+    {
+     "p": 0.6872,
+     "match": "AFC Fylde - Halifax Town",
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "score": "0-0 / 0-2"
+    }
+   ],
+   "research_verdicts": {
+    "?": {
+     "n": 16,
+     "won": 8,
+     "p_sum": 10.21412,
+     "p_n": 16,
+     "h_sum": 6.982142857142857,
+     "h_n": 11
+    },
+    "⚠": {
+     "n": 14,
+     "won": 7,
+     "p_sum": 9.004090000000001,
+     "p_n": 14,
+     "h_sum": 6.348931623931624,
+     "h_n": 14
+    },
+    "✓": {
+     "n": 14,
+     "won": 6,
+     "p_sum": 8.85361,
+     "p_n": 14,
+     "h_sum": 9.45915750915751,
+     "h_n": 14
+    },
+    "~": {
+     "n": 3,
+     "won": 2,
+     "p_sum": 1.93212,
+     "p_n": 3,
+     "h_sum": 1.7071428571428573,
+     "h_n": 3
+    }
+   },
+   "simulation_verdicts": {
+    "eksik kanıt": {
+     "n": 16,
+     "won": 8,
+     "p_sum": 10.21412,
+     "p_n": 16,
+     "h_sum": 0.0,
+     "h_n": 0
+    },
+    "çelişki": {
+     "n": 16,
+     "won": 7,
+     "p_sum": 10.25962,
+     "p_n": 16,
+     "h_sum": 7.9365000000000006,
+     "h_n": 16
+    },
+    "üçlü onay": {
+     "n": 9,
+     "won": 3,
+     "p_sum": 5.67751,
+     "p_n": 9,
+     "h_sum": 5.91735,
+     "h_n": 9
+    },
+    "kısmi onay": {
+     "n": 6,
+     "won": 5,
+     "p_sum": 3.85269,
+     "p_n": 6,
+     "h_sum": 3.45995,
+     "h_n": 6
+    }
+   },
+   "clv": {
+    "n": 11,
+    "mean": 0.00022181818181818161,
+    "positive": 1
+   }
+  },
+  "geminitahmin": {
+   "main_picks": 0,
+   "hits": 0,
+   "data_quality": {
+    "prediction_rows": 40,
+    "coupon_rows": 9,
+    "schema": "incompatible",
+    "missing_nesine_code": 40,
+    "missing_main_pick": 40,
+    "unmatched_or_open": 1,
+    "ungradeable_selection": 0,
+    "invalid_1x2_distribution": 0
+   },
+   "avg_pred": null,
+   "flat_return": 0.0,
+   "brier_1x2": null,
+   "logloss_1x2": null,
+   "n_1x2": 0,
+   "coupons": [],
+   "coupons_open": 1,
+   "biggest_misses": [],
+   "research_verdicts": {},
+   "simulation_verdicts": {},
+   "clv": null
+  }
+ },
+ "matches": {
+  "3321780": {
+   "match": "Al Ahli Dubai - AL Qadisiyah",
+   "league": "AFC Asya Şampiyonlar Ligi Batı",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    1,
+    5
+   ],
+   "picks": {}
+  },
+  "3321817": {
+   "match": "Al Seeb - AL Shorta",
+   "league": "AFC Kupası",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3321918": {
+   "match": "Fratria Varna - Yantra Gabrovo",
+   "league": "Bulgaristan 2. Lig",
+   "kickoff": "19:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6511,
+     "odds": 1.28,
+     "won": false
+    }
+   }
+  },
+  "3351700": {
+   "match": "MSK Zilina - Ruzomberok",
+   "league": "Slovakya Kupası",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3321786": {
+   "match": "Zenit - Krylia Sovetov",
+   "league": "Rusya Kupası",
+   "kickoff": "19:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6537,
+     "odds": 1.29,
+     "won": true
+    }
+   }
+  },
+  "3419888": {
+   "match": "Kiyovu Sport - AL Hilal (Sdn)",
+   "league": "Ruanda Ulusal Lig",
+   "kickoff": "19:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3321903": {
+   "match": "Torreense U23 - Vizela U23",
+   "league": "Portekiz U23 Next Gen Ligi",
+   "kickoff": "20:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3321954": {
+   "match": "Tafic - Morupule Wanderers",
+   "league": "Botsvana Premier Ligi",
+   "kickoff": "20:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3321958": {
+   "match": "Township Rollers - Prisons Xi Gaborone",
+   "league": "Botsvana Premier Ligi",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3331141": {
+   "match": "Durban City 2024 - Polokwane",
+   "league": "Güney Afrika Premier Lig",
+   "kickoff": "20:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {}
+  },
+  "3332440": {
+   "match": "Orlando Pirates - Gold. Arrow",
+   "league": "Güney Afrika Premier Lig",
+   "kickoff": "20:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6835,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3322113": {
+   "match": "Bodo Glimt - LASK",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "20:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3322168": {
+   "match": "Galatasaray - Aston Villa",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "20:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6669,
+     "odds": 1.35,
+     "won": false
+    }
+   }
+  },
+  "3321981": {
+   "match": "Al Masry - Asyut Petroleum",
+   "league": "Mısır Premier Lig",
+   "kickoff": "21:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3321993": {
+   "match": "Juve Stabia - Catanzaro",
+   "league": "İtalya Serie B",
+   "kickoff": "21:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6974,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3324139": {
+   "match": "Al Mokawloon - Alqana",
+   "league": "Mısır Premier Lig",
+   "kickoff": "21:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7503,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3322101": {
+   "match": "AL Nassr - AL Sadd",
+   "league": "AFC Asya Şampiyonlar Ligi Batı",
+   "kickoff": "21:15",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu ve 1,5 Alt/Üst: 1 & Üst",
+     "p": 0.726,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3321977": {
+   "match": "Salford City - Sunderland U21",
+   "league": "İngiltere Trophy Kupası, Kuzey",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {}
+  },
+  "3321979": {
+   "match": "QPR U21 - Southampton U21",
+   "league": "İngiltere U21 Premier Lig Kupası",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3321980": {
+   "match": "Benevento - Empoli",
+   "league": "İtalya Serie B",
+   "kickoff": "22:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    5,
+    0
+   ],
+   "picks": {}
+  },
+  "3321992": {
+   "match": "Tranmere - Everton U21",
+   "league": "İngiltere Trophy Kupası, Kuzey",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2,5 Alt/Üst ve Karşılıklı Gol: Üst&Var",
+     "p": 0.642,
+     "odds": 1.33,
+     "won": true
+    }
+   }
+  },
+  "3321996": {
+   "match": "US Palermo - Sudtirol",
+   "league": "İtalya Serie B",
+   "kickoff": "22:00",
+   "ht": [
+    3,
+    0
+   ],
+   "ft": [
+    4,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman Herhangi Bir Yarıyı Kazanır: Hayır",
+     "p": 0.7255,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3322002": {
+   "match": "Huddersfield T. U21 - Swansea U21",
+   "league": "İngiltere U21 Premier Lig Kupası",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3322004": {
+   "match": "AC Cesena - Ascoli",
+   "league": "İtalya Serie B",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    5,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7155,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3322018": {
+   "match": "LR Vicenza V. - Carrarese C. 1908",
+   "league": "İtalya Serie B",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3322041": {
+   "match": "Sheffield Utd U21 - Millwall U21",
+   "league": "İngiltere U21 Premier Lig Kupası",
+   "kickoff": "22:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3322085": {
+   "match": "Oxford - Tottenham U21",
+   "league": "İngiltere Trophy Kupası, Güney",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3322145": {
+   "match": "V. Entella - Hellas Verona",
+   "league": "İtalya Serie B",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.7425,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3322167": {
+   "match": "Ipswich Town U21 - Bromley U21",
+   "league": "İngiltere U21 Premier Lig Kupası",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    5,
+    0
+   ],
+   "picks": {}
+  },
+  "3276657": {
+   "match": "Hitchin Town - Worcester City",
+   "league": "İngiltere Güney Ligi, Merkez",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3321982": {
+   "match": "Blackpool - Leicester City",
+   "league": "İngiltere 1. Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6856,
+     "odds": 1.23,
+     "won": false
+    }
+   }
+  },
+  "3321984": {
+   "match": "Farnham Town - Maidenhead",
+   "league": "İngiltere Ulusal Lig, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3321986": {
+   "match": "Kings Lynn - Radcliffe",
+   "league": "İngiltere Ulusal Lig, Kuzey",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3322003": {
+   "match": "South Shields - Worksop Town",
+   "league": "İngiltere Ulusal Lig, Kuzey",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3322010": {
+   "match": "Telford Utd - Buxton",
+   "league": "İngiltere Ulusal Lig, Kuzey",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3322030": {
+   "match": "Scunthorpe - Gateshead",
+   "league": "İngiltere Ulusal Lig",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6935,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3322031": {
+   "match": "Carlisle - Tamworth",
+   "league": "İngiltere Ulusal Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3322032": {
+   "match": "Hibernian - Dundee",
+   "league": "İskoçya Premiership",
+   "kickoff": "22:45",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6533,
+     "odds": 1.3,
+     "won": true
+    }
+   }
+  },
+  "3322033": {
+   "match": "Eastleigh - Yeovil Town",
+   "league": "İngiltere Ulusal Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6764,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3322037": {
+   "match": "Horsham - Truro City",
+   "league": "İngiltere Ulusal Lig, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3322038": {
+   "match": "Chorley - Hebburn Town",
+   "league": "İngiltere Ulusal Lig, Kuzey",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3322039": {
+   "match": "Crawley Town - Barnet",
+   "league": "İngiltere 2. Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6069,
+     "odds": 1.54,
+     "won": false
+    }
+   }
+  },
+  "3322045": {
+   "match": "Hampton&Richmond - Dover",
+   "league": "İngiltere Ulusal Lig, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    5
+   ],
+   "picks": {}
+  },
+  "3322047": {
+   "match": "Stevenage - S. Wednesday",
+   "league": "İngiltere 1. Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.698,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3322048": {
+   "match": "Boston Utd - Barrow",
+   "league": "İngiltere Ulusal Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.688,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3322053": {
+   "match": "Hednesford - Oxford City",
+   "league": "İngiltere Ulusal Lig, Kuzey",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3322057": {
+   "match": "Torquay - Chesham Utd",
+   "league": "İngiltere Ulusal Lig, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3322060": {
+   "match": "AFC Fylde - Halifax Town",
+   "league": "İngiltere Ulusal Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6872,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3322065": {
+   "match": "Macclesfield - Morecambe",
+   "league": "İngiltere Ulusal Lig, Kuzey",
+   "kickoff": "22:45",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {}
+  },
+  "3322067": {
+   "match": "Harborough Town - Chester",
+   "league": "İngiltere Ulusal Lig, Kuzey",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3322075": {
+   "match": "Charlton - Lincoln City",
+   "league": "İngiltere Championship",
+   "kickoff": "22:45",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.7085,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3322077": {
+   "match": "Port Vale - Northampton",
+   "league": "İngiltere 2. Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.756,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3322078": {
+   "match": "Halesowen - Stourbridge",
+   "league": "İngiltere Güney Ligi, Merkez",
+   "kickoff": "22:45",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3322083": {
+   "match": "Merthyr Town - Bedford Town",
+   "league": "İngiltere Ulusal Lig, Kuzey",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3322091": {
+   "match": "Cardiff City - Preston",
+   "league": "İngiltere Championship",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    4
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6831,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3322092": {
+   "match": "Norwich City - QPR",
+   "league": "İngiltere Championship",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6958,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3322095": {
+   "match": "Woking - Worthing",
+   "league": "İngiltere Ulusal Lig",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    4,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6624,
+     "odds": 1.26,
+     "won": false
+    }
+   }
+  },
+  "3322099": {
+   "match": "Dagenham Red - Tonbridge Angels",
+   "league": "İngiltere Ulusal Lig, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    4,
+    1
+   ],
+   "picks": {}
+  },
+  "3322103": {
+   "match": "Altrincham - Wealdstone",
+   "league": "İngiltere Ulusal Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6886,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3322111": {
+   "match": "Marine - Spennymoor",
+   "league": "İngiltere Ulusal Lig, Kuzey",
+   "kickoff": "22:45",
+   "ht": [
+    4,
+    0
+   ],
+   "ft": [
+    5,
+    0
+   ],
+   "picks": {}
+  },
+  "3322118": {
+   "match": "Salisbury - AFC Totton",
+   "league": "İngiltere Ulusal Lig, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3322119": {
+   "match": "Forest Green - Southend",
+   "league": "İngiltere Ulusal Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3322130": {
+   "match": "Portsmouth - West Ham",
+   "league": "İngiltere Championship",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7177,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3322131": {
+   "match": "Scarborough - Spalding Utd",
+   "league": "İngiltere Ulusal Lig, Kuzey",
+   "kickoff": "22:45",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3322133": {
+   "match": "Slough Town - Farnborough",
+   "league": "İngiltere Ulusal Lig, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    4,
+    2
+   ],
+   "picks": {}
+  },
+  "3322137": {
+   "match": "Darlington - Southport",
+   "league": "İngiltere Ulusal Lig, Kuzey",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3322141": {
+   "match": "Bradford - Barnsley",
+   "league": "İngiltere 1. Lig",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6827,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3322146": {
+   "match": "Weston Super Mare - Walton & Hersham",
+   "league": "İngiltere Ulusal Lig, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3322150": {
+   "match": "Brackley - Hereford",
+   "league": "İngiltere Ulusal Lig, Kuzey",
+   "kickoff": "22:45",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {}
+  },
+  "3322152": {
+   "match": "Ebbsfleet Utd - Billericay",
+   "league": "İngiltere Ulusal Lig, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3322155": {
+   "match": "Sheffield Utd - Southampton",
+   "league": "İngiltere Championship",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6957,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3322157": {
+   "match": "Bristol City - Wrexham",
+   "league": "İngiltere Championship",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.7154,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3322160": {
+   "match": "Yate Town - Evesham Utd",
+   "league": "İngiltere Güney Ligi, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3322166": {
+   "match": "Hornchurch - Sutton Utd",
+   "league": "İngiltere Ulusal Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6925,
+     "odds": 1.2,
+     "won": true
+    }
+   }
+  },
+  "3322170": {
+   "match": "Middlesbrough - Swansea City",
+   "league": "İngiltere Championship",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6926,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3331195": {
+   "match": "Leek Town - G'borough Tr.",
+   "league": "İngiltere Kuzey Premier Ligi",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3347039": {
+   "match": "Chippenham - Hav Waterloo",
+   "league": "İngiltere Güney Ligi, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {}
+  },
+  "3347049": {
+   "match": "Dungannon - Coleraine",
+   "league": "Kuzey İrlanda Lig Kupası",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    1,
+    5
+   ],
+   "picks": {}
+  },
+  "3347051": {
+   "match": "Loughgall - Queens Uni.",
+   "league": "Kuzey İrlanda Lig Kupası",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3347058": {
+   "match": "Moyola Park - Ballymena Utd",
+   "league": "Kuzey İrlanda Lig Kupası",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {}
+  },
+  "3347065": {
+   "match": "Glentoran - Larne",
+   "league": "Kuzey İrlanda Lig Kupası",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    3
+   ],
+   "picks": {}
+  },
+  "3347069": {
+   "match": "Warrenpoint - Cliftonville",
+   "league": "Kuzey İrlanda Lig Kupası",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3347098": {
+   "match": "Eastbourne Bor. - Aveley",
+   "league": "İngiltere Isthmian Ligi",
+   "kickoff": "22:45",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {}
+  },
+  "3347120": {
+   "match": "Limavady Utd - Rathfriland Rangers",
+   "league": "Kuzey İrlanda Lig Kupası",
+   "kickoff": "22:45",
+   "ht": [
+    4,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {}
+  },
+  "3347127": {
+   "match": "Leatherhead - Ramsgate",
+   "league": "İngiltere Isthmian Ligi",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3347129": {
+   "match": "Carrick Rangers - Glenavon",
+   "league": "Kuzey İrlanda Lig Kupası",
+   "kickoff": "22:45",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3347136": {
+   "match": "Harland Wolff W. - Linfield",
+   "league": "Kuzey İrlanda Lig Kupası",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3372594": {
+   "match": "Bromley - Wycombe",
+   "league": "İngiltere 1. Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6686,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3380317": {
+   "match": "East Kilbri - P. Thistle",
+   "league": "İskoçya Challenge Kupası, PO",
+   "kickoff": "22:45",
+   "ht": [
+    2,
+    2
+   ],
+   "ft": [
+    3,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6766,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3380318": {
+   "match": "Hamilton - Cove Rangers",
+   "league": "İskoçya Challenge Kupası, PO",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3380319": {
+   "match": "Clydebank - Queen's Park",
+   "league": "İskoçya Challenge Kupası, PO",
+   "kickoff": "22:45",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    3,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6705,
+     "odds": 1.25,
+     "won": false
+    }
+   }
+  },
+  "3380320": {
+   "match": "Livingston - Peterhead",
+   "league": "İskoçya Challenge Kupası, PO",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3380321": {
+   "match": "Arbroath - Airdrieonian",
+   "league": "İskoçya Challenge Kupası, PO",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.7174,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3380322": {
+   "match": "Dunfermline - Kelty Hearts",
+   "league": "İskoçya Challenge Kupası, PO",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Sonucu: 1",
+     "p": 0.7008,
+     "odds": 1.26,
+     "won": false
+    }
+   }
+  },
+  "3380323": {
+   "match": "Ross County - Stenhousemuir",
+   "league": "İskoçya Challenge Kupası, PO",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3380324": {
+   "match": "Ayr Utd - Inverness",
+   "league": "İskoçya Challenge Kupası, PO",
+   "kickoff": "22:45",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6793,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3402635": {
+   "match": "Holywell Town - Penybont",
+   "league": "Galler Premier Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    3
+   ],
+   "ft": [
+    1,
+    4
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Sonucu: 2",
+     "p": 0.6503,
+     "odds": 1.28,
+     "won": true
+    }
+   }
+  },
+  "3411524": {
+   "match": "Cray Wanderers - Wingate&Finchley",
+   "league": "İngiltere Isthmian Ligi",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3414057": {
+   "match": "Bracknell Town - Berkhamsted",
+   "league": "İngiltere Güney Ligi, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3414058": {
+   "match": "Basingstoke - Sholing",
+   "league": "İngiltere Güney Ligi, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    3,
+    0
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {}
+  },
+  "3420890": {
+   "match": "Malvern Town - Hanworth Villa",
+   "league": "İngiltere Güney Ligi, Güney",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {}
+  },
+  "3420891": {
+   "match": "Anstey Nomads - Redditch Utd",
+   "league": "İngiltere Güney Ligi, Merkez",
+   "kickoff": "22:45",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3420892": {
+   "match": "Peterborough S. - Alvechurch",
+   "league": "İngiltere Güney Ligi, Merkez",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3253412": {
+   "match": "Rangers - Aberdeen",
+   "league": "İskoçya Premiership",
+   "kickoff": "23:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7119,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3321988": {
+   "match": "Man. City - Napoli",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "23:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu ve 1,5 Alt/Üst: 1 & Üst",
+     "p": 0.7424,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3322008": {
+   "match": "Real Madrid - PSV",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "23:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    5,
+    1
+   ],
+   "picks": {}
+  },
+  "3322088": {
+   "match": "Arsenal - B. Dortmund",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "23:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.7122,
+     "odds": 1.28,
+     "won": false
+    }
+   }
+  },
+  "3322094": {
+   "match": "Wolverhampton - Derby County",
+   "league": "İngiltere Championship",
+   "kickoff": "23:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi Her İki Yarıyı da Kazanır: Hayır",
+     "p": 0.6965,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3322134": {
+   "match": "S. Bratislava - Real Betis",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "23:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.7254,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3322138": {
+   "match": "Leipzig - RC Lens",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "23:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi 3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.7332,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3322140": {
+   "match": "Feyenoord - Porto",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "23:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6812,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3322165": {
+   "match": "Como 1907 - Aek",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "23:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3336213": {
+   "match": "Chapecoense - Palmeiras SP",
+   "league": "Brezilya Serie A",
+   "kickoff": "00:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.7192,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3304789": {
+   "match": "Coquimbo U. - D. Union La Calera",
+   "league": "Şili Kupası",
+   "kickoff": "01:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6507,
+     "odds": 1.27,
+     "won": true
+    }
+   }
+  },
+  "3406817": {
+   "match": "Millonarios - CA Bucaramanga",
+   "league": "Kolombiya DIMAYOR Grup B",
+   "kickoff": "02:20",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    4,
+    1
+   ],
+   "picks": {}
+  },
+  "3406816": {
+   "match": "America De Cali - Deport Cali",
+   "league": "Kolombiya DIMAYOR Grup B",
+   "kickoff": "04:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3324481": {
+   "match": "Ryukyu - R. Kumamoto",
+   "league": "Japonya J3 Ligi",
+   "kickoff": "06:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt",
+     "p": 0.6265,
+     "odds": 1.31,
+     "won": true
+    }
+   }
+  }
+ }
+}
