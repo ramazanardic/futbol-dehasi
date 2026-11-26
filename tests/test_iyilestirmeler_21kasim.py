@@ -224,3 +224,16 @@ def test_settled_history_ignores_non_day_folders(tmp_path):
         (d / "takip_sonuc.json").write_text(json.dumps({"1": {"completed": True, "won": {"MS 1": True}}}), encoding="utf-8")
     snap = al.analyze_settled_history(own)
     assert snap["days"] == ["2026-11-20"] and snap["total_matches_settled"] == 1
+
+
+def test_getiri_raporu_settles_selections_at_one_unit(tmp_path, monkeypatch):
+    gr = _load("getiri_raporu")
+    d = tmp_path / "2026-11-20"
+    d.mkdir()
+    (d / "takip_kayit.json").write_text(json.dumps({"1": {"s": {"MS 1": [0.6, 1.5, 1], "MS 2": [0.2, 4.0, 1],
+                                                               "2.5 Üst": [0.55, 1.6, 0]}}}), encoding="utf-8")
+    (d / "takip_sonuc.json").write_text(json.dumps({"1": {"completed": True, "won": {"MS 1": True, "MS 2": False,
+                                                                                     "2.5 Üst": False}}}), encoding="utf-8")
+    sel = gr.selection_returns([d])
+    assert sel["fiyat"]["borsa"] == [1, 0.5, 1] and sel["fiyat"]["model"] == [1, -1.0, 0]   # MS 2: p < 50 %, left out
+    assert gr.ev_band(-0.12) == "EV < −10 %" and gr.ev_band(0.05) == "EV ≥ +3 %"

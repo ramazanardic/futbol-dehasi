@@ -1108,6 +1108,12 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
         md += [f"## Kupon {i}: Nesine oranı **{c['nesine_odds']:.2f}** · tutma olasılığı **%{c['probability'] * 100:.1f}** "
                f"(güvenilir alt sınır %{c.get('probability_low', c['probability']) * 100:.1f}) "
                f"· global adil oranı {c['global_fair_odds']:.2f} · {len(c['legs'])} maç (MBS en az {c['min_mbs']})", "",
+               # 26 Nov: on settled 18-21 Nov selections Nesine paid on average 17 % less than the true odds, so the
+               # expected return is shown for every coupon (tutma olasılığı x Nesine oranı - 1)
+               f"> **Beklenen getiri: %{c['probability'] * c['nesine_odds'] * 100 - 100:+.0f}** — 100 TL'lik bu kupon "
+               f"uzun vadede ortalama {c['probability'] * c['nesine_odds'] * 100 - 100:+.0f} TL getirir "
+               "(eksi = Nesine bu kuponu gerçek olasılığın altında ödüyor; yalnız --min-ev 0 ile kurulan kuponlar artıda).",
+               "",
                "| Saat | Maç | Pazar | Seçim | Nesine oranı | Global olasılık | Global adil oran | Uyumlu skor | MBS | Referans | Fiyat | Araştırma |",
                "|---|---|---|---|---|---|---|---|---|---|---|---|"]
         for leg in c["legs"]:
