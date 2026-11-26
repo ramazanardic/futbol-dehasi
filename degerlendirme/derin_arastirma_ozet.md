@@ -54,15 +54,15 @@ Günler: 2026-11-18, 2026-11-19, 2026-11-20, 2026-11-21, 2026-11-22, 2026-11-24,
 
 | İşaret | Bacak | Tutan | İsabet | Model ortalaması | Geçmiş ortalaması |
 |---|---|---|---|---|---|
-| ✓ geçmiş destekliyor | 93 | 56 | %60.2 | %62.7 | %68.0 |
-| ~ geçmiş zayıf destekliyor | 26 | 17 | %65.4 | %65.3 | %57.3 |
-| ⚠ geçmiş desteklemiyor | 138 | 76 | %55.1 | %61.1 | %53.0 |
-| ? geçmiş yetersiz | 76 | 46 | %60.5 | %62.8 | %60.4 |
+| ✓ geçmiş destekliyor | 97 | 59 | %60.8 | %63.0 | %68.5 |
+| ~ geçmiş zayıf destekliyor | 28 | 19 | %67.9 | %65.2 | %58.1 |
+| ⚠ geçmiş desteklemiyor | 143 | 79 | %55.2 | %61.3 | %53.0 |
+| ? geçmiş yetersiz | 86 | 51 | %59.3 | %63.1 | %59.4 |
 
 | Simülasyon kararı | Bahis | Tutan | İsabet | Piyasa ortalaması | Simülasyon ortalaması |
 |---|---|---|---|---|---|
-| üçlü onay | 97 | 61 | %62.9 | %62.6 | %67.1 |
-| kısmi onay | 61 | 33 | %54.1 | %62.1 | %57.6 |
-| çelişki | 68 | 41 | %60.3 | %62.6 | %47.8 |
-| eksik kanıt | 107 | 60 | %56.1 | %61.8 | %52.2 |
+| üçlü onay | 101 | 64 | %63.4 | %62.8 | %67.3 |
+| kısmi onay | 62 | 34 | %54.8 | %62.2 | %57.6 |
+| çelişki | 74 | 45 | %60.8 | %63.1 | %48.8 |
+| eksik kanıt | 117 | 65 | %55.6 | %62.1 | %52.2 |
 

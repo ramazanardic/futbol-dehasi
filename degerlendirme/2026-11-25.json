@@ -1,33 +1,90 @@
 {
  "date": "2026-11-25",
- "built": "2026-11-25T22:23+03:00",
+ "built": "2026-11-26T05:51+03:00",
  "ais": {
   "antigravitytahmin": {
-   "main_picks": 21,
-   "hits": 14,
+   "main_picks": 45,
+   "hits": 27,
    "data_quality": {
     "prediction_rows": 134,
     "coupon_rows": 5,
     "schema": "standard",
     "missing_nesine_code": 0,
     "missing_main_pick": 86,
-    "unmatched_or_open": 47,
+    "unmatched_or_open": 10,
     "ungradeable_selection": 0,
     "invalid_1x2_distribution": 0
    },
-   "avg_pred": 0.6770761904761905,
-   "flat_return": -3.5599999999999996,
-   "brier_1x2": 0.5691653486046512,
-   "logloss_1x2": 0.9665988858880687,
-   "n_1x2": 86,
-   "coupons": [],
-   "coupons_open": 1,
+   "avg_pred": 0.6881533333333333,
+   "flat_return": -11.469999999999999,
+   "brier_1x2": 0.5551024649593497,
+   "logloss_1x2": 0.9440443214417713,
+   "n_1x2": 123,
+   "coupons": [
+    {
+     "coupon": "kupon_2.5x_0920 #1",
+     "type": "karma",
+     "odds": 2.72,
+     "p": 0.1651,
+     "won": false,
+     "legs_won": 2,
+     "legs": 5,
+     "lost_legs": [
+      "AC Pisa - Modena — 1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+      "PSG - AS Roma — Maç Sonucu: 1",
+      "Shakhtar D. - Fenerbahçe — 1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst"
+     ]
+    }
+   ],
+   "coupons_open": 0,
    "biggest_misses": [
+    {
+     "p": 0.741,
+     "match": "Lille - Bayern Münih",
+     "pick": "Maç Sonucu: 2",
+     "score": "0-1 / 2-1"
+    },
+    {
+     "p": 0.7334,
+     "match": "Shakhtar D. - Fenerbahçe",
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "score": "0-0 / 0-1"
+    },
+    {
+     "p": 0.733,
+     "match": "PSG - AS Roma",
+     "pick": "Maç Sonucu: 1",
+     "score": "1-1 / 2-2"
+    },
+    {
+     "p": 0.7325,
+     "match": "AC Pisa - Modena",
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "score": "0-0 / 1-1"
+    },
+    {
+     "p": 0.7123,
+     "match": "Bolton - W. Bromwich",
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "score": "0-1 / 1-3"
+    },
+    {
+     "p": 0.7025,
+     "match": "Watford - Blackburn R.",
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "score": "0-0 / 0-1"
+    },
     {
      "p": 0.6985,
      "match": "AC N. Parceiro - Kagoshima Utd",
      "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
      "score": "0-0 / 0-2"
+    },
+    {
+     "p": 0.6978,
+     "match": "Enppi Club - Cer. Cleopatra",
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "score": "1-0 / 1-0"
     },
     {
      "p": 0.6957,
@@ -40,89 +97,73 @@
      "match": "Tokyo - S. Hiroshima",
      "pick": "2. Yarı Karşılıklı Gol: Yok",
      "score": "0-1 / 2-2"
-    },
-    {
-     "p": 0.6887,
-     "match": "Gifu - Thespakusatsu G.",
-     "pick": "Maç Sonucu: 1",
-     "score": "0-1 / 0-1"
-    },
-    {
-     "p": 0.6867,
-     "match": "Nasaf - AL Khalidiyah",
-     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
-     "score": "0-0 / 1-0"
-    },
-    {
-     "p": 0.6768,
-     "match": "Osaka - Tochigi",
-     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
-     "score": "0-0 / 1-0"
-    },
-    {
-     "p": 0.5785,
-     "match": "Talaea Gaish - Modern Sport Club",
-     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
-     "score": "0-0 / 0-0"
     }
    ],
    "research_verdicts": {
     "?": {
-     "n": 4,
-     "won": 4,
-     "p_sum": 2.7150499999999997,
-     "p_n": 4,
-     "h_sum": 1.25,
-     "h_n": 2
+     "n": 14,
+     "won": 9,
+     "p_sum": 9.29399,
+     "p_n": 14,
+     "h_sum": 6.375,
+     "h_n": 11
     },
     "~": {
-     "n": 2,
-     "won": 2,
-     "p_sum": 1.3012199999999998,
-     "p_n": 2,
-     "h_sum": 1.0787878787878786,
-     "h_n": 2
+     "n": 4,
+     "won": 4,
+     "p_sum": 2.59478,
+     "p_n": 4,
+     "h_sum": 2.4287878787878787,
+     "h_n": 4
     },
     "⚠": {
-     "n": 1,
-     "won": 0,
-     "p_sum": 0.6274,
-     "p_n": 1,
-     "h_sum": 0.5,
-     "h_n": 1
+     "n": 6,
+     "won": 3,
+     "p_sum": 4.007300000000001,
+     "p_n": 6,
+     "h_sum": 3.1,
+     "h_n": 6
     },
     "✓": {
-     "n": 1,
-     "won": 0,
-     "p_sum": 0.57846,
-     "p_n": 1,
-     "h_sum": 0.6875,
-     "h_n": 1
+     "n": 5,
+     "won": 3,
+     "p_sum": 3.37065,
+     "p_n": 5,
+     "h_sum": 3.8166666666666664,
+     "h_n": 5
     }
    },
    "simulation_verdicts": {
     "eksik kanıt": {
-     "n": 4,
-     "won": 4,
-     "p_sum": 2.7150499999999997,
-     "p_n": 4,
+     "n": 14,
+     "won": 9,
+     "p_sum": 9.29399,
+     "p_n": 14,
      "h_sum": 0.0,
      "h_n": 0
     },
     "çelişki": {
-     "n": 3,
-     "won": 2,
-     "p_sum": 1.9286199999999998,
-     "p_n": 3,
-     "h_sum": 1.59085,
-     "h_n": 3
+     "n": 9,
+     "won": 6,
+     "p_sum": 6.021240000000001,
+     "p_n": 9,
+     "h_sum": 5.167599999999999,
+     "h_n": 9
     },
     "üçlü onay": {
+     "n": 5,
+     "won": 3,
+     "p_sum": 3.29117,
+     "p_n": 5,
+     "h_sum": 3.5094999999999996,
+     "h_n": 5
+    },
+    "kısmi onay": {
      "n": 1,
-     "won": 0,
-     "p_sum": 0.57846,
+     "won": 1,
+     "p_sum": 0.66032,
      "p_n": 1,
-     "h_sum": 0.6833,
+     "h_sum": 0.59185,
      "h_n": 1
     }
    },
@@ -131,6 +172,31 @@
     "mean": -5.000000000000458e-05,
     "positive": 1
    }
+  },
+  "geminitahmin": {
+   "main_picks": 0,
+   "hits": 0,
+   "data_quality": {
+    "prediction_rows": 32,
+    "coupon_rows": 0,
+    "schema": "incompatible",
+    "missing_nesine_code": 32,
+    "missing_main_pick": 32,
+    "unmatched_or_open": 1,
+    "ungradeable_selection": 0,
+    "invalid_1x2_distribution": 0
+   },
+   "avg_pred": null,
+   "flat_return": 0.0,
+   "brier_1x2": null,
+   "logloss_1x2": null,
+   "n_1x2": 0,
+   "coupons": [],
+   "coupons_open": 0,
+   "biggest_misses": [],
+   "research_verdicts": {},
+   "simulation_verdicts": {},
+   "clv": null
   }
  },
  "matches": {
@@ -1496,6 +1562,692 @@
    "ft": [
     3,
     1
+   ],
+   "picks": {}
+  },
+  "3321795": {
+   "match": "Rubin Kazan - Rodina Moscow",
+   "league": "Rusya Kupası",
+   "kickoff": "20:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6901,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3321900": {
+   "match": "L. Moskova - FK Rostov",
+   "league": "Rusya Kupası",
+   "kickoff": "20:30",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6776,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3324359": {
+   "match": "Slavia Prag - Villarreal",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "20:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Çifte Şans: X-2",
+     "p": 0.6825,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3324512": {
+   "match": "Sabah - Barcelona",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "20:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    4
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Üst",
+     "p": 0.6945,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3324108": {
+   "match": "Cremonese - AS Avellino 1912",
+   "league": "İtalya Serie B",
+   "kickoff": "21:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3324195": {
+   "match": "Ghazl El Mahallah - Petrojet",
+   "league": "Mısır Premier Lig",
+   "kickoff": "21:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3324224": {
+   "match": "Enppi Club - Cer. Cleopatra",
+   "league": "Mısır Premier Lig",
+   "kickoff": "21:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.6978,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3381594": {
+   "match": "S. Huelva (K) - Levante Las Planas (K)",
+   "league": "İspanya Kupası, Kadınlar",
+   "kickoff": "21:00",
+   "ht": [
+    3,
+    3
+   ],
+   "ft": [
+    3,
+    4
+   ],
+   "picks": {}
+  },
+  "3324524": {
+   "match": "AL Taawoun - AL Nahda",
+   "league": "AFC Kupası",
+   "kickoff": "21:15",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3404891": {
+   "match": "Talavera R. - UB Conquense",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "21:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3322087": {
+   "match": "Fleetwood - Leeds Utd U21",
+   "league": "İngiltere Trophy Kupası, Kuzey",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6572,
+     "odds": 1.34,
+     "won": true
+    }
+   }
+  },
+  "3324202": {
+   "match": "Mantova 1911 - SS Arezzo",
+   "league": "İtalya Serie B",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.705,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3324461": {
+   "match": "Padova - Sampdoria",
+   "league": "İtalya Serie B",
+   "kickoff": "22:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3324471": {
+   "match": "AC Pisa - Modena",
+   "league": "İtalya Serie B",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7325,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3324540": {
+   "match": "Boreham Wood - Aldershot",
+   "league": "İngiltere Ulusal Lig",
+   "kickoff": "22:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    4,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu ve 2,5 Alt/Üst: 1 & Üst",
+     "p": 0.6842,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3368273": {
+   "match": "Intercity - Real Murcia B",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "22:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3322148": {
+   "match": "Safa SC - Nejmeh SC",
+   "league": "Lübnan Premier Lig",
+   "kickoff": "22:30",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3324126": {
+   "match": "Bolton - W. Bromwich",
+   "league": "İngiltere Championship",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    1,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7123,
+     "odds": 1.2,
+     "won": false
+    }
+   }
+  },
+  "3324138": {
+   "match": "Burnley - Birmingham",
+   "league": "İngiltere Championship",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7207,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3324171": {
+   "match": "Hartlepool - Solihull Moors",
+   "league": "İngiltere Ulusal Lig",
+   "kickoff": "22:45",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6603,
+     "odds": 1.29,
+     "won": true
+    }
+   }
+  },
+  "3324388": {
+   "match": "Watford - Blackburn R.",
+   "league": "İngiltere Championship",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7025,
+     "odds": 1.24,
+     "won": false
+    }
+   }
+  },
+  "3324438": {
+   "match": "Harrogate - Kidderminster Harriers",
+   "league": "İngiltere Ulusal Lig",
+   "kickoff": "22:45",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {}
+  },
+  "3324067": {
+   "match": "Sporting CP - Man. Utd",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "23:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3324080": {
+   "match": "PSG - AS Roma",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "23:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.733,
+     "odds": 1.28,
+     "won": false
+    }
+   }
+  },
+  "3324104": {
+   "match": "Atl Madrid - Viking",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "23:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi İki Yarıda da Gol: Atar",
+     "p": 0.6694,
+     "odds": 1.27,
+     "won": false
+    }
+   }
+  },
+  "3324128": {
+   "match": "Stoke City - Millwall",
+   "league": "İngiltere Championship",
+   "kickoff": "23:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "p": 0.6853,
+     "odds": 1.24,
+     "won": false
+    }
+   }
+  },
+  "3324149": {
+   "match": "Shakhtar D. - Fenerbahçe",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "23:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7334,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3324191": {
+   "match": "Inter - Stuttgart",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "23:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi Her İki Yarıyı da Kazanır: Hayır",
+     "p": 0.7146,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3324210": {
+   "match": "Lille - Bayern Münih",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "23:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 2",
+     "p": 0.741,
+     "odds": 1.47,
+     "won": false
+    }
+   }
+  },
+  "3324255": {
+   "match": "Club Brugge - Liverpool",
+   "league": "UEFA Şampiyonlar Ligi",
+   "kickoff": "23:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Deplasman 1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.7102,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3418587": {
+   "match": "Unan Managua - Sebaco",
+   "league": "Nikaragua Prmr Ligi, Açılış",
+   "kickoff": "01:00",
+   "ht": [
+    0,
+    3
+   ],
+   "ft": [
+    0,
+    4
+   ],
+   "picks": {}
+  },
+  "3422425": {
+   "match": "Dep. Tachira - Carabobo",
+   "league": "Venezuela Kupası, Eleme Turu",
+   "kickoff": "01:30",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {}
+  },
+  "3318206": {
+   "match": "Atl Mineiro - Corinthians",
+   "league": "Brezilya Serie A",
+   "kickoff": "02:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "p": 0.7047,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3406811": {
+   "match": "Real Potosi - Always Ready",
+   "league": "Bolivya Profesyonel Lig Kupası, Playoff",
+   "kickoff": "02:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Karşılıklı Gol: Var",
+     "p": 0.6536,
+     "odds": 1.28,
+     "won": false
+    }
+   }
+  },
+  "3406815": {
+   "match": "I. Santa Fe - Once Caldas",
+   "league": "Kolombiya DIMAYOR Grup A",
+   "kickoff": "02:20",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "p": 0.6732,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3396860": {
+   "match": "Boca Juniors - Ind. Mendoza",
+   "league": "Arjantin Primera Lpf, Clausura Playoff",
+   "kickoff": "03:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.7127,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3418590": {
+   "match": "Real Esteli - Rancho Santana",
+   "league": "Nikaragua Prmr Ligi, Açılış",
+   "kickoff": "04:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    0
    ],
    "picks": {}
   }
