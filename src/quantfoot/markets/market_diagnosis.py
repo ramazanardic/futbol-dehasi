@@ -514,6 +514,12 @@ def diagnose_selection(
         elif cname == "İY 0.5 Üst":
             if mu_tot is not None and mu_tot < 2.50:
                 reasons.append(f"İY 0.5 Üst düşük tempo tuzağı: toplam xG {mu_tot:.2f} < 2.50")
+            if for_coupon and lg_tier == "3" and not sharp and (mu_tot is None or mu_tot < 2.75):
+                p_adj = max(0.0, p_adj - 0.04)
+                reasons.append(f"İY 0.5 Üst 3. lig düşük ilk-yarı temposu tuzağı: toplam xG {(mu_tot or 0.0):.2f} < 2.75 (25 Kas: Parceiro 0-0/0-2, Osaka 0-0/1-0)")
+            if for_coupon and not sharp and min_mu is not None and min_mu < 0.95 and (mu_tot is None or mu_tot < 2.65):
+                p_adj = max(0.0, p_adj - 0.03)
+                reasons.append(f"İY 0.5 Üst tek taraflı düşük tempo tuzağı: zayıf taraf xG {min_mu:.2f} < 0.95, toplam {(mu_tot or 0.0):.2f} < 2.65")
             if steam_pp >= 6.0:
                 p_adj = max(0.0, p_adj - 0.04)
                 reasons.append(f"İY 0.5 Üst sert steam volatilitesi ({steam_pp:.1f}p ≥ 6.0p; 22 Kas: UD Llanera İY 0-0)")
@@ -542,10 +548,16 @@ def diagnose_selection(
 
     elif family == "2Y karşılıklı gol":
         if cname == "2Y KG Yok":
-            # 24 Kas denetimi: keskin referanslı 2Y KG Yok 7/7 (%100), ancak orta büro (!sharp) + mu_tot >= 2.90 diliminde 0/6 (%0)!
+            # 24-25 Kas denetimi: keskin referanslı 2Y KG Yok 7/7 (%100), ancak orta büro (!sharp) + mu_tot >= 2.90 diliminde 0/6 (%0)!
             if for_coupon and not sharp and mu_tot is not None and mu_tot >= 2.90:
                 p_adj = max(0.0, p_adj - 0.04)
                 reasons.append(f"2Y KG Yok orta-büro yüksek tempo tuzağı: toplam xG {mu_tot:.2f} ≥ 2.90 (24 Kas: 0/6; keskin referans şart)")
+            if for_coupon and steam_pp >= 6.0:
+                p_adj = max(0.0, p_adj - 0.04)
+                reasons.append(f"2Y KG Yok sert steam volatilite tuzağı ({steam_pp:.1f}p ≥ 6.0p; 25 Kas: Tokyo-Hiroshima İY 0-1 / MS 2-2)")
+            if for_coupon and not sharp and min_mu is not None and min_mu >= 1.28 and mu_tot is not None and mu_tot >= 2.85:
+                p_adj = max(0.0, p_adj - 0.04)
+                reasons.append(f"2Y KG Yok çift taraflı yüksek 2. yarı gol baskısı: zayıf taraf xG {min_mu:.2f} ≥ 1.28, toplam {mu_tot:.2f} ≥ 2.85")
             if h_gk_out or a_gk_out:
                 reasons.append("2Y KG Yok riskli: 1. kaleci eksik")
 
@@ -621,7 +633,11 @@ def diagnose_selection(
                 reasons.append(f"{cname}: her iki yarıda gol şartı için keskin referans zorunlu (24 Kas: Dunfermline İY 0-0 / MS 3-0)")
 
     elif family == "Alt/Üst":
-        if cname == "2.5 Üst":
+        if cname == "1.5 Üst":
+            if mu_tot is not None and mu_tot < 2.15:
+                p_adj = max(0.0, p_adj - 0.04)
+                reasons.append(f"1.5 Üst kısır maç (0-0 / 1-0) tuzağı: toplam xG {mu_tot:.2f} < 2.15 (25 Kas: Hollyhock 1-0, Bokelj 0-0)")
+        elif cname == "2.5 Üst":
             if mu_tot is not None and mu_tot < 2.80:
                 reasons.append(f"2.5 Üst düşük toplam xG tuzağı: {mu_tot:.2f} < 2.80")
             if min_mu is not None and min_mu < 0.85:

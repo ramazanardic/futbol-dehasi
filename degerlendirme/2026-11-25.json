@@ -1,0 +1,1503 @@
+{
+ "date": "2026-11-25",
+ "built": "2026-11-25T22:23+03:00",
+ "ais": {
+  "antigravitytahmin": {
+   "main_picks": 21,
+   "hits": 14,
+   "data_quality": {
+    "prediction_rows": 134,
+    "coupon_rows": 5,
+    "schema": "standard",
+    "missing_nesine_code": 0,
+    "missing_main_pick": 86,
+    "unmatched_or_open": 47,
+    "ungradeable_selection": 0,
+    "invalid_1x2_distribution": 0
+   },
+   "avg_pred": 0.6770761904761905,
+   "flat_return": -3.5599999999999996,
+   "brier_1x2": 0.5691653486046512,
+   "logloss_1x2": 0.9665988858880687,
+   "n_1x2": 86,
+   "coupons": [],
+   "coupons_open": 1,
+   "biggest_misses": [
+    {
+     "p": 0.6985,
+     "match": "AC N. Parceiro - Kagoshima Utd",
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "score": "0-0 / 0-2"
+    },
+    {
+     "p": 0.6957,
+     "match": "Nara Club - Matsumoto Y.",
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "score": "1-0 / 2-1"
+    },
+    {
+     "p": 0.6952,
+     "match": "Tokyo - S. Hiroshima",
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "score": "0-1 / 2-2"
+    },
+    {
+     "p": 0.6887,
+     "match": "Gifu - Thespakusatsu G.",
+     "pick": "Maç Sonucu: 1",
+     "score": "0-1 / 0-1"
+    },
+    {
+     "p": 0.6867,
+     "match": "Nasaf - AL Khalidiyah",
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "score": "0-0 / 1-0"
+    },
+    {
+     "p": 0.6768,
+     "match": "Osaka - Tochigi",
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "score": "0-0 / 1-0"
+    },
+    {
+     "p": 0.5785,
+     "match": "Talaea Gaish - Modern Sport Club",
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "score": "0-0 / 0-0"
+    }
+   ],
+   "research_verdicts": {
+    "?": {
+     "n": 4,
+     "won": 4,
+     "p_sum": 2.7150499999999997,
+     "p_n": 4,
+     "h_sum": 1.25,
+     "h_n": 2
+    },
+    "~": {
+     "n": 2,
+     "won": 2,
+     "p_sum": 1.3012199999999998,
+     "p_n": 2,
+     "h_sum": 1.0787878787878786,
+     "h_n": 2
+    },
+    "⚠": {
+     "n": 1,
+     "won": 0,
+     "p_sum": 0.6274,
+     "p_n": 1,
+     "h_sum": 0.5,
+     "h_n": 1
+    },
+    "✓": {
+     "n": 1,
+     "won": 0,
+     "p_sum": 0.57846,
+     "p_n": 1,
+     "h_sum": 0.6875,
+     "h_n": 1
+    }
+   },
+   "simulation_verdicts": {
+    "eksik kanıt": {
+     "n": 4,
+     "won": 4,
+     "p_sum": 2.7150499999999997,
+     "p_n": 4,
+     "h_sum": 0.0,
+     "h_n": 0
+    },
+    "çelişki": {
+     "n": 3,
+     "won": 2,
+     "p_sum": 1.9286199999999998,
+     "p_n": 3,
+     "h_sum": 1.59085,
+     "h_n": 3
+    },
+    "üçlü onay": {
+     "n": 1,
+     "won": 0,
+     "p_sum": 0.57846,
+     "p_n": 1,
+     "h_sum": 0.6833,
+     "h_n": 1
+    }
+   },
+   "clv": {
+    "n": 22,
+    "mean": -5.000000000000458e-05,
+    "positive": 1
+   }
+  }
+ },
+ "matches": {
+  "3324446": {
+   "match": "Melbourne V. - CLB Viettel",
+   "league": "AFC Kupası",
+   "kickoff": "10:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3376054": {
+   "match": "Persiku Kudus - Psim Yogyakarta",
+   "league": "Endonezya Lig Kupası",
+   "kickoff": "11:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3324111": {
+   "match": "MIO Biwako Shiga - Kochi Utd SC",
+   "league": "Japonya J3 Ligi",
+   "kickoff": "12:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.7074,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3324193": {
+   "match": "Samgurali Tskaltubo - Torpedo",
+   "league": "Gürcistan Erovnuli Ligi",
+   "kickoff": "12:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3324239": {
+   "match": "Van. Hachinohe - Niigata",
+   "league": "Japonya J2 Ligi",
+   "kickoff": "12:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3324353": {
+   "match": "SC Sagamihara - Ehime",
+   "league": "Japonya J3 Ligi",
+   "kickoff": "12:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.7046,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3324510": {
+   "match": "Imabari - Tegevajaro Mi.",
+   "league": "Japonya J2 Ligi",
+   "kickoff": "12:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3324069": {
+   "match": "Omiya Ardija - T. Vortis",
+   "league": "Japonya J2 Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3324070": {
+   "match": "M. Yamagata - Iwata Jubilo",
+   "league": "Japonya J2 Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3324073": {
+   "match": "Iwaki - Kat Toyama",
+   "league": "Japonya J2 Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3324089": {
+   "match": "AC N. Parceiro - Kagoshima Utd",
+   "league": "Japonya J3 Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6985,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3324115": {
+   "match": "Nara Club - Matsumoto Y.",
+   "league": "Japonya J3 Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6957,
+     "odds": 1.2,
+     "won": false
+    }
+   }
+  },
+  "3324144": {
+   "match": "S. Bellmare - Ventforet",
+   "league": "Japonya J2 Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3324146": {
+   "match": "Tokyo - S. Hiroshima",
+   "league": "Japonya J Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6952,
+     "odds": 1.22,
+     "won": false
+    }
+   }
+  },
+  "3324147": {
+   "match": "Gamba Osaka - Port",
+   "league": "AFC Asya Şampiyonlar Ligi Doğu",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3324164": {
+   "match": "Sapporo - Fujieda Myfc",
+   "league": "Japonya J2 Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3324177": {
+   "match": "Gifu - Thespakusatsu G.",
+   "league": "Japonya J3 Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Maç Sonucu: 1",
+     "p": 0.6887,
+     "odds": 1.23,
+     "won": false
+    }
+   }
+  },
+  "3324196": {
+   "match": "Fukuoka - Yokohama M.",
+   "league": "Japonya J Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı / 2. Yarı Karşılıklı Gol: Hayır/Hayır",
+     "p": 0.5815,
+     "odds": 1.34,
+     "won": true
+    }
+   }
+  },
+  "3324232": {
+   "match": "Fagiano - Shimizu",
+   "league": "Japonya J Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.6839,
+     "odds": 1.23,
+     "won": true
+    }
+   }
+  },
+  "3324240": {
+   "match": "Osaka - Tochigi",
+   "league": "Japonya J3 Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6768,
+     "odds": 1.23,
+     "won": false
+    }
+   }
+  },
+  "3324302": {
+   "match": "R. Yamaguchi - Fukushima Utd",
+   "league": "Japonya J3 Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Üst",
+     "p": 0.6081,
+     "odds": 1.35,
+     "won": true
+    }
+   }
+  },
+  "3324308": {
+   "match": "JEF Utd - Nagoya",
+   "league": "Japonya J Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6948,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3324334": {
+   "match": "V Varen - Kawasaki Frontale",
+   "league": "Japonya J Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6922,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3324376": {
+   "match": "Tochigi City - B. Akita",
+   "league": "Japonya J2 Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3324399": {
+   "match": "Kashima - Jeonbuk",
+   "league": "AFC Asya Şampiyonlar Ligi Doğu",
+   "kickoff": "13:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "3,5 Gol Alt/Üst: 3,5 Alt",
+     "p": 0.6821,
+     "odds": 1.25,
+     "won": true
+    }
+   }
+  },
+  "3324478": {
+   "match": "Kamatamare S - Gainare Tottori",
+   "league": "Japonya J3 Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Çifte Şans: 1-X",
+     "p": 0.6526,
+     "odds": 1.24,
+     "won": true
+    }
+   }
+  },
+  "3324482": {
+   "match": "M. Hollyhock - Tokyo Verdy",
+   "league": "Japonya J Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2,5 Gol Alt/Üst: 2,5 Alt",
+     "p": 0.6743,
+     "odds": 1.26,
+     "won": true
+    }
+   }
+  },
+  "3324494": {
+   "match": "Sagan Tosu - Oita Trinata",
+   "league": "Japonya J2 Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    3,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {}
+  },
+  "3324516": {
+   "match": "Yokohama - Sendai",
+   "league": "Japonya J2 Ligi",
+   "kickoff": "13:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3255101": {
+   "match": "Kakamega Homeboyz - Shabana",
+   "league": "Kenya Premier Lig",
+   "kickoff": "13:30",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {}
+  },
+  "3324379": {
+   "match": "Urawa Red - Cerezo Osaka",
+   "league": "Japonya J Ligi",
+   "kickoff": "13:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "2. Yarı Karşılıklı Gol: Yok",
+     "p": 0.6897,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3324412": {
+   "match": "Tainan City - Taichung Rock",
+   "league": "Tayvan Premier Ligi",
+   "kickoff": "13:30",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    4,
+    0
+   ],
+   "picks": {}
+  },
+  "3253477": {
+   "match": "Aps Bomet - Migori Youth",
+   "league": "Kenya Premier Lig",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3324122": {
+   "match": "Chiangma Utd - Mahasarakham Utd",
+   "league": "Tayland Şampiyonası",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3324500": {
+   "match": "Kasetsart - Phrae Utd",
+   "league": "Tayland Şampiyonası",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3363674": {
+   "match": "Polonia Sroda Wielkopolska - Sokol Kleczew",
+   "league": "Polonya Kupası",
+   "kickoff": "14:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3389706": {
+   "match": "Kryvbas K. R. - Metalist 1925",
+   "league": "Ukrayna Premier Ligi",
+   "kickoff": "14:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3324411": {
+   "match": "Satun Utd - Police Tero",
+   "league": "Tayland Şampiyonası",
+   "kickoff": "14:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3324535": {
+   "match": "Muang Thong Utd - Nakhon R.",
+   "league": "Tayland Şampiyonası",
+   "kickoff": "14:30",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {}
+  },
+  "3253583": {
+   "match": "3K - Nairobi Utd",
+   "league": "Kenya Premier Lig",
+   "kickoff": "15:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {}
+  },
+  "3255029": {
+   "match": "Tusker - Posta Ranger",
+   "league": "Kenya Premier Lig",
+   "kickoff": "15:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3321953": {
+   "match": "Neftekhimik - Rotor",
+   "league": "Rusya Ulusal Ligi",
+   "kickoff": "15:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3324434": {
+   "match": "Khon Kaen Utd - SGB Kanchanaburi",
+   "league": "Tayland Şampiyonası",
+   "kickoff": "15:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3372597": {
+   "match": "Radnicki Nis - FK Zeleznicar Pancevo",
+   "league": "Sırbistan Superliga",
+   "kickoff": "15:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    2
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "Ev Sahibi 1.Y Gol Alt/Üst: Ev İY 0.5 Alt",
+     "p": 0.693,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3376052": {
+   "match": "Bekasi City - Psis Semar",
+   "league": "Endonezya Lig Kupası",
+   "kickoff": "15:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3376059": {
+   "match": "Deltras - Persik Kediri",
+   "league": "Endonezya Lig Kupası",
+   "kickoff": "15:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {}
+  },
+  "3324200": {
+   "match": "AL Anwar - AL Jandal",
+   "league": "Suudi Arabistan 1. Lig",
+   "kickoff": "15:10",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3324415": {
+   "match": "AL Bukayriyah - AL Wehda",
+   "league": "Suudi Arabistan 1. Lig",
+   "kickoff": "15:10",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    2,
+    4
+   ],
+   "picks": {}
+  },
+  "3321957": {
+   "match": "Shabab AL Sahel - AL Ansar SC",
+   "league": "Lübnan Premier Lig",
+   "kickoff": "15:15",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3324484": {
+   "match": "Persib Bandung - Seoul",
+   "league": "AFC Kupası",
+   "kickoff": "15:15",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {}
+  },
+  "3255524": {
+   "match": "Ulinzi Stars - AFC Leopards",
+   "league": "Kenya Premier Lig",
+   "kickoff": "15:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3324086": {
+   "match": "Ntungasaze - Uganda Police",
+   "league": "Uganda Premier Ligi",
+   "kickoff": "16:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {}
+  },
+  "3324118": {
+   "match": "Napsa Stars - Konkola Blades",
+   "league": "Zambiya Süper Lig, Grup A",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3324207": {
+   "match": "Peterborough Utd U21 - Hull City U21",
+   "league": "İngiltere Profesyonel Gelişim Ligi",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3324222": {
+   "match": "NEC - Kataka",
+   "league": "Uganda Premier Ligi",
+   "kickoff": "16:00",
+   "ht": [
+    2,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3324329": {
+   "match": "Roan Utd - Mufulira Wanderers",
+   "league": "Zambiya Süper Lig, Grup B",
+   "kickoff": "16:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3326459": {
+   "match": "Maroons - SC Villa",
+   "league": "Uganda Premier Ligi",
+   "kickoff": "16:00",
+   "ht": [
+    0,
+    2
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {}
+  },
+  "3404889": {
+   "match": "FK Bokelj Kotor - OFK Petrovac",
+   "league": "Karadağ 1. CFL",
+   "kickoff": "16:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3419889": {
+   "match": "Al Merrikh (Sdn) - AS Kigali",
+   "league": "Ruanda Ulusal Lig",
+   "kickoff": "16:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    0
+   ],
+   "picks": {}
+  },
+  "3389696": {
+   "match": "Audace Cerignola - Inter Milano U23",
+   "league": "İtalya Serie C",
+   "kickoff": "16:30",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3324301": {
+   "match": "Nasaf - AL Khalidiyah",
+   "league": "AFC Kupası",
+   "kickoff": "16:45",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst",
+     "p": 0.6867,
+     "odds": 1.21,
+     "won": false
+    }
+   }
+  },
+  "3324347": {
+   "match": "Enesia - Police Xi",
+   "league": "Botsvana Premier Ligi",
+   "kickoff": "17:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3324515": {
+   "match": "Kharitiyat - Etihad AL Gharafa",
+   "league": "Katar 2. Lig",
+   "kickoff": "17:15",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {}
+  },
+  "3321773": {
+   "match": "Akhmat Grozny - Krasnodar",
+   "league": "Rusya Kupası",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    3
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1. Yarı Çifte Şans: X-2",
+     "p": 0.7461,
+     "odds": 1.21,
+     "won": true
+    }
+   }
+  },
+  "3321803": {
+   "match": "Moreirense U23 - Penafiel U23",
+   "league": "Portekiz U23 Next Gen Ligi",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3321944": {
+   "match": "Dyn. Makhachkala - B. Kaliningrad",
+   "league": "Rusya Kupası",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.6882,
+     "odds": 1.22,
+     "won": true
+    }
+   }
+  },
+  "3321970": {
+   "match": "Kamaz Chelny - Y. Krasnoyarsk",
+   "league": "Rusya Ulusal Ligi",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    2,
+    2
+   ],
+   "picks": {}
+  },
+  "3324096": {
+   "match": "Ludogorets Razgrad II - EV Tarnova",
+   "league": "Bulgaristan 2. Lig",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3324201": {
+   "match": "Famalicao U23 - Gil Vicente U23",
+   "league": "Portekiz U23 Next Gen Ligi",
+   "kickoff": "18:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    5,
+    1
+   ],
+   "picks": {}
+  },
+  "3324205": {
+   "match": "Talaea Gaish - Modern Sport Club",
+   "league": "Mısır Premier Lig",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    0,
+    0
+   ],
+   "picks": {
+    "antigravitytahmin": {
+     "pick": "1,5 Gol Alt/Üst: 1,5 Üst",
+     "p": 0.5785,
+     "odds": 1.41,
+     "won": false
+    }
+   }
+  },
+  "3324381": {
+   "match": "Rustvai - Meshakhte Tkibuli",
+   "league": "Gürcistan Erovnuli Ligi",
+   "kickoff": "18:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3414109": {
+   "match": "Tabor Sezana - NK Fuzinar",
+   "league": "Slovenya Kupası",
+   "kickoff": "18:00",
+   "ht": [
+    3,
+    1
+   ],
+   "ft": [
+    6,
+    1
+   ],
+   "picks": {}
+  },
+  "3324545": {
+   "match": "AL Ula - AL Adalh",
+   "league": "Suudi Arabistan 1. Lig",
+   "kickoff": "18:10",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3324134": {
+   "match": "AL Faisaly (Ürd) - AL Rayyan",
+   "league": "AFC Kupası",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    0,
+    1
+   ],
+   "picks": {}
+  },
+  "3324241": {
+   "match": "Al Muharraq - Arkadag FK",
+   "league": "AFC Kupası",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    2,
+    4
+   ],
+   "picks": {}
+  },
+  "3324396": {
+   "match": "AL Jazira (Bae) - GOL Gohar",
+   "league": "AFC Kupası",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3324527": {
+   "match": "Al Kuveyt SC - AL Wahda",
+   "league": "AFC Kupası",
+   "kickoff": "19:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3351701": {
+   "match": "Al Qadsia - Al Fehaheel",
+   "league": "Kuveyt Emir Kupası",
+   "kickoff": "19:00",
+   "ht": [
+    1,
+    2
+   ],
+   "ft": [
+    2,
+    3
+   ],
+   "picks": {}
+  },
+  "3324502": {
+   "match": "AL Bidda SC - AL Markhiya",
+   "league": "Katar 2. Lig",
+   "kickoff": "19:30",
+   "ht": [
+    2,
+    2
+   ],
+   "ft": [
+    3,
+    2
+   ],
+   "picks": {}
+  },
+  "3324506": {
+   "match": "Al Khoor - AL Shamal Future",
+   "league": "Katar 2. Lig",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3419891": {
+   "match": "Apr - Musanze",
+   "league": "Ruanda Ulusal Lig",
+   "kickoff": "19:30",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    3,
+    0
+   ],
+   "picks": {}
+  },
+  "3298060": {
+   "match": "Sevilla Atl - Recreativo",
+   "league": "İspanya Segunda RFEF",
+   "kickoff": "20:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    1,
+    2
+   ],
+   "picks": {}
+  },
+  "3324093": {
+   "match": "Tonota - Nico Utd",
+   "league": "Botsvana Premier Ligi",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    0
+   ],
+   "ft": [
+    1,
+    0
+   ],
+   "picks": {}
+  },
+  "3324124": {
+   "match": "Matebele - Gaborone Utd",
+   "league": "Botsvana Premier Ligi",
+   "kickoff": "20:00",
+   "ht": [
+    0,
+    1
+   ],
+   "ft": [
+    2,
+    1
+   ],
+   "picks": {}
+  },
+  "3351653": {
+   "match": "NK Bravo - NK Odranci",
+   "league": "Slovenya Kupası",
+   "kickoff": "20:00",
+   "ht": [
+    2,
+    1
+   ],
+   "ft": [
+    6,
+    1
+   ],
+   "picks": {}
+  },
+  "3389695": {
+   "match": "Atalanta BC U23 - ASD Pineto Calcio",
+   "league": "İtalya Serie C",
+   "kickoff": "20:00",
+   "ht": [
+    1,
+    0
+   ],
+   "ft": [
+    1,
+    1
+   ],
+   "picks": {}
+  },
+  "3396863": {
+   "match": "Longuera Toscal U19 - Las Palmas U19",
+   "league": "İspanya Gençler Onur Klasmanı",
+   "kickoff": "20:00",
+   "ht": [
+    1,
+    1
+   ],
+   "ft": [
+    3,
+    1
+   ],
+   "picks": {}
+  }
+ }
+}

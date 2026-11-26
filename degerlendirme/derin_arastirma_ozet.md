@@ -1,6 +1,6 @@
 # Derin araştırma işaretleri — bütün günler
 
-Günler: 2026-11-18, 2026-11-19, 2026-11-20, 2026-11-21. Bir işaret ancak yeterli bacak biriktiğinde anlamlıdır: ⚠ bacakların isabeti model ortalamasının belirgin altında kalıyorsa, kupon kurucu bu bacakları elemeye başlayabilir.
+Günler: 2026-11-18, 2026-11-19, 2026-11-20, 2026-11-21, 2026-11-22, 2026-11-24, 2026-11-25. Bir işaret ancak yeterli bacak biriktiğinde anlamlıdır: ⚠ bacakların isabeti model ortalamasının belirgin altında kalıyorsa, kupon kurucu bu bacakları elemeye başlayabilir.
 
 ## claudetahmin
 
@@ -38,15 +38,31 @@ Günler: 2026-11-18, 2026-11-19, 2026-11-20, 2026-11-21. Bir işaret ancak yeter
 
 | İşaret | Bacak | Tutan | İsabet | Model ortalaması | Geçmiş ortalaması |
 |---|---|---|---|---|---|
-| ✓ geçmiş destekliyor | 207 | 130 | %62.8 | %62.7 | %67.1 |
-| ~ geçmiş zayıf destekliyor | 91 | 65 | %71.4 | %62.6 | %52.6 |
-| ⚠ geçmiş desteklemiyor | 60 | 37 | %61.7 | %62.3 | %42.1 |
-| ? geçmiş yetersiz | 369 | 218 | %59.1 | %61.2 | %53.3 |
+| ✓ geçmiş destekliyor | 265 | 165 | %62.3 | %62.3 | %66.8 |
+| ~ geçmiş zayıf destekliyor | 109 | 78 | %71.6 | %62.7 | %52.6 |
+| ⚠ geçmiş desteklemiyor | 78 | 50 | %64.1 | %62.0 | %41.1 |
+| ? geçmiş yetersiz | 627 | 370 | %59.0 | %61.1 | %56.2 |
 
 | Simülasyon kararı | Bahis | Tutan | İsabet | Piyasa ortalaması | Simülasyon ortalaması |
 |---|---|---|---|---|---|
-| üçlü onay | 163 | 105 | %64.4 | %63.2 | %67.5 |
-| kısmi onay | 95 | 66 | %69.5 | %62.2 | %58.2 |
-| çelişki | 100 | 61 | %61.0 | %62.1 | %47.2 |
-| eksik kanıt | 369 | 218 | %59.1 | %61.2 | %59.9 |
+| üçlü onay | 205 | 131 | %63.9 | %62.9 | %67.1 |
+| kısmi onay | 120 | 81 | %67.5 | %61.9 | %57.9 |
+| çelişki | 127 | 81 | %63.8 | %61.9 | %47.1 |
+| eksik kanıt | 627 | 370 | %59.0 | %61.1 | %59.1 |
+
+## antigravitytahmin
+
+| İşaret | Bacak | Tutan | İsabet | Model ortalaması | Geçmiş ortalaması |
+|---|---|---|---|---|---|
+| ✓ geçmiş destekliyor | 93 | 56 | %60.2 | %62.7 | %68.0 |
+| ~ geçmiş zayıf destekliyor | 26 | 17 | %65.4 | %65.3 | %57.3 |
+| ⚠ geçmiş desteklemiyor | 138 | 76 | %55.1 | %61.1 | %53.0 |
+| ? geçmiş yetersiz | 76 | 46 | %60.5 | %62.8 | %60.4 |
+
+| Simülasyon kararı | Bahis | Tutan | İsabet | Piyasa ortalaması | Simülasyon ortalaması |
+|---|---|---|---|---|---|
+| üçlü onay | 97 | 61 | %62.9 | %62.6 | %67.1 |
+| kısmi onay | 61 | 33 | %54.1 | %62.1 | %57.6 |
+| çelişki | 68 | 41 | %60.3 | %62.6 | %47.8 |
+| eksik kanıt | 107 | 60 | %56.1 | %61.8 | %52.2 |
 

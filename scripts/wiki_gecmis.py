@@ -158,7 +158,9 @@ ALIAS = {"R. Wien (Amt)": "Rapid II", "TNS": "New Saints", "Iğdır FK": "Iğdı
          "Slask Wroclaw": "Śląsk", "LKS Lodz": "ŁKS", "Auckland": None, "C. Glogow": "Chrobry",
          "Karvina": "Karviná", "A. Bielefeld": "Bielefeld", "Magdeburg": "Magdeburg", "Magdeburg II": "Magdeburg II",
          "Weiss Erfurt": "Erfurt", "Steinb. 1921": "Steinbach", "TSV S. Augsburg": "Schwaben Augsburg",
-         "Union Berlin (K)": "Union Berlin", "B. Leverkusen (K)": "Leverkusen", "Pribram": "Příbram", "Usti Nad Labem": "Ústí"}
+         "Union Berlin (K)": "Union Berlin", "B. Leverkusen (K)": "Leverkusen", "Pribram": "Příbram", "Usti Nad Labem": "Ústí",
+         "T. Vortis": "Tokushima", "Ventforet": "Kofu", "B. Akita": "Blaublitz", "Sendai": "Vegalta Sendai",
+         "R. Yamaguchi": "Renofa Yamaguchi", "JEF Utd": "Chiba", "Fagiano": "Okayama", "M. Hollyhock": "Mito"}
 
 
 def match_team(nesine: str, names: dict[str, str]) -> str | None:

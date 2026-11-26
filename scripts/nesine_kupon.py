@@ -648,15 +648,18 @@ def build_Pool_fallback_pools(
         )
         filtered = filter_pools_for_mode(raw, pol_use)
         if pol.name == "banko":
-            if idx < 3:
+            if idx < len(tiers) - 1:
                 filtered = apply_coupon_rules_to_pools(filtered, pol.name, min_ev=ev_floor, min_p=rule_min_p)
             else:
                 # Son kademe: tanısal olarak temiz (diagnosis_ok) ve P ≥ %65 olan en sağlam bacaklar
                 from quantfoot.coupons.coupon_rules import is_draw_leg
                 clean = []
                 for p in filtered:
-                    k = [x for x in p if x.get("diagnosis_ok", True) and not is_draw_leg(x.get("name"))
-                         and x.get("p", 0.0) >= 0.65]
+                    k = [
+                        {**x, "p_before_rules": x.get("p_before_rules", x["p"])}
+                        for x in p
+                        if x.get("diagnosis_ok", True) and not is_draw_leg(x.get("name")) and x.get("p", 0.0) >= 0.65
+                    ]
                     if k:
                         clean.append(k)
                 filtered = clean

@@ -142,11 +142,14 @@ def audit_coupons(rows: list[dict], analysis_by_code: dict[str, dict] | None = N
                         kickoff = kickoff.replace(tzinfo=TSI)
                     if kickoff <= now:
                         issues.append(f"{leg.get('mac')} — maç başladı")
-                    current = (live_odds or {}).get(int(saved["code"]), {}).get(saved["key"])
-                    if current is None:
-                        issues.append(f"{leg.get('mac')} — seçim bültende açık değil")
-                    elif checked_odds is None or abs(current - checked_odds) > 1e-9:
-                        issues.append(f"{leg.get('mac')} — Nesine oranı değişti ({current:.2f})")
+                    if live_odds:
+                        current = live_odds.get(int(saved["code"]), {}).get(saved["key"])
+                        if current is None:
+                            issues.append(f"{leg.get('mac')} — seçim bültende açık değil")
+                        elif checked_odds is None or abs(current - checked_odds) > 1e-9:
+                            issues.append(f"{leg.get('mac')} — Nesine oranı değişti ({current:.2f})")
+                    elif saved.get("status") not in ("kontrol edildi", None):
+                        issues.append(f"{leg.get('mac')} — {saved.get('status')}")
                     # Reuse the same diagnosis inputs the builder used.
                     payload = {**saved, "name": name, "odds": checked_odds, "p": _f(before_rules)}
             dec = leg_decision(payload)

@@ -145,7 +145,8 @@ def research(row: dict, m: dict, fixtures: list[dict]) -> bool:
     kick = dt.datetime.fromisoformat(m["kickoff_iso"])
     pool = archived()
     hg, ag = team_games(fx["teams"]["home"]["id"], kick, pool), team_games(fx["teams"]["away"]["id"], kick, pool)
-    if not hg or not ag:
+    old_min = min(len((row.get("games") or {}).get("home") or []), len((row.get("games") or {}).get("away") or []))
+    if len(hg) < 6 or len(ag) < 6 or min(len(hg), len(ag)) <= old_min:
         return False
     row["api_football"] = {"fixture": fx["fixture"]["id"], "league": (fx.get("league") or {}).get("name")}
     row["games"] = {"home": hg, "away": ag}

@@ -41,6 +41,7 @@ AREA = LazyAiArea()
 CACHE = ROOT / "data" / "cache" / "espn"
 BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer"
 UEFA = ("uefa.champions", "uefa.europa", "uefa.europa.conf")
+CONTINENTAL = (*UEFA, "afc.champions", "afc.cup", "conmebol.libertadores", "conmebol.sudamericana")
 TSI = dt.timezone(dt.timedelta(hours=3))
 N_RECENT = 15
 SCHEDULE_TTL_H = 6.0
@@ -87,12 +88,16 @@ def espn(path: str, ttl_h: float | None = None, **params) -> dict | None:
 def half_scores(slug: str, event_id: str) -> dict | None:
     """{team_id: (first-half goals, second-half goals, 'home'|'away')} of a finished match."""
     s = espn(f"{slug}/summary", None, event=event_id)
+    if not s and slug != "all":
+        s = espn("all/summary", None, event=event_id)
     try:
         done = s["header"]["competitions"][0]["status"]["type"].get("completed")
     except (KeyError, IndexError, TypeError):
         done = False
     if not done:  # a summary cached before kick-off must not hide the final result
         s = espn(f"{slug}/summary", 0.0, event=event_id)
+        if not s and slug != "all":
+            s = espn("all/summary", 0.0, event=event_id)
     try:
         comp = s["header"]["competitions"][0]
         if not comp["status"]["type"].get("completed"):
@@ -106,19 +111,61 @@ def half_scores(slug: str, event_id: str) -> dict | None:
         return None
 
 
-def team_games(slug: str, team_id: str, before: dt.datetime, n: int = N_RECENT) -> list[dict]:
-    """Last n finished matches of a team before ``before``, with half scores, oriented to the team."""
+def team_games(slug: str, team_id: str, before: dt.datetime, n: int = N_RECENT,
+               summary: dict | None = None) -> list[dict]:
+    """Last n finished matches of a team before ``before``, with half scores, oriented to the team.
+
+    For continental/cup competitions (e.g. ``uefa.champions``) where ``{slug}/teams/{id}/schedule`` has <6 completed
+    matches, also merges the team's domestic league schedule resolved from ``summary['lastFiveGames']``.
+    """
     sch = espn(f"{slug}/teams/{team_id}/schedule", SCHEDULE_TTL_H) or {}
-    evs = [e for e in sch.get("events") or [] if e["competitions"][0]["status"]["type"].get("completed")
-           and dt.datetime.fromisoformat(e["date"].replace("Z", "+00:00")) < before][-n:]
+    evs_by_id: dict[str, dict] = {}
+    for e in sch.get("events") or []:
+        try:
+            if e["competitions"][0]["status"]["type"].get("completed") and dt.datetime.fromisoformat(e["date"].replace("Z", "+00:00")) < before:
+                evs_by_id[str(e["id"])] = {"id": str(e["id"]), "date": e["date"], "_slug": slug}
+        except (KeyError, IndexError, TypeError, ValueError):
+            continue
+    if len(evs_by_id) < 6 and summary:
+        lfg_evs = next(
+            (b.get("events") or [] for b in (summary.get("lastFiveGames") or [])
+             if str((b.get("team") or {}).get("id")) == str(team_id)),
+            [],
+        )
+        dom_slugs: set[str] = set()
+        for le in lfg_evs:
+            eid = str(le.get("id") or "")
+            gdate = le.get("gameDate") or ""
+            if not eid or not gdate:
+                continue
+            try:
+                if dt.datetime.fromisoformat(gdate.replace("Z", "+00:00")) < before:
+                    evs_by_id.setdefault(eid, {"id": eid, "date": gdate, "_slug": "all"})
+            except ValueError:
+                pass
+            if len(dom_slugs) < 2:
+                gs = espn("all/summary", None, event=eid) or {}
+                dslug = ((gs.get("header") or {}).get("league") or {}).get("slug")
+                if dslug and dslug != slug:
+                    dom_slugs.add(dslug)
+        for dslug in dom_slugs:
+            dsch = espn(f"{dslug}/teams/{team_id}/schedule", SCHEDULE_TTL_H) or {}
+            for e in dsch.get("events") or []:
+                try:
+                    if e["competitions"][0]["status"]["type"].get("completed") and dt.datetime.fromisoformat(e["date"].replace("Z", "+00:00")) < before:
+                        evs_by_id.setdefault(str(e["id"]), {"id": str(e["id"]), "date": e["date"], "_slug": dslug})
+                except (KeyError, IndexError, TypeError, ValueError):
+                    continue
+    evs = sorted(evs_by_id.values(), key=lambda x: x["date"])[-n:]
     with cf.ThreadPoolExecutor(4) as ex:
-        halves = list(ex.map(lambda e: half_scores(slug, e["id"]), evs))
+        halves = list(ex.map(lambda e: half_scores(e.get("_slug", slug), e["id"]), evs))
     games = []
     for e, h in zip(evs, halves):
-        if not h or team_id not in h:
+        if not h or str(team_id) not in {str(k) for k in h}:
             continue
-        me = h[team_id]
-        opp_id, opp = next((k, v) for k, v in h.items() if k != team_id)
+        me_key = next(k for k in h if str(k) == str(team_id))
+        me = h[me_key]
+        opp_id, opp = next((k, v) for k, v in h.items() if str(k) != str(team_id))
         games.append({"event": e["id"], "date": e["date"][:10], "side": me[2], "opp": opp[3], "opp_id": opp_id,
                       "for": (me[0], me[1]), "against": (opp[0], opp[1])})
     return games
@@ -183,13 +230,22 @@ def leg_history(name: str, home_games: list[dict], away_games: list[dict]) -> di
     }
 
 
-def verdict(p_model: float | None, hist: dict) -> str:
+def verdict(p_model: float | None, hist: dict, *, cross_league: bool = False) -> str:
     m, n = hist.get("mean"), min(hist.get("home_n") or 0, hist.get("away_n") or 0)
-    if m is None or p_model is None or n < 6:
+    min_n = 4 if cross_league else 6
+    if m is None or p_model is None or n < min_n:
         return "geçmiş yetersiz"
     min_side = hist.get("min_side")
     if min_side is None and hist.get("home_rate") is not None and hist.get("away_rate") is not None:
         min_side = min(float(hist["home_rate"]), float(hist["away_rate"]))
+    if cross_league:
+        max_side = (
+            max(float(hist["home_rate"]), float(hist["away_rate"]))
+            if (hist.get("home_rate") is not None and hist.get("away_rate") is not None)
+            else m
+        )
+        if max_side >= p_model - 0.05 and m >= 0.45:
+            return "✓ geçmiş destekliyor" if m >= p_model - 0.12 else "~ geçmiş zayıf destekliyor"
     if min_side is not None and (min_side < 0.45 or min_side < p_model - 0.22):
         return "⚠ geçmiş desteklemiyor (tek taraf çöküşü)"
     if m >= p_model - 0.05:
@@ -262,7 +318,7 @@ def research_match(m: dict, legs: list[dict]) -> dict:
         kickoff = dt.datetime.fromisoformat(m["kickoff_iso"])
         for side in ("home", "away"):
             if side in ids:
-                games[side] = team_games(slug, ids[side], kickoff)
+                games[side] = team_games(slug, ids[side], kickoff, summary=s)
                 out["teams"][side].update(profile(games[side]))
                 eu = european_fixture(ids[side], kickoff) if slug.endswith(".1") else None  # top divisions only
                 if eu:
@@ -274,9 +330,10 @@ def research_match(m: dict, legs: list[dict]) -> dict:
     out["games"] = games  # both teams' recent games (half scores), reused by the bet-family table
     th = out["teams"]["home"]
     ta = out["teams"]["away"]
+    cross_league = bool(link and link[0] in CONTINENTAL)
     for leg in legs:
         hist = leg_history(leg["name"], games["home"], games["away"])
-        base_v = verdict(leg.get("p"), hist)
+        base_v = verdict(leg.get("p"), hist, cross_league=cross_league)
         has_both_hist = (hist.get("home_n") or 0) >= 6 and (hist.get("away_n") or 0) >= 6
         diag_ctx = {
             "mu_home": m.get("mu_home"),
@@ -291,17 +348,17 @@ def research_match(m: dict, legs: list[dict]) -> dict:
             "away_gk1_out": ta.get("gk1_out", False),
             "home_top_scorer_out": th.get("top_scorer_out", False),
             "away_top_scorer_out": ta.get("top_scorer_out", False),
-            "home_gf": th.get("gf"),
-            "home_ga": th.get("ga"),
-            "away_gf": ta.get("gf"),
-            "away_ga": ta.get("ga"),
-            "home_score1H": th.get("score1H"),
-            "home_concede1H": th.get("concede1H"),
-            "away_score1H": ta.get("score1H"),
-            "away_concede1H": ta.get("concede1H"),
-            "home_rate": hist.get("home_rate") if (hist.get("home_n") or 0) >= 6 else None,
-            "away_rate": hist.get("away_rate") if (hist.get("away_n") or 0) >= 6 else None,
-            "min_side_rate": hist.get("min_side") if has_both_hist else None,
+            "home_gf": None if cross_league else th.get("gf"),
+            "home_ga": None if cross_league else th.get("ga"),
+            "away_gf": None if cross_league else ta.get("gf"),
+            "away_ga": None if cross_league else ta.get("ga"),
+            "home_score1H": None if cross_league else th.get("score1H"),
+            "home_concede1H": None if cross_league else th.get("concede1H"),
+            "away_score1H": None if cross_league else ta.get("score1H"),
+            "away_concede1H": None if cross_league else ta.get("concede1H"),
+            "home_rate": None if cross_league else (hist.get("home_rate") if (hist.get("home_n") or 0) >= 6 else None),
+            "away_rate": None if cross_league else (hist.get("away_rate") if (hist.get("away_n") or 0) >= 6 else None),
+            "min_side_rate": None if cross_league else (hist.get("min_side") if has_both_hist else None),
         }
         diag = None
         if m.get("mu_home") is not None or th.get("gk1_out") or ta.get("gk1_out") or out["flags"]:
