@@ -8,6 +8,7 @@ pytest-of-*/
 .ruff_cache/
 dist/
 build/
+node_modules/
 .env
 .env.*
 .DS_Store

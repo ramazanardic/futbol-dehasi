@@ -19,13 +19,37 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "scripts"))
 
+from nesine_global import is_sharp_source  # noqa: E402
+from quantfoot import settings as S  # noqa: E402
+from quantfoot.coupons.coupon_rules import BANNED_FAMILIES, calibrate_p, is_draw_leg  # noqa: E402
 from quantfoot.coupons.system_builder import CapitalShieldPlan, SystemLeg, build_capital_shield_plan  # noqa: E402
 from quantfoot.evaluation.self_improve import _build_diag_ctx  # noqa: E402
-from quantfoot.markets.market_diagnosis import canonical_name, diagnose_selection  # noqa: E402
+from quantfoot.markets.market_calibration import calibrate_market_probability, load_market_calibration  # noqa: E402
+from quantfoot.markets.market_diagnosis import canonical_name, classify_family, diagnose_selection  # noqa: E402
+from quantfoot.markets.market_reliability import (  # noqa: E402
+    is_match_result_side,
+    ms_prob_after_draw_risk,
+    tail_adjust,
+)
 from quantfoot.paths import ai_area  # noqa: E402
+from quantfoot.strategy.coupon_builder import is_uncalibrated_competition  # noqa: E402
 
 TSI = dt.timezone(dt.timedelta(hours=3))
+
+
+def _price_is_stale(ref_fetched_utc: str | None, now: dt.datetime, max_age_h: float) -> bool:
+    if not ref_fetched_utc or max_age_h <= 0:
+        return False
+    try:
+        fetched = dt.datetime.fromisoformat(str(ref_fetched_utc).replace("Z", "+00:00"))
+        if fetched.tzinfo is None:
+            fetched = fetched.replace(tzinfo=dt.timezone.utc)
+        age_h = (now.astimezone(dt.timezone.utc) - fetched.astimezone(dt.timezone.utc)).total_seconds() / 3600.0
+        return age_h > max_age_h
+    except ValueError:
+        return False
 
 
 def run(
@@ -37,14 +61,21 @@ def run(
     min_ev: float = -0.10,
     min_p: float = 0.60,
     only_upcoming: bool = True,
+    max_price_age_h: float = S.MAX_PRICE_AGE_H,
 ) -> tuple[CapitalShieldPlan, Path, Path]:
     day_dir = ai_area(ROOT) / date
     ng = json.loads((day_dir / "nesine_global.json").read_text(encoding="utf-8"))
     now = dt.datetime.now(TSI)
+    calibration = load_market_calibration()
 
     candidates: list[SystemLeg] = []
     for m in ng.get("matches") or []:
         if m.get("status") != "fiyatlandı":
+            continue
+        if is_uncalibrated_competition(m.get("league")):
+            continue
+        ref = m.get("reference")
+        if ref and not is_sharp_source(ref) and m.get("price_tier") != "keskin":
             continue
         if only_upcoming:
             try:
@@ -52,18 +83,37 @@ def run(
                     continue
             except (KeyError, ValueError):
                 continue
+            if _price_is_stale(m.get("ref_fetched_utc"), now, max_price_age_h):
+                continue
         if m.get("research_block"):
             continue
+        p_over25 = next((float(x["fair_prob"]) for x in m.get("selections") or [] if x.get("name") == "2.5 Üst"), None)
+        f1x2 = m.get("fair_1x2")
+        p_draw = float(f1x2[1]) if isinstance(f1x2, (list, tuple)) and len(f1x2) == 3 and f1x2[1] is not None else None
         for s in m.get("selections") or []:
             o = float(s.get("odds") or 0.0)
-            p = float(s.get("fair_prob") or 0.0)
-            if o < 1.20 or o > 1.80 or p < min_p:
+            raw_p = float(s.get("fair_prob") or 0.0)
+            if o < S.MIN_LEG_ODDS or o > S.BANKO_MAX_LEG_ODDS or raw_p <= 0.0:
                 continue
             cname = canonical_name(s.get("name"))
-            if not cname:
+            if not cname or is_draw_leg(cname):
                 continue
+            if classify_family(cname) in BANNED_FAMILIES:
+                continue
+            direct = bool(s.get("direct"))
+            p = calibrate_market_probability(cname, raw_p, m.get("league"), calibration, direct=direct)
+            p = tail_adjust(cname, p)
+            if is_match_result_side(cname) and p_draw is not None:
+                p = ms_prob_after_draw_risk(p, p_draw, p_over25)
             diag = diagnose_selection(cname, p, _build_diag_ctx(m, s), for_coupon=True)
             if not diag.ok:
+                continue
+            if not diag.rehabilitated:
+                p = min(p, calibrate_p(p, cname))
+            if diag.residual_adjustment < 0:
+                p = min(1.0, max(0.0, p + float(diag.residual_adjustment)))
+            ev = p * o - 1.0
+            if p < min_p or ev > S.MAX_PLAUSIBLE_EV:
                 continue
             candidates.append(
                 SystemLeg(
@@ -71,7 +121,7 @@ def run(
                     match=f"{m.get('home', '')} - {m.get('away', '')}",
                     name=cname,
                     odds=o,
-                    p=p,
+                    p=round(p, 5),
                     mbs=int(s.get("mbs") or m.get("mbs") or 1),
                     kickoff=str(m.get("kickoff") or ""),
                     league=str(m.get("league") or ""),

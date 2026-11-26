@@ -25,10 +25,16 @@ from nesine_global import (  # noqa: E402
     classify_price_tier,
     is_sharp_source,
 )
-from quantfoot.markets.market_calibration import calibrate_market_probability, load_market_calibration
-from quantfoot.markets.market_diagnosis import (
+from quantfoot.coupons.coupon_rules import calibrate_p as calibrate_coupon_p  # noqa: E402
+from quantfoot.markets.market_calibration import calibrate_market_probability, load_market_calibration  # noqa: E402
+from quantfoot.markets.market_diagnosis import (  # noqa: E402
     diagnose_selection,
     rank_macro_coherent_scores,
+)
+from quantfoot.markets.market_reliability import (  # noqa: E402
+    is_match_result_side,
+    ms_prob_after_draw_risk,
+    tail_adjust,
 )
 from quantfoot.strategy.coupon_builder import is_uncalibrated_competition  # noqa: E402
 
@@ -123,10 +129,14 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
         p = calibrate_market_probability(name, selection["fair_prob"], m.get("league"), calibration, direct=direct)
         diag_ok = True
         if has_diag_ctx:
+            p = tail_adjust(name, p)
+            f1x2 = m.get("fair_1x2")
+            if is_match_result_side(name) and isinstance(f1x2, (list, tuple)) and len(f1x2) == 3 and f1x2[1] is not None:
+                p = ms_prob_after_draw_risk(p, float(f1x2[1]), p_over25)
             diag_ctx = {
                 "mu_home": m.get("mu_home"),
                 "mu_away": m.get("mu_away"),
-                "fair_1x2": m.get("fair_1x2"),
+                "fair_1x2": f1x2,
                 "p_over25": p_over25,
                 "reference": m.get("reference"),
                 "league": m.get("league"),
@@ -140,6 +150,8 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
             }
             diag = diagnose_selection(name, p, diag_ctx, for_coupon=True)
             diag_ok = bool(diag.ok)
+            if not diag.rehabilitated:
+                p = min(p, calibrate_coupon_p(p, name))
             if diag.residual_adjustment < 0:
                 p = min(1.0, max(0.0, p + float(diag.residual_adjustment)))
         ev = p * selection["odds"] - 1
@@ -147,9 +159,17 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
             eligible.append({**selection, "fair_prob": p, "fair_odds": 1 / p, "ev": ev, "_diag_ok": diag_ok})
     if not eligible:
         return None, ("orta güven — %62+ uygun seçim yok" if reason else "1,20+ uygun seçim yok")
-    # 22 Kas denetimi: doğrudan borsa kotasyonları (direct=True) türetilmiş model fiyatlarından her bantta
-    # +2 ila +7 puan daha kalibre; fair_prob'u değiştirmeden sıralamada +1.5p öncelik ver.
-    best = max(eligible, key=lambda s: (bool(s.get("_diag_ok", True)), s["fair_prob"] + (0.015 if s.get("direct") else 0.0), s["odds"]))
+    # 22–26 Kas denetimi: yalnız fair_prob sıralaması -%18/-%22 Nesine marjlı türev tuzaklarını seçiyordu.
+    # Doğrudan borsa kotasyonuna (+2.0p) ve EV'ye (0.35 * clip(ev, -0.20, 0.10)) ağırlık vererek ağır marjlı tuzakları ele.
+    best = max(
+        eligible,
+        key=lambda s: (
+            bool(s.get("_diag_ok", True)),
+            s["fair_prob"] + (0.020 if s.get("direct") else 0.0) + 0.35 * max(-0.20, min(0.10, s["ev"])),
+            s["fair_prob"],
+            s["odds"],
+        ),
+    )
     out_pick = {k: v for k, v in best.items() if k != "_diag_ok"}
     return out_pick, reason
 

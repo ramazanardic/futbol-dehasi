@@ -651,18 +651,43 @@ def build_Pool_fallback_pools(
             if idx < len(tiers) - 1:
                 filtered = apply_coupon_rules_to_pools(filtered, pol.name, min_ev=ev_floor, min_p=rule_min_p)
             else:
-                # Son kademe: tanısal olarak temiz (diagnosis_ok) ve P ≥ %65 olan en sağlam bacaklar
-                from quantfoot.coupons.coupon_rules import is_draw_leg
-                clean = []
-                for p in filtered:
-                    k = [
-                        {**x, "p_before_rules": x.get("p_before_rules", x["p"])}
-                        for x in p
-                        if x.get("diagnosis_ok", True) and not is_draw_leg(x.get("name")) and x.get("p", 0.0) >= 0.65
-                    ]
-                    if k:
-                        clean.append(k)
-                filtered = clean
+                # Son kademe: önce kurallı (yasak aile & kalibre P) süzgeç; boşsa yalnız yasak-aile dışı,
+                # beraberlik dışı, tanısal temiz ve kalibre P ≥ 0.65 bacaklar (asla BANNED_FAMILIES sızmaz).
+                ruled = apply_coupon_rules_to_pools(filtered, pol.name, min_ev=ev_floor, min_p=rule_min_p)
+                if ruled:
+                    filtered = ruled
+                elif not best_pools:
+                    from quantfoot.coupons.coupon_rules import BANNED_FAMILIES, calibrate_p, is_draw_leg
+                    from quantfoot.markets.market_diagnosis import classify_family
+
+                    clean = []
+                    for p in filtered:
+                        k = []
+                        for x in p:
+                            nm = x.get("name")
+                            fam = classify_family(nm)
+                            if (
+                                not x.get("diagnosis_ok", True)
+                                or is_draw_leg(nm)
+                                or fam in BANNED_FAMILIES
+                            ):
+                                continue
+                            p_cal = calibrate_p(float(x.get("p", 0.0)), nm)
+                            ev_cal = round(p_cal * float(x["odds"]) - 1.0, 4)
+                            if p_cal >= rule_min_p and (ev_floor is None or ev_cal >= ev_floor - 1e-9):
+                                margin = float(x["p"]) - float(x.get("p_low", x["p"]))
+                                k.append({
+                                    **x,
+                                    "p_before_rules": x.get("p_before_rules", x["p"]),
+                                    "p": p_cal,
+                                    "p_low": max(0.001, p_cal - margin),
+                                    "ev_cal": ev_cal,
+                                })
+                        if k:
+                            clean.append(k)
+                    filtered = clean
+                else:
+                    filtered = []
         if len(filtered) > len(best_pools):
             best_pools = filtered
         if len(best_pools) >= min(5, pol.max_legs):
@@ -1058,23 +1083,52 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
     coupons, guard_notes = apply_mode_guard(coupons, args.mod, live or None, exposure)
     change_notes += guard_notes
     if not coupons and pol.name == "banko" and pools:
-        # Guard araştırmalı orta-güven bacağı veya düşük P'yi elediyse keskin olanlarla veya guard uyarısıyla ver
-        sharp_pools = [[x for x in p if x.get("tier") == "keskin"] for p in pools]
+        # Guard araştırmalı orta-güven bacağı veya düşük P'yi elediyse yalnız başlamamış + bültende ≥1.20
+        # olan keskin havuzdan yeniden kur; guard sonucunu ASLA sahte ok=True ile maskeleme.
+        valid_fb_pools = [
+            [x for x in p if kickoff[int(x["code"])] > now and live.get(int(x["code"]), {}).get(x["key"], x["odds"]) >= MIN_LEG_ODDS]
+            for p in pools
+        ]
+        valid_fb_pools = [p for p in valid_fb_pools if p]
+        sharp_pools = [[x for x in p if x.get("tier") == "keskin"] for p in valid_fb_pools]
         sharp_pools = [p for p in sharp_pools if p]
         fb_sharp = safest_first_coupon(sharp_pools, args.hedef, min(5, max_legs), partial=False) if sharp_pools else None
-        if fb_sharp is None:
-            fb_sharp = safest_first_coupon(pools, args.hedef, min(5, max_legs), partial=True)
+        if fb_sharp is None and sharp_pools:
+            fb_sharp = safest_first_coupon(sharp_pools, args.hedef, min(5, max_legs), partial=True)
+        if fb_sharp is None and valid_fb_pools:
+            fb_sharp = safest_first_coupon(valid_fb_pools, args.hedef, min(5, max_legs), partial=True)
         if fb_sharp:
             recheck_odds([fb_sharp], live, flicker)
-            res = KM.guard_legs(fb_sharp["legs"], args.mod, open_exposure=exposure, offered=KM.bulletin_offered(live) if live else None, at_selection=True)
-            fb_sharp["guard"] = {"mode": args.mod, "ok": True, "errors": [], "warnings": res.warnings + res.errors,
-                                 "p_win": round(res.p_win, 4), "total_odds": round(res.total_odds, 2), "honest": KM.honest_line(res)}
-            fb_sharp["probability_before_guard"] = fb_sharp.get("probability")
-            fb_sharp["probability"] = res.p_win
-            fb_sharp["probability_low"] = min(float(fb_sharp.get("probability_low", res.p_win)), res.p_win)
-            fb_sharp["global_fair_odds"] = round(1.0 / res.p_win, 2) if res.p_win > 0 else 99.0
-            fb_sharp["ev"] = res.p_win * float(fb_sharp.get("nesine_odds", res.total_odds)) - 1.0
-            coupons = [fb_sharp]
+            kept_fb, fb_notes = apply_mode_guard([fb_sharp], args.mod, live or None, exposure)
+            change_notes += fb_notes
+            if kept_fb:
+                coupons = kept_fb
+            else:
+                res = KM.guard_legs(fb_sharp["legs"], args.mod, open_exposure=exposure,
+                                    offered=KM.bulletin_offered(live) if live else None, at_selection=True)
+                fb_sharp["guard"] = {
+                    "mode": args.mod,
+                    "ok": bool(res.ok),
+                    "errors": list(res.errors),
+                    "warnings": list(res.warnings),
+                    "p_win": round(res.p_win, 4),
+                    "total_odds": round(res.total_odds, 2),
+                    "honest": KM.honest_line(res),
+                    "emergency_fallback": True,
+                }
+                fb_sharp["probability_before_guard"] = fb_sharp.get("probability")
+                fb_sharp["probability"] = res.p_win
+                fb_sharp["probability_low"] = min(float(fb_sharp.get("probability_low", res.p_win)), res.p_win)
+                fb_sharp["global_fair_odds"] = round(1.0 / res.p_win, 2) if res.p_win > 0 else 99.0
+                fb_sharp["ev"] = res.p_win * float(fb_sharp.get("nesine_odds", res.total_odds)) - 1.0
+                for leg in fb_sharp["legs"]:
+                    leg["probability_trace"] = {
+                        "market_raw": leg.get("p_raw"),
+                        "market_and_history_calibrated": leg.get("p_before_rules"),
+                        "coupon_rules": leg.get("p"),
+                        "guard_final": KM.leg_effective_prob(leg, args.mod),
+                    }
+                coupons = [fb_sharp]
     if not coupons:
         print("Bu hedefe uygun kupon kurulamadı.")
         return None

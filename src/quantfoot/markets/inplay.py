@@ -48,9 +48,29 @@ def remaining_share(minute: float, stoppage: float = 4.0, k: float = INTENSITY_S
     return max(0.0, (cum(T) - cum(t)) / cum(T))
 
 
-def _grid(lh: float, la: float) -> np.ndarray:
+DEFAULT_INPLAY_RHO = -0.08
+
+
+def _grid(lh: float, la: float, rho: float = DEFAULT_INPLAY_RHO) -> np.ndarray:
+    lh_safe = max(float(lh), 1e-9)
+    la_safe = max(float(la), 1e-9)
     g = np.arange(MAX_GOALS + 1)
-    return np.outer(poisson.pmf(g, max(lh, 1e-9)), poisson.pmf(g, max(la, 1e-9)))
+    G = np.outer(poisson.pmf(g, lh_safe), poisson.pmf(g, la_safe))
+    # Dixon-Coles low-score correlation scaled smoothly by remaining goal mass
+    if rho != 0.0 and (lh_safe + la_safe) > 0.05:
+        rho_eff = float(rho) * min(1.0, (lh_safe + la_safe) / 2.5)
+        tau00 = max(0.05, 1.0 - lh_safe * la_safe * rho_eff)
+        tau10 = max(0.05, 1.0 + la_safe * rho_eff)
+        tau01 = max(0.05, 1.0 + lh_safe * rho_eff)
+        tau11 = max(0.05, 1.0 - rho_eff)
+        G[0, 0] *= tau00
+        G[1, 0] *= tau10
+        G[0, 1] *= tau01
+        G[1, 1] *= tau11
+        tot = float(G.sum())
+        if tot > 0.0:
+            G /= tot
+    return G
 
 
 def final_probabilities(lh_rem: float, la_rem: float, hg: int = 0, ag: int = 0,
@@ -61,8 +81,18 @@ def final_probabilities(lh_rem: float, la_rem: float, hg: int = 0, ag: int = 0,
     H = hg + g[:, None]
     A = ag + g[None, :]
     tot = H + A
-    out = {"MS 1": float(G[H > A].sum()), "MS X": float(G[H == A].sum()), "MS 2": float(G[H < A].sum()),
-           "KG Var": float(G[(H > 0) & (A > 0)].sum())}
+    p1 = float(G[H > A].sum())
+    px = float(G[H == A].sum())
+    p2 = float(G[H < A].sum())
+    out = {
+        "MS 1": p1,
+        "MS X": px,
+        "MS 2": p2,
+        "ÇŞ 1X": p1 + px,
+        "ÇŞ 12": p1 + p2,
+        "ÇŞ X2": px + p2,
+        "KG Var": float(G[(H > 0) & (A > 0)].sum()),
+    }
     out["KG Yok"] = 1.0 - out["KG Var"]
     for ln in lines:
         o = float(G[tot > ln].sum())
@@ -77,12 +107,13 @@ def fit_lambdas(targets: dict[str, float], hg: int = 0, ag: int = 0, x0: tuple[f
         raise ValueError("hedef olasılık yok")
 
     def loss(x: np.ndarray) -> float:
-        lh, la = np.exp(x)
+        xc = np.clip(x, -6.0, 2.5)
+        lh, la = np.exp(xc)
         p = final_probabilities(lh, la, hg, ag)
         return sum((p.get(k, 0.0) - targets[k]) ** 2 for k in keys)
 
     res = minimize(loss, np.log(np.maximum(x0, 0.05)), method="Nelder-Mead", options={"xatol": 1e-4, "fatol": 1e-9, "maxiter": 400})
-    lh, la = np.exp(res.x)
+    lh, la = np.exp(np.clip(res.x, -6.0, 2.5))
     return float(lh), float(la)
 
 

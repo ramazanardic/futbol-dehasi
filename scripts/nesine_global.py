@@ -433,16 +433,19 @@ def price_event(event, ref: dict, league: str) -> dict:
     exact_direct: dict[str, float] = {
         "MS 1": float(p1x2[0]),
         "MS 0": float(p1x2[1]),
+        "MS X": float(p1x2[1]),
         "MS 2": float(p1x2[2]),
         "ÇŞ 10": float(p1x2[0] + p1x2[1]),
+        "ÇŞ 1X": float(p1x2[0] + p1x2[1]),
         "ÇŞ 12": float(p1x2[0] + p1x2[2]),
         "ÇŞ 02": float(p1x2[1] + p1x2[2]),
+        "ÇŞ X2": float(p1x2[1] + p1x2[2]),
     }
     if ou_line is not None and p_over is not None:
         exact_direct[f"{ou_line:.1f} Üst"] = p_over
         exact_direct[f"{ou_line:.1f} Alt"] = 1.0 - p_over
 
-    inputs = {"MS 1", "MS 0", "MS 2", "ÇŞ 10", "ÇŞ 12", "ÇŞ 02"} | (
+    inputs = {"MS 1", "MS 0", "MS X", "MS 2", "ÇŞ 10", "ÇŞ 1X", "ÇŞ 12", "ÇŞ 02", "ÇŞ X2"} | (
         {f"{ou_line:.1f} Üst", f"{ou_line:.1f} Alt"} if ou_line is not None else set()
     )
     PRICED[event.code] = {"joint": joint, "timing": timing, "quoted": quoted, "inputs": inputs}

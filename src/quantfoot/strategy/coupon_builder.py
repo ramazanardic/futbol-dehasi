@@ -32,8 +32,8 @@ _CUP_TOKENS: tuple[str, ...] = (
 )
 
 _MAIN_MARKET_SELECTIONS: frozenset[str] = frozenset({
-    "MS 1", "MS 0", "MS 2",
-    "ÇŞ 10", "ÇŞ 12", "ÇŞ 02",
+    "MS 1", "MS 0", "MS X", "MS 2",
+    "ÇŞ 10", "ÇŞ 1X", "ÇŞ 12", "ÇŞ 02", "ÇŞ X2",
     "1.5 Alt", "1.5 Üst",
     "2.5 Alt", "2.5 Üst",
     "3.5 Alt", "3.5 Üst",
@@ -676,12 +676,15 @@ def _category_share_ok(legs: tuple[MarketRecommendation, ...], max_share: float 
 def _conflicting_selections(selection: str) -> frozenset[str]:
     """Return selections on the same fixture that directly contradict or hedge against `selection`."""
     conflicts: dict[str, set[str]] = {
-        "MS 1": {"MS 0", "MS 2", "ÇŞ 02", "MS 2 & 1.5 Üst", "MS 2 & 2.5 Üst", "MS 2 & KG Yok"},
+        "MS 1": {"MS 0", "MS X", "MS 2", "ÇŞ 02", "ÇŞ X2", "MS 2 & 1.5 Üst", "MS 2 & 2.5 Üst", "MS 2 & KG Yok"},
         "MS 0": {"MS 1", "MS 2", "ÇŞ 12"},
-        "MS 2": {"MS 0", "MS 1", "ÇŞ 10", "MS 1 & 1.5 Üst", "MS 1 & 2.5 Üst", "MS 1 & KG Yok"},
-        "ÇŞ 10": {"MS 2", "ÇŞ 02", "MS 2 & 1.5 Üst", "MS 2 & 2.5 Üst"},
-        "ÇŞ 02": {"MS 1", "ÇŞ 10", "MS 1 & 1.5 Üst", "MS 1 & 2.5 Üst"},
-        "ÇŞ 12": {"MS 0"},
+        "MS X": {"MS 1", "MS 2", "ÇŞ 12"},
+        "MS 2": {"MS 0", "MS X", "MS 1", "ÇŞ 10", "ÇŞ 1X", "MS 1 & 1.5 Üst", "MS 1 & 2.5 Üst", "MS 1 & KG Yok"},
+        "ÇŞ 10": {"MS 2", "ÇŞ 02", "ÇŞ X2", "MS 2 & 1.5 Üst", "MS 2 & 2.5 Üst"},
+        "ÇŞ 1X": {"MS 2", "ÇŞ 02", "ÇŞ X2", "MS 2 & 1.5 Üst", "MS 2 & 2.5 Üst"},
+        "ÇŞ 02": {"MS 1", "ÇŞ 10", "ÇŞ 1X", "MS 1 & 1.5 Üst", "MS 1 & 2.5 Üst"},
+        "ÇŞ X2": {"MS 1", "ÇŞ 10", "ÇŞ 1X", "MS 1 & 1.5 Üst", "MS 1 & 2.5 Üst"},
+        "ÇŞ 12": {"MS 0", "MS X"},
         "KG Var": {"KG Yok", "2.5 Alt & KG Yok", "MS 1 & KG Yok", "MS 2 & KG Yok", "1.5 Alt", "0-1 Gol"},
         "KG Yok": {"KG Var", "2.5 Üst & KG Var", "1. Yarı KG Var", "2. Yarı KG Var", "1Y ve 2Y KG Var"},
         "1.5 Üst": {"1.5 Alt", "0-1 Gol"},

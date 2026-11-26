@@ -199,8 +199,11 @@ def main() -> None:
                 return
             break
         for leg, why in bad_fb:
-            haric_contradicted.append(f"{leg['code']}|{leg.get('key')}")
-        return
+            key_s = f"{leg['code']}|{leg.get('key')}"
+            if key_s not in haric_contradicted:
+                haric_contradicted.append(key_s)
+            log.append(f"[yedek] {leg['match']} — {leg['market']}: {leg['selection']} ({why})")
+        print(f"Yedek tur {fb_rnd}: {len(bad_fb)} çelişkili bacak çıkarıldı, yeniden kuruluyor")
     print("Tur sınırına ulaşıldı; temiz kupon kurulamadı. Çıkarılanlar:")
     for line in log:
         print("  ", line)

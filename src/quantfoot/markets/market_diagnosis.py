@@ -424,13 +424,13 @@ def diagnose_selection(
             if not reasons and sharp and (mu_tot is not None and mu_tot >= 2.75) and (p_draw is not None and p_draw < 0.24):
                 rehabilitated = True
                 strengths.append("ÇŞ 12 rehabilite: yüksek tempo (xG ≥ 2.75) ve düşük beraberlik riski (<%24)")
-        elif cname in ("ÇŞ 1X", "ÇŞ X2", "Hnd(+1) 1", "Hnd(-1) 2", "Hnd(-2) 2"):
-            backing_home = cname in ("ÇŞ 1X", "Hnd(+1) 1")
+        elif cname in ("ÇŞ 1X", "ÇŞ 10", "ÇŞ X2", "ÇŞ 02", "Hnd(+1) 1", "Hnd(-1) 2", "Hnd(-2) 2"):
+            backing_home = cname in ("ÇŞ 1X", "ÇŞ 10", "Hnd(+1) 1")
             my_gk = h_gk_out if backing_home else a_gk_out
             my_sc = h_sc_out if backing_home else a_sc_out
             if my_gk or my_sc:
                 reasons.append(f"{cname}: desteklenen tarafın 1. kalecisi veya gol kralı eksik")
-            if cname in ("ÇŞ X2", "Hnd(-1) 2"):
+            if cname in ("ÇŞ X2", "ÇŞ 02", "Hnd(-1) 2"):
                 # 21 Kas: p_draw < 0.25 veya mu_tot >= 2.8 iken Hnd(-1) 2 / ÇŞ X2 %42–%51'e çöktü
                 # 22 Kas: engellenen ÇŞ X2 %45,2 (-16p), rehabilite edilen ÇŞ X2 6/8 (%75,0, +9,2p)!
                 if p1 is not None and p1 >= 0.42:
@@ -443,7 +443,7 @@ def diagnose_selection(
                     reasons.append(f"Hnd(-2) 2 güçlü ev hücum tuzağı: ev xG {mu_h:.2f} ≥ 1.50 (22 Kas: 4/9 = %44,4, 2+ fark riski yüksek)")
                 if mu_tot is not None and mu_tot >= 2.95:
                     reasons.append(f"Hnd(-2) 2 yüksek toplam gol tuzağı: toplam xG {mu_tot:.2f} ≥ 2.95")
-            if cname == "ÇŞ 1X":
+            if cname in ("ÇŞ 1X", "ÇŞ 10"):
                 # 22 Kas: rehabilite ÇŞ 1X 2/5 (%40,0) — güçlü deplasmana karşı ev çifte şans tuzağı
                 if p2 is not None and p2 >= 0.36:
                     reasons.append(f"ÇŞ 1X: deplasman güçlü ({p2:.2f} ≥ 0.36), ev çifte şansı kırılgan")
@@ -479,10 +479,10 @@ def diagnose_selection(
                 diff_mu = abs(mu_h - mu_a) if (mu_h is not None and mu_a is not None) else None
                 if (mu_tot is None or mu_tot < 3.20) or (diff_mu is None or diff_mu < 1.10):
                     reasons.append("İY ÇŞ 12 gizli ilk-yarı beraberlik tuzağı (22 Kas: %48,5, -14,4p)")
-        elif cname in ("İY ÇŞ X2", "İY ÇŞ 1X"):
+        elif cname in ("İY ÇŞ X2", "İY ÇŞ 02", "İY ÇŞ 1X", "İY ÇŞ 10"):
             # 22-24 Kas: İY ÇŞ X2/1X karşı tarafın xG'si >= 1.50, simetrik çift-hücum (min_mu >= 1.42) veya steam >= 5.0p iken çöküyor
-            opp_mu_1h = mu_h if cname == "İY ÇŞ X2" else mu_a
-            my_gk_1h = a_gk_out if cname == "İY ÇŞ X2" else h_gk_out
+            opp_mu_1h = mu_h if cname in ("İY ÇŞ X2", "İY ÇŞ 02") else mu_a
+            my_gk_1h = a_gk_out if cname in ("İY ÇŞ X2", "İY ÇŞ 02") else h_gk_out
             if opp_mu_1h is not None and opp_mu_1h >= 1.50:
                 p_adj = max(0.0, p_adj - 0.04)
                 reasons.append(f"{cname} güçlü rakip 1Y baskı tuzağı: rakip xG {opp_mu_1h:.2f} ≥ 1.50")
@@ -667,6 +667,18 @@ def diagnose_selection(
                 reasons.append(f"2.5 Üst aşırı tek-taraflı maç tuzağı: zayıf taraf xG {min_mu:.2f} < 0.95, fark ≥ 1.80 (24 Kas: Bratislava-Betis 0-2; MS & 1.5 Üst daha güvenli)")
             if h_sc_out and a_sc_out:
                 reasons.append("2.5 Üst riskli: iki takımın da golcüsü eksik")
+        elif cname == "3.5 Üst":
+            # 20–25 Kas denetimi: 3.5 Üst 4/11 (%36,4 vs P %58,1 = -21,7p) — düşük xG veya tek taraflı maçlarda çöküyor
+            if mu_tot is not None and mu_tot < 3.45:
+                p_adj = max(0.0, p_adj - 0.05)
+                reasons.append(f"3.5 Üst düşük toplam xG tuzağı: toplam xG {mu_tot:.2f} < 3.45 (4+ gol için ≥3.45 şart)")
+            if min_mu is not None and min_mu < 1.05 and (mu_tot is None or mu_tot < 3.85):
+                p_adj = max(0.0, p_adj - 0.04)
+                reasons.append(f"3.5 Üst tek taraflı maç tuzağı: zayıf taraf xG {min_mu:.2f} < 1.05 (2-0 / 3-0 bitme riski)")
+            if h_sc_out or a_sc_out:
+                reasons.append("3.5 Üst riskli: takımlardan birinin 1. golcüsü eksik")
+            if for_coupon and steam_pp >= 6.0:
+                reasons.append(f"3.5 Üst sert steam volatilitesi ({steam_pp:.1f}p ≥ 6.0p)")
         elif cname == "3.5 Alt":
             # 21 Kas %69,7 (+6,8p), 22 Kas %66,7 (+1,8p DIR) — 3.10 dengeli tavan; tier 3 (Serie C vb.) iki taraf >=1.15 iken patlama riski
             if mu_tot is not None and mu_tot > 3.10:
