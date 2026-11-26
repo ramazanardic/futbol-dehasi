@@ -78,7 +78,8 @@ def test_current_run_excludes_old_coupons_and_started_match_fails_live_audit(mon
     day.mkdir(parents=True)
     monkeypatch.setattr(pipeline, "ROOT", tmp_path)
     stem = "kupon_2.5x_0900"
-    (day / "kuponlar.csv").write_text(f"kupon,kupon_no,nesine_kodu,secim_adi,nesine_oran,olasilik\n{stem},1,1,İY 0.5 Üst,1.25,0.8\n")
+    (day / "kuponlar.csv").write_text(f"kupon,kupon_no,nesine_kodu,secim_adi,nesine_oran,olasilik\n{stem},1,1,İY 0.5 Üst,1.25,0.8\n",
+                                      encoding="utf-8")
     assert pipeline.run_audit(date, ai, current_files=set(), live=True)["coupons"] == []
     leg = {"code": 1, "key": "test", "name": "İY 0.5 Üst", "kickoff": f"{date} 10:00"}
     (day / f"{stem}.json").write_text(json.dumps({"coupons": [{"legs": [leg]}]}))

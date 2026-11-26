@@ -17,7 +17,7 @@ TSI = dt.timezone(dt.timedelta(hours=3))
 
 
 def _j(name):
-    return json.loads((FIX / name).read_text())
+    return json.loads((FIX / name).read_text(encoding="utf-8"))
 
 
 def test_parse_nesine_live_skips_locked_odds():
