@@ -212,3 +212,15 @@ def test_top_five_ranks_distinct_families_and_keeps_full_table():
     assert len(ba.top_five({"selections": match["selections"][:2]}, {})) == 1
     assert ba.top_five(dict(match, status="fiyat yok"), {}) == []
     assert "3,5 Alt %98,0" in ba.format_top_five(top)
+
+
+def test_settled_history_ignores_non_day_folders(tmp_path):
+    own = tmp_path / "tahminler" / "claudetahmin"
+    for name in ("2026-11-20", "20kasim_hatali_tahminler"):
+        d = own / name
+        d.mkdir(parents=True)
+        (d / "takip_kayit.json").write_text(json.dumps({"1": {"reference": "Pinnacle", "league": "L",
+                                                               "s": {"MS 1": [0.6, 1.5, 1]}}}), encoding="utf-8")
+        (d / "takip_sonuc.json").write_text(json.dumps({"1": {"completed": True, "won": {"MS 1": True}}}), encoding="utf-8")
+    snap = al.analyze_settled_history(own)
+    assert snap["days"] == ["2026-11-20"] and snap["total_matches_settled"] == 1

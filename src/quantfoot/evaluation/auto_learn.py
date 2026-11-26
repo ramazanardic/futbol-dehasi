@@ -168,7 +168,10 @@ def analyze_settled_history(daily_dir: Path) -> dict[str, Any]:
     for base in (daily_dir.parents[1] / "reports" / "daily", daily_dir):
         if base.exists():
             for p in base.iterdir():
-                if p.is_dir() and (p / "takip_sonuc.json").exists() and (p / "takip_kayit.json").exists():
+                # only day folders (YYYY-MM-DD): an archived copy of a day (e.g. a set of withdrawn predictions kept
+                # under another name) must not count that day twice
+                if (re.fullmatch(r"\d{4}-\d{2}-\d{2}", p.name) and p.is_dir()
+                        and (p / "takip_sonuc.json").exists() and (p / "takip_kayit.json").exists()):
                     found[p.name] = p  # the own folder wins for the same day
     day_dirs = [found[k] for k in sorted(found)]
 

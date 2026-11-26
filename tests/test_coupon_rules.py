@@ -6,7 +6,6 @@ import math
 
 import pytest
 
-from quantfoot.coupons import coupon_rules as CR
 from quantfoot.coupons.coupon_rules import (
     BANNED_FAMILIES,
     MIN_CALIBRATED_P,

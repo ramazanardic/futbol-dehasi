@@ -1,6 +1,5 @@
 """Regression coverage for prediction, coupon and settlement boundaries."""
 
-import datetime as dt
 import json
 from pathlib import Path
 import sys

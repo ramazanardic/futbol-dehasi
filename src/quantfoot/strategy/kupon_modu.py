@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import Any
 
 from quantfoot import settings as S
-from quantfoot.strategy.banko_guard import (BankoLeg, GuardConfig, GuardResult, ShrinkConfig, check_coupon,
+from quantfoot.strategy.banko_guard import (BankoLeg, GuardConfig, GuardResult, check_coupon,
                                             effective_prob, selection_family)
 
 MODES = ("banko", "risk", "yuksek_oran")
