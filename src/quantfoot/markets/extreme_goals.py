@@ -463,23 +463,35 @@ def score_both_halves_btts_match(
         warnings.append(f"tek taraflı xG riski (zayıf taraf {mmin:.2f} < 1.05)")
 
     # 2. Hücum simetrisi & toplam gol temposu (0..22 puan)
-    if sym >= 0.65 and mtot >= 3.10:
+    # 305 maçlık 3-gün (22, 24, 25 Kas) denetimi:
+    # (mtot >= 3.22 & mmin >= 1.32) VEYA (mtot >= 3.50 & mmin >= 1.07) dilimi 11/49 = %22.4 isabet ve +%68.7 ROI üretti!
+    # Açık savunmalı dev + kontratak tehdidi (PSG-Roma 2.81-1.07=3.88 -> 2-2 @7.63, Atalanta-Inter 1.18-2.37=3.55 -> 4-4 @8.72,
+    # Salford 3.16-1.53=4.69 -> 3-2 @6.21) mmin >= 1.05 ve mtot >= 3.50 iken cezalandırılmaz, 'acik_dev_kontra' arketipi olarak ödüllendirilir.
+    if sym >= 0.65 and mtot >= 3.15:
         archetype = "dengeli_tempo"
         score += 22.0
-        reasons.append(f"yüksek simetri ({sym:.2f}) ve tempo ({mtot:.2f} xG)")
-    elif sym >= 0.55 and mtot >= 2.85:
+        reasons.append(f"yüksek simetri ({sym:.2f}) ve elit tempo ({mtot:.2f} xG)")
+    elif mtot >= 3.50 and mmin >= 1.05:
+        archetype = "acik_dev_kontra"
+        score += 20.0
+        reasons.append(f"açık yüksek tempo ({mtot:.2f} xG) ve çift taraflı tehdit (zayıf taraf {mmin:.2f} xG ≥ 1.05)")
+    elif sym >= 0.55 and mtot >= 3.00:
         archetype = "dengeli_tempo"
         score += 14.0
+    elif sym >= 0.55 and mtot >= 2.85:
+        archetype = "dengeli_tempo"
+        score += 8.0
     else:
         archetype = "zayıf"
-        if mdiff >= 1.35:
+        if mdiff >= 1.35 and (mtot < 3.50 or mmin < 1.05):
             score -= 8.0
             warnings.append(f"tek taraflı fark maçı riski (xG farkı {mdiff:.2f})")
 
-    # 3. 1. Yarı ve 2. Yarı çift taraflı gol temposu geçmişi (0..24 puan) — tek taraf maskelemesi yok!
+    # 3. 1. Yarı ve 2. Yarı çift taraflı gol temposu geçmişi (0..26 puan) — tek taraf maskelemesi yok!
     s1_vals = [v for v in (hist["h_s1"], hist["a_s1"]) if v is not None]
     c1_vals = [v for v in (hist["h_c1"], hist["a_c1"]) if v is not None]
     s2_vals = [v for v in (hist["h_s2"], hist["a_s2"]) if v is not None]
+    bh_vals = [v for v in (hist["h_both_half_btts"], hist["a_both_half_btts"]) if v is not None]
     if len(s1_vals) == 2:
         min_s1 = min(s1_vals)
         mean_s1 = sum(s1_vals) / 2.0
@@ -499,6 +511,9 @@ def score_both_halves_btts_match(
     if len(s2_vals) == 2 and min(s2_vals) >= 0.55:
         score += 6.0
         reasons.append(f"2. yarı gol sürekliliği yüksek (en düşük %{100*min(s2_vals):.0f})")
+    if bh_vals and max(bh_vals) >= 0.12 and (sum(bh_vals) / len(bh_vals)) >= 0.08:
+        score += 4.0
+        reasons.append(f"son maçlarda gerçek İki Yarıda KG Var geçmişi yüksek (ort %{100*(sum(bh_vals)/len(bh_vals)):.0f})")
 
     # 4. Bağımsız simülasyon vs piyasa xG uyumu (v3 — 22 Kas 427 maç bulgusu)
     sim_tot = (s_xg[0] + s_xg[1]) if s_xg is not None else None

@@ -30,7 +30,8 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from quantfoot.data.nesine import betting_day
 from kupon_dosyalari import coupon_group, latest_coupons
-from gunluk_analiz import best_pick, macro_coherent_top_score  # noqa: E402
+from gunluk_analiz import best_pick  # noqa: E402
+from quantfoot.markets.market_diagnosis import macro_coherent_top_score  # noqa: E402
 import nesine_global as ng  # noqa: E402
 
 TSI = ng.TSI
@@ -68,7 +69,8 @@ def _top_score(code, m: dict | None = None) -> str:
     ft = ng.score_distributions(priced["joint"])["ft"]
     if m is not None:
         sels = {s["name"]: float(s["fair_prob"]) for s in m.get("selections") or [] if "name" in s and "fair_prob" in s}
-        hit = macro_coherent_top_score(ft, m.get("fair_1x2"), sels.get("2.5 Üst"), sels.get("KG Var"))
+        hit = macro_coherent_top_score(ft, m.get("fair_1x2"), sels.get("2.5 Üst"), sels.get("KG Var"),
+                                       mu_home=m.get("mu_home"), mu_away=m.get("mu_away"))
         if hit is not None:
             return f"{hit[0]} ({hit[1]:.3f})"
     k, v = next(iter(ft.items()))

@@ -845,7 +845,7 @@ def write_week(start: dt.date, week: list[tuple[str, list[dict]]], min_ev: float
     path = DAILY / "hafta" / f"{start}_nesine_hafta.md"  # the AI's own folder (user rule, 20 Nov)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"-> {path.relative_to(ROOT)}")
+    print(f"-> {path}")
 
 
 
@@ -1155,7 +1155,7 @@ def write_report(date: str, out: list[dict], payload: dict, events: list, min_ev
            for m in out if m["status"] != "fiyatlandı"]
     (d / "nesine_global.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     write_team_files(date, out, d)
-    print(f"{priced}/{len(events)} maç fiyatlandı; {len(value)} seçim EV ≥ {min_ev:+.1%}. -> {d.relative_to(ROOT)}/nesine_global.md")
+    print(f"{priced}/{len(events)} maç fiyatlandı; {len(value)} seçim EV ≥ {min_ev:+.1%}. -> {d}/nesine_global.md")
 
 
 if __name__ == "__main__":

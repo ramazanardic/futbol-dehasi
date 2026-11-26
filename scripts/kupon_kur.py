@@ -157,7 +157,7 @@ def main() -> None:
         f = nesine_kupon.main(options, review=review)
         if f:
             (f.parent / f"{f.stem}_derin.md").write_text(dr.to_markdown(args.tarih, rows), encoding="utf-8")
-            print(f"Tur {rnd}: kupon temiz -> {f.with_suffix('.md').relative_to(ROOT)} (+ {f.stem}_derin.md)")
+            print(f"Tur {rnd}: kupon temiz -> {f.with_suffix('.md')} (+ {f.stem}_derin.md)")
             for line in log:
                 print("  çıkarılan:", line)
             return
@@ -189,13 +189,13 @@ def main() -> None:
         f_fb = nesine_kupon.main(fb_opts, review=review_fb)
         if f_fb:
             (f_fb.parent / f"{f_fb.stem}_derin.md").write_text(dr.to_markdown(args.tarih, rows_fb or rows), encoding="utf-8")
-            print(f"Yedek tur {fb_rnd}: en garanti <=5 maçlık kupon kuruldu -> {f_fb.with_suffix('.md').relative_to(ROOT)}")
+            print(f"Yedek tur {fb_rnd}: en garanti <=5 maçlık kupon kuruldu -> {f_fb.with_suffix('.md')}")
             return
         if not bad_fb:
             f_fb = nesine_kupon.main(fb_opts)
             if f_fb:
                 (f_fb.parent / f"{f_fb.stem}_derin.md").write_text(dr.to_markdown(args.tarih, rows), encoding="utf-8")
-                print(f"Yedek tur {fb_rnd}: en garanti <=5 maçlık kupon kuruldu -> {f_fb.with_suffix('.md').relative_to(ROOT)}")
+                print(f"Yedek tur {fb_rnd}: en garanti <=5 maçlık kupon kuruldu -> {f_fb.with_suffix('.md')}")
                 return
             break
         for leg, why in bad_fb:

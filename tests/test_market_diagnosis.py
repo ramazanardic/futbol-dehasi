@@ -604,3 +604,21 @@ def test_v5_deep_loss_root_cause_shields():
 
 
 
+
+
+def test_away_over_15_flags_home_team_that_rarely_concedes_two():
+    ctx = {"name": "Dep 1.5 Üst", "p": 0.62, "odds": 1.70, "mu_home": 0.95, "mu_away": 2.30,
+           "reference": "Pinnacle", "direct": True, "league": "Almanya Bundesliga", "home_rate": 0.33}
+    diag = diagnose_selection("Dep 1.5 Üst", 0.62, ctx, for_coupon=True)
+    assert any("2+ gol yedi" in r for r in diag.reasons)
+    assert not any("2+ gol yedi" in r for r in diagnose_selection("Dep 1.5 Üst", 0.62, {**ctx, "home_rate": 0.60}, for_coupon=True).reasons)
+
+
+def test_macro_coherent_ranking_keeps_every_score_once():
+    from quantfoot.markets.market_diagnosis import macro_coherent_top_score, rank_macro_coherent_scores
+
+    ft = {"1-1": 0.12, "1-0": 0.11, "2-1": 0.10, "0-0": 0.09, "2-0": 0.08, "0-1": 0.07}
+    ranked = rank_macro_coherent_scores(ft, f1x2=[0.55, 0.25, 0.20], mu_home=1.7, mu_away=0.9)
+    assert sorted(s for s, _ in ranked) == sorted(ft) and ranked[0][0] != "1-1"
+    assert macro_coherent_top_score(ft, [0.55, 0.25, 0.20], mu_home=1.7, mu_away=0.9) == ranked[0]
+    assert rank_macro_coherent_scores({}) == []

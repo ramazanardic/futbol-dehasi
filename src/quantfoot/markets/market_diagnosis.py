@@ -47,7 +47,7 @@ ise ``ok=False`` ile yakalar.
 
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 import math
 import re
@@ -369,10 +369,14 @@ def diagnose_selection(
             if not sharp:
                 reasons.append(f"{cname}: keskin referans şart")
             if not is_home_team and cname.endswith("1.5 Üst"):
+                # 3 günlük oz_gelistirme (716 maç): Dep 1.5 Üst 19/35 = %54.3 (-9.6p; 25 Kas: Lille-Bayern 2-1)
+                p_adj = max(0.0, p_adj - 0.04)
                 if lg_tier == "3":
                     reasons.append("Dep 1.5 Üst: alt/genç/kadın liglerinde deplasman 2+ gol varyansı yüksek")
                 if not direct and (team_mu is None or team_mu < 2.15):
                     reasons.append("Dep 1.5 Üst: doğrudan borsa fiyatı yoksa deplasman xG ≥ 2.15 şart (22 Kas: türetilmiş Dep 1.5 Üst %44,4)")
+                if for_coupon and hr is not None and hr < 0.45:
+                    reasons.append(f"Dep 1.5 Üst: ev sahibi son maçlarının yalnız %{100*hr:.0f}'inde 2+ gol yedi (<%45; 25 Kas: Lille %33 -> 2-1)")
             if my_sc_out:
                 reasons.append(f"{cname}: gol beklenen takımın 1. golcüsü eksik")
             if team_mu is not None and team_mu < need_mu:
@@ -514,6 +518,12 @@ def diagnose_selection(
         elif cname == "İY 0.5 Üst":
             if mu_tot is not None and mu_tot < 2.50:
                 reasons.append(f"İY 0.5 Üst düşük tempo tuzağı: toplam xG {mu_tot:.2f} < 2.50")
+            if for_coupon and mu_h is not None and mu_a is not None and abs(mu_h - mu_a) <= 0.25 and (mu_tot is None or mu_tot < 2.95):
+                p_adj = max(0.0, p_adj - 0.04)
+                reasons.append(
+                    f"İY 0.5 Üst dengeli taktik kilitlenme (0-0 devre) tuzağı: |ΔxG|={abs(mu_h-mu_a):.2f} ≤ 0.25 ve toplam xG {(mu_tot or 0.0):.2f} < 2.95 "
+                    "(25 Kas: Pisa-Modena 0-0/1-1, Shakhtar-FB 0-0/0-1, Watford-Blackburn 0-0/0-1)"
+                )
             if for_coupon and lg_tier == "3" and not sharp and (mu_tot is None or mu_tot < 2.75):
                 p_adj = max(0.0, p_adj - 0.04)
                 reasons.append(f"İY 0.5 Üst 3. lig düşük ilk-yarı temposu tuzağı: toplam xG {(mu_tot or 0.0):.2f} < 2.75 (25 Kas: Parceiro 0-0/0-2, Osaka 0-0/1-0)")
@@ -525,6 +535,16 @@ def diagnose_selection(
                 reasons.append(f"İY 0.5 Üst sert steam volatilitesi ({steam_pp:.1f}p ≥ 6.0p; 22 Kas: UD Llanera İY 0-0)")
             if h_sc_out and a_sc_out:
                 reasons.append("İY 0.5 Üst riskli: iki takımın da golcüsü eksik")
+        elif cname == "İY 1.5 Üst" and for_coupon:
+            # 25 Kas gece otopsisi: Inter-Stuttgart (İY 0-0/MS 2-0, Stuttgart İY 1.5 Üst %27), Slavia-Villarreal (0-0/0-1), Brugge-Liverpool (0-1/0-3)
+            if min_side is not None and min_side < 0.38:
+                p_adj = max(0.0, p_adj - 0.05)
+                reasons.append(f"İY 1.5 Üst yavaş başlayan takım tuzağı: takımlardan birinin İY 1.5 Üst geçmişi yalnız %{100*min_side:.0f} (<%38; 25 Kas: Stuttgart %27 -> İY 0-0)")
+            if mu_tot is not None and mu_tot < 3.25:
+                p_adj = max(0.0, p_adj - 0.04)
+                reasons.append(f"İY 1.5 Üst düşük toplam xG tuzağı: toplam xG {mu_tot:.2f} < 3.25 (ilk 45 dk 2 gol için ≥3.25 xG şart)")
+            if min_mu is not None and min_mu < 1.10 and (mu_tot is None or mu_tot < 3.60):
+                reasons.append(f"İY 1.5 Üst tek taraflı ilk yarı tuzağı: zayıf taraf xG {min_mu:.2f} < 1.10")
 
     elif family == "İY karşılıklı gol":
         if cname == "İY KG Yok":
@@ -704,3 +724,137 @@ def diagnose_selection(
         reasons=tuple(reasons),
         strengths=tuple(strengths),
     )
+
+
+def rank_macro_coherent_scores(
+    ft_dist: Mapping[str, float] | None,
+    f1x2: Sequence[float] | None = None,
+    p_o25: float | None = None,
+    p_btts: float | None = None,
+    mu_home: float | None = None,
+    mu_away: float | None = None,
+) -> list[tuple[str, float]]:
+    """v5.5 6-Altın-Skor (1-0, 0-1, 2-0, 0-2, 2-1, 1-2) ve Gerçek Beraberlik (0-0, 1-1) Sıralama Motoru.
+
+    Poisson dağılımında mu < 2.0 iken P(1) = mu*e^-mu her zaman en büyük terim olduğu için
+    ham matris maçların %55-61'inde mekanik olarak '1-1' üretir (gerçekte 1-1 oranı %7.6–%10.3'tür,
+    oysa 6 altın skor {1-0, 0-1, 2-0, 0-2, 2-1, 1-2} maçların %45–51'ini oluşturur).
+    Bu motor:
+      1. margin_tilt raking bozulmasını temiz Poisson tabanıyla (%50-%50) dengeler,
+      2. Maçı 1X2 taraf rejimine (Favori vs Gerçek Beraberlik) koşullandırır,
+      3. Favori kazanma rejiminde 2-1/1-2 (KG + Üst), 1-0/0-1 (dengeli temiz galibiyet) ve
+         2-0/0-2 (net favori temiz galibiyet) kümelerini ayrıştırır,
+      4. #1 sıraya en yüksek makro-uyumlu skoru, #2 ve #3 sıraya ise doğal sigorta skorlarını yerleştirir.
+    """
+    if not ft_dist:
+        return []
+    p1 = float(f1x2[0]) if f1x2 and len(f1x2) == 3 and f1x2[0] is not None else 0.34
+    px = float(f1x2[1]) if f1x2 and len(f1x2) == 3 and f1x2[1] is not None else 0.32
+    p2 = float(f1x2[2]) if f1x2 and len(f1x2) == 3 and f1x2[2] is not None else 0.34
+    fav_side = 1 if p1 >= p2 else 2
+    p_fav = max(p1, p2)
+    gap_12 = abs(p1 - p2)
+
+    mh = float(mu_home) if mu_home is not None else 1.30
+    ma = float(mu_away) if mu_away is not None else 1.15
+    mu_tot = mh + ma
+    mu_fav = mh if fav_side == 1 else ma
+    mu_dog = ma if fav_side == 1 else mh
+
+    if p_o25 is None:
+        p_o25 = 1.0 - math.exp(-mu_tot) * (1.0 + mu_tot + 0.5 * mu_tot * mu_tot)
+    if p_btts is None:
+        p_btts = (1.0 - math.exp(-mh)) * (1.0 - math.exp(-ma))
+
+    is_draw_regime = (gap_12 <= 0.075 and px >= 0.275 and p_fav < 0.395) or (px >= p_fav - 0.02)
+    is_very_low_xg = mu_tot <= 2.08 and min(mh, ma) < 0.99
+    is_btts_win_cluster = (
+        mu_dog >= 0.98
+        and (p_fav < 0.65 or mu_dog >= 1.00)
+        and p_btts >= 0.525
+        and p_o25 >= 0.465
+        and mu_tot >= 2.52
+    )
+    is_clean_win_cluster = p_fav >= 0.40 and not is_btts_win_cluster
+
+    has_explicit_mu = mu_home is not None and mu_away is not None
+    ph_base = [math.exp(-mh) * (mh ** i) / math.factorial(i) for i in range(10)]
+    pa_base = [math.exp(-ma) * (ma ** j) / math.factorial(j) for j in range(10)]
+
+    scored: list[tuple[float, float, str]] = []
+    for sc, p_raw in ft_dist.items():
+        parts = str(sc).replace(":", "-").split("-")
+        if len(parts) != 2 or not parts[0].isdigit() or not parts[1].isdigit():
+            continue
+        h, a = int(parts[0]), int(parts[1])
+        p_m = float(p_raw)
+        p_pois = (ph_base[h] * pa_base[a]) if (has_explicit_mu and h < 10 and a < 10) else p_m
+        p_eff = (0.50 * p_m + 0.50 * p_pois) if has_explicit_mu else p_m
+        side = 1 if h > a else (2 if a > h else 0)
+        fav_g = h if fav_side == 1 else a
+        dog_g = a if fav_side == 1 else h
+
+        w = 1.0
+        if side == 0:
+            if is_draw_regime:
+                w *= 1.22
+                if is_very_low_xg and h == 0 and a == 0:
+                    w *= 1.30
+                elif not is_very_low_xg and h == 1 and a == 1:
+                    w *= 1.18
+            else:
+                draw_penalty = max(0.42, 0.82 - 1.35 * max(0.0, p_fav - 0.37) - 0.80 * max(0.0, gap_12 - 0.06))
+                w *= draw_penalty
+                if h == 0 and a == 0 and is_very_low_xg and p_fav <= 0.46:
+                    w *= 1.45
+        elif side == fav_side:
+            w *= 1.08 + 0.85 * max(0.0, p_fav - 0.36)
+        else:
+            w *= max(0.35, 0.85 - 1.40 * max(0.0, gap_12 - 0.05))
+
+        if side == fav_side:
+            if is_btts_win_cluster:
+                if fav_g == 2 and dog_g == 1:
+                    w *= 1.48
+                elif fav_g == 1 and dog_g == 0:
+                    w *= 0.78
+                elif fav_g == 2 and dog_g == 0 and mu_dog >= 1.10:
+                    w *= 0.88
+            elif is_clean_win_cluster:
+                if not (mu_fav >= 1.60 and (p_fav >= 0.54 or mu_fav >= 1.75)):
+                    if fav_g == 1 and dog_g == 0:
+                        w *= 1.34
+                elif mu_fav < 3.05:
+                    if fav_g == 2 and dog_g == 0:
+                        w *= 1.32
+                    elif fav_g == 1 and dog_g == 0:
+                        w *= 0.90
+                else:
+                    if fav_g == 3 and dog_g in (0, 1):
+                        w *= 1.28
+                    elif fav_g == 2 and dog_g == 0:
+                        w *= 1.15
+
+        scored.append((p_eff * w, p_m, f"{h}-{a}"))
+
+    if not scored:
+        return []
+    scored.sort(key=lambda x: (-x[0], -x[1]))
+    top1 = (scored[0][2], scored[0][1])
+    rest = sorted(scored[1:], key=lambda x: (-x[1], -x[0]))
+    return [top1] + [(sc, p_m) for _, p_m, sc in rest]
+
+
+def macro_coherent_top_score(
+    ft_dist: Mapping[str, float] | None,
+    f1x2: Sequence[float] | None = None,
+    p_o25: float | None = None,
+    p_btts: float | None = None,
+    mu_home: float | None = None,
+    mu_away: float | None = None,
+) -> tuple[str, float] | None:
+    """Return the single #1 macro-coherent exact score (score_str, raw_prob)."""
+    ranked = rank_macro_coherent_scores(
+        ft_dist, f1x2=f1x2, p_o25=p_o25, p_btts=p_btts, mu_home=mu_home, mu_away=mu_away
+    )
+    return ranked[0] if ranked else None
