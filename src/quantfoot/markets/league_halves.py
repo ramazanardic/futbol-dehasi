@@ -51,26 +51,63 @@ NESINE_TO_CODES: dict[str, tuple[str, ...]] = {
 
 
 @lru_cache(maxsize=1)
-def _goals() -> dict[str, tuple[int, float, float]]:
-    """league code -> (matches, all goals, first-half goals)."""
+def _table() -> dict[str, dict[str, str]]:
     if not CSV.exists():
         return {}
-    out = {}
     with CSV.open(encoding="utf-8") as fh:
-        for r in csv.DictReader(ln for ln in fh if not ln.startswith("#")):
-            if r.get("iy_gol_payi"):
-                n = int(r["n"])
-                goals = n * float(r["gol"])
-                out[r["lig"]] = (n, goals, goals * float(r["iy_gol_payi"]))
+        return {r["lig"]: r for r in csv.DictReader(ln for ln in fh if not ln.startswith("#"))}
+
+
+def _rows(nesine_league: str | None) -> list[dict[str, str]]:
+    if not nesine_league:
+        return []
+    codes = NESINE_TO_CODES.get(" ".join(nesine_league.split(",")[0].split()), ())
+    return [r for c in codes if (r := _table().get(c))]
+
+
+def _goals() -> dict[str, tuple[int, float, float]]:
+    """league code -> (matches, all goals, first-half goals)."""
+    out = {}
+    for code, r in _table().items():
+        if r.get("iy_gol_payi"):
+            n = int(r["n"])
+            goals = n * float(r["gol"])
+            out[code] = (n, goals, goals * float(r["iy_gol_payi"]))
     return out
+
+
+# GFI half-family replay (2023-25, ~25,500 source-local evaluations, docs/HALF_FAMILY_REPLAY.md in the user's GLOBAL
+# FOOTBALL INTELLIGENCE project): for both-halves BTTS and the highest-scoring half the empirical league rate scored a
+# lower Brier than the team model, while the team model won the other half families. So these selections are blended
+# toward the league rate. MODEL_WEIGHT is a prior choice, not fitted: our model starts from sharp prices, so it keeps
+# the larger share.
+LEAGUE_BLEND = {"İki Yarıda KG Var": "kg_iki_yari", "En Çok Gol 1Y": "en_cok_1y", "En Çok Gol 2Y": "en_cok_2y",
+                "En Çok Gol Eşit": "en_cok_esit"}
+MODEL_WEIGHT = 0.6
+
+
+def league_rate(nesine_league: str | None, column: str) -> float | None:
+    """Pooled league frequency of a CSV column, or None without MIN_MATCHES matches."""
+    rows = [r for r in _rows(nesine_league) if r.get(column)]
+    n = sum(int(r["n"]) for r in rows)
+    if n < MIN_MATCHES:
+        return None
+    return sum(int(r["n"]) * float(r[column]) for r in rows) / n
+
+
+def blend_with_league(name: str, p_model: float, nesine_league: str | None) -> float:
+    """Model probability blended toward the league rate for LEAGUE_BLEND selections; others unchanged."""
+    col = LEAGUE_BLEND.get(name)
+    rate = league_rate(nesine_league, col) if col else None
+    return p_model if rate is None else MODEL_WEIGHT * p_model + (1.0 - MODEL_WEIGHT) * rate
 
 
 def league_first_half_share(nesine_league: str | None) -> float | None:
     """Shrunk first-half goal share of a Nesine league, or None when the archive has no reliable sample."""
     if not nesine_league:
         return None
-    codes = NESINE_TO_CODES.get(" ".join(nesine_league.split(",")[0].split()), ())
-    rows = [g for c in codes if (g := _goals().get(c))]
+    goals = _goals()
+    rows = [goals[r["lig"]] for r in _rows(nesine_league) if r["lig"] in goals]
     n = sum(r[0] for r in rows)
     if n < MIN_MATCHES:
         return None

@@ -53,7 +53,7 @@ from quantfoot.data.weather import fetch_matchday_weather
 from quantfoot.markets.devig import devig
 from quantfoot.markets.goal_markets import goal_probability
 from quantfoot.markets.goal_timing import GoalTimingModel
-from quantfoot.markets.league_halves import league_first_half_share
+from quantfoot.markets.league_halves import blend_with_league, league_first_half_share
 from quantfoot.markets.omni_markets import compute_omni_markets
 from quantfoot.markets.tail_goals import fit_tail_rates_from_markets, league_tail_regime, rake_score_matrix_to_markets
 from quantfoot.strategy.coupon_builder import is_uncalibrated_competition
@@ -474,7 +474,7 @@ def price_event(event, ref: dict, league: str) -> dict:
             p = timing.get(s.name)
         else:
             try:
-                p = goal_probability(s.name, joint)
+                p = blend_with_league(s.name, goal_probability(s.name, joint), league)
             except KeyError:
                 continue  # keep the offer in the inventory even when the model cannot price it
         if p is None:

@@ -62,8 +62,9 @@ def league_rates(rows) -> dict[str, dict[str, float]]:
         k["iy00"] += (h1 + a1 == 0)
         k["gol_iki_yari"] += (h1 + a1 > 0 and h2 + a2 > 0)
         k["kg_iki_yari"] += (min(h1, a1) > 0 and min(h2, a2) > 0)
+        k["en_cok_" + ("1y" if h1 + a1 > h2 + a2 else "2y" if h1 + a1 < h2 + a2 else "esit")] += 1
     cols = ([f"iy{r}" for r in RES] + [f"2y{r}" for r in RES] + [f"iyms_{x}/{y}" for x in RES for y in RES]
-            + [f"iy2y_{x}/{y}" for x in RES for y in RES] + ["iy00", "gol_iki_yari", "kg_iki_yari"])
+            + [f"iy2y_{x}/{y}" for x in RES for y in RES] + ["iy00", "gol_iki_yari", "kg_iki_yari", "en_cok_1y", "en_cok_2y", "en_cok_esit"])
     return {code: {"n": k["n"], "gol": round(k["g"] / k["n"], 4),
                    "iy_gol_payi": round(k["g1"] / k["g"], 4) if k["g"] else "",
                    **{col: round(k[col] / k["n"], 4) for col in cols}} for code, k in c.items()}
