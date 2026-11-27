@@ -41,3 +41,4 @@ def test_blend_pulls_both_halves_btts_toward_league_rate(tmp_path, monkeypatch):
     assert lh.blend_with_league("KG Var", 0.55, "Türkiye Süper Ligi") == 0.55  # other markets untouched
     assert lh.blend_with_league("İki Yarıda KG Var", 0.15, "Kenya Premier Lig") == 0.15  # no league sample
     lh._table.cache_clear()
+

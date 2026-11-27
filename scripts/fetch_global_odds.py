@@ -25,6 +25,7 @@ import csv
 import datetime as dt
 import io
 import json
+import math
 import sys
 from pathlib import Path
 import time
@@ -133,6 +134,42 @@ def _fd_kickoff(date_s: str, time_s: str) -> str | None:
     return None
 
 
+def _log_pool_consensus_x12(books: dict[str, list[float]]) -> tuple[list[float], float]:
+    """Pure-stdlib precision-weighted log-opinion-pool consensus (prior / sqrt(overround)) across sharp books."""
+    priors = {"PS": 1.35, "P": 1.35, "BFE": 1.40, "B365": 0.85, "BV": 0.85, "Avg": 0.90}
+    valid: list[tuple[list[float], float]] = []
+    for key, odds in books.items():
+        if len(odds) != 3 or any(o <= 1.01 for o in odds):
+            continue
+        inv = [1.0 / o for o in odds]
+        s = sum(inv)
+        ov = max(0.0, s - 1.0)
+        # Power-method exponent k so sum(inv_i^k) == 1 via fast bisection
+        lo, hi = 0.5, 2.0
+        for _ in range(30):
+            mid = 0.5 * (lo + hi)
+            if sum(v ** mid for v in inv) > 1.0:
+                lo = mid
+            else:
+                hi = mid
+        k = 0.5 * (lo + hi)
+        probs = [v ** k for v in inv]
+        ps = sum(probs)
+        probs = [p / ps for p in probs]
+        prec = priors.get(key, 0.75) / math.sqrt(max(ov, 0.015))
+        valid.append((probs, prec))
+    if not valid:
+        raise ValueError("no valid books")
+    tot_w = sum(w for _, w in valid)
+    log_p = [sum((w / tot_w) * math.log(max(p[i], 1e-9)) for p, w in valid) for i in range(3)]
+    m = max(log_p)
+    ex = [math.exp(x - m) for x in log_p]
+    z = sum(ex)
+    cons = [x / z for x in ex]
+    max_gap = max(abs(p[i] - cons[i]) for p, _ in valid for i in range(3)) if len(valid) > 1 else 0.0
+    return [round(1.0 / max(c, 1e-6), 4) for c in cons], round(max_gap, 4)
+
+
 def football_data() -> list[dict]:
     refs = []
     for name, url in FD_FILES.items():
@@ -152,16 +189,27 @@ def football_data() -> list[dict]:
             home = row.get("HomeTeam") or row.get("Home")
             away = row.get("AwayTeam") or row.get("Away")
             ko = _fd_kickoff(row.get("Date", ""), row.get("Time", ""))
-            # Sharpest available columns: Pinnacle (PS*/P*), else Betfair Exchange (BFE*).
-            x12, source = None, None
-            for prefix, label in (("PS", "Pinnacle (football-data)"), ("P", "Pinnacle (football-data)"),
-                                  ("BFE", "Betfair Borsası (football-data)")):
+            # Collect all available sharp & tier-1 books for precision-weighted consensus + dispersion.
+            books_x12: dict[str, list[float]] = {}
+            for prefix in ("PS", "P", "BFE", "B365", "BV", "Avg"):
                 cand = [_f(row, f"{prefix}H"), _f(row, f"{prefix}D"), _f(row, f"{prefix}A")]
                 if None not in cand:
-                    x12, source = cand, label
+                    if prefix == "P" and "PS" in books_x12:
+                        continue
+                    books_x12[prefix] = cand
+            # Sharpest anchor required: Pinnacle (PS*/P*) or Betfair Exchange (BFE*).
+            x12, source, gap = None, None, None
+            for prefix, label in (("PS", "Pinnacle (football-data)"), ("P", "Pinnacle (football-data)"),
+                                  ("BFE", "Betfair Borsası (football-data)")):
+                if prefix in books_x12:
+                    x12, source = books_x12[prefix], label
                     break
             if x12 is None:
                 continue
+            if len(books_x12) >= 2:
+                cons_x12, cand_gap = _log_pool_consensus_x12(books_x12)
+                if cand_gap <= 0.06:
+                    x12, gap = cons_x12, cand_gap
             ou = None
             for prefix in ("P", "BFE"):
                 over, under = _f(row, f"{prefix}>2.5"), _f(row, f"{prefix}<2.5")
@@ -177,8 +225,13 @@ def football_data() -> list[dict]:
                         ah = [ah_line, [ah_h, ah_a]]
                         break
             if home and away and ko:
-                refs.append({"source": source, "league": row.get("Div") or f"{row.get('Country', '')} {row.get('League', '')}".strip(),
-                             "home": home, "away": away, "kickoff_utc": ko, "x12": x12, "ou": ou, "ah": ah})
+                rec = {"source": source, "league": row.get("Div") or f"{row.get('Country', '')} {row.get('League', '')}".strip(),
+                       "home": home, "away": away, "kickoff_utc": ko, "x12": x12, "ou": ou, "ah": ah}
+                if len(books_x12) >= 2:
+                    rec["n_books"] = len(books_x12)
+                    rec["consensus_gap"] = gap
+                    rec["books_x12"] = books_x12
+                refs.append(rec)
     return refs
 
 

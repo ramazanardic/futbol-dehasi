@@ -156,13 +156,26 @@ def parse_espn_scoreboard(payload: dict) -> list[dict]:
             continue
         hid, aid = str(teams["home"]["team"]["id"]), str(teams["away"]["team"]["id"])
         reds = {"home": 0, "away": 0}
+        last_goal_minute: float | None = None
+        last_goal_side: str | None = None
         for d in comp.get("details") or []:
+            tid = str((d.get("team") or {}).get("id"))
             if d.get("redCard"):
-                tid = str((d.get("team") or {}).get("id"))
                 if tid == hid:
                     reds["home"] += 1
                 elif tid == aid:
                     reds["away"] += 1
+            if d.get("scoringPlay"):
+                clk = d.get("clock") or {}
+                g_min = parse_minute(clk.get("displayValue"))
+                if g_min is None and clk.get("value") is not None:
+                    try:
+                        g_min = float(clk["value"]) / 60.0
+                    except (TypeError, ValueError):
+                        g_min = None
+                side = "home" if tid == hid else ("away" if tid == aid else None)
+                if g_min is not None and side is not None and (last_goal_minute is None or g_min >= last_goal_minute):
+                    last_goal_minute, last_goal_side = g_min, side
         odds = {}
         for o in comp.get("odds") or []:
             if not isinstance(o, dict):
@@ -177,7 +190,8 @@ def parse_espn_scoreboard(payload: dict) -> list[dict]:
                     "away": teams["away"]["team"].get("displayName"), "home_id": hid, "away_id": aid,
                     "minute": parse_minute(st.get("displayClock"), st.get("period")), "period": st.get("period"),
                     "hg": int(float(teams["home"].get("score") or 0)), "ag": int(float(teams["away"].get("score") or 0)),
-                    "home_red": reds["home"], "away_red": reds["away"], "espn_odds": odds})
+                    "home_red": reds["home"], "away_red": reds["away"],
+                    "last_goal_minute": last_goal_minute, "last_goal_side": last_goal_side, "espn_odds": odds})
     return out
 
 
@@ -210,15 +224,45 @@ def match_live(nes: dict, espn_live: list[dict], min_score: float = 0.72) -> dic
     return best if score >= min_score else None
 
 
+def _fotmob_last_goal(details: dict | None) -> tuple[float | None, str | None]:
+    """Extract latest goal minute and side ('home'/'away') from FotMob match details for Hawkes burst."""
+    if not isinstance(details, dict):
+        return None, None
+    ev_wrap = ((details.get("content") or {}).get("matchFacts") or {}).get("events") or {}
+    events = ev_wrap.get("events") if isinstance(ev_wrap, dict) else (ev_wrap if isinstance(ev_wrap, list) else [])
+    last_min: float | None = None
+    last_side: str | None = None
+    for ev in events or []:
+        if not isinstance(ev, dict):
+            continue
+        etype = str(ev.get("type") or "").lower()
+        if "goal" not in etype or "miss" in etype or "disallowed" in etype:
+            continue
+        t = ev.get("time")
+        try:
+            g_min = float(t)
+        except (TypeError, ValueError):
+            continue
+        is_home = ev.get("isHome")
+        if is_home is None:
+            continue
+        side = "home" if bool(is_home) else "away"
+        if last_min is None or g_min >= last_min:
+            last_min, last_side = g_min, side
+    return last_min, last_side
+
+
 def live_from_fotmob(m: dict, details: dict | None) -> dict:
     """FotMob canlı listesi + maç ayrıntısı → evaluate() ile uyumlu canlı durum."""
     from quantfoot.data.fotmob import parse_details
     d = parse_details(details or {}) if details else {"red": [0, 0], "stats": {}}
     score = d.get("score") or [m.get("hg"), m.get("ag")]
     reds = red_cards(d.get("red"), d.get("stats"))
+    lg_min, lg_side = _fotmob_last_goal(details)
     return {"source": "FotMob", "fotmob_id": m["id"], "home": m["home"], "away": m["away"], "minute": m.get("minute"),
             "hg": int(score[0] or 0), "ag": int(score[1] or 0), "home_red": reds[0],
-            "away_red": reds[1], "espn_odds": {}, "stats": d.get("stats") or {}}
+            "away_red": reds[1], "last_goal_minute": lg_min, "last_goal_side": lg_side,
+            "espn_odds": {}, "stats": d.get("stats") or {}}
 
 
 def match_prematch(nes: dict, pre: dict[int, dict]) -> dict | None:
@@ -256,9 +300,13 @@ def evaluate(nes: dict, live: dict, lambdas: tuple[float, float, str], stats: di
     lh, la, src = lambdas
     reds = red_cards([live.get("home_red"), live.get("away_red")], stats)
     s = inplay.LiveState(minute=live["minute"], home_goals=live["hg"], away_goals=live["ag"],
-                         home_red=reds[0], away_red=reds[1], stats=stats or {})
+                         home_red=reds[0], away_red=reds[1], stats=stats or {},
+                         last_goal_minute=live.get("last_goal_minute"),
+                         last_goal_side=live.get("last_goal_side"))
     rh, ra, notes = inplay.remaining_lambdas(lh, la, s)
     fair = inplay.final_probabilities(rh, ra, live["hg"], live["ag"])
+    next_g = inplay.next_goal_probabilities(rh, ra)
+    fair.update(next_g)
     mkt = market_fair_probs(nes["markets"])
     has_stats = bool((stats or {}).get("home"))
     w = model_weight if model_weight is not None else (LIVE_MODEL_WEIGHT if has_stats else LIVE_MODEL_WEIGHT_NO_STATS)
@@ -279,7 +327,8 @@ def evaluate(nes: dict, live: dict, lambdas: tuple[float, float, str], stats: di
                     "model_prob": round(p_model, 4), "market_prob": (round(mkt[mk], 4) if mk in mkt else None),
                     "model_weight": w,
                     "ev": round(ev, 4), "stake_tl": stake, "prematch_source": src,
-                    "lambda_remaining": [round(rh, 3), round(ra, 3)], "notes": notes})
+                    "lambda_remaining": [round(rh, 3), round(ra, 3)],
+                    "next_goal_probs": {k: round(v, 4) for k, v in next_g.items()}, "notes": notes})
     return ops
 
 

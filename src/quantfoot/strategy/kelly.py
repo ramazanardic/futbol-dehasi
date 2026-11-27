@@ -163,3 +163,115 @@ def optimize_correlated_kelly(
         "full_kelly": full_kelly,
         "expected_log_growth": growth,
     }
+
+
+def adaptive_kelly_stake(
+    prob: float,
+    decimal_odds: float,
+    *,
+    bankroll: float = 1000.0,
+    peak_bankroll: float | None = None,
+    daily_pnl: float = 0.0,
+    weekly_pnl: float = 0.0,
+    daily_exposure: float = 0.0,
+    prob_std: float = 0.02,
+    base_multiplier: float = 0.25,
+    max_per_bet: float = 0.03,
+    max_daily_exposure: float = 0.10,
+    daily_loss_limit: float = 0.05,
+    weekly_loss_limit: float = 0.12,
+    drawdown_halt: float = 0.25,
+    min_drawdown_scale: float = 0.25,
+) -> dict[str, object]:
+    """Adaptive drawdown-throttled Baker-McHale Kelly staking with daily/weekly loss circuit breakers.
+
+    Implements Roadmap P3-15 (Uhrín et al. 2021; Long 2026):
+      1. Halts betting immediately (``stake_fraction = 0.0``) if daily loss exceeds
+         ``daily_loss_limit`` (default 5%), weekly loss exceeds ``weekly_loss_limit`` (12%),
+         or peak-to-trough drawdown reaches ``drawdown_halt`` (25%).
+      2. Smoothly scales the fractional Kelly multiplier down as drawdown grows, down to
+         ``min_drawdown_scale`` of ``base_multiplier``.
+      3. Applies Baker-McHale parameter-uncertainty shrinkage (``prob_std``) and enforces
+         remaining daily exposure budget ``max_daily_exposure - daily_exposure``.
+    """
+    b_now = max(0.0, float(bankroll))
+    b_peak = max(b_now, float(peak_bankroll)) if peak_bankroll is not None else b_now
+    if b_now <= 0.0:
+        return {
+            "allowed": False,
+            "reason": "kasa tükendi",
+            "stake_fraction": 0.0,
+            "stake_amount": 0.0,
+            "effective_multiplier": 0.0,
+            "drawdown": 1.0,
+        }
+
+    drawdown = max(0.0, (b_peak - b_now) / b_peak) if b_peak > 0.0 else 0.0
+    daily_loss_frac = max(0.0, -float(daily_pnl) / b_now)
+    weekly_loss_frac = max(0.0, -float(weekly_pnl) / b_now)
+    rem_daily_exp = max(0.0, float(max_daily_exposure) - max(0.0, float(daily_exposure)))
+
+    if daily_loss_frac >= float(daily_loss_limit) - 1e-12:
+        return {
+            "allowed": False,
+            "reason": f"günlük kayıp limiti aşıldı ({daily_loss_frac * 100:.1f}% >= {daily_loss_limit * 100:.1f}%)",
+            "stake_fraction": 0.0,
+            "stake_amount": 0.0,
+            "effective_multiplier": 0.0,
+            "drawdown": round(drawdown, 5),
+        }
+    if weekly_loss_frac >= float(weekly_loss_limit) - 1e-12:
+        return {
+            "allowed": False,
+            "reason": f"haftalık kayıp limiti aşıldı ({weekly_loss_frac * 100:.1f}% >= {weekly_loss_limit * 100:.1f}%)",
+            "stake_fraction": 0.0,
+            "stake_amount": 0.0,
+            "effective_multiplier": 0.0,
+            "drawdown": round(drawdown, 5),
+        }
+    if drawdown >= float(drawdown_halt) - 1e-12:
+        return {
+            "allowed": False,
+            "reason": f"maksimum düşüş (drawdown) durdurucusu tetiklendi ({drawdown * 100:.1f}% >= {drawdown_halt * 100:.1f}%)",
+            "stake_fraction": 0.0,
+            "stake_amount": 0.0,
+            "effective_multiplier": 0.0,
+            "drawdown": round(drawdown, 5),
+        }
+    if rem_daily_exp <= 1e-9:
+        return {
+            "allowed": False,
+            "reason": "günlük toplam risk tavanı doldu",
+            "stake_fraction": 0.0,
+            "stake_amount": 0.0,
+            "effective_multiplier": 0.0,
+            "drawdown": round(drawdown, 5),
+        }
+
+    dd_scale = max(float(min_drawdown_scale), 1.0 - drawdown / max(float(drawdown_halt), 1e-6))
+    eff_mult = float(base_multiplier) * dd_scale
+    cap = min(float(max_per_bet), rem_daily_exp)
+    frac = baker_mchale_kelly_fraction(
+        prob,
+        decimal_odds,
+        prob_std=prob_std,
+        multiplier=eff_mult,
+        max_stake=cap,
+    )
+    if frac <= 0.0:
+        return {
+            "allowed": False,
+            "reason": "pozitif beklenen değer yok (EV <= 0)",
+            "stake_fraction": 0.0,
+            "stake_amount": 0.0,
+            "effective_multiplier": round(eff_mult, 5),
+            "drawdown": round(drawdown, 5),
+        }
+    return {
+        "allowed": True,
+        "reason": "uygun",
+        "stake_fraction": round(frac, 6),
+        "stake_amount": round(b_now * frac, 2),
+        "effective_multiplier": round(eff_mult, 5),
+        "drawdown": round(drawdown, 5),
+    }

@@ -63,6 +63,15 @@ def candidates(m: dict, n: int, calibration: dict | None = None) -> list[dict]:
         or bool(res.get("flags"))
     )
     p_over25 = next((float(x["fair_prob"]) for x in m.get("selections") or [] if x.get("name") == "2.5 Üst"), None)
+    mot_reg = res.get("motivation_regime") or {}
+    dead_rubber = bool(mot_reg.get("dead_rubber"))
+    if not dead_rubber and isinstance(res.get("motivation"), dict):
+        from quantfoot.markets.lineup_xg import assess_motivation_risk
+        dead_rubber = assess_motivation_risk(res["motivation"].get("home"), res["motivation"].get("away")).dead_rubber
+    ref_card_z = (res.get("referee_profile") or {}).get("card_zscore") if isinstance(res.get("referee_profile"), dict) else res.get("referee_card_zscore")
+    cons_disp = m.get("consensus_dispersion") or {}
+    consensus_kl = cons_disp.get("max_kl_divergence") if isinstance(cons_disp, dict) else None
+    has_diag = has_diag or bool(m.get("steam_1x2")) or consensus_kl is not None or dead_rubber or ref_card_z is not None
     diag_ctx = {
         "mu_home": m.get("mu_home"),
         "mu_away": m.get("mu_away"),
@@ -73,10 +82,15 @@ def candidates(m: dict, n: int, calibration: dict | None = None) -> list[dict]:
         "direct": True,
         "teams": teams,
         "flags": res.get("flags") or [],
+        "steam_1x2": m.get("steam_1x2"),
+        "consensus_gap": m.get("consensus_gap"),
+        "consensus_kl": consensus_kl,
         "home_gk1_out": bool((tm.get("home") or {}).get("gk1_out") or (ua.get("home") or {}).get("gk_out") or (teams.get("home") or {}).get("gk1_out")),
         "away_gk1_out": bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out") or (teams.get("away") or {}).get("gk1_out")),
         "home_top_scorer_out": bool((tm.get("home") or {}).get("top_scorer_out") or (teams.get("home") or {}).get("top_scorer_out")),
         "away_top_scorer_out": bool((tm.get("away") or {}).get("top_scorer_out") or (teams.get("away") or {}).get("top_scorer_out")),
+        "dead_rubber": dead_rubber,
+        "referee_card_zscore": ref_card_z,
     }
     sels = []
     for s in m.get("selections") or []:

@@ -24,6 +24,11 @@ from scipy.stats import poisson
 INTENSITY_SLOPE = 0.4
 RED_SELF, RED_OPP = 0.75, 1.20
 TRAIL_BOOST, LEAD_DAMP = 1.10, 0.95
+TRAIL_BOOST_2, LEAD_DAMP_2 = 1.18, 0.90  # Maia et al. (2023): 2+ goal deficit urgency
+HAWKES_ALPHA_SCORER = 0.14               # Ayana et al. (2025): short-term post-goal burst
+HAWKES_ALPHA_CONCEDER = 0.08
+HAWKES_HALF_LIFE_MIN = 7.0
+DEFAULT_INPLAY_RHO = -0.08
 MAX_GOALS = 12
 
 
@@ -36,6 +41,43 @@ class LiveState:
     away_red: int = 0
     stoppage: float = 4.0
     stats: dict[str, dict[str, float]] = field(default_factory=dict)  # {"home": {"sot":..,"shots":..,"corners":..}, "away": ...}
+    last_goal_minute: float | None = None
+    last_goal_side: str | None = None  # "home" | "away"
+
+
+def hawkes_goal_boost(
+    minute: float,
+    last_goal_minute: float | None,
+    last_goal_side: str | None,
+    *,
+    half_life: float = HAWKES_HALF_LIFE_MIN,
+) -> tuple[float, float]:
+    """Exponentially-decaying Hawkes self-excitation multiplier after a recent goal (Ayana et al. 2025)."""
+    if last_goal_minute is None or last_goal_side not in ("home", "away"):
+        return 1.0, 1.0
+    dt = float(minute) - float(last_goal_minute)
+    if dt < 0.0 or dt > 25.0:
+        return 1.0, 1.0
+    decay = math.exp(-math.log(2.0) * dt / max(half_life, 1.0))
+    if last_goal_side == "home":
+        return 1.0 + HAWKES_ALPHA_SCORER * decay, 1.0 + HAWKES_ALPHA_CONCEDER * decay
+    return 1.0 + HAWKES_ALPHA_CONCEDER * decay, 1.0 + HAWKES_ALPHA_SCORER * decay
+
+
+def next_goal_probabilities(lh_rem: float, la_rem: float, rho: float = DEFAULT_INPLAY_RHO) -> dict[str, float]:
+    """Exact competing-hazard next-goal probabilities consistent with the Dixon-Coles remaining grid."""
+    G = _grid(lh_rem, la_rem, rho=rho)
+    p_none = float(G[0, 0])
+    p_any = max(0.0, 1.0 - p_none)
+    tot_lam = max(float(lh_rem), 0.0) + max(float(la_rem), 0.0)
+    if tot_lam <= 1e-12:
+        return {"Sıradaki Gol Ev": 0.0, "Sıradaki Gol Dep": 0.0, "Sıradaki Gol Yok": 1.0}
+    share_h = max(float(lh_rem), 0.0) / tot_lam
+    return {
+        "Sıradaki Gol Ev": p_any * share_h,
+        "Sıradaki Gol Dep": p_any * (1.0 - share_h),
+        "Sıradaki Gol Yok": p_none,
+    }
 
 
 def remaining_share(minute: float, stoppage: float = 4.0, k: float = INTENSITY_SLOPE) -> float:
@@ -46,9 +88,6 @@ def remaining_share(minute: float, stoppage: float = 4.0, k: float = INTENSITY_S
         return x + k * x * x / 180.0
 
     return max(0.0, (cum(T) - cum(t)) / cum(T))
-
-
-DEFAULT_INPLAY_RHO = -0.08
 
 
 def _grid(lh: float, la: float, rho: float = DEFAULT_INPLAY_RHO) -> np.ndarray:
@@ -148,12 +187,23 @@ def remaining_lambdas(lh: float, la: float, s: LiveState) -> tuple[float, float,
         fa = (RED_OPP if dr > 0 else RED_SELF) ** abs(dr)
         rh, ra = rh * fh, ra * fa
         notes.append(f"kırmızı kart farkı {dr:+d}")
-    if s.minute >= 60 and s.home_goals != s.away_goals:
-        if s.home_goals < s.away_goals:
+    goal_diff = s.home_goals - s.away_goals
+    if abs(goal_diff) >= 2 and s.minute >= 55:
+        if goal_diff < 0:
+            rh, ra = rh * TRAIL_BOOST_2, ra * LEAD_DAMP_2
+        else:
+            rh, ra = rh * LEAD_DAMP_2, ra * TRAIL_BOOST_2
+        notes.append(f"2+ fark skor durumu ({goal_diff:+d})")
+    elif abs(goal_diff) == 1 and s.minute >= 60:
+        if goal_diff < 0:
             rh, ra = rh * TRAIL_BOOST, ra * LEAD_DAMP
         else:
             rh, ra = rh * LEAD_DAMP, ra * TRAIL_BOOST
         notes.append("skor durumu")
+    hk_h, hk_a = hawkes_goal_boost(s.minute, s.last_goal_minute, s.last_goal_side)
+    if hk_h > 1.0 + 1e-6 or hk_a > 1.0 + 1e-6:
+        rh, ra = rh * hk_h, ra * hk_a
+        notes.append(f"Hawkes gol ivmesi (ev ×{hk_h:.2f}, dep ×{hk_a:.2f})")
     played = 1.0 - share
     for side, lam in (("home", lh), ("away", la)):
         m = pressure_multiplier(xg_proxy(s.stats.get(side)), lam * played)

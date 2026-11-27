@@ -62,6 +62,7 @@ def run(
     min_p: float = 0.60,
     only_upcoming: bool = True,
     max_price_age_h: float = S.MAX_PRICE_AGE_H,
+    drawdown_pct: float = 0.0,
 ) -> tuple[CapitalShieldPlan, Path, Path]:
     day_dir = ai_area(ROOT) / date
     ng = json.loads((day_dir / "nesine_global.json").read_text(encoding="utf-8"))
@@ -115,6 +116,8 @@ def run(
             ev = p * o - 1.0
             if p < min_p or ev > S.MAX_PLAUSIBLE_EV:
                 continue
+            cons_disp = m.get("consensus_dispersion") or {}
+            disp_std = float(cons_disp.get("max_prob_std") or 0.0) if isinstance(cons_disp, dict) else 0.0
             candidates.append(
                 SystemLeg(
                     match_id=str(m["code"]),
@@ -125,6 +128,7 @@ def run(
                     mbs=int(s.get("mbs") or m.get("mbs") or 1),
                     kickoff=str(m.get("kickoff") or ""),
                     league=str(m.get("league") or ""),
+                    consensus_dispersion=disp_std,
                 )
             )
 
@@ -135,6 +139,7 @@ def run(
         legs_per_ticket=legs_per_ticket,
         min_ev=min_ev,
         min_p=min_p,
+        drawdown_pct=drawdown_pct,
     )
 
     lines = [
@@ -183,6 +188,7 @@ def main() -> None:
     ap.add_argument("--bacak", type=int, default=3, help="Kupon başına bacak sayısı (varsayılan 3 — MBS uyumlu)")
     ap.add_argument("--min-ev", type=float, default=-0.10, help="Bacak başına en düşük EV (varsayılan -0.10)")
     ap.add_argument("--min-p", type=float, default=0.60, help="Bacak başına en düşük olasılık (varsayılan 0.60)")
+    ap.add_argument("--drawdown", type=float, default=0.0, help="Mevcut kasa düşüş oranı (ör. 0.12 = %12; >=0.25 devre kesici)")
     ap.add_argument("--tumu", action="store_true", help="Başlamış maçları da dahil et (geriye dönük inceleme için)")
     args = ap.parse_args()
     plan, md_path, _ = run(
@@ -193,6 +199,7 @@ def main() -> None:
         min_ev=args.min_ev,
         min_p=args.min_p,
         only_upcoming=not args.tumu,
+        drawdown_pct=args.drawdown,
     )
     print(f"{args.tarih}: {len(plan.tickets)} kasa koruma kuponu ({plan.total_staked_tl:.0f} TL / %{plan.daily_risk_pct:.1f} risk) -> {md_path}")
 

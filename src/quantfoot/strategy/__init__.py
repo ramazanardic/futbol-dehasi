@@ -16,6 +16,7 @@ from quantfoot.strategy.coupon_builder import (
     select_best_valid_bet,
 )
 from quantfoot.strategy.kelly import (
+    adaptive_kelly_stake,
     baker_mchale_kelly_fraction,
     kelly_fraction,
     maclean_doubling_before_halving,
@@ -37,6 +38,7 @@ __all__ = [
     "MarketRecommendation",
     "MatchRiskContext",
     "PortfolioCouponSpec",
+    "adaptive_kelly_stake",
     "audit_match_risks",
     "baker_mchale_kelly_fraction",
     "bayesian_log_odds_blend",

@@ -184,6 +184,38 @@ notlanamaz. Ortak alanlara (`reports/`, `docs/data/`) tahmin yazılmaz.
 - **Şişkin form tuzağı (`Sim >> Mkt`):** Bağımsız form simülasyonu piyasadan +0,60 xG fazla şiştiğinde gerçek maç 2,00
   golde kaldı (%0 6+ Gol, %0 2Y KG) → `extreme_goals.py` v3 frenine eklendi.
 
+### 6.3. 26 Kasım v8 Ortak Çekirdek Yükseltmeleri (ayrıntılar: `docs/research/v8_kapsamli_gelistirme_2026_11.md`)
+
+- **Kaito Goto & Ensemble Devigging (`src/quantfoot/markets/devig.py`):** Kapalı form standart-hata marj kaldırma
+  (`method="goto"`) ve Power+Shin+Goto topluluğu (`method="ensemble"`) eklendi; Betfair Exchange kapanış 1X2
+  (`n = 2.449`) üzerinde `goto` en düşük Log-Loss (`0.981108`) ve Brier (`0.584189`) skorunu verdi.
+- **Asya Handikabı Kesin Sıfır-EV Fiyatlama & Minimum-KL Raking (`tail_goals.py`, `scripts/nesine_global.py`):**
+  Tam/yarım/çeyrek Asya Handikabı (`ref["ah"]`) artık `price_event` içinde hem gol oranı uydurmasına hem de
+  `rake_score_matrix_to_markets(..., ah_lines=...)` I-projeksiyonuna bağlı (`season_2627`, `n = 795`: `Hnd(-1) 1`
+  Log-Loss `−0.00117`, `KG Var` `−0.00065`).
+- **Genişletilmiş Keskin Kaynak & Türev Kotasyonlar (`sharp_sources.py`, `api_football.py`, `.env.example`):**
+  İsteğe bağlı `THE_ODDS_API_KEY` ile canlı Pinnacle/Betfair/Matchbook/Smarkets çekimi + sıfır ek kotalı
+  API-Football BTTS, 1.5/2.5/3.5/4.5 Alt/Üst, Asya Handikabı ve 1Y doğrudan kotasyon ayrıştırması.
+- **T-60 Kadro Şoku, Üstel NPxG, Hakem ve Motivasyon (`lineup_xg.py`, `market_diagnosis.py`):**
+  Çift-sayımı önleyen `news_fresher_than_odds` disiplini (±%12 sınırlı `Δμ`), 126 hakemlik kart/tempo profili ve
+  `dead_rubber` / sert hakem teşhis sinyalleri.
+- **CLV Anlamlılık, Brier MCB/DSC, CORP İzotonik Güvenilirlik ve Güvenli Kalibrasyon Önericisi (`clv_tracker.py`, `scripts/clv_analiz.py`, `scripts/v8_dogrulama.py`):**
+  Student-t + bootstrap %95 GA CLV ölçümü, Murphy/Dimitriadis `Brier = MCB − DSC + UNC` ve kutusuz $O(n)$ PAVA
+  **CORP** ayrıştırması (`tipsaudit`, `n = 7.349`: `ensemble` `CORP MCB = 0.001447` vs `multiplicative` `0.001765`),
+  log-opinion-pool ağırlık testi ve James-Stein negatif-artık kalibrasyon önerisi.
+- **Keskin–Yumuşak (Sharp-vs-Soft) Gecikme & Steam Yönü Motoru (`line_movement.py`, `scripts/clv_analiz.py --steam`):**
+  `tipsaudit.csv` (`n = 7.348`) üzerinde açılış Pinnacle vs en iyi yumuşak büro `EV ≥ %2` adaylarında steam uyumlu
+  (`≥ +2p`, `n = 469`) bacaklar **+%19,18 ROI** (`t = +2,85`, `p = 0,0023`), steam karşıtı (`≤ −2p`, `n = 891`)
+  bacaklar **−%10,28 ROI** üretir.
+- **Uyarlamalı Drawdown-Frenli Kelly & Canlı Bağlam Kalkanları (`strategy/kelly.py`, `nesine_global.py`, `nesine_kupon.py`, `derin_tahmin.py`, `self_improve.py` / `kasa_koruma.py`):**
+  `adaptive_kelly_stake` (%5 günlük, %12 haftalık, %25 drawdown devre kesicileri; 400-yol MC testinde %95-dilim maks.
+  düşüşü `%33,5 → %17,8`, `DD ≥ %25` ihlalini `%17,5 → %0,0` indirir) ve `motivation_regime`/`dead_rubber` ile
+  `referee_card_zscore` sinyallerinin tüm canlı tahmin/kupon/kasa-koruma hatlarına uçtan uca bağlanması.
+- **Çoklu-Büro Hassasiyet Konsensüsü, Canlı Hawkes/Maia Motoru ve Otomatik Nesine CLV Defteri (`markets/consensus.py`, `markets/inplay.py`, `evaluation/clv_ledger.py`, `scripts/clv_defteri.py`):**
+  Ters-marj ağırlıklı log-havuz konsensüsü + bürolar arası sapma (`prob_std`, `KL`) → Baker–McHale Kelly bağlantısı,
+  1X2↔ÇŞ↔DNB sentetik tutarlılık denetimi, canlıda 2+ fark aciliyeti + Hawkes gol ivmesi + `Sıradaki Gol` fiyatlaması ve
+  yapay zekâ başına izole otomatik CLV defteri. Tüm dünya literatürü haritası: `docs/research/dunya_futbol_bahis_algoritmalari_2026.md`.
+
 ## 7. Yeni ders eklemek
 
 Yeni bir günün denetimi bu tabloyu değiştiriyorsa: kalibrasyon JSON'unu güncelle, testleri çalıştır (`pytest -q`,

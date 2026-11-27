@@ -51,12 +51,15 @@ from quantfoot.data.oddsmath import (
     is_youth_or_reserve_match,
 )
 from quantfoot.data.oddspapi import fetch_oddspapi_references
+from quantfoot.data.sharp_sources import fetch_the_odds_api_references
 from quantfoot.data.weather import fetch_matchday_weather
 from quantfoot.markets.club_half_dna import club_omni_adjustments
+from quantfoot.markets.consensus import BookmakerQuote, check_synthetic_coherence, precision_weighted_consensus
 from quantfoot.markets.devig import devig
 from quantfoot.markets.goal_markets import goal_probability
 from quantfoot.markets.goal_timing import GoalTimingModel
 from quantfoot.markets.league_halves import blend_with_league, league_first_half_share
+from quantfoot.markets.match_intelligence import build_half_split_view, enrich_match_record
 from quantfoot.markets.omni_markets import compute_omni_markets
 from quantfoot.markets.tail_goals import fit_tail_rates_from_markets, league_tail_regime, rake_score_matrix_to_markets
 from quantfoot.strategy.coupon_builder import is_uncalibrated_competition
@@ -199,10 +202,144 @@ def consensus(a: dict, b: dict) -> dict | None:
         out["ou"] = [a["ou"][0], _avg(a["ou"][1], b["ou"][1])] if _gap(a["ou"][1], b["ou"][1]) <= MAX_CONSENSUS_GAP else None
     else:
         out["ou"] = a.get("ou") or b.get("ou")
+    if a.get("ah") and b.get("ah") and a["ah"][0] == b["ah"][0]:
+        out["ah"] = [a["ah"][0], _avg(a["ah"][1], b["ah"][1])] if _gap(a["ah"][1], b["ah"][1]) <= MAX_CONSENSUS_GAP else None
+    else:
+        out["ah"] = a.get("ah") or b.get("ah")
     out["markets"] = _merge_direct_markets(a.get("markets"), b.get("markets"))
     out["fetched_utc"] = min(filter(None, [a.get("fetched_utc"), b.get("fetched_utc")]), default=None)
     out["consensus_gap"] = round(_gap(a["x12"], b["x12"]), 4)
+    try:
+        sc = precision_weighted_consensus([
+            BookmakerQuote(bookmaker=a.get("source", "book_a"), odds=tuple(float(x) for x in a["x12"])),
+            BookmakerQuote(bookmaker=b.get("source", "book_b"), odds=tuple(float(x) for x in b["x12"])),
+        ], method="goto")
+        out["consensus_dispersion"] = {
+            "max_prob_std": round(max(sc.prob_std), 5),
+            "max_kl_divergence": sc.max_kl_divergence,
+            "n_books": sc.n_books,
+        }
+    except ValueError:
+        pass
     return out
+
+
+def _sharp_source_label(refs: list[dict]) -> str:
+    """Format a combined sharp source name guaranteed to preserve is_sharp_source() prefix matching."""
+    priority = {"Pinnacle": 0, "Smarkets": 1, "Matchbook": 2, "Betfair": 3}
+    tokens = sorted(
+        {r["source"].split(" ")[0] for r in refs},
+        key=lambda t: (priority.get(t, 9), t),
+    )
+    suffix = " (borsa)" if all(r.get("source") in EXCHANGES for r in refs) else " (keskin konsensüs)"
+    return " + ".join(tokens) + suffix
+
+
+def consensus_multi(refs: list[dict]) -> dict | None:
+    """Precision-weighted log-opinion-pool consensus across 2+ sharp references (rejecting contradictions)."""
+    if not refs:
+        return None
+    if len(refs) == 1:
+        return refs[0]
+    if len(refs) == 2 and all(r.get("source") in EXCHANGES for r in refs):
+        return consensus(refs[0], refs[1])
+    base = refs[0]
+    agreeing = [base]
+    max_gap = 0.0
+    for other in refs[1:]:
+        g = _gap(base["x12"], other["x12"])
+        if g > MAX_CONSENSUS_GAP:
+            return None
+        max_gap = max(max_gap, g)
+        agreeing.append(other)
+    quotes = [
+        BookmakerQuote(bookmaker=r.get("source", f"book_{i}"), odds=tuple(float(x) for x in r["x12"]))
+        for i, r in enumerate(agreeing)
+    ]
+    sc = precision_weighted_consensus(quotes, method="goto")
+    out = dict(base)
+    out["source"] = _sharp_source_label(agreeing)
+    out["x12"] = [round(1.0 / max(p, 1e-6), 4) for p in sc.probabilities]
+    # Merge O/U and AH on matching lines via log-pool consensus
+    ou_line = next((r["ou"][0] for r in agreeing if r.get("ou")), None)
+    if ou_line is not None:
+        ou_quotes = [
+            BookmakerQuote(bookmaker=r.get("source", f"ou_{i}"), odds=tuple(float(x) for x in r["ou"][1]))
+            for i, r in enumerate(agreeing)
+            if r.get("ou") and r["ou"][0] == ou_line
+        ]
+        if len(ou_quotes) >= 2:
+            ou_gaps = [_gap(list(ou_quotes[0].odds), list(q.odds)) for q in ou_quotes[1:]]
+            if max(ou_gaps) <= MAX_CONSENSUS_GAP:
+                sc_ou = precision_weighted_consensus(ou_quotes, method="goto")
+                out["ou"] = [ou_line, [round(1.0 / max(p, 1e-6), 4) for p in sc_ou.probabilities]]
+            else:
+                out["ou"] = None
+        elif ou_quotes:
+            out["ou"] = [ou_line, list(ou_quotes[0].odds)]
+    ah_line = next((r["ah"][0] for r in agreeing if r.get("ah")), None)
+    if ah_line is not None:
+        ah_quotes = [
+            BookmakerQuote(bookmaker=r.get("source", f"ah_{i}"), odds=tuple(float(x) for x in r["ah"][1]))
+            for i, r in enumerate(agreeing)
+            if r.get("ah") and r["ah"][0] == ah_line
+        ]
+        if len(ah_quotes) >= 2:
+            ah_gaps = [_gap(list(ah_quotes[0].odds), list(q.odds)) for q in ah_quotes[1:]]
+            if max(ah_gaps) <= MAX_CONSENSUS_GAP:
+                sc_ah = precision_weighted_consensus(ah_quotes, method="goto")
+                out["ah"] = [ah_line, [round(1.0 / max(p, 1e-6), 4) for p in sc_ah.probabilities]]
+            else:
+                out["ah"] = None
+        elif ah_quotes:
+            out["ah"] = [ah_line, list(ah_quotes[0].odds)]
+    merged_mkts: dict = {}
+    for r in agreeing:
+        merged_mkts = _merge_direct_markets(merged_mkts, r.get("markets"))
+    out["markets"] = merged_mkts
+    out["fetched_utc"] = min(filter(None, [r.get("fetched_utc") for r in agreeing]), default=None)
+    out["consensus_gap"] = round(max_gap, 4)
+    out["consensus_dispersion"] = {
+        "max_prob_std": round(max(sc.prob_std), 5),
+        "max_kl_divergence": sc.max_kl_divergence,
+        "n_books": sc.n_books,
+    }
+    return out
+
+
+def fuse_sharp_references(event, primary_ref: dict, mine: list[dict], league: str = "") -> tuple[dict | None, bool]:
+    """Fuse all agreeing sharp sources (Pinnacle, Smarkets, Matchbook, Betfair, sharp OddsMath) into one consensus.
+
+    Preserves direct exchange derivative markets (BTTS, 1H/2H, O/U lines, corners) even when Pinnacle wins rank 0.
+    Returns ``(fused_ref, contradiction)``.
+    """
+    if not is_sharp_source(primary_ref.get("source")):
+        return primary_ref, False
+    seen_sources = {primary_ref["source"]}
+    sharp_group = [primary_ref]
+    # First check direct peer exchanges so exchange-vs-exchange contradictions (>8pp) remain strictly blocked.
+    if primary_ref["source"] in EXCHANGES:
+        for cand_src in sorted(set(EXCHANGES) - seen_sources):
+            other, _ = _match(event, [r for r in mine if r["source"] == cand_src], league=league)
+            if other is not None:
+                if _gap(primary_ref["x12"], other["x12"]) > MAX_CONSENSUS_GAP:
+                    return None, True
+                sharp_group.append(other)
+                seen_sources.add(cand_src)
+    # Then fuse all remaining agreeing sharp sources (e.g. Pinnacle + Smarkets + Matchbook + Betfair + BetInAsia).
+    other_sharp_sources = sorted(
+        {r["source"] for r in mine if is_sharp_source(r.get("source")) and r["source"] not in seen_sources},
+        key=lambda s: (_source_rank(s), s),
+    )
+    for cand_src in other_sharp_sources:
+        other, _ = _match(event, [r for r in mine if r["source"] == cand_src], league=league)
+        if other is not None and _gap(primary_ref["x12"], other["x12"]) <= MAX_CONSENSUS_GAP:
+            sharp_group.append(other)
+            seen_sources.add(cand_src)
+    if len(sharp_group) >= 2:
+        fused = consensus_multi(sharp_group)
+        return fused, fused is None
+    return primary_ref, False
 
 
 def _merge_direct_markets(ma: dict | None, mb: dict | None) -> dict:
@@ -391,7 +528,13 @@ def shrink_local_probability(prob: float, weight: float = 0.78) -> float:
     return float(max(0.01, min(0.99, 0.5 + weight * (float(prob) - 0.5))))
 
 
-def price_event(event, ref: dict, league: str) -> dict:
+def price_event(
+    event,
+    ref: dict,
+    league: str,
+    *,
+    half_shifts: tuple[float, float] = (0.0, 0.0),
+) -> dict:
     is_local_fallback = str(ref.get("source", "")).startswith("Nesine")
     p1x2 = devig(ref["x12"], method="power").probabilities
     quoted = direct_probabilities(ref)
@@ -414,11 +557,26 @@ def price_event(event, ref: dict, league: str) -> dict:
     if p_btts_direct is None and "KG Yok" in quoted:
         p_btts_direct = max(0.0, min(1.0, 1.0 - float(quoted["KG Yok"])))
 
+    ah_line, p_ah_home = None, None
+    ah_lines: list[tuple[float, float]] = []
+    if ref.get("ah") and isinstance(ref["ah"], (list, tuple)) and len(ref["ah"]) == 2:
+        try:
+            raw_ah_line = float(ref["ah"][0])
+            raw_ah_odds = [float(x) for x in ref["ah"][1]]
+            if len(raw_ah_odds) == 2 and min(raw_ah_odds) > 1.01:
+                ah_line = raw_ah_line
+                p_ah_home = float(devig(raw_ah_odds, method="power").probabilities[0])
+                if 0.01 < p_ah_home < 0.99:
+                    ah_lines.append((ah_line, p_ah_home))
+        except (TypeError, ValueError):
+            ah_line, p_ah_home = None, None
+
     regime_key = _nesine_league_regime_key(league)
     nu, alpha, kappa = league_tail_regime(regime_key)
     mu_h, mu_a, fit_mat = fit_tail_rates_from_markets(
         p_1x2=p1x2,
         ou_lines=ou_lines or None,
+        ah_lines=ah_lines or None,
         p_btts=p_btts_direct,
         seed_rates=(1.45, 1.15),
         alpha_nb=alpha,
@@ -426,13 +584,17 @@ def price_event(event, ref: dict, league: str) -> dict:
         com_nu=nu,
         fund_weight=0.0,
     )
-    # Two goal rates cannot reproduce 1X2 + O/U (+ KG) at once; rake the score matrix onto the quotes so every derived
-    # market agrees with them (21 Nov audit: the unraked joint under-priced draws by 0.8 pp, hence 1-1, 2-2,
-    # 'MS 0 & KG Var', KG Var — reports/research/bahis_aileleri_kalibrasyon*.json).
+    # Two goal rates cannot reproduce 1X2 + O/U (+ AH / KG) at once; rake the score matrix onto the quotes so every
+    # derived market agrees with them (21 Nov audit: the unraked joint under-priced draws by 0.8 pp; v8 adds |AH|>=0.75
+    # goal-margin raking so Hnd(-1/+1) and multi-goal margins reflect sharp Asian Handicap quotes directly).
     ft_mat = rake_score_matrix_to_markets(fit_mat, p_1x2=p1x2, ou_lines=ou_lines, p_btts=p_btts_direct,
-                                          margin_tilt=MARGIN_TILT)
-    # League's own first-half goal share + club-level 1Y/2Y DNA urgency & comeback multipliers.
-    h_shift, a_shift, club_mults = club_omni_adjustments(getattr(event, "home", None), getattr(event, "away", None))
+                                          ah_lines=ah_lines or None, margin_tilt=MARGIN_TILT)
+    # League's own first-half goal share (data/lig_yari_oranlari.csv) + 1Y urgency shifts: this season's team half
+    # split (build_half_split_view) when it has evidence, else the club's long-run 1Y/2Y DNA. Never both, so the same
+    # tendency is not counted twice. Club DNA comeback multipliers always apply.
+    dna_h, dna_a, club_mults = club_omni_adjustments(getattr(event, "home", None), getattr(event, "away", None))
+    season = (float(half_shifts[0]), float(half_shifts[1]))
+    h_shift, a_shift = season if any(abs(x) > 1e-9 for x in season) else (dna_h, dna_a)
     joint = compute_omni_markets(mu_h, mu_a, league=regime_key, ft_matrix=ft_mat,
                                  first_half_share=league_first_half_share(league),
                                  home_1h_urgency_shift=h_shift, away_1h_urgency_shift=a_shift,
@@ -497,8 +659,26 @@ def price_event(event, ref: dict, league: str) -> dict:
     rows.sort(key=lambda r: r["ev"], reverse=True)
     nesine_ms = [event.odds_of(f"MS {c}") for c in "102"]
     margin = sum(1 / o for o in nesine_ms) - 1 if all(nesine_ms) else None
+    synthetic_coherence = None
+    if all(nesine_ms):
+        dc_map = {
+            lbl: val
+            for lbl, src_lbl in (("ÇŞ 1X", "ÇŞ 10"), ("ÇŞ 12", "ÇŞ 12"), ("ÇŞ X2", "ÇŞ 02"))
+            if (val := (event.odds_of(src_lbl) or event.odds_of(lbl)))
+        }
+        if dc_map:
+            try:
+                coh = check_synthetic_coherence(nesine_ms, double_chance=dc_map)
+                synthetic_coherence = {
+                    "synthetic_dc_odds": coh.synthetic_dc_odds,
+                    "cheapest_equivalents": coh.cheapest_equivalents,
+                }
+            except (ValueError, ZeroDivisionError):
+                synthetic_coherence = None
     return {"mu_home": round(float(mu_h), 3), "mu_away": round(float(mu_a), 3), "reference": ref["source"],
             "ref_fetched_utc": ref.get("fetched_utc"), "consensus_gap": ref.get("consensus_gap"),
+            "consensus_dispersion": ref.get("consensus_dispersion"),
+            "synthetic_coherence": synthetic_coherence,
             "ref_1x2": ref["x12"], "ref_ou": ref.get("ou"), "ref_ah": ref.get("ah"),
             "steam_1x2": ref.get("steam_1x2"), "fair_1x2": [round(float(x), 4) for x in p1x2],
             "nesine_ms_margin": None if margin is None else round(margin, 4), "derivatives_priced": derivatives_ok, "selections": rows}
@@ -616,6 +796,17 @@ def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated
             price_time = None if str(rec.get("reference") or "").startswith("ESPN") else gen
         flags = staleness_flags(res, price_time)
         res["motivation"] = {side: motivation(t, res.get("league_slug")) for side, t in res["teams"].items()}
+        from quantfoot.markets.lineup_xg import assess_motivation_risk
+        mot_risk = assess_motivation_risk(res["motivation"].get("home"), res["motivation"].get("away"))
+        res["motivation_regime"] = {
+            "regime": mot_risk.regime,
+            "dead_rubber": mot_risk.dead_rubber,
+            "one_sided": mot_risk.one_sided,
+            "high_stakes_tight": mot_risk.high_stakes_tight,
+        }
+        for mf in mot_risk.flags:
+            if mf not in flags:
+                flags.append(mf)
         res["flags"] = flags
         rec["research"] = res
         # Important absence in a line-up published after our price was fetched -> keep out of coupons.
@@ -725,6 +916,7 @@ def analyze_day(
         else []
     )
     op_refs = fetch_oddspapi_references([day.isoformat(), nxt.isoformat()])
+    toa_refs = fetch_the_odds_api_references(cache_dir=ROOT / "data" / "cache" / "the_odds_api")
     af_refs = fetch_api_football_references([day.isoformat(), nxt.isoformat()], budget=default_budget(),
                                             cache_dir=API_BUDGET_DIR)  # kota: data/cache/api_football/butce_<gün>.json
     if verbose:
@@ -743,10 +935,12 @@ def analyze_day(
             print(f"OddsMath (BetInAsia/sharp + global büro + steam): {len(om_refs)} maçta canlı oran bulundu")
         if op_refs:
             print(f"OddsPapi (API): {len(op_refs)} maçta oran bulundu")
+        if toa_refs:
+            print(f"The Odds API (Pinnacle/Betfair/Matchbook): {len(toa_refs)} maçta canlı keskin oran bulundu")
         if af_refs:
             print(f"API-Football (1100+ lig): {len(af_refs)} maçta oran bulundu")
         print(f"ESPN: {len(espn)} maçta oran bulundu")
-    refs = sharp + op_refs + om_refs + af_refs + espn
+    refs = sharp + toa_refs + op_refs + om_refs + af_refs + espn
     owner = _owners(real_events, refs, leagues=leagues)
     out = []
     for e in sorted(events, key=lambda x: x.kickoff):
@@ -774,17 +968,16 @@ def analyze_day(
             if ref is not None:
                 break
         contradiction = False
-        if ref is not None and ref["source"] in EXCHANGES:
-            other, _ = _match(e, [r for r in mine if r["source"] in EXCHANGES and r["source"] != ref["source"]], league=league)
-            if other is not None:
-                ref = consensus(ref, other)  # None when the two exchanges contradict each other
-                contradiction = ref is None
+        if ref is not None and is_sharp_source(ref["source"]):
+            ref, contradiction = fuse_sharp_references(e, ref, mine, league=league)
         # Carry OddsMath live steam_1x2 even when GitHub Pinnacle/Smarkets won source priority
         if ref is not None and not ref.get("steam_1x2") and om_refs:
             om_mine = [r for r in mine if r["source"].startswith("OddsMath (")]
             om_hit, _ = _match(e, om_mine, league=league) if om_mine else (None, 0.0)
             if om_hit and om_hit.get("steam_1x2"):
                 ref = {**ref, "steam_1x2": om_hit["steam_1x2"]}
+        hv = build_half_split_view(league, e.home, e.away, as_of=day)
+        h_shifts = (hv.home_1h_urgency_shift, hv.away_1h_urgency_shift) if hv is not None else (0.0, 0.0)
         if ref is None:
             rec["status"] = ("borsalar birbiriyle çelişiyor (> 8 puan) — fiyatlanmadı" if contradiction
                              else "global referans bulunamadı — fiyatlanmadı")
@@ -792,11 +985,11 @@ def analyze_day(
             if local is not None and not contradiction:
                 # Display-only estimate from Nesine's own margin-free odds: never used in coupons
                 # (candidates() accepts only status 'fiyatlandı').
-                rec.update(**price_event(e, local, league))
+                rec.update(**price_event(e, local, league, half_shifts=h_shifts))
                 rec["status"] = NESINE_ONLY_STATUS
             rec["price_tier"] = classify_price_tier(rec["status"], rec.get("reference"))
         else:
-            rec.update(match_score=round(score, 2), ref_match=f"{ref['home']} - {ref['away']}", **price_event(e, ref, league))
+            rec.update(match_score=round(score, 2), ref_match=f"{ref['home']} - {ref['away']}", **price_event(e, ref, league, half_shifts=h_shifts))
             rec["status"] = "fiyatlandı"
             rec["price_tier"] = classify_price_tier(rec["status"], rec.get("reference"))
         out.append(rec)
@@ -845,6 +1038,9 @@ def analyze_day(
                 res["weather"] = w
                 if w.get("flag") and w["flag"] not in res["flags"]:
                     res["flags"].append(w["flag"])
+    for rec in out:
+        if rec.get("price_tier") != "ozel_bahis":
+            enrich_match_record(rec, as_of=day)
     return out, payload, events
 
 
@@ -963,18 +1159,45 @@ def _side_rows(r: dict, side: str) -> dict[str, str]:
     if t.get("lineup_announced"):
         miss = [p["name"] for p in t.get("missing_regulars") or []]
         row["İlk 11"] = "açıklandı" + (f"; düzenli oyunculardan yok: {', '.join(miss)}" if miss else "")
+    rec_pf = t.get("recent_player_form") or {}
+    if rec_pf.get("hot_players"):
+        row["Son 5 maç formda oyuncular"] = ", ".join(
+            f"{p['name']} ({p['goals']}G {p['assists']}A, {p['sot']} isabetli şut)"
+            for p in rec_pf["hot_players"][:4]
+        )
+    if rec_pf.get("recent_gk"):
+        rgk = rec_pf["recent_gk"]
+        rsp = f"%{rgk['save_pct'] * 100:.0f} kurtarış" if rgk.get("save_pct") is not None else "kurtarış verisi yok"
+        row["Son 5 maç kaleci formu"] = f"{rgk['name']} ({rgk['starts']} maç, {rsp}, {rgk['conceded_per_game']} gol/maç)"
+    scout = r.get("squad_scouting") or {}
+    s_side = scout.get(side) if isinstance(scout, dict) else None
+    if isinstance(s_side, dict):
+        row["Hat güçleri (0-100)"] = (
+            f"Kaleci {s_side['goalkeeper']:.0f} · Defans {s_side['defense']:.0f} · "
+            f"Orta Saha {s_side['midfield']:.0f} · Forvet {s_side['attack']:.0f} "
+            f"(Genel {s_side['overall']:.0f}, stil: {s_side['tactical_style']})"
+        )
+    bx = (r.get("boxscore_profile") or {}).get(side) if isinstance(r.get("boxscore_profile"), dict) else None
+    if isinstance(bx, dict) and bx.get("shots_for") is not None:
+        row["2026/27 Maç İstatistiği"] = (
+            f"Şut {bx['shots_for']:.1f}/{bx.get('shots_against', 0):.1f} · "
+            f"İsabet {bx.get('sot_for', 0):.1f}/{bx.get('sot_against', 0):.1f} · "
+            f"Korner {bx.get('corners_for', 0):.1f}/{bx.get('corners_against', 0):.1f} · "
+            f"CS %{100 * (bx.get('clean_sheet_rate') or 0):.0f} · "
+            f"Kaleci kurtarış ~%{100 * (bx.get('gk_save_rate') or 0.70):.0f}"
+        )
     return row
 
 
 def write_team_files(date: str, out: list[dict], d: Path) -> None:
-    """Per-match dossier of both teams (ESPN + Premier League official availability)."""
+    """Per-match dossier of both teams (ESPN + Premier League official availability + line-by-line squad scouting)."""
     md = [f"# {date} — Takım dosyaları", "",
-          "Kaynak: ESPN (form, son maçlar, puan durumu, sezon golleri, golcüler, kaleci, kartlar, ilk 11), Premier Lig "
-          "resmî sakat/cezalı listesi ve varsa sizin sağladığınız sakatlık/ceza dosyası. Olasılıklar bu bilgilerden değil global borsa fiyatından gelir; bu dosya bağlam ve "
-          "kontrol içindir.", ""]
+          "Kaynak: ESPN (form, son maçlar, puan durumu, sezon golleri, golcüler, kaleci, kartlar, ilk 11), "
+          "2026/27 xG & maç istatistikleri, hat bazlı kadro gücü (Kaleci/Defans/Orta Saha/Forvet), Premier Lig "
+          "resmî sakat/cezalı listesi ve varsa sizin sağladığınız sakatlık/ceza dosyası.", ""]
     for m in out:
         r = m.get("research")
-        if not r or not (r.get("teams") or r.get("user_absences") or r.get("absences") or r.get("tm_absences")):
+        if not r or not (r.get("teams") or r.get("user_absences") or r.get("absences") or r.get("tm_absences") or r.get("squad_scouting")):
             continue
         h, a = _side_rows(r, "home"), _side_rows(r, "away")
         h["Takım"] = h["Takım"] if h["Takım"] != "-" else m["home"]
@@ -987,6 +1210,13 @@ def write_team_files(date: str, out: list[dict], d: Path) -> None:
                "| | Ev | Deplasman |", "|---|---|---|"]
         for key in dict.fromkeys(list(h) + list(a)):
             md.append(f"| {key} | {h.get(key, '-')} | {a.get(key, '-')} |")
+        scout = r.get("squad_scouting")
+        if isinstance(scout, dict) and (scout.get("key_edges") or scout.get("derby")):
+            md.append("")
+            if scout.get("derby"):
+                md.append(f"- **Derbi bağlamı:** {scout['derby'].get('label')} (tempo endeksi {scout.get('tempo_index', 50):.0f}/100)")
+            for ke in scout.get("key_edges") or []:
+                md.append(f"- **Taktik üstünlük:** {ke}")
         md.append("")
     (d / "takim_dosyalari.md").write_text("\n".join(md) + "\n", encoding="utf-8")
 

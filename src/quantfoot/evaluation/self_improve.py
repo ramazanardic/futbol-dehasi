@@ -88,6 +88,21 @@ def _build_diag_ctx(match: Mapping[str, Any], sel: Mapping[str, Any]) -> dict[st
     tm = res.get("tm_absences") or {}
     ua = res.get("user_absences") or {}
     f1x2 = match.get("fair_1x2")
+    mot_reg = res.get("motivation_regime") or {}
+    dead_rubber = bool(mot_reg.get("dead_rubber"))
+    if not dead_rubber and isinstance(res.get("motivation"), Mapping):
+        from quantfoot.markets.lineup_xg import assess_motivation_risk
+        dead_rubber = assess_motivation_risk(
+            res["motivation"].get("home"),
+            res["motivation"].get("away"),
+        ).dead_rubber
+    ref_prof = res.get("referee_profile")
+    ref_card_z = (
+        ref_prof.get("card_zscore")
+        if isinstance(ref_prof, Mapping)
+        else res.get("referee_card_zscore")
+    )
+    cons_disp = match.get("consensus_dispersion") or {}
     ctx: dict[str, Any] = {
         "mu_home": match.get("mu_home"),
         "mu_away": match.get("mu_away"),
@@ -96,10 +111,14 @@ def _build_diag_ctx(match: Mapping[str, Any], sel: Mapping[str, Any]) -> dict[st
         "league": match.get("league"),
         "direct": bool(sel.get("direct")),
         "flags": res.get("flags") or match.get("flags") or [],
+        "steam_1x2": match.get("steam_1x2"),
+        "consensus_kl": cons_disp.get("max_kl_divergence") if isinstance(cons_disp, Mapping) else None,
         "home_gk1_out": bool((tm.get("home") or {}).get("gk1_out") or (ua.get("home") or {}).get("gk_out")),
         "away_gk1_out": bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out")),
         "home_top_scorer_out": bool((tm.get("home") or {}).get("top_scorer_out")),
         "away_top_scorer_out": bool((tm.get("away") or {}).get("top_scorer_out")),
+        "dead_rubber": dead_rubber,
+        "referee_card_zscore": ref_card_z,
     }
     return ctx
 
@@ -199,6 +218,8 @@ def run_self_audit(
     by_steam_market: dict[str, _Acc] = {}
     by_diag_bucket: dict[str, _Acc] = {}
     day_summaries: list[dict[str, Any]] = []
+    corp_probs: list[float] = []
+    corp_outcomes: list[float] = []
 
     settled_match_codes: set[int] = set()
 
@@ -249,6 +270,8 @@ def run_self_audit(
                 band = _prob_band(p)
 
                 overall.add(p, won, odds)
+                corp_probs.append(float(p))
+                corp_outcomes.append(1.0 if won else 0.0)
                 day_acc.add(p, won, odds)
                 by_selection.setdefault(cname, _Acc()).add(p, won, odds)
                 by_family.setdefault(fam, _Acc()).add(p, won, odds)
@@ -334,6 +357,30 @@ def run_self_audit(
         for item in toxic_alarms[:10]
     ]
 
+    corp_calibration: dict[str, Any] | None = None
+    if len(corp_probs) >= 5:
+        from quantfoot.evaluation.clv_tracker import corp_reliability_decomposition
+        c_res = corp_reliability_decomposition(corp_outcomes, corp_probs)
+        corp_calibration = {
+            "n": c_res.n,
+            "brier": round(c_res.brier, 5),
+            "corp_ece": round(c_res.corp_ece, 5),
+            "mcb": round(c_res.mcb, 5),
+            "dsc": round(c_res.dsc, 5),
+            "unc": round(c_res.unc, 5),
+            "skill_vs_climo": round(c_res.dsc - c_res.mcb, 5),
+            "n_isotonic_levels": c_res.n_isotonic_levels,
+        }
+
+    clv_summary: dict[str, Any] | None = None
+    ledger_path = ai_path / "clv_defteri.jsonl"
+    if ledger_path.exists():
+        try:
+            from quantfoot.evaluation.clv_ledger import summarize_clv_ledger
+            clv_summary = summarize_clv_ledger(ledger_path)
+        except Exception:  # noqa: BLE001 — CLV özeti isteğe bağlı
+            clv_summary = None
+
     return {
         "ai": ai_path.name,
         "generated_at": dt.datetime.now(TSI).isoformat(timespec="minutes"),
@@ -341,6 +388,8 @@ def run_self_audit(
         "settled_matches": len(settled_match_codes),
         "filters": {"min_p": min_p, "min_odds": min_odds, "prior_n": prior_n, "min_n": min_n},
         "overall_coupon_zone": overall.summarize(prior_n),
+        "corp_calibration": corp_calibration,
+        "clv_summary": clv_summary,
         "main_picks": main_picks_acc.summarize(prior_n),
         "days": day_summaries,
         "by_diagnosis_v3": diag_stats,
@@ -444,6 +493,30 @@ def render_markdown(report: Mapping[str, Any]) -> str:
         lines.append(
             f"| kaynak: `{k}` | {st['n']} | {st['hits']} | %{100*st['hit_rate']:.1f} | %{100*st['mean_p']:.1f} | {100*st['raw_residual']:+.1f}p | {st['brier']:.4f} |"
         )
+
+    corp = report.get("corp_calibration")
+    if isinstance(corp, Mapping) and corp.get("n", 0) > 0:
+        lines += [
+            "",
+            "## 6. CORP Kutusuz Kalibrasyon Ayrıştırması (Dimitriadis et al. 2021)",
+            "",
+            f"- **Brier:** `{corp['brier']:.5f}` = **MCB (Yanlış Kalibrasyon):** `{corp['mcb']:.5f}` "
+            f"− **DSC (Ayırt Etme):** `{corp['dsc']:.5f}` + **UNC (Belirsizlik):** `{corp['unc']:.5f}` "
+            f"· **CORP ECE:** `{corp['corp_ece']:.5f}` · **Beceri (DSC − MCB):** `{corp['skill_vs_climo']:+.5f}` "
+            f"(`{corp['n_isotonic_levels']}` PAVA düzeyi)",
+        ]
+
+    clv = report.get("clv_summary")
+    if isinstance(clv, Mapping) and clv.get("n_with_closing_clv", 0) > 0:
+        clv_rep = clv.get("clv_report") or {}
+        lines += [
+            "",
+            "## 7. Kapanış Çizgisi Değeri (CLV Defteri)",
+            "",
+            f"- **CLV ölçülen seçim:** {clv['n_with_closing_clv']} · "
+            f"**Ortalama CLV:** `%{100*float(clv_rep.get('mean_clv', 0.0)):+.2f}` · "
+            f"**Pozitif CLV oranı:** `%{100*float(clv_rep.get('positive_rate', 0.0)):.1f}`",
+        ]
     lines.append("")
     return "\n".join(lines)
 

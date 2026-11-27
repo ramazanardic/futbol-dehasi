@@ -27,6 +27,9 @@ import wiki_gecmis as wg  # noqa: E402
 
 sys.path.insert(0, str(dr.ROOT / "src"))
 from quantfoot.markets.goal_markets import goal_probability  # noqa: E402
+from quantfoot.markets.league_halves import league_first_half_share  # noqa: E402
+from quantfoot.markets.market_calibration import nesine_league_to_division  # noqa: E402
+from quantfoot.markets.match_intelligence import _parse_csv_date, load_division_rows  # noqa: E402
 
 MIN_GAMES, MIN_TEAM = 40, 4
 XG_RANGE = (0.25, 4.5)
@@ -35,8 +38,28 @@ HT_SHARE = 0.44
 G = 9
 
 
+def _season_2627_results(league: str, day: dt.date) -> list[tuple]:
+    """Strictly causal played 2026/27 rows (< day) from local football-data CSVs."""
+    div = nesine_league_to_division(league)
+    if not div:
+        return []
+    rows = []
+    for r in load_division_rows(div):
+        d = _parse_csv_date(r.get("Date"))
+        if d is None or d >= day:
+            continue
+        try:
+            rows.append((d, str(r["HomeTeam"]), str(r["AwayTeam"]), int(float(r["FTHG"])), int(float(r["FTAG"]))))
+        except (KeyError, TypeError, ValueError):
+            continue
+    return rows
+
+
 def league_results(league: str, day: dt.date) -> tuple[list[tuple], str]:
     """[(date | None, home, away, home goals, away goals)] of the league's played games, and the source name."""
+    s2627 = _season_2627_results(league, day)
+    if len(s2627) >= MIN_GAMES:
+        return s2627, "football-data-2627"
     games = of.played(of.league_file(league, day), day)
     if games:
         return [(dt.date.fromisoformat(x["date"]), x["team1"], x["team2"], x["score"]["ft"][0], x["score"]["ft"][1])
@@ -55,7 +78,7 @@ def _fit(league: str, day: dt.date):
     if len(rows) < MIN_GAMES:
         return None, src, {}
     gh, ga, th, ta = [r[3] for r in rows], [r[4] for r in rows], [r[1] for r in rows], [r[2] for r in rows]
-    if src == "openfootball":  # dated games: Dixon-Coles with time decay
+    if src in ("football-data-2627", "openfootball"):  # dated games: Dixon-Coles with time decay
         model = pb.models.DixonColesGoalModel(gh, ga, th, ta, weights=[np.exp(-XI * (day - d).days) for d, *_ in rows])
         model.fit()
     else:  # undated season table, often thin: hierarchical Bayesian model shrinks thin teams towards the league
@@ -69,8 +92,9 @@ def _fit(league: str, day: dt.date):
     return model, src, counts
 
 
-def half_joint(ft: np.ndarray) -> np.ndarray:
-    """(h1, a1, h2, a2) distribution from a full-time score matrix, first-half goals ~ Binomial(goals, HT_SHARE)."""
+def half_joint(ft: np.ndarray, first_half_share: float = HT_SHARE) -> np.ndarray:
+    """(h1, a1, h2, a2) distribution from a full-time score matrix, first-half goals ~ Binomial(goals, share)."""
+    s1 = float(np.clip(first_half_share, 0.30, 0.55))
     joint = np.zeros((G, G, G, G))
     n = min(ft.shape[0], 2 * G - 1)
     for h in range(n):
@@ -79,9 +103,9 @@ def half_joint(ft: np.ndarray) -> np.ndarray:
             if p <= 0:
                 continue
             for h1 in range(max(0, h - G + 1), min(h, G - 1) + 1):
-                ph = comb(h, h1) * HT_SHARE ** h1 * (1 - HT_SHARE) ** (h - h1)
+                ph = comb(h, h1) * s1 ** h1 * (1 - s1) ** (h - h1)
                 for a1 in range(max(0, a - G + 1), min(a, G - 1) + 1):
-                    pa = comb(a, a1) * HT_SHARE ** a1 * (1 - HT_SHARE) ** (a - a1)
+                    pa = comb(a, a1) * s1 ** a1 * (1 - s1) ** (a - a1)
                     joint[h1, a1, h - h1, a - a1] += p * ph * pa
     return joint / joint.sum()
 
@@ -106,7 +130,8 @@ def match_view(m: dict) -> tuple[np.ndarray, dict] | None:
     xh, xa = float(p.home_goal_expectation), float(p.away_goal_expectation)
     if not (XG_RANGE[0] <= xh <= XG_RANGE[1] and XG_RANGE[0] <= xa <= XG_RANGE[1]):
         return None  # implausible rate (thin or lopsided season sample, e.g. 0.05 goals): not a usable view
-    joint = half_joint(np.asarray(p.goal_matrix, dtype=float))
+    lg_share = league_first_half_share(m.get("league")) or HT_SHARE
+    joint = half_joint(np.asarray(p.goal_matrix, dtype=float), first_half_share=lg_share)
     return joint, {"source": src, "home": home, "away": away,
                    "xg": [round(float(p.home_goal_expectation), 2), round(float(p.away_goal_expectation), 2)]}
 

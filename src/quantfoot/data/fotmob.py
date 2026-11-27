@@ -127,11 +127,30 @@ def parse_details(payload: dict) -> dict[str, Any]:
         out["lineup_type"] = lu.get("lineupType")
         for side, key in (("home", "homeTeam"), ("away", "awayTeam")):
             t = lu.get(key) or {}
-            out[f"{side}_lineup"] = {"formation": t.get("formation"), "rating": t.get("rating"),
-                                     "starters": [p.get("name") for p in t.get("starters") or []],
-                                     "unavailable": [{"name": p.get("name"), "reason": ((p.get("unavailability") or {}).get("type")),
-                                                      "expected_return": ((p.get("unavailability") or {}).get("expectedReturn"))}
-                                                     for p in t.get("unavailable") or []]}
+            starter_details = []
+            for p in t.get("starters") or []:
+                perf = p.get("performance") or {}
+                rating = _num(perf.get("rating") if isinstance(perf, dict) else p.get("rating"))
+                starter_details.append({
+                    "name": p.get("name"),
+                    "position_id": p.get("positionId"),
+                    "usual_pos": p.get("usualPlayingPositionId"),
+                    "rating": rating,
+                })
+            out[f"{side}_lineup"] = {
+                "formation": t.get("formation"),
+                "rating": _num(t.get("rating")),
+                "starters": [p.get("name") for p in t.get("starters") or []],
+                "starter_details": starter_details,
+                "unavailable": [
+                    {
+                        "name": p.get("name"),
+                        "reason": ((p.get("unavailability") or {}).get("type")),
+                        "expected_return": ((p.get("unavailability") or {}).get("expectedReturn")),
+                    }
+                    for p in t.get("unavailable") or []
+                ],
+            }
     if c.get("weather"):
         w = c["weather"]
         out["weather"] = {"temp_c": w.get("temperature"), "wind": w.get("windSpeed"), "precip": w.get("precipitation"),
