@@ -12,8 +12,8 @@ constant over six 15-minute bins (stoppage time folded into 31-45 and 76-90):
 * Within a half, the hazard is spread with `DEFAULT_BIN_SHARES`.  Goal intensity rises as a
   match progresses and the opening minutes of each half are quietest (Ayana et al. 2025,
   arXiv:2501.18606); the last 15 minutes carry the largest share (22.7% of World Cup goals
-  1966-2018, Mićović et al. 2023, doi:10.3389/fpsyg.2023.954876).  The default profile is a
-  literature prior — override it with shares estimated from minute-level data when available.
+  1966-2018, Mićović et al. 2023, doi:10.3389/fpsyg.2023.954876).  The default profile is
+  measured on minute-level club data (22.7% of goals in 76-90, see `DEFAULT_BIN_SHARES`).
 * Probabilities that condition on "at least one goal" are rescaled so that
   P(no goal in the match) equals the joint's P(0-0).
 
@@ -29,8 +29,12 @@ import numpy as np
 
 BIN_LABELS: tuple[str, ...] = ("1-15", "16-30", "31-45", "46-60", "61-75", "76-90")
 BIN_EDGES: tuple[float, ...] = (0.0, 15.0, 30.0, 45.0, 60.0, 75.0, 90.0)
-# Share of a match's goals per bin (sums to 1); rescaled per half to the calibrated 1H share.
-DEFAULT_BIN_SHARES: tuple[float, ...] = (0.125, 0.145, 0.170, 0.165, 0.180, 0.215)
+# Share of a match's goals per bin (sums to 1); rescaled per half to the calibrated 1H share. Measured on 50,603 goals
+# and own goals (stoppage time folded into 31-45 / 76-90) in 19,774 matches of 12 European top flights since 2020:
+# David Schoch football-data goals_time2 (ODC-By 1.0), via the user's GLOBAL FOOTBALL INTELLIGENCE archive, 27 Nov.
+# It replaced the literature prior (0.125, 0.145, 0.170, 0.165, 0.180, 0.215): the 61-75 bin was 1.9 pt too high and
+# 76-90 1.2 pt too low.
+DEFAULT_BIN_SHARES: tuple[float, ...] = (0.135, 0.143, 0.171, 0.163, 0.161, 0.227)
 
 
 @dataclass(frozen=True)
