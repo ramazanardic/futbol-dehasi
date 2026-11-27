@@ -31,6 +31,7 @@ class SystemLeg:
     mbs: int = 1
     kickoff: str | None = None
     league: str | None = None
+    consensus_dispersion: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -325,6 +326,8 @@ def build_capital_shield_plan(
     max_stake_frac: float = 0.03,
     max_daily_frac: float = 0.10,
     step_tl: float = 10.0,
+    drawdown_pct: float = 0.0,
+    max_drawdown_stop: float = 0.25,
 ) -> CapitalShieldPlan:
     """Kasa koruma planı: yüksek Nesine marjlı 5–6'lı kombine yerine düşük-bacaklı (2–3 maç) ve EV tabanlı kuponlar.
 
@@ -333,9 +336,18 @@ def build_capital_shield_plan(
       * EV >= -%10 bacaklar 17/20 (%85,0 isabet, +%20,8 1u ROI).
       * Kasa başına kupon tavanı %3 ve günlük toplam risk tavanı %10 ile tek kötü günde sermaye erimesi engellenir.
       * PortfolioExposureGuard ile hiçbir maç iki kupona birden girmez (sıfır çapraz çöküş).
+      * Drawdown (sermaye düşüşü) %25+ olduğunda devre kesici otomatik PAS geçer; ara düşüşlerde ve
+        keskin büro dağılımı (consensus_dispersion) yüksek bacaklarda tutar otomatik kısılır.
     """
     if bankroll_tl <= 0 or legs_per_ticket < 1 or max_tickets < 1:
         return CapitalShieldPlan(bankroll_tl, 0.0, 0.0, (), 0, ("Geçersiz bütçe veya kupon parametresi.",))
+
+    dd = max(0.0, float(drawdown_pct))
+    if dd >= max_drawdown_stop:
+        return CapitalShieldPlan(
+            round(bankroll_tl, 2), 0.0, 0.0, (), 0,
+            (f"Devre kesici aktif (drawdown %{100*dd:.1f} ≥ %{100*max_drawdown_stop:.0f}) — BUGÜN PAS (kasa korundu).",),
+        )
 
     # Maç başına en yüksek EV'li (eşitlikte en yüksek P) bacağı seç, EV tabanı ve MBS sınırını uygula
     best_by_match: dict[str, SystemLeg] = {}
@@ -354,21 +366,31 @@ def build_capital_shield_plan(
     ranked = sorted(best_by_match.values(), key=lambda x: (-(x.p * x.odds - 1.0), -x.p, x.match_id))
     guard = PortfolioExposureGuard(max_coupons_per_match=1, max_coupons_per_selection=1)
 
-    max_daily_tl = bankroll_tl * max_daily_frac
-    raw_per_ticket = min(bankroll_tl * max_stake_frac, max_daily_tl / max_tickets)
-    stake_tl = max(step_tl, math.floor(raw_per_ticket / step_tl) * step_tl) if raw_per_ticket >= step_tl else round(raw_per_ticket, 2)
+    dd_scale = max(0.25, 1.0 - dd / max(max_drawdown_stop + 0.05, 0.30)) if dd > 0.0 else 1.0
+    max_daily_tl = bankroll_tl * max_daily_frac * dd_scale
+    raw_per_ticket = min(bankroll_tl * max_stake_frac * dd_scale, max_daily_tl / max_tickets)
+    base_stake_tl = max(step_tl, math.floor(raw_per_ticket / step_tl) * step_tl) if raw_per_ticket >= step_tl else round(raw_per_ticket, 2)
 
     tickets: list[CapitalShieldTicket] = []
     total_staked = 0.0
+    throttled_dispersion = 0
     idx = 0
     for tno in range(1, max_tickets + 1):
-        if idx + legs_per_ticket > len(ranked) or total_staked + stake_tl > max_daily_tl + 1e-9:
+        if idx + legs_per_ticket > len(ranked):
             break
         batch = tuple(ranked[idx : idx + legs_per_ticket])
         idx += legs_per_ticket
         cid = f"kasa_koruma_{tno}"
         if guard.register_coupon(cid, batch):
             continue
+        max_disp = max((float(getattr(x, "consensus_dispersion", 0.0) or 0.0) for x in batch), default=0.0)
+        ticket_raw = base_stake_tl
+        if max_disp > 0.035:
+            ticket_raw = base_stake_tl * 0.70
+            throttled_dispersion += 1
+        stake_tl = max(step_tl, math.floor(ticket_raw / step_tl) * step_tl) if ticket_raw >= step_tl else round(ticket_raw, 2)
+        if total_staked + stake_tl > max_daily_tl + 1e-9:
+            break
         tot_odds = round(math.prod(x.odds for x in batch), 2)
         p_win = round(math.prod(x.p for x in batch), 4)
         ev = round(p_win * tot_odds - 1.0, 4)
@@ -384,6 +406,10 @@ def build_capital_shield_plan(
         total_staked += stake_tl
 
     notes: list[str] = []
+    if dd > 0.0:
+        notes.append(f"Drawdown freni aktif (%{100*dd:.1f} düşüş → tutar çarpanı {dd_scale:.2f}x).")
+    if throttled_dispersion:
+        notes.append(f"{throttled_dispersion} kuponda yüksek keskin büro dağılımı nedeniyle tutar %30 kısıldı.")
     if not tickets:
         notes.append(f"EV ≥ %{100*min_ev:+.0f} ve P ≥ %{100*min_p:.0f} kasa koruma eşiğini geçen yeterli maç yok — BUGÜN PAS (kasa korundu).")
     if skipped_low_ev:

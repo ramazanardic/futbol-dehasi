@@ -133,6 +133,30 @@ def parse_steam_pp(ctx: Mapping[str, Any] | Any, extra_flags: Any = None) -> flo
     return max(mags) if mags else 0.0
 
 
+def parse_directional_steam(ctx: Mapping[str, Any] | Any, cname: str) -> float | None:
+    """Return signed sharp probability move (in probability units, + = steam WITH our pick, - = AGAINST) when steam_1x2 is known."""
+    s1x2 = _get(ctx, "steam_1x2")
+    if not isinstance(s1x2, (list, tuple)) or len(s1x2) != 3:
+        return None
+    try:
+        dh, dx, da = float(s1x2[0]), float(s1x2[1]), float(s1x2[2])
+    except (TypeError, ValueError):
+        return None
+    if cname == "MS 1":
+        return dh
+    if cname == "MS 0":
+        return dx
+    if cname == "MS 2":
+        return da
+    if cname in ("ÇŞ 1X", "ÇŞ 10"):
+        return dh + dx
+    if cname in ("ÇŞ X2", "ÇŞ 02"):
+        return dx + da
+    if cname == "ÇŞ 12":
+        return dh + da
+    return None
+
+
 def diagnose_selection(
     name: str | None,
     p: float,
@@ -718,6 +742,35 @@ def diagnose_selection(
                 reasons.append(f"{cname} sert steam volatilite tuzağı ({steam_pp:.1f}p ≥ 6.0p; 22 Kas: %43,8 vs steam yokken %68,6)")
             if (h_gk_out if backing_home else a_gk_out) or (h_sc_out if backing_home else a_sc_out):
                 reasons.append(f"{cname}: favori takımda 1. kaleci veya gol kralı eksik")
+
+    # Opsiyonel v8 bağlam sinyalleri (yalnız ctx içinde açıkça verilirse devreye girer; eski çağrıları etkilemez):
+    # - dead_rubber: iki tarafın da hedefsiz olduğu maçlarda yüksek varyans / rotasyon riski
+    # - referee_card_zscore >= 2.0: sert kartlı hakem kırmızı kart / penaltı varyansını artırır (Alt pazarlarında risk)
+    # - directional sharp steam (tipsaudit n=7,348: yön-uyumlu +%19.2 ROI vs ters yön -%10.3 ROI)
+    # - consensus_kl > 0.020: keskin borsalar arası şiddetli uyumsuzluk (adverse selection)
+    dir_steam = parse_directional_steam(ctx, cname)
+    if dir_steam is not None:
+        if dir_steam <= -0.04:
+            p_adj = max(0.0, p_adj - 0.05)
+            reasons.append(f"{cname}: keskin piyasa bu tercihe TERS yönde hareket etti ({100*dir_steam:+.1f}p — adverse selection)")
+        elif dir_steam >= 0.03:
+            strengths.append(f"keskin steam destekli ({100*dir_steam:+.1f}p yön uyumlu)")
+
+    cons_kl = _flt(_get(ctx, "consensus_kl"))
+    kl_limit = 0.020 if for_coupon else 0.030
+    if cons_kl is not None and cons_kl > kl_limit:
+        p_adj = max(0.0, p_adj - 0.03)
+        reasons.append(f"{cname}: keskin borsalar arası yüksek dağılım/uyumsuzluk (KL={cons_kl:.4f} > {kl_limit:.3f})")
+
+    dead_rubber = bool(_get(ctx, "dead_rubber"))
+    if for_coupon and dead_rubber and family in ("Maç sonucu", "Handikap", "Çifte şans", "Alt/Üst"):
+        p_adj = max(0.0, p_adj - 0.03)
+        reasons.append(f"{cname}: iki takım da hedefsiz (dead rubber — rotasyon/tempo oynaklığı yüksek)")
+
+    ref_card_z = _flt(_get(ctx, "referee_card_zscore"))
+    if for_coupon and ref_card_z is not None and ref_card_z >= 2.0 and ("Alt" in cname or cname == "KG Yok"):
+        p_adj = max(0.0, p_adj - 0.025)
+        reasons.append(f"{cname}: aşırı kartlı hakem (kart z-skoru {ref_card_z:+.2f} ≥ +2.00 — kırmızı/penaltı varyansı yüksek)")
 
     # Alt/genç/kadın liglerinde (tier 3) türetilmiş + yüksek-P (≥%70) aşırı iyimserlik koruması
     # (yetişkin liglerde bant kırpması coupon_rules.calibrate_p ile uygulanır, çift sayım yapılmaz).

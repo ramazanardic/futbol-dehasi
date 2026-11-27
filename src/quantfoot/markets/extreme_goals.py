@@ -435,12 +435,34 @@ def score_both_halves_btts_match(
     sels = {s.get("name"): s for s in (match.get("selections") or [])}
     sel_kg2 = sels.get("İki Yarıda KG Var")
 
-    p_tail = both_halves_btts_probability(mh, ma, lg)
+    hs = (match.get("research") or {}).get("half_split")
+    h1_sh = _flt(hs.get("home_eff_1h_share")) if isinstance(hs, Mapping) else None
+    a1_sh = _flt(hs.get("away_eff_1h_share")) if isinstance(hs, Mapping) else None
+    p_tail = both_halves_btts_probability(
+        mh,
+        ma,
+        lg,
+        home_1h_share=h1_sh if h1_sh is not None else HOME_1H_SHARE_DEFAULT,
+        away_1h_share=a1_sh if a1_sh is not None else AWAY_1H_SHARE_DEFAULT,
+    )
     p_mkt = _flt(sel_kg2.get("fair_prob")) if sel_kg2 else None
     odds = _flt(sel_kg2.get("odds")) if sel_kg2 else None
     ev = (p_tail * odds - 1.0) if odds is not None else None
 
     hist = _extract_history_metrics(research_row)
+    # Enrich history with live 2026/27 half_split empirical BTTS-both-halves rates when ESPN half history is absent
+    if isinstance(hs, Mapping):
+        for side, pfx in (("home", "h"), ("away", "a")):
+            sp = hs.get(side)
+            if isinstance(sp, Mapping) and int(sp.get("matches") or 0) >= 4:
+                if hist[f"{pfx}_both_half_btts"] is None and _flt(sp.get("both_halves_btts_rate")) is not None:
+                    hist[f"{pfx}_both_half_btts"] = _flt(sp.get("both_halves_btts_rate"))
+                if hist[f"{pfx}_s1"] is None and _flt(sp.get("h1_gf")) is not None:
+                    hist[f"{pfx}_s1"] = 1.0 - math.exp(-max(0.0, float(sp["h1_gf"])))
+                if hist[f"{pfx}_c1"] is None and _flt(sp.get("h1_ga")) is not None:
+                    hist[f"{pfx}_c1"] = 1.0 - math.exp(-max(0.0, float(sp["h1_ga"])))
+                if hist[f"{pfx}_s2"] is None and _flt(sp.get("h2_gf")) is not None:
+                    hist[f"{pfx}_s2"] = 1.0 - math.exp(-max(0.0, float(sp["h2_gf"])))
     h_gk, a_gk, h_sc, a_sc = _absences(match, research_row)
     s_xg = _extract_sim_xg(match, research_row, sim_xg)
     def_crisis, steam_pp = _defensive_crisis_and_steam(match, research_row)

@@ -194,11 +194,15 @@ def leg_sigma(
     researched: bool,
     flagged: bool,
     calibration: dict | None = None,
+    *,
+    consensus_kl: float | None = None,
+    n_books: int = 1,
 ) -> float:
     """Uncertainty (probability points) of a leg's probability, from what the calibration work measured:
     a direct exchange quote is within ~1 pt, a goal-model derivative ~2-3 pts, half-time / second-half
-    model markets less certain still; a single exchange, non-sharp global book, missing research or a
-    team-news flag widen it. Optional ``calibration`` applies Empirical-Bayes deltas learned from settled days."""
+    model markets less certain still; a single exchange, non-sharp global book, missing research, high
+    multi-book KL disagreement, or a team-news flag widen it. Optional ``calibration`` applies Empirical-Bayes
+    deltas learned from settled days."""
     if direct:
         sigma = 0.010
     elif any(t in name for t in HALF_TOKENS):
@@ -207,6 +211,10 @@ def leg_sigma(
         sigma = 0.025
     if "+" not in reference:  # one exchange instead of two agreeing ones
         sigma += 0.005
+    elif n_books >= 3 and (consensus_kl is None or consensus_kl <= 0.006):
+        sigma = max(0.008, sigma - 0.003)
+    if consensus_kl is not None and consensus_kl > 0.010:
+        sigma += min(0.025, 0.012 + 0.5 * (consensus_kl - 0.010))
     if not reference.startswith(SHARP_SOURCES):  # mid-tier global book (e.g. Marathonbet/1XBET) carries extra margin noise
         sigma += 0.020
     if not researched:
@@ -299,9 +307,18 @@ def candidates(
         away_gk1_out = bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out"))
         home_top_scorer_out = bool((tm.get("home") or {}).get("top_scorer_out"))
         away_top_scorer_out = bool((tm.get("away") or {}).get("top_scorer_out"))
+        mot_reg = res.get("motivation_regime") or {}
+        dead_rubber = bool(mot_reg.get("dead_rubber"))
+        if not dead_rubber and isinstance(res.get("motivation"), dict):
+            from quantfoot.markets.lineup_xg import assess_motivation_risk
+            dead_rubber = assess_motivation_risk(res["motivation"].get("home"), res["motivation"].get("away")).dead_rubber
+        ref_card_z = (res.get("referee_profile") or {}).get("card_zscore") if isinstance(res.get("referee_profile"), dict) else res.get("referee_card_zscore")
+        cons_disp = m.get("consensus_dispersion") or {}
+        consensus_kl = cons_disp.get("max_kl_divergence") if isinstance(cons_disp, dict) else None
+        n_books = int(cons_disp.get("n_books") or (2 if "+" in m["reference"] else 1)) if isinstance(cons_disp, dict) else 1
         has_diag_ctx = any(
-            x is not None for x in (mu_home, mu_away)
-        ) or home_gk1_out or away_gk1_out or home_top_scorer_out or away_top_scorer_out or bool(res.get("flags"))
+            x is not None for x in (mu_home, mu_away, ref_card_z, consensus_kl)
+        ) or home_gk1_out or away_gk1_out or home_top_scorer_out or away_top_scorer_out or dead_rubber or bool(res.get("flags")) or bool(m.get("steam_1x2"))
         for s in m["selections"]:
             p_cal = calibrated_probability(s["fair_prob"], bool(s.get("direct")), calibration)  # settled-history correction
             p_cal = calibrate_market_probability(s.get("name", ""), p_cal, m.get("league"), mcal, direct=bool(s.get("direct")))  # archive walk-forward curve
@@ -334,14 +351,21 @@ def candidates(
                 "p1": p1, "p2": p2, "p_draw": p_draw, "p_over25": p_over25,
                 "mu_home": mu_home, "mu_away": mu_away,
                 "flags": list(res.get("flags") or []),
+                "steam_1x2": m.get("steam_1x2"),
+                "consensus_gap": m.get("consensus_gap"),
+                "consensus_kl": consensus_kl,
                 "home_gk1_out": home_gk1_out, "away_gk1_out": away_gk1_out,
                 "home_top_scorer_out": home_top_scorer_out, "away_top_scorer_out": away_top_scorer_out,
+                "dead_rubber": dead_rubber, "referee_card_zscore": ref_card_z,
             }
             if has_diag_ctx:
                 diag = diagnose_selection(s.get("name", ""), p_cal, leg_obj, for_coupon=True)
                 leg_obj["rehabilitated"] = bool(diag.rehabilitated)
                 leg_obj["diagnosis_ok"] = bool(diag.ok)
-            sig = leg_sigma(s.get("name", ""), bool(s.get("direct")), m["reference"], researched, flagged, calibration=calibration)
+            sig = leg_sigma(
+                s.get("name", ""), bool(s.get("direct")), m["reference"], researched, flagged,
+                calibration=calibration, consensus_kl=consensus_kl, n_books=n_books,
+            )
             if hard:
                 sig += HARD_MARKET_SIGMA_ADD
             if family_ev:

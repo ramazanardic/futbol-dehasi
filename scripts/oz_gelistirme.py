@@ -33,6 +33,11 @@ def main() -> None:
     ap.add_argument("--min-oran", type=float, default=DEFAULT_MIN_ODDS)
     ap.add_argument("--min-n", type=int, default=DEFAULT_MIN_N)
     ap.add_argument("--prior-n", type=float, default=DEFAULT_PRIOR_N)
+    ap.add_argument(
+        "--sinyal-kalibrasyon",
+        action="store_true",
+        help="2026/27 verisinde sinyal katmanı Brier/LogLoss katkısını ölçüp Empirical-Bayes ağırlıklarını güncelle",
+    )
     args = ap.parse_args()
 
     area = ai_area(ROOT)
@@ -54,6 +59,22 @@ def main() -> None:
     )
     print(f"Rapor: {md_path}")
     print(f"JSON : {json_path}")
+
+    if args.sinyal_kalibrasyon:
+        from quantfoot.evaluation.signal_attribution import (
+            render_attribution_markdown,
+            run_causal_signal_attribution,
+            save_signal_weights,
+        )
+
+        attr = run_causal_signal_attribution()
+        w_path = save_signal_weights(attr)
+        attr_md = area / "sinyal_kalibrasyon.md"
+        attr_md.write_text(render_attribution_markdown(attr), encoding="utf-8")
+        print(
+            f"[sinyal-kalibrasyon] {attr.evaluated_matches} maç | Brier: {attr.overall_market_brier:.5f} -> "
+            f"{attr.overall_model_brier:.5f} ({attr.overall_brier_gain:+.5f}) -> {w_path}"
+        )
 
 
 if __name__ == "__main__":

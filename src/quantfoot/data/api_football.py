@@ -42,13 +42,37 @@ def _book_rank(name: str) -> int:
     return 9
 
 
+def _clean_pair(o1: Any, o2: Any, max_vig: float = 0.14) -> tuple[list[float], float] | None:
+    try:
+        a, b = float(o1), float(o2)
+    except (TypeError, ValueError):
+        return None
+    if a <= 1.01 or b <= 1.01:
+        return None
+    vig = (1.0 / a) + (1.0 / b) - 1.0
+    if not (-0.02 <= vig <= max_vig):
+        return None
+    return [round(a, 4), round(b, 4)], vig
+
+
+def _devig_2way(pair: list[float]) -> tuple[float, float]:
+    from quantfoot.markets.devig import devig
+
+    probs = devig(pair, method="power").probabilities
+    return round(float(probs[0]), 5), round(float(probs[1]), 5)
+
+
 def parse_api_football_odds(
     fixtures_by_id: dict[int, dict[str, Any]],
     odds_items: Iterable[dict[str, Any]],
     *,
     fetched_utc: str | None = None,
 ) -> list[dict[str, Any]]:
-    """Normalize API-Football ``/fixtures`` + ``/odds`` JSON into ``nesine_global.py`` references."""
+    """Normalize API-Football ``/fixtures`` + ``/odds`` JSON into ``nesine_global.py`` references.
+
+    Extracts 1X2, Over/Under (1.5/2.5/3.5/4.5), Both Teams Score, Asian Handicap, and
+    First-Half O/U & 1X2 from the same ``/odds`` payload without spending additional API quota.
+    """
     ts = fetched_utc or dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
     refs: list[dict[str, Any]] = []
 
@@ -70,16 +94,21 @@ def parse_api_football_odds(
             continue
 
         x12_cands: list[tuple[int, float, str, list[float]]] = []
-        ou_cands: list[tuple[int, float, list[float]]] = []
+        ou_by_line: dict[float, list[tuple[int, float, list[float]]]] = {}
+        btts_cands: list[tuple[int, float, list[float]]] = []
+        ah_cands: list[tuple[int, float, float, list[float]]] = []
+        ht_ou_by_line: dict[float, list[tuple[int, float, list[float]]]] = {}
+        ht_1x2_cands: list[tuple[int, float, list[float]]] = []
 
         for bk in item.get("bookmakers") or []:
             bname = str(bk.get("name") or "")
             rk = _book_rank(bname)
             for bet in bk.get("bets") or []:
-                bet_name = str(bet.get("name") or "").lower()
+                bet_name = str(bet.get("name") or "").lower().strip()
                 vals = bet.get("values") or []
+                mp = {str(v.get("value")): v.get("odd") for v in vals}
+
                 if bet_name in ("match winner", "1x2"):
-                    mp = {str(v.get("value")): v.get("odd") for v in vals}
                     try:
                         o1x2 = [float(mp["Home"]), float(mp["Draw"]), float(mp["Away"])]
                     except (KeyError, TypeError, ValueError):
@@ -89,24 +118,91 @@ def parse_api_football_odds(
                         if 0.0 <= vig <= 0.16:
                             x12_cands.append((rk, vig, bname, o1x2))
                 elif bet_name in ("goals over/under", "over/under"):
-                    mp = {str(v.get("value")): v.get("odd") for v in vals}
+                    for line_val in (1.5, 2.5, 3.5, 4.5):
+                        res = _clean_pair(mp.get(f"Over {line_val:.1f}"), mp.get(f"Under {line_val:.1f}"))
+                        if res is not None:
+                            ou_by_line.setdefault(line_val, []).append((rk, res[1], res[0]))
+                elif bet_name in ("both teams score", "both teams to score"):
+                    res = _clean_pair(mp.get("Yes"), mp.get("No"))
+                    if res is not None:
+                        btts_cands.append((rk, res[1], res[0]))
+                elif bet_name == "asian handicap":
+                    home_h: dict[float, float] = {}
+                    away_h: dict[float, float] = {}
+                    for k, raw_odd in mp.items():
+                        parts = k.split()
+                        if len(parts) != 2 or parts[0] not in ("Home", "Away"):
+                            continue
+                        try:
+                            line_f = float(parts[1])
+                            odd_f = float(raw_odd)
+                        except (TypeError, ValueError):
+                            continue
+                        if parts[0] == "Home":
+                            home_h[line_f] = odd_f
+                        else:
+                            away_h[line_f] = odd_f
+                    for h_line, oh in home_h.items():
+                        oa = away_h.get(-h_line)
+                        res = _clean_pair(oh, oa)
+                        if res is not None:
+                            bal = abs(res[0][0] - res[0][1])
+                            ah_cands.append((rk, bal, h_line, res[0]))
+                elif bet_name in ("goals over/under first half", "goals over/under - first half"):
+                    for line_val in (0.5, 1.5):
+                        res = _clean_pair(mp.get(f"Over {line_val:.1f}"), mp.get(f"Under {line_val:.1f}"))
+                        if res is not None:
+                            ht_ou_by_line.setdefault(line_val, []).append((rk, res[1], res[0]))
+                elif bet_name in ("first half winner", "half time result"):
                     try:
-                        o_ou = [float(mp["Over 2.5"]), float(mp["Under 2.5"])]
+                        ht1x2 = [float(mp["Home"]), float(mp["Draw"]), float(mp["Away"])]
                     except (KeyError, TypeError, ValueError):
                         continue
-                    if min(o_ou) > 1.01:
-                        vig = sum(1.0 / x for x in o_ou) - 1.0
-                        if 0.0 <= vig <= 0.14:
-                            ou_cands.append((rk, vig, o_ou))
+                    if min(ht1x2) > 1.01:
+                        vig = sum(1.0 / x for x in ht1x2) - 1.0
+                        if 0.0 <= vig <= 0.16:
+                            ht_1x2_cands.append((rk, vig, ht1x2))
 
         if not x12_cands:
             continue
         x12_cands.sort(key=lambda x: (x[0], x[1]))
         rk, vig, bname, x12 = x12_cands[0]
+
         ou = None
-        if ou_cands:
-            ou_cands.sort(key=lambda x: (x[0], x[1]))
-            ou = [2.5, ou_cands[0][2]]
+        direct_markets: dict[str, dict[str, float]] = {}
+        for line_val in sorted(ou_by_line):
+            cands = sorted(ou_by_line[line_val], key=lambda x: (x[0], x[1]))
+            pair = cands[0][2]
+            if abs(line_val - 2.5) < 1e-6:
+                ou = [2.5, pair]
+            p_ov, p_un = _devig_2way(pair)
+            direct_markets[f"Over/Under {line_val:.1f}"] = {"OVER|Over": p_ov, "UNDER|Under": p_un}
+
+        if btts_cands:
+            btts_cands.sort(key=lambda x: (x[0], x[1]))
+            p_yes, p_no = _devig_2way(btts_cands[0][2])
+            direct_markets["Both Teams To Score"] = {"YES|Yes": p_yes, "NO|No": p_no}
+
+        for line_val in sorted(ht_ou_by_line):
+            cands = sorted(ht_ou_by_line[line_val], key=lambda x: (x[0], x[1]))
+            p_ov, p_un = _devig_2way(cands[0][2])
+            direct_markets[f"First Half Over/Under {line_val:.1f}"] = {"OVER|Over": p_ov, "UNDER|Under": p_un}
+
+        if ht_1x2_cands:
+            from quantfoot.markets.devig import devig
+
+            ht_1x2_cands.sort(key=lambda x: (x[0], x[1]))
+            hp = devig(ht_1x2_cands[0][2], method="power").probabilities
+            direct_markets["Half-time Result"] = {
+                "HOME|Home": round(float(hp[0]), 5),
+                "DRAW|Draw": round(float(hp[1]), 5),
+                "AWAY|Away": round(float(hp[2]), 5),
+            }
+
+        ah = None
+        if ah_cands:
+            ah_cands.sort(key=lambda x: (x[0], x[1]))
+            ah = [ah_cands[0][2], ah_cands[0][3]]
 
         if rk == 0:
             src_lbl = "Pinnacle (API-Football)"
@@ -115,19 +211,22 @@ def parse_api_football_odds(
         else:
             src_lbl = f"API-Football ({bname})"
 
-        refs.append(
-            {
-                "source": src_lbl,
-                "league": lg_name,
-                "home": home,
-                "away": away,
-                "kickoff": ko,
-                "kickoff_utc": ko.isoformat(),
-                "x12": x12,
-                "ou": ou,
-                "fetched_utc": ts,
-            }
-        )
+        rec: dict[str, Any] = {
+            "source": src_lbl,
+            "league": lg_name,
+            "home": home,
+            "away": away,
+            "kickoff": ko,
+            "kickoff_utc": ko.isoformat(),
+            "x12": x12,
+            "ou": ou,
+            "fetched_utc": ts,
+        }
+        if ah is not None:
+            rec["ah"] = ah
+        if direct_markets:
+            rec["markets"] = direct_markets
+        refs.append(rec)
     return refs
 
 

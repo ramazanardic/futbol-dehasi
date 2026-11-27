@@ -53,7 +53,11 @@ def families(home: str, away: str) -> list[tuple[str, list[tuple[str, str]]]]:
         ("Handikap (-1, ev sahibine)", [(f"{home} 2+ farkla", "Hnd(-1) 1"), (f"{home} tam 1 farkla", "Hnd(-1) 0"),
                                         (f"{away} kaybetmez", "Hnd(-1) 2")]),
         ("Maç sonucu & karşılıklı gol", [(f"{x} & KG {k}", f"MS {c} & KG {k}") for c, x in side.items() for k in ("Var", "Yok")]),
+        ("Maç sonucu & 1,5 Alt/Üst", [(f"{x} & 1,5 {u}", f"MS {c} & 1.5 {u}") for c, x in side.items() for u in ("Üst", "Alt")]),
         ("Maç sonucu & 2,5 Alt/Üst", [(f"{x} & 2,5 {u}", f"MS {c} & 2.5 {u}") for c, x in side.items() for u in ("Üst", "Alt")]),
+        ("Maç sonucu & 3,5 Alt/Üst", [(f"{x} & 3,5 {u}", f"MS {c} & 3.5 {u}") for c, x in side.items() for u in ("Üst", "Alt")]),
+        ("Çifte şans & Gol kombini", [(f"ÇŞ {d} & {ln.replace('.', ',')} {u}", f"ÇŞ {d} & {ln} {u}") for d in ("1X", "X2") for ln in ("1.5", "2.5") for u in ("Üst", "Alt")]),
+        ("Alt/Üst & Karşılıklı gol", [(f"2,5 {u} & KG {k}", f"2.5 {u} & KG {k}") for u in ("Üst", "Alt") for k in ("Var", "Yok")]),
     ]
     for ln in ("0.5", "1.5", "2.5"):
         fam.append((f"1. yarı {ln.replace('.', ',')} Alt/Üst", [(f"İY {ln.replace('.', ',')} Üst", f"İY {ln} Üst"),
@@ -123,7 +127,7 @@ def dossier(m: dict) -> str:
              "'model' = global fiyattan gol dağılımıyla.", ""]
     lines += [f"**En yüksek 5 aile olasılığı** · {format_top_five(top_five(m))}", ""]
     r = m.get("research") or {}
-    if r.get("teams") or r.get("user_absences") or r.get("tm_absences") or r.get("absences"):
+    if r.get("teams") or r.get("user_absences") or r.get("tm_absences") or r.get("absences") or r.get("squad_scouting"):
         h, a = ng._side_rows(r, "home"), ng._side_rows(r, "away")
         h["Takım"] = h["Takım"] if h["Takım"] != "-" else m["home"]
         a["Takım"] = a["Takım"] if a["Takım"] != "-" else m["away"]
@@ -134,6 +138,65 @@ def dossier(m: dict) -> str:
         lines += ["", f"Uyarılar: {'; '.join(flags) or '-'}", ""]
     else:
         lines += ["## Araştırma", "", "_Bu maç için form / sakatlık verisi bulunamadı._", ""]
+
+    from quantfoot.markets.squad_scouting import build_match_scouting_report, render_scouting_markdown
+    scout_data = r.get("squad_scouting")
+    if not scout_data:
+        built = build_match_scouting_report(m)
+        if built is not None and (built.confidence > 0.0 or built.derby is not None):
+            scout_data = built.to_dict()
+    if scout_data:
+        lines += render_scouting_markdown(scout_data)
+
+    # Denk maç / Yüksek oran 1X2 & İY/MS Geri Dönüş (1/2 - 2/1) & Doğru Skor Özeti
+    try:
+        from quantfoot.markets.high_odds_engine import analyze_close_match, score_comeback_htft
+        cm = analyze_close_match(m)
+        cbs = score_comeback_htft(m)
+        if cm is not None:
+            lines += [
+                "## Yüksek Oran / Denk Maç & Geri Dönüş Uzman Özeti",
+                "",
+                f"- **1X2 Kararı:** **{cm.verdict}** · En iyi seçim: **{cm.best_outcome}** "
+                f"(Model %{100*cm.best_prob:.1f} vs Piyasa %{100*cm.market_1x2[cm.best_outcome]:.1f}, "
+                f"Güven **{cm.conviction_score:.0f}/100**, Beraberlik Rejimi **{cm.draw_regime_score:.0f}/100**)",
+                f"- **Güvenli Çifte Şans Alternatifi:** {cm.safe_alternative} (Model %{100*(cm.safe_alternative_prob or 0):.1f})",
+            ]
+            for rsn in cm.reasons[:4]:
+                lines.append(f"  - {rsn}")
+            top_cb = sorted(cbs, key=lambda x: -x.dna_score)[:2]
+            if top_cb:
+                cb_str = " · ".join(
+                    f"{c.kind}: DNA {c.dna_score:.0f}/100 (P %{100*c.p_comeback:.1f}, adil {c.fair_odds:.1f})"
+                    for c in top_cb
+                )
+                lines.append(f"- **İY/MS Geri Dönüş (1/2 & 2/1):** {cb_str}")
+            lines.append("")
+    except Exception:  # noqa: BLE001 — özet bölümü ana dosyayı bozmaz
+        pass
+
+    # Oyuncu Gol Atar / Kart Görür & Seyahat / Avrupa Bağlamı
+    try:
+        from quantfoot.markets.player_props import assess_match_props_and_context, render_player_props_markdown
+        props = r.get("player_props") or assess_match_props_and_context(m)
+        lines += render_player_props_markdown(props, m["home"], m["away"])
+    except Exception:  # noqa: BLE001
+        pass
+
+    # Derin 6-Periyotlu Simülasyon & 21 Bahis Ailesi Akıllı Tarama
+    try:
+        from quantfoot.markets.match_simulator import (
+            MatchSimConfig,
+            evaluate_21_families,
+            render_21_families_markdown,
+            simulate_deep_match,
+        )
+        cfg = MatchSimConfig.from_match_record(float(m["mu_home"]), float(m["mu_away"]), m)
+        sim_res = simulate_deep_match(cfg, n=12000, seed=int(m["code"]) % 2**32)
+        rep21 = evaluate_21_families(m, sim_res)
+        lines += render_21_families_markdown(rep21, sim_res)
+    except Exception:  # noqa: BLE001
+        pass
 
     rows = []
     for fam, outs in families(m["home"], m["away"]):

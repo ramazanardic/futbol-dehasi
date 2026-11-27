@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Iterable, Sequence
 
 import numpy as np
-from scipy.optimize import minimize
+from scipy.optimize import brentq, minimize
 from scipy.special import gammaln, roots_genlaguerre
 
 # Regime parameters: (token, (com_nu, alpha_nb, shared_kappa))
@@ -260,22 +260,63 @@ def matrix_over_probability(score_matrix: np.ndarray, line: float) -> float:
     return float(np.clip(p_over / denom, 0.0, 1.0))
 
 
-def matrix_ah_home_win_share(score_matrix: np.ndarray, ah_line: float) -> float:
-    """Compute push-excluded home-cover share on Asian Handicap line ``ah_line``."""
-    n_h, n_a = score_matrix.shape
+def _ah_payoff_weights(n_h: int, n_a: int, ah_line: float) -> tuple[np.ndarray, np.ndarray]:
+    """Return per-scoreline (home_win_weight, away_win_weight) for any whole/half/quarter AH line.
+
+    For quarter lines (e.g. ``-0.25``, ``-0.75``, ``+1.25``), the stake splits 50/50 across
+    ``ah_line - 0.25`` and ``ah_line + 0.25``, yielding weights in ``{0.0, 0.5, 1.0}``.
+    Exact zero-EV fair decimal odds satisfy ``p_home = E[w_home] / (E[w_home] + E[w_away])``.
+    """
     h_idx, a_idx = np.indices((n_h, n_a))
-    margin = (h_idx - a_idx) + ah_line
-
-    frac = abs(ah_line) % 1.0
+    diff = h_idx - a_idx
+    frac = round(abs(float(ah_line)) % 1.0, 4)
     if np.isclose(frac, 0.25) or np.isclose(frac, 0.75):
-        s1 = matrix_ah_home_win_share(score_matrix, ah_line - 0.25)
-        s2 = matrix_ah_home_win_share(score_matrix, ah_line + 0.25)
-        return 0.5 * (s1 + s2)
+        sub_lines = ((float(ah_line) - 0.25, 0.5), (float(ah_line) + 0.25, 0.5))
+    else:
+        sub_lines = ((float(ah_line), 1.0),)
 
-    p_win = float(score_matrix[margin > 1e-9].sum())
-    p_loss = float(score_matrix[margin < -1e-9].sum())
-    denom = max(p_win + p_loss, 1e-12)
-    return float(np.clip(p_win / denom, 0.0, 1.0))
+    w_home = np.zeros((n_h, n_a), dtype=float)
+    w_away = np.zeros((n_h, n_a), dtype=float)
+    for sub_l, stake_w in sub_lines:
+        margin = diff + sub_l
+        w_home += stake_w * (margin > 1e-9)
+        w_away += stake_w * (margin < -1e-9)
+    return w_home, w_away
+
+
+def matrix_ah_outcomes(score_matrix: np.ndarray, ah_line: float) -> dict[str, float]:
+    """Compute exact full-win, half-win, push, half-loss, loss and zero-EV home share on an AH line."""
+    mat = np.asarray(score_matrix, dtype=float)
+    total = float(mat.sum())
+    if total > 0.0:
+        mat = mat / total
+    w_home, w_away = _ah_payoff_weights(mat.shape[0], mat.shape[1], ah_line)
+    p_win = float(mat[np.isclose(w_home, 1.0)].sum())
+    p_half_win = float(mat[np.isclose(w_home, 0.5)].sum())
+    p_loss = float(mat[np.isclose(w_away, 1.0)].sum())
+    p_half_loss = float(mat[np.isclose(w_away, 0.5)].sum())
+    p_push = float(mat[np.isclose(w_home, 0.0) & np.isclose(w_away, 0.0)].sum())
+    e_home = float(np.sum(mat * w_home))
+    e_away = float(np.sum(mat * w_away))
+    denom = max(e_home + e_away, 1e-12)
+    return {
+        "win": p_win,
+        "half_win": p_half_win,
+        "push": p_push,
+        "half_loss": p_half_loss,
+        "loss": p_loss,
+        "fair_home_share": float(np.clip(e_home / denom, 0.0, 1.0)),
+    }
+
+
+def matrix_ah_home_win_share(score_matrix: np.ndarray, ah_line: float) -> float:
+    """Compute exact zero-EV home-cover share on Asian Handicap line ``ah_line`` (whole, half, or quarter)."""
+    mat = np.asarray(score_matrix, dtype=float)
+    w_home, w_away = _ah_payoff_weights(mat.shape[0], mat.shape[1], ah_line)
+    e_home = float(np.sum(mat * w_home))
+    e_away = float(np.sum(mat * w_away))
+    denom = max(e_home + e_away, 1e-12)
+    return float(np.clip(e_home / denom, 0.0, 1.0))
 
 
 def matrix_1x2(score_matrix: np.ndarray) -> np.ndarray:
@@ -297,6 +338,7 @@ def fit_tail_rates_from_markets(
     p_ah_home: float | None = None,
     p_btts: float | None = None,
     ou_lines: Iterable[tuple[float, float]] | None = None,
+    ah_lines: Iterable[tuple[float, float]] | None = None,
     seed_rates: tuple[float, float] = (1.4, 1.1),
     alpha_nb: float = 0.10,
     rho: float = DEFAULT_RHO,
@@ -319,12 +361,22 @@ def fit_tail_rates_from_markets(
         if pair not in ou_constraints:
             ou_constraints.append(pair)
 
+    ah_constraints: list[tuple[float, float]] = []
+    if ah_lines is not None:
+        for line, prob in ah_lines:
+            if line is not None and prob is not None and 0.01 < float(prob) < 0.99:
+                ah_constraints.append((float(line), float(prob)))
+    if ah_line is not None and p_ah_home is not None and 0.01 < float(p_ah_home) < 0.99:
+        pair = (float(ah_line), float(p_ah_home))
+        if pair not in ah_constraints:
+            ah_constraints.append(pair)
+
     p1x2_arr: np.ndarray | None = None
     if p_1x2 is not None and len(p_1x2) == 3:
         raw = np.clip(np.asarray(p_1x2, dtype=float), 1e-4, 1.0)
         p1x2_arr = raw / raw.sum()
 
-    has_ou_or_ah = bool(ou_constraints) or (ah_line is not None and p_ah_home is not None)
+    has_ou_or_ah = bool(ou_constraints) or bool(ah_constraints)
     # Keep total-goal regularization lighter when O/U lines already anchor the total,
     # stronger when only 1X2 is priced without a total market.
     prior_w = float(fund_weight) * (0.45 if has_ou_or_ah else 1.25)
@@ -353,9 +405,9 @@ def fit_tail_rates_from_markets(
             kl = t_ov * np.log(t_ov / m_over) + (1.0 - t_ov) * np.log((1.0 - t_ov) / (1.0 - m_over))
             loss_val += 5.0 * float(kl)
 
-        if ah_line is not None and p_ah_home is not None:
-            m_ah = float(np.clip(matrix_ah_home_win_share(mat, float(ah_line)), 1e-6, 1.0 - 1e-6))
-            t_ah = float(np.clip(float(p_ah_home), 1e-6, 1.0 - 1e-6))
+        for line_ah, target_ah in ah_constraints:
+            m_ah = float(np.clip(matrix_ah_home_win_share(mat, line_ah), 1e-6, 1.0 - 1e-6))
+            t_ah = float(np.clip(target_ah, 1e-6, 1.0 - 1e-6))
             kl_ah = t_ah * np.log(t_ah / m_ah) + (1.0 - t_ah) * np.log((1.0 - t_ah) / (1.0 - m_ah))
             loss_val += 4.5 * float(kl_ah)
 
@@ -376,7 +428,7 @@ def fit_tail_rates_from_markets(
         )
         return loss_val
 
-    if p1x2_arr is None and not ou_constraints and ah_line is None and p_btts is None:
+    if p1x2_arr is None and not ou_constraints and not ah_constraints and p_btts is None:
         mat = negative_binomial_score_matrix(
             seed_h,
             seed_a,
@@ -463,11 +515,56 @@ def summarize_tail_goals(score_matrix: np.ndarray, top_k: int = 5) -> TailGoalSu
     )
 
 
+def _apply_ah_projection(
+    mat: np.ndarray,
+    w_home: np.ndarray,
+    w_away: np.ndarray,
+    target_home: float,
+) -> np.ndarray:
+    """Minimum-KL I-projection of ``mat`` onto exact zero-EV Asian Handicap share ``target_home``.
+
+    Solves ``sum(mat * exp(eta * g) * g) = 0`` where ``g = (1 - p) * w_home - p * w_away``.
+    For half/whole lines where ``w_home`` and ``w_away`` are disjoint binary masks, this reduces
+    to exact closed-form conditional rescaling within the non-push mass.
+    """
+    is_binary = bool(np.all((w_home == 0.0) | (w_home == 1.0)) and np.all((w_away == 0.0) | (w_away == 1.0)))
+    if is_binary:
+        m_h = w_home > 0.5
+        m_a = w_away > 0.5
+        cur_h = float(mat[m_h].sum())
+        cur_a = float(mat[m_a].sum())
+        non_push = cur_h + cur_a
+        if cur_h > 1e-15 and cur_a > 1e-15 and non_push > 1e-15:
+            mat[m_h] *= (target_home * non_push) / cur_h
+            mat[m_a] *= ((1.0 - target_home) * non_push) / cur_a
+        return mat
+
+    # Quarter-line exact exponential tilt: E_Q[g] = 0 where g = (1 - p) * w_home - p * w_away.
+    g = (1.0 - target_home) * w_home - target_home * w_away
+
+    def _moment(eta: float) -> float:
+        scaled = eta * g
+        shift = float(np.max(scaled))
+        weights = mat * np.exp(scaled - shift)
+        return float(np.sum(weights * g))
+
+    if abs(_moment(0.0)) < 1e-12:
+        return mat
+    lo, hi = -8.0, 8.0
+    if _moment(lo) * _moment(hi) > 0.0:
+        return mat
+    eta_opt = float(brentq(_moment, lo, hi, xtol=1e-11, maxiter=60))
+    scaled = eta_opt * g
+    mat = mat * np.exp(scaled - float(np.max(scaled)))
+    return mat / float(mat.sum())
+
+
 def rake_score_matrix_to_markets(
     score_matrix: np.ndarray,
     p_1x2: Sequence[float] | None = None,
     ou_lines: Iterable[tuple[float, float]] | None = None,
     p_btts: float | None = None,
+    ah_lines: Iterable[tuple[float, float]] | None = None,
     max_iter: int = 200,
     tol: float = 1e-10,
     margin_tilt: float = 0.0,
@@ -478,9 +575,12 @@ def rake_score_matrix_to_markets(
     each O/U line one more), so every derived market inherited the misfit — on 77,503 archive matches the joint's
     draw probability sat 0.8 pp under the devigged 1X2 draw and 1-1 / 2-2 / 'MS 0 & KG Var' / KG Var were all
     under-predicted (reports/research/bahis_aileleri_kalibrasyon_ham.json). Iterative proportional fitting over
-    the constraint partitions (H/D/A cells, total > line vs below, both-score vs not) is the I-projection of the
-    model onto the matrices that agree with the market: it keeps the model's within-class shape and changes it
-    only as much as the quotes require. Whole-goal O/U lines are skipped (push cells belong to neither side).
+    the constraint partitions (H/D/A cells, total > line vs below, both-score vs not, and Asian Handicap goal-margin
+    payoffs) is the I-projection of the model onto the matrices that agree with the market: it keeps the model's
+    within-class shape and changes it only as much as the quotes require. Whole-goal O/U lines are skipped (push cells
+    belong to neither side). When ``p_1x2`` is already supplied, redundant AH lines with ``|line| <= 0.5`` (already
+    uniquely pinned by 1X2) are skipped to prevent cross-book oscillation, while ``|line| >= 0.75`` pins exact
+    multi-goal margin probabilities (``Hnd(-1)``, ``Hnd(+1)``, ``2+ fark``).
 
     ``margin_tilt`` (θ >= 0) multiplies the prior by exp(−θ·max(|h−a|−1, 0)) before the projection: it thins the
     big-margin tail without touching draws / one-goal wins (the 1X2 constraint then restores the H/D/A totals)."""
@@ -492,7 +592,8 @@ def rake_score_matrix_to_markets(
         mat = mat * np.exp(-float(margin_tilt) * np.maximum(np.abs(gi - gj) - 1, 0))
         mat /= mat.sum()
     parts: list[tuple[list[np.ndarray], list[float]]] = []
-    if p_1x2 is not None and len(p_1x2) == 3:
+    has_1x2 = p_1x2 is not None and len(p_1x2) == 3
+    if has_1x2:
         q = np.clip(np.asarray(p_1x2, dtype=float), 1e-6, 1.0)
         q = q / q.sum()
         parts.append(([gi > gj, gi == gj, gi < gj], [float(x) for x in q]))
@@ -504,7 +605,20 @@ def rake_score_matrix_to_markets(
     if p_btts is not None and 0.005 < float(p_btts) < 0.995:
         yes = (gi >= 1) & (gj >= 1)
         parts.append(([yes, ~yes], [float(p_btts), 1.0 - float(p_btts)]))
-    if not parts:
+
+    ah_specs: list[tuple[float, float, np.ndarray, np.ndarray]] = []
+    for line, p_home in ah_lines or ():
+        if line is None or p_home is None or not 0.005 < float(p_home) < 0.995:
+            continue
+        fline = float(line)
+        # Lines within [-0.5, +0.5] are exact functions of (P(H), P(D), P(A)) alone;
+        # skip them when p_1x2 is already enforced to avoid conflicting-quote oscillation.
+        if has_1x2 and abs(fline) <= 0.5 + 1e-9:
+            continue
+        w_h, w_a = _ah_payoff_weights(n_h, n_a, fline)
+        ah_specs.append((fline, float(p_home), w_h, w_a))
+
+    if not parts and not ah_specs:
         return mat
     for _ in range(max_iter):
         for part_masks, targets in parts:
@@ -512,8 +626,17 @@ def rake_score_matrix_to_markets(
                 cur = float(mat[m].sum())
                 if cur > 1e-15:
                     mat[m] *= t / cur
+        for _, target_home, w_h, w_a in ah_specs:
+            mat = _apply_ah_projection(mat, w_h, w_a, target_home)
         mat /= mat.sum()
-        worst = max(abs(float(mat[m].sum()) - t) for part_masks, targets in parts for m, t in zip(part_masks, targets))
+        worst = 0.0
+        if parts:
+            worst = max(abs(float(mat[m].sum()) - t) for part_masks, targets in parts for m, t in zip(part_masks, targets))
+        for _, target_home, w_h, w_a in ah_specs:
+            e_h = float(np.sum(mat * w_h))
+            e_a = float(np.sum(mat * w_a))
+            if e_h + e_a > 1e-12:
+                worst = max(worst, abs(e_h / (e_h + e_a) - target_home))
         if worst < tol:
             break
     return mat

@@ -59,7 +59,7 @@ def _starters(summary: dict, team_id: str) -> list[dict]:
 
 
 def _squad(summary: dict, team_id: str) -> dict[str, dict]:
-    """Matchday squad (starters + bench) of one team with per-match red cards: id -> record."""
+    """Matchday squad (starters + bench) of one team with per-match player stats: id -> record."""
     for r in summary.get("rosters") or []:
         if str(r.get("team", {}).get("id")) == str(team_id):
             out = {}
@@ -67,11 +67,109 @@ def _squad(summary: dict, team_id: str) -> dict[str, dict]:
                 if not p.get("athlete"):
                     continue
                 st = {x.get("name"): x.get("value") for x in p.get("stats") or []}
-                out[str(p["athlete"]["id"])] = {"name": p["athlete"].get("displayName"), "starter": bool(p.get("starter")),
-                                                "pos": (p.get("position") or {}).get("abbreviation", ""),
-                                                "red": int(st.get("redCards") or 0)}
+                out[str(p["athlete"]["id"])] = {
+                    "name": p["athlete"].get("displayName"),
+                    "starter": bool(p.get("starter")),
+                    "pos": (p.get("position") or {}).get("abbreviation", ""),
+                    "goals": int(st.get("totalGoals") or 0),
+                    "assists": int(st.get("goalAssists") or 0),
+                    "shots": int(st.get("totalShots") or 0),
+                    "sot": int(st.get("shotsOnTarget") or 0),
+                    "saves": int(st.get("saves") or 0),
+                    "conceded": int(st.get("goalsConceded") or 0),
+                    "yellow": int(st.get("yellowCards") or 0),
+                    "red": int(st.get("redCards") or 0),
+                }
             return out
     return {}
+
+
+def _pos_group(pos: str) -> str:
+    """Map ESPN position abbreviation (G, GK, D, CB, LB, RB, M, CM, DM, AM, F, ST, LW, RW...) to G/D/M/F."""
+    p = (pos or "").strip().upper()
+    if not p:
+        return "U"
+    if p.startswith("G"):
+        return "G"
+    if p.startswith(("D", "CB", "LB", "RB", "WB", "SW", "FB")):
+        return "D"
+    if p.startswith(("M", "CM", "DM", "AM", "LM", "RM")):
+        return "M"
+    if p.startswith(("F", "ST", "CF", "LW", "RW", "SS", "W", "A")):
+        return "F"
+    return "U"
+
+
+def summarize_recent_player_form(squads: list[dict[str, dict]]) -> dict:
+    """Aggregate per-player goals, assists, shots, and GK saves across the last N matchday squads."""
+    if not squads:
+        return {"matches": 0, "hot_players": [], "recent_gk": None, "by_line": {}}
+    agg: dict[str, dict] = {}
+    for sq in squads:
+        for pid, p in sq.items():
+            rec = agg.setdefault(
+                pid,
+                {
+                    "id": pid,
+                    "name": p.get("name"),
+                    "pos": p.get("pos", ""),
+                    "line": _pos_group(p.get("pos", "")),
+                    "starts": 0,
+                    "apps": 0,
+                    "goals": 0,
+                    "assists": 0,
+                    "shots": 0,
+                    "sot": 0,
+                    "saves": 0,
+                    "conceded": 0,
+                    "yellow": 0,
+                    "red": 0,
+                },
+            )
+            rec["apps"] += 1
+            rec["starts"] += int(bool(p.get("starter")))
+            rec["goals"] += int(p.get("goals") or 0)
+            rec["assists"] += int(p.get("assists") or 0)
+            rec["shots"] += int(p.get("shots") or 0)
+            rec["sot"] += int(p.get("sot") or 0)
+            rec["saves"] += int(p.get("saves") or 0)
+            rec["conceded"] += int(p.get("conceded") or 0)
+            rec["yellow"] += int(p.get("yellow") or 0)
+            rec["red"] += int(p.get("red") or 0)
+
+    players = list(agg.values())
+    hot = sorted(
+        (p for p in players if p["goals"] > 0 or p["assists"] > 0 or p["sot"] >= 3),
+        key=lambda p: (-(p["goals"] * 3 + p["assists"] * 2 + p["sot"] * 0.4), -p["starts"]),
+    )[:5]
+
+    gks = sorted((p for p in players if p["line"] == "G" and p["starts"] > 0), key=lambda p: -p["starts"])
+    recent_gk = None
+    if gks:
+        g = gks[0]
+        faced = g["saves"] + g["conceded"]
+        recent_gk = {
+            "name": g["name"],
+            "starts": g["starts"],
+            "saves": g["saves"],
+            "conceded": g["conceded"],
+            "save_pct": round(g["saves"] / faced, 3) if faced else None,
+            "conceded_per_game": round(g["conceded"] / g["starts"], 2) if g["starts"] else None,
+        }
+
+    by_line: dict[str, dict] = {}
+    for ln in ("G", "D", "M", "F"):
+        lp = [p for p in players if p["line"] == ln]
+        by_line[ln] = {
+            "players": len(lp),
+            "goals": sum(p["goals"] for p in lp),
+            "assists": sum(p["assists"] for p in lp),
+            "shots": sum(p["shots"] for p in lp),
+            "sot": sum(p["sot"] for p in lp),
+            "cards": sum(p["yellow"] + 2 * p["red"] for p in lp),
+        }
+
+    return {"matches": len(squads), "hot_players": hot, "recent_gk": recent_gk, "by_line": by_line}
 
 
 def likely_absentees(squads: list[dict[str, dict]]) -> list[dict]:
@@ -113,29 +211,91 @@ def _player_stats(athlete: dict) -> dict:
 
 @lru_cache(maxsize=1024)
 def team_profile(slug: str, team_id: str) -> dict | None:
-    """Season player data for one team: top scorers, first-choice goalkeeper (save %), card counts."""
+    """Season player data for one team: top scorers, assisters, goalkeepers, cards, and line-by-line (G/D/M/F) units."""
     js = _get(f"{BASE}/{slug}/teams/{team_id}/roster")
     if not js or not js.get("athletes"):
         return None
     players = []
     for a in js["athletes"]:
         st = _player_stats(a)
-        players.append({"name": a.get("displayName"), "pos": (a.get("position") or {}).get("abbreviation", ""),
-                        "apps": int(st.get("appearances", 0)), "goals": int(st.get("totalGoals", 0)),
-                        "assists": int(st.get("goalAssists", 0)), "yellow": int(st.get("yellowCards", 0)),
-                        "red": int(st.get("redCards", 0)), "saves": int(st.get("saves", 0)),
-                        "conceded": int(st.get("goalsConceded", 0))})
+        pos = (a.get("position") or {}).get("abbreviation", "")
+        players.append({
+            "name": a.get("displayName"),
+            "pos": pos,
+            "line": _pos_group(pos),
+            "apps": int(st.get("appearances", 0)),
+            "goals": int(st.get("totalGoals", 0)),
+            "assists": int(st.get("goalAssists", 0)),
+            "shots": int(st.get("totalShots", 0)),
+            "sot": int(st.get("shotsOnTarget", 0)),
+            "yellow": int(st.get("yellowCards", 0)),
+            "red": int(st.get("redCards", 0)),
+            "saves": int(st.get("saves", 0)),
+            "conceded": int(st.get("goalsConceded", 0)),
+        })
     scorers = sorted((p for p in players if p["goals"] > 0), key=lambda p: (-p["goals"], -p["assists"]))[:3]
     assisters = sorted((p for p in players if p["assists"] > 0), key=lambda p: (-p["assists"], -p["goals"]))[:3]
-    keepers = sorted((p for p in players if p["pos"] == "G" and p["apps"] > 0), key=lambda p: -p["apps"])
+    keepers = sorted((p for p in players if p["line"] == "G" and p["apps"] > 0), key=lambda p: -p["apps"])
     gk = None
+    backup_gk = None
     if keepers:
         k = keepers[0]
         faced = k["saves"] + k["conceded"]
-        gk = {"name": k["name"], "apps": k["apps"], "save_pct": round(k["saves"] / faced, 3) if faced else None,
-              "conceded_per_game": round(k["conceded"] / k["apps"], 2) if k["apps"] else None}
+        gk = {
+            "name": k["name"],
+            "apps": k["apps"],
+            "saves": k["saves"],
+            "conceded": k["conceded"],
+            "save_pct": round(k["saves"] / faced, 3) if faced else None,
+            "conceded_per_game": round(k["conceded"] / k["apps"], 2) if k["apps"] else None,
+        }
+        if len(keepers) >= 2:
+            k2 = keepers[1]
+            faced2 = k2["saves"] + k2["conceded"]
+            backup_gk = {
+                "name": k2["name"],
+                "apps": k2["apps"],
+                "save_pct": round(k2["saves"] / faced2, 3) if faced2 else None,
+                "conceded_per_game": round(k2["conceded"] / k2["apps"], 2) if k2["apps"] else None,
+            }
     cards = sorted((p for p in players if p["yellow"] >= 4 or p["red"] > 0), key=lambda p: (-p["red"], -p["yellow"]))[:4]
-    return {"top_scorers": scorers, "top_assists": assisters, "goalkeeper": gk, "cards": cards}
+
+    by_position: dict[str, dict] = {}
+    for ln in ("G", "D", "M", "F"):
+        lp = [p for p in players if p["line"] == ln and p["apps"] > 0]
+        top_ln = sorted(
+            lp,
+            key=lambda p: (-(p["goals"] * 3 + p["assists"] * 2 + p["apps"] * 0.25), -p["apps"]),
+        )[:4]
+        by_position[ln] = {
+            "active_count": len(lp),
+            "goals": sum(p["goals"] for p in lp),
+            "assists": sum(p["assists"] for p in lp),
+            "shots": sum(p["shots"] for p in lp),
+            "sot": sum(p["sot"] for p in lp),
+            "yellow": sum(p["yellow"] for p in lp),
+            "red": sum(p["red"] for p in lp),
+            "top_players": [
+                {
+                    "name": p["name"],
+                    "pos": p["pos"],
+                    "apps": p["apps"],
+                    "goals": p["goals"],
+                    "assists": p["assists"],
+                    "shots": p["shots"],
+                }
+                for p in top_ln
+            ],
+        }
+
+    return {
+        "top_scorers": scorers,
+        "top_assists": assisters,
+        "goalkeeper": gk,
+        "backup_goalkeeper": backup_gk,
+        "cards": cards,
+        "by_position": by_position,
+    }
 
 
 _NEWS_RE = re.compile(r"injur|ruled out|out for|sidelined|suspen|\bban\b|banned|doubt|fitness|hamstring|knee|ankle|"
@@ -244,6 +404,7 @@ def research(event_id: str) -> dict | None:
                 if sq:
                     squads.append(sq)
         rec["likely_absent"] = likely_absentees(squads)
+        rec["recent_player_form"] = summarize_recent_player_form(squads)
         rec["regulars"] = [c for c in counts.values() if c["starts"] >= REGULAR_MIN_STARTS]
         today = _starters(s, tid)
         rec["lineup_announced"] = len(today) >= 11
@@ -267,6 +428,22 @@ def research(event_id: str) -> dict | None:
             if year:
                 rec["team_stats"] = team_stats(out["league_slug"], int(year), tid)
         out["teams"][side] = rec
+
+    game_info = s.get("gameInfo") or {}
+    venue = game_info.get("venue") or {}
+    if venue.get("fullName"):
+        out["venue_name"] = venue["fullName"]
+    venue_city = (venue.get("address") or {}).get("city")
+    if venue_city:
+        out["venue_city"] = venue_city
+    officials = game_info.get("officials") or []
+    if officials:
+        ref = next(
+            (o.get("displayName") for o in officials if "referee" in str((o.get("position") or {}).get("name", "")).lower()),
+            None,
+        ) or officials[0].get("displayName")
+        if ref:
+            out["referee"] = ref
 
     series = (s.get("seasonseries") or [{}])[0] if s.get("seasonseries") else {}
     out["h2h"] = series.get("summary")

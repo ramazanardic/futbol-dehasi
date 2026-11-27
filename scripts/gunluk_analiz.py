@@ -118,6 +118,16 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
         or bool(ua)
     )
     p_over25 = next((float(x["fair_prob"]) for x in m.get("selections") or [] if x.get("name") == "2.5 Üst"), None)
+    mot_reg = res.get("motivation_regime") or {}
+    dead_rubber = bool(mot_reg.get("dead_rubber"))
+    if not dead_rubber and isinstance(res.get("motivation"), dict):
+        from quantfoot.markets.lineup_xg import assess_motivation_risk
+        dead_rubber = assess_motivation_risk(res["motivation"].get("home"), res["motivation"].get("away")).dead_rubber
+    ref_prof = res.get("referee_profile")
+    ref_card_z = ref_prof.get("card_zscore") if isinstance(ref_prof, dict) else res.get("referee_card_zscore")
+    cons_disp = m.get("consensus_dispersion") or {}
+    consensus_kl = cons_disp.get("max_kl_divergence") if isinstance(cons_disp, dict) else None
+    has_diag_ctx = has_diag_ctx or bool(m.get("steam_1x2")) or consensus_kl is not None or dead_rubber or ref_card_z is not None
     eligible = []
     for selection in m["selections"]:
         name = selection["name"]
@@ -143,6 +153,11 @@ def best_pick(m: dict) -> tuple[dict | None, str]:
                 "direct": direct,
                 "teams": teams,
                 "flags": res.get("flags") or [],
+                "steam_1x2": m.get("steam_1x2"),
+                "consensus_gap": m.get("consensus_gap"),
+                "consensus_kl": consensus_kl,
+                "dead_rubber": dead_rubber,
+                "referee_card_zscore": ref_card_z,
                 "home_gk1_out": bool((tm.get("home") or {}).get("gk1_out") or (ua.get("home") or {}).get("gk_out") or (teams.get("home") or {}).get("gk1_out")),
                 "away_gk1_out": bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out") or (teams.get("away") or {}).get("gk1_out")),
                 "home_top_scorer_out": bool((tm.get("home") or {}).get("top_scorer_out") or (teams.get("home") or {}).get("top_scorer_out")),

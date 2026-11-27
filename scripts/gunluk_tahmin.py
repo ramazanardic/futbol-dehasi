@@ -54,6 +54,7 @@ def step_commands(date: str, targets: list[float], py: str = sys.executable) -> 
             [py, f"{s}/derin_tahmin.py", "--tarih", date],
             [py, f"{s}/simulasyon.py", "--tarih", date],
             [py, f"{s}/ekstrem_gol_analiz.py", "--tarih", date],
+            [py, f"{s}/yuksek_oran_analiz.py", "--tarih", date],
         ],
         "kupon": [[py, f"{s}/kupon_kur.py", "--hedef", f"{t:g}", "--tarih", date, "--mod", "banko"] for t in targets],
         "denetim": [],
@@ -78,9 +79,25 @@ def _match_diag_context(m: dict, name: str) -> dict:
     sels = m.get("selections") or []
     sel_hit = next((x for x in sels if x.get("name") == name), None)
     p_over25 = next((float(x["fair_prob"]) for x in sels if x.get("name") == "2.5 Üst"), None)
+    mot_reg = res.get("motivation_regime") or {}
+    dead_rubber = bool(mot_reg.get("dead_rubber"))
+    if not dead_rubber and isinstance(res.get("motivation"), dict):
+        from quantfoot.markets.lineup_xg import assess_motivation_risk
+        dead_rubber = assess_motivation_risk(
+            res["motivation"].get("home"),
+            res["motivation"].get("away"),
+        ).dead_rubber
+    ref_prof = res.get("referee_profile")
+    ref_card_z = (
+        ref_prof.get("card_zscore")
+        if isinstance(ref_prof, dict)
+        else res.get("referee_card_zscore")
+    )
+    cons_disp = m.get("consensus_dispersion") or {}
     return {
         "mu_home": m.get("mu_home"),
         "mu_away": m.get("mu_away"),
+        "fair_1x2": f1x2 if len(f1x2) == 3 else None,
         "p1": float(f1x2[0]) if len(f1x2) == 3 else None,
         "p_draw": float(f1x2[1]) if len(f1x2) == 3 else None,
         "p2": float(f1x2[2]) if len(f1x2) == 3 else None,
@@ -90,6 +107,11 @@ def _match_diag_context(m: dict, name: str) -> dict:
         "direct": bool(sel_hit.get("direct")) if sel_hit is not None else False,
         "teams": teams,
         "flags": res.get("flags") or [],
+        "steam_1x2": m.get("steam_1x2"),
+        "consensus_gap": m.get("consensus_gap"),
+        "consensus_kl": cons_disp.get("max_kl_divergence") if isinstance(cons_disp, dict) else None,
+        "dead_rubber": dead_rubber,
+        "referee_card_zscore": ref_card_z,
         "home_gk1_out": bool((tm.get("home") or {}).get("gk1_out") or (ua.get("home") or {}).get("gk_out") or (teams.get("home") or {}).get("gk1_out")),
         "away_gk1_out": bool((tm.get("away") or {}).get("gk1_out") or (ua.get("away") or {}).get("gk_out") or (teams.get("away") or {}).get("gk1_out")),
         "home_top_scorer_out": bool((tm.get("home") or {}).get("top_scorer_out") or (teams.get("home") or {}).get("top_scorer_out")),
@@ -258,7 +280,7 @@ def run_audit(date: str, ai: str, *, current_files: set[str] | None = None,
     return audit
 
 
-ENV_KEYS = ("API_FOOTBALL_KEY",)  # maç öncesi referans/geçmiş; kota api_budget ile sınırlı (API_FOOTBALL_MAX_REQ)
+ENV_KEYS = ("API_FOOTBALL_KEY", "THE_ODDS_API_KEY", "ODDSPAPI_API_KEY")  # .env anahtarları (kota/önbellek korumalı)
 
 
 def load_env_keys(env_file: Path | None = None, environ: dict | None = None) -> list[str]:
@@ -341,6 +363,14 @@ def main(argv: list[str] | None = None) -> int:
             if not audit["ok"]:
                 print("Kural dışı kupon var: kupon_denetim.md — bu kupon önerilmez/oynanmaz.", file=sys.stderr)
                 return 3
+    if not args.kuru and any(s in steps for s in ("tahmin", "kupon")):
+        try:
+            from quantfoot.evaluation.clv_ledger import record_daily_picks
+            clv_info = record_daily_picks(ROOT / "tahminler" / ai, args.tarih)
+            if clv_info.get("added", 0) > 0:
+                print(f"[clv] {clv_info['added']} yeni seçim CLV defterine işlendi (toplam {clv_info['total_entries']})")
+        except Exception:  # noqa: BLE001 — CLV kaydı bilgi/takip amaçlı, ana hattı durdurmaz
+            pass
     if b is not None and not args.kuru:
         print(f"API-Football bu çalıştırmada: {b.used() - api_before} istek (bugün toplam {b.used()}/{b.limit})")
     return 0
