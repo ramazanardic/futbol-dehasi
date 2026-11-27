@@ -20,10 +20,11 @@ def test_league_rates_counts_half_combos_and_skips_bad_half_scores():
 def test_league_first_half_share_is_shrunk_and_mapped(tmp_path, monkeypatch):
     from quantfoot.markets import league_halves as lh
     p = tmp_path / "r.csv"
-    p.write_text("# x\nlig,n,gol,iy_gol_payi\ntr.1,1000,3.0,0.40\nhu.1,100,3.0,0.30\n", encoding="utf-8")
+    p.write_text("# x\nlig,n,gol,iy_gol_payi\ntr.1,1000,3.0,0.40\nhu.1,60,3.0,0.30\n", encoding="utf-8")
     monkeypatch.setattr(lh, "CSV", p)
-    lh._shares.cache_clear()
+    lh._goals.cache_clear()
     s = lh.league_first_half_share("Türkiye Süper Lig, Normal Sezon")
     assert 0.40 < s < 0.44 and abs(s - (0.40 * 3000 + 0.44 * 400) / 3400) < 1e-9
-    assert lh.league_first_half_share("Macaristan NB I") is None  # unmapped / small sample keeps the profile
-    lh._shares.cache_clear()
+    assert lh.league_first_half_share("Macaristan NB III") is None  # unmapped keeps the profile
+    assert lh.league_first_half_share("Macaristan 1. Ligi") is None  # 60 matches < MIN_MATCHES
+    lh._goals.cache_clear()

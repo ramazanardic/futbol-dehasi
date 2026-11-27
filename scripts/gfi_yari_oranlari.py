@@ -1,7 +1,9 @@
 """League half-time base rates from the user's GLOBAL FOOTBALL INTELLIGENCE archive (user request, 26 Nov).
 
 That project keeps openfootball/football.json (CC0 public domain) for 40+ leagues and several seasons in
-state/gfi.sqlite3. This script only reads it (SQLite read-only mode) and writes, per league file code (en.1, tr.1 …):
+state/gfi.sqlite3, and Football Charts 2025-26 (CC BY 4.0, 75 leagues) in state/football_charts_2026.sqlite3. This
+script only reads them (SQLite read-only mode) and writes, per league code (en.1, tr.1 …; fc.saudi1 … for Football
+Charts):
 
     n, İY 1/0/2, 2Y 1/0/2, the nine İY/MS and nine İY/2Y combos, İY 0-0, goal in both halves, both-halves BTTS
 
@@ -75,12 +77,22 @@ def main() -> None:
     q = """SELECT s.path, o.home_goals, o.away_goals, o.payload FROM latest_matches o
            JOIN snapshots s ON s.checksum = o.checksum
            WHERE o.home_goals IS NOT NULL AND o.away_goals IS NOT NULL AND s.path LIKE '%.json'"""
-    rows = ((path.rsplit("/", 1)[-1][:-5], hg, ag, json.loads(p)) for path, hg, ag, p in db.execute(q))
-    rates = league_rates(rows)
+    rows = [(path.rsplit("/", 1)[-1][:-5], hg, ag, json.loads(p)) for path, hg, ag, p in db.execute(q)]
     db.close()
+    fc = args.db.with_name("football_charts_2026.sqlite3")
+    if fc.exists():  # Football Charts 2025-26 (CC BY 4.0), codes prefixed 'fc.'
+        db = sqlite3.connect(f"file:{fc.as_posix()}?mode=ro", uri=True)
+        for league, p in db.execute("SELECT league, payload FROM source_matches"):
+            d = json.loads(p)
+            ft = d.get("ft")
+            if isinstance(ft, list) and len(ft) == 2 and all(type(x) is int for x in ft):
+                rows.append(("fc." + league, ft[0], ft[1], {"score": {"ht": d.get("ht")}}))
+        db.close()
+    rates = league_rates(rows)
     fields = ["lig"] + list(next(iter(rates.values())).keys())
     with OUT.open("w", newline="", encoding="utf-8") as f:
-        f.write("# openfootball/football.json (CC0), GLOBAL FOOTBALL INTELLIGENCE arşivinden; yarı taban oranları\n")
+        f.write("# GLOBAL FOOTBALL INTELLIGENCE arşivinden yarı taban oranları: openfootball/football.json (CC0); "
+                "fc.* = Data: Football Charts (football-charts.com), CC BY 4.0\n")
         w = csv.DictWriter(f, fieldnames=fields)
         w.writeheader()
         for code in sorted(rates):
