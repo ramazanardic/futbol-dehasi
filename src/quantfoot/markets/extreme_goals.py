@@ -24,7 +24,9 @@ from typing import Any
 import numpy as np
 
 from quantfoot.coupons.system_builder import SystemEvaluation, SystemLeg, optimize_system
+from quantfoot.markets.club_half_dna import lookup_club_dna
 from quantfoot.markets.halves_btts import compute_halves_btts, half_model_params
+from quantfoot.markets.league_halves import league_rate
 from quantfoot.markets.market_diagnosis import parse_steam_pp
 from quantfoot.markets.tail_goals import league_tail_regime, regime_score_matrix, summarize_tail_goals
 from quantfoot.strategy.banko_guard import league_tier
@@ -436,6 +438,9 @@ def score_both_halves_btts_match(
     sel_kg2 = sels.get("İki Yarıda KG Var")
 
     p_tail = both_halves_btts_probability(mh, ma, lg)
+    lg_kg2 = league_rate(lg, "kg_iki_yari")
+    if lg_kg2 is not None:
+        p_tail = float(np.clip(0.70 * p_tail + 0.30 * float(lg_kg2), 0.0, 1.0))
     p_mkt = _flt(sel_kg2.get("fair_prob")) if sel_kg2 else None
     odds = _flt(sel_kg2.get("odds")) if sel_kg2 else None
     ev = (p_tail * odds - 1.0) if odds is not None else None
@@ -514,6 +519,31 @@ def score_both_halves_btts_match(
     if bh_vals and max(bh_vals) >= 0.12 and (sum(bh_vals) / len(bh_vals)) >= 0.08:
         score += 4.0
         reasons.append(f"son maçlarda gerçek İki Yarıda KG Var geçmişi yüksek (ort %{100*(sum(bh_vals)/len(bh_vals)):.0f})")
+
+    if lg_kg2 is not None:
+        if lg_kg2 >= 0.070:
+            score += 5.0
+            reasons.append(f"ligin İki Yarıda KG Var tabanı yüksek (%{100*lg_kg2:.1f})")
+        elif lg_kg2 <= 0.035:
+            score -= 6.0
+            warnings.append(f"ligin İki Yarıda KG Var tabanı düşük (%{100*lg_kg2:.1f})")
+
+    if len(s1_vals) == 2 and len(s2_vals) == 2:
+        min_all_h = min(s1_vals[0], s1_vals[1], s2_vals[0], s2_vals[1])
+        if min_all_h < 0.25:
+            score -= 4.0
+            warnings.append(f"tek-yarı takım riski (en zayıf yarı gol oranı %{100*min_all_h:.0f})")
+
+    hdna = lookup_club_dna(match.get("home"))
+    adna = lookup_club_dna(match.get("away"))
+    if hdna and adna and hdna.n_eff >= 6.0 and adna.n_eff >= 6.0:
+        min_bh = min(hdna.both_halves_rate, adna.both_halves_rate)
+        if min_bh >= 0.22:
+            score += 5.0
+            reasons.append(f"kulüp 2Y KG DNA güçlü (min %{100*min_bh:.1f})")
+        elif min_bh <= 0.12:
+            score -= 5.0
+            warnings.append(f"kulüp 2Y süreklilik DNA zayıf (min %{100*min_bh:.1f})")
 
     # 4. Bağımsız simülasyon vs piyasa xG uyumu (v3 — 22 Kas 427 maç bulgusu)
     sim_tot = (s_xg[0] + s_xg[1]) if s_xg is not None else None

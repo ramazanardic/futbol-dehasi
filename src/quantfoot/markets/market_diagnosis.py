@@ -745,18 +745,23 @@ def rank_macro_coherent_scores(
     p_btts: float | None = None,
     mu_home: float | None = None,
     mu_away: float | None = None,
+    *,
+    market_score_odds: Mapping[str, float] | None = None,
+    ref_ah: Sequence[Any] | None = None,
+    steam_1x2: Sequence[float] | None = None,
 ) -> list[tuple[str, float]]:
-    """v5.5 6-Altın-Skor (1-0, 0-1, 2-0, 0-2, 2-1, 1-2) ve Gerçek Beraberlik (0-0, 1-1) Sıralama Motoru.
+    """v5.6 6-Altın-Skor (1-0, 0-1, 2-0, 0-2, 2-1, 1-2) ve Gerçek Beraberlik (0-0, 1-1) Sıralama Motoru.
 
     Poisson dağılımında mu < 2.0 iken P(1) = mu*e^-mu her zaman en büyük terim olduğu için
     ham matris maçların %55-61'inde mekanik olarak '1-1' üretir (gerçekte 1-1 oranı %7.6–%10.3'tür,
     oysa 6 altın skor {1-0, 0-1, 2-0, 0-2, 2-1, 1-2} maçların %45–51'ini oluşturur).
     Bu motor:
       1. margin_tilt raking bozulmasını temiz Poisson tabanıyla (%50-%50) dengeler,
-      2. Maçı 1X2 taraf rejimine (Favori vs Gerçek Beraberlik) koşullandırır,
-      3. Favori kazanma rejiminde 2-1/1-2 (KG + Üst), 1-0/0-1 (dengeli temiz galibiyet) ve
-         2-0/0-2 (net favori temiz galibiyet) kümelerini ayrıştırır,
-      4. #1 sıraya en yüksek makro-uyumlu skoru, #2 ve #3 sıraya ise doğal sigorta skorlarını yerleştirir.
+      2. Canlı Nesine MTID 777 skor oranları (`market_score_odds`) varsa marjı arındırıp %18 harmanlar,
+      3. Keskin steam (`steam_1x2`) ve varsa Asya Handikabı (`ref_ah`) yönüyle skoru ince ayarlar,
+      4. Maçı 1X2 taraf rejimine (Favori vs Gerçek Beraberlik) koşullandırır,
+      5. Favori kazanma rejiminde 2-1/1-2 (KG + Üst), 1-0/0-1 (dengeli temiz galibiyet) ve
+         2-0/0-2 (net favori temiz galibiyet) kümelerini ayrıştırır.
     """
     if not ft_dist:
         return []
@@ -777,6 +782,32 @@ def rank_macro_coherent_scores(
         p_o25 = 1.0 - math.exp(-mu_tot) * (1.0 + mu_tot + 0.5 * mu_tot * mu_tot)
     if p_btts is None:
         p_btts = (1.0 - math.exp(-mh)) * (1.0 - math.exp(-ma))
+
+    # Canlı Nesine MTID 777 skor oranlarını marjsız piyasa olasılığına çevir
+    mkt_sc_probs: dict[str, float] = {}
+    if market_score_odds:
+        valid_inv: dict[str, float] = {}
+        for k_sc, raw_o in market_score_odds.items():
+            ov = _flt(raw_o)
+            if ov is not None and ov > 1.01:
+                norm_k = str(k_sc).replace("Skor ", "").replace(":", "-").strip()
+                valid_inv[norm_k] = 1.0 / ov
+        if len(valid_inv) >= 8:
+            tot_inv = sum(valid_inv.values())
+            if tot_inv > 0:
+                # Diğer kuyruk skorlar için ~%6 kütle ayırarak normalleştir
+                mkt_sc_probs = {k: 0.94 * (v / tot_inv) for k, v in valid_inv.items()}
+
+    # Keskin borsa steam yönü (Ev vs Dep)
+    s_home = s_away = 0.0
+    if steam_1x2 and len(steam_1x2) == 3:
+        s_home = _flt(steam_1x2[0]) or 0.0
+        s_away = _flt(steam_1x2[2]) or 0.0
+
+    # Opsiyonel Asya Handikabı hattı (ör. [-0.75, [1.88, 1.98]])
+    ah_line = None
+    if ref_ah and len(ref_ah) >= 1:
+        ah_line = _flt(ref_ah[0])
 
     is_draw_regime = (gap_12 <= 0.075 and px >= 0.275 and p_fav < 0.395) or (px >= p_fav - 0.02)
     is_very_low_xg = mu_tot <= 2.08 and min(mh, ma) < 0.99
@@ -799,14 +830,27 @@ def rank_macro_coherent_scores(
         if len(parts) != 2 or not parts[0].isdigit() or not parts[1].isdigit():
             continue
         h, a = int(parts[0]), int(parts[1])
+        sc_norm = f"{h}-{a}"
         p_m = float(p_raw)
         p_pois = (ph_base[h] * pa_base[a]) if (has_explicit_mu and h < 10 and a < 10) else p_m
         p_eff = (0.50 * p_m + 0.50 * p_pois) if has_explicit_mu else p_m
+        if sc_norm in mkt_sc_probs:
+            p_eff = 0.82 * p_eff + 0.18 * mkt_sc_probs[sc_norm]
         side = 1 if h > a else (2 if a > h else 0)
         fav_g = h if fav_side == 1 else a
         dog_g = a if fav_side == 1 else h
 
         w = 1.0
+        if side == 1 and abs(s_home) >= 0.03:
+            w *= 1.0 + max(-0.08, min(0.08, s_home * 1.5))
+        elif side == 2 and abs(s_away) >= 0.03:
+            w *= 1.0 + max(-0.08, min(0.08, s_away * 1.5))
+        if ah_line is not None and side == fav_side:
+            margin_g = h - a
+            if ah_line <= -1.0 and margin_g >= 2:
+                w *= 1.08
+            elif ah_line >= 1.0 and margin_g <= -2:
+                w *= 1.08
         if side == 0:
             if is_draw_regime:
                 w *= 1.22
@@ -864,9 +908,14 @@ def macro_coherent_top_score(
     p_btts: float | None = None,
     mu_home: float | None = None,
     mu_away: float | None = None,
+    *,
+    market_score_odds: Mapping[str, float] | None = None,
+    ref_ah: Sequence[Any] | None = None,
+    steam_1x2: Sequence[float] | None = None,
 ) -> tuple[str, float] | None:
     """Return the single #1 macro-coherent exact score (score_str, raw_prob)."""
     ranked = rank_macro_coherent_scores(
-        ft_dist, f1x2=f1x2, p_o25=p_o25, p_btts=p_btts, mu_home=mu_home, mu_away=mu_away
+        ft_dist, f1x2=f1x2, p_o25=p_o25, p_btts=p_btts, mu_home=mu_home, mu_away=mu_away,
+        market_score_odds=market_score_odds, ref_ah=ref_ah, steam_1x2=steam_1x2,
     )
     return ranked[0] if ranked else None

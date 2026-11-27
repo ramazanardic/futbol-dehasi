@@ -1,0 +1,22 @@
+{
+  "feature_names": [
+    "p_mkt_h",
+    "p_mkt_d",
+    "p_mkt_a",
+    "p_gap_12",
+    "abs_gap",
+    "p_over25",
+    "handi_size",
+    "elo_diff",
+    "form5_diff",
+    "club_h_1h",
+    "club_a_1h",
+    "club_cb_diff"
+  ],
+  "best_alpha": 0.1,
+  "val_base_brier": 0.596873,
+  "val_best_brier": 0.596236,
+  "best_iteration": 180,
+  "n_train": 58856,
+  "n_val": 12471
+}

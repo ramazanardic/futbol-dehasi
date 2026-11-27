@@ -36,10 +36,12 @@ from quantfoot.paths import LazyAiArea, LazyAiName
 from quantfoot.settings import MAX_PLAUSIBLE_EV as SETTINGS_MAX_PLAUSIBLE_EV
 from quantfoot.settings import MAX_PRICE_AGE_H, REFERENCE_LOAD_AGE_H
 from quantfoot.settings import MARGIN_TILT
+from quantfoot.data import fotmob
 from quantfoot.data.absences import fetch_matchday_absences, format_tm_absence_brief
 from quantfoot.data.api_football import fetch_api_football_references
 from quantfoot.data.api_budget import DEFAULT_DIR as API_BUDGET_DIR, default_budget
 from quantfoot.data.live_espn import fetch_espn_slate
+from quantfoot.data.match_dossier import CachedHttp
 from quantfoot.data.match_research import espn_events, fpl_availability, motivation, research, staleness_flags
 from quantfoot.data.nesine import TSI, betting_day, fetch_bulletin, league_names, market_overrounds, parse_bulletin
 from quantfoot.data.oddsmath import (
@@ -50,6 +52,7 @@ from quantfoot.data.oddsmath import (
 )
 from quantfoot.data.oddspapi import fetch_oddspapi_references
 from quantfoot.data.weather import fetch_matchday_weather
+from quantfoot.markets.club_half_dna import club_omni_adjustments
 from quantfoot.markets.devig import devig
 from quantfoot.markets.goal_markets import goal_probability
 from quantfoot.markets.goal_timing import GoalTimingModel
@@ -428,10 +431,12 @@ def price_event(event, ref: dict, league: str) -> dict:
     # 'MS 0 & KG Var', KG Var — reports/research/bahis_aileleri_kalibrasyon*.json).
     ft_mat = rake_score_matrix_to_markets(fit_mat, p_1x2=p1x2, ou_lines=ou_lines, p_btts=p_btts_direct,
                                           margin_tilt=MARGIN_TILT)
-    # League's own first-half goal share from the openfootball archive (data/lig_yari_oranlari.csv); None keeps the
-    # regime profile.
+    # League's own first-half goal share + club-level 1Y/2Y DNA urgency & comeback multipliers.
+    h_shift, a_shift, club_mults = club_omni_adjustments(event.home, event.away)
     joint = compute_omni_markets(mu_h, mu_a, league=regime_key, ft_matrix=ft_mat,
-                                 first_half_share=league_first_half_share(league)).joint
+                                 first_half_share=league_first_half_share(league),
+                                 home_1h_urgency_shift=h_shift, away_1h_urgency_shift=a_shift,
+                                 state_mults=club_mults).joint
     timing = GoalTimingModel.from_joint(joint).markets()["İlk Golü Atan Takım"]
 
     exact_direct: dict[str, float] = {
@@ -636,6 +641,49 @@ def attach_research(out: list[dict], events: list, day: dt.date, sharp_generated
         if absences:
             rec.setdefault("research", {"teams": {}, "flags": [], "motivation": {}})["absences"] = absences
 
+    # FotMob (gerçek xG / şut / hakem / son dakika onaylı ilk 11): ESPN eksik veya maç <= 2 saat ise önbellekli zenginleştir.
+    if fotmob.enabled():
+        try:
+            fm = fotmob.FotMob(CachedHttp(ROOT / "data" / "cache" / "fotmob"), delay_s=0.45)
+            fm_day = fm.matches_on(day, ttl_s=1800)
+            fm_list = fotmob.parse_matches(fm_day) if fm_day else []
+            if fm_list:
+                fetched_fm = 0
+                for rec in out:
+                    if fetched_fm >= 45 or rec.get("price_tier") == "ozel_bahis":
+                        continue
+                    event = by_code.get(rec["code"])
+                    if not event:
+                        continue
+                    has_espn = bool((rec.get("research") or {}).get("teams"))
+                    mins_to_ko = (event.kickoff - now).total_seconds() / 60.0
+                    near_kickoff = -10.0 <= mins_to_ko <= 120.0
+                    if has_espn and not near_kickoff:
+                        continue
+                    hit = fotmob.find_match(fm_list, rec["home"], rec["away"], min_score=0.72)
+                    if not hit or not hit.get("id"):
+                        continue
+                    raw_det = fm.details(hit["id"], ttl_s=900 if near_kickoff else 3600)
+                    if not raw_det:
+                        continue
+                    fetched_fm += 1
+                    parsed = fotmob.parse_details(raw_det)
+                    res = rec.setdefault("research", {"teams": {}, "flags": [], "motivation": {}})
+                    res["fotmob"] = parsed
+                    if parsed.get("lineup_type") == "official":
+                        for side in ("home", "away"):
+                            lu_side = parsed.get(f"{side}_lineup") or {}
+                            if lu_side.get("starters"):
+                                t_side = res["teams"].setdefault(side, {"name": rec[side]})
+                                t_side["lineup_announced"] = True
+                                if lu_side.get("unavailable"):
+                                    t_side.setdefault("fotmob_unavailable", lu_side["unavailable"])
+                        tag = "FotMob: resmi ilk 11 açıklandı"
+                        if tag not in res["flags"]:
+                            res["flags"].append(tag)
+        except Exception:
+            pass  # FotMob erişilemez / zaman aşımı olursa ana bülteni bozma
+
 
 def _steam_flag(steam_1x2: list[float] | None, threshold: float = 0.05) -> str | None:
     """Format a sharp opening-to-live probability move warning when |Δp| >= threshold."""
@@ -684,6 +732,13 @@ def analyze_day(
         spec_s = f" (+{n_spec} özel bahis)" if n_spec else ""
         print(f"Nesine {day}: {len(real_events)} futbol maçı{spec_s}")
         print(f"Global (Pinnacle/Smarkets/Betfair): {len(sharp)} referans (oluşturulma {generated or 'yok'})")
+        if generated:
+            try:
+                ref_age = (dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(generated)).total_seconds() / 3600.0
+                if ref_age > 24.0:
+                    print(f"⚠ data/global_odds/latest/references.json {ref_age:.1f} saat eski — GitHub Actions global-odds tazelenmesi önerilir")
+            except ValueError:
+                pass
         if use_oddsmath:
             print(f"OddsMath (BetInAsia/sharp + global büro + steam): {len(om_refs)} maçta canlı oran bulundu")
         if op_refs:

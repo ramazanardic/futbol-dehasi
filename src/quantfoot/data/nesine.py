@@ -15,6 +15,7 @@ from dataclasses import dataclass, field
 import datetime as dt
 import json
 from pathlib import Path
+import re
 
 import time
 
@@ -90,8 +91,25 @@ def _line(sov: float | None) -> str:
     return f"{float(sov):.1f}"
 
 
-def translate(mtid: int, outcome: int, sov: float | None, defs: dict[int, dict]) -> tuple[str, bool] | None:
+_SCORE_ON_RE = re.compile(r"^(\d+):(\d+)$")
+
+
+def translate(
+    mtid: int,
+    outcome: int,
+    sov: float | None,
+    defs: dict[int, dict],
+    outcome_name: str | None = None,
+) -> tuple[str, bool] | None:
     """Return (QuantFoot selection name, negate) for a Nesine market outcome, or None if unsupported."""
+    if mtid in (777, 779):
+        if not outcome_name:
+            return None
+        m_sc = _SCORE_ON_RE.fullmatch(str(outcome_name).strip())
+        if not m_sc:
+            return None
+        prefix = "Skor" if mtid == 777 else "İY Skor"
+        return f"{prefix} {int(m_sc.group(1))}-{int(m_sc.group(2))}", False
     d = defs.get(mtid)
     if not d or outcome not in d["outcomes"]:
         return None
@@ -232,9 +250,10 @@ def parse_bulletin(payload: dict, defs: dict[int, dict] | None = None) -> list[N
                 odds = float(oc.get("O", 0))
                 if odds <= 1.0:
                     continue
-                tr = translate(mtid, int(oc["N"]), m.get("SOV"), defs)
-                title = defs.get(mtid, {}).get("title", str(mtid))
-                label = defs.get(mtid, {}).get("outcomes", {}).get(int(oc["N"]), str(oc["N"]))
+                on_label = oc.get("ON")
+                tr = translate(mtid, int(oc["N"]), m.get("SOV"), defs, outcome_name=on_label)
+                title = defs.get(mtid, {}).get("title") or {777: "Maç Skoru", 779: "1. Yarı Skoru"}.get(mtid, str(mtid))
+                label = defs.get(mtid, {}).get("outcomes", {}).get(int(oc["N"])) or str(on_label or oc["N"])
                 if tr is None:
                     ev.untranslated.append(f"{title}: {label}")
                     continue

@@ -183,6 +183,7 @@ def parse_oddsmath_1x2_payload(payload: dict[str, Any], *, max_vig: float = 0.16
         "vig_1x2": None,
         "books_count": 0,
         "steam_1x2": None,
+        "consensus_gap": None,
     }
     if payload.get("schema") != ["1", "X", "2"]:
         return res
@@ -238,6 +239,15 @@ def parse_oddsmath_1x2_payload(payload: dict[str, Any], *, max_vig: float = 0.16
     res["book_1x2"] = bname
     res["book_rank"] = rk
     res["vig_1x2"] = round(vig, 4)
+    if len(cands) >= 2:
+        p_best = devig(vals, method="power").probabilities
+        all_probs = [devig(c[4], method="power").probabilities for c in cands]
+        med = []
+        for i in range(3):
+            col = sorted(p[i] for p in all_probs)
+            mid = len(col) // 2
+            med.append(col[mid] if len(col) % 2 else 0.5 * (col[mid - 1] + col[mid]))
+        res["consensus_gap"] = round(max(abs(float(p_best[i]) - float(med[i])) for i in range(3)), 4)
     if fvals:
         p0 = devig(fvals, method="power").probabilities
         p1 = devig(vals, method="power").probabilities
@@ -449,6 +459,7 @@ def oddsmath_to_reference(
         "vig_1x2": odds.get("vig_1x2"),
         "books_count": odds.get("books_count", 0),
         "steam_1x2": odds.get("steam_1x2"),
+        "consensus_gap": odds.get("consensus_gap"),
         "fetched_utc": ts,
     }
 

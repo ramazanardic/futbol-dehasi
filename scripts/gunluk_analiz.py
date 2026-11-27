@@ -212,6 +212,11 @@ def main() -> None:
         sel = {s["name"]: s["fair_prob"] for s in m["selections"]}
         f1x2 = m.get("fair_1x2") or [None] * 3
         dist = (store.get(str(m["code"])) or {}).get("dist") or {}
+        mkt_sc = {
+            s["name"].replace("Skor ", ""): float(s["odds"])
+            for s in m.get("selections") or []
+            if str(s.get("name", "")).startswith("Skor ") and s.get("odds")
+        }
         ranked_ft = rank_macro_coherent_scores(
             dist.get("ft") or {},
             f1x2=f1x2,
@@ -219,6 +224,9 @@ def main() -> None:
             p_btts=sel.get("KG Var"),
             mu_home=m.get("mu_home"),
             mu_away=m.get("mu_away"),
+            market_score_odds=mkt_sc or None,
+            ref_ah=m.get("ref_ah"),
+            steam_1x2=m.get("steam_1x2"),
         )
         scores = ", ".join(f"{k} %{v * 100:.0f}" for k, v in ranked_ft[:3]) or "-"
         htft = next(iter((dist.get("htft") or {}).items()), None)

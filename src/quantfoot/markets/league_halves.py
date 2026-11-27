@@ -42,11 +42,40 @@ NESINE_TO_CODES: dict[str, tuple[str, ...]] = {
     "Polonya Ekstraklasa": ("fc.poland1",), "Polonya 1. Lig": ("fc.poland2",), "Romanya 1. Lig": ("fc.romania1",),
     "Bulgaristan Parva Ligi": ("fc.bulgaria1",), "Sırbistan Superliga": ("fc.serbia1",),
     "Slovenya PrvaLiga": ("fc.slovenia1",), "Azerbaycan Premier Lig": ("fc.azer",),
-    "Suudi Arabistan Pro Lig": ("fc.saudi1",), "Suudi Arabistan 2. Lig": ("fc.saudi2",),
-    "Suudi Arabistan 2.Lig": ("fc.saudi2",), "Mısır Premier Lig": ("eg.1",), "Fas Botola Pro": ("ma.1",),
-    "Cezayir 1. Lig": ("dz.1",), "Tayland 1.Lig": ("fc.thai1",), "Hindistan Süper Ligi": ("fc.india1",),
-    "Japonya J Ligi": ("jp.1",), "Avustralya A-Ligi": ("fc.australia",), "Brezilya Serie A": ("br.1",),
+    "Suudi Arabistan Pro Lig": ("fc.saudi1",), "Suudi Arabistan 1. Lig": ("fc.saudi2",),
+    "Suudi Arabistan 2. Lig": ("fc.saudi2",), "Suudi Arabistan 2.Lig": ("fc.saudi2",),
+    "Mısır Premier Lig": ("eg.1", "fc.egypt"), "Fas Botola Pro": ("ma.1", "fc.morocco"),
+    "Cezayir 1. Lig": ("dz.1", "fc.algir1"), "Tayland 1.Lig": ("fc.thai1",),
+    "Tayland Şampiyonası": ("fc.thai1",), "Tayland 1. Lig": ("fc.thai1",),
+    "Hindistan Süper Ligi": ("fc.india1",), "Japonya J Ligi": ("jp.1", "fc.japan1"),
+    "Japonya J1 Ligi": ("jp.1", "fc.japan1"), "Avustralya A-Ligi": ("fc.australia",),
+    "Brezilya Serie A": ("br.1",), "Brezilya Serie B": ("br.2",),
     "Meksika P. Ligi": ("mx.1",), "UEFA Şampiyonlar Ligi": ("uefa.cl",),
+    "Arjantin Primera Lig": ("ar.1",), "Arjantin Liga Profesional": ("ar.1",),
+    "Çin Süper Ligi": ("cn.1",), "Kolombiya Primera A": ("co.1",), "Copa Libertadores": ("copa.l",),
+    "ABD MLS": ("mls",), "Yunanistan Süper Lig 2": ("fc.greece2",), "Hollanda 2. Lig": ("fc.holland3",),
+    "Kuveyt Premier Lig": ("fc.kuwait",), "Almanya Kupası": ("de.cup",), "Avusturya Kupası": ("at.cup",),
+    "İspanya Segunda RFEF": ("fc.segunda1", "fc.segunda2", "fc.segunda3", "fc.segunda4", "fc.segunda5"),
+    "İngiltere Ulusal Lig Kuzey": ("fc.north",), "İngiltere Ulusal Lig Güney": ("fc.south",),
+    "Almanya Regionalliga Kuzey": ("fc.germany-north",), "Çekya 3. Lig": ("fc.czech3a", "fc.czech3b"),
+    "İtalya Primavera": ("fc.italy19",), "Fransa Kadınlar 1. Lig": ("fc.wfrance1",),
+    "Almanya Kadınlar Bundesliga": ("fc.wgermany1",), "Belçika Kadınlar Süper Lig": ("fc.wbelgium1",),
+}
+
+
+def _norm_league_key(name: str) -> str:
+    return " ".join(
+        name.split(",")[0]
+        .replace("İ", "i")
+        .replace("I", "ı")
+        .lower()
+        .replace(".", " ")
+        .split()
+    )
+
+
+_NORM_NESINE_TO_CODES: dict[str, tuple[str, ...]] = {
+    _norm_league_key(k): v for k, v in NESINE_TO_CODES.items()
 }
 
 
@@ -61,7 +90,8 @@ def _table() -> dict[str, dict[str, str]]:
 def _rows(nesine_league: str | None) -> list[dict[str, str]]:
     if not nesine_league:
         return []
-    codes = NESINE_TO_CODES.get(" ".join(nesine_league.split(",")[0].split()), ())
+    head = " ".join(nesine_league.split(",")[0].split())
+    codes = NESINE_TO_CODES.get(head) or _NORM_NESINE_TO_CODES.get(_norm_league_key(head), ())
     return [r for c in codes if (r := _table().get(c))]
 
 
@@ -113,3 +143,14 @@ def league_first_half_share(nesine_league: str | None) -> float | None:
         return None
     goals, first = sum(r[1] for r in rows), sum(r[2] for r in rows)
     return (first + PRIOR * PRIOR_GOALS) / (goals + PRIOR_GOALS)
+
+
+def league_comeback_rates(nesine_league: str | None) -> dict[str, float] | None:
+    """Return pooled empirical rates for HT/FT reversals, half-reversals, and both-halves BTTS."""
+    cols = ("iyms_1/2", "iyms_2/1", "iy2y_1/2", "iy2y_2/1", "kg_iki_yari")
+    out: dict[str, float] = {}
+    for col in cols:
+        val = league_rate(nesine_league, col)
+        if val is not None:
+            out[col] = round(float(val), 5)
+    return out or None

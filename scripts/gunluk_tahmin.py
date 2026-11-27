@@ -54,6 +54,7 @@ def step_commands(date: str, targets: list[float], py: str = sys.executable) -> 
             [py, f"{s}/derin_tahmin.py", "--tarih", date],
             [py, f"{s}/simulasyon.py", "--tarih", date],
             [py, f"{s}/ekstrem_gol_analiz.py", "--tarih", date],
+            [py, f"{s}/yuksek_oran_analiz.py", "--tarih", date],
         ],
         "kupon": [[py, f"{s}/kupon_kur.py", "--hedef", f"{t:g}", "--tarih", date, "--mod", "banko"] for t in targets],
         "denetim": [],
