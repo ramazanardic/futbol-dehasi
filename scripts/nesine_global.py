@@ -432,7 +432,7 @@ def price_event(event, ref: dict, league: str) -> dict:
     ft_mat = rake_score_matrix_to_markets(fit_mat, p_1x2=p1x2, ou_lines=ou_lines, p_btts=p_btts_direct,
                                           margin_tilt=MARGIN_TILT)
     # League's own first-half goal share + club-level 1Y/2Y DNA urgency & comeback multipliers.
-    h_shift, a_shift, club_mults = club_omni_adjustments(event.home, event.away)
+    h_shift, a_shift, club_mults = club_omni_adjustments(getattr(event, "home", None), getattr(event, "away", None))
     joint = compute_omni_markets(mu_h, mu_a, league=regime_key, ft_matrix=ft_mat,
                                  first_half_share=league_first_half_share(league),
                                  home_1h_urgency_shift=h_shift, away_1h_urgency_shift=a_shift,

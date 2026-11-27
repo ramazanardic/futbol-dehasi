@@ -180,7 +180,9 @@ def load_balanced_residual(
         alpha = float(meta.get("best_alpha", 0.0))
         if alpha <= 0.0:
             return None, 0.0
-        booster = lgb.Booster(model_file=str(mp))
+        # A Windows checkout (core.autocrlf) turns the text model into CRLF, and LightGBM's parser then aborts the whole
+        # process (not a catchable exception, 27 Nov). Load from the string with the CRs removed.
+        booster = lgb.Booster(model_str=mp.read_text(encoding="utf-8").replace("\r", ""))
         return booster, alpha
     except Exception:
         return None, 0.0
