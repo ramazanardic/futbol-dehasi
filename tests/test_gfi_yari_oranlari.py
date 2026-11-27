@@ -15,3 +15,15 @@ def test_league_rates_counts_half_combos_and_skips_bad_half_scores():
     assert r["iyms_2/1"] == 0.5 and r["iy2y_2/1"] == 0.5
     assert r["iy2"] == 0.5 and r["iy0"] == 0.5
     assert r["kg_iki_yari"] == 0.5 and r["gol_iki_yari"] == 1.0 and r["iy00"] == 0.0
+
+
+def test_league_first_half_share_is_shrunk_and_mapped(tmp_path, monkeypatch):
+    from quantfoot.markets import league_halves as lh
+    p = tmp_path / "r.csv"
+    p.write_text("# x\nlig,n,gol,iy_gol_payi\ntr.1,1000,3.0,0.40\nhu.1,100,3.0,0.30\n", encoding="utf-8")
+    monkeypatch.setattr(lh, "CSV", p)
+    lh._shares.cache_clear()
+    s = lh.league_first_half_share("Türkiye Süper Lig, Normal Sezon")
+    assert 0.40 < s < 0.44 and abs(s - (0.40 * 3000 + 0.44 * 400) / 3400) < 1e-9
+    assert lh.league_first_half_share("Macaristan NB I") is None  # unmapped / small sample keeps the profile
+    lh._shares.cache_clear()

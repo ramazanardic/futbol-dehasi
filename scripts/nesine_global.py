@@ -53,6 +53,7 @@ from quantfoot.data.weather import fetch_matchday_weather
 from quantfoot.markets.devig import devig
 from quantfoot.markets.goal_markets import goal_probability
 from quantfoot.markets.goal_timing import GoalTimingModel
+from quantfoot.markets.league_halves import league_first_half_share
 from quantfoot.markets.omni_markets import compute_omni_markets
 from quantfoot.markets.tail_goals import fit_tail_rates_from_markets, league_tail_regime, rake_score_matrix_to_markets
 from quantfoot.strategy.coupon_builder import is_uncalibrated_competition
@@ -427,7 +428,10 @@ def price_event(event, ref: dict, league: str) -> dict:
     # 'MS 0 & KG Var', KG Var — reports/research/bahis_aileleri_kalibrasyon*.json).
     ft_mat = rake_score_matrix_to_markets(fit_mat, p_1x2=p1x2, ou_lines=ou_lines, p_btts=p_btts_direct,
                                           margin_tilt=MARGIN_TILT)
-    joint = compute_omni_markets(mu_h, mu_a, league=regime_key, ft_matrix=ft_mat).joint
+    # League's own first-half goal share from the openfootball archive (data/lig_yari_oranlari.csv); None keeps the
+    # regime profile.
+    joint = compute_omni_markets(mu_h, mu_a, league=regime_key, ft_matrix=ft_mat,
+                                 first_half_share=league_first_half_share(league)).joint
     timing = GoalTimingModel.from_joint(joint).markets()["İlk Golü Atan Takım"]
 
     exact_direct: dict[str, float] = {
