@@ -44,6 +44,13 @@ SEASON_DIVISIONS: tuple[str, ...] = (
     "SC2", "SC3", "G1",
 )
 FD_SEASON_URL = "https://www.football-data.co.uk/mmz4281/{season}/{div}.csv"
+# Ek ligler (football-data.co.uk "new leagues": tek dosyada bütün sezonlar). Dosya kodu -> arşiv Division kodu.
+FD_NEW_LEAGUE_URL = "https://www.football-data.co.uk/new/{code}.csv"
+NEW_LEAGUES: dict[str, str] = {
+    "ARG": "ARG", "AUT": "AUT", "BRA": "BRA", "CHN": "CHN", "DNK": "DEN", "FIN": "FIN", "IRL": "IRL", "JPN": "JAP",
+    "MEX": "MEX", "NOR": "NOR", "POL": "POL", "ROU": "ROM", "RUS": "RUS", "SWZ": "SUI", "SWE": "SWE", "USA": "USA",
+}
+NEW_LEAGUE_SINCE = dt.date(2024, 7, 1)  # repoda yalnız arşivde eksik olabilecek son iki sezon tutulur
 SMARKETS = "https://api.smarkets.com/v3"
 # Smarkets market types stored as direct references for derivative selections (KG, other O/U lines, halves...).
 DIRECT_TYPES = {"OVER_UNDER", "BTTS", "DOUBLE_CHANCE", "ODD_EVEN", "SCORE_RANGE", "HALF_FULL", "HALF_TIME_WINNER_3_WAY",
@@ -273,6 +280,65 @@ def fetch_season_history(
     LOG["counts"][f"season_{season_code}_rows"] = total_rows
     _say(f"football-data season {season_code}: {saved_files}/{len(divisions)} divisions ({total_rows} matches)")
     return saved_files
+
+
+def fetch_new_league_history(
+    codes: dict[str, str] | None = None,
+    out_dir: Path | None = None,
+    since: dt.date = NEW_LEAGUE_SINCE,
+) -> int:
+    """football-data.co.uk ek lig geçmişleri (ARG, BRA, JPN, USA …) -> data/global_odds/latest/new_leagues/<KOD>.csv.
+
+    Dosyalar bütün sezonları taşır; depo şişmesin diye yalnız ``since`` sonrası oynanmış satırlar yazılır.
+    """
+    dest = (out_dir or OUT) / "new_leagues"
+    dest.mkdir(parents=True, exist_ok=True)
+    saved = rows_total = 0
+    for code in (codes or NEW_LEAGUES):
+        if _time_left() < 60:
+            LOG["errors"].append(f"new_league_history: time budget reached at {code}")
+            break
+        try:
+            r = _get(FD_NEW_LEAGUE_URL.format(code=code))
+            if r.status_code != 200:
+                LOG["errors"].append(f"new_league_history/{code}: HTTP {r.status_code}")
+                continue
+        except Exception as exc:
+            LOG["errors"].append(f"new_league_history/{code}: {exc}")
+            continue
+        text = r.content.decode("utf-8-sig", errors="replace")
+        lines = text.splitlines()
+        if not lines or "Home" not in lines[0] or "HG" not in lines[0]:
+            LOG["errors"].append(f"new_league_history/{code}: unexpected header")
+            continue
+        rd = csv.reader(lines)
+        header = next(rd)
+        try:
+            di = header.index("Date")
+        except ValueError:
+            continue
+        kept = [header]
+        for row in rd:
+            if len(row) <= di:
+                continue
+            try:
+                d = dt.datetime.strptime(row[di].strip(), "%d/%m/%Y").date()
+            except ValueError:
+                try:
+                    d = dt.datetime.strptime(row[di].strip(), "%d/%m/%y").date()
+                except ValueError:
+                    continue
+            if d >= since:
+                kept.append(row)
+        buf = io.StringIO()
+        csv.writer(buf, lineterminator="\n").writerows(kept)
+        (dest / f"{code}.csv").write_text(buf.getvalue(), encoding="utf-8")
+        saved += 1
+        rows_total += len(kept) - 1
+    LOG["counts"]["new_league_files"] = saved
+    LOG["counts"]["new_league_rows"] = rows_total
+    _say(f"football-data new leagues: {saved} files ({rows_total} matches since {since})")
+    return saved
 
 
 def _chunks(items: list, n: int):
@@ -570,6 +636,7 @@ def main() -> None:
     if len(sys.argv) > 1 and sys.argv[1] == "--season-history":
         season = sys.argv[2] if len(sys.argv) > 2 else None
         fetch_season_history(season=season)
+        fetch_new_league_history()
         return
     refs: list[dict] = []
     # Pinnacle (football-data) first: small, fast, most reliable. Saved before the exchange fetch.
@@ -586,6 +653,7 @@ def main() -> None:
             _say(f"--- fetch_season_history (time left {_time_left():.0f}s)")
             try:
                 fetch_season_history()
+                fetch_new_league_history()
             except Exception as exc:
                 LOG["errors"].append(f"fetch_season_history: {type(exc).__name__}: {exc}")
                 logging.getLogger(__name__).warning("%s", LOG["errors"][-1], exc_info=True)
