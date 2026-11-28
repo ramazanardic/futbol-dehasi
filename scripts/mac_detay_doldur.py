@@ -124,14 +124,25 @@ def validate(base: pd.DataFrame, found: dict[int, dict]) -> dict:
     return {c: {"n": total[c], "uyum": round(agree[c] / total[c], 4)} for c in sorted(total)}
 
 
+def data_lines(lines: list[str]) -> list[int]:
+    """pandas satır sırası -> fiziksel satır numarası. pandas boş satırları atlar (skip_blank_lines); arşivde
+    230559. satırda tarihsel bir boş satır var, bu yüzden ``get_loc(i) + 1`` sonrasını bir satır kaydırır."""
+    return [k for k, ln in enumerate(lines) if k > 0 and ln.strip() != ""]
+
+
 def fill(archive: Path, base: pd.DataFrame, found: dict[int, dict], fields: set[str]) -> dict:
     cols = list(base.columns)
     pos = {c: cols.index(c) for c in cols}
     lines = archive.read_text(encoding="utf-8").split("\n")
+    phys = data_lines(lines)
+    if len(phys) != len(base):
+        raise SystemExit(f"satır sayısı uyuşmuyor: dosya {len(phys)}, pandas {len(base)}")
     stats = collections.Counter()
     for i, al in found.items():
-        li = base.index.get_loc(i) + 1
+        li = phys[base.index.get_loc(i)]
         row = next(csv.reader([lines[li]]))
+        if row[pos["HomeTeam"]] != str(base.at[i, "HomeTeam"]) or row[pos["MatchDate"]] != str(base.at[i, "MatchDate"]):
+            raise SystemExit(f"satır hizası bozuk: {li}")
         changed = False
         al = {c: v for c, v in al.items() if c in fields and c in pos}
         fh, fa = base.at[i, "FTHome"], base.at[i, "FTAway"]

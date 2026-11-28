@@ -197,7 +197,15 @@ def _near_keys(df: pd.DataFrame) -> pd.Series:
 def _drop_lines(archive: Path, drop: set[int]) -> None:
     """Veri satırı indekslerini (0 tabanlı) metin düzeyinde siler; diğer satırlar bayt bayt aynı kalır."""
     lines = archive.read_text(encoding="utf-8").split("\n")
-    keep = [lines[0]] + [ln for i, ln in enumerate(lines[1:]) if i not in drop]
+    # pandas boş satırları atlar: veri indeksi yalnız boş olmayan satırlarda ilerler (tarihsel boş satır kaydırmasın)
+    keep, j = [lines[0]], 0
+    for ln in lines[1:]:
+        if ln.strip() == "":
+            keep.append(ln)
+            continue
+        if j not in drop:
+            keep.append(ln)
+        j += 1
     archive.write_text("\n".join(keep), encoding="utf-8")
 
 
