@@ -25,12 +25,13 @@
 | 5 | Toplam oran | Banko kupon toplam oranı **< 20**; varsayılan olarak 20+ oranlı ("loto") kupon üretilmez | `settings.BANKO_MAX_TOTAL_ODDS` |
 | 6 | Yasak bacaklar | Beraberlik (MS 0/X, İY 0/X, 2Y 0 …) · **maç geneli KG / BTTS** (Var ve Yok), **2Y KG Var**, İY KG · **ilk gol** · **takım golü** (Ev/Dep gol, Ev/Dep Alt-Üst, "iki yarıda gol atar/atamaz", `DEĞİL(Ev İki Yarıda Gol)`) · **İY/MS** · İY/2Y · **skor** · **çifte şans** (`DEĞİL(MS 0)` = 12, `DEĞİL(MS 1)`, `DEĞİL(MS 2)` dahil) · handikap · tek/çift |
 | 6a | İzinli istisnalar (28 Kas ince ayar) | **2Y KG Yok** (2. Yarı KG Yok) — P ≥ 0,70 ve oran 1,20–1,80 ile; denetimde 13'te 10. **Takımın yarı kazanma pazarları** ("Ev/Dep En Az Bir (Herhangi Bir) Yarıyı Kazanır/Kazanamaz", "Her İki Yarıyı Kazanır") — takım golü sayılmaz. Kombine bacakta her parça ayrı denetlenir ("MS 1 & 2Y KG Yok" izinli, "MS 1 & KG Var" yasak). | `coupon_rules.hard_banned_reason`, `BANNED_FAMILIES`, `is_draw_leg` |
+| 6b | İzinli ekleme (28 Kas, t179u) | **Toplam korner Alt/Üst** ("Korner 10.5 Alt" gibi) normal banko ailesidir: P ≥ 0,70, oran 1,20–1,80, maç başına tek bacak kuralları aynen geçerli. Yalnız ileri-yürüyen ölçümde P ≥ 0,70 diliminde gerçekleşmesi tahminden en çok 5 puan düşük olan çizgi/yön çiftleri girer (`data/calibration/korner_kalibrasyon.json` → `gecerli`; ölçüm `scripts/korner_olcum.py`). İlk yarı korneri ve kart yasak/beyaz liste dışı kalır. Nesine o korner seçimini sunmuyorsa ya da takım arşivle eşleşmiyorsa bacak çıkmaz. Kapatmak: `QF_KORNER_BANKO=0` ya da dosyada `etkin=false`. | `coupon_rules._korner_banko_ok`, `markets/korner_banko.py`, `settings.KORNER_BANKO_ENABLED` |
 | 7 | Rehabilitasyon | Kalibrasyon ya da "rehabilite" işareti yasak bir bacağı **açamaz** | `leg_decision` |
 | 8 | Dürüst ret | Kurallara uyan banko kupon yoksa sonuç **boş** ve açık mesaj verilir: "kupon kurulamadı, kural gevşetilmedi". Yedek kademe, model türevi zorlaması ya da kuralsız "son çare" kupon **yok**. | `nesine_kupon.HONEST_NO_COUPON`, `kupon_kur.py` |
 | 9 | Şeffaflık | Her kuponda bacaklar, toplam oran ve **toplam tutma olasılığı** (düzeltilmiş P'lerin çarpımı) yazılır | `honest_line`, `audit_markdown` |
 
 Varsayılan olarak bacaklar doğrudan Nesine fiyatlıdır. Model türevi bacaklar yalnız `--model-bacak` ile, açık istek
-üzerine eklenir. Risk modu (`--mod risk`) yalnız kullanıcı açıkça isterse çalışır; o durumda tutma ihtimali dürüstçe yazılır.
+üzerine eklenir; tek istisna 6b'deki doğrulanmış toplam korner Alt/Üst modelidir. Risk modu (`--mod risk`) yalnız kullanıcı açıkça isterse çalışır; o durumda tutma ihtimali dürüstçe yazılır.
 
 ## Çıktı ve sonuç kuralları (her yapay zekâ, Gemini dahil)
 

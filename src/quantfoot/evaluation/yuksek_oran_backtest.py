@@ -5,7 +5,7 @@ Kalibrasyon çarpanları ay başı M için yalnız M'den önceki ÖRNEKLEM-DIŞI
 Hiperparametreler doğrulama döneminde (varsayılan 2022-07-01..2024-06-30) seçilir; rapor test döneminde
 (2024-07-01 sonrası, son 2+ sezon) verilir.
 
-Pazar oranları (İY/MS, skor, korner) arşivde YOK; bu yüzden ROI hesaplanamaz. "Piyasa türevi" kıyas modeli
+Pazar oranları (İY/MS, skor, 2Y KG) arşivde YOK; bu yüzden ROI hesaplanamaz. "Piyasa türevi" kıyas modeli
 1X2 + 2.5 Alt/Üst oranlarından ters çevrilmiş gol beklentisiyle aynı pazarı fiyatlar.
 """
 
@@ -285,73 +285,6 @@ def walk_forward_calibrate(df: pd.DataFrame, raw: dict[str, np.ndarray], y: dict
         final = {"htft": {str(b): fac[b].round(4).tolist() for b in fac}, "skor": f_ft.round(4).tolist(),
                  "iy_skor": f_ht.round(4).tolist(), "kg2": [round(ab[0], 4), round(ab[1], 4)], "son_ay": str(m)}
     return out, final
-
-
-# ----------------------------------------------------------------------------------------------
-# Korner
-# ----------------------------------------------------------------------------------------------
-def corner_probs(df: pd.DataFrame, y: dict[str, np.ndarray], cal_from: str,
-                 use_sup: bool = True) -> tuple[dict[float, np.ndarray], dict[str, Any]]:
-    """'sonra' korner: takım Maher korner beklentisi, aylık ve yalnız geçmiş örneklem-dışı satırlarla
-    doğrusal düzeltilir (toplam ~ a + b·beklenti [+ c·|piyasa üstünlüğü|]; b<1 = takım farklarını büzme),
-    dağılım NB, Var/Ort oranı geçmiş artıklardan."""
-    months = df.MatchDate.dt.to_period("M").to_numpy()
-    e = df.ch_m.to_numpy() + df.ca_m.to_numpy()
-    sup = np.abs(np.nan_to_num(df.p1.to_numpy() - df.p2.to_numpy()))
-    ok = y["c_ok"] & np.isfinite(e)
-    tot = y["ctot"]
-    adj = np.full(len(df), np.nan)
-    vm = np.full(len(df), np.nan)
-    coef: list[float] = []
-    v_last = np.nan
-    first = pd.Period(cal_from, "M")
-    for m in sorted(set(months)):
-        if m < first:
-            continue
-        cur = (months == m) & ok
-        past = (months < m) & ok
-        if past.sum() < 1000 or not cur.any():
-            continue
-        X = np.c_[np.ones(past.sum()), e[past], sup[past]] if use_sup else np.c_[np.ones(past.sum()), e[past]]
-        beta = np.linalg.lstsq(X, tot[past], rcond=None)[0]
-        fit = X @ beta
-        v_last = float(np.mean((tot[past] - fit) ** 2) / np.mean(fit))
-        Xc = np.c_[np.ones(cur.sum()), e[cur], sup[cur]] if use_sup else np.c_[np.ones(cur.sum()), e[cur]]
-        adj[cur] = np.clip(Xc @ beta, 3.0, 20.0)
-        vm[cur] = v_last
-        coef = beta.round(4).tolist()
-    probs = {ln: np.where(np.isfinite(adj), ym.nb_over(np.nan_to_num(adj, nan=10.0), np.nan_to_num(vm, nan=1.2), ln), np.nan)
-             for ln in ym.CORNER_LINES}
-    return probs, {"katsayi": coef, "ozellikler": ["sabit", "takim_beklentisi", "abs_ustunluk"] if use_sup
-                   else ["sabit", "takim_beklentisi"], "var_ort": round(v_last, 4) if np.isfinite(v_last) else None}
-
-
-def corner_probs_old(df: pd.DataFrame, y: dict[str, np.ndarray]) -> dict[float, np.ndarray]:
-    """'önce' korner: depodaki CornerCardRatings (α=0.02, nedensel) + CornerDistribution."""
-    from quantfoot.markets.corners_cards import CornerCardRatings, league_baseline
-
-    rt = CornerCardRatings()
-    n = len(df)
-    eh, ea = np.full(n, np.nan), np.full(n, np.nan)
-    H, A, D = df.HomeTeam.to_numpy(), df.AwayTeam.to_numpy(), df.Division.to_numpy()
-    ok = y["c_ok"]
-    # aynı gün içinde sıra: tahmin önce, güncelleme sonra (gün bazında)
-    dates = df.MatchDate.to_numpy()
-    i = 0
-    while i < n:
-        j = i
-        while j < n and dates[j] == dates[i]:
-            j += 1
-        for k in range(i, j):
-            if ok[k]:
-                e = rt.expected(H[k], A[k], D[k])
-                eh[k], ea[k] = e["corners_home"], e["corners_away"]
-        for k in range(i, j):
-            if ok[k]:
-                rt.update(H[k], A[k], D[k], y["ch"][k], y["ca"][k], np.nan, np.nan)
-        i = j
-    vm = np.array([league_baseline(d)[2] for d in D])
-    return {ln: np.where(ok, ym.nb_over(np.nan_to_num(eh + ea, nan=10.0), vm, ln), np.nan) for ln in ym.CORNER_LINES}
 
 
 # ----------------------------------------------------------------------------------------------

@@ -149,7 +149,10 @@ def match_context(m: dict) -> str:
 
 
 def leg_reason(leg: dict) -> str:
-    src = "kendi borsa fiyatı" if leg.get("direct") else "global 1X2+Alt/Üst'ten gol modeli"
+    if leg.get("korner_modeli"):
+        src = "ileri-yürüyen kalibre korner modeli, data/matches.csv"
+    else:
+        src = "kendi borsa fiyatı" if leg.get("direct") else "global 1X2+Alt/Üst'ten gol modeli"
     text = f"Global olasılık %{leg['p'] * 100:.0f} ({src}, {leg['reference']}); adil oran {1 / leg['p']:.2f}, Nesine {leg['odds']:.2f}"
     if leg.get("scores"):
         text += " · bu bacakla uyumlu en olası skorlar: " + ", ".join(f"{sc} %{p * 100:.1f}" for sc, p in leg["scores"])
@@ -330,8 +333,8 @@ def candidates(
             if (family_ev and mode != "banko" and s.get("direct") is False
                     and p_cal * s["odds"] - 1.0 < leg_min_ev(s.get("name", ""), hard)):
                 continue  # model-derived leg: per-family value floor (settings.FAMILY_VALUE_RULES, 21 Nov audit)
-            if direct_only and not s.get("direct"):
-                continue  # model-derived price: no direct global quote for this selection
+            if direct_only and not s.get("direct") and not s.get("korner_modeli"):
+                continue  # model-derived price: no direct global quote (total-corner model is the validated exception)
             if not in_family(s.get("name", ""), family):
                 continue  # single-family coupon (--aile)
             if main_markets_only and not is_main_market_selection(s.get("name", "")):
@@ -345,7 +348,8 @@ def candidates(
                 "code": m["code"], "kickoff": m["kickoff"], "league": m["league"], "match": f"{m['home']} - {m['away']}",
                 "market": s["market"], "selection": s["selection"], "odds": s["odds"], "p": p_cal, "p_raw": s["fair_prob"],
                 "ev": s["ev"], "mbs": int(s["mbs"] or 1), "reference": ref_lbl,
-                "direct": bool(s.get("direct")), "context": context, "key": s.get("key"),
+                "direct": bool(s.get("direct")), "korner_modeli": bool(s.get("korner_modeli")),
+                "context": context, "key": s.get("key"),
                 "name": s.get("name", ""), "researched": researched, "tier": "keskin" if is_sharp else "orta",
                 "ev_cal": round(p_cal * s["odds"] - 1.0, 4), "hard": hard,
                 "p1": p1, "p2": p2, "p_draw": p_draw, "p_over25": p_over25,

@@ -131,7 +131,7 @@ FAMILY_VALUE_RULES: dict[str, tuple[float, float]] = {
     "İY/MS": (0.06, 0.010),
     "Fark": (0.06, 0.010),
     "Doğru Skor": (0.08, 0.010),
-    "Korner": (0.05, 0.015),      # priced only from a direct exchange quote (no corner odds in the archive)
+    "Korner": (0.05, 0.015),      # exchange quote, or the walk-forward corner model (markets/korner_banko.py, banko)
     "Kart": (0.05, 0.015),        # idem
     "Diğer": (0.05, 0.010),
 }
@@ -151,6 +151,12 @@ LIVE_RESERVE_TL = 0.0       # canlı için ayrılan kasa (CLI --canli-rezerv)
 # zaman sızıntısız ölçüm (reports/research/gfi_etki_2026-11-28.md) iyileşme göstermedikçe KAPALI. Ortam değişkeni
 # QF_GFI_PRIORS=1 ile açılır.
 GFI_PRIORS_ENABLED = False
+
+# Toplam korner Alt/Üst banko ailesi (28 Kas 2026, t179u). Model: markets/korner_banko.py; kalibrasyon ve geçerli
+# (çizgi, yön) listesi data/calibration/korner_kalibrasyon.json (scripts/korner_olcum.py). Ölçümde P ≥ 0,70 diliminde
+# gerçekleşme tahminden en çok 5 puan düşük olmak zorunda; değilse dosyada etkin=false ve bayrak ne olursa olsun
+# bacak çıkmaz. QF_KORNER_BANKO=0 ile kapanır.
+KORNER_BANKO_ENABLED = True
 
 
 # Maç başına web-araştırma adımı (data/web_research.py): kupona aday maçlar için ESPN/Open Matchday/FPL/Wikipedia'dan
