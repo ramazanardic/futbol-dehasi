@@ -39,6 +39,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from nesine_global import DAILY, MAX_PLAUSIBLE_EV, PRICED, TSI, analyze_day, selection_key  # noqa: E402
 from kupon_dosyalari import coupon_group as coupon_group, latest_coupons  # noqa: E402
 
+from quantfoot.data import arastirma_notu as AN  # noqa: E402
 from quantfoot.data.nesine import fetch_bulletin, parse_bulletin  # noqa: E402
 from quantfoot.evaluation.auto_learn import calibrated_probability, calibration_sigma_adjustment, load_live_calibration  # noqa: E402
 from quantfoot.settings import HIGH_TARGET as SETTINGS_HIGH_TARGET  # noqa: E402
@@ -156,7 +157,35 @@ def leg_reason(leg: dict) -> str:
     text = f"Global olasılık %{leg['p'] * 100:.0f} ({src}, {leg['reference']}); adil oran {1 / leg['p']:.2f}, Nesine {leg['odds']:.2f}"
     if leg.get("scores"):
         text += " · bu bacakla uyumlu en olası skorlar: " + ", ".join(f"{sc} %{p * 100:.1f}" for sc, p in leg["scores"])
-    return text + (f" · {leg['context']}" if leg.get("context") else "")
+    text += f" · {leg['context']}" if leg.get("context") else ""
+    return text + research_note_text(leg)
+
+
+def research_notes_section(notes: dict, matches: list[dict]) -> list[str]:
+    """Rapor başı: nota göre elenen bacaklar ve not kapsamı (notu olmayan maçlar için davranış değişmez)."""
+    day_codes = {str(m["code"]) for m in matches}
+    mine = {c: n for c, n in (notes or {}).items() if c in day_codes}
+    if not mine:
+        return ["> Bu gün için araştırma notu yok (tahminler/grokbottahmin/arastirma/): bacaklar yalnız modelle seçildi; not yoksa kural değişmez.", ""]
+    out = [f"> Araştırma notu: {len(mine)} maç için var (veto = bacak kupona girmez, uyarı = işaretlenir; not olasılığı yükseltemez)."]
+    for c, n in mine.items():
+        for d in n.get("bacak_kararlari") or []:
+            if d.get("karar") == "veto":
+                out.append(f"> - VETO: {n['mac']['ev']} - {n['mac']['dep']} · {d['secim']} — {d.get('gerekce')}")
+    return out + [""]
+
+
+def research_note_text(leg: dict) -> str:
+    """Rapor eki: araştırma notu kararı (uyarı işaretlenir; not yoksa 'araştırma notu yok')."""
+    v = leg.get("arastirma") or {"durum": "not_yok"}
+    d = v.get("durum")
+    if d == "uyari":
+        return f" · ⚠ ARAŞTIRMA NOTU UYARI: {v.get('gerekce')}"
+    if d == "onay":
+        return f" · araştırma notu: onay ({v.get('gerekce') or 'gerekçe yok'}; eşikleri gevşetmez)"
+    if d == "karar_yok":
+        return " · araştırma notu var, bu bacak için karar yok"
+    return " · araştırma notu yok"
 
 
 def consistent_scores(joint, name: str, top: int = 3) -> list[tuple[str, float]]:
@@ -258,6 +287,7 @@ def candidates(
     family_ev: bool = True,
     keep_all: bool = False,
     mode: str | None = None,
+    notes: dict | None = None,
 ) -> list[list[dict]]:
     """Per match: non-dominated legs (higher Nesine odds AND higher global probability dominates).
 
@@ -265,7 +295,10 @@ def candidates(
     markets whose walk-forward test improved out-of-sample); default = load the file, None = off.
     ``family_ev``: per-family σ on every leg and, for MODEL-DERIVED legs (no direct global quote), the per-family EV
     floor (settings.FAMILY_VALUE_RULES); directly quoted legs keep the PR #3 rule (floor only on hard markets).
-    Banko applies its EV floor after final coupon probability calibration."""
+    Banko applies its EV floor after final coupon probability calibration.
+    ``notes``: {nesine kodu: araştırma notu} (data/arastirma_notu.py). Not yalnız ELEYEBİLİR (veto: bacak havuza girmez, Pareto
+    cephesinden ÖNCE çıkarılır) ya da İŞARETLEYEBİLİR (uyari); ``p``/``p_low``/oran/eşikler ASLA değişmez. ``notes`` yok
+    ya da maçın notu yok: davranış değişmez."""
     mcal = load_market_calibration() if market_calibration is _MCAL_DEFAULT else market_calibration
     pools = []
     for m in matches:
@@ -366,6 +399,10 @@ def candidates(
                 diag = diagnose_selection(s.get("name", ""), p_cal, leg_obj, for_coupon=True)
                 leg_obj["rehabilitated"] = bool(diag.rehabilitated)
                 leg_obj["diagnosis_ok"] = bool(diag.ok)
+            verdict = AN.leg_verdict((notes or {}).get(str(m["code"])), s.get("name", ""))
+            if verdict["durum"] == "veto":
+                continue  # araştırma notu veto: bacak kupona giremez (P/eşik gevşemez, yalnız elenir)
+            leg_obj["arastirma"] = verdict
             sig = leg_sigma(
                 s.get("name", ""), bool(s.get("direct")), m["reference"], researched, flagged,
                 calibration=calibration, consensus_kl=consensus_kl, n_books=n_books,
@@ -638,6 +675,7 @@ def build_Pool_fallback_pools(
     calibration: dict | None,
     family_ev: bool,
     banko_min_ev: float | None,
+    notes: dict | None = None,
 ) -> list[list[dict]]:
     """Build candidate match pools; in banko mode progressively widen safe tiers if strict pool has <5 matches."""
     # (d_only, sharp_only_flag, no_cups, ev_floor, p_floor, rule_min_p, tier_min_odds)
@@ -668,6 +706,7 @@ def build_Pool_fallback_pools(
             family_ev=family_ev,
             keep_all=pol.name == "banko",
             mode=pol.name,
+            notes=notes,
         )
         pol_use = pol if idx == 0 else KM.ModePolicy(
             pol.name, p_floor, t_min_odds, pol.max_leg_odds, pol.min_legs, pol.max_legs, sharp_only_flag, pol.guard,
@@ -961,6 +1000,8 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
         use_tm=bool(args.tm) and not args.no_tm,
     )
     kickoff = {int(m["code"]): dt.datetime.fromisoformat(m["kickoff_iso"]) for m in matches}
+    # Araştırma notları (tahminler/grokbottahmin/arastirma/<gün>/): yalnız veto (elenir) ve uyarı (işaret); P'ye dokunmaz.
+    notes = AN.load_day(args.tarih)
     now = dt.datetime.now(TSI)
     min_prob = args.min_olasilik if args.min_olasilik is not None else pol.min_prob
     live_cal = load_live_calibration()
@@ -996,6 +1037,7 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
             calibration=live_cal or None,
             family_ev=not args.aile_ev_kapali,
             banko_min_ev=banko_min_ev,
+            notes=notes,
         )
         n_mid_pools = sum(1 for p in pools if p[0].get("tier") == "orta")
         if attempt == 0:
@@ -1082,6 +1124,7 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
              "Yöntem: toplam Nesine oranı **en az** hedef olan (daha yüksek olabilir, altı asla) kuponlar arasında "
              "**birleşik tutma olasılığı en yüksek** olan.")
           + " Oranlar maç saatine kadar değişebilir; oynamadan önce Nesine'de kontrol edin.", ""]
+    md += research_notes_section(notes, matches)
     if stale:
         md += [f"> ⚠ {stale} maçın global fiyatı {MAX_PRICE_AGE_H:g} saatten eski olduğu için kupona alınmadı "
                "(eski fiyat sakatlık / kadro haberinden önce kalmış olabilir).", ""]
@@ -1109,7 +1152,9 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
             md.append(f"| {leg['kickoff'][11:]} | {leg['match']} | {leg['market']} | {leg['selection']} | {leg['odds']:.2f} | "
                       f"%{leg['p'] * 100:.1f} | {1 / leg['p']:.2f} | "
                       f"{(leg['scores'][0][0] + ' (%' + format(leg['scores'][0][1] * 100, '.1f') + ')') if leg.get('scores') else '-'} | {leg['mbs']} | {leg['reference']} | "
-                      f"{'doğrudan' if leg.get('direct') else 'model'} | {'var' if leg.get('researched') else 'yok'} |"
+                      f"{'doğrudan' if leg.get('direct') else 'model'} | {'var' if leg.get('researched') else 'yok'}"
+                      + (" · ⚠ NOT UYARI" if (leg.get("arastirma") or {}).get("durum") == "uyari"
+                         else " · not yok" if (leg.get("arastirma") or {}).get("durum", "not_yok") == "not_yok" else "") + " |"
                       + (f" ⚠ {leg['status']}" if leg.get("status") not in (None, "kontrol edildi") else ""))
         md += ["", "**Gerekçeler**", ""]
         md += [f"- **{leg['match']} — {leg['market']}: {leg['selection']}** — {leg_reason(leg)}" for leg in c["legs"]]
