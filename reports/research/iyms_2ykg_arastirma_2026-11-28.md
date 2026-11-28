@@ -114,3 +114,51 @@ Not: 1/1 yüksek-P eksik tahmini sezonlar arası tutarlı (yön doğru), ancak e
 python scripts/iyms_2ykg_arastirma.py --cache <feat_240.pkl> --nesine tahminler/<ai>/<gün>/nesine_global.json --model-testleri --damga 2026-11-28   # ≈5 dk
 ```
 Çıktı: `iyms_2ykg_arastirma_2026-11-28.json` (tüm bantlar, lig tabloları, simülasyon tabloları).
+
+---
+
+# EK: "İki Yarıda KG Var" (iki yarıda da karşılıklı gol) — düzeltme (28 Kas 2026)
+
+Kullanıcı "2 yarıda KG" ile **2Y KG Var'ı değil, İY'de de 2Y'de de iki takımın gol atmasını** kastetti. Nesine'de bu seçim
+"1. Yarı / 2. Yarı Karşılıklı Gol" pazarında **"İki Yarıda KG Var"** (diğer üç seçim: İY Yok & 2Y Yok, İY Var & 2Y Yok, İY Yok & 2Y Var).
+Hazır bir not/kalibrasyon yok (`families.py` yalnız "Yarı KG" ailesi adı veriyor); bu yüzden P, 2Y KG ile aynı hattan kuruldu:
+P = Σ(devre durumu) P(İY'de iki takım da attı ∧ durum) · P(2Y KG | durum), ardından aylık sızıntısız logit kalibrasyonu.
+Kod: `scripts/iki_yari_kg_arastirma.py`; çıktı: `iki_yari_kg_arastirma_2026-11-28.json`. Test 2024-07+, n = 24.900.
+
+## Sonuç: pratikte kupon pazarı değil
+- **Gerçek oran %5,54**; model ort. P %5,27 (ham %5,19). **Model P'si en çok 0,154**; medyan 0,051, %90 dilimi 0,074, %99 dilimi 0,098.
+  Yani hiçbir maçta "en olası" bir seçim değil; bu bir **uzun-oranlı lottery** (tek bacak ≈ 1/18).
+- **Kalibrasyon (test):** P < 0,08: tahmin 0,050 / gerçek 0,0525 (n 23.445); 0,08–0,10: 0,087 / 0,095 (n 1.261, GA 0,080–0,113);
+  0,10–0,12: 0,108 / **0,173** (n 173, GA 0,124–0,237) → üst uçta model temkinli (az maç).
+- Toplam-gol beşlikleri (tahmin / gerçek): ≤2,4: 0,033 / 0,037; 2,4–2,6: 0,045 / 0,046; 2,6–2,78: 0,053 / 0,056; 2,78–3,02: 0,061 / 0,062; > 3,02: **0,073 / 0,077**.
+- İki takımın da atak gücü (min(λ, μ)) dörtlükleri: 0,040 / 0,043 → 0,049 / 0,053 → 0,055 / 0,055 → **0,068 / 0,071**.
+- Favori gücü ayırmıyor (0,051–0,056 tahmin; gerçek 0,053–0,063).
+- **P'yi en çok yükselten profil: yüksek toplam gol + dengeli güçlü iki hücum.** P ≥ 0,074 (üst %10): tahmin 0,085 / gerçek **0,091** (n 2.490); bu grup D1 (319), USA (299), D2 (295), N1 (240), E0 (172), EC (161), NOR (155), CHN (136).
+  Lig gerçek oranları: N1 %8,8, USA %8,4, DEN %8,3, D1 %8,0, NOR %7,5, D2 %7,4; en düşük: ARG %2,4, SC1 %3,0, E1 %3,4, SC2 %3,6, G1 %3,7. (Lig farkı için ayrı model testi yapılmadı.)
+- Model, bağımsız çarpıma (P(İY KG)·P(2Y KG)) göre log-loss −0,00008 [−0,00017, +0,00001]; kalibrasyon ham modele göre −0,00010 [−0,00026, +0,00005].
+  İkisi de GA'yı sıfırın altına itmiyor → **model değişikliği YOK** (kalibrasyon hattı üretime eklenmedi, RED).
+
+## Nesine fiyatı (28 Kas bülteni, 173 maçta bu pazar var)
+- "İki Yarıda KG Var" oranı **medyan 12,7 (en az 5,91, en çok 34,5)**. Pazarın 4 seçiminin 1/oran toplamı **1,239** (pay ≈ %24).
+- Modelle (kalibrasyonsuz, genel lig payı) beklenen getiri **−%17,8**; 173 maçın 9'unda hesaplanan beklenti pozitif (ort. P 0,081, ort. oran 15,9) ama P ≈ %8 küçük bir sapmayla işaret değiştirir; **değer olarak sayma**.
+
+## Kupon simülasyonu (1–4 bacak; günlük P'ye göre sıralı, ayrık kuponlar; tutma gerçek, oran sentetik Nesine)
+| Eşik | Bacak | kupon n | tahmin | gerçek tutma | GA | ort. oran | ROI |
+|---|---|---|---|---|---|---|---|
+| hepsi | 1 | 24.900 | 0,0527 | 0,0554 | 0,053–0,058 | 16,9 | −%16 (±2) |
+| hepsi | 2 | 12.260 | 0,0031 | 0,0033 | 0,002–0,004 | 323 | −%44 |
+| hepsi | 3 | 8.039 | 0,0002 | 0,0002 | 0,0001–0,0009 | 10.930 | −%70 |
+| P ≥ 0,07 | 1 | 3.490 | 0,081 | 0,088 | 0,079–0,098 | 10,0 | −%14 (±5) |
+| P ≥ 0,07 | 2 | 1.603 | 0,0067 | 0,0094 | 0,006–0,015 | 99 | −%11 (±23) |
+| P ≥ 0,08 | 1 | 1.455 | 0,090 | 0,103 | 0,089–0,120 | 8,9 | −%9 (±7) |
+| P ≥ 0,09 | 1 | 553 | 0,100 | 0,123 | 0,098–0,153 | 8,1 | −%2 (±11) |
+| P ≥ 0,07 / 0,08 / 0,09 | 3–4 | 109–985 | ≈ 0,001 | 0 – 0,002 | — | 500–10.000 | tutma ≈ sıfır |
+
+2 bacakta tutma %0,3–1; 3–4 bacakta fiilen sıfır (tek tük şans eseri tutmalar ROI'yi sahte şekilde artırır, ör. P ≥ 0,07 / 3 bacak: 985 kuponda 2 tutma, ROI +%144 ±173 → gürültü).
+
+## Kurallar (skill'e eklenebilir)
+1. "İki Yarıda KG Var" **yalnız kullanıcı isterse, tek bacak ya da en çok 2 bacak, kasanın ≤ %0,5'i**; kupon tutma ihtimali 1 bacakta ≈ %5–10, 2 bacakta ≈ %1'in altında. 3+ bacak önerme.
+2. Kullanıcı "en olası" isterse: model P'si en yüksek maçları seç, yalnız **P ≥ 0,08** (üst %5; gerçek tutma ≈ %10) ve yüksek toplam gol (> 3,0) + iki takım da güçlü hücum (min(λ, μ) > 1,2); ligler D1, D2, N1, USA, NOR, DEN, E0, CHN. ARG, SC1/SC2, E1, G1'den kaçın.
+3. Nesine oranı ≥ ~12 ise sunulan pay ≈ %24; "değer" iddiası yok, beklenen getiri ≈ −%18. Model P'sini mutlaka yaz (tipik %5–9).
+4. Bu pazarı "2Y KG Var" (P ≈ %27) ile karıştırma: 2Y KG Var tek yarıdır ve çok daha olasıdır; iki yarıda KG ≈ 5 kat daha nadirdir.
+5. Dürüst not: İY/MS (en olası hücre %45+) ve 2Y KG Yok bu pazardan çok daha olası seçeneklerdir; "en olası" hedefiyse bunlar tercih edilir.
