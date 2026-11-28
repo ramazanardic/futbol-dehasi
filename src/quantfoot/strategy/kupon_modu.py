@@ -1,7 +1,7 @@
 """Kupon modları — her kupon kurma yolunun ortak kapısı (21 Kasım 2026 denetimi, kullanıcı kuralı t69u/t70u/t73u).
 
 * ``banko`` (VARSAYILAN): her bacak kalibre P ≥ %65, Nesine oranı 1.20–1.80 (kurarken ≥ 1.25 tercih, 1.22 altı uyarı),
-  keskin referans zorunlu, kupon 5 maç (gerekçeliyse 6), 1–2 maçlık düşük oranlı kupon yok, P(kupon) < %5 ise ret.
+  keskin referans zorunlu, kupon 2–5 maç (gerekçeliyse 6), toplam oran < 20, P(kupon) < %5 ise ret; kurulamazsa dürüst ret.
 * ``yuksek_oran``: İY/MS, İY/2Y sonucu, iki yarıda KG, skor (t100u). Keskin fiyat varsa model uyumu (≤ %15), EV
   ikisinin küçüğüyle ≥ %6; keskin yoksa yalnız arşivde sınanmış pazar ve P × 0.90. En çok 2 maç.
 * ``risk``: YALNIZ kullanıcı banko ile ulaşılamayan bir hedefi açıkça isterse (ör. "300 TL'den en az 2.000 TL").
@@ -50,7 +50,7 @@ def policy(mode: str = DEFAULT_MODE) -> ModePolicy:
         raise ValueError(f"bilinmeyen kupon modu {mode!r} (geçerli: {', '.join(MODES)})")
     if mode == "banko":
         g = GuardConfig(min_prob=S.BANKO_MIN_PROB, max_leg_odds=S.BANKO_MAX_LEG_ODDS, min_legs=S.BANKO_MIN_LEGS,
-                        max_legs=S.BANKO_MAX_LEGS, lottery_is_error=True, name="banko")
+                        max_legs=S.BANKO_HARD_MAX_LEGS, lottery_is_error=True, name="banko")
         return ModePolicy("banko", S.BANKO_MIN_PROB, S.BANKO_PREFER_MIN_ODDS, S.BANKO_MAX_LEG_ODDS,
                           S.BANKO_MIN_LEGS, S.BANKO_MAX_LEGS, True, g)
     if mode == "yuksek_oran":
@@ -164,7 +164,12 @@ def guard_legs(legs: Iterable[Any], mode: str = DEFAULT_MODE, *, open_exposure: 
     pol = policy(mode)
     bl = [to_leg(x, offered) for x in legs]
     exp = {str(k): v for k, v in (open_exposure or {}).items()}
-    return check_coupon(bl, exp, pol.guard, at_selection=at_selection)
+    res = check_coupon(bl, exp, pol.guard, at_selection=at_selection)
+    if pol.name == "banko" and res.total_odds >= S.BANKO_MAX_TOTAL_ODDS - 1e-9:
+        # Ramazan'ın kuralı (kural onarımı 28 Kas): banko modda 20+ oranlı kupon yok.
+        res = replace(res, ok=False, errors=[*res.errors,
+                      f"toplam oran {res.total_odds:.2f} ≥ {S.BANKO_MAX_TOTAL_ODDS:g}: banko modda 20+ oranlı kupon yok"])
+    return res
 
 
 def leg_effective_prob(obj: Any, mode: str = DEFAULT_MODE) -> float:

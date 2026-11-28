@@ -23,7 +23,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from nesine_global import is_sharp_source  # noqa: E402
 from quantfoot import settings as S  # noqa: E402
-from quantfoot.coupons.coupon_rules import BANNED_FAMILIES, calibrate_p, is_draw_leg  # noqa: E402
+from quantfoot.coupons.coupon_rules import BANNED_FAMILIES, calibrate_p, hard_banned_reason, is_draw_leg  # noqa: E402
 from quantfoot.coupons.system_builder import CapitalShieldPlan, SystemLeg, build_capital_shield_plan  # noqa: E402
 from quantfoot.evaluation.self_improve import _build_diag_ctx  # noqa: E402
 from quantfoot.markets.market_calibration import calibrate_market_probability, load_market_calibration  # noqa: E402
@@ -59,7 +59,7 @@ def run(
     max_tickets: int = 3,
     legs_per_ticket: int = 3,
     min_ev: float = -0.10,
-    min_p: float = 0.60,
+    min_p: float = 0.70,
     only_upcoming: bool = True,
     max_price_age_h: float = S.MAX_PRICE_AGE_H,
     drawdown_pct: float = 0.0,
@@ -99,7 +99,7 @@ def run(
             cname = canonical_name(s.get("name"))
             if not cname or is_draw_leg(cname):
                 continue
-            if classify_family(cname) in BANNED_FAMILIES:
+            if classify_family(cname) in BANNED_FAMILIES or hard_banned_reason(cname):
                 continue
             direct = bool(s.get("direct"))
             p = calibrate_market_probability(cname, raw_p, m.get("league"), calibration, direct=direct)
@@ -187,7 +187,7 @@ def main() -> None:
     ap.add_argument("--max-kupon", type=int, default=3)
     ap.add_argument("--bacak", type=int, default=3, help="Kupon başına bacak sayısı (varsayılan 3 — MBS uyumlu)")
     ap.add_argument("--min-ev", type=float, default=-0.10, help="Bacak başına en düşük EV (varsayılan -0.10)")
-    ap.add_argument("--min-p", type=float, default=0.60, help="Bacak başına en düşük olasılık (varsayılan 0.60)")
+    ap.add_argument("--min-p", type=float, default=0.70, help="Bacak başına en düşük olasılık (varsayılan 0.70, Ramazan kuralı)")
     ap.add_argument("--drawdown", type=float, default=0.0, help="Mevcut kasa düşüş oranı (ör. 0.12 = %12; >=0.25 devre kesici)")
     ap.add_argument("--tumu", action="store_true", help="Başlamış maçları da dahil et (geriye dönük inceleme için)")
     args = ap.parse_args()

@@ -12,8 +12,8 @@ Bu modül banko kupon bacaklarını şu kurallarla süzgeçler:
 * Aynı maçtan tek bacak; beraberlik bacağı yok (MS 0, İY X, İY/MS …/X …);
   Karşılıklı gol, İlk gol, ev/deplasman gol bacakları yasak.
 * Bacak oranı ≥ 1.20 (Nesine tabanı); banko kurulumunda üst sınır 1.80.
-* Hedef 5 bacak (gerekçeliyse 6). P(kupon) düzeltilmiş P'lerin çarpımıdır;
-  5 bacak doldurulamazsa mevcut en iyi kupon dürüst olasılıkla döner.
+* 2–5 bacak (gerekçeliyse açıkça 6). P(kupon) düzeltilmiş P'lerin çarpımıdır;
+  2 kurala uygun bacak bile yoksa kupon boş döner ve dürüst not yazılır (kural gevşetilmez).
 
 Üretim yolu: ``scripts/nesine_kupon.py`` banko modunda havuzu bu süzgeçten geçirir
 (eski ``filter_pools_for_mode`` 0.65 tabanı durur; bu kurallar daha sıkıdır).
@@ -40,8 +40,11 @@ from quantfoot.markets.market_diagnosis import (
 from quantfoot.paths import REPO_ROOT
 
 MIN_CALIBRATED_P = 0.70
-DEFAULT_MIN_LEGS = 1
-DEFAULT_MAX_LEGS = 5
+DEFAULT_MIN_LEGS = 2   # Ramazan'ın kuralı (kural onarımı 28 Kas): banko kupon 2–5 bacak
+DEFAULT_MAX_LEGS = 5   # varsayılan üst sınır; gerekçeliyse açıkça 6 istenebilir
+HARD_MAX_LEGS = 6      # hiçbir banko kupon 6 bacağı aşmaz
+HONEST_EMPTY_NOTE = ("Banko kurallarına (düzeltilmiş P ≥ %70, oran 1,20–1,80, maç başına tek bacak, yasak aile yok) "
+                     "uyan yeterli bacak yok; kupon kurulmadı, kural gevşetilmedi.")
 DEFAULT_CALIBRATION_PATH = REPO_ROOT / "data/calibration/coupon_family_calibration.json"
 
 BANNED_FAMILIES = frozenset({
@@ -210,6 +213,39 @@ def calibrate_p(p: float, name: str | None, cal: Calibration | None = None,
     return min(1.0, max(0.0, float(p) + fam_delta + band_delta))
 
 
+_TEAM_PREFIX = re.compile(r"^(ev|dep|deplasman|ev sahibi|evsahibi|misafir)\b", re.IGNORECASE)
+_HARD_BANNED_PATTERNS: tuple[tuple[re.Pattern[str], str], ...] = (
+    (re.compile(r"İY\s*/\s*MS|IY\s*/\s*MS|İlk\s*Yarı\s*/\s*Maç\s*Sonucu", re.IGNORECASE), "İY/MS bacağı yasak"),
+    (re.compile(r"İY\s*/\s*2Y|IY\s*/\s*2Y", re.IGNORECASE), "İY/2Y bacağı yasak"),
+    (re.compile(r"^(doğru\s*)?skor\b|\bskor\s*\d", re.IGNORECASE), "skor bacağı yasak"),
+    (re.compile(r"\bKG\b|karşılıklı\s*gol|\bBTTS\b", re.IGNORECASE), "KG/BTTS bacağı yasak"),
+    (re.compile(r"ilk\s*gol", re.IGNORECASE), "ilk gol bacağı yasak"),
+    (re.compile(r"çifte\s*şans|cifte\s*sans|^ÇŞ\b|^CS\b|\bİY\s*ÇŞ\b", re.IGNORECASE), "çifte şans bacağı yasak"),
+    (re.compile(r"handikap|^hnd\b|^hnd\s*\(|^AH\b", re.IGNORECASE), "handikap bacağı yasak"),
+    (re.compile(r"\btek\s*/\s*çift\b|^(İY\s+|2Y\s+)?(tek|çift)$", re.IGNORECASE), "tek/çift bacağı yasak"),
+)
+
+
+def hard_banned_reason(name: str) -> str | None:
+    """Ramazan'ın kesin yasakları (kural onarımı 28 Kas) — rehabilitasyon/kalibrasyon bunları AÇAMAZ.
+
+    İY/MS, İY/2Y, skor, KG/BTTS (yarı KG'leri dahil, '2Y KG Yok' da), ilk gol ve TAKIM golü pazarları
+    ("Ev İki Yarıda Gol Atamaz", "Dep Gol Atar", "Ev 0.5 Üst" ...).
+    """
+    n = (name or "").strip()
+    if not n:
+        return None
+    m = re.match(r"^(DEĞİL|DEGIL|NOT)\s*\((.*)\)\s*$", n, re.IGNORECASE)
+    if m:  # "DEĞİL(Ev İki Yarıda Gol)" = "Ev iki yarıda gol atamaz" → yine takım golü
+        n = m.group(2).strip()
+    for pat, why in _HARD_BANNED_PATTERNS:
+        if pat.search(n):
+            return why
+    if _TEAM_PREFIX.search(n) and re.search(r"gol|üst|alt|\d", n, re.IGNORECASE):
+        return "takım golü bacağı yasak"
+    return None
+
+
 @dataclass(frozen=True)
 class RuleDecision:
     ok: bool
@@ -308,6 +344,9 @@ def leg_decision(obj: Any, cal: Calibration | None = None, *,
         reasons.append("seçim adı yok")
     if is_draw_leg(name):
         reasons.append("beraberlik bacağı yasak")
+    hard = hard_banned_reason(name)
+    if hard:
+        reasons.append(hard)
     if family in BANNED_FAMILIES:
         reasons.append(f"{family} ailesi yasak")
     elif not is_rehabilitated and not family_allowed(family, cal):
@@ -431,7 +470,7 @@ def build_rules_coupon(
     min_p: float = MIN_CALIBRATED_P,
     min_odds: float = S.MIN_LEG_ODDS,
     max_odds: float | None = S.BANKO_MAX_LEG_ODDS,
-    min_legs: int = DEFAULT_MAX_LEGS,
+    min_legs: int = DEFAULT_MIN_LEGS,
     max_legs: int = DEFAULT_MAX_LEGS,
     prefer_n: int = DEFAULT_MAX_LEGS,
 ) -> RuleCoupon:
@@ -441,6 +480,9 @@ def build_rules_coupon(
     veya çağıran açıkça 6 isterse 6'ya çıkılır (``prefer_n=6``). 5 bacak yoksa kısa kupon + not.
     """
     cal = cal or default_calibration()
+    max_legs = min(int(max_legs), HARD_MAX_LEGS)
+    prefer_n = min(int(prefer_n), max_legs)
+    min_legs = max(int(min_legs), DEFAULT_MIN_LEGS)
     notes: list[str] = []
     rejected = 0
     best: dict[str, RuleLeg] = {}
@@ -462,10 +504,11 @@ def build_rules_coupon(
     chosen = tuple(ranked[:n_take])
     short = len(chosen) < min_legs
     if short:
+        # Dürüst ret (Ramazan'ın kuralı): asgari bacak sayısına ulaşılamıyorsa kupon UYDURULMAZ, boş döner.
         notes.append(
-            f"Kural süzgecinden yalnızca {len(chosen)} bacak geçti (hedef {min_legs}–{max_legs}); "
-            "kısa kupon, dürüst olasılık aşağıda."
+            f"Kural süzgecinden yalnızca {len(chosen)} bacak geçti (hedef {min_legs}–{max_legs}). {HONEST_EMPTY_NOTE}"
         )
+        chosen = ()
     if rejected:
         notes.append(f"{rejected} aday kural süzgecinden elendi.")
     total_odds = math.prod(L.odds for L in chosen) if chosen else 1.0

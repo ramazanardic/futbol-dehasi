@@ -138,7 +138,6 @@ def main() -> None:
     if not allow_weak:
         print("Ölçüm: ~ işaretli bacaklar fiyatın belirgin altında tuttu; yalnız ✓ bacaklar alınıyor")
     haric: list[str] = []
-    haric_contradicted: list[str] = []
     log = []
 
     def review(legs, matches):
@@ -150,8 +149,6 @@ def main() -> None:
     for rnd in range(1, args.tur + 1):
         bad, rows = [], []
         options = [*args.ekstra, "--hedef", f"{args.hedef:g}", "--tarih", args.tarih, "--adet", "1", "--kupasiz", "--no-pull", "--mod", args.mod]
-        if "--dogrudan" not in args.ekstra:
-            options.append("--model-bacak")
         if haric:
             options.extend(["--haric", *haric])
         f = nesine_kupon.main(options, review=review)
@@ -166,44 +163,13 @@ def main() -> None:
         for leg, why in bad:
             key_s = f"{leg['code']}|{leg.get('key')}"
             haric.append(key_s)
-            if "kanıtsız bacak" not in why:
-                haric_contradicted.append(key_s)
             log.append(f"{leg['match']} — {leg['market']}: {leg['selection']} ({why})")
         print(f"Tur {rnd}: {len(bad)} bacak çıkarıldı, yeniden kuruluyor")
-    if args.kanitsiz:
-        print("Kurallara uyan kupon kurulamadı.")
+    if not bad:
+        # Kullanıcı kuralı (Ramazan, 22 Kas; kural onarımı 28 Kas): banko bacakla kurulamıyorsa dürüstçe söyle,
+        # kuralları gevşetip "yedek" kupon uydurma.
+        print("Kurallara uyan banko kupon kurulamadı (dürüst ret: kural gevşetilmedi).")
         return
-    # Kullanıcı kuralı (24 Kas): kupon istenince asla hayır denmez; yalnız çürütülen (⚠ / simülasyon çelişki) bacakları çıkarıp en garanti <=5 maçı kur
-    for fb_rnd in range(1, 6):
-        bad_fb, rows_fb = [], []
-
-        def review_fb(legs, matches):
-            nonlocal bad_fb, rows_fb
-            bad_fb, rows_fb = check(legs, {str(m["code"]): m for m in matches}, evidence=False,
-                                    fixtures=fixtures, allow_weak=True, sim=sims)
-            return not bad_fb
-
-        fb_opts = [*args.ekstra, "--hedef", f"{args.hedef:g}", "--tarih", args.tarih, "--adet", "1", "--kupasiz", "--no-pull", "--mod", args.mod,
-                   "--yontem", "guvenli", "--max-mac", "5", *(["--model-bacak"] if "--dogrudan" not in args.ekstra else []),
-                   *(["--haric", *haric_contradicted] if haric_contradicted else [])]
-        f_fb = nesine_kupon.main(fb_opts, review=review_fb)
-        if f_fb:
-            (f_fb.parent / f"{f_fb.stem}_derin.md").write_text(dr.to_markdown(args.tarih, rows_fb or rows), encoding="utf-8")
-            print(f"Yedek tur {fb_rnd}: en garanti <=5 maçlık kupon kuruldu -> {f_fb.with_suffix('.md')}")
-            return
-        if not bad_fb:
-            f_fb = nesine_kupon.main(fb_opts)
-            if f_fb:
-                (f_fb.parent / f"{f_fb.stem}_derin.md").write_text(dr.to_markdown(args.tarih, rows), encoding="utf-8")
-                print(f"Yedek tur {fb_rnd}: en garanti <=5 maçlık kupon kuruldu -> {f_fb.with_suffix('.md')}")
-                return
-            break
-        for leg, why in bad_fb:
-            key_s = f"{leg['code']}|{leg.get('key')}"
-            if key_s not in haric_contradicted:
-                haric_contradicted.append(key_s)
-            log.append(f"[yedek] {leg['match']} — {leg['market']}: {leg['selection']} ({why})")
-        print(f"Yedek tur {fb_rnd}: {len(bad_fb)} çelişkili bacak çıkarıldı, yeniden kuruluyor")
     print("Tur sınırına ulaşıldı; temiz kupon kurulamadı. Çıkarılanlar:")
     for line in log:
         print("  ", line)

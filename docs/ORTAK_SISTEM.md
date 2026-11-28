@@ -78,7 +78,7 @@ açıkça söyle; kuralları gevşeterek hedefe ulaşma.
   tablosunda diğer olasılıklar da görünür. Kupon uygunluğu kendi denetiminde belirlenir.
 - Varsayılan kupon taraması doğrudan fiyatları ve mevcut model, değer ve güven filtrelerini geçen türetilmiş fiyatları
   değerlendirir. Kupon önerisine yalnız seçilen modun kurallarını ve son canlı denetimi geçen en uygun bacaklar girer.
-  Banko kuralları §3’teki gibidir. Kullanıcı kupon istediğinde **maksimum en garanti 5 maçtan (`1–5` maç)** kupon oluşturulur, asla reddedilmez. Bahis işlemi için kullanıcının açık onayı gerekir.
+  Banko kuralları §3’teki ve [KURALLAR.md](../KURALLAR.md)’deki gibidir: **2–5 maç (en çok 6), toplam oran < 20**. Kurallara uyan kupon yoksa **dürüst ret** verilir; kural gevşetilmez. Bahis işlemi için kullanıcının açık onayı gerekir.
 
 ## 2. Olasılık kalibrasyonu ve v3 kök-neden kalkanları
 
@@ -106,10 +106,11 @@ açıkça söyle; kuralları gevşeterek hedefe ulaşma.
 |---|---|
 | Bacak olasılığı | **düzeltilmiş P ≥ 0,70** (`coupon_rules.MIN_CALIBRATED_P`); eski %65 tabanı kupon için geçersiz |
 | Bacak oranı | Nesine ≥ 1,20, ≤ 1,80 |
-| Bacak sayısı | **Maksimum en garanti 5 maç (`1–5` bacak, `BANKO_MAX_LEGS = 5`)**; 6+ maçlık çarpım kaybı yasak. Kullanıcı kupon istediğinde asla "hayır" denmez; eldeki en yüksek güvenilirlikli (`p_low`) maksimum 5 maçla kupon kurulur. |
+| Bacak sayısı | **2–5 bacak** (`BANKO_MIN_LEGS = 2`, `BANKO_MAX_LEGS = 5`; gerekçeliyse açıkça en çok 6 = `BANKO_HARD_MAX_LEGS`). Tek maçlık banko kupon yok. Kurallara uyan 2 bacak bile yoksa kupon **yok** (dürüst ret, kural gevşetilmez). |
+| Toplam oran | Banko kupon toplam oranı **< 20** (`BANKO_MAX_TOTAL_ODDS`); varsayılan olarak 20+ oranlı kupon üretilmez |
 | Maç | Bir kuponda aynı maçtan tek bacak; birden çok kuponda çapraz yoğunlaşma `PortfolioExposureGuard` ile ölçülür |
-| İzinli aileler | İlk yarı (İY 0,5/1,5 Alt-Üst …; İY ÇŞ 12 ve İY Çift hariç), maç sonu Alt/Üst, Yarı özel, Maç sonucu (yalnız 1/2 + beraberlik & sert steam süzgeci), yasak parça içermeyen Kombine, 2Y KG **Yok**. Liste veriden gelir (`family_allowed`). |
-| Yasak | Beraberlik bacağı (MS 0, İY 0, skor 0-0 …), Karşılıklı gol (KG Var/Yok), "iki yarıda da KG var", İlk gol, Ev sahibi / Deplasman gol sayısı, Tek/Çift (İY Çift dahil), şu an Çifte şans ve Handikap |
+| İzinli aileler | İlk yarı (İY 0,5/1,5 Alt-Üst …; İY ÇŞ 12 ve İY Çift hariç), maç sonu Alt/Üst, Yarı özel, Maç sonucu (yalnız 1/2 + beraberlik & sert steam süzgeci), yasak parça içermeyen Kombine. 2Y KG Yok dahil hiçbir KG bacağı girmez (28 Kas kural onarımı). Liste veriden gelir (`family_allowed`). |
+| Yasak | Beraberlik bacağı (MS 0, İY 0, skor 0-0 …), Karşılıklı gol (KG Var/Yok), "iki yarıda da KG var", İlk gol, Ev sahibi / Deplasman gol sayısı ve takım "iki yarıda gol atar/atamaz", İY/MS, İY/2Y, skor, Tek/Çift (İY Çift dahil), şu an Çifte şans ve Handikap |
 | Piyango yok | Skor, İY/MS, "+6 gol" gibi kuyruk bacakları, 100+ oranlı kuponlar banko kuponuna girmez. |
 | Tekrar yok | Aynı tercih iki kupona konmaz (`PortfolioExposureGuard` + `audit_coupons`). |
 | Şeffaflık | Her kuponda toplam oran, toplam tutma olasılığı (= düzeltilmiş P'lerin çarpımı) ve portföy yoğunlaşma skoru yazılır. |

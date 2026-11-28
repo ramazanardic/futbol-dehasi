@@ -73,7 +73,8 @@ def test_coupon_builder_recognizes_real_nesine_double_chance_aliases():
     assert "MS X" in _conflicting_selections("ÇŞ 12")
 
 
-def test_kupon_kur_fallback_loop_retries_multiple_rounds(tmp_path, monkeypatch):
+def test_kupon_kur_has_no_rule_relaxing_fallback_and_refuses_honestly(tmp_path, monkeypatch, capsys):
+    """Kural onarımı (28 Kas): 'asla hayır deme' yedek turu kaldırıldı — kurallara uyan kupon yoksa dürüst ret."""
     kk = _load_script("kupon_kur")
     day_dir = tmp_path / "2026-11-26"
     day_dir.mkdir(parents=True)
@@ -86,33 +87,19 @@ def test_kupon_kur_fallback_loop_retries_multiple_rounds(tmp_path, monkeypatch):
     monkeypatch.setattr(kk.dr, "to_markdown", lambda date, rows: "# ok")
 
     calls: list[list[str]] = []
-    out_file = day_dir / "kupon_3x_1200.json"
 
     def fake_main(opts, review=None):
         calls.append(list(opts))
-        if "--yontem" not in opts:
-            # Fail primary round with a contradicted leg so we enter the fallback loop
-            review([{"code": 1, "key": "k1", "match": "A - B", "market": "M", "selection": "S"}], [])
-            return None
-        # Fallback round 1 fails with a different contradicted leg; round 2 succeeds!
-        haric_args = opts[opts.index("--haric") + 1 :] if "--haric" in opts else []
-        if "2|k2" not in haric_args:
-            review([{"code": 2, "key": "k2", "match": "C - D", "market": "M", "selection": "S"}], [])
-            return None
-        out_file.write_text("{}", encoding="utf-8")
-        return out_file
-
-    def fake_check(legs, matches, evidence=True, fixtures=None, allow_weak=False, sim=None):
-        return [(legs[0], "⚠ çelişki")], []
+        return None  # nesine_kupon kurallara uyan kupon bulamadı
 
     monkeypatch.setattr(kk.nesine_kupon, "main", fake_main)
-    monkeypatch.setattr(kk, "check", fake_check)
-    monkeypatch.setattr(sys, "argv", ["kupon_kur.py", "--hedef", "3", "--tarih", "2026-11-26", "--tur", "1"])
+    monkeypatch.setattr(sys, "argv", ["kupon_kur.py", "--hedef", "3", "--tarih", "2026-11-26", "--tur", "2"])
 
     kk.main()
-    fb_calls = [c for c in calls if "--yontem" in c]
-    assert len(fb_calls) == 2, f"Fallback loop should have retried round 2, got {len(fb_calls)} calls"
-    assert (day_dir / "kupon_3x_1200_derin.md").exists()
+    assert len(calls) == 1
+    assert not any("--yontem" in c or "--model-bacak" in c for c in calls)
+    assert "dürüst ret" in capsys.readouterr().out
+    assert not list(day_dir.glob("kupon_*_derin.md"))
 
 
 def test_nesine_kupon_fallback_tier_never_leaks_banned_families():

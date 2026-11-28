@@ -579,6 +579,8 @@ def filter_pools_for_mode(pools: list[list[dict]], pol: "KM.ModePolicy") -> list
     return out
 
 
+HONEST_NO_COUPON = ("Bu hedefe banko kurallarına (bacak P ≥ %70, oran 1,20–1,80, maç başına tek bacak, yasak aile yok) "
+                    "uyan kupon kurulamadı. Kural gevşetilmedi; daha düşük hedef ya da daha az bacak dene.")
 BANKO_DEFAULT_MIN_EV = -0.115  # 22 Kas 428 maç: EV < -%14 bacaklar -%17,3 ROI (-%61 5'li kayıp); -%11,5 üstü marj koruma sınırı
 
 
@@ -640,14 +642,10 @@ def build_Pool_fallback_pools(
     ]
     if pol.name == "banko":
         tiers.extend([
-            # Kademe 1a: doğrudan + model-türevi keskin, P_cal >= 0.70, oran >= 1.20, EV >= -0.165
-            (False, not allow_mid_researched, exclude_cups, min(banko_min_ev or -0.115, -0.165), min_prob, 0.70, MIN_LEG_ODDS),
+            # Kademe 1a: (varsayılan yalnız doğrudan fiyat; --model-bacak ile model-türevi) keskin, P_cal >= 0.70, oran >= 1.20, EV >= -0.165
+            (direct_only, not allow_mid_researched, exclude_cups, min(banko_min_ev or -0.115, -0.165), min_prob, 0.70, MIN_LEG_ODDS),
             # Kademe 1b: keskin + araştırmalı sıfır-uyarılı global büro, P_cal >= 0.70, oran >= 1.20, EV >= -0.165
-            (False, False, exclude_cups, min(banko_min_ev or -0.115, -0.165), min(min_prob, 0.62), 0.70, MIN_LEG_ODDS),
-            # Kademe 2: doğrudan + model-türevi keskin, P_cal >= 0.68, oran >= 1.20, EV >= -0.165 (22 Kas: 21/24 = %87,5!)
-            (False, not allow_mid_researched, exclude_cups, min(banko_min_ev or -0.115, -0.165), min_prob, 0.68, MIN_LEG_ODDS),
-            # Kademe 3: araştırmalı orta-güven global büro + kupa dahil, P >= 0.65, EV >= -0.180
-            (False, False, False, min(banko_min_ev or -0.115, -0.180), min(min_prob, 0.62), 0.65, MIN_LEG_ODDS),
+            (direct_only, False, exclude_cups, min(banko_min_ev or -0.115, -0.165), min(min_prob, 0.62), 0.70, MIN_LEG_ODDS),
         ])
     best_pools: list[list[dict]] = []
     for idx, (d_only, sharp_only_flag, no_cups, ev_floor, p_floor, rule_min_p, t_min_odds) in enumerate(tiers):
@@ -672,46 +670,9 @@ def build_Pool_fallback_pools(
         )
         filtered = filter_pools_for_mode(raw, pol_use)
         if pol.name == "banko":
-            if idx < len(tiers) - 1:
-                filtered = apply_coupon_rules_to_pools(filtered, pol.name, min_ev=ev_floor, min_p=rule_min_p)
-            else:
-                # Son kademe: önce kurallı (yasak aile & kalibre P) süzgeç; boşsa yalnız yasak-aile dışı,
-                # beraberlik dışı, tanısal temiz ve kalibre P ≥ 0.65 bacaklar (asla BANNED_FAMILIES sızmaz).
-                ruled = apply_coupon_rules_to_pools(filtered, pol.name, min_ev=ev_floor, min_p=rule_min_p)
-                if ruled:
-                    filtered = ruled
-                elif not best_pools:
-                    from quantfoot.coupons.coupon_rules import BANNED_FAMILIES, calibrate_p, is_draw_leg
-                    from quantfoot.markets.market_diagnosis import classify_family
-
-                    clean = []
-                    for p in filtered:
-                        k = []
-                        for x in p:
-                            nm = x.get("name")
-                            fam = classify_family(nm)
-                            if (
-                                not x.get("diagnosis_ok", True)
-                                or is_draw_leg(nm)
-                                or fam in BANNED_FAMILIES
-                            ):
-                                continue
-                            p_cal = calibrate_p(float(x.get("p", 0.0)), nm)
-                            ev_cal = round(p_cal * float(x["odds"]) - 1.0, 4)
-                            if p_cal >= rule_min_p and (ev_floor is None or ev_cal >= ev_floor - 1e-9):
-                                margin = float(x["p"]) - float(x.get("p_low", x["p"]))
-                                k.append({
-                                    **x,
-                                    "p_before_rules": x.get("p_before_rules", x["p"]),
-                                    "p": p_cal,
-                                    "p_low": max(0.001, p_cal - margin),
-                                    "ev_cal": ev_cal,
-                                })
-                        if k:
-                            clean.append(k)
-                    filtered = clean
-                else:
-                    filtered = []
+            # Kural onarımı (28 Kas): her kademede kurallı süzgeç (düzeltilmiş P ≥ 0.70, yasak aile yok);
+            # 0.68 / 0.65 kademeleri ve kuralsız "son kademe" kaldırıldı.
+            filtered = apply_coupon_rules_to_pools(filtered, pol.name, min_ev=ev_floor, min_p=rule_min_p)
         if len(filtered) > len(best_pools):
             best_pools = filtered
         if len(best_pools) >= min(5, pol.max_legs):
@@ -978,6 +939,13 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
     if args.mod == "banko" and not KM.target_reachable(args.hedef, "banko"):
         print(f"⚠ {args.hedef:g} oran banko kurallarıyla (bacak P ≥ %{pol.min_prob * 100:.0f}, en çok {pol.max_legs} maç) "
               "ulaşılamaz; kullanıcı açıkça isterse --mod risk ile kurulur (tutma ihtimali dürüstçe yazılır).")
+    if args.mod == "banko":
+        # Ramazan'ın kuralı (kural onarımı 28 Kas): banko modda 6 bacak üstü ve 20+ oranlı kupon YOK.
+        args.max_mac = min(args.max_mac, KM.S.BANKO_HARD_MAX_LEGS)
+        if args.hedef >= KM.S.BANKO_MAX_TOTAL_ODDS - 1e-9:
+            print(f"⚠ {args.hedef:g} oran banko modda kurulmaz (banko kupon toplam oranı < {KM.S.BANKO_MAX_TOTAL_ODDS:g}). "
+                  "Kullanıcı açıkça isterse --mod risk; varsayılan olarak 20+ oranlı kupon üretilmez.")
+            return None
     exposure = KM.open_exposure(AI_AREA)
 
     if args.pull and not args.no_pull:
@@ -1054,12 +1022,8 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
             free = drop_conflicts([p for p in pools if n_used.get(p[0]["code"], 0) < args.mac_limit], chosen)
 
             def build(pl):
-                c_out = (safest_first_coupon(pl, build_target, max_legs, partial=not coupons) if args.yontem == "guvenli"
-                         else best_coupon(pl, build_target, max_legs, args.min_mac))
-                if c_out is None and pol.name == "banko" and not coupons and pl:
-                    # Kullanıcı kuralı (24 Kas): kupon istenince asla hayır denmez; en garanti maksimum 5 maçtan kurulur
-                    c_out = safest_first_coupon(pl, build_target, min(5, max_legs), partial=True)
-                return c_out
+                return (safest_first_coupon(pl, build_target, max_legs, partial=not coupons) if args.yontem == "guvenli"
+                        else best_coupon(pl, build_target, max_legs, args.min_mac))
 
             c = build(free)
             shared = [leg for leg in (c or {}).get("legs", []) if leg["code"] in prior]
@@ -1093,68 +1057,11 @@ def main(argv: list[str] | None = None, *, review: Callable[[list[dict], list[di
     if invalid:
         coupons = [c for c in coupons if c not in invalid]
         change_notes.append(f"{len(invalid)} kupon son bültende bacak veya toplam oran koşulunu karşılamadığı için çıkarıldı")
-    if not coupons and pol.name == "banko" and pools:
-        # Kullanıcı kuralı (24 Kas): kupon istenince asla hayır denmez; bültende ≥1.20 olan en garanti <=5 maçı kur
-        valid_pools = [
-            [x for x in p if kickoff[int(x["code"])] > now and live.get(int(x["code"]), {}).get(x["key"], x["odds"]) >= MIN_LEG_ODDS]
-            for p in pools
-        ]
-        valid_pools = [p for p in valid_pools if p]
-        fb_c = safest_first_coupon(valid_pools, args.hedef, min(5, max_legs), partial=True)
-        if fb_c:
-            recheck_odds([fb_c], live, flicker)
-            coupons = [fb_c]
     coupons, guard_notes = apply_mode_guard(coupons, args.mod, live or None, exposure)
     change_notes += guard_notes
-    if not coupons and pol.name == "banko" and pools:
-        # Guard araştırmalı orta-güven bacağı veya düşük P'yi elediyse yalnız başlamamış + bültende ≥1.20
-        # olan keskin havuzdan yeniden kur; guard sonucunu ASLA sahte ok=True ile maskeleme.
-        valid_fb_pools = [
-            [x for x in p if kickoff[int(x["code"])] > now and live.get(int(x["code"]), {}).get(x["key"], x["odds"]) >= MIN_LEG_ODDS]
-            for p in pools
-        ]
-        valid_fb_pools = [p for p in valid_fb_pools if p]
-        sharp_pools = [[x for x in p if x.get("tier") == "keskin"] for p in valid_fb_pools]
-        sharp_pools = [p for p in sharp_pools if p]
-        fb_sharp = safest_first_coupon(sharp_pools, args.hedef, min(5, max_legs), partial=False) if sharp_pools else None
-        if fb_sharp is None and sharp_pools:
-            fb_sharp = safest_first_coupon(sharp_pools, args.hedef, min(5, max_legs), partial=True)
-        if fb_sharp is None and valid_fb_pools:
-            fb_sharp = safest_first_coupon(valid_fb_pools, args.hedef, min(5, max_legs), partial=True)
-        if fb_sharp:
-            recheck_odds([fb_sharp], live, flicker)
-            kept_fb, fb_notes = apply_mode_guard([fb_sharp], args.mod, live or None, exposure)
-            change_notes += fb_notes
-            if kept_fb:
-                coupons = kept_fb
-            else:
-                res = KM.guard_legs(fb_sharp["legs"], args.mod, open_exposure=exposure,
-                                    offered=KM.bulletin_offered(live) if live else None, at_selection=True)
-                fb_sharp["guard"] = {
-                    "mode": args.mod,
-                    "ok": bool(res.ok),
-                    "errors": list(res.errors),
-                    "warnings": list(res.warnings),
-                    "p_win": round(res.p_win, 4),
-                    "total_odds": round(res.total_odds, 2),
-                    "honest": KM.honest_line(res),
-                    "emergency_fallback": True,
-                }
-                fb_sharp["probability_before_guard"] = fb_sharp.get("probability")
-                fb_sharp["probability"] = res.p_win
-                fb_sharp["probability_low"] = min(float(fb_sharp.get("probability_low", res.p_win)), res.p_win)
-                fb_sharp["global_fair_odds"] = round(1.0 / res.p_win, 2) if res.p_win > 0 else 99.0
-                fb_sharp["ev"] = res.p_win * float(fb_sharp.get("nesine_odds", res.total_odds)) - 1.0
-                for leg in fb_sharp["legs"]:
-                    leg["probability_trace"] = {
-                        "market_raw": leg.get("p_raw"),
-                        "market_and_history_calibrated": leg.get("p_before_rules"),
-                        "coupon_rules": leg.get("p"),
-                        "guard_final": KM.leg_effective_prob(leg, args.mod),
-                    }
-                coupons = [fb_sharp]
     if not coupons:
-        print("Bu hedefe uygun kupon kurulamadı.")
+        # Kullanıcı kuralı (Ramazan, 22 Kas; kural onarımı 28 Kas): banko bacaklarla kurulamıyorsa kupon UYDURULMAZ.
+        print(HONEST_NO_COUPON)
         return None
     for c in coupons:  # scores consistent with each leg + 100 TL tek-bacak sigortalı sistem alternatifi
         for leg in c["legs"]:

@@ -1,5 +1,9 @@
 # Yapay zekâ çalışma kuralı (futbol-dehası) — her yapay zekâ için tek ortak sözleşme (v4)
 
+> **ÖNCE [KURALLAR.md](KURALLAR.md):** Ramazan'ın kupon kuralları (P ≥ 0,70 · oran 1,20–1,80 · maç başına tek bacak ·
+> 2–5 bacak, en çok 6 · yasak aileler · banko yoksa dürüst ret · 20+ oranlı kupon yok · kendi sonucunu yazma yasak).
+> Bu belgeyle çelişirse KURALLAR.md geçerlidir. Çıktını paylaşmadan önce `python scripts/ai_cikti_dogrula.py --ai <klasörün> --tarih <gün>`.
+
 > **TÜM YAPAY ZEKÂLAR AYNI ORTAK SİSTEMDEN, AYNI ŞEKİLDE ÇALIŞIR (kullanıcı kuralı, 23 Kasım 2026):**
 > Bağlanır bağlanmaz [docs/ORTAK_SISTEM.md](docs/ORTAK_SISTEM.md)'yi oku ve tahmin, araştırma, kupon, kasa koruma,
 > denetim ile öz-geliştirme işlemlerinin **tamamını** yalnızca oradaki tek ortak hattan yürüt:
@@ -7,15 +11,15 @@
 > 1. **Günlük tek ortak üretim hattı:** `QUANTFOOT_AI=<klasörün> python scripts/gunluk_tahmin.py --tarih <YYYY-AA-GG>`
 >    (bülten + keskin referans → tahmin → derin araştırma + ekstrem gol taraması → banko kupon + 100 TL tek-bacak sigorta → kural & portföy denetimi).
 > 2. **Kasa koruma 3 maçlık düşük-marjlı değer planı (v4):** `QUANTFOOT_AI=<klasörün> python scripts/kasa_koruma.py --tarih <YYYY-AA-GG> --kasa <TL>`
->    (`EV ≥ −%10`, `P ≥ %60`, v4 temiz, sıfır ortak maç, kupon başı maks %3 / günlük maks %10 risk; değer yoksa **PAS**).
+>    (`EV ≥ −%10`, `P ≥ %70`, v4 temiz, sıfır ortak maç, kupon başı maks %3 / günlük maks %10 risk; değer yoksa **PAS**).
 > 3. **Kendi çok-günlük kalibrasyon öz-denetimi:** `QUANTFOOT_AI=<klasörün> python scripts/oz_gelistirme.py`
 >    (yalnız kendi klasörünü okur, altın havuzları ve zehirli alt-pazar alarmlarını çıkarır).
 > 4. **Ertesi gün ortak nesnel karne:** `python scripts/gun_degerlendirme.py --tarih <YYYY-AA-GG>`
 >    (notu hiçbir yapay zekâ kendisi vermez).
 >
 > Banko kupon (v5): her bacak düzeltilmiş P ≥ %70, oran ≥ 1,20 (≤ 1,80), `EV ≥ −%11,5` ağır Nesine marjı freni aktif,
-> `mac_limit = 1` (bir maç en fazla tek kupona girer), **maksimum en garanti 5 bacak (1–5 maç; 6+ maç yasak, kullanıcı kupon istediğinde asla reddedilmez)** + otomatik 100 TL `Sistem n-1, n`
-> tek-bacak sigortası, beraberlik / KG / ilk gol / takım golü / piyango bacağı yok, `market_diagnosis` v5 kalkanları
+> `mac_limit = 1` (bir maç en fazla tek kupona girer), **2–5 bacak (gerekçeliyse en çok 6; toplam oran < 20); kurallara uyan kupon yoksa dürüst ret — kural gevşetilmez** + otomatik 100 TL `Sistem n-1, n`
+> tek-bacak sigortası, beraberlik / KG (yarı KG dahil) / ilk gol / takım golü (iki yarıda gol atar/atamaz dahil) / İY/MS / skor / piyango bacağı yok, `market_diagnosis` v5 kalkanları
 > (`İY ÇŞ 12` koşulsuz yasak, sert steam `MS 1/2` & `Alt`, `İY 1.5 Alt` sıkı tempo, `İY 1/2` & `2Y 1/2`, `Dep İY 0.5 Üst`,
 > `İY Çift`, `DEĞİL(Ev/Dep İki Yarıda)` `≥1,45`) aktif, toplam tutma olasılığı, EV uyarısı ve portföy yoğunlaşması yazılır.
 > Kullanıcı açıkça isterse sistem kuponları `quantfoot.coupons.system_builder`, ekstrem gol taraması
