@@ -1,0 +1,221 @@
+id,slug,ad,kisa,turnuva
+20219,afc.asian.cup,AFC Asian Cup,AFC Asian Cup,True
+3902,afc.champions,AFC Champions League Elite,AFC Champions League Elite,True
+24452,afc.champions_qual,AFC Champions League Elite Qualifying,AFC Champions League Elite Qualifying,True
+2466,afc.cup,AFC Champions League Two,AFC Champions League Two,True
+24455,afc.cup_qual,AFC Champions League Two Qualifying,AFC Champions League Two Qualifying,True
+5662,afc.cupq,AFC Asian Cup Qualifiers,AFC Cup Qualifying,True
+18914,afc.saff.championship,SAFF Championship,SAFF Championship,True
+23537,afc.w.asian.cup,AFC Women's Asian Cup,AFC Women's Asian Cup,True
+5672,aff.championship,ASEAN Championship,ASEAN Champ,True
+745,arg.1,Argentine Liga Profesional de Fútbol,Argentine LPF,False
+3903,arg.2,Argentine Nacional B,Argentine Nacional B,False
+3904,arg.3,Argentine Primera B,Argentine Primera B,False
+8107,arg.copa,Copa Argentina,Copa Argentina,True
+19264,arg.copa_de_la_superliga,Argentine Copa de la Superliga,ASUPERPLIGA,False
+8346,arg.supercopa,Argentine Supercopa,Argentine Supercopa,True
+23348,arg.supercopa.internacional,Argentine Supercopa Internacional,Supercopa Internacional,True
+19705,arg.trofeo_de_la_campeones,Argentine Trofeo de Campeones,Argentine Trofeo de Campeones,False
+3906,aus.1,Australian A-League Men,A-League Men,False
+18992,aus.w.1,Australian A-League Women,A-League Women,False
+3907,aut.1,Austrian Bundesliga,Austrian Bundesliga,False
+3901,bel.1,Belgian Pro League,Belgian Pro League,False
+20116,bel.promotion.relegation,Belgian Pro League Promotion/Relegation Playoffs,Belgian Pro League Pro/Rel,False
+620,bol.1,Bolivian Liga Profesional,Bolivian Liga Profesional,False
+23284,bol.copa,Copa Bolivia,Copa Bolivia,True
+20525,bol.ply.rel,Bolivian Liga Profesional Promotion/Relegation Playoffs,Bolivian Liga Pro/Rel,False
+630,bra.1,Brazilian Serie A,Brazil Serie A,False
+4007,bra.2,Brazilian Serie B,Brazil Serie B,False
+2265,bra.camp.carioca,Brazilian Campeonato Carioca,Brazil Carioca,False
+2272,bra.camp.gaucho,Brazilian Campeonato Gaucho,Brazil Gaucho,False
+10872,bra.camp.mineiro,Brazilian Campeonato Mineiro,Brazil Mineiro,False
+8207,bra.camp.paulista,Brazilian Campeonato Paulista,Brazil Paulista,False
+8306,bra.copa_do_brazil,Copa do Brasil,Copa do Brazil,True
+19721,bra.supercopa_do_brazil,Brazilian Supercopa Rei,Supercopa Rei,True
+2391,caf.champions,CAF Champions League,CAF Champions League,True
+8365,caf.championship,African Nations Championship,CHAN,True
+18000,caf.confed,CAF Confederation Cup,CAF Confederation Cup,True
+20220,caf.cosafa,COSAFA Cup,COSAFA Cup,True
+3908,caf.nations,Africa Cup of Nations,Africa Cup of Nations,True
+8315,caf.nations_qual,Africa Cup of Nations Qualifying,AFCON Qualifying,True
+23523,caf.w.nations,Women's Africa Cup of Nations,Women's Africa Cup of Nations,True
+18771,campeones.cup,Campeones Cup,Campeones Cup,False
+23286,can.w.nsl,Northern Super League,Northern Super League,False
+640,chi.1,Chilean Primera División,Chilean Primera,False
+20524,chi.1.promotion.relegation,Chilean Primera División Promotion/Relegation Playoffs,Chilean Pro/Rel,True
+8312,chi.copa_chi,Copa Chile,Copa Chile,True
+8364,chi.super_cup,Chilean Supercopa,Chilean Supercopa,True
+8376,chn.1,Chinese Super League,Chinese Super League,False
+19948,chn.1.promotion.relegation,Chinese Super League Promotion/Relegation Playoffs,Chinese Pro/Rel,True
+19834,club.friendly,Club Friendly,Club Friendly,False
+650,col.1,Colombian Primera A,Colombian Primera A,False
+8313,col.copa,Copa Colombia,Copa Colombia,True
+19112,col.superliga,Colombian Superliga,Colombian Superliga,True
+22947,concacaf.central.american.cup,Concacaf Central American Cup,Concacaf Central American Cup,True
+5699,concacaf.champions,Concacaf Champions Cup,Concacaf Champions Cup,True
+5692,concacaf.champions_cup,CONCACAF Champions Cup,Conc CC,True
+8360,concacaf.confederations_playoff,Concacaf Cup,Conf Pl,True
+4004,concacaf.gold,Concacaf Gold Cup,Gold Cup,True
+19778,concacaf.gold_qual,Concacaf Gold Cup Qualifying,Gold Cup Qualifying,True
+19425,concacaf.leagues.cup,Leagues Cup,Leagues Cup,True
+19267,concacaf.nations.league,Concacaf Nations League,Concacaf Nations League,True
+3911,concacaf.u23,CONCACAF U23 Tournament,Conc U23,True
+22946,concacaf.w.champions_cup,Concacaf W Champions Cup,W Champions Cup,True
+22060,concacaf.w.gold,Concacaf W Gold Cup,W Gold Cup,True
+18969,concacaf.womens.championship,Concacaf W Championship,Concacaf W Championship,True
+780,conmebol.america,Copa América,Copa América,True
+20703,conmebol.america.femenina,Copa América Femenina,Copa América Femenina,True
+783,conmebol.libertadores,CONMEBOL Libertadores,CONMEBOL Libertadores,True
+8333,conmebol.recopa,CONMEBOL Recopa,CONMEBOL Recopa,False
+5454,conmebol.sudamericana,CONMEBOL Sudamericana,CONMEBOL Sudamericana,True
+4005,crc.1,Costa Rican Primera Division,Liga FPD,False
+3913,den.1,Danish Superliga,Danish Superliga,False
+660,ecu.1,LigaPro Ecuador,LigaPro Ecuador,False
+700,eng.1,English Premier League,Premier League,False
+3914,eng.2,English League Championship,EFL Championship,False
+3915,eng.3,English League One,EFL League One,False
+3916,eng.4,English League Two,EFL League Two,False
+3917,eng.5,English National League,National League,False
+5329,eng.charity,English FA Community Shield,Community Shield,False
+3918,eng.fa,English FA Cup,English FA Cup,True
+23480,eng.fa_qual,English FA Cup Qualifying,English FA Cup Qualifying,True
+3920,eng.league_cup,English Carabao Cup,Carabao Cup,True
+18481,eng.trophy,English EFL Trophy,EFL Trophy,True
+8097,eng.w.1,English Women's Super League,Women's Super League,False
+20226,eng.w.fa,English Women's FA Cup,Women's FA Cup,True
+23390,eng.w.league_cup,English WSL Players Cup,WSL Players Cup,True
+24405,eng.w.promotion.relegation,English Women's Super League Promotion/Relegation Playoff,Women's Super League Pro/Rel,False
+740,esp.1,Spanish LALIGA,LALIGA,False
+3921,esp.2,Spanish LALIGA 2,LALIGA 2,False
+20381,esp.copa_de_la_reina,Spanish Copa de la Reina,Copa de la Reina,True
+3951,esp.copa_del_rey,Spanish Copa del Rey,Copa del Rey,True
+17929,esp.joan_gamper,Trofeo Joan Gamper,Trofeo Joan Gamper,False
+8102,esp.super_cup,Spanish Supercopa,Spanish Supercopa,True
+20956,esp.w.1,Spanish Liga F,Liga F,False
+19831,fifa.concacaf.olympicsq,Men's Olympic Qualifying Playoff,Men's Olympic Qualifying Playoff,True
+19727,fifa.conmebol.olympicsq,CONMEBOL Pre-Olympic Tournament,CONMEBOL Pre-Olympic Tournament,True
+5501,fifa.cwc,FIFA Club World Cup,Club World Cup,True
+3922,fifa.friendly,International Friendly,Men's International Friendly,False
+3923,fifa.friendly.w,Women's International Friendly,Women's International Friendly,False
+20132,fifa.friendly_u21,Under-21 International Friendly,Men's U-21 Friendly,False
+782,fifa.intercontinental.cup,Intercontinental Cup (India),Intercontinental Cup (India),True
+22902,fifa.intercontinental_cup,FIFA Intercontinental Cup,FIFA Intercontinental Cup,True
+3924,fifa.olympics,Men's Olympic Soccer Tournament,Men's Olympic Soccer Tournament,True
+19728,fifa.shebelieves,SheBelieves Cup,SheBelieves Cup,True
+24081,fifa.w.champions_cup,FIFA Women's Champions Cup,Women's Champions Cup,True
+5342,fifa.w.concacaf.olympicsq,Concacaf Women's Olympic Qualifying,Concacaf Women's Olympic Qualifying,True
+3925,fifa.w.olympics,Women's Olympic Soccer Tournament,Women's Olympic Soccer Tournament,True
+23449,fifa.wcq.ply,FIFA World Cup Qualifying - Playoff Tournament,WCQ - Playoff Tournament,True
+606,fifa.world,FIFA World Cup,FIFA World Cup,True
+5697,fifa.world.u17,FIFA Under-17 World Cup,FIFA U-17 World Cup,True
+5694,fifa.world.u20,FIFA Under-20 World Cup,FIFA U-20 World Cup,True
+789,fifa.worldq.afc,FIFA World Cup Qualifying - AFC,WCQ - AFC,True
+790,fifa.worldq.caf,FIFA World Cup Qualifying - CAF,WCQ - CAF,True
+788,fifa.worldq.concacaf,FIFA World Cup Qualifying - Concacaf,WCQ - Concacaf,True
+787,fifa.worldq.conmebol,FIFA World Cup Qualifying - CONMEBOL,WCQ - CONMEBOL,True
+792,fifa.worldq.ofc,FIFA World Cup Qualifying - OFC,WCQ - OFC,True
+786,fifa.worldq.uefa,FIFA World Cup Qualifying - UEFA,WCQ - UEFA,True
+795,fifa.wwc,FIFA Women's World Cup,FIFA Women's World Cup,True
+21211,fifa.wwcq.ply,FIFA Women's World Cup Qualifying - Playoff Tournament,WWCQ - Playoff Tournament,True
+20865,fifa.wworld.u17,FIFA Under-17 Women's World Cup,FIFA U-17 Women's World Cup,True
+20649,fifa.wworldq.uefa,FIFA Women's World Cup Qualifying - UEFA,WWCQ - UEFA,True
+710,fra.1,French Ligue 1,Ligue 1,False
+20159,fra.1.promotion.relegation,French Ligue 1 Promotion/Relegation Playoffs,Ligue 1 Pro/Rel,True
+3926,fra.2,French Ligue 2,Ligue 2,False
+3952,fra.coupe_de_france,Coupe de France,Coupe de France,True
+8357,fra.super_cup,French Trophee des Champions,Trophee des Champions,False
+20955,fra.w.1,French Première Ligue,Première Ligue,False
+11108,friendly.emirates_cup,Emirates Cup,Emirates Cup,False
+720,ger.1,German Bundesliga,Bundesliga,False
+3927,ger.2,German 2. Bundesliga,2. Bundesliga,False
+19871,ger.2.promotion.relegation,German Bundesliga 2. Promotion/Relegation Playoffs,2. Bundesliga Pro/Rel,True
+3954,ger.dfb_pokal,German Cup,German Cup,True
+8304,ger.playoff.relegation,German Bundesliga Promotion/Relegation Playoff,Bundesliga Pro/Rel,True
+8101,ger.super_cup,German Supercup,German SuperCup,False
+20566,global.arnold.clark_cup,Arnold Clark Cup,Arnold Clark Cup,True
+21597,global.club_challenge,CONMEBOL-UEFA Club Challenge,CONMEBOL-UEFA Club Challenge,True
+20704,global.finalissima,CONMEBOL-UEFA Cup of Champions,Men's Finalissima,True
+23107,global.gulf_cup,Arabian Gulf Cup,Arabian Gulf Cup,True
+20571,global.pinatar_cup,Pinatar Cup,Pinatar Cup,True
+22781,global.u20.intercontinental_cup,CONMEBOL-UEFA U20 Intercontinental Cup,U20 Intercontinental Cup,False
+21191,global.w.finalissima,CONMEBOL-UEFA Women's Cup of Champions,Women's Finalissima,True
+3955,gre.1,Greek Super League,Greek Super League,False
+3928,gua.1,Guatemalan Liga Nacional,Guatemalan Liga Nacional,False
+3929,hon.1,Honduran Liga Nacional,Honduran Liga Nacional,False
+8316,ind.1,Indian Super League,Indian Super League,False
+18505,ind.2,Indian Football League,Indian Football League,False
+730,ita.1,Italian Serie A,Serie A,False
+3931,ita.2,Italian Serie B,Italian Serie B,False
+3956,ita.coppa_italia,Coppa Italia,Coppa Italia,True
+8103,ita.super_cup,Italian Supercoppa,Italian Supercoppa,True
+750,jpn.1,Japanese J.League,Japanese J1 League,False
+17931,jpn.world_challenge,Japanese J.League World Challenge,J.League World Challenge,True
+21231,ksa.1,Saudi Pro League,Saudi Pro League,False
+22057,ksa.kings.cup,Saudi King's Cup,Saudi King's Cup,True
+760,mex.1,Mexican Liga BBVA MX,Liga MX,False
+3932,mex.2,Mexican Liga de Expansión MX,Liga de Expansión MX,False
+17893,mex.campeon,Mexican Campeon de Campeones,Campeon de Campeones,True
+23541,mex.w.1,Mexican Liga BBVA MX Femenil,Liga MX Femenil,False
+725,ned.1,Dutch Eredivisie,Eredivisie,False
+3933,ned.2,Dutch Keuken Kampioen Divisie,Keuken Kampioen Divisie,False
+20798,ned.3.promotion.relegation,Dutch Tweede Divisie Promotion/Relegation Playoffs,Dutch Playoffs 3/4,True
+3957,ned.cup,Dutch KNVB Beker,KNVB Beker,True
+8305,ned.playoff.relegation,Dutch Eredivisie Promotion/Relegation Playoffs,Eredivisie Pro/Rel,True
+10749,ned.supercup,Dutch Johan Cruyff Shield,Johan Cruyff Shield,False
+19945,ned.w.1,Dutch Vrouwen Eredivisie,Dutch Vrouwen Eredivisie,False
+20115,ned.w.knvb_cup,Dutch KNVB Beker Vrouwen,Dutch Vrouwen KNVB Beker,True
+19725,nonfifa,Non-FIFA Friendly,Non-FIFA Friendly,False
+3960,nor.1,Norwegian Eliteserien,Norwegian Eliteserien,False
+19989,nor.1.promotion.relegation,Norwegian Eliteserien Promotion/Relegation Playoffs,Norwegian Eliteserien Pro/Rel,False
+3934,par.1,Paraguayan Primera División,Paraguayan Primera,False
+20526,par.1.supercopa,Paraguayan Supercopa,Paraguayan Supercopa,True
+670,per.1,Peruvian Liga 1,Peru Liga 1,False
+715,por.1,Portuguese Primeira Liga,Portuguese Liga,False
+20186,por.1.promotion.relegation,Portuguese Primeira Liga Promotion/Relegation Playoffs,Portuguese Liga Pro/Rel,False
+20922,por.taca.portugal,Taca de Portugal,Taca de Portugal,True
+3937,rsa.1,South African Premiership,South African Premiership,False
+3939,rus.1,Russian Premier League,Russian Premier League,False
+20731,rus.1.promotion.relegation,Russian Premier League Relegation/Promotion Playoffs,Russian Premier League Pro/Rel,False
+735,sco.1,Scottish Premiership,SPFL Premiership,False
+20133,sco.1.promotion.relegation,Scottish Premiership Promotion/Relegation Playoffs,SPFL Premiership Pro/Rel,True
+3940,sco.2,Scottish Championship,SPFL Championship,False
+20134,sco.2.promotion.relegation,Scottish Championship Promotion/Relegation Playoffs,SPFL Championship Pro/Rel,False
+5331,sco.challenge,Scottish League Challenge Cup,SPFL Challenge Cup,True
+5330,sco.cis,Scottish League Cup,SLC,True
+3959,sco.tennents,Scottish Cup,Scottish Cup,True
+24457,sco.tennents_qual,Scottish Cup Qualifying,Scottish Cup Qualifying,True
+3943,slv.1,Salvadoran Primera Division,Salvadoran Primera,False
+3945,swe.1,Swedish Allsvenskan,Swedish Allsvenskan,False
+19968,swe.1.promotion.relegation,Swedish Allsvenskan Promotion/Relegation Playoffs,Swedish Allsvenskan Pro/Rel,False
+3946,tur.1,Turkish Super Lig,Turkish Super Lig,False
+775,uefa.champions,UEFA Champions League,UEFA Champions League,True
+19874,uefa.champions_qual,UEFA Champions League Qualifying,UEFA Champions League Qualifying,True
+781,uefa.euro,UEFA European Championship,EURO,True
+5698,uefa.euro.u19,UEFA European Under-19 Championship,EURO Under-19,True
+5693,uefa.euro_u21,UEFA European Under-21 Championship,EURO Under-21,True
+20114,uefa.euro_u21_qual,UEFA European Under-21 Championship Qualifying,EURO U-21 Qualifying,True
+776,uefa.europa,UEFA Europa League,UEFA Europa League,True
+20296,uefa.europa.conf,UEFA Conference League,UEFA Conference League,True
+20221,uefa.europa.conf_qual,UEFA Conference League Qualifying,UEFA Conference League Qualifying,True
+19887,uefa.europa_qual,UEFA Europa League Qualifying,UEFA Europa League Qualfiying,True
+3947,uefa.euroq,UEFA European Championship Qualifying,EURO Qualifying,True
+2395,uefa.nations,UEFA Nations League,UEFA Nations League,True
+5462,uefa.super_cup,UEFA Super Cup,UEFA Super Cup,False
+24079,uefa.w.europa,UEFA Women's Europa Cup,Women's Europa Cup,True
+23088,uefa.w.nations,UEFA Women's Nations League,Women's Nations League,True
+19483,uefa.wchampions,UEFA Women's Champions League,UEFA Women's Champions League,True
+24458,uefa.wchampions_qual,UEFA Women's Champions League Qualifying,UEFA Women's Champions League Qualifying,True
+17915,uefa.weuro,UEFA Women's European Championship,Women's EURO,True
+680,uru.1,Liga AUF Uruguaya,Liga AUF Uruguaya,False
+3948,uru.2,Segunda División de Uruguay,Seg,False
+770,usa.1,MLS,MLS,False
+5487,usa.ncaa.m.1,NCAA Men's Soccer,CMSOC,False
+5499,usa.ncaa.w.1,NCAA Women's Soccer,CWSOC,False
+8301,usa.nwsl,NWSL,NWSL,False
+19868,usa.nwsl.cup,NWSL Challenge Cup,NWSL Challenge Cup,True
+5337,usa.open,U.S. Open Cup,U.S. Open Cup,True
+4002,usa.usl.1,USL Championship,USL Championship,False
+19915,usa.usl.l1,USL League One,USL League One,False
+22059,usa.usl.l1.cup,USL Cup,USL Cup,True
+23633,usa.w.usl.1,USL Super League,USL Super League,False
+3949,ven.1,Venezuelan Primera División,Liga FUTVE,False

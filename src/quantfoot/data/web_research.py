@@ -177,7 +177,7 @@ def refresh_pool(asof: str, http: Http, window: int = RF.WINDOW_DAYS, max_new_da
     status = {"espn_gun": 0, "om_lig": 0}
 
     def _espn(d: dt.date):
-        p = http.get("ESPN scoreboard", ESPN_SB, {"dates": d.strftime("%Y%m%d")}, ttl=86400 * 400 if d < ref - dt.timedelta(days=2)
+        p = http.get("ESPN scoreboard", ESPN_SB, {"dates": d.strftime("%Y%m%d"), "limit": 1000}, ttl=86400 * 400 if d < ref - dt.timedelta(days=2)
                      else 3600)
         return RF.parse_espn_day(p) if p else []
 
