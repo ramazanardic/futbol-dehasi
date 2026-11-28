@@ -54,3 +54,11 @@ python scripts/arsiv_wiki_tara.py --bas 1995 --bit 2025 --cikti <ham>/wiki
 python scripts/arsiv_kur.py --ham <ham> --cikti data/arsiv
 ```
 Tek dosya sınırı 50 MB; en büyük dosya `maclar.csv.gz` (~8–10 MB).
+
+## Ek kaynaklar (28 Kas 2026, `scripts/arsiv_ek_kaynak.py`)
+Yalnız ekleme (eski satırlar bayt bayt aynı); matches.csv'de olan maçlar `arsiv_kur` kuralıyla ayıklanır.
+| Kaynak | Ne alındı | Lisans / şart |
+|---|---|---|
+| ESPN lig scoreboard (`scripts/espn_lig_tara.py`, `/soccer/<slug>/scoreboard`) | por.1, rus.1 2026/27 (yalnız skor) | herkese açık API; yalnız olgusal sonuç |
+| OpenLigaDB (`api.openligadb.de/getmatchdata/bl3/<yıl>`) | 3. Liga 2023/24–2026/27, **yalnız tam skor** (İY'de 0:0 yer tutucuları olduğu için İY alınmadı) | ODbL — "Daten: OpenLigaDB" |
+| Wikipedia (`/wiki/` HTML) | 2023/24–2026/27: 3. Liga, Avusturya 2. Lig, Çekya, İsviçre Challenge, Sırbistan, Slovakya, Slovenya, TFF 1. Lig (tarihsiz) | CC BY-SA 4.0 |

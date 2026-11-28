@@ -40,7 +40,7 @@ def fetch(day: dt.date | None = None, out: Path = RATINGS) -> int:
         for wait in (0, 20):
             time.sleep(wait)
             try:
-                r = requests.get(f"http://api.clubelo.com/{(day - dt.timedelta(days=back)).isoformat()}", timeout=60)
+                r = requests.get(f"http://api.clubelo.com/{(day - dt.timedelta(days=back)).isoformat()}", timeout=20)  # 24 Kas: 60 sn × 6 deneme işi iptal ettirdi
             except requests.RequestException:
                 continue
             if r.status_code == 200 and r.text.startswith("Rank,Club"):

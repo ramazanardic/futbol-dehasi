@@ -37,7 +37,11 @@ MAP = {"Division": ["Div"], "MatchTime": ["Time"], "HomeTeam": ["HomeTeam"], "Aw
        "OddDraw": ["AvgD", "B365D"], "OddAway": ["AvgA", "B365A"], "MaxHome": ["MaxH"], "MaxDraw": ["MaxD"],
        "MaxAway": ["MaxA"], "Over25": ["Avg>2.5", "B365>2.5"], "Under25": ["Avg<2.5", "B365<2.5"],
        "MaxOver25": ["Max>2.5"], "MaxUnder25": ["Max<2.5"], "HandiSize": ["AHh"], "HandiHome": ["AvgAHH", "B365AHH"],
-       "HandiAway": ["AvgAHA", "B365AHA"]}
+       "HandiAway": ["AvgAHA", "B365AHA"],
+       # Pinnacle (28 Kas 2026; eski satırlar scripts/pinnacle_doldur.py ile geriye dolduruldu)
+       "PSHome": ["PSH"], "PSDraw": ["PSD"], "PSAway": ["PSA"], "PSCHome": ["PSCH"], "PSCDraw": ["PSCD"],
+       "PSCAway": ["PSCA"], "PSOver25": ["P>2.5"], "PSUnder25": ["P<2.5"], "PSCOver25": ["PC>2.5"],
+       "PSCUnder25": ["PC<2.5"]}
 
 
 def convert(fd: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
@@ -58,7 +62,8 @@ NEW_LEAGUES = {"ARG": "ARG", "AUT": "AUT", "BRA": "BRA", "CHN": "CHN", "DNK": "D
                "SWE": "SWE", "USA": "USA"}
 NEW_MAP = {"MatchTime": ["Time"], "HomeTeam": ["Home"], "AwayTeam": ["Away"], "FTHome": ["HG"], "FTAway": ["AG"],
            "FTResult": ["Res"], "OddHome": ["AvgCH", "PSCH", "B365CH"], "OddDraw": ["AvgCD", "PSCD", "B365CD"],
-           "OddAway": ["AvgCA", "PSCA", "B365CA"], "MaxHome": ["MaxCH"], "MaxDraw": ["MaxCD"], "MaxAway": ["MaxCA"]}
+           "OddAway": ["AvgCA", "PSCA", "B365CA"], "MaxHome": ["MaxCH"], "MaxDraw": ["MaxCD"], "MaxAway": ["MaxCA"],
+           "PSCHome": ["PSCH"], "PSCDraw": ["PSCD"], "PSCAway": ["PSCA"]}
 FORM_COLS = ("Form3Home", "Form5Home", "Form3Away", "Form5Away")
 
 
@@ -80,7 +85,8 @@ def convert_new_league(fd: pd.DataFrame, division: str, columns: list[str]) -> p
 NUMERIC_COLS = ("FTHome", "FTAway", "HTHome", "HTAway", "HomeShots", "AwayShots", "HomeTarget", "AwayTarget",
                 "HomeFouls", "AwayFouls", "HomeCorners", "AwayCorners", "HomeYellow", "AwayYellow", "HomeRed", "AwayRed",
                 "OddHome", "OddDraw", "OddAway", "MaxHome", "MaxDraw", "MaxAway", "Over25", "Under25", "MaxOver25",
-                "MaxUnder25", "HandiSize", "HandiHome", "HandiAway")
+                "MaxUnder25", "HandiSize", "HandiHome", "HandiAway", "PSHome", "PSDraw", "PSAway", "PSCHome", "PSCDraw",
+                "PSCAway", "PSOver25", "PSUnder25", "PSCOver25", "PSCUnder25")
 
 
 def _numeric(out: pd.DataFrame) -> pd.DataFrame:
@@ -135,13 +141,94 @@ def key(df: pd.DataFrame) -> pd.Series:
         df["AwayTeam"].astype(str)
 
 
-def update(archive: Path = ARCHIVE, seasons: Path = SEASONS, *, fill_form_cols: bool = True) -> int:
+# ESPN skor doldurma (28 Kas 2026): football-data bazı ligleri haftalarca güncellemiyor (P1 08 Kas'ta, RUS 02 Ağu'da
+# kaldı). Bu ligler için data/arsiv/maclar.csv.gz'deki ESPN skorları (scripts/espn_lig_tara.py) football-data'nın son
+# gününden SONRASI için eklenir: yalnız tarih, takımlar, tam skor; oran / İY / şut boş kalır, Source="espn".
+# Aynı maç sonradan football-data'da çıkarsa (±1 gün, aynı takımlar) ESPN satırı silinip football-data satırı yazılır.
+ARSIV_MACLAR = ROOT / "data" / "arsiv" / "maclar.csv.gz"
+ESPN_ALIAS = {
+    "P1": {"Braga": "Sp Braga", "C.D. Nacional": "Nacional", "FC Famalicao": "Famalicao", "FC Porto": "Porto",
+           "Sporting CP": "Sp Lisbon", "Vitória de Guimaraes": "Guimaraes", "Vitoria de Guimaraes": "Guimaraes",
+           "Académico de Viseu": "Academico Viseu", "Academico de Viseu": "Academico Viseu"},
+    "RUS": {"Akron Tolyatti": "Akron Togliatti", "Dinamo Moscow": "Dynamo Moscow", "FC Baltika Kaliningrad": "Baltika",
+            "Gazovik Orenburg": "Orenburg", "Krylia Sovetov": "Krylya Sovetov", "Nizhny Novgorod": "Pari NN",
+            "Rostov": "FK Rostov", "Zenit St Petersburg": "Zenit"},
+}
+ESPN_FILL = {"P1": "espn/por.1", "RUS": "espn/rus.1"}
+
+
+def _source(df: pd.DataFrame) -> pd.Series:
+    return df["Source"].astype("string").fillna("").astype(str) if "Source" in df.columns else pd.Series("", index=df.index)
+
+
+def espn_fill(base: pd.DataFrame, columns: list[str], maclar: Path = ARSIV_MACLAR) -> pd.DataFrame:
+    """football-data'nın son gününden sonraki ESPN skorları (yalnız eşlenen takımlar) arşiv düzeninde."""
+    if "Source" not in columns or not maclar.exists():
+        return pd.DataFrame(columns=columns)
+    a = pd.read_csv(maclar, low_memory=False, usecols=["tarih", "yarisma", "ev", "dep", "hg", "ag", "durum"])
+    a = a[a.yarisma.isin(set(ESPN_FILL.values())) & a.durum.isin(["FT", "AET", "PEN"])].dropna(subset=["hg", "ag"])
+    fd = base[_source(base) == ""]
+    out = []
+    for div, comp in ESPN_FILL.items():
+        mine = fd[fd["Division"] == div]
+        if mine.empty:
+            continue
+        last = str(mine["MatchDate"].max())
+        recent = mine[mine["MatchDate"] >= f"{int(last[:4]) - 1}{last[4:]}"]
+        known = set(recent["HomeTeam"].astype(str)) | set(recent["AwayTeam"].astype(str))
+        alias = ESPN_ALIAS.get(div, {})
+        x = a[(a.yarisma == comp) & (a.tarih.astype(str) > last)]
+        for t, ev, dep, hg, ag in zip(x.tarih, x.ev, x.dep, x.hg, x.ag):
+            h, w = alias.get(ev, ev), alias.get(dep, dep)
+            if h not in known or w not in known:
+                continue  # eşlenemeyen takım: satır yazılmaz (uydurma eşleşme yok)
+            hg, ag = int(hg), int(ag)
+            out.append({"Division": div, "MatchDate": str(t), "HomeTeam": h, "AwayTeam": w, "FTHome": hg, "FTAway": ag,
+                        "FTResult": "H" if hg > ag else "A" if hg < ag else "D", "Source": "espn"})
+    return pd.DataFrame(out, columns=columns) if out else pd.DataFrame(columns=columns)
+
+
+def _near_keys(df: pd.DataFrame) -> pd.Series:
+    """±1 gün toleranslı eşleşme için (lig, ev, dep, gün sayısı)."""
+    d = pd.to_datetime(df["MatchDate"], errors="coerce")
+    return df["Division"].astype(str) + "|" + df["HomeTeam"].astype(str) + "|" + df["AwayTeam"].astype(str), d
+
+
+def _drop_lines(archive: Path, drop: set[int]) -> None:
+    """Veri satırı indekslerini (0 tabanlı) metin düzeyinde siler; diğer satırlar bayt bayt aynı kalır."""
+    lines = archive.read_text(encoding="utf-8").split("\n")
+    keep = [lines[0]] + [ln for i, ln in enumerate(lines[1:]) if i not in drop]
+    archive.write_text("\n".join(keep), encoding="utf-8")
+
+
+def update(archive: Path = ARCHIVE, seasons: Path = SEASONS, *, fill_form_cols: bool = True,
+           maclar: Path = ARSIV_MACLAR) -> int:
     base = pd.read_csv(archive, low_memory=False)
-    seen = set(key(base))
-    ext = base[base["Division"].isin(set(NEW_LEAGUES.values()))]
+    src = _source(base)
+    is_espn = src == "espn"
+    seen = set(key(base[~is_espn]))
+    ext = base[base["Division"].isin(set(NEW_LEAGUES.values())) & ~is_espn]
     if len(ext):  # eski ek lig satırlarında gün/ay ters okunmuş tarihler
         seen |= set(ext["Division"].astype(str) + "|" + _swap_day_month(ext["MatchDate"]) + "|" +
                     ext["HomeTeam"].astype(str) + "|" + ext["AwayTeam"].astype(str))
+    espn_rows = base[is_espn]
+    ek, ed = _near_keys(espn_rows)
+    espn_by_pair: dict[str, list[tuple[int, pd.Timestamp]]] = defaultdict(list)
+    for i, k, d in zip(espn_rows.index, ek, ed):
+        espn_by_pair[k].append((i, d))
+    replaced: set[int] = set()
+
+    def _take(rows: pd.DataFrame) -> pd.DataFrame:
+        rows = rows[~key(rows).isin(seen)]
+        rows = rows[~key(rows).duplicated()]
+        seen.update(key(rows))
+        rk, rd = _near_keys(rows)
+        for k, d in zip(rk, rd):
+            for i, d0 in espn_by_pair.get(k, []):
+                if pd.notna(d) and pd.notna(d0) and abs((d - d0).days) <= 1:
+                    replaced.add(i)
+        return rows
+
     new = []
     for f in sorted((seasons / "new_leagues").glob("*.csv")):
         div = NEW_LEAGUES.get(f.stem)
@@ -153,10 +240,7 @@ def update(archive: Path = ARCHIVE, seasons: Path = SEASONS, *, fill_form_cols: 
             continue
         if not {"Date", "Home", "Away", "HG", "AG"} <= set(fd.columns):
             continue
-        rows = convert_new_league(fd, div, list(base.columns))
-        rows = rows[~key(rows).isin(seen)]
-        seen |= set(key(rows))
-        new.append(rows)
+        new.append(_take(convert_new_league(fd, div, list(base.columns))))
     for f in sorted(seasons.glob("season_*/*.csv")):
         try:
             fd = pd.read_csv(f, encoding="utf-8", on_bad_lines="skip")
@@ -164,16 +248,29 @@ def update(archive: Path = ARCHIVE, seasons: Path = SEASONS, *, fill_form_cols: 
             continue
         if not {"Div", "Date", "HomeTeam", "AwayTeam", "FTHG", "FTAG"} <= set(fd.columns):
             continue
-        rows = convert(fd, list(base.columns))
-        rows = rows[~key(rows).isin(seen)]
-        seen |= set(key(rows))
-        new.append(rows)
+        new.append(_take(convert(fd, list(base.columns))))
+    # ESPN: football-data'da olmayan, mevcut ESPN satırı da olmayan maçlar
+    kept_base = base.drop(index=list(replaced))
+    es = espn_fill(kept_base, list(base.columns), maclar)
+    if len(es):
+        fd_pairs = defaultdict(list)
+        for x in [kept_base[_source(kept_base) == ""], *[y for y in new if len(y)]]:
+            xk, xd = _near_keys(x)
+            for k, d in zip(xk, xd):
+                fd_pairs[k].append(d)
+        have_espn = set(key(kept_base[_source(kept_base) == "espn"]))
+        sk, sd = _near_keys(es)
+        ok = [key(es).iloc[j] not in have_espn and not any(pd.notna(d0) and abs((d - d0).days) <= 1 for d0 in fd_pairs.get(k, []))
+              for j, (k, d) in enumerate(zip(sk, sd))]
+        new.append(es[ok])
     new = [x for x in new if len(x)]
     add = pd.concat(new, ignore_index=True) if new else pd.DataFrame(columns=base.columns)
+    if replaced:
+        _drop_lines(archive, {base.index.get_loc(i) for i in replaced})
     if len(add):  # appended at the end, the existing rows stay byte for byte as they are
         add = add.sort_values(["MatchDate", "Division"], kind="stable").reset_index(drop=True)
         if fill_form_cols:
-            add = fill_form(base, add)
+            add = fill_form(kept_base, add)
         with archive.open("a", encoding="utf-8", newline="") as fh:
             add.to_csv(fh, index=False, header=False, lineterminator="\n")
     return len(add)

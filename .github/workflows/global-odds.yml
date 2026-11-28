@@ -23,7 +23,9 @@ concurrency:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # 24 Kas: iş 15 dk sınırında iptal oldu (fetch ~8 dk + Club Elo 7 dk takıldı) ve hiçbir veri commit edilmedi.
+    # Sınır 25 dk; veri Club Elo'dan ÖNCE commit edilir, Elo ayrı ve süre sınırlı adımdır.
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -33,6 +35,7 @@ jobs:
       - name: Install
         run: pip install requests numpy
       - name: Fetch global odds
+        timeout-minutes: 14
         run: |
           git pull -q --ff-only || true   # a light run merges into the newest snapshot, not the one at trigger time
           if [ -n "${{ github.event.inputs.light }}" ]; then
@@ -40,9 +43,8 @@ jobs:
           else
             python scripts/fetch_global_odds.py
           fi
-      - name: Club Elo ratings
-        run: python scripts/elo_gorus.py --cek || echo "Club Elo unavailable"
       - name: Commit data
+        timeout-minutes: 4
         run: |
           git config user.name "global-odds-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -62,3 +64,13 @@ jobs:
             sleep 3
           done
           exit 1
+      - name: Club Elo ratings
+        timeout-minutes: 4
+        continue-on-error: true
+        run: |
+          python scripts/elo_gorus.py --cek || { echo "Club Elo unavailable"; exit 0; }
+          git add data/global_odds/latest/clubelo.csv data/calibration/elo_1x2.json 2>/dev/null || true
+          if git diff --cached --quiet; then echo "no elo changes"; exit 0; fi
+          git commit -q -m "data(club-elo): $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q && exit 0; sleep 3; done
+          echo "elo push failed (data commit already pushed)"

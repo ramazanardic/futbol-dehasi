@@ -1,0 +1,400 @@
+{
+ "arsiv.hr.1": {
+  "nesine": "Hırvatistan 1. Hnl",
+  "mevcut_kodlar": [],
+  "yari_gol_logloss_A": 0.59814,
+  "yari_gol_logloss_B": 0.60041,
+  "blend_brier_A": 0.17827,
+  "blend_brier_B": 0.182,
+  "olcum_n": 161,
+  "sezonlar": [
+   {
+    "sezon": "2024/25",
+    "test": 161,
+    "egitim": 167,
+    "pay_A": 0.44,
+    "pay_B": 0.4289,
+    "gercek_pay": 0.4953
+   }
+  ],
+  "karar": "alma"
+ },
+ "arsiv.ba.1": {
+  "nesine": "Bosna Hersek Premier Lig",
+  "mevcut_kodlar": [],
+  "yari_gol_logloss_A": 0.59951,
+  "yari_gol_logloss_B": 0.59922,
+  "blend_brier_A": 0.17166,
+  "blend_brier_B": 0.17308,
+  "olcum_n": 188,
+  "sezonlar": [
+   {
+    "sezon": "2024/25",
+    "test": 188,
+    "egitim": 187,
+    "pay_A": 0.44,
+    "pay_B": 0.449,
+    "gercek_pay": 0.4544
+   }
+  ],
+  "karar": "alma"
+ },
+ "arsiv.sk.1": {
+  "nesine": "Slovakya Superliga",
+  "mevcut_kodlar": [],
+  "yari_gol_logloss_A": 0.59367,
+  "yari_gol_logloss_B": 0.59478,
+  "blend_brier_A": 0.18279,
+  "blend_brier_B": 0.18211,
+  "olcum_n": 175,
+  "sezonlar": [
+   {
+    "sezon": "2024/25",
+    "test": 175,
+    "egitim": 173,
+    "pay_A": 0.44,
+    "pay_B": 0.4561,
+    "gercek_pay": 0.4479
+   }
+  ],
+  "karar": "alma"
+ },
+ "arsiv.si.1": {
+  "nesine": "Slovenya Prvaliga",
+  "mevcut_kodlar": [
+   "fc.slovenia1"
+  ],
+  "yari_gol_logloss_A": 0.57632,
+  "yari_gol_logloss_B": 0.57642,
+  "blend_brier_A": 0.17249,
+  "blend_brier_B": 0.17333,
+  "olcum_n": 167,
+  "sezonlar": [
+   {
+    "sezon": "2024/25",
+    "test": 167,
+    "egitim": 168,
+    "pay_A": 0.44,
+    "pay_B": 0.4494,
+    "gercek_pay": 0.4458
+   }
+  ],
+  "karar": "alma"
+ },
+ "arsiv.rs.1": {
+  "nesine": "Sırbistan Superliga",
+  "mevcut_kodlar": [
+   "fc.serbia1"
+  ],
+  "yari_gol_logloss_A": 0.58533,
+  "yari_gol_logloss_B": 0.58549,
+  "blend_brier_A": 0.18007,
+  "blend_brier_B": 0.17252,
+  "olcum_n": 274,
+  "sezonlar": [
+   {
+    "sezon": "2024/25",
+    "test": 274,
+    "egitim": 278,
+    "pay_A": 0.4507,
+    "pay_B": 0.4479,
+    "gercek_pay": 0.4619
+   }
+  ],
+  "karar": "alma"
+ },
+ "arsiv.hu.1": {
+  "nesine": "Macaristan 1. Ligi",
+  "mevcut_kodlar": [
+   "hu.1"
+  ],
+  "yari_gol_logloss_A": 0.57785,
+  "yari_gol_logloss_B": 0.57787,
+  "blend_brier_A": 0.16885,
+  "blend_brier_B": 0.1699,
+  "olcum_n": 548,
+  "sezonlar": [
+   {
+    "sezon": "2020/21",
+    "test": 183,
+    "egitim": 189,
+    "pay_A": 0.4426,
+    "pay_B": 0.4408,
+    "gercek_pay": 0.4444
+   },
+   {
+    "sezon": "2023/24",
+    "test": 187,
+    "egitim": 372,
+    "pay_A": 0.4426,
+    "pay_B": 0.4422,
+    "gercek_pay": 0.4478
+   },
+   {
+    "sezon": "2024/25",
+    "test": 178,
+    "egitim": 559,
+    "pay_A": 0.4426,
+    "pay_B": 0.4438,
+    "gercek_pay": 0.4412
+   }
+  ],
+  "karar": "alma"
+ },
+ "arsiv.cz.1": {
+  "nesine": "Çekya 1. Lig",
+  "mevcut_kodlar": [
+   "cz.1"
+  ],
+  "yari_gol_logloss_A": 0.58706,
+  "yari_gol_logloss_B": 0.58706,
+  "blend_brier_A": 0.17443,
+  "blend_brier_B": 0.17453,
+  "olcum_n": 861,
+  "sezonlar": [
+   {
+    "sezon": "2020/21",
+    "test": 279,
+    "egitim": 259,
+    "pay_A": 0.4395,
+    "pay_B": 0.4426,
+    "gercek_pay": 0.4392
+   },
+   {
+    "sezon": "2023/24",
+    "test": 259,
+    "egitim": 538,
+    "pay_A": 0.4395,
+    "pay_B": 0.4412,
+    "gercek_pay": 0.4646
+   },
+   {
+    "sezon": "2024/25",
+    "test": 252,
+    "egitim": 797,
+    "pay_A": 0.4395,
+    "pay_B": 0.4479,
+    "gercek_pay": 0.4646
+   },
+   {
+    "sezon": "2026/27",
+    "test": 71,
+    "egitim": 1049,
+    "pay_A": 0.4395,
+    "pay_B": 0.4514,
+    "gercek_pay": 0.4478
+   }
+  ],
+  "karar": "alma"
+ },
+ "arsiv.ch.2": {
+  "nesine": "İsviçre Challenge Ligi",
+  "mevcut_kodlar": [
+   "ch.2"
+  ],
+  "yari_gol_logloss_A": 0.57644,
+  "yari_gol_logloss_B": 0.57963,
+  "blend_brier_A": 0.16759,
+  "blend_brier_B": 0.16795,
+  "olcum_n": 458,
+  "sezonlar": [
+   {
+    "sezon": "2020/21",
+    "test": 170,
+    "egitim": 171,
+    "pay_A": 0.4204,
+    "pay_B": 0.4502,
+    "gercek_pay": 0.3837
+   },
+   {
+    "sezon": "2023/24",
+    "test": 169,
+    "egitim": 341,
+    "pay_A": 0.4204,
+    "pay_B": 0.4279,
+    "gercek_pay": 0.4004
+   },
+   {
+    "sezon": "2024/25",
+    "test": 119,
+    "egitim": 510,
+    "pay_A": 0.4204,
+    "pay_B": 0.4208,
+    "gercek_pay": 0.4693
+   }
+  ],
+  "karar": "alma"
+ },
+ "arsiv.at.2": {
+  "nesine": "Avusturya 2. Lig",
+  "mevcut_kodlar": [
+   "at.2"
+  ],
+  "yari_gol_logloss_A": 0.57459,
+  "yari_gol_logloss_B": 0.57469,
+  "blend_brier_A": 0.17546,
+  "blend_brier_B": 0.1757,
+  "olcum_n": 1448,
+  "sezonlar": [
+   {
+    "sezon": "2019/20",
+    "test": 230,
+    "egitim": 222,
+    "pay_A": 0.4495,
+    "pay_B": 0.4507,
+    "gercek_pay": 0.4091
+   },
+   {
+    "sezon": "2020/21",
+    "test": 226,
+    "egitim": 452,
+    "pay_A": 0.4495,
+    "pay_B": 0.4332,
+    "gercek_pay": 0.4497
+   },
+   {
+    "sezon": "2021/22",
+    "test": 226,
+    "egitim": 678,
+    "pay_A": 0.4495,
+    "pay_B": 0.4377,
+    "gercek_pay": 0.4495
+   },
+   {
+    "sezon": "2022/23",
+    "test": 226,
+    "egitim": 904,
+    "pay_A": 0.4495,
+    "pay_B": 0.4403,
+    "gercek_pay": 0.4239
+   },
+   {
+    "sezon": "2023/24",
+    "test": 228,
+    "egitim": 1130,
+    "pay_A": 0.4495,
+    "pay_B": 0.4375,
+    "gercek_pay": 0.4693
+   },
+   {
+    "sezon": "2024/25",
+    "test": 223,
+    "egitim": 1358,
+    "pay_A": 0.4495,
+    "pay_B": 0.4422,
+    "gercek_pay": 0.4583
+   },
+   {
+    "sezon": "2025/26",
+    "test": 89,
+    "egitim": 1581,
+    "pay_A": 0.4495,
+    "pay_B": 0.4443,
+    "gercek_pay": 0.4686
+   }
+  ],
+  "karar": "alma"
+ },
+ "arsiv.de.3": {
+  "nesine": "Almanya 3. Lig",
+  "mevcut_kodlar": [
+   "de.3"
+  ],
+  "yari_gol_logloss_A": 0.58851,
+  "yari_gol_logloss_B": 0.58849,
+  "blend_brier_A": 0.17384,
+  "blend_brier_B": 0.17391,
+  "olcum_n": 3582,
+  "sezonlar": [
+   {
+    "sezon": "2015/16",
+    "test": 330,
+    "egitim": 356,
+    "pay_A": 0.4436,
+    "pay_B": 0.4404,
+    "gercek_pay": 0.4436
+   },
+   {
+    "sezon": "2016/17",
+    "test": 343,
+    "egitim": 686,
+    "pay_A": 0.4436,
+    "pay_B": 0.4417,
+    "gercek_pay": 0.438
+   },
+   {
+    "sezon": "2017/18",
+    "test": 350,
+    "egitim": 1029,
+    "pay_A": 0.4436,
+    "pay_B": 0.4406,
+    "gercek_pay": 0.4518
+   },
+   {
+    "sezon": "2018/19",
+    "test": 342,
+    "egitim": 1379,
+    "pay_A": 0.4436,
+    "pay_B": 0.4434,
+    "gercek_pay": 0.446
+   },
+   {
+    "sezon": "2019/20",
+    "test": 352,
+    "egitim": 1721,
+    "pay_A": 0.4436,
+    "pay_B": 0.4439,
+    "gercek_pay": 0.4345
+   },
+   {
+    "sezon": "2020/21",
+    "test": 354,
+    "egitim": 2073,
+    "pay_A": 0.4436,
+    "pay_B": 0.4422,
+    "gercek_pay": 0.464
+   },
+   {
+    "sezon": "2021/22",
+    "test": 312,
+    "egitim": 2427,
+    "pay_A": 0.4436,
+    "pay_B": 0.4452,
+    "gercek_pay": 0.4674
+   },
+   {
+    "sezon": "2022/23",
+    "test": 363,
+    "egitim": 2739,
+    "pay_A": 0.4436,
+    "pay_B": 0.4477,
+    "gercek_pay": 0.4376
+   },
+   {
+    "sezon": "2023/24",
+    "test": 354,
+    "egitim": 3102,
+    "pay_A": 0.4436,
+    "pay_B": 0.4465,
+    "gercek_pay": 0.4493
+   },
+   {
+    "sezon": "2024/25",
+    "test": 361,
+    "egitim": 3456,
+    "pay_A": 0.4436,
+    "pay_B": 0.4467,
+    "gercek_pay": 0.4587
+   },
+   {
+    "sezon": "2025/26",
+    "test": 121,
+    "egitim": 3817,
+    "pay_A": 0.4436,
+    "pay_B": 0.4479,
+    "gercek_pay": 0.4213
+   }
+  ],
+  "karar": "alma"
+ }
+}
