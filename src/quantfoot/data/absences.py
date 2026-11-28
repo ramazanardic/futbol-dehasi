@@ -20,7 +20,10 @@ from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
 import difflib
+import json
+from pathlib import Path
 import re
+import time
 from typing import Any, Iterable
 import unicodedata
 
@@ -87,13 +90,16 @@ TM_LEAGUE_MAP: dict[str, list[str]] = {
     "İspanya La Liga": ["ES1"],
     "İspanya 2. Lig": ["ES2"],
     "İspanya Primera RFEF": ["E3G1", "E3G2"],
+    "İspanya Segunda RFEF": ["E4G1", "E4G2", "E4G3", "E4G4", "E4G5"],
     "Fransa Ligue 1": ["FR1"],
     "Fransa Ligue 2": ["FR2"],
     "İtalya Serie A": ["IT1"],
     "İtalya Serie B": ["IT2"],
     "İtalya Serie C": ["IT3A", "IT3B", "IT3C"],
     "Türkiye Süper Lig": ["TR1"],
+    "Türkiye Süper Ligi": ["TR1"],
     "Türkiye 1. Lig": ["TR2"],
+    "Türkiye Nesine 2. Lig, Beyaz Grup": ["TR3B"],
     "Hollanda Eredivisie": ["NL1"],
     "Hollanda 1. Lig": ["NL2"],
     "Portekiz Premier Lig": ["PO1"],
@@ -108,6 +114,9 @@ TM_LEAGUE_MAP: dict[str, list[str]] = {
     "Avusturya 2. Lig": ["A2"],
     "İsviçre Süper Lig": ["C1"],
     "İsviçre Challenge Ligi": ["C2"],
+    "İsviçre Yükselme 1.Ligi": ["CHPR"],
+    "Belarus Premier Lig": ["WER1"],
+    "Belarus Pervaya Ligi": ["WER2"],
     "Norveç Eliteserien": ["NO1"],
     "İsveç Allsvenskan": ["SE1"],
     "Danimarka Süper Ligi": ["DK1"],
@@ -177,6 +186,9 @@ TM_LEAGUE_MAP: dict[str, list[str]] = {
     "Mısır 2. Lig": ["EGY2"],
     "Tunus 1. Lig": ["TUN1"],
     "Cezayir 1. Lig": ["ALG1"],
+    "Fas Botola Pro": ["MAR1"],
+    "Gana Premier Lig": ["GHPL"],
+    "Nijerya Premier Ligi": ["NPFL"],
     "Etiyopya Premier Lig": ["ETP1"],
     # Americas
     "ABD Major Lig": ["MLS1"],
@@ -266,12 +278,16 @@ def resolve_tm_league_codes(league: str | None) -> list[str]:
     """Map a Nesine league name, QuantFoot division code (``E0``, ``T1``), or raw TM code to TM codes."""
     if not league:
         return []
-    key = str(league).strip()
+    key = " ".join(str(league).split())
     if key in TM_LEAGUE_MAP:
         return list(TM_LEAGUE_MAP[key])
     low = key.lower()
     if low in _LEAGUE_MAP_LOWER:
         return list(_LEAGUE_MAP_LOWER[low])
+    if low.endswith(" ligi") and (low[:-1] in _LEAGUE_MAP_LOWER):
+        return list(_LEAGUE_MAP_LOWER[low[:-1]])
+    if low.endswith(" lig") and (low + "i" in _LEAGUE_MAP_LOWER):
+        return list(_LEAGUE_MAP_LOWER[low + "i"])
     upper = key.upper()
     if upper in DIVISION_TO_TM:
         return [DIVISION_TO_TM[upper]]
@@ -643,13 +659,27 @@ def fetch_matchday_absences(
     fetch_squad_stats: bool = True,
     max_workers: int = 12,
     min_sim: float = 0.58,
+    cache_path: Path | str | None = None,
+    cache_ttl_hours: float = 4.0,
 ) -> dict[int | str, dict[str, Any]]:
     """Fetch live Transfermarkt absences + standings + seasonal importance for a matchday slate.
 
     Each element in ``matches`` should have ``code`` (or index), ``league``, ``home``, ``away``.
     Returns ``{code: {"home": club_rec | None, "away": club_rec | None, "alerts": [...]}}``.
+    When ``cache_path`` is provided, fresh (< ``cache_ttl_hours``) cached matchday data is reused.
     """
     match_list = list(matches)
+    cpath = Path(cache_path) if cache_path is not None else None
+    if cpath is not None and cpath.exists():
+        try:
+            age_h = (time.time() - cpath.stat().st_mtime) / 3600.0
+            if age_h <= max(0.0, float(cache_ttl_hours)):
+                cached = json.loads(cpath.read_text(encoding="utf-8"))
+                if isinstance(cached, dict) and cached:
+                    return {(int(k) if str(k).isdigit() else k): v for k, v in cached.items()}
+        except (OSError, json.JSONDecodeError, ValueError):
+            pass
+
     needed_codes: set[str] = set()
     for m in match_list:
         if _is_women_match(m.get("league", ""), m.get("home", ""), m.get("away", "")):
@@ -666,7 +696,10 @@ def fetch_matchday_absences(
         with ThreadPoolExecutor(max_workers=max_workers) as ex:
             futs = {ex.submit(fetch_tm_league, code, session=sess): code for code in sorted(needed_codes)}
             for fut, code in futs.items():
-                league_data[code] = fut.result()
+                try:
+                    league_data[code] = fut.result()
+                except Exception:
+                    league_data[code] = {"code": code, "ok": False, "clubs": {}, "injuries": {}, "suspensions": {}}
 
         raw_matched: dict[Any, dict[str, Any]] = {}
         club_ids_to_profile: set[str] = set()
@@ -719,7 +752,10 @@ def fetch_matchday_absences(
                     for cid in sorted(club_ids_to_profile)
                 }
                 for fut, cid in futs_sq.items():
-                    squad_stats[cid] = fut.result()
+                    try:
+                        squad_stats[cid] = fut.result()
+                    except Exception:
+                        squad_stats[cid] = {"club_id": cid, "ok": False, "players": []}
     finally:
         sess.close()
 
@@ -740,4 +776,11 @@ def fetch_matchday_absences(
             rec[side] = annotated
             rec["alerts"].extend(build_side_alerts(label, annotated))
         out[key] = rec
+
+    if cpath is not None and out:
+        try:
+            cpath.parent.mkdir(parents=True, exist_ok=True)
+            cpath.write_text(json.dumps({str(k): v for k, v in out.items()}, ensure_ascii=False), encoding="utf-8")
+        except OSError:
+            pass
     return out

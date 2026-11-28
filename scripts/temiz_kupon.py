@@ -1,8 +1,9 @@
-"""Tek parça temiz karar ve kupon üreticisi (QuantFoot Unified Engine).
+"""Tek parça temiz karar ve kupon üreticisi (QuantFoot Unified Engine v2).
 
 Kullanım:
     QUANTFOOT_AI=antigravitytahmin python scripts/temiz_kupon.py --tarih 2026-11-28
-    QUANTFOOT_AI=antigravitytahmin python scripts/temiz_kupon.py --tarih 2026-11-28 --pencere-saat 3 --adet-20x 3
+    QUANTFOOT_AI=antigravitytahmin python scripts/temiz_kupon.py --tarih 2026-11-28 --ozel --adet-20x 3
+    QUANTFOOT_AI=antigravitytahmin python scripts/temiz_kupon.py --tarih 2026-11-28 --pencere-saat 3 --ozel
 """
 
 from __future__ import annotations
@@ -21,17 +22,41 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from nesine_global import DAILY, TSI, analyze_day  # noqa: E402
 import nesine_kupon as nk  # noqa: E402
 from quantfoot.coupons.unified_engine import (  # noqa: E402
+    SelfLearningAdjustments,
     UnifiedCoupon,
     build_clean_slate_portfolio,
+    load_self_learning_adjustments,
 )
 
 
-def render_portfolio_markdown(date: str, coupons: list[UnifiedCoupon], now: dt.datetime) -> str:
+def _load_optional_json(path: Path) -> dict | None:
+    if not path.exists():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else None
+    except (OSError, ValueError):
+        return None
+
+
+def render_portfolio_markdown(
+    date: str,
+    coupons: list[UnifiedCoupon],
+    now: dt.datetime,
+    self_learning: SelfLearningAdjustments | None = None,
+) -> str:
+    sl_line = ""
+    if self_learning and self_learning.settled_matches > 0:
+        blk = ", ".join(sorted(self_learning.blocked_selections)) or "yok"
+        sl_line = (
+            f" · **Öz-Öğrenme Aktif:** `{self_learning.settled_matches}` sonuçlu maç "
+            f"(otomatik engelli toksik pazarlar: `{blk}`)"
+        )
     lines = [
         f"# {date} — Tek Parça Temiz Karar Motoru Kuponları ({now:%H:%M} TSİ)",
         "",
-        "Yalnız keskin global referanslar, kanıtlanmış Altın Çekirdek pazarlar (`%72–80` bandı), "
-        "yönlü Transfermarkt kaleci/golcü motoru ve 4+ maçlı kuponlarda otomatik tek-bacak sistem sigortası.",
+        "2026 OOS arşiv + canlı çift-onaylı Altın Çekirdek keskin pazarlar, simetrik steam şok kalkanı (`>=6p`), "
+        f"yönlü Transfermarkt kaleci/golcü motoru ve 4+ maçlı kuponlarda otomatik tek-bacak sistem sigortası{sl_line}.",
         "",
         "| Kupon | Tür | Maç (MBS) | Toplam Oran | Kalibre Olasılık | Tek-Bacak Sigorta (Sistem n-1, n) |",
         "|---|---|---:|---:|---:|---|",
@@ -44,7 +69,7 @@ def render_portfolio_markdown(date: str, coupons: list[UnifiedCoupon], now: dt.d
             lo_pay, hi_pay = c.insurance.hit_table.get(k_min, (0.0, 0.0))
             ins_s = f"Sistem {','.join(str(x) for x in c.insurance.sizes)}: ≥{k_min} isabet **%{p_k*100:.1f}** ({lo_pay:.0f}–{hi_pay:.0f} TL / 100 TL)"
         lines.append(
-            f"| **{c.coupon_id}** | {c.title} | {len(c.legs)} (MBS {c.max_mbs}) | **{c.total_odds:.2f}x** | **%{c.joint_prob*100:.1f}** | {ins_s} |"
+            f"| **{c.coupon_id}** | {c.title} | {len(c.legs)} (MBS {c.max_mbs}) | **{c.total_odds:.2f}x** | **%{c.joint_prob*100:.2f}** | {ins_s} |"
         )
     lines.append("")
     for c in coupons:
@@ -77,12 +102,14 @@ def render_portfolio_markdown(date: str, coupons: list[UnifiedCoupon], now: dt.d
 
 
 def main(argv: list[str] | None = None) -> Path | None:
-    ap = argparse.ArgumentParser(description="Tek parça temiz karar ve kupon üreticisi")
+    ap = argparse.ArgumentParser(description="Tek parça temiz karar ve kupon üreticisi (v2)")
     ap.add_argument("--tarih", default=dt.datetime.now(TSI).date().isoformat())
     ap.add_argument("--hazir-bulten", action="store_true", help="Var olan nesine_global.json dosyasını kullan")
     ap.add_argument("--canli-oran-yok", action="store_true", help="Canlı çift-okuma oran teyidini atla (çevrimdışı test)")
     ap.add_argument("--pencere-saat", type=float, default=None, help="Yalnızca en çok N saat içinde başlayacak maçlar")
     ap.add_argument("--adet-20x", type=int, default=2, help="Kaç adet bağımsız 20+ oran kuponu üretilsin")
+    ap.add_argument("--ozel", action="store_true", help="5 özel kuponu da ekle (İY Skor, Skor, İY/MS, İki Yarı KG, 2Y KG)")
+    ap.add_argument("--ogrenme-kapali", action="store_true", help="oz_gelistirme_raporu.json kapalı-döngü ayarını kapat")
     args = ap.parse_args(argv)
 
     day_dir = DAILY / args.tarih
@@ -96,6 +123,10 @@ def main(argv: list[str] | None = None) -> Path | None:
         live, _ = nk.read_bulletin_odds(reads=2, gap_s=2.0)
         nk.apply_live_odds(matches, live)
 
+    sl = None if args.ogrenme_kapali else load_self_learning_adjustments(DAILY)
+    ekstrem = _load_optional_json(day_dir / "ekstrem_gol_analiz.json") if args.ozel else None
+    yuksek = _load_optional_json(day_dir / "yuksek_oran_analiz.json") if args.ozel else None
+
     now = dt.datetime.now(TSI)
     coupons = build_clean_slate_portfolio(
         matches,
@@ -103,6 +134,10 @@ def main(argv: list[str] | None = None) -> Path | None:
         min_minutes_to_kickoff=20,
         max_hours_to_kickoff=args.pencere_saat,
         n_20x=args.adet_20x,
+        self_learning=sl,
+        include_specialty=args.ozel,
+        ekstrem_gol_data=ekstrem,
+        yuksek_oran_data=yuksek,
     )
     if not coupons:
         print("Temiz kuralları geçen kupon kurulamadı.")
@@ -110,7 +145,7 @@ def main(argv: list[str] | None = None) -> Path | None:
 
     day_dir.mkdir(parents=True, exist_ok=True)
     md_path = day_dir / f"temiz_kuponlar_{now:%H%M}.md"
-    md_text = render_portfolio_markdown(args.tarih, coupons, now)
+    md_text = render_portfolio_markdown(args.tarih, coupons, now, self_learning=sl)
     md_path.write_text(md_text, encoding="utf-8")
 
     csv_rows = []
