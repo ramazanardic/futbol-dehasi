@@ -1,0 +1,56 @@
+{
+ "kaynak_ham_satir": {
+  "openfootball": 243914,
+  "footballcsv": 93582,
+  "football-data(1993-2000)": 44990,
+  "martj42": 50093,
+  "jfjelstul/worldcup": 1248,
+  "espn": 440756,
+  "wikipedia": 194343
+ },
+ "tekrar_ayiklanan": {
+  "tekrar": 143528,
+  "dis_tekrar": 278804
+ },
+ "mac": 646594,
+ "yarisma": 620,
+ "takim": 11660,
+ "oyuncu_satiri": 45762,
+ "oyuncu_kunye": 31682,
+ "yil_araligi": [
+  "1888",
+  "2026"
+ ],
+ "yil_sayisi": 84,
+ "turlere_gore_mac": {
+  "lig": 577270,
+  "milli": 7575,
+  "kita_kulup": 31878,
+  "kupa": 26812,
+  "hazirlik": 3059
+ },
+ "turlere_gore_yarisma": {
+  "hazirlik": 2,
+  "kita_kulup": 29,
+  "kupa": 65,
+  "lig": 398,
+  "milli": 126
+ },
+ "kaynaga_gore_mac": {
+  "openfootball": 164505,
+  "jfjelstul/worldcup": 382,
+  "martj42": 271,
+  "footballcsv": 27936,
+  "football-data": 43008,
+  "wikipedia": 163218,
+  "espn": 247274
+ },
+ "iy_skoru_olan_mac": 149925,
+ "yarisma_sezon_cifti": 5025,
+ "tarihsiz_mac": 164040,
+ "oyuncu_satiri_kaynaga_gore": {
+  "jfjelstul/worldcup": 9273,
+  "martj42": 30289,
+  "wikipedia": 6200
+ }
+}
