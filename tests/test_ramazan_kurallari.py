@@ -2,7 +2,8 @@
 
 KURALLAR.md'deki her kural burada en az bir testle bağlanır. Bu testler kırılırsa kural gevşetilmiş demektir:
 PR birleştirilmez. Kurallar: bacak P ≥ 0,70 · oran 1,20–1,80 · maç başına tek bacak · 2–5 bacak (en çok 6) ·
-yasak aileler (beraberlik, KG/BTTS, ilk gol, takım golü, İY/MS, İY/2Y, skor, çifte şans, handikap) ·
+yasak aileler (beraberlik, maç geneli KG/BTTS, 2Y KG Var, ilk gol, takım golü, İY/MS, İY/2Y, skor, çifte şans
+— DEĞİL(MS 0) dahil —, handikap) · izinli: 2Y KG Yok ve takımın yarı kazanma pazarları ·
 banko yoksa boş sonuç + dürüst mesaj · varsayılan 20+ oranlı kupon yok · yüksek oran motoru günlük hatta yok.
 """
 
@@ -84,13 +85,15 @@ def test_daily_audit_flags_two_legs_from_same_match():
 
 BANNED = [
     "MS X", "MS 0", "İY X", "2Y 0",                              # beraberlik
-    "KG Var", "KG Yok", "2Y KG Yok", "İY KG Var",                # KG / BTTS (yarı KG dahil)
+    "KG Var", "KG Yok", "2Y KG Var", "İY KG Var",                # maç geneli KG / BTTS, 2Y KG Var
     "İlk Gol Ev", "Ev İlk Golü Atar",                            # ilk gol
     "Ev 0.5 Üst", "Dep 1.5 Alt", "Ev Gol Atar", "Dep Gol Atamaz",  # takım golü
     "Ev İki Yarıda Gol Atar", "Ev İki Yarıda Gol Atamaz", "DEĞİL(Ev İki Yarıda Gol)",
     "İY/MS 1/1", "İY/MS 2/2", "İY/2Y 1/1",                       # İY/MS, İY/2Y
     "Skor 2-1", "Skor 1-0",                                      # skor
     "Çifte Şans 1-X", "ÇŞ 1X", "Handikap 1 (-1)", "Hnd(-1) 1",   # çifte şans / handikap
+    "DEĞİL(MS 0)", "DEĞİL(MS X)", "DEĞİL(MS 1)", "DEĞİL(MS 2)",  # DEĞİL(MS 0) = 12 → çifte şans
+    "MS 1 & KG Var", "İY KG Yok & 2Y KG Yok",                    # kombine: yasak parça
 ]
 
 
@@ -106,7 +109,14 @@ def test_banned_leg_cannot_be_rehabilitated(name):
     assert not dec.ok, (name, dec.reasons)
 
 
-@pytest.mark.parametrize("name", ["MS 1", "2.5 Alt", "3.5 Alt", "İY 1.5 Alt"])
+ALLOWED = ["MS 1", "2.5 Alt", "3.5 Alt", "İY 1.5 Alt",
+           "2Y KG Yok", "2. Yarı KG Yok", "MS 1 & 2Y KG Yok",                       # 2Y KG Yok izinli (28 Kas)
+           "Ev En Az Bir Yarıyı Kazanır", "Dep Herhangi Bir Yarıyı Kazanır",         # yarı kazanma izinli
+           "DEĞİL(Ev En Az Bir Yarıyı Kazanır)", "Dep En Az Bir Yarıyı Kazanamaz",
+           "Ev Her İki Yarıyı Kazanır"]
+
+
+@pytest.mark.parametrize("name", ALLOWED)
 def test_plain_allowed_legs_still_pass(name):
     assert R.leg_decision(_leg(1, name=name, odds=1.35, p=0.86)).ok, name
 
@@ -194,3 +204,9 @@ def test_rules_document_exists_and_states_core_rules():
         assert needle in txt, needle
     for f in ("AGENTS.md", "CLAUDE.md", "GEMINI.md"):
         assert "KURALLAR.md" in (ROOT / f).read_text(encoding="utf-8"), f
+
+
+def test_2y_kg_yok_still_needs_p070_and_odds_band():
+    assert R.leg_decision(_leg(1, name="2Y KG Yok", odds=1.35, p=0.86)).ok
+    assert not R.leg_decision(_leg(1, name="2Y KG Yok", odds=1.35, p=0.62)).ok
+    assert not R.leg_decision(_leg(1, name="2Y KG Yok", odds=1.95, p=0.86)).ok

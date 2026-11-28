@@ -19,7 +19,7 @@
 >
 > Banko kupon (v5): her bacak düzeltilmiş P ≥ %70, oran ≥ 1,20 (≤ 1,80), `EV ≥ −%11,5` ağır Nesine marjı freni aktif,
 > `mac_limit = 1` (bir maç en fazla tek kupona girer), **2–5 bacak (gerekçeliyse en çok 6; toplam oran < 20); kurallara uyan kupon yoksa dürüst ret — kural gevşetilmez** + otomatik 100 TL `Sistem n-1, n`
-> tek-bacak sigortası, beraberlik / KG (yarı KG dahil) / ilk gol / takım golü (iki yarıda gol atar/atamaz dahil) / İY/MS / skor / piyango bacağı yok, `market_diagnosis` v5 kalkanları
+> tek-bacak sigortası, beraberlik / maç geneli KG ve 2Y KG Var (2Y KG Yok izinli) / çifte şans (DEĞİL(MS 0) dahil) / ilk gol / takım golü (iki yarıda gol atar/atamaz dahil) / İY/MS / skor / piyango bacağı yok, `market_diagnosis` v5 kalkanları
 > (`İY ÇŞ 12` koşulsuz yasak, sert steam `MS 1/2` & `Alt`, `İY 1.5 Alt` sıkı tempo, `İY 1/2` & `2Y 1/2`, `Dep İY 0.5 Üst`,
 > `İY Çift`, `DEĞİL(Ev/Dep İki Yarıda)` `≥1,45`) aktif, toplam tutma olasılığı, EV uyarısı ve portföy yoğunlaşması yazılır.
 > Kullanıcı açıkça isterse sistem kuponları `quantfoot.coupons.system_builder`, ekstrem gol taraması

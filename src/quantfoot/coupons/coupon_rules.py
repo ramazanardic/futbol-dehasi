@@ -226,21 +226,57 @@ _HARD_BANNED_PATTERNS: tuple[tuple[re.Pattern[str], str], ...] = (
 )
 
 
+# İzinli istisnalar (Ramazan, 28 Kas ince ayar): 2. yarı KG Yok iyi aile (denetimde 13'te 10); maç geneli KG ve
+# 2Y KG Var yasak kalır.
+_ALLOWED_KG = re.compile(r"^(2Y|2\.?\s*Yarı|İkinci\s*Yarı)\s*KG\s*Yok$", re.IGNORECASE)
+# Takımın yarı KAZANMA pazarları izinli ("Ev En Az Bir Yarıyı Kazanır", "Dep Her İki Yarıyı Kazanamaz" ...);
+# yalnız "iki yarıda gol atar/atamaz" takım golü sayılır.
+_HALF_WIN = re.compile(r"yarıyı\s+kazan", re.IGNORECASE)
+# DEĞİL(MS 0) = 12 → çifte şans
+_DC_NEGATED_DRAW = re.compile(r"^(MS\s*)?(0|X|1|2)$", re.IGNORECASE)  # DEĞİL(MS 0/1/2) = 12 / X2 / 1X
+
+
+def normalize_leg_name(name: str) -> str:
+    """Eşanlamlı yazımları tek ada indir ("2. Yarı KG Yok" → "2Y KG Yok", "Herhangi Bir Yarıyı" → "En Az Bir Yarıyı")."""
+    n = " ".join((name or "").split())
+    if _ALLOWED_KG.match(n):
+        return "2Y KG Yok"
+    n = re.sub(r"herhangi\s+bir\s+yarıyı", "En Az Bir Yarıyı", n, flags=re.IGNORECASE)
+    m = re.match(r"^(.*Yarıyı)\s+Kazanamaz$", n, re.IGNORECASE)
+    if m:  # "Dep En Az Bir Yarıyı Kazanamaz" = Nesine'deki DEĞİL(Dep En Az Bir Yarıyı Kazanır)
+        n = f"DEĞİL({m.group(1)} Kazanır)"
+    return n
+
+
 def hard_banned_reason(name: str) -> str | None:
     """Ramazan'ın kesin yasakları (kural onarımı 28 Kas) — rehabilitasyon/kalibrasyon bunları AÇAMAZ.
 
-    İY/MS, İY/2Y, skor, KG/BTTS (yarı KG'leri dahil, '2Y KG Yok' da), ilk gol ve TAKIM golü pazarları
-    ("Ev İki Yarıda Gol Atamaz", "Dep Gol Atar", "Ev 0.5 Üst" ...).
+    İY/MS, İY/2Y, skor, maç geneli KG/BTTS, 2Y KG Var, İY KG, ilk gol, TAKIM golü ("Ev İki Yarıda Gol Atamaz",
+    "Dep Gol Atar", "Ev 0.5 Üst" ...), çifte şans (DEĞİL(MS 0) = 12 dahil), handikap, tek/çift.
+    İzinli: "2Y KG Yok" ve takımın yarı kazanma pazarları ("Ev En Az Bir Yarıyı Kazanır" ...).
     """
-    n = (name or "").strip()
+    n = normalize_leg_name(name).strip()
     if not n:
+        return None
+    parts = [x.strip() for x in re.split(r"\s*&\s*|\s+ve\s+", n) if x.strip()]
+    if len(parts) > 1:  # kombine: her parça ayrı denetlenir ("MS 1 & 2Y KG Yok" izinli, "MS 1 & KG Var" yasak)
+        for part in parts:
+            why = hard_banned_reason(part)
+            if why:
+                return f"{why} (kombine parça: {part})"
         return None
     m = re.match(r"^(DEĞİL|DEGIL|NOT)\s*\((.*)\)\s*$", n, re.IGNORECASE)
     if m:  # "DEĞİL(Ev İki Yarıda Gol)" = "Ev iki yarıda gol atamaz" → yine takım golü
-        n = m.group(2).strip()
+        n = normalize_leg_name(m.group(2)).strip()
+        if _DC_NEGATED_DRAW.match(n):
+            return f"çifte şans bacağı yasak (DEĞİL(MS {n.split()[-1]}) = çifte şans)"
+    if n == "2Y KG Yok":
+        return None
     for pat, why in _HARD_BANNED_PATTERNS:
         if pat.search(n):
             return why
+    if _HALF_WIN.search(n):
+        return None
     if _TEAM_PREFIX.search(n) and re.search(r"gol|üst|alt|\d", n, re.IGNORECASE):
         return "takım golü bacağı yasak"
     return None
@@ -294,7 +330,7 @@ def leg_decision(obj: Any, cal: Calibration | None = None, *,
     """Tek bacak kural ve teşhis/rehabilitasyon süzgecinden geçer mi?"""
     cal = cal or default_calibration()
     raw_name = _get(obj, "name", "sel", "selection", default="") or ""
-    name = canonical_name(raw_name)
+    name = canonical_name(normalize_leg_name(raw_name))
     # kısa ad boşsa pazar+seçimden dene
     if not name:
         name = canonical_name(_get(obj, "sel", "selection", default="") or "")

@@ -10,7 +10,7 @@ kural dışı bacaklar (%48 isabet) kuralına uyanların (%68) çok altında kal
    ya da KAZANDI/KAYBETTİ/TUTTU/YATTI hücresi olamaz. Sonuçlar yalnız ortak sonuç defterinden (Nesine) gelir;
    bilinmeyen sonuç "belirsiz"dir, uydurulmaz.
 3. **Kupon kuralları (KURALLAR.md):** bacak P ≥ 0,70 · oran 1,20–1,80 · maç başına tek bacak · 2–5 bacak (en çok 6) ·
-   toplam oran < 20 · yasak: beraberlik, KG/BTTS, ilk gol, takım golü (iki yarıda gol atar/atamaz dahil), İY/MS,
+   toplam oran < 20 · yasak: beraberlik, maç geneli KG/BTTS ve 2Y KG Var (2Y KG Yok izinli), ilk gol, takım golü (iki yarıda gol atar/atamaz dahil), İY/MS,
    İY/2Y, skor, çifte şans, handikap.
 
 Kullanım::

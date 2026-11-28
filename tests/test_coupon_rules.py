@@ -108,8 +108,8 @@ def test_leg_decision_accepts_good_families_at_high_calibrated_p():
         dec = leg_decision(leg)
         assert dec.ok, (leg["name"], dec.reasons, dec.p_cal)
         assert dec.p_cal >= MIN_CALIBRATED_P
-    # Ramazan'ın kuralı (28 Kas): KG (yarı KG dahil) ve takım golü ("iki yarıda gol atamaz") yüksek P'de bile yasak
-    for name in ("2Y KG Yok", "DEĞİL(Ev İki Yarıda Gol)"):
+    # Ramazan'ın kuralı (28 Kas): maç geneli KG, 2Y KG Var ve takım golü ("iki yarıda gol atamaz") yüksek P'de bile yasak
+    for name in ("KG Yok", "2Y KG Var", "DEĞİL(Ev İki Yarıda Gol)", "DEĞİL(MS 0)"):
         assert not leg_decision({"code": 7, "match": "K - L", "name": name, "odds": 1.35, "p": 0.80}).ok, name
     # 2.5 Üst bugün −11 puan; isim kalıbı aile residualinin yerine geçer, yüksek P gerek
     weak_ou = leg_decision({"code": 9, "match": "U - V", "name": "2.5 Üst", "odds": 1.40, "p": 0.70})
