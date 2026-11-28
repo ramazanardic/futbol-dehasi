@@ -109,7 +109,7 @@ açıkça söyle; kuralları gevşeterek hedefe ulaşma.
 | Bacak sayısı | **2–5 bacak** (`BANKO_MIN_LEGS = 2`, `BANKO_MAX_LEGS = 5`; gerekçeliyse açıkça en çok 6 = `BANKO_HARD_MAX_LEGS`). Tek maçlık banko kupon yok. Kurallara uyan 2 bacak bile yoksa kupon **yok** (dürüst ret, kural gevşetilmez). |
 | Toplam oran | Banko kupon toplam oranı **< 20** (`BANKO_MAX_TOTAL_ODDS`); varsayılan olarak 20+ oranlı kupon üretilmez |
 | Maç | Bir kuponda aynı maçtan tek bacak; birden çok kuponda çapraz yoğunlaşma `PortfolioExposureGuard` ile ölçülür |
-| İzinli aileler | İlk yarı (İY 0,5/1,5 Alt-Üst …; İY ÇŞ 12 ve İY Çift hariç), maç sonu Alt/Üst, Yarı özel, Maç sonucu (yalnız 1/2 + beraberlik & sert steam süzgeci), yasak parça içermeyen Kombine. 2Y KG Yok dahil hiçbir KG bacağı girmez (28 Kas kural onarımı). Liste veriden gelir (`family_allowed`). |
+| İzinli aileler | İlk yarı (İY 0,5/1,5 Alt-Üst …; İY ÇŞ 12 ve İY Çift hariç), maç sonu Alt/Üst, Yarı özel, Maç sonucu (yalnız 1/2 + beraberlik & sert steam süzgeci), yasak parça içermeyen Kombine, **2Y KG Yok** (maç geneli KG ve 2Y KG Var yasak), takımın yarı kazanma pazarları; `DEĞİL(MS 0/1/2)` çifte şans sayılır ve yasaktır ([KURALLAR.md](../KURALLAR.md)). Liste veriden gelir (`family_allowed`). |
 | Yasak | Beraberlik bacağı (MS 0, İY 0, skor 0-0 …), Karşılıklı gol (KG Var/Yok), "iki yarıda da KG var", İlk gol, Ev sahibi / Deplasman gol sayısı ve takım "iki yarıda gol atar/atamaz", İY/MS, İY/2Y, skor, Tek/Çift (İY Çift dahil), şu an Çifte şans ve Handikap |
 | Piyango yok | Skor, İY/MS, "+6 gol" gibi kuyruk bacakları, 100+ oranlı kuponlar banko kuponuna girmez. |
 | Tekrar yok | Aynı tercih iki kupona konmaz (`PortfolioExposureGuard` + `audit_coupons`). |

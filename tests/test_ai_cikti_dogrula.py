@@ -55,7 +55,7 @@ def test_schema_matches_shared_ai_tahmin_columns():
 def test_clean_output_passes(tmp_path):
     mod = _load()
     _write(tmp_path / "kuponlar.csv", mod.COUPON_COLS,
-           _coupon_rows(mod, [("İY 1.5 Alt", 1.30, 0.80), ("MS 1", 1.35, 0.78), ("3.5 Alt", 1.25, 0.82)]))
+           _coupon_rows(mod, [("İY 1.5 Alt", 1.30, 0.80), ("MS 1", 1.35, 0.78), ("2Y KG Yok", 1.25, 0.82)]))
     _write(tmp_path / "mac_tahminleri.csv", mod.MATCH_COLS, [])
     rep = mod.validate_dir(tmp_path)
     assert rep["ok"], rep
