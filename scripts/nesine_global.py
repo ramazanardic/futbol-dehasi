@@ -58,6 +58,7 @@ from quantfoot.markets.consensus import BookmakerQuote, check_synthetic_coherenc
 from quantfoot.markets.devig import devig
 from quantfoot.markets.goal_markets import goal_probability
 from quantfoot.markets.goal_timing import GoalTimingModel
+from quantfoot.markets import gfi_priors
 from quantfoot.markets.league_halves import blend_with_league, league_first_half_share
 from quantfoot.markets.match_intelligence import build_half_split_view, enrich_match_record
 from quantfoot.markets.omni_markets import compute_omni_markets
@@ -642,6 +643,8 @@ def price_event(
         else:
             try:
                 p = blend_with_league(s.name, goal_probability(s.name, joint), league)
+                # GFI ince-lig öncülü (settings.GFI_PRIORS_ENABLED, varsayılan kapalı; kapalıyken p değişmez)
+                p = gfi_priors.blend(s.name, p, league, getattr(event, "home", ""), getattr(event, "away", ""))
             except KeyError:
                 continue  # keep the offer in the inventory even when the model cannot price it
         if p is None:

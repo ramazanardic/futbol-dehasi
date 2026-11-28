@@ -146,3 +146,8 @@ MIN_COUPON_EV = 0.02        # kupon EV eşiği (her bacak ayrıca EV ≥ 0 olmal
 KELLY_MULTIPLIER = 0.25
 LIVE_MIN_EV = 0.05          # canlı fırsat eşiği (model belirsizliği yüksek)
 LIVE_RESERVE_TL = 0.0       # canlı için ayrılan kasa (CLI --canli-rezerv)
+
+# GLOBAL FOOTBALL INTELLIGENCE türetilmiş öncülleri (data/gfi/, scripts/gfi_turet.py). 18–28 Kas denetim seçimlerinde
+# zaman sızıntısız ölçüm (reports/research/gfi_etki_2026-11-28.md) iyileşme göstermedikçe KAPALI. Ortam değişkeni
+# QF_GFI_PRIORS=1 ile açılır.
+GFI_PRIORS_ENABLED = False
