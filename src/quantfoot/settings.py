@@ -151,3 +151,19 @@ LIVE_RESERVE_TL = 0.0       # canlı için ayrılan kasa (CLI --canli-rezerv)
 # zaman sızıntısız ölçüm (reports/research/gfi_etki_2026-11-28.md) iyileşme göstermedikçe KAPALI. Ortam değişkeni
 # QF_GFI_PRIORS=1 ile açılır.
 GFI_PRIORS_ENABLED = False
+
+
+# Maç başına web-araştırma adımı (data/web_research.py): kupona aday maçlar için ESPN/Open Matchday/FPL/Wikipedia'dan
+# form, puan durumu, xG, sakat/cezalı, ilk 11, hoca değişikliği. YALNIZ bilgi kaydı (research["web"]) yazar; olasılığa
+# ve kupon uygunluğuna dokunmaz. Kalkan etkisi FREE_ABSENCES_ENABLED'e bağlıdır. QF_WEB_RESEARCH=0 ile kapanır.
+WEB_RESEARCH_ENABLED = True
+# API-Football /injuries?date= günde 1 istek (kota: api_budget). Varsayılan kapalı; QF_WEB_AF=1 ile açılır.
+WEB_RESEARCH_AF = False
+
+# Ücretsiz kaynaklardan (FPL / API-Football / ESPN ilk 11) sakat-kadro verisinin banko kalkanına (tm_absences yedeği)
+# girmesi. 18–28 Kas ölçümü kanıt vermediği için varsayılan KAPALI; QF_FREE_ABSENCES=1 ile açılır.
+FREE_ABSENCES_ENABLED = False
+
+# Son-120-gün takım formu öncülü (markets/form_priors.py): gol aileleri için 0.6·P + 0.4·öncül. Ölçüm anlamlı kazanç
+# göstermediği için varsayılan KAPALI; QF_RECENT_FORM=1 ile açılır (QF_RECENT_FORM_XG=1: xG vekili).
+RECENT_FORM_ENABLED = False

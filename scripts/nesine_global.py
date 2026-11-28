@@ -38,6 +38,7 @@ from quantfoot.settings import MAX_PRICE_AGE_H, REFERENCE_LOAD_AGE_H
 from quantfoot.settings import MARGIN_TILT
 from quantfoot.data import fotmob
 from quantfoot.data.absences import fetch_matchday_absences, format_tm_absence_brief
+from quantfoot.data import web_research
 from quantfoot.data.api_football import fetch_api_football_references
 from quantfoot.data.api_budget import DEFAULT_DIR as API_BUDGET_DIR, default_budget
 from quantfoot.data.live_espn import fetch_espn_slate
@@ -58,7 +59,7 @@ from quantfoot.markets.consensus import BookmakerQuote, check_synthetic_coherenc
 from quantfoot.markets.devig import devig
 from quantfoot.markets.goal_markets import goal_probability
 from quantfoot.markets.goal_timing import GoalTimingModel
-from quantfoot.markets import gfi_priors
+from quantfoot.markets import form_priors, gfi_priors
 from quantfoot.markets.league_halves import blend_with_league, league_first_half_share
 from quantfoot.markets.match_intelligence import build_half_split_view, enrich_match_record
 from quantfoot.markets.omni_markets import compute_omni_markets
@@ -645,6 +646,9 @@ def price_event(
                 p = blend_with_league(s.name, goal_probability(s.name, joint), league)
                 # GFI ince-lig öncülü (settings.GFI_PRIORS_ENABLED, varsayılan kapalı; kapalıyken p değişmez)
                 p = gfi_priors.blend(s.name, p, league, getattr(event, "home", ""), getattr(event, "away", ""))
+                # Son-120-gün form öncülü (settings.RECENT_FORM_ENABLED, varsayılan kapalı; kapalıyken p değişmez)
+                p = form_priors.blend(s.name, p, league, getattr(event, "home", ""), getattr(event, "away", ""),
+                                      getattr(event, "kickoff", None))
             except KeyError:
                 continue  # keep the offer in the inventory even when the model cannot price it
         if p is None:
@@ -1026,6 +1030,16 @@ def analyze_day(
                     tag = f"TM: {al}"
                     if tag not in res["flags"]:
                         res["flags"].append(tag)
+    if web_research.enabled():
+        # Maç başına web-araştırma (yalnız kupona aday maçlar): form, puan durumu, xG, sakat/ilk 11, hoca değişikliği.
+        # Bilgi kaydı (research["web"]); olasılığa dokunmaz. Hata/zaman aşımı ana bülteni bozmaz.
+        try:
+            ws = web_research.attach(out, day, budget_s=240.0)
+            if verbose:
+                print(f"Web-araştırma: {ws.get('islenen', 0)}/{ws.get('aday', 0)} aday maç, "
+                      f"{ws.get('sure_sn')} sn (maç başı {ws.get('mac_basi_sn')} sn)")
+        except Exception as e:  # noqa: BLE001
+            print(f"Web-araştırma atlandı: {type(e).__name__}")
     for rec in out:
         sf = _steam_flag(rec.get("steam_1x2"))
         if sf:
