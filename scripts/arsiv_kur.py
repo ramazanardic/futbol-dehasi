@@ -100,7 +100,7 @@ def existing_keys(repo: Path) -> set:
     keys = set()
     with (repo / "data" / "matches.csv").open(encoding="utf-8", newline="") as f:
         for r in csv.DictReader(f):
-            if r["FTHome"] == "" or r["FTAway"] == "":
+            if r["FTHome"] == "" or r["FTAway"] == "" or r.get("Source") == "espn":  # ESPN dolgusu kaynak sayılmaz
                 continue
             keys.add((r["MatchDate"], A.team_key(r["HomeTeam"])[:8], A.team_key(r["AwayTeam"])[:8], (int(float(r["FTHome"])), int(float(r["FTAway"])))))
     with (repo / "data" / "international_results.csv").open(encoding="utf-8", newline="") as f:
