@@ -151,7 +151,10 @@ def league_first_half_share(nesine_league: str | None) -> float | None:
     rows = [goals[r["lig"]] for r in _rows(nesine_league) if r["lig"] in goals]
     n = sum(r[0] for r in rows)
     if n < MIN_MATCHES:
-        return None
+        # GFI ince-lig yedeği (varsayılan kapalı)
+        from quantfoot.markets import gfi_priors
+
+        return gfi_priors.first_half_share(nesine_league) if gfi_priors.enabled() else None
     goals, first = sum(r[1] for r in rows), sum(r[2] for r in rows)
     return (first + PRIOR * PRIOR_GOALS) / (goals + PRIOR_GOALS)
 
