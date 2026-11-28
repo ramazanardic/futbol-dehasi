@@ -1,4 +1,4 @@
-"""Pazar güvenilirliği — 21 Kas hata analizinin arşivle DOĞRULANAN dersleri (scripts/hata_analizi_21kasim.py).
+"""Pazar güvenilirliği — 21 Kas hata analizinin arşivle DOĞRULANAN dersleri (arsiv_kod/hata_analizi_21kasim.py).
 
 * ``tail_adjust``: banko bölgesinde (P .55–.90) mevcut üretim kalibrasyonundan sonra kalan, walk-forward testte
   (2021/22+) log-loss'u GA ile iyileştiren küçük logit kaymaları (5 seçim; ör. ÇŞ 12 −0.7 puan: beraberlik hafif

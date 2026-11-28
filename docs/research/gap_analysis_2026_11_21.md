@@ -75,7 +75,7 @@ piyasaya bilgi katmadığı ölçüldü. Bunlara emek harcamak kâr getirmez.
 
 ---
 
-## 3. Kombine politikası — kanıt (`scripts/kombine_dogrulama.py`)
+## 3. Kombine politikası — kanıt (`arsiv_kod/kombine_dogrulama.py`)
 
 **Deney A — marj bileşikleşmesi, gerçek sonuçlar** (`data/matches.csv`, 2021-07+, 15.483 favori bacak, medyan 1X2
 marjı %6.4; bacak = marjsız olasılığı ≥ %55 ve oranı ≥ 1.20 olan favori, ortalama piyasa oranından; aynı günden
@@ -109,7 +109,7 @@ kupon başı ≤ kasanın %2'si, gün toplamı ≤ %6. Bu kurallar olasılık de
 
 ---
 
-## 4. Marj temizleme yöntemi (`scripts/devig_karsilastirma.py`)
+## 4. Marj temizleme yöntemi (`arsiv_kod/devig_karsilastirma.py`)
 
 Repo varsayılanı `power`, penaltyblog'un (MIT) 7 yöntemiyle karşılaştırıldı (eğitim yok → tamamen örneklem dışı):
 
@@ -200,7 +200,7 @@ reyting özellikleri + gradyan artırma; bu depoda `models/ensemble.py` olarak v
 3. `data/fotmob.py`, `data/understat.py`, `scripts/xg_doldur.py`: gerçek xG / ilk 11 / eksik kaynakları. 5 test.
 4. `markets/inplay.py`, `data/live_scan.py`, `scripts/canli_tarama.py`: canlı tarayıcı (API-Football yok). 7 test,
    kayıtlı gerçek yanıtlarla, ağsız.
-5. `scripts/kombine_dogrulama.py`, `scripts/devig_karsilastirma.py` (yeniden üretilebilir kanıt).
+5. `arsiv_kod/kombine_dogrulama.py`, `arsiv_kod/devig_karsilastirma.py` (yeniden üretilebilir kanıt).
 
 **Canlı model hakkında dürüst not:** parametreler (yoğunluk eğimi 0.4, kırmızı kart ×0.75/×1.20, skor durumu,
 baskı büzülmesi) literatürden esinlenmiş varsayımlardır; geçmiş canlı oran verisi olmadığı için ileri-yürüyen testle

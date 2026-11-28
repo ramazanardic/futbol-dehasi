@@ -1,6 +1,6 @@
 """Kombine politikası için örneklem-dışı kanıt (gerçek sonuçlarla, uydurma sayı yok).
 
-    python scripts/kombine_dogrulama.py            # → docs/research/kombine_dogrulama_2026_11_21.md (+ .json)
+    python arsiv_kod/kombine_dogrulama.py            # → docs/research/kombine_dogrulama_2026_11_21.md (+ .json)
 
 Deney A — marj bileşikleşmesi (data/matches.csv, 2021-07+): her gün aynı günün maçlarından rastgele k bacaklı
 kuponlar; bacak = piyasa favorisi (marjsız olasılık ≥ %55, oran ≥ 1.20), oran = arşivdeki ortalama oran (marj ≈ %6).
@@ -143,7 +143,7 @@ def main() -> None:
     (OUT / "kombine_dogrulama_2026_11_21.json").write_text(json.dumps({"A": a, "B": b}, indent=2, ensure_ascii=False), encoding="utf-8")
     pct = lambda x: f"{x:+.1%}"  # noqa: E731
     md = ["# Kombine politikası — örneklem-dışı doğrulama (21 Kasım 2026)", "",
-          "Üretim: `python scripts/kombine_dogrulama.py`. Sonuçlar gerçek maç sonuçlarıyla; güven aralığı gün-kümeli bootstrap.", "",
+          "Üretim: `python arsiv_kod/kombine_dogrulama.py`. Sonuçlar gerçek maç sonuçlarıyla; güven aralığı gün-kümeli bootstrap.", "",
           f"## A. Marj bileşikleşmesi — `data/matches.csv` 2021-07+ ({a['n_legs_pool']} favori bacak, medyan 1X2 marjı {a['median_margin']:.1%})", "",
           "Bacak: marjsız olasılığı ≥ %55 ve oranı ≥ 1.20 olan favori, ortalama piyasa oranından. Aynı günden rastgele k maç.", "",
           "| Bacak | Kupon | Tutma | ROI (%95 GA) |", "|---|---|---|---|"]

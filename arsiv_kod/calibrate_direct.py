@@ -1,6 +1,6 @@
 """Calibrate the goal model against directly quoted exchange prices (free, growing validation set).
 
-    python scripts/calibrate_direct.py            # all references.json snapshots in git history (last 7 days)
+    python arsiv_kod/calibrate_direct.py            # all references.json snapshots in git history (last 7 days)
 
 Every Smarkets reference carries complete, liquid books for many derivative markets (BTTS, every O/U
 line, half-time result, HT/FT, halves O/U, odd/even, goal ranges, result & BTTS / O-U combos). The model
@@ -23,6 +23,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from nesine_global import direct_probabilities  # noqa: E402
 
 import quantfoot.markets.omni_markets as om  # noqa: E402
