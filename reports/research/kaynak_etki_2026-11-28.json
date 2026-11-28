@@ -1,0 +1,462 @@
+{
+ "toplam_mac": 1147,
+ "form_iki_takim_var": 444,
+ "form_orani": 0.387,
+ "kaynak_dagilimi": {
+  "espn+nesine+openmatchday": 213,
+  "espn+openmatchday": 114,
+  "espn+nesine": 39,
+  "nesine+openmatchday": 35,
+  "espn": 25,
+  "openmatchday": 18
+ },
+ "formsuz_ligler": {
+  "Japonya J3 Ligi": 12,
+  "İtalya Serie C, C Grubu": 10,
+  "Polonya 2. Lig": 9,
+  "İtalya Serie C, B Grubu": 9,
+  "İspanya Segunda Rfef, 5. Grup": 9,
+  "İspanya Segunda Rfef, 4. Grup": 9,
+  "Romanya 2. Lig": 9,
+  "Çekya 2. Lig": 8,
+  "İtalya Serie C, A Grubu": 8,
+  "Hollanda 2. Etap": 8,
+  "Tunus 1. Lig": 8,
+  "Avusturya 2. Lig": 7,
+  "Kuzey İrlanda Championship": 7,
+  "Özbekistan Süper Ligi": 7,
+  "Sırbistan Superliga": 7,
+  "Hırvatistan Prva Nl": 7,
+  "Rusya Ulusal Ligi": 7,
+  "İspanya Segunda Rfef, 3. Grup": 7,
+  "Portekiz Kupası": 7,
+  "Belarus Premier Lig": 7,
+  "İspanya Segunda Rfef, 1. Grup": 7,
+  "İspanya Segunda Rfef, Grup 2": 7,
+  "Japonya J2 Ligi": 7,
+  "Güney Kore K-Lig 2": 7,
+  "Uefa Avrupa Ligi": 7
+ },
+ "xg_vekili_egitim_mac": 121023,
+ "xg_vekili_havuz_mac": 2089,
+ "toplam_secim": 2508,
+ "form_onculu_secim": 904,
+ "hepsi": {
+  "p": {
+   "n": 904,
+   "logloss": 0.6285,
+   "brier": 0.2185,
+   "ort_p": 0.662,
+   "isabet": 0.662
+  },
+  "p_form": {
+   "n": 904,
+   "logloss": 0.6272,
+   "brier": 0.2179,
+   "ort_p": 0.649,
+   "isabet": 0.662
+  },
+  "p_xg": {
+   "n": 904,
+   "logloss": 0.6275,
+   "brier": 0.218,
+   "ort_p": 0.646,
+   "isabet": 0.662
+  },
+  "p_form08": {
+   "n": 904,
+   "logloss": 0.6265,
+   "brier": 0.2176,
+   "ort_p": 0.656,
+   "isabet": 0.662
+  },
+  "p_form_gol": {
+   "n": 904,
+   "logloss": 0.6248,
+   "brier": 0.2169,
+   "ort_p": 0.66,
+   "isabet": 0.662
+  },
+  "p_xg_gol": {
+   "n": 904,
+   "logloss": 0.6244,
+   "brier": 0.2166,
+   "ort_p": 0.659,
+   "isabet": 0.662
+  }
+ },
+ "gol_aileleri": {
+  "p": {
+   "n": 496,
+   "logloss": 0.6227,
+   "brier": 0.2154,
+   "ort_p": 0.658,
+   "isabet": 0.679
+  },
+  "p_form": {
+   "n": 496,
+   "logloss": 0.6159,
+   "brier": 0.2125,
+   "ort_p": 0.656,
+   "isabet": 0.679
+  },
+  "p_xg": {
+   "n": 496,
+   "logloss": 0.6152,
+   "brier": 0.2121,
+   "ort_p": 0.654,
+   "isabet": 0.679
+  },
+  "p_form08": {
+   "n": 496,
+   "logloss": 0.6184,
+   "brier": 0.2135,
+   "ort_p": 0.657,
+   "isabet": 0.679
+  },
+  "p_form_gol": {
+   "n": 496,
+   "logloss": 0.6159,
+   "brier": 0.2125,
+   "ort_p": 0.656,
+   "isabet": 0.679
+  },
+  "p_xg_gol": {
+   "n": 496,
+   "logloss": 0.6152,
+   "brier": 0.2121,
+   "ort_p": 0.654,
+   "isabet": 0.679
+  }
+ },
+ "P>=0.70": {
+  "p": {
+   "n": 263,
+   "logloss": 0.5889,
+   "brier": 0.1992,
+   "ort_p": 0.729,
+   "isabet": 0.73
+  },
+  "p_form": {
+   "n": 263,
+   "logloss": 0.5893,
+   "brier": 0.1996,
+   "ort_p": 0.708,
+   "isabet": 0.73
+  },
+  "p_xg": {
+   "n": 263,
+   "logloss": 0.5933,
+   "brier": 0.2014,
+   "ort_p": 0.708,
+   "isabet": 0.73
+  },
+  "p_form08": {
+   "n": 263,
+   "logloss": 0.5874,
+   "brier": 0.1987,
+   "ort_p": 0.718,
+   "isabet": 0.73
+  },
+  "p_form_gol": {
+   "n": 263,
+   "logloss": 0.5879,
+   "brier": 0.199,
+   "ort_p": 0.724,
+   "isabet": 0.73
+  },
+  "p_xg_gol": {
+   "n": 263,
+   "logloss": 0.5919,
+   "brier": 0.2007,
+   "ort_p": 0.726,
+   "isabet": 0.73
+  }
+ },
+ "min_n>=6": {
+  "p": {
+   "n": 810,
+   "logloss": 0.6226,
+   "brier": 0.2158,
+   "ort_p": 0.662,
+   "isabet": 0.669
+  },
+  "p_form": {
+   "n": 810,
+   "logloss": 0.624,
+   "brier": 0.2164,
+   "ort_p": 0.651,
+   "isabet": 0.669
+  },
+  "p_xg": {
+   "n": 810,
+   "logloss": 0.6243,
+   "brier": 0.2165,
+   "ort_p": 0.648,
+   "isabet": 0.669
+  },
+  "p_form08": {
+   "n": 810,
+   "logloss": 0.6221,
+   "brier": 0.2156,
+   "ort_p": 0.657,
+   "isabet": 0.669
+  },
+  "p_form_gol": {
+   "n": 810,
+   "logloss": 0.6198,
+   "brier": 0.2147,
+   "ort_p": 0.661,
+   "isabet": 0.669
+  },
+  "p_xg_gol": {
+   "n": 810,
+   "logloss": 0.6193,
+   "brier": 0.2143,
+   "ort_p": 0.66,
+   "isabet": 0.669
+  }
+ },
+ "yalniz_nesine_openmatchday": {
+  "p": {
+   "n": 92,
+   "logloss": 0.6938,
+   "brier": 0.2486,
+   "ort_p": 0.658,
+   "isabet": 0.62
+  },
+  "p_form": {
+   "n": 92,
+   "logloss": 0.7079,
+   "brier": 0.2542,
+   "ort_p": 0.659,
+   "isabet": 0.62
+  },
+  "p_xg": {
+   "n": 92,
+   "logloss": 0.7102,
+   "brier": 0.2554,
+   "ort_p": 0.659,
+   "isabet": 0.62
+  },
+  "p_form08": {
+   "n": 92,
+   "logloss": 0.7001,
+   "brier": 0.2511,
+   "ort_p": 0.659,
+   "isabet": 0.62
+  },
+  "p_form_gol": {
+   "n": 92,
+   "logloss": 0.6958,
+   "brier": 0.2493,
+   "ort_p": 0.66,
+   "isabet": 0.62
+  },
+  "p_xg_gol": {
+   "n": 92,
+   "logloss": 0.6942,
+   "brier": 0.2487,
+   "ort_p": 0.66,
+   "isabet": 0.62
+  }
+ },
+ "xg_vekili_var(n>=3)": {
+  "p": {
+   "n": 376,
+   "logloss": 0.6043,
+   "brier": 0.2076,
+   "ort_p": 0.657,
+   "isabet": 0.689
+  },
+  "p_form": {
+   "n": 376,
+   "logloss": 0.6062,
+   "brier": 0.2086,
+   "ort_p": 0.647,
+   "isabet": 0.689
+  },
+  "p_xg": {
+   "n": 376,
+   "logloss": 0.6045,
+   "brier": 0.2077,
+   "ort_p": 0.641,
+   "isabet": 0.689
+  },
+  "p_form08": {
+   "n": 376,
+   "logloss": 0.6043,
+   "brier": 0.2076,
+   "ort_p": 0.652,
+   "isabet": 0.689
+  },
+  "p_form_gol": {
+   "n": 376,
+   "logloss": 0.6035,
+   "brier": 0.2074,
+   "ort_p": 0.653,
+   "isabet": 0.689
+  },
+  "p_xg_gol": {
+   "n": 376,
+   "logloss": 0.6017,
+   "brier": 0.2064,
+   "ort_p": 0.652,
+   "isabet": 0.689
+  }
+ },
+ "bootstrap_gol_logloss_farki": {
+  "n": 496,
+  "fark": -0.0068,
+  "ci95": [
+   -0.0161,
+   0.0037
+  ]
+ },
+ "bootstrap_xg_gol_logloss_farki": {
+  "n": 198,
+  "fark": -0.0034,
+  "ci95": [
+   -0.022,
+   0.0135
+  ]
+ },
+ "bootstrap_p070_gol_logloss_farki": {
+  "n": 129,
+  "fark": -0.0022,
+  "ci95": [
+   -0.0215,
+   0.0238
+  ]
+ },
+ "aile": {
+  "2Y KG": {
+   "p": {
+    "n": 98,
+    "logloss": 0.5712,
+    "brier": 0.1915,
+    "ort_p": 0.705,
+    "isabet": 0.745
+   },
+   "p_form": {
+    "n": 98,
+    "logloss": 0.5794,
+    "brier": 0.1951,
+    "ort_p": 0.702,
+    "isabet": 0.745
+   }
+  },
+  "Alt/Üst": {
+   "p": {
+    "n": 334,
+    "logloss": 0.6291,
+    "brier": 0.2183,
+    "ort_p": 0.655,
+    "isabet": 0.671
+   },
+   "p_form": {
+    "n": 334,
+    "logloss": 0.6203,
+    "brier": 0.2145,
+    "ort_p": 0.65,
+    "isabet": 0.671
+   }
+  },
+  "KG": {
+   "p": {
+    "n": 43,
+    "logloss": 0.653,
+    "brier": 0.2305,
+    "ort_p": 0.6,
+    "isabet": 0.651
+   },
+   "p_form": {
+    "n": 43,
+    "logloss": 0.6605,
+    "brier": 0.2342,
+    "ort_p": 0.609,
+    "isabet": 0.651
+   }
+  },
+  "Maç sonucu": {
+   "p": {
+    "n": 130,
+    "logloss": 0.6694,
+    "brier": 0.2384,
+    "ort_p": 0.638,
+    "isabet": 0.562
+   },
+   "p_form": {
+    "n": 130,
+    "logloss": 0.6653,
+    "brier": 0.2367,
+    "ort_p": 0.588,
+    "isabet": 0.562
+   }
+  },
+  "Takım gol": {
+   "p": {
+    "n": 86,
+    "logloss": 0.5722,
+    "brier": 0.1919,
+    "ort_p": 0.679,
+    "isabet": 0.733
+   },
+   "p_form": {
+    "n": 86,
+    "logloss": 0.5786,
+    "brier": 0.1948,
+    "ort_p": 0.671,
+    "isabet": 0.733
+   }
+  },
+  "Takım İY gol": {
+   "p": {
+    "n": 23,
+    "logloss": 0.7663,
+    "brier": 0.2846,
+    "ort_p": 0.689,
+    "isabet": 0.478
+   },
+   "p_form": {
+    "n": 23,
+    "logloss": 0.7565,
+    "brier": 0.2799,
+    "ort_p": 0.661,
+    "isabet": 0.478
+   }
+  },
+  "Yarı özel": {
+   "p": {
+    "n": 44,
+    "logloss": 0.715,
+    "brier": 0.2594,
+    "ort_p": 0.693,
+    "isabet": 0.568
+   },
+   "p_form": {
+    "n": 44,
+    "logloss": 0.7485,
+    "brier": 0.2734,
+    "ort_p": 0.68,
+    "isabet": 0.568
+   }
+  },
+  "İY Alt/Üst": {
+   "p": {
+    "n": 117,
+    "logloss": 0.5921,
+    "brier": 0.201,
+    "ort_p": 0.69,
+    "isabet": 0.726
+   },
+   "p_form": {
+    "n": 117,
+    "logloss": 0.5859,
+    "brier": 0.1983,
+    "ort_p": 0.691,
+    "isabet": 0.726
+   }
+  }
+ }
+}

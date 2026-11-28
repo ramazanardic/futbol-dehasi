@@ -18,6 +18,7 @@ dependencies = [
     "requests>=2.32",
     "filelock>=3.13",
     "beautifulsoup4>=4.12",
+    "lxml>=5",
     "penaltyblog>=1.13",
 ]
 

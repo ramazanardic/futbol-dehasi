@@ -1,0 +1,348 @@
+{
+ "toplam_secim": 2228,
+ "kadro_kontrollu_secim": 758,
+ "kadro_kontrollu_mac": 260,
+ "isaretli_mac": 199,
+ "hepsi": {
+  "isaretli": {
+   "n": 587,
+   "isabet": 0.639,
+   "ort_p": 0.659,
+   "isabet_ci95": [
+    0.599,
+    0.677
+   ]
+  },
+  "isaretsiz": {
+   "n": 171,
+   "isabet": 0.749,
+   "ort_p": 0.657,
+   "isabet_ci95": [
+    0.679,
+    0.808
+   ]
+  },
+  "kaleci_eksik": {
+   "n": 153,
+   "isabet": 0.556,
+   "ort_p": 0.663,
+   "isabet_ci95": [
+    0.476,
+    0.632
+   ]
+  }
+ },
+ "P>=0.70": {
+  "isaretli": {
+   "n": 191,
+   "isabet": 0.702,
+   "ort_p": 0.728,
+   "isabet_ci95": [
+    0.633,
+    0.762
+   ]
+  },
+  "isaretsiz": {
+   "n": 48,
+   "isabet": 0.792,
+   "ort_p": 0.73,
+   "isabet_ci95": [
+    0.657,
+    0.883
+   ]
+  },
+  "kaleci_eksik": {
+   "n": 54,
+   "isabet": 0.667,
+   "ort_p": 0.725,
+   "isabet_ci95": [
+    0.534,
+    0.778
+   ]
+  }
+ },
+ "P>=0.70_ust_KG_var": {
+  "isaretli": {
+   "n": 50,
+   "isabet": 0.78,
+   "ort_p": 0.729,
+   "isabet_ci95": [
+    0.648,
+    0.872
+   ]
+  },
+  "isaretsiz": {
+   "n": 8,
+   "isabet": 0.875,
+   "ort_p": 0.734,
+   "isabet_ci95": [
+    0.529,
+    0.978
+   ]
+  },
+  "kaleci_eksik": {
+   "n": 15,
+   "isabet": 0.6,
+   "ort_p": 0.733,
+   "isabet_ci95": [
+    0.357,
+    0.802
+   ]
+  }
+ },
+ "P>=0.70_alt_KG_yok": {
+  "isaretli": {
+   "n": 91,
+   "isabet": 0.703,
+   "ort_p": 0.729,
+   "isabet_ci95": [
+    0.603,
+    0.787
+   ]
+  },
+  "isaretsiz": {
+   "n": 25,
+   "isabet": 0.88,
+   "ort_p": 0.731,
+   "isabet_ci95": [
+    0.7,
+    0.958
+   ]
+  },
+  "kaleci_eksik": {
+   "n": 18,
+   "isabet": 0.778,
+   "ort_p": 0.726,
+   "isabet_ci95": [
+    0.548,
+    0.91
+   ]
+  }
+ },
+ "kural_karsilastirma": {
+  "gevsek(gk|>=2 def|>=2 att|>=3 toplam)|hepsi": {
+   "isaretli_mac": 199,
+   "isaretli": {
+    "n": 587,
+    "isabet": 0.639,
+    "ort_p": 0.659,
+    "isabet_ci95": [
+     0.599,
+     0.677
+    ]
+   },
+   "isaretsiz": {
+    "n": 171,
+    "isabet": 0.749,
+    "ort_p": 0.657,
+    "isabet_ci95": [
+     0.679,
+     0.808
+    ]
+   },
+   "kume_bootstrap": {
+    "fark_kalibrasyon_sapmasi": 0.111,
+    "ci95": [
+     0.002,
+     0.211
+    ]
+   }
+  },
+  "gevsek(gk|>=2 def|>=2 att|>=3 toplam)|P>=0.70": {
+   "isaretli_mac": 105,
+   "isaretli": {
+    "n": 191,
+    "isabet": 0.702,
+    "ort_p": 0.728,
+    "isabet_ci95": [
+     0.633,
+     0.762
+    ]
+   },
+   "isaretsiz": {
+    "n": 48,
+    "isabet": 0.792,
+    "ort_p": 0.73,
+    "isabet_ci95": [
+     0.657,
+     0.883
+    ]
+   },
+   "kume_bootstrap": {
+    "fark_kalibrasyon_sapmasi": 0.088,
+    "ci95": [
+     -0.107,
+     0.255
+    ]
+   }
+  },
+  "orta(gk|>=3 toplam)|hepsi": {
+   "isaretli_mac": 196,
+   "isaretli": {
+    "n": 569,
+    "isabet": 0.631,
+    "ort_p": 0.659,
+    "isabet_ci95": [
+     0.591,
+     0.67
+    ]
+   },
+   "isaretsiz": {
+    "n": 189,
+    "isabet": 0.762,
+    "ort_p": 0.658,
+    "isabet_ci95": [
+     0.696,
+     0.817
+    ]
+   },
+   "kume_bootstrap": {
+    "fark_kalibrasyon_sapmasi": 0.132,
+    "ci95": [
+     0.031,
+     0.227
+    ]
+   }
+  },
+  "orta(gk|>=3 toplam)|P>=0.70": {
+   "isaretli_mac": 104,
+   "isaretli": {
+    "n": 183,
+    "isabet": 0.689,
+    "ort_p": 0.728,
+    "isabet_ci95": [
+     0.618,
+     0.751
+    ]
+   },
+   "isaretsiz": {
+    "n": 56,
+    "isabet": 0.821,
+    "ort_p": 0.729,
+    "isabet_ci95": [
+     0.702,
+     0.9
+    ]
+   },
+   "kume_bootstrap": {
+    "fark_kalibrasyon_sapmasi": 0.13,
+    "ci95": [
+     -0.049,
+     0.286
+    ]
+   }
+  },
+  "sik(gk|>=4 toplam)|hepsi": {
+   "isaretli_mac": 145,
+   "isaretli": {
+    "n": 423,
+    "isabet": 0.626,
+    "ort_p": 0.66,
+    "isabet_ci95": [
+     0.579,
+     0.671
+    ]
+   },
+   "isaretsiz": {
+    "n": 335,
+    "isabet": 0.71,
+    "ort_p": 0.657,
+    "isabet_ci95": [
+     0.66,
+     0.756
+    ]
+   },
+   "kume_bootstrap": {
+    "fark_kalibrasyon_sapmasi": 0.089,
+    "ci95": [
+     -0.017,
+     0.196
+    ]
+   }
+  },
+  "sik(gk|>=4 toplam)|P>=0.70": {
+   "isaretli_mac": 82,
+   "isaretli": {
+    "n": 145,
+    "isabet": 0.683,
+    "ort_p": 0.728,
+    "isabet_ci95": [
+     0.603,
+     0.753
+    ]
+   },
+   "isaretsiz": {
+    "n": 94,
+    "isabet": 0.777,
+    "ort_p": 0.728,
+    "isabet_ci95": [
+     0.682,
+     0.849
+    ]
+   },
+   "kume_bootstrap": {
+    "fark_kalibrasyon_sapmasi": 0.094,
+    "ci95": [
+     -0.086,
+     0.257
+    ]
+   }
+  },
+  "yalniz_kaleci|hepsi": {
+   "isaretli_mac": 54,
+   "isaretli": {
+    "n": 153,
+    "isabet": 0.556,
+    "ort_p": 0.663,
+    "isabet_ci95": [
+     0.476,
+     0.632
+    ]
+   },
+   "isaretsiz": {
+    "n": 605,
+    "isabet": 0.691,
+    "ort_p": 0.658,
+    "isabet_ci95": [
+     0.653,
+     0.726
+    ]
+   },
+   "kume_bootstrap": {
+    "fark_kalibrasyon_sapmasi": 0.14,
+    "ci95": [
+     0.015,
+     0.261
+    ]
+   }
+  },
+  "yalniz_kaleci|P>=0.70": {
+   "isaretli_mac": 34,
+   "isaretli": {
+    "n": 54,
+    "isabet": 0.667,
+    "ort_p": 0.725,
+    "isabet_ci95": [
+     0.534,
+     0.778
+    ]
+   },
+   "isaretsiz": {
+    "n": 185,
+    "isabet": 0.735,
+    "ort_p": 0.729,
+    "isabet_ci95": [
+     0.667,
+     0.793
+    ]
+   },
+   "kume_bootstrap": {
+    "fark_kalibrasyon_sapmasi": 0.062,
+    "ci95": [
+     -0.105,
+     0.225
+    ]
+   }
+  }
+ }
+}
