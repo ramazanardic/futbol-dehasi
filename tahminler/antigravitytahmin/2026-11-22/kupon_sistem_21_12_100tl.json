@@ -1,0 +1,384 @@
+{
+  "date": "2026-11-22",
+  "ai": "antigravitytahmin",
+  "created_tsi": "2026-11-23T01:25+03:00",
+  "live_odds_verified_tsi": "2026-11-22T21:22+03:00",
+  "budget_tl": 100.0,
+  "mode": "yuksek_oran_sistem_21_12",
+  "warning": "Yüksek riskli sürpriz/piyango sistem kuponudur (banko değildir). Yalnızca öneridir; kullanıcı onayı olmadan oynanmaz.",
+  "primary_system": {
+    "name": "8 Maç · Sistem 2, 3, 7, 8 (93 TL)",
+    "n_legs": 8,
+    "system_sizes": [
+      2,
+      3,
+      7,
+      8
+    ],
+    "n_cols": 93,
+    "stake_per_col_tl": 1.0,
+    "total_cost_tl": 93.0,
+    "max_theoretical_payout_tl": 55668675884.0,
+    "effective_max_odds": 598587912.73,
+    "expected_return_tl": 45.17,
+    "p_ge_2": 0.03357,
+    "p_ge_3": 0.002513,
+    "p_ge_4": 0.0001185,
+    "p_all": 0.0,
+    "hit_table": {
+      "2": {
+        "min_tl": 329.42,
+        "max_tl": 752.25
+      },
+      "3": {
+        "min_tl": 7076.95,
+        "max_tl": 18955.74
+      },
+      "4": {
+        "min_tl": 27048.45,
+        "max_tl": 61598.77
+      },
+      "5": {
+        "min_tl": 70522.02,
+        "max_tl": 131489.78
+      },
+      "6": {
+        "min_tl": 152811.2,
+        "max_tl": 234202.27
+      },
+      "7": {
+        "min_tl": 1364599457.61,
+        "max_tl": 2223956084.28
+      },
+      "8": {
+        "min_tl": 55668675884.0,
+        "max_tl": 55668675884.0
+      }
+    },
+    "legs": [
+      {
+        "code": 3319161,
+        "kickoff": "2026-11-22 22:00",
+        "saat": "22:00",
+        "league": "Brezilya Serie A",
+        "tier": "1",
+        "match": "Paranaense - Clube do Remo",
+        "price_tier": "keskin",
+        "reference": "Matchbook (borsa)",
+        "name": "İY/MS 2/1",
+        "market": "İlk Yarı/Maç Sonucu",
+        "label": "2/1",
+        "odds": 22.55,
+        "mbs": 1,
+        "mu_h": 2.02,
+        "mu_a": 0.9,
+        "mu_tot": 2.92,
+        "fav_mu": 2.02,
+        "dog_mu": 0.9,
+        "p_omni": 0.0334,
+        "p_ng": 0.03566,
+        "p_est": 0.03453,
+        "ev": -0.2213,
+        "h_s1": null,
+        "a_s1": null,
+        "flags": [],
+        "why": "Küme hattındaki Remo erken kontra bulur; 5. Paranaense Arena da Baixada'da 2Y çevirir"
+      },
+      {
+        "code": 3319987,
+        "kickoff": "2026-11-22 22:45",
+        "saat": "22:45",
+        "league": "İtalya Serie A",
+        "tier": "1",
+        "match": "Atalanta - Inter",
+        "price_tier": "keskin",
+        "reference": "Matchbook + Smarkets (borsa)",
+        "name": "İY/MS 1/2",
+        "market": "İlk Yarı/Maç Sonucu",
+        "label": "1/2",
+        "odds": 18.45,
+        "mbs": 1,
+        "mu_h": 1.18,
+        "mu_a": 2.37,
+        "mu_tot": 3.55,
+        "fav_mu": 2.37,
+        "dog_mu": 1.18,
+        "p_omni": 0.0436,
+        "p_ng": 0.0408,
+        "p_est": 0.0422,
+        "ev": -0.2214,
+        "h_s1": 0.45454545454545453,
+        "a_s1": 0.6363636363636364,
+        "flags": [
+          "⚡ Sharp steam: Ev -4.6p, Dep +6.2p"
+        ],
+        "why": "Atalanta ev baskısıyla öne geçer (Krstović); 3 as stoper yok + 2Y Lautaro/Inter çevirir"
+      },
+      {
+        "code": 3318989,
+        "kickoff": "2026-11-22 22:45",
+        "saat": "22:45",
+        "league": "Fransa Ligue 1",
+        "tier": "1",
+        "match": "Marsilya - Le Mans",
+        "price_tier": "keskin",
+        "reference": "Matchbook + Smarkets (borsa)",
+        "name": "İY/MS 2/1",
+        "market": "İlk Yarı/Maç Sonucu",
+        "label": "2/1",
+        "odds": 20.6,
+        "mbs": 1,
+        "mu_h": 2.26,
+        "mu_a": 0.95,
+        "mu_tot": 3.21,
+        "fav_mu": 2.26,
+        "dog_mu": 0.95,
+        "p_omni": 0.037,
+        "p_ng": 0.0367,
+        "p_est": 0.03685,
+        "ev": -0.2409,
+        "h_s1": 0.5,
+        "a_s1": 0.5,
+        "flags": [],
+        "why": "Le Mans erken sürpriz yapar; 5 maçtır kazanan Marsilya (Gouiri) Vélodrome'da çevirir"
+      },
+      {
+        "code": 3409573,
+        "kickoff": "2026-11-23 00:00",
+        "saat": "00:00",
+        "league": "ABD Major Lig Playoff",
+        "tier": "3",
+        "match": "Nashville SC - Cincinnati",
+        "price_tier": "keskin",
+        "reference": "Matchbook + Smarkets (borsa)",
+        "name": "İY/MS 2/1",
+        "market": "İlk Yarı/Maç Sonucu",
+        "label": "2/1",
+        "odds": 18.95,
+        "mbs": 1,
+        "mu_h": 2.34,
+        "mu_a": 1.08,
+        "mu_tot": 3.42,
+        "fav_mu": 2.34,
+        "dog_mu": 1.08,
+        "p_omni": 0.0404,
+        "p_ng": 0.04186,
+        "p_est": 0.04113,
+        "ev": -0.2206,
+        "h_s1": 0.5333333333333333,
+        "a_s1": 0.7333333333333333,
+        "flags": [],
+        "why": "Wild Card'dan sıcak gelen Cincinnati öne geçer; 77p Doğu lideri Nashville evinde çevirir"
+      },
+      {
+        "code": 3319241,
+        "kickoff": "2026-11-23 01:30",
+        "saat": "01:30",
+        "league": "Brezilya Serie A",
+        "tier": "1",
+        "match": "Bragantino - Vasco Da G.",
+        "price_tier": "keskin",
+        "reference": "Matchbook + Smarkets (borsa)",
+        "name": "İY/MS 1/2",
+        "market": "İlk Yarı/Maç Sonucu",
+        "label": "1/2",
+        "odds": 25.5,
+        "mbs": 1,
+        "mu_h": 1.46,
+        "mu_a": 1.48,
+        "mu_tot": 2.94,
+        "fav_mu": 1.48,
+        "dog_mu": 1.46,
+        "p_omni": 0.0293,
+        "p_ng": 0.03042,
+        "p_est": 0.02986,
+        "ev": -0.2386,
+        "h_s1": 0.4,
+        "a_s1": 0.4666666666666667,
+        "flags": [],
+        "why": "Dengeli açık maç (1.46-1.48); Bragantino 1Y presle öne geçer, 2Y Vasco geçişle çevirir"
+      },
+      {
+        "code": 3318159,
+        "kickoff": "2026-11-23 02:07",
+        "saat": "02:07",
+        "league": "Meksika Prmr Ligi, Açılış",
+        "tier": "other",
+        "match": "CD Guadalajara - Cruz Azul",
+        "price_tier": "keskin",
+        "reference": "Matchbook + Smarkets (borsa)",
+        "name": "İY/MS 1/2",
+        "market": "İlk Yarı/Maç Sonucu",
+        "label": "1/2",
+        "odds": 29.5,
+        "mbs": 1,
+        "mu_h": 1.7,
+        "mu_a": 1.39,
+        "mu_tot": 3.09,
+        "fav_mu": 1.39,
+        "dog_mu": 1.7,
+        "p_omni": 0.0268,
+        "p_ng": 0.02734,
+        "p_est": 0.02707,
+        "ev": -0.2014,
+        "h_s1": 0.4666666666666667,
+        "a_s1": 0.6,
+        "flags": [],
+        "why": "Chivas evinde hızlı başlar; 5 maçtır kazanan lider Cruz Azul 1.'lik için 2Y çevirir"
+      },
+      {
+        "code": 3389684,
+        "kickoff": "2026-11-23 02:30",
+        "saat": "02:30",
+        "league": "ABD Major Lig Playoff",
+        "tier": "3",
+        "match": "Chicago Fire - Charlotte",
+        "price_tier": "keskin",
+        "reference": "Matchbook + Smarkets (borsa)",
+        "name": "İY/MS 2/1",
+        "market": "İlk Yarı/Maç Sonucu",
+        "label": "2/1",
+        "odds": 18.1,
+        "mbs": 1,
+        "mu_h": 2.36,
+        "mu_a": 1.31,
+        "mu_tot": 3.67,
+        "fav_mu": 2.36,
+        "dog_mu": 1.31,
+        "p_omni": 0.0441,
+        "p_ng": 0.04423,
+        "p_est": 0.04416,
+        "ev": -0.2006,
+        "h_s1": 0.6666666666666666,
+        "a_s1": 0.4666666666666667,
+        "flags": [],
+        "why": "Gecenin en yüksek gol beklentisi (3.67 xG) ve en yüksek gerçek geri dönüş olasılığı (%4.42)"
+      },
+      {
+        "code": 3409574,
+        "kickoff": "2026-11-23 04:30",
+        "saat": "04:30",
+        "league": "ABD Major Lig Playoff",
+        "tier": "3",
+        "match": "V. Whitecaps - Real Salt Lake",
+        "price_tier": "keskin",
+        "reference": "Matchbook + Smarkets (borsa)",
+        "name": "İY/MS 2/1",
+        "market": "İlk Yarı/Maç Sonucu",
+        "label": "2/1",
+        "odds": 18.2,
+        "mbs": 1,
+        "mu_h": 2.42,
+        "mu_a": 1.17,
+        "mu_tot": 3.59,
+        "fav_mu": 2.42,
+        "dog_mu": 1.17,
+        "p_omni": 0.0427,
+        "p_ng": 0.0437,
+        "p_est": 0.0432,
+        "ev": -0.2138,
+        "h_s1": 0.6666666666666666,
+        "a_s1": 0.6666666666666666,
+        "flags": [],
+        "why": "3.59 xG; Batı 1.'si Vancouver (T. Müller) vs Diego Luna'sız RSL — 2Y çevirme gücü yüksek"
+      }
+    ]
+  },
+  "alternatives": [
+    {
+      "name": "7 Maç · Sistem 2, 3, 4, 6, 7 (99 TL)",
+      "n_legs": 7,
+      "system_sizes": [
+        2,
+        3,
+        4,
+        6,
+        7
+      ],
+      "n_cols": 99,
+      "stake_per_col_tl": 1.0,
+      "total_cost_tl": 99.0,
+      "max_theoretical_payout_tl": 2615214097.7,
+      "effective_max_odds": 26416304.02,
+      "expected_return_tl": 44.65,
+      "p_ge_2": 0.02588,
+      "p_ge_3": 0.001619,
+      "p_ge_4": 6.11e-05,
+      "p_all": 0.0,
+      "hit_table": {
+        "2": {
+          "min_tl": 329.42,
+          "max_tl": 752.25
+        },
+        "3": {
+          "min_tl": 7076.95,
+          "max_tl": 18955.74
+        },
+        "4": {
+          "min_tl": 142222.74,
+          "max_tl": 379636.54
+        },
+        "5": {
+          "min_tl": 753827.31,
+          "max_tl": 1454896.72
+        },
+        "6": {
+          "min_tl": 68887628.04,
+          "max_tl": 111651676.45
+        },
+        "7": {
+          "min_tl": 2615214097.7,
+          "max_tl": 2615214097.7
+        }
+      },
+      "dropped": [
+        "Marsilya - Le Mans"
+      ]
+    },
+    {
+      "name": "6 Maç · Sistem 2, 3, 4 · 2 Misli (100 TL TAM)",
+      "n_legs": 6,
+      "system_sizes": [
+        2,
+        3,
+        4
+      ],
+      "n_cols": 50,
+      "stake_per_col_tl": 2.0,
+      "total_cost_tl": 100.0,
+      "max_theoretical_payout_tl": 6444434.81,
+      "effective_max_odds": 64444.35,
+      "expected_return_tl": 49.03,
+      "p_ge_2": 0.0194,
+      "p_ge_3": 0.000984,
+      "p_ge_4": 2.81e-05,
+      "p_all": 3e-09,
+      "hit_table": {
+        "2": {
+          "min_tl": 658.84,
+          "max_tl": 1504.5
+        },
+        "3": {
+          "min_tl": 14153.91,
+          "max_tl": 32099.27
+        },
+        "4": {
+          "min_tl": 284445.49,
+          "max_tl": 627059.65
+        },
+        "5": {
+          "min_tl": 1667675.33,
+          "max_tl": 2469443.47
+        },
+        "6": {
+          "min_tl": 6444434.81,
+          "max_tl": 6444434.81
+        }
+      },
+      "dropped": [
+        "Paranaense - Clube do Remo",
+        "Marsilya - Le Mans"
+      ]
+    }
+  ]
+}

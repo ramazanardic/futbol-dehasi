@@ -1,0 +1,10464 @@
+[
+{
+"ai": "claudetahmin",
+"tarih": "2026-11-20",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_5x_2122 #1",
+"bacak": 4,
+"oran": 5.33,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "Miramar Rangers - Cashmere Technical — 3,5 Gol Alt/Üst: 3,5 Üst"
+}
+]
+},
+{
+"ai": "chatgbttahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_1.5x_1857 #1",
+"bacak": 2,
+"oran": 1.54,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": []
+},
+{
+"ai": "chatgbttahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_10x_1905 #1",
+"bacak": 2,
+"oran": 10.0,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "RC Lens - Toulouse — 2,5 Gol Alt/Üst: 2,5 Üst"
+},
+{
+"secim": "Zulte Waregem - Antwerp — Maç Sonucu ve Alt/Üst: MS 1 & 3.5 Üst"
+}
+]
+},
+{
+"ai": "chatgbttahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_2x_1426 #1",
+"bacak": 3,
+"oran": 2.09,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "Hebburn Town - Marine — 3,5 Gol Alt/Üst: 3,5 Alt"
+}
+]
+},
+{
+"ai": "chatgbttahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_3x_1426 #1",
+"bacak": 4,
+"oran": 3.02,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "Glenavon - Newry City — 2,5 Gol Alt/Üst: 2,5 Üst"
+},
+{
+"secim": "Eupen - Sporting Hasselt — 2,5 Gol Alt/Üst: 2,5 Üst"
+}
+]
+},
+{
+"ai": "chatgbttahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_5x_iyms_1727 #1",
+"bacak": 2,
+"oran": 5.07,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "Kocaelispor - Fenerbahçe — İlk Yarı/Maç Sonucu: 2/2"
+},
+{
+"secim": "Schalke 04 - Stuttgart — İlk Yarı/Maç Sonucu: 2/2"
+}
+]
+},
+{
+"ai": "chatgbttahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_6x_1522 #1",
+"bacak": 5,
+"oran": 6.06,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "Hoffenheim II - Preussen Munster — 3,5 Gol Alt/Üst: 3,5 Alt"
+},
+{
+"secim": "SD Ponferradina - CD Extremadura — 2,5 Gol Alt/Üst: 2,5 Alt"
+}
+]
+},
+{
+"ai": "claudetahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_5x_0040 #1",
+"bacak": 4,
+"oran": 5.28,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "Amed Sportif - Rizespor — Maç Sonucu: 1"
+},
+{
+"secim": "Tromso - Viking — Maç Sonucu: 2"
+}
+]
+},
+{
+"ai": "antigravitytahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_30maks_k1_2 #2",
+"bacak": 5,
+"oran": 3.28,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "Reus Reddis - UE Olot — Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Alt"
+}
+]
+},
+{
+"ai": "antigravitytahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_30maks_k1_3 #3",
+"bacak": 5,
+"oran": 3.18,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "Burnley - Blackburn R. — 3,5 Gol Alt/Üst: 3,5 Alt"
+},
+{
+"secim": "Barcelona - Villarreal — Ev Sahibi İki Yarıda da Gol: Atar"
+},
+{
+"secim": "Kortrijk - U. S. Gilloise — Deplasman 1,5 Gol Alt/Üst: 1,5 Üst"
+}
+]
+},
+{
+"ai": "antigravitytahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_30maks_k2_3 #8",
+"bacak": 6,
+"oran": 6.05,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "BSC Young Boys - YF Juventus — Deplasman 1,5 Gol Alt/Üst: 1,5 Üst"
+},
+{
+"secim": "Basel - Luzern — 2,5 Alt/Üst ve Karşılıklı Gol: Üst&Var"
+}
+]
+},
+{
+"ai": "antigravitytahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_30maks_k2_5 #10",
+"bacak": 6,
+"oran": 5.7,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "Burnley - Blackburn R. — 1. Yarı 1,5 Gol Alt/Üst: 1,5 Alt"
+},
+{
+"secim": "Odds BK - Bryne — Karşılıklı Gol: Var"
+}
+]
+},
+{
+"ai": "antigravitytahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_30maks_k3_2 #12",
+"bacak": 6,
+"oran": 13.34,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "Stoke City U21 - Stockport U21 — Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Üst"
+},
+{
+"secim": "S. Gijon - Las Palmas — Deplasman Herhangi Bir Yarıyı Kazanır: Hayır"
+},
+{
+"secim": "SS Arezzo - Padova — Deplasman Herhangi Bir Yarıyı Kazanır: Hayır"
+}
+]
+},
+{
+"ai": "antigravitytahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_30maks_k4_3 #18",
+"bacak": 7,
+"oran": 52.91,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "AS Avellino 1912 - Mantova 1911 — Toplam Gol Aralığı: 2-3 Gol"
+},
+{
+"secim": "Sassuolo - Genoa — Deplasman Herhangi Bir Yarıyı Kazanır: Hayır"
+},
+{
+"secim": "Lausanne - Vaduz — Deplasman 1.Y Gol Alt/Üst: Dep İY 0.5 Üst"
+}
+]
+},
+{
+"ai": "antigravitytahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_30maks_k6_2 #27",
+"bacak": 8,
+"oran": 68200.81,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 5,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "Stuttgart II - Ingolstadt — Maç Sonucu ve Karşılıklı Gol: 1 & Var"
+},
+{
+"secim": "UD Llanera - Ourense — 1. Yarı Karşılıklı Gol: Var"
+},
+{
+"secim": "Brommapojkarna - Halmstads — Toplam Gol Aralığı: 0-1 Gol"
+},
+{
+"secim": "Nordsjælland - Kopenhag — Maç Sonucu ve Karşılıklı Gol: X & Var"
+},
+{
+"secim": "PAOK - AE Kifisia — 1. Yarı / 2. Yarı Karşılıklı Gol: Hayır/Evet"
+}
+]
+},
+{
+"ai": "antigravitytahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_30maks_k6_4 #29",
+"bacak": 8,
+"oran": 53109.45,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 5,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "Manisa FK - Pendikspor — 1. Yarı Sonucu ve 1. Yarı Karşılıklı Gol: 2 & Yok"
+},
+{
+"secim": "Alcione Milano - Acd Ospitaletto — Maç Sonucu ve Karşılıklı Gol: X & Var"
+},
+{
+"secim": "Paneitolikos - Volos — 1. Yarı / 2. Yarı Karşılıklı Gol: Hayır/Evet"
+},
+{
+"secim": "Saarbrucken - W. Wiesbaden — Maç Sonucu ve Karşılıklı Gol: X & Var"
+},
+{
+"secim": "Liverpool - Man. Utd — Maç Sonucu: 2"
+}
+]
+},
+{
+"ai": "antigravitytahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "kupon_2.5x_1830 #1",
+"bacak": 5,
+"oran": 2.68,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "Man. City - Napoli — Maç Sonucu ve 1,5 Alt/Üst: 1 & Üst"
+}
+]
+},
+{
+"ai": "antigravitytahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "kupon_2.5x_0920 #1",
+"bacak": 5,
+"oran": 2.72,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": null,
+"not_": "ortak karneden (degerlendirme)",
+"legs": [
+{
+"secim": "AC Pisa - Modena — 1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst"
+},
+{
+"secim": "PSG - AS Roma — Maç Sonucu: 1"
+},
+{
+"secim": "Shakhtar D. - Fenerbahçe — 1. Yarı 0,5 Gol Alt/Üst: 0,5 Üst"
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-20",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_5x_1415#1",
+"bacak": 5,
+"oran": 5.07,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 4,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "KF Shkendija Haracine - FK Baskimi",
+"secim": "MS 1",
+"odds": 1.32,
+"p": 0.7238,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Ahli Saudi - AL Nassr",
+"secim": "3.5 Alt",
+"odds": 1.38,
+"p": 0.6971,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "AGF Aarhus - Lyngby BK",
+"secim": "KG Var",
+"odds": 1.41,
+"p": 0.6423,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "Heracles - Jong PSV",
+"secim": "3.5 Üst",
+"odds": 1.39,
+"p": 0.6959,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Volendam - Jong Ajax",
+"secim": "3.5 Üst",
+"odds": 1.42,
+"p": 0.6637,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-20",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_10x_1415#2",
+"bacak": 5,
+"oran": 10.26,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 2,
+"belirsiz_bacak": 1,
+"donus": null,
+"ihlalli_bacak": 5,
+"not_": "",
+"legs": [
+{
+"mac": "SC East Bengal - Hyderabad",
+"secim": "3.5 Üst",
+"odds": 1.48,
+"p": 0.6164,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "ES Setif - US Biskra",
+"secim": "MS 1",
+"odds": 1.42,
+"p": 0.669,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Graafschap - Maastricht",
+"secim": "MS 1",
+"odds": 1.74,
+"p": 0.5524,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Heracles - Jong PSV",
+"secim": "Hnd(0:2) 1",
+"odds": 1.68,
+"p": 0.5618,
+"won": null,
+"aile": "Handikap",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Volendam - Jong Ajax",
+"secim": "MS 1",
+"odds": 1.67,
+"p": 0.5675,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-20",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_20x_1415#3",
+"bacak": 6,
+"oran": 20.1,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 6,
+"not_": "",
+"legs": [
+{
+"mac": "SC East Bengal - Hyderabad",
+"secim": "İY 1",
+"odds": 1.61,
+"p": 0.5691,
+"won": false,
+"aile": "İY sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "FK Rostov - Krylia Sovetov",
+"secim": "KG Yok",
+"odds": 1.68,
+"p": 0.5188,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "TSV Havelse - Viktoria Köln",
+"secim": "3.5 Üst",
+"odds": 1.7,
+"p": 0.5164,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Jong Utrecht - Emmen",
+"secim": "3.5 Üst",
+"odds": 1.73,
+"p": 0.5377,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Andorra - Leganes",
+"secim": "KG Var",
+"odds": 1.55,
+"p": 0.5965,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "Ath Bilbao - Espanyol",
+"secim": "KG Var",
+"odds": 1.63,
+"p": 0.5472,
+"won": false,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-20",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_30x_1415#4",
+"bacak": 6,
+"oran": 30.21,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 2,
+"belirsiz_bacak": 1,
+"donus": null,
+"ihlalli_bacak": 6,
+"not_": "",
+"legs": [
+{
+"mac": "SC East Bengal - Hyderabad",
+"secim": "Hnd(0:1) 1",
+"odds": 1.78,
+"p": 0.525,
+"won": null,
+"aile": "Handikap",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "KF Shkendija Haracine - FK Baskimi",
+"secim": "İY 1",
+"odds": 1.76,
+"p": 0.5535,
+"won": false,
+"aile": "İY sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "FK Rostov - Krylia Sovetov",
+"secim": "MS 1",
+"odds": 2.08,
+"p": 0.4976,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Aarhus Fremad - Hobro",
+"secim": "MS 1",
+"odds": 1.8,
+"p": 0.5302,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "AS Nancy - Dijon",
+"secim": "MS 1",
+"odds": 1.6,
+"p": 0.5348,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Andorra - Leganes",
+"secim": "2.5 Üst",
+"odds": 1.61,
+"p": 0.5525,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-20",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_50x_1415#5",
+"bacak": 7,
+"oran": 58.26,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 2,
+"belirsiz_bacak": 1,
+"donus": null,
+"ihlalli_bacak": 7,
+"not_": "",
+"legs": [
+{
+"mac": "KF Shkendija Haracine - FK Baskimi",
+"secim": "Hnd(0:1) 1",
+"odds": 2.0,
+"p": 0.502,
+"won": null,
+"aile": "Handikap",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "CS Hammam - ES Metlaoui",
+"secim": "1.5 Alt",
+"odds": 1.78,
+"p": 0.5057,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "AL Gharrafa - Arabi Doha",
+"secim": "3.5 Üst",
+"odds": 1.75,
+"p": 0.5203,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "R. Wien (Amt) - Blau Weiss L.",
+"secim": "3.5 Üst",
+"odds": 1.8,
+"p": 0.5071,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Molde - Bodo Glimt",
+"secim": "ÇŞ 1X",
+"odds": 1.83,
+"p": 0.5066,
+"won": false,
+"aile": "Çifte şans",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Red Star - Pau",
+"secim": "KG Var",
+"odds": 1.67,
+"p": 0.5119,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "Andorra - Leganes",
+"secim": "ÇŞ X2",
+"odds": 1.7,
+"p": 0.5302,
+"won": true,
+"aile": "Çifte şans",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-20",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_5x_ms12_1415#6",
+"bacak": 4,
+"oran": 5.02,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "KF Shkendija Haracine - FK Baskimi",
+"secim": "MS 1",
+"odds": 1.32,
+"p": 0.7238,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "ES Setif - US Biskra",
+"secim": "MS 1",
+"odds": 1.42,
+"p": 0.669,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Graafschap - Maastricht",
+"secim": "MS 1",
+"odds": 1.74,
+"p": 0.5524,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Hellas Verona - AC Cesena",
+"secim": "MS 1",
+"odds": 1.54,
+"p": 0.5858,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-20",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_5x_altust_1415#7",
+"bacak": 5,
+"oran": 5.11,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 5,
+"not_": "",
+"legs": [
+{
+"mac": "Ahli Saudi - AL Nassr",
+"secim": "3.5 Alt",
+"odds": 1.38,
+"p": 0.6971,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Darmstadt 98 - Heidenheim",
+"secim": "2.5 Üst",
+"odds": 1.35,
+"p": 0.6653,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "AGF Aarhus - Lyngby BK",
+"secim": "2.5 Üst",
+"odds": 1.39,
+"p": 0.6456,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Heracles - Jong PSV",
+"secim": "3.5 Üst",
+"odds": 1.39,
+"p": 0.6959,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Volendam - Jong Ajax",
+"secim": "3.5 Üst",
+"odds": 1.42,
+"p": 0.6637,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-20",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_5x_kg_1415#8",
+"bacak": 4,
+"oran": 5.02,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Dinamo Tiflis - Torpedo",
+"secim": "KG Var",
+"odds": 1.43,
+"p": 0.6452,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "Andorra - Leganes",
+"secim": "KG Var",
+"odds": 1.55,
+"p": 0.5965,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "Cercle Brugge - Westerlo",
+"secim": "KG Var",
+"odds": 1.39,
+"p": 0.6528,
+"won": false,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Ath Bilbao - Espanyol",
+"secim": "KG Var",
+"odds": 1.63,
+"p": 0.5472,
+"won": false,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-20",
+"surum": "eski (≤22 Kas)",
+"id": "kupon_5x_iyms_1415#9",
+"bacak": 2,
+"oran": 6.3,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "FK Rostov - Krylia Sovetov",
+"secim": "İY/MS 1/1",
+"odds": 3.37,
+"p": 0.3035,
+"won": true,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Ath Bilbao - Espanyol",
+"secim": "İY/MS 1/1",
+"odds": 1.87,
+"p": 0.4353,
+"won": false,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "Gece_500TL_Ana_Kupon",
+"bacak": 4,
+"oran": 2.62,
+"stake": 500.0,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": "TUTTU",
+"tutan_bacak": 4,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": 1310.0,
+"ihlalli_bacak": 0,
+"not_": "bahis_tl CSV'de yazıyor; gerçekten oynandığı kanıtlanmadı",
+"legs": [
+{
+"mac": "Velez Sarsfield - Belgrano",
+"secim": "2.5 Alt",
+"odds": 1.48,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Palestino - Union La Calera",
+"secim": "3.5 Alt",
+"odds": 1.24,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Puebla - Atletico San Luis",
+"secim": "1.5 Üst",
+"odds": 1.22,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "FC Juarez - Atlas",
+"secim": "ÇŞ X2",
+"odds": 1.24,
+"p": null,
+"won": true,
+"aile": "Çifte şans",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "Aksam_400TL_Nesine_6Mac",
+"bacak": 6,
+"oran": 4.54,
+"stake": 400.0,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": "5/6_YATTI",
+"tutan_bacak": 5,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": 0,
+"ihlalli_bacak": 1,
+"not_": "bahis_tl CSV'de yazıyor; gerçekten oynandığı kanıtlanmadı",
+"legs": [
+{
+"mac": "Parma - AS Roma",
+"secim": "2.5 Üst",
+"odds": 1.25,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "BSC Young Boys - FC Thun",
+"secim": "KG Var",
+"odds": 1.28,
+"p": null,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Newcastle United - Arsenal",
+"secim": "MS 2",
+"odds": 1.35,
+"p": null,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Sevilla FC - Real Betis",
+"secim": "ÇŞ X2",
+"odds": 1.26,
+"p": null,
+"won": true,
+"aile": "Çifte şans",
+"ihlal": []
+},
+{
+"mac": "Napoli - Torino",
+"secim": "MS 1",
+"odds": 1.34,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Real Madrid - Celta Vigo",
+"secim": "2.5 Üst",
+"odds": 1.2,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_01_BANKO_5X_KOMBINE",
+"bacak": 5,
+"oran": 5.13,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Benevento - Empoli",
+"secim": "İY 1.5 Alt",
+"odds": 1.37,
+"p": 0.6884,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Crawley Town - Barnet",
+"secim": "ÇŞ X2 & 1.5 Üst",
+"odds": 1.46,
+"p": 0.6453,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Bristol City - Wrexham",
+"secim": "2Y KG Yok",
+"odds": 1.31,
+"p": 0.7228,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Middlesbrough - Swansea City",
+"secim": "MS 1",
+"odds": 1.58,
+"p": 0.6166,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Charlton Athletic - Lincoln City",
+"secim": "2Y KG Yok",
+"odds": 1.24,
+"p": 0.762,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_02_BANKO_5X_KOMBINE",
+"bacak": 5,
+"oran": 5.21,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Charlton Athletic - Lincoln City",
+"secim": "İY 1.5 Alt",
+"odds": 1.32,
+"p": 0.7176,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Bromley - Wycombe Wanderers",
+"secim": "2Y KG Yok",
+"odds": 1.29,
+"p": 0.7325,
+"won": false,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "RB Leipzig - RC Lens",
+"secim": "Ev 1.5 Üst",
+"odds": 1.38,
+"p": 0.6869,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Middlesbrough - Swansea City",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.63,
+"p": 0.5788,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Manchester City - SSC Napoli",
+"secim": "Ev 1.5 Üst",
+"odds": 1.36,
+"p": 0.6956,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_03_BANKO_5X_KOMBINE",
+"bacak": 5,
+"oran": 5.12,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": null,
+"tutan_bacak": 5,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Middlesbrough - Swansea City",
+"secim": "Ev 1.5 Üst",
+"odds": 1.69,
+"p": 0.5605,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "Palermo - FC Südtirol",
+"secim": "MS 1",
+"odds": 1.4,
+"p": 0.6802,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Wolverhampton - Derby County",
+"secim": "MS 1",
+"odds": 1.32,
+"p": 0.7294,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Feyenoord - FC Porto",
+"secim": "İY 0.5 Üst",
+"odds": 1.28,
+"p": 0.7399,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Stevenage - Sheffield Wednesday",
+"secim": "2Y KG Yok",
+"odds": 1.28,
+"p": 0.7401,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_04_BANKO_5X_KOMBINE",
+"bacak": 5,
+"oran": 5.16,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": null,
+"tutan_bacak": 5,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 1,
+"not_": "",
+"legs": [
+{
+"mac": "Norwich City - Queens Park Rangers",
+"secim": "İY 0.5 Üst",
+"odds": 1.33,
+"p": 0.7094,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Sheffield United - Southampton",
+"secim": "İY 0.5 Üst",
+"odds": 1.32,
+"p": 0.7141,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Benevento - Empoli",
+"secim": "2Y KG Yok",
+"odds": 1.26,
+"p": 0.7495,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Slovan Bratislava - Real Betis",
+"secim": "MS 2",
+"odds": 1.24,
+"p": 0.7825,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Middlesbrough - Swansea City",
+"secim": "2Y 1",
+"odds": 1.88,
+"p": 0.5022,
+"won": true,
+"aile": "2. yarı",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_05_BANKO_5X_KOMBINE",
+"bacak": 5,
+"oran": 5.19,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": null,
+"tutan_bacak": 5,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Como 1907 - AEK Athens",
+"secim": "MS 1",
+"odds": 1.26,
+"p": 0.7625,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Slovan Bratislava - Real Betis",
+"secim": "Dep 1.5 Üst",
+"odds": 1.32,
+"p": 0.7164,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Middlesbrough - Swansea City",
+"secim": "MS 1",
+"odds": 1.58,
+"p": 0.6166,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Bristol City - Wrexham",
+"secim": "3.5 Alt",
+"odds": 1.3,
+"p": 0.7273,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Blackpool - Leicester City",
+"secim": "ÇŞ X2 & 1.5 Üst",
+"odds": 1.52,
+"p": 0.6231,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_06_BANKO_5X_KOMBINE",
+"bacak": 5,
+"oran": 5.12,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Glasgow Rangers - Aberdeen",
+"secim": "MS 1",
+"odds": 1.24,
+"p": 0.7735,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Coquimbo Unido - Unión La Calera",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.44,
+"p": 0.6574,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Bromley - Wycombe Wanderers",
+"secim": "İY 1.5 Alt",
+"odds": 1.39,
+"p": 0.6802,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Sheffield United - Southampton",
+"secim": "KG Var",
+"odds": 1.6,
+"p": 0.5915,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "Palermo - FC Südtirol",
+"secim": "2Y KG Yok",
+"odds": 1.29,
+"p": 0.7352,
+"won": false,
+"aile": "2Y KG",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_07_BANKO_5X_KOMBINE",
+"bacak": 5,
+"oran": 5.14,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": null,
+"tutan_bacak": 5,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Bromley - Wycombe Wanderers",
+"secim": "3.5 Alt",
+"odds": 1.28,
+"p": 0.7382,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Norwich City - Queens Park Rangers",
+"secim": "ÇŞ 1X & 1.5 Üst",
+"odds": 1.54,
+"p": 0.6154,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Glasgow Rangers - Aberdeen",
+"secim": "Ev 1.5 Üst",
+"odds": 1.39,
+"p": 0.6803,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Hibernian - Dundee FC",
+"secim": "3.5 Alt",
+"odds": 1.33,
+"p": 0.7097,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Bristol City - Wrexham",
+"secim": "İY 1.5 Alt",
+"odds": 1.41,
+"p": 0.672,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_08_BANKO_5X_KOMBINE",
+"bacak": 5,
+"oran": 5.23,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Manchester City - SSC Napoli",
+"secim": "MS 1",
+"odds": 1.28,
+"p": 0.7445,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Coquimbo Unido - Unión La Calera",
+"secim": "İY 1.5 Alt",
+"odds": 1.28,
+"p": 0.7408,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Hibernian - Dundee FC",
+"secim": "2Y KG Yok",
+"odds": 1.32,
+"p": 0.7158,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Chapecoense - Palmeiras",
+"secim": "ÇŞ X2 & 1.5 Üst",
+"odds": 1.6,
+"p": 0.5903,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Palermo - FC Südtirol",
+"secim": "Ev 1.5 Üst",
+"odds": 1.51,
+"p": 0.6254,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_09_BANKO_5X_KOMBINE",
+"bacak": 5,
+"oran": 5.19,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Como 1907 - AEK Athens",
+"secim": "Ev 1.5 Üst",
+"odds": 1.31,
+"p": 0.7224,
+"won": false,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Benevento - Empoli",
+"secim": "3.5 Alt",
+"odds": 1.26,
+"p": 0.749,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "RB Leipzig - RC Lens",
+"secim": "MS 1",
+"odds": 1.38,
+"p": 0.6834,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Port Vale - Northampton Town",
+"secim": "İY 1.5 Alt",
+"odds": 1.34,
+"p": 0.7048,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Norwich City - Queens Park Rangers",
+"secim": "KG Var",
+"odds": 1.7,
+"p": 0.5557,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_10_BANKO_5X_KOMBINE",
+"bacak": 5,
+"oran": 5.15,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Bradford City - Barnsley",
+"secim": "2Y KG Yok",
+"odds": 1.27,
+"p": 0.745,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Middlesbrough - Swansea City",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.63,
+"p": 0.5788,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Hibernian - Dundee FC",
+"secim": "İY 1.5 Alt",
+"odds": 1.43,
+"p": 0.6592,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Cardiff City - Preston North End",
+"secim": "2Y KG Yok",
+"odds": 1.27,
+"p": 0.7461,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Como 1907 - AEK Athens",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.37,
+"p": 0.69,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_11_BANKO_5X_KOMBINE",
+"bacak": 5,
+"oran": 5.1,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Stevenage - Sheffield Wednesday",
+"secim": "3.5 Alt",
+"odds": 1.25,
+"p": 0.7533,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Cardiff City - Preston North End",
+"secim": "3.5 Alt",
+"odds": 1.29,
+"p": 0.7317,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Glasgow Rangers - Aberdeen",
+"secim": "2Y KG Yok",
+"odds": 1.24,
+"p": 0.7647,
+"won": false,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Port Vale - Northampton Town",
+"secim": "2.5 Alt",
+"odds": 1.69,
+"p": 0.5593,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Feyenoord - FC Porto",
+"secim": "KG Var",
+"odds": 1.51,
+"p": 0.6255,
+"won": false,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_12_BANKO_5X_KOMBINE",
+"bacak": 5,
+"oran": 5.13,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Bradford City - Barnsley",
+"secim": "3.5 Alt",
+"odds": 1.31,
+"p": 0.723,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Wolverhampton - Derby County",
+"secim": "2Y KG Yok",
+"odds": 1.24,
+"p": 0.7591,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Blackpool - Leicester City",
+"secim": "MS 2",
+"odds": 1.78,
+"p": 0.5386,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Glasgow Rangers - Aberdeen",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.42,
+"p": 0.6637,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Cesena - Ascoli",
+"secim": "3.5 Alt",
+"odds": 1.25,
+"p": 0.7533,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_13_DEGER_4LU_5X_8X",
+"bacak": 4,
+"oran": 5.17,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Crawley Town - Barnet",
+"secim": "KG Var",
+"odds": 1.68,
+"p": 0.5622,
+"won": false,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "Stevenage - Sheffield Wednesday",
+"secim": "İY 1.5 Alt",
+"odds": 1.37,
+"p": 0.6915,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Glasgow Rangers - Aberdeen",
+"secim": "MS 1",
+"odds": 1.24,
+"p": 0.7735,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Bromley - Wycombe Wanderers",
+"secim": "ÇŞ X2 & 3.5 Alt",
+"odds": 1.81,
+"p": 0.5218,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_14_DEGER_4LU_5X_8X",
+"bacak": 4,
+"oran": 5.26,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "LR Vicenza Virtus - Carrarese",
+"secim": "İY 1.5 Alt",
+"odds": 1.35,
+"p": 0.7012,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Portsmouth - West Ham United",
+"secim": "KG Var",
+"odds": 1.56,
+"p": 0.6039,
+"won": false,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "Glasgow Rangers - Aberdeen",
+"secim": "2Y 1",
+"odds": 1.57,
+"p": 0.6024,
+"won": true,
+"aile": "2. yarı",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Arsenal - Borussia Dortmund",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.59,
+"p": 0.5949,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_15_DEGER_4LU_5X_8X",
+"bacak": 4,
+"oran": 5.17,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 4,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Cardiff City - Preston North End",
+"secim": "İY 1.5 Alt",
+"odds": 1.4,
+"p": 0.6756,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Blackpool - Leicester City",
+"secim": "2.5 Üst",
+"odds": 1.77,
+"p": 0.5353,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Portsmouth - West Ham United",
+"secim": "2.5 Üst",
+"odds": 1.63,
+"p": 0.5812,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Virtus Entella - Hellas Verona",
+"secim": "İY 1.5 Alt",
+"odds": 1.28,
+"p": 0.7372,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_16_DEGER_4LU_5X_8X",
+"bacak": 4,
+"oran": 5.15,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Bradford City - Barnsley",
+"secim": "İY 1.5 Alt",
+"odds": 1.41,
+"p": 0.6692,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Real Madrid - PSV Eindhoven",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.31,
+"p": 0.7223,
+"won": true,
+"aile": "Kombine",
+"ihlal": []
+},
+{
+"mac": "Benevento - Empoli",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.65,
+"p": 0.572,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Crawley Town - Barnet",
+"secim": "Dep 1.5 Üst",
+"odds": 1.69,
+"p": 0.5605,
+"won": false,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_17_DEGER_4LU_5X_8X",
+"bacak": 4,
+"oran": 5.24,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Wolverhampton - Derby County",
+"secim": "Ev 1.5 Üst",
+"odds": 1.44,
+"p": 0.6549,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P 0.65-0.70"
+]
+},
+{
+"mac": "LR Vicenza Virtus - Carrarese",
+"secim": "2Y KG Yok",
+"odds": 1.26,
+"p": 0.7476,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Bradford City - Barnsley",
+"secim": "MS 1",
+"odds": 1.72,
+"p": 0.5586,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Feyenoord - FC Porto",
+"secim": "ÇŞ X2 & 1.5 Üst",
+"odds": 1.68,
+"p": 0.5622,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_18_DEGER_4LU_5X_8X",
+"bacak": 4,
+"oran": 5.16,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Cesena - Ascoli",
+"secim": "İY 1.5 Alt",
+"odds": 1.37,
+"p": 0.6915,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Charlton Athletic - Lincoln City",
+"secim": "2.5 Alt",
+"odds": 1.63,
+"p": 0.5802,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Port Vale - Northampton Town",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.54,
+"p": 0.6125,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Real Madrid - PSV Eindhoven",
+"secim": "2Y 1",
+"odds": 1.5,
+"p": 0.6297,
+"won": true,
+"aile": "2. yarı",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_19_DEGER_4LU_5X_8X",
+"bacak": 4,
+"oran": 5.26,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Palermo - FC Südtirol",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.52,
+"p": 0.6234,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Portsmouth - West Ham United",
+"secim": "ÇŞ X2 & 1.5 Üst",
+"odds": 1.59,
+"p": 0.5926,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Crawley Town - Barnet",
+"secim": "MS 2",
+"odds": 1.7,
+"p": 0.5555,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Cesena - Ascoli",
+"secim": "2Y KG Yok",
+"odds": 1.28,
+"p": 0.7392,
+"won": false,
+"aile": "2Y KG",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_20_DEGER_4LU_5X_8X",
+"bacak": 4,
+"oran": 5.25,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 4,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Benevento - Empoli",
+"secim": "3.5 Alt",
+"odds": 1.26,
+"p": 0.749,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Manchester City - SSC Napoli",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.41,
+"p": 0.6706,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Crawley Town - Barnet",
+"secim": "2.5 Üst",
+"odds": 1.68,
+"p": 0.5632,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Palermo - FC Südtirol",
+"secim": "2Y 1",
+"odds": 1.76,
+"p": 0.5361,
+"won": false,
+"aile": "2. yarı",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_21_DEGER_4LU_5X_8X",
+"bacak": 4,
+"oran": 5.32,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Cesena - Ascoli",
+"secim": "3.5 Alt",
+"odds": 1.25,
+"p": 0.7533,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Slovan Bratislava - Real Betis",
+"secim": "2Y KG Yok",
+"odds": 1.25,
+"p": 0.7571,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "LR Vicenza Virtus - Carrarese",
+"secim": "2.5 Alt",
+"odds": 1.71,
+"p": 0.5541,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Bradford City - Barnsley",
+"secim": "2-3 Gol",
+"odds": 1.99,
+"p": 0.4759,
+"won": true,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_22_DEGER_4LU_5X_8X",
+"bacak": 4,
+"oran": 5.16,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Como 1907 - AEK Athens",
+"secim": "2.5 Üst",
+"odds": 1.43,
+"p": 0.6598,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Sheffield United - Southampton",
+"secim": "2.5 Üst",
+"odds": 1.72,
+"p": 0.5494,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Bromley - Wycombe Wanderers",
+"secim": "3.5 Alt",
+"odds": 1.28,
+"p": 0.7382,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Cardiff City - Preston North End",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.64,
+"p": 0.5762,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_23_GOL_VE_KOMBINE_4LU",
+"bacak": 4,
+"oran": 5.26,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Sheffield United - Southampton",
+"secim": "İY 0.5 Üst",
+"odds": 1.32,
+"p": 0.7141,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Como 1907 - AEK Athens",
+"secim": "2Y 1",
+"odds": 1.56,
+"p": 0.6045,
+"won": true,
+"aile": "2. yarı",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "RB Leipzig - RC Lens",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.46,
+"p": 0.6492,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Cesena - Ascoli",
+"secim": "2.5 Alt",
+"odds": 1.75,
+"p": 0.5387,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_24_GOL_VE_KOMBINE_4LU",
+"bacak": 4,
+"oran": 5.26,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Slovan Bratislava - Real Betis",
+"secim": "2Y 2",
+"odds": 1.5,
+"p": 0.6289,
+"won": true,
+"aile": "2. yarı",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Manchester City - SSC Napoli",
+"secim": "2.5 Üst",
+"odds": 1.48,
+"p": 0.6402,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Cesena - Ascoli",
+"secim": "İY 1.5 Alt",
+"odds": 1.37,
+"p": 0.6915,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Blackpool - Leicester City",
+"secim": "KG Var",
+"odds": 1.73,
+"p": 0.5463,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_25_GOL_VE_KOMBINE_4LU",
+"bacak": 4,
+"oran": 5.28,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Bradford City - Barnsley",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.64,
+"p": 0.5774,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Manchester City - SSC Napoli",
+"secim": "İY 1",
+"odds": 1.81,
+"p": 0.5218,
+"won": false,
+"aile": "İY sonucu",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Bromley - Wycombe Wanderers",
+"secim": "2Y KG Yok",
+"odds": 1.29,
+"p": 0.7325,
+"won": false,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "RB Leipzig - RC Lens",
+"secim": "2.5 Üst",
+"odds": 1.38,
+"p": 0.6844,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_26_GOL_VE_KOMBINE_4LU",
+"bacak": 4,
+"oran": 5.28,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Wolverhampton - Derby County",
+"secim": "2Y 1",
+"odds": 1.64,
+"p": 0.5772,
+"won": true,
+"aile": "2. yarı",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Como 1907 - AEK Athens",
+"secim": "Hnd(-1) 1",
+"odds": 1.81,
+"p": 0.5233,
+"won": false,
+"aile": "Handikap",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Arsenal - Borussia Dortmund",
+"secim": "MS 1",
+"odds": 1.38,
+"p": 0.6726,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Real Madrid - PSV Eindhoven",
+"secim": "2.5 Üst",
+"odds": 1.29,
+"p": 0.732,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_27_GOL_VE_KOMBINE_4LU",
+"bacak": 4,
+"oran": 5.36,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Wolverhampton - Derby County",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.46,
+"p": 0.646,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Cesena - Ascoli",
+"secim": "2Y KG Yok",
+"odds": 1.28,
+"p": 0.7392,
+"won": false,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Blackpool - Leicester City",
+"secim": "Dep 1.5 Üst",
+"odds": 1.78,
+"p": 0.5311,
+"won": false,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "Arsenal - Borussia Dortmund",
+"secim": "Ev 1.5 Üst",
+"odds": 1.61,
+"p": 0.5885,
+"won": false,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_28_GOL_VE_KOMBINE_4LU",
+"bacak": 4,
+"oran": 5.37,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Coquimbo Unido - Unión La Calera",
+"secim": "2.5 Alt",
+"odds": 1.53,
+"p": 0.6174,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "RB Leipzig - RC Lens",
+"secim": "Ev 1.5 Üst",
+"odds": 1.38,
+"p": 0.6869,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Palermo - FC Südtirol",
+"secim": "2Y KG Yok",
+"odds": 1.29,
+"p": 0.7352,
+"won": false,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Cesena - Ascoli",
+"secim": "2-3 Gol",
+"odds": 1.97,
+"p": 0.4803,
+"won": false,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_29_GOL_VE_KOMBINE_4LU",
+"bacak": 4,
+"oran": 5.29,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Blackpool - Leicester City",
+"secim": "ÇŞ X2 & 1.5 Üst",
+"odds": 1.52,
+"p": 0.6231,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Slovan Bratislava - Real Betis",
+"secim": "İY 2",
+"odds": 1.67,
+"p": 0.5646,
+"won": true,
+"aile": "İY sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Charlton Athletic - Lincoln City",
+"secim": "İY 1.5 Alt",
+"odds": 1.32,
+"p": 0.7176,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Feyenoord - FC Porto",
+"secim": "2.5 Üst",
+"odds": 1.58,
+"p": 0.5988,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_30_GOL_VE_KOMBINE_4LU",
+"bacak": 4,
+"oran": 5.35,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Chapecoense - Palmeiras",
+"secim": "2.5 Üst",
+"odds": 1.83,
+"p": 0.5161,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Wolverhampton - Derby County",
+"secim": "MS 1",
+"odds": 1.32,
+"p": 0.7294,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Como 1907 - AEK Athens",
+"secim": "MS 1 & 2.5 Üst",
+"odds": 1.73,
+"p": 0.5471,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Virtus Entella - Hellas Verona",
+"secim": "İY 1.5 Alt",
+"odds": 1.28,
+"p": 0.7372,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_31_GOL_VE_KOMBINE_4LU",
+"bacak": 4,
+"oran": 5.26,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Manchester City - SSC Napoli",
+"secim": "2Y 1",
+"odds": 1.63,
+"p": 0.5794,
+"won": false,
+"aile": "2. yarı",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Benevento - Empoli",
+"secim": "2.5 Alt",
+"odds": 1.77,
+"p": 0.5336,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Hibernian - Dundee FC",
+"secim": "3.5 Alt",
+"odds": 1.33,
+"p": 0.7097,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Como 1907 - AEK Athens",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.37,
+"p": 0.69,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_32_GOL_VE_KOMBINE_4LU",
+"bacak": 4,
+"oran": 5.27,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Chapecoense - Palmeiras",
+"secim": "KG Var",
+"odds": 1.74,
+"p": 0.5441,
+"won": false,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "Coquimbo Unido - Unión La Calera",
+"secim": "İY 1.5 Alt",
+"odds": 1.28,
+"p": 0.7408,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Charlton Athletic - Lincoln City",
+"secim": "KG Yok",
+"odds": 1.85,
+"p": 0.5101,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Manchester City - SSC Napoli",
+"secim": "MS 1",
+"odds": 1.28,
+"p": 0.7445,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_33_TAKTIK_ALT_VE_KALKAN_5LI",
+"bacak": 5,
+"oran": 5.2,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": null,
+"tutan_bacak": 5,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Bristol City - Wrexham",
+"secim": "2Y KG Yok",
+"odds": 1.31,
+"p": 0.7228,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Slovan Bratislava - Real Betis",
+"secim": "MS 2",
+"odds": 1.24,
+"p": 0.7825,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "RB Leipzig - RC Lens",
+"secim": "2.5 Üst",
+"odds": 1.38,
+"p": 0.6844,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Sheffield United - Southampton",
+"secim": "ÇŞ 1X & 1.5 Üst",
+"odds": 1.87,
+"p": 0.5045,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Wolverhampton - Derby County",
+"secim": "2Y KG Yok",
+"odds": 1.24,
+"p": 0.7591,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_34_TAKTIK_ALT_VE_KALKAN_5LI",
+"bacak": 5,
+"oran": 5.14,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 4,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Benevento - Empoli",
+"secim": "İY 1.5 Alt",
+"odds": 1.37,
+"p": 0.6884,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Manchester City - SSC Napoli",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.41,
+"p": 0.6706,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Charlton Athletic - Lincoln City",
+"secim": "2Y KG Yok",
+"odds": 1.24,
+"p": 0.762,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Glasgow Rangers - Aberdeen",
+"secim": "2Y KG Yok",
+"odds": 1.24,
+"p": 0.7647,
+"won": false,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Como 1907 - AEK Athens",
+"secim": "İY 1",
+"odds": 1.73,
+"p": 0.545,
+"won": false,
+"aile": "İY sonucu",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_35_TAKTIK_ALT_VE_KALKAN_5LI",
+"bacak": 5,
+"oran": 5.16,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Cesena - Ascoli",
+"secim": "2Y KG Yok",
+"odds": 1.28,
+"p": 0.7392,
+"won": false,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Como 1907 - AEK Athens",
+"secim": "MS 1",
+"odds": 1.26,
+"p": 0.7625,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Coquimbo Unido - Unión La Calera",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.44,
+"p": 0.6574,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Bradford City - Barnsley",
+"secim": "2Y KG Yok",
+"odds": 1.27,
+"p": 0.745,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Port Vale - Northampton Town",
+"secim": "MS 1",
+"odds": 1.75,
+"p": 0.5422,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_36_TAKTIK_ALT_VE_KALKAN_5LI",
+"bacak": 5,
+"oran": 5.15,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Norwich City - Queens Park Rangers",
+"secim": "İY 0.5 Üst",
+"odds": 1.33,
+"p": 0.7094,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Bradford City - Barnsley",
+"secim": "İY 1.5 Alt",
+"odds": 1.41,
+"p": 0.6692,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Feyenoord - FC Porto",
+"secim": "İY 0.5 Üst",
+"odds": 1.28,
+"p": 0.7399,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Bristol City - Wrexham",
+"secim": "3.5 Alt",
+"odds": 1.3,
+"p": 0.7273,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Real Madrid - PSV Eindhoven",
+"secim": "İY 1",
+"odds": 1.65,
+"p": 0.5715,
+"won": false,
+"aile": "İY sonucu",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_37_TAKTIK_ALT_VE_KALKAN_5LI",
+"bacak": 5,
+"oran": 5.26,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Palermo - FC Südtirol",
+"secim": "MS 1",
+"odds": 1.4,
+"p": 0.6802,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Virtus Entella - Hellas Verona",
+"secim": "2.5 Alt",
+"odds": 1.54,
+"p": 0.612,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Bradford City - Barnsley",
+"secim": "3.5 Alt",
+"odds": 1.31,
+"p": 0.723,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Bristol City - Wrexham",
+"secim": "İY 1.5 Alt",
+"odds": 1.41,
+"p": 0.672,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Hibernian - Dundee FC",
+"secim": "2Y KG Yok",
+"odds": 1.32,
+"p": 0.7158,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_38_TAKTIK_ALT_VE_KALKAN_5LI",
+"bacak": 5,
+"oran": 5.12,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Port Vale - Northampton Town",
+"secim": "İY 1.5 Alt",
+"odds": 1.34,
+"p": 0.7048,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Arsenal - Borussia Dortmund",
+"secim": "MS 1",
+"odds": 1.38,
+"p": 0.6726,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Stevenage - Sheffield Wednesday",
+"secim": "3.5 Alt",
+"odds": 1.25,
+"p": 0.7533,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Charlton Athletic - Lincoln City",
+"secim": "2.5 Alt",
+"odds": 1.63,
+"p": 0.5802,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Manchester City - SSC Napoli",
+"secim": "Ev 1.5 Üst",
+"odds": 1.36,
+"p": 0.6956,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_39_TAKTIK_ALT_VE_KALKAN_5LI",
+"bacak": 5,
+"oran": 5.31,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Palermo - FC Südtirol",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.52,
+"p": 0.6234,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Feyenoord - FC Porto",
+"secim": "KG Var",
+"odds": 1.51,
+"p": 0.6255,
+"won": false,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "RB Leipzig - RC Lens",
+"secim": "MS 1",
+"odds": 1.38,
+"p": 0.6834,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Cardiff City - Preston North End",
+"secim": "2Y KG Yok",
+"odds": 1.27,
+"p": 0.7461,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Slovan Bratislava - Real Betis",
+"secim": "Dep 1.5 Üst",
+"odds": 1.32,
+"p": 0.7164,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_40_TAKTIK_ALT_VE_KALKAN_5LI",
+"bacak": 5,
+"oran": 5.34,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Manchester City - SSC Napoli",
+"secim": "Ev 1.5 Üst",
+"odds": 1.36,
+"p": 0.6956,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Stevenage - Sheffield Wednesday",
+"secim": "İY 1.5 Alt",
+"odds": 1.37,
+"p": 0.6915,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Bromley - Wycombe Wanderers",
+"secim": "İY 1.5 Alt",
+"odds": 1.39,
+"p": 0.6802,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Virtus Entella - Hellas Verona",
+"secim": "ÇŞ X2 & 3.5 Alt",
+"odds": 1.65,
+"p": 0.5717,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Slovan Bratislava - Real Betis",
+"secim": "2Y KG Yok",
+"odds": 1.25,
+"p": 0.7571,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_41_KESKIN_3LU_YUKSEK_ORAN",
+"bacak": 3,
+"oran": 5.24,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "LR Vicenza Virtus - Carrarese",
+"secim": "KG Yok",
+"odds": 1.93,
+"p": 0.4888,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Stevenage - Sheffield Wednesday",
+"secim": "2.5 Alt",
+"odds": 1.75,
+"p": 0.5387,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Real Madrid - PSV Eindhoven",
+"secim": "MS 1 & 2.5 Üst",
+"odds": 1.55,
+"p": 0.6084,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_42_KESKIN_3LU_YUKSEK_ORAN",
+"bacak": 3,
+"oran": 5.16,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Real Madrid - PSV Eindhoven",
+"secim": "Hnd(-1) 1",
+"odds": 1.68,
+"p": 0.5622,
+"won": true,
+"aile": "Handikap",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Stevenage - Sheffield Wednesday",
+"secim": "ÇŞ X2 & 3.5 Alt",
+"odds": 1.83,
+"p": 0.5154,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Crawley Town - Barnet",
+"secim": "KG Var",
+"odds": 1.68,
+"p": 0.5622,
+"won": false,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_43_KESKIN_3LU_YUKSEK_ORAN",
+"bacak": 3,
+"oran": 5.27,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Sheffield United - Southampton",
+"secim": "2Y 1.5 Üst",
+"odds": 1.95,
+"p": 0.4841,
+"won": false,
+"aile": "2. yarı",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Cardiff City - Preston North End",
+"secim": "MS 1",
+"odds": 1.85,
+"p": 0.5258,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Crawley Town - Barnet",
+"secim": "ÇŞ X2 & 1.5 Üst",
+"odds": 1.46,
+"p": 0.6453,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_44_KESKIN_3LU_YUKSEK_ORAN",
+"bacak": 3,
+"oran": 5.15,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Bristol City - Wrexham",
+"secim": "KG Yok",
+"odds": 2.08,
+"p": 0.4539,
+"won": false,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Chapecoense - Palmeiras",
+"secim": "MS 2",
+"odds": 1.92,
+"p": 0.4985,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Cardiff City - Preston North End",
+"secim": "3.5 Alt",
+"odds": 1.29,
+"p": 0.7317,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_45_KESKIN_3LU_YUKSEK_ORAN",
+"bacak": 3,
+"oran": 5.24,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Glasgow Rangers - Aberdeen",
+"secim": "İY 1",
+"odds": 1.75,
+"p": 0.539,
+"won": false,
+"aile": "İY sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Stevenage - Sheffield Wednesday",
+"secim": "2.5 Alt",
+"odds": 1.75,
+"p": 0.5387,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Arsenal - Borussia Dortmund",
+"secim": "2.5 Üst",
+"odds": 1.71,
+"p": 0.5539,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_46_KESKIN_3LU_YUKSEK_ORAN",
+"bacak": 3,
+"oran": 5.24,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Manchester City - SSC Napoli",
+"secim": "MS 1 & 2.5 Üst",
+"odds": 1.83,
+"p": 0.5159,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Port Vale - Northampton Town",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.54,
+"p": 0.6125,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Bristol City - Wrexham",
+"secim": "2.5 Alt",
+"odds": 1.86,
+"p": 0.5084,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_47_KESKIN_3LU_YUKSEK_ORAN",
+"bacak": 3,
+"oran": 5.17,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Bristol City - Wrexham",
+"secim": "2-3 Gol",
+"odds": 1.98,
+"p": 0.4775,
+"won": true,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Stevenage - Sheffield Wednesday",
+"secim": "2Y KG Yok",
+"odds": 1.28,
+"p": 0.7401,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Slovan Bratislava - Real Betis",
+"secim": "İY/MS 2/2",
+"odds": 2.04,
+"p": 0.463,
+"won": true,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_48_KESKIN_3LU_YUKSEK_ORAN",
+"bacak": 3,
+"oran": 5.21,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Feyenoord - FC Porto",
+"secim": "2Y 1.5 Üst",
+"odds": 1.81,
+"p": 0.5228,
+"won": false,
+"aile": "2. yarı",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Port Vale - Northampton Town",
+"secim": "2-3 Gol",
+"odds": 1.97,
+"p": 0.48,
+"won": true,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "RB Leipzig - RC Lens",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.46,
+"p": 0.6492,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_49_AVRUPA_6LI_SISTEM_10X_25X",
+"bacak": 6,
+"oran": 10.15,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Hibernian - Dundee FC",
+"secim": "MS 1",
+"odds": 1.63,
+"p": 0.5372,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Cardiff City - Preston North End",
+"secim": "3.5 Alt",
+"odds": 1.29,
+"p": 0.7317,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Norwich City - Queens Park Rangers",
+"secim": "2.5 Üst",
+"odds": 1.75,
+"p": 0.54,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "LR Vicenza Virtus - Carrarese",
+"secim": "2Y KG Yok",
+"odds": 1.26,
+"p": 0.7476,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Slovan Bratislava - Real Betis",
+"secim": "Hnd(-1) 2",
+"odds": 1.71,
+"p": 0.5536,
+"won": true,
+"aile": "Handikap",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Manchester City - SSC Napoli",
+"secim": "MS 1",
+"odds": 1.28,
+"p": 0.7445,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_50_AVRUPA_6LI_SISTEM_10X_25X",
+"bacak": 6,
+"oran": 10.03,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Real Madrid - PSV Eindhoven",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.31,
+"p": 0.7223,
+"won": true,
+"aile": "Kombine",
+"ihlal": []
+},
+{
+"mac": "Como 1907 - AEK Athens",
+"secim": "Ev 1.5 Üst",
+"odds": 1.31,
+"p": 0.7224,
+"won": false,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Coquimbo Unido - Unión La Calera",
+"secim": "MS 1",
+"odds": 1.69,
+"p": 0.5515,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Portsmouth - West Ham United",
+"secim": "Dep 1.5 Üst",
+"odds": 1.82,
+"p": 0.519,
+"won": false,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Wolverhampton - Derby County",
+"secim": "Ev 1.5 Üst",
+"odds": 1.44,
+"p": 0.6549,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Sheffield United - Southampton",
+"secim": "İY 0.5 Üst",
+"odds": 1.32,
+"p": 0.7141,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_51_AVRUPA_6LI_SISTEM_10X_25X",
+"bacak": 6,
+"oran": 10.35,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "RB Leipzig - RC Lens",
+"secim": "2Y 1",
+"odds": 1.78,
+"p": 0.5295,
+"won": false,
+"aile": "2. yarı",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Bradford City - Barnsley",
+"secim": "2.5 Alt",
+"odds": 1.88,
+"p": 0.5035,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Real Madrid - PSV Eindhoven",
+"secim": "2.5 Üst",
+"odds": 1.29,
+"p": 0.732,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Benevento - Empoli",
+"secim": "2Y KG Yok",
+"odds": 1.26,
+"p": 0.7495,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Port Vale - Northampton Town",
+"secim": "İY 1.5 Alt",
+"odds": 1.34,
+"p": 0.7048,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Glasgow Rangers - Aberdeen",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.42,
+"p": 0.6637,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_52_AVRUPA_6LI_SISTEM_10X_25X",
+"bacak": 6,
+"oran": 10.01,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 5,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Palermo - FC Südtirol",
+"secim": "Ev 1.5 Üst",
+"odds": 1.51,
+"p": 0.6254,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "LR Vicenza Virtus - Carrarese",
+"secim": "İY 1.5 Alt",
+"odds": 1.35,
+"p": 0.7012,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Sheffield United - Southampton",
+"secim": "KG Var",
+"odds": 1.6,
+"p": 0.5915,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "Slovan Bratislava - Real Betis",
+"secim": "MS 2",
+"odds": 1.24,
+"p": 0.7825,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Blackpool - Leicester City",
+"secim": "MS 2",
+"odds": 1.78,
+"p": 0.5386,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Glasgow Rangers - Aberdeen",
+"secim": "Ev 1.5 Üst",
+"odds": 1.39,
+"p": 0.6803,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_53_AVRUPA_6LI_SISTEM_10X_25X",
+"bacak": 6,
+"oran": 10.01,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Benevento - Empoli",
+"secim": "2Y KG Yok",
+"odds": 1.26,
+"p": 0.7495,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Hibernian - Dundee FC",
+"secim": "İY 1.5 Alt",
+"odds": 1.43,
+"p": 0.6592,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Palermo - FC Südtirol",
+"secim": "2Y KG Yok",
+"odds": 1.29,
+"p": 0.7352,
+"won": false,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Bromley - Wycombe Wanderers",
+"secim": "2.5 Alt",
+"odds": 1.81,
+"p": 0.521,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Bristol City - Wrexham",
+"secim": "3.5 Alt",
+"odds": 1.3,
+"p": 0.7273,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Wolverhampton - Derby County",
+"secim": "İY 1",
+"odds": 1.83,
+"p": 0.516,
+"won": true,
+"aile": "İY sonucu",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_54_AVRUPA_6LI_SISTEM_10X_25X",
+"bacak": 6,
+"oran": 10.09,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Stevenage - Sheffield Wednesday",
+"secim": "3.5 Alt",
+"odds": 1.25,
+"p": 0.7533,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Manchester City - SSC Napoli",
+"secim": "2.5 Üst",
+"odds": 1.48,
+"p": 0.6402,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Real Madrid - PSV Eindhoven",
+"secim": "Ev 2.5 Üst",
+"odds": 1.75,
+"p": 0.5411,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "Bromley - Wycombe Wanderers",
+"secim": "2Y KG Yok",
+"odds": 1.29,
+"p": 0.7325,
+"won": false,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Como 1907 - AEK Athens",
+"secim": "2.5 Üst",
+"odds": 1.43,
+"p": 0.6598,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Middlesbrough - Swansea City",
+"secim": "Ev 1.5 Üst",
+"odds": 1.69,
+"p": 0.5605,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-24",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_55_AVRUPA_6LI_SISTEM_10X_25X",
+"bacak": 6,
+"oran": 7.51,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Coquimbo Unido - Unión La Calera",
+"secim": "2.5 Alt",
+"odds": 1.53,
+"p": 0.6174,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Cardiff City - Preston North End",
+"secim": "İY 1.5 Alt",
+"odds": 1.4,
+"p": 0.6756,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Virtus Entella - Hellas Verona",
+"secim": "2.5 Alt",
+"odds": 1.54,
+"p": 0.612,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "RB Leipzig - RC Lens",
+"secim": "2.5 Üst",
+"odds": 1.38,
+"p": 0.6844,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "LR Vicenza Virtus - Carrarese",
+"secim": "2Y KG Yok",
+"odds": 1.26,
+"p": 0.7476,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Bristol City - Wrexham",
+"secim": "2Y KG Yok",
+"odds": 1.31,
+"p": 0.7228,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_01_V91_BANKO_5X",
+"bacak": 5,
+"oran": 5.89,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 0,
+"not_": "",
+"legs": [
+{
+"mac": "Kashima Antlers - Jeonbuk Motors",
+"secim": "2Y KG Yok",
+"odds": 1.24,
+"p": null,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Tala'ea El Gaish - Modern Sport FC",
+"secim": "2.5 Alt",
+"odds": 1.37,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Al-Taawoun - Al-Nahda",
+"secim": "MS 1",
+"odds": 1.49,
+"p": null,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Club Brugge - Liverpool",
+"secim": "MS 2",
+"odds": 1.65,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Inter Milan - VfB Stuttgart",
+"secim": "MS 1",
+"odds": 1.41,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_02_V91_BANKO_5X",
+"bacak": 5,
+"oran": 6.93,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 1,
+"not_": "",
+"legs": [
+{
+"mac": "Sabah FK - FC Barcelona",
+"secim": "İY 2",
+"odds": 1.4,
+"p": null,
+"won": true,
+"aile": "İY sonucu",
+"ihlal": []
+},
+{
+"mac": "US Cremonese - US Avellino",
+"secim": "3.5 Alt",
+"odds": 1.21,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "ENPPI - Ceramica Cleopatra",
+"secim": "ÇŞ X2 & 3.5 Alt",
+"odds": 1.56,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": []
+},
+{
+"mac": "Stoke City - Millwall",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.86,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Inter Milan - VfB Stuttgart",
+"secim": "MS 1",
+"odds": 1.41,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_03_V91_BANKO_5X",
+"bacak": 5,
+"oran": 6.37,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": null,
+"tutan_bacak": 5,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 0,
+"not_": "",
+"legs": [
+{
+"mac": "Kashima Antlers - Jeonbuk Motors",
+"secim": "MS 1",
+"odds": 1.51,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Nasaf Qarshi - Al-Khalidiya",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.6,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": []
+},
+{
+"mac": "Ghazl El Mahalla - Petrojet",
+"secim": "2.5 Alt",
+"odds": 1.42,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Mantova - SS Arezzo",
+"secim": "ÇŞ 1X & 1.5 Üst",
+"odds": 1.51,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": []
+},
+{
+"mac": "Atlético Madrid - Viking FK",
+"secim": "2Y KG Yok",
+"odds": 1.23,
+"p": null,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_04_V91_BANKO_5X",
+"bacak": 5,
+"oran": 7.6,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 1,
+"not_": "",
+"legs": [
+{
+"mac": "Persib Bandung - FC Seoul",
+"secim": "ÇŞ X2 & 1.5 Üst",
+"odds": 1.62,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": []
+},
+{
+"mac": "Dinamo Makhachkala - Baltika Kaliningrad",
+"secim": "İY 1.5 Alt",
+"odds": 1.23,
+"p": null,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Lokomotiv Moscow - FC Rostov",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.88,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Al-Taawoun - Al-Nahda",
+"secim": "2Y KG Yok",
+"odds": 1.23,
+"p": null,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+},
+{
+"mac": "Club Brugge - Liverpool",
+"secim": "MS 2",
+"odds": 1.65,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_05_V91_ORTOGONAL_4LU",
+"bacak": 4,
+"oran": 5.33,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 1,
+"not_": "",
+"legs": [
+{
+"mac": "Gamba Osaka - Port FC",
+"secim": "2.5 Üst",
+"odds": 1.45,
+"p": null,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Slavia Prague - Villarreal CF",
+"secim": "KG Var",
+"odds": 1.54,
+"p": null,
+"won": false,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Inter Milan - VfB Stuttgart",
+"secim": "3.5 Alt",
+"odds": 1.57,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "LOSC Lille - Bayern München",
+"secim": "ÇŞ X2 & 1.5 Üst",
+"odds": 1.52,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_06_V91_ORTOGONAL_4LU",
+"bacak": 4,
+"oran": 9.23,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "V-Varen Nagasaki - Kawasaki Frontale",
+"secim": "KG Var",
+"odds": 1.66,
+"p": null,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Al-Faisaly Amman - Al-Rayyan SC",
+"secim": "ÇŞ X2 & 1.5 Üst",
+"odds": 1.7,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": []
+},
+{
+"mac": "Club Brugge - Liverpool",
+"secim": "MS 2 & 1.5 Üst",
+"odds": 1.89,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Shakhtar Donetsk - Fenerbahçe",
+"secim": "ÇŞ X2 & 1.5 Üst",
+"odds": 1.73,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_07_V91_ORTOGONAL_4LU",
+"bacak": 4,
+"oran": 5.95,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 1,
+"not_": "",
+"legs": [
+{
+"mac": "Urawa Red Diamonds - Cerezo Osaka",
+"secim": "ÇŞ 1X & 1.5 Üst",
+"odds": 1.6,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": []
+},
+{
+"mac": "Mantova - SS Arezzo",
+"secim": "MS 1",
+"odds": 1.63,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Bolton Wanderers - West Bromwich Albion",
+"secim": "KG Var",
+"odds": 1.69,
+"p": null,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Paris Saint-Germain - AS Roma",
+"secim": "2.5 Üst",
+"odds": 1.35,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_08_V91_ORTOGONAL_4LU",
+"bacak": 4,
+"oran": 6.49,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Sabah FK - FC Barcelona",
+"secim": "Dep 2.5 Üst",
+"odds": 1.54,
+"p": null,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Pisa SC - Modena FC",
+"secim": "KG Var",
+"odds": 1.71,
+"p": null,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Burnley - Birmingham City",
+"secim": "KG Var",
+"odds": 1.6,
+"p": null,
+"won": false,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Sporting CP - Manchester United",
+"secim": "KG Var",
+"odds": 1.54,
+"p": null,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_09_V91_GAMMA_UST_4LU",
+"bacak": 4,
+"oran": 7.62,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Gamba Osaka - Port FC",
+"secim": "Ev 1.5 Üst",
+"odds": 1.46,
+"p": null,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Calcio Padova - UC Sampdoria",
+"secim": "2-3 Gol",
+"odds": 2.09,
+"p": null,
+"won": true,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Bolton Wanderers - West Bromwich Albion",
+"secim": "2.5 Üst",
+"odds": 1.77,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Paris Saint-Germain - AS Roma",
+"secim": "KG Var",
+"odds": 1.41,
+"p": null,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_10_V91_GAMMA_UST_4LU",
+"bacak": 4,
+"oran": 7.58,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 0,
+"not_": "",
+"legs": [
+{
+"mac": "V-Varen Nagasaki - Kawasaki Frontale",
+"secim": "2.5 Üst",
+"odds": 1.73,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Slavia Prague - Villarreal CF",
+"secim": "2.5 Üst",
+"odds": 1.61,
+"p": null,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Burnley - Birmingham City",
+"secim": "2.5 Üst",
+"odds": 1.68,
+"p": null,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Sporting CP - Manchester United",
+"secim": "2.5 Üst",
+"odds": 1.62,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_11_V91_GAMMA_UST_4LU",
+"bacak": 4,
+"oran": 8.23,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Urawa Red Diamonds - Cerezo Osaka",
+"secim": "KG Var",
+"odds": 1.7,
+"p": null,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Mantova - SS Arezzo",
+"secim": "Ev 1.5 Üst",
+"odds": 1.72,
+"p": null,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Pisa SC - Modena FC",
+"secim": "2.5 Üst",
+"odds": 1.84,
+"p": null,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Club Brugge - Liverpool",
+"secim": "Dep 1.5 Üst",
+"odds": 1.53,
+"p": null,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_12_V91_GAMMA_UST_4LU",
+"bacak": 4,
+"oran": 10.24,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Al-Faisaly Amman - Al-Rayyan SC",
+"secim": "KG Var",
+"odds": 1.71,
+"p": null,
+"won": false,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Calcio Padova - UC Sampdoria",
+"secim": "KG Var",
+"odds": 1.78,
+"p": null,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Watford - Blackburn Rovers",
+"secim": "2-3 Gol",
+"odds": 2.09,
+"p": null,
+"won": false,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "LOSC Lille - Bayern München",
+"secim": "MS 2",
+"odds": 1.61,
+"p": null,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_13_V91_TAKTIK_KALKAN_5LI",
+"bacak": 5,
+"oran": 7.98,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Nasaf Qarshi - Al-Khalidiya",
+"secim": "3.5 Alt",
+"odds": 1.24,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Tala'ea El Gaish - Modern Sport FC",
+"secim": "2.5 Alt",
+"odds": 1.37,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Akhmat Grozny - FC Krasnodar",
+"secim": "3.5 Alt",
+"odds": 1.33,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "US Cremonese - US Avellino",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.82,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Atlético Mineiro - Corinthians",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.94,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_14_V91_TAKTIK_KALKAN_5LI",
+"bacak": 5,
+"oran": 10.29,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 4,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Akhmat Grozny - FC Krasnodar",
+"secim": "2-3 Gol",
+"odds": 2.05,
+"p": null,
+"won": true,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Dinamo Makhachkala - Baltika Kaliningrad",
+"secim": "2.5 Alt",
+"odds": 1.44,
+"p": null,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Lokomotiv Moscow - FC Rostov",
+"secim": "3.5 Alt",
+"odds": 1.32,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Ghazl El Mahalla - Petrojet",
+"secim": "2.5 Alt",
+"odds": 1.42,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Stoke City - Millwall",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.86,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_15_V91_TAKTIK_KALKAN_5LI",
+"bacak": 5,
+"oran": 7.51,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 1,
+"not_": "",
+"legs": [
+{
+"mac": "US Cremonese - US Avellino",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.82,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "ENPPI - Ceramica Cleopatra",
+"secim": "ÇŞ X2 & 3.5 Alt",
+"odds": 1.56,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": []
+},
+{
+"mac": "Calcio Padova - UC Sampdoria",
+"secim": "İY 0.5 Üst",
+"odds": 1.41,
+"p": null,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Pisa SC - Modena FC",
+"secim": "İY 0.5 Üst",
+"odds": 1.38,
+"p": null,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Inter Milan - VfB Stuttgart",
+"secim": "2Y KG Yok",
+"odds": 1.36,
+"p": null,
+"won": true,
+"aile": "2Y KG",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_16_V91_TAKTIK_KALKAN_5LI",
+"bacak": 5,
+"oran": 7.71,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 1,
+"not_": "",
+"legs": [
+{
+"mac": "Kashima Antlers - Jeonbuk Motors",
+"secim": "3.5 Alt",
+"odds": 1.34,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Persib Bandung - FC Seoul",
+"secim": "MS 2",
+"odds": 1.72,
+"p": null,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Al-Taawoun - Al-Nahda",
+"secim": "ÇŞ 1X & 3.5 Alt",
+"odds": 1.55,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": []
+},
+{
+"mac": "LOSC Lille - Bayern München",
+"secim": "Dep 1.5 Üst",
+"odds": 1.7,
+"p": null,
+"won": false,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Shakhtar Donetsk - Fenerbahçe",
+"secim": "3.5 Alt",
+"odds": 1.27,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_17_V91_KESKIN_3LU",
+"bacak": 3,
+"oran": 9.2,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Slavia Prague - Villarreal CF",
+"secim": "ÇŞ X2 & 1.5 Üst",
+"odds": 1.68,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": []
+},
+{
+"mac": "Watford - Blackburn Rovers",
+"secim": "2-3 Gol",
+"odds": 2.09,
+"p": null,
+"won": false,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Shakhtar Donetsk - Fenerbahçe",
+"secim": "MS 2",
+"odds": 2.62,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_18_V91_KESKIN_3LU",
+"bacak": 3,
+"oran": 7.1,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "ENPPI - Ceramica Cleopatra",
+"secim": "MS 2",
+"odds": 1.95,
+"p": null,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Stoke City - Millwall",
+"secim": "2-3 Gol",
+"odds": 2.07,
+"p": null,
+"won": true,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Paris Saint-Germain - AS Roma",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.76,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_19_V91_KESKIN_3LU",
+"bacak": 3,
+"oran": 7.16,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Lokomotiv Moscow - FC Rostov",
+"secim": "2-3 Gol",
+"odds": 2.04,
+"p": null,
+"won": true,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Bolton Wanderers - West Bromwich Albion",
+"secim": "ÇŞ X2 & 1.5 Üst",
+"odds": 1.72,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": []
+},
+{
+"mac": "Atlético Mineiro - Corinthians",
+"secim": "2-3 Gol",
+"odds": 2.04,
+"p": null,
+"won": true,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_20_V91_KESKIN_3LU",
+"bacak": 3,
+"oran": 8.47,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Nasaf Qarshi - Al-Khalidiya",
+"secim": "MS 1",
+"odds": 1.79,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Burnley - Birmingham City",
+"secim": "2-3 Gol",
+"odds": 2.17,
+"p": null,
+"won": true,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Sporting CP - Manchester United",
+"secim": "2-3 Gol",
+"odds": 2.18,
+"p": null,
+"won": false,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_01_V93_OMNI_2LI",
+"bacak": 2,
+"oran": 15.21,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Slavia Prague - Villarreal CF",
+"secim": "MS 2 & KG Var",
+"odds": 3.95,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Bolton Wanderers - West Bromwich Albion",
+"secim": "MS 2 & KG Var",
+"odds": 3.85,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_02_V93_OMNI_2LI",
+"bacak": 2,
+"oran": 15.6,
+"stake": null,
+"oynandi": false,
+"durum": "belirsiz",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 0,
+"belirsiz_bacak": 2,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Inter Milan - VfB Stuttgart",
+"secim": "Ev 2 Farkla Kazanır",
+"odds": 3.95,
+"p": null,
+"won": null,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Shakhtar Donetsk - Fenerbahçe",
+"secim": "Dep 1 Farkla Kazanır",
+"odds": 3.95,
+"p": null,
+"won": null,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_03_V93_OMNI_2LI",
+"bacak": 2,
+"oran": 9.31,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Club Brugge - Liverpool",
+"secim": "4-5 Gol",
+"odds": 3.35,
+"p": null,
+"won": false,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Paris Saint-Germain - AS Roma",
+"secim": "MS 1 & KG Var",
+"odds": 2.78,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_04_V93_OMNI_2LI",
+"bacak": 2,
+"oran": 13.03,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 1,
+"belirsiz_bacak": 1,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "US Cremonese - US Avellino",
+"secim": "İY/MS 0/0",
+"odds": 4.79,
+"p": null,
+"won": false,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Calcio Padova - UC Sampdoria",
+"secim": "İlk Gol: Deplasman & ÇŞ X2",
+"odds": 2.72,
+"p": null,
+"won": null,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_05_V93_OMNI_2LI",
+"bacak": 2,
+"oran": 11.51,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Pisa SC - Modena FC",
+"secim": "2Y KG Var",
+"odds": 2.95,
+"p": null,
+"won": true,
+"aile": "2Y KG",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Sporting CP - Manchester United",
+"secim": "İY KG Var",
+"odds": 3.9,
+"p": null,
+"won": false,
+"aile": "Yarı KG",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_06_V93_OMNI_2LI",
+"bacak": 3,
+"oran": 16.65,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 1,
+"belirsiz_bacak": 2,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Persib Bandung - FC Seoul",
+"secim": "2Y 2",
+"odds": 2.08,
+"p": null,
+"won": false,
+"aile": "2. yarı",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Nasaf Qarshi - Al-Khalidiya",
+"secim": "Ev 1 Farkla Kazanır",
+"odds": 3.45,
+"p": null,
+"won": null,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Al-Taawoun - Al-Nahda",
+"secim": "Ev Her İki Yarıda Gol Atar",
+"odds": 2.32,
+"p": null,
+"won": null,
+"aile": "Yarı özel",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_07_V93_DEVRE_OZEL_3LU",
+"bacak": 3,
+"oran": 12.14,
+"stake": null,
+"oynandi": false,
+"durum": "belirsiz",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 0,
+"belirsiz_bacak": 2,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Sabah FK - FC Barcelona",
+"secim": "Dep Her İki Yarıyı Kazanır",
+"odds": 1.92,
+"p": null,
+"won": true,
+"aile": "Yarı özel",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Mantova - SS Arezzo",
+"secim": "Ev Her İki Yarıda Gol Atar",
+"odds": 2.55,
+"p": null,
+"won": null,
+"aile": "Yarı özel",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Club Brugge - Liverpool",
+"secim": "Dep Her İki Yarıda Gol Atar",
+"odds": 2.48,
+"p": null,
+"won": null,
+"aile": "Yarı özel",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_08_V93_DEVRE_OZEL_3LU",
+"bacak": 3,
+"oran": 9.61,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Slavia Prague - Villarreal CF",
+"secim": "Dep 1.5 Üst",
+"odds": 2.04,
+"p": null,
+"won": false,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Bolton Wanderers - West Bromwich Albion",
+"secim": "Dep 1.5 Üst",
+"odds": 1.98,
+"p": null,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Shakhtar Donetsk - Fenerbahçe",
+"secim": "Dep 1.5 Üst",
+"odds": 2.38,
+"p": null,
+"won": false,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_09_V93_DEVRE_OZEL_3LU",
+"bacak": 3,
+"oran": 15.59,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Burnley - Birmingham City",
+"secim": "2Y KG Var",
+"odds": 2.88,
+"p": null,
+"won": false,
+"aile": "2Y KG",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "LOSC Lille - Bayern München",
+"secim": "2Y KG Var",
+"odds": 2.82,
+"p": null,
+"won": false,
+"aile": "2Y KG",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Sporting CP - Manchester United",
+"secim": "2Y 1.5 Üst",
+"odds": 1.92,
+"p": null,
+"won": true,
+"aile": "2. yarı",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_10_V93_DEVRE_OZEL_3LU",
+"bacak": 3,
+"oran": 13.45,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Sabah FK - FC Barcelona",
+"secim": "İY 1.5 Üst",
+"odds": 1.88,
+"p": null,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Atlético Madrid - Viking FK",
+"secim": "Dep Her İki Yarıyı Kazanır",
+"odds": 1.96,
+"p": null,
+"won": false,
+"aile": "Yarı özel",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Paris Saint-Germain - AS Roma",
+"secim": "İY KG Var",
+"odds": 3.65,
+"p": null,
+"won": true,
+"aile": "Yarı KG",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_11_V93_DEVRE_OZEL_3LU",
+"bacak": 3,
+"oran": 14.42,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Al-Faisaly Amman - Al-Rayyan SC",
+"secim": "2Y 2",
+"odds": 2.22,
+"p": null,
+"won": false,
+"aile": "2. yarı",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "ENPPI - Ceramica Cleopatra",
+"secim": "İY 2",
+"odds": 2.62,
+"p": null,
+"won": false,
+"aile": "İY sonucu",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Stoke City - Millwall",
+"secim": "2Y 1",
+"odds": 2.48,
+"p": null,
+"won": false,
+"aile": "2. yarı",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_12_V93_DEVRE_OZEL_3LU",
+"bacak": 3,
+"oran": 16.3,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Al-Taawoun - Al-Nahda",
+"secim": "Ev 2.5 Üst",
+"odds": 2.72,
+"p": null,
+"won": false,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Inter Milan - VfB Stuttgart",
+"secim": "Ev 2.5 Üst",
+"odds": 2.54,
+"p": null,
+"won": false,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Paris Saint-Germain - AS Roma",
+"secim": "Ev 2.5 Üst",
+"odds": 2.36,
+"p": null,
+"won": false,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_13_V93_SURPRIZ_FARK_3LU",
+"bacak": 3,
+"oran": 22.08,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 1,
+"belirsiz_bacak": 1,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "US Cremonese - US Avellino",
+"secim": "ÇŞ X2 & 2.5 Alt",
+"odds": 2.36,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Calcio Padova - UC Sampdoria",
+"secim": "Dep 1 Farkla Kazanır",
+"odds": 3.85,
+"p": null,
+"won": null,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Shakhtar Donetsk - Fenerbahçe",
+"secim": "MS 2 & 1.5 Üst",
+"odds": 2.43,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_14_V93_SURPRIZ_FARK_3LU",
+"bacak": 3,
+"oran": 19.59,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 1,
+"belirsiz_bacak": 2,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Akhmat Grozny - FC Krasnodar",
+"secim": "İlk Gol: Deplasman",
+"odds": 1.96,
+"p": null,
+"won": null,
+"aile": "İlk gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Pisa SC - Modena FC",
+"secim": "MS 2 & KG Var",
+"odds": 5.1,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Burnley - Birmingham City",
+"secim": "İlk Gol: Deplasman",
+"odds": 1.96,
+"p": null,
+"won": null,
+"aile": "İlk gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_15_V93_SURPRIZ_FARK_3LU",
+"bacak": 3,
+"oran": 29.13,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Slavia Prague - Villarreal CF",
+"secim": "İY 2",
+"odds": 2.72,
+"p": null,
+"won": false,
+"aile": "İY sonucu",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Watford - Blackburn Rovers",
+"secim": "ÇŞ X2 & KG Var",
+"odds": 2.38,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Sporting CP - Manchester United",
+"secim": "MS 2 & KG Var",
+"odds": 4.5,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_16_V93_SURPRIZ_FARK_3LU",
+"bacak": 3,
+"oran": 30.07,
+"stake": null,
+"oynandi": false,
+"durum": "belirsiz",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 0,
+"belirsiz_bacak": 2,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Dinamo Makhachkala - Baltika Kaliningrad",
+"secim": "Dep 1 Farkla Kazanır",
+"odds": 3.55,
+"p": null,
+"won": null,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "ENPPI - Ceramica Cleopatra",
+"secim": "Dep 1 Farkla Kazanır",
+"odds": 3.5,
+"p": null,
+"won": null,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Atlético Mineiro - Corinthians",
+"secim": "ÇŞ X2 & 2.5 Alt",
+"odds": 2.42,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_17_V93_SURPRIZ_FARK_3LU",
+"bacak": 3,
+"oran": 25.6,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Calcio Padova - UC Sampdoria",
+"secim": "MS 2",
+"odds": 2.5,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "LOSC Lille - Bayern München",
+"secim": "Ev 1.5 Üst",
+"odds": 3.2,
+"p": null,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Shakhtar Donetsk - Fenerbahçe",
+"secim": "İY 2",
+"odds": 3.2,
+"p": null,
+"won": false,
+"aile": "İY sonucu",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_18_V93_BERABERLIK_REJIM_3LU",
+"bacak": 3,
+"oran": 18.37,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Tala'ea El Gaish - Modern Sport FC",
+"secim": "0-1 Gol",
+"odds": 2.32,
+"p": null,
+"won": true,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "US Cremonese - US Avellino",
+"secim": "MS X",
+"odds": 3.3,
+"p": null,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"beraberlik",
+"oran>1.80"
+]
+},
+{
+"mac": "Ghazl El Mahalla - Petrojet",
+"secim": "0-1 Gol",
+"odds": 2.4,
+"p": null,
+"won": false,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_19_V93_BERABERLIK_REJIM_3LU",
+"bacak": 3,
+"oran": 20.91,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Tala'ea El Gaish - Modern Sport FC",
+"secim": "İY 0.5 Alt",
+"odds": 2.18,
+"p": null,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Dinamo Makhachkala - Baltika Kaliningrad",
+"secim": "İY 0.5 Alt",
+"odds": 2.34,
+"p": null,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Watford - Blackburn Rovers",
+"secim": "MS X & 2.5 Alt",
+"odds": 4.1,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_20_V93_BERABERLIK_REJIM_3LU",
+"bacak": 3,
+"oran": 33.4,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 2,
+"belirsiz_bacak": 1,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Akhmat Grozny - FC Krasnodar",
+"secim": "MS X & KG Var",
+"odds": 4.35,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Lokomotiv Moscow - FC Rostov",
+"secim": "MS X & 2.5 Alt",
+"odds": 4.15,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Atlético Mineiro - Corinthians",
+"secim": "Toplam Gol Çift",
+"odds": 1.85,
+"p": null,
+"won": null,
+"aile": "Diğer",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_21_V93_BERABERLIK_REJIM_3LU",
+"bacak": 3,
+"oran": 28.39,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Tala'ea El Gaish - Modern Sport FC",
+"secim": "MS X",
+"odds": 2.44,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"beraberlik",
+"oran>1.80"
+]
+},
+{
+"mac": "Ghazl El Mahalla - Petrojet",
+"secim": "MS X",
+"odds": 2.77,
+"p": null,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"beraberlik",
+"oran>1.80"
+]
+},
+{
+"mac": "Stoke City - Millwall",
+"secim": "MS X & 2.5 Alt",
+"odds": 4.2,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_22_V93_GAMMA_BUILDER_4LU",
+"bacak": 4,
+"oran": 25.07,
+"stake": null,
+"oynandi": false,
+"durum": "belirsiz",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 0,
+"belirsiz_bacak": 4,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Sabah FK - FC Barcelona",
+"secim": "Hnd(-2) 2 (Barcelona 3+ Fark)",
+"odds": 1.98,
+"p": null,
+"won": null,
+"aile": "Handikap",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Mantova - SS Arezzo",
+"secim": "Hnd(-1) 1 (Mantova 2+ Fark)",
+"odds": 2.78,
+"p": null,
+"won": null,
+"aile": "Handikap",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Atlético Madrid - Viking FK",
+"secim": "Hnd(-2) 1 (Atlético 3+ Fark)",
+"odds": 2.07,
+"p": null,
+"won": null,
+"aile": "Handikap",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Inter Milan - VfB Stuttgart",
+"secim": "Hnd(-1) 1 (Inter 2+ Fark)",
+"odds": 2.2,
+"p": null,
+"won": null,
+"aile": "Handikap",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_23_V93_GAMMA_BUILDER_4LU",
+"bacak": 4,
+"oran": 54.14,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 1,
+"belirsiz_bacak": 2,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Slavia Prague - Villarreal CF",
+"secim": "Korner 9.5 Üst & KG Var",
+"odds": 2.55,
+"p": null,
+"won": null,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Bolton Wanderers - West Bromwich Albion",
+"secim": "Korner 10.5 Üst",
+"odds": 1.95,
+"p": null,
+"won": null,
+"aile": "Alt/Üst",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Club Brugge - Liverpool",
+"secim": "4-5 Gol",
+"odds": 3.35,
+"p": null,
+"won": false,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Paris Saint-Germain - AS Roma",
+"secim": "4-5 Gol",
+"odds": 3.25,
+"p": null,
+"won": true,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_24_V93_GAMMA_BUILDER_4LU",
+"bacak": 4,
+"oran": 28.3,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 2,
+"belirsiz_bacak": 2,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Pisa SC - Modena FC",
+"secim": "Kart 4.5 Üst",
+"odds": 1.92,
+"p": null,
+"won": null,
+"aile": "Alt/Üst",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Burnley - Birmingham City",
+"secim": "KG Var & 2.5 Üst",
+"odds": 2.24,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "LOSC Lille - Bayern München",
+"secim": "4-5 Gol",
+"odds": 3.5,
+"p": null,
+"won": false,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Shakhtar Donetsk - Fenerbahçe",
+"secim": "Kart 4.5 Üst",
+"odds": 1.88,
+"p": null,
+"won": null,
+"aile": "Alt/Üst",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_25_V93_GAMMA_BUILDER_4LU",
+"bacak": 4,
+"oran": 42.86,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 2,
+"belirsiz_bacak": 2,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Persib Bandung - FC Seoul",
+"secim": "MS 2 & 1.5 Üst",
+"odds": 2.14,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Al-Faisaly Amman - Al-Rayyan SC",
+"secim": "MS 2 & 2.5 Üst",
+"odds": 3.23,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Al-Taawoun - Al-Nahda",
+"secim": "Hnd(-1) 1 (Al-Taawoun 2+ Fark)",
+"odds": 2.34,
+"p": null,
+"won": null,
+"aile": "Handikap",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Club Brugge - Liverpool",
+"secim": "Hnd(-1) 2 (Liverpool 2+ Fark)",
+"odds": 2.65,
+"p": null,
+"won": null,
+"aile": "Handikap",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_26_V93_GAMMA_BUILDER_4LU",
+"bacak": 4,
+"oran": 22.33,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 2,
+"yatan_bacak": 1,
+"belirsiz_bacak": 1,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Sabah FK - FC Barcelona",
+"secim": "Dep 3.5 Üst",
+"odds": 2.38,
+"p": null,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Atlético Madrid - Viking FK",
+"secim": "Ev 2.5 Üst",
+"odds": 1.72,
+"p": null,
+"won": false,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "LOSC Lille - Bayern München",
+"secim": "KG Var & 2.5 Üst",
+"odds": 2.2,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Sporting CP - Manchester United",
+"secim": "Korner 9.5 Üst & KG Var",
+"odds": 2.48,
+"p": null,
+"won": null,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_27_V93_IYMS_GECIS_3LU",
+"bacak": 3,
+"oran": 152.0,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Nasaf Qarshi - Al-Khalidiya",
+"secim": "İY/MS 0/1",
+"odds": 4.36,
+"p": null,
+"won": true,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Lokomotiv Moscow - FC Rostov",
+"secim": "İY/MS 0/1",
+"odds": 5.98,
+"p": null,
+"won": false,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Stoke City - Millwall",
+"secim": "İY/MS 0/1",
+"odds": 5.83,
+"p": null,
+"won": false,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_28_V93_IYMS_GECIS_3LU",
+"bacak": 3,
+"oran": 98.35,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Persib Bandung - FC Seoul",
+"secim": "İY/MS 0/2",
+"odds": 4.7,
+"p": null,
+"won": false,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Dinamo Makhachkala - Baltika Kaliningrad",
+"secim": "İY/MS 0/2",
+"odds": 4.5,
+"p": null,
+"won": false,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "ENPPI - Ceramica Cleopatra",
+"secim": "İY/MS 0/2",
+"odds": 4.65,
+"p": null,
+"won": false,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_29_V93_COKLU_SKOR_3LU",
+"bacak": 3,
+"oran": 47.87,
+"stake": null,
+"oynandi": false,
+"durum": "belirsiz",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 0,
+"belirsiz_bacak": 3,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Mantova - SS Arezzo",
+"secim": "Çoklu Skor: 2-0 / 2-1 / 3-1",
+"odds": 3.45,
+"p": null,
+"won": null,
+"aile": "Skor",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Club Brugge - Liverpool",
+"secim": "Çoklu Skor: 1-2 / 1-3 / 2-3",
+"odds": 3.75,
+"p": null,
+"won": null,
+"aile": "Skor",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Shakhtar Donetsk - Fenerbahçe",
+"secim": "Çoklu Skor: 0-1 / 1-2 / 0-2",
+"odds": 3.7,
+"p": null,
+"won": null,
+"aile": "Skor",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_30_V93_COMEBACK_BOMBA_3LU",
+"bacak": 3,
+"oran": 1035.3,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 2,
+"belirsiz_bacak": 1,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Watford - Blackburn Rovers",
+"secim": "İY/MS 2/0",
+"odds": 14.5,
+"p": null,
+"won": false,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "LOSC Lille - Bayern München",
+"secim": "İY/MS 1/2",
+"odds": 21.0,
+"p": null,
+"won": false,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Paris Saint-Germain - AS Roma",
+"secim": "Çoklu Skor: 2-1 / 3-1 / 3-2",
+"odds": 3.4,
+"p": null,
+"won": null,
+"aile": "Skor",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_01_V52_MAKRO_SKOR_4LU",
+"bacak": 4,
+"oran": 4536.44,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 4,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Slavia Prague - Villarreal CF",
+"secim": "Skor 1-2",
+"odds": 8.9,
+"p": null,
+"won": false,
+"aile": "Skor",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Mantova - SS Arezzo",
+"secim": "Skor 2-0",
+"odds": 7.4,
+"p": null,
+"won": false,
+"aile": "Skor",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Club Brugge - Liverpool",
+"secim": "Skor 1-2",
+"odds": 8.4,
+"p": null,
+"won": false,
+"aile": "Skor",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Paris Saint-Germain - AS Roma",
+"secim": "Skor 2-1",
+"odds": 8.2,
+"p": null,
+"won": false,
+"aile": "Skor",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_02_V52_MARKOV_IYMS_4LU",
+"bacak": 4,
+"oran": 776.53,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 4,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Lokomotiv Moscow - FC Rostov",
+"secim": "İY/MS 0/1",
+"odds": 5.98,
+"p": null,
+"won": false,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "US Cremonese - US Avellino",
+"secim": "İY/MS 0/0",
+"odds": 4.79,
+"p": null,
+"won": false,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Stoke City - Millwall",
+"secim": "İY/MS 0/1",
+"odds": 5.83,
+"p": null,
+"won": false,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "LOSC Lille - Bayern München",
+"secim": "İY/MS 0/2",
+"odds": 4.65,
+"p": null,
+"won": false,
+"aile": "İY/MS",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_03_V52_KAZANMA_FARKI_4LU",
+"bacak": 4,
+"oran": 237.28,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 1,
+"belirsiz_bacak": 3,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Slavia Prague - Villarreal CF",
+"secim": "MS 2 & KG Var",
+"odds": 3.95,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Calcio Padova - UC Sampdoria",
+"secim": "Dep 1 Farkla Kazanır",
+"odds": 3.85,
+"p": null,
+"won": null,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Inter Milan - VfB Stuttgart",
+"secim": "Ev 2 Farkla Kazanır",
+"odds": 3.95,
+"p": null,
+"won": null,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Shakhtar Donetsk - Fenerbahçe",
+"secim": "Dep 1 Farkla Kazanır",
+"odds": 3.95,
+"p": null,
+"won": null,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_04_V52_GAMMA_YARI_OZEL_5LI",
+"bacak": 5,
+"oran": 205.23,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 3,
+"yatan_bacak": 1,
+"belirsiz_bacak": 1,
+"donus": null,
+"ihlalli_bacak": 5,
+"not_": "",
+"legs": [
+{
+"mac": "Sabah FK - FC Barcelona",
+"secim": "Dep Her İki Yarıyı Kazanır",
+"odds": 1.92,
+"p": null,
+"won": true,
+"aile": "Yarı özel",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Mantova - SS Arezzo",
+"secim": "Ev Her İki Yarıda Gol Atar",
+"odds": 2.55,
+"p": null,
+"won": null,
+"aile": "Yarı özel",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Bolton Wanderers - West Bromwich Albion",
+"secim": "MS 2 & KG Var",
+"odds": 3.85,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Club Brugge - Liverpool",
+"secim": "4-5 Gol",
+"odds": 3.35,
+"p": null,
+"won": false,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Paris Saint-Germain - AS Roma",
+"secim": "4-5 Gol",
+"odds": 3.25,
+"p": null,
+"won": true,
+"aile": "Gol aralığı",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_05_V52_BERABERLIK_KOMBINE_4LU",
+"bacak": 4,
+"oran": 198.95,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "US Cremonese - US Avellino",
+"secim": "MS X & 2.5 Alt",
+"odds": 3.95,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Ghazl El Mahalla - Petrojet",
+"secim": "MS X",
+"odds": 2.77,
+"p": null,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"beraberlik",
+"oran>1.80"
+]
+},
+{
+"mac": "Watford - Blackburn Rovers",
+"secim": "MS X & KG Var",
+"odds": 4.35,
+"p": null,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Atlético Mineiro - Corinthians",
+"secim": "MS X & 2.5 Alt",
+"odds": 4.18,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_06A_V52_HER_IKI_YARIDA_KG_3LU",
+"bacak": 3,
+"oran": 1246.56,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": null,
+"tutan_bacak": 1,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Paris Saint-Germain - AS Roma",
+"secim": "İki Yarıda KG Var",
+"odds": 9.8,
+"p": null,
+"won": true,
+"aile": "Yarı KG",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Club Brugge - Liverpool",
+"secim": "İki Yarıda KG Var",
+"odds": 10.6,
+"p": null,
+"won": false,
+"aile": "Yarı KG",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+},
+{
+"mac": "Sporting CP - Manchester United",
+"secim": "İki Yarıda KG Var",
+"odds": 12.0,
+"p": null,
+"won": false,
+"aile": "Yarı KG",
+"ihlal": [
+"yasak_aile",
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-25",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_06B_V52_1Y_VE_2Y_KG_VAR_4LU",
+"bacak": 4,
+"oran": 117.09,
+"stake": null,
+"oynandi": false,
+"durum": "belirsiz",
+"oz_beyan": null,
+"tutan_bacak": 0,
+"yatan_bacak": 0,
+"belirsiz_bacak": 4,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "Slavia Prague - Villarreal CF",
+"secim": "1. Yarı KG Var",
+"odds": 3.95,
+"p": null,
+"won": null,
+"aile": "Diğer",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Paris Saint-Germain - AS Roma",
+"secim": "1. Yarı KG Var",
+"odds": 3.65,
+"p": null,
+"won": null,
+"aile": "Diğer",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "Burnley - Birmingham City",
+"secim": "2. Yarı KG Var",
+"odds": 2.88,
+"p": null,
+"won": null,
+"aile": "Diğer",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "LOSC Lille - Bayern München",
+"secim": "2. Yarı KG Var",
+"odds": 2.82,
+"p": null,
+"won": null,
+"aile": "Diğer",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-26",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_01_ANA_GARANTI_BANKO_3LU",
+"bacak": 3,
+"oran": 3.31,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": "KAYBETTİ",
+"tutan_bacak": 1,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 0,
+"not_": "",
+"legs": [
+{
+"mac": "Union Saint-Gilloise - Lech Poznań",
+"secim": "MS 1",
+"odds": 1.45,
+"p": null,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Viktoria Plzeň - SL Benfica",
+"secim": "MS 2",
+"odds": 1.5,
+"p": null,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "TSG 1899 Hoffenheim - SK Sturm Graz",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.52,
+"p": null,
+"won": true,
+"aile": "Kombine",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-26",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_02_SAVUNMA_DUVARI_WIN_TO_NIL_3LU",
+"bacak": 3,
+"oran": 3.92,
+"stake": null,
+"oynandi": false,
+"durum": "belirsiz",
+"oz_beyan": "KAZANDI (3.92x)",
+"tutan_bacak": 1,
+"yatan_bacak": 0,
+"belirsiz_bacak": 2,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Brighton & Hove Albion - Universitatea Craiova",
+"secim": "KG Yok",
+"odds": 1.57,
+"p": null,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "SC Braga - KuPS Kuopio",
+"secim": "KG Yok",
+"odds": 1.53,
+"p": null,
+"won": null,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Juventus - Omonia Nicosia",
+"secim": "Hnd(-1) 1 (Juventus 2+ Fark)",
+"odds": 1.63,
+"p": null,
+"won": null,
+"aile": "Handikap",
+"ihlal": []
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-26",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_03_G27_YALIN_DEPLASMAN_FAVORILERI_3LU",
+"bacak": 3,
+"oran": 7.21,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": "KAYBETTİ (2/3)",
+"tutan_bacak": 2,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "Celta Vigo - AFC Bournemouth",
+"secim": "MS 2",
+"odds": 2.0,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "FK Jablonec - FC Lugano",
+"secim": "MS 2",
+"odds": 1.95,
+"p": null,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80"
+]
+},
+{
+"mac": "CSKA Sofia - Trabzonspor",
+"secim": "MS 2",
+"odds": 1.85,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-26",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_04_G22_YUKSEK_TEMPO_KG_VAR_4LU",
+"bacak": 4,
+"oran": 5.44,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": "KAYBETTİ (3/4)",
+"tutan_bacak": 3,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "FC Nordsjælland - Panathinaikos",
+"secim": "KG Var",
+"odds": 1.53,
+"p": null,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Crystal Palace - Real Sociedad",
+"secim": "KG Var",
+"odds": 1.55,
+"p": null,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "NEC Nijmegen - Stade Rennais (Rennes)",
+"secim": "KG Var",
+"odds": 1.48,
+"p": null,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Pafos FC - FC Midtjylland",
+"secim": "KG Var",
+"odds": 1.55,
+"p": null,
+"won": false,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+}
+]
+},
+{
+"ai": "geminitahmin",
+"tarih": "2026-11-26",
+"surum": "yeni (≥23 Kas)",
+"id": "KUPON_05_KIRILGAN_FAVORI_VE_KADRO_KRIZI_3LU",
+"bacak": 3,
+"oran": 4.72,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": "KAZANDI (4.72x)",
+"tutan_bacak": 3,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 2,
+"not_": "",
+"legs": [
+{
+"mac": "Iberia 1999 Tbilisi - Getafe CF",
+"secim": "2.5 Alt",
+"odds": 1.8,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Heart of Midlothian - AS Monaco",
+"secim": "KG Var",
+"odds": 1.62,
+"p": null,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Borac Banja Luka - Atalanta BC",
+"secim": "KG Var",
+"odds": 1.62,
+"p": null,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "10'lu 1/2 kuponu (ilk, 1.20 altı bacaklı)",
+"bacak": 10,
+"oran": 3.48,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": "BEKLİYOR",
+"tutan_bacak": 10,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 10,
+"not_": "",
+"legs": [
+{
+"mac": "D. Zagreb - NK Istra 61",
+"secim": "MS 1",
+"odds": 1.06,
+"p": 0.7951,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran<1.20"
+]
+},
+{
+"mac": "M. Rogachev - Slavia Mozyr",
+"secim": "MS 1",
+"odds": 1.1,
+"p": 0.7969,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran<1.20"
+]
+},
+{
+"mac": "Paris - Angers",
+"secim": "MS 1",
+"odds": 1.16,
+"p": 0.7421,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran<1.20"
+]
+},
+{
+"mac": "S. Farense - CD De Fatima",
+"secim": "MS 1",
+"odds": 1.08,
+"p": 0.7822,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran<1.20"
+]
+},
+{
+"mac": "Beerschot - J. KRC Genk U23",
+"secim": "MS 1",
+"odds": 1.16,
+"p": 0.7314,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran<1.20"
+]
+},
+{
+"mac": "Kortrijk - U. S. Gilloise",
+"secim": "MS 2",
+"odds": 1.21,
+"p": 0.695,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Panathinaikos - Ofi Crete",
+"secim": "MS 1",
+"odds": 1.06,
+"p": 0.7989,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran<1.20"
+]
+},
+{
+"mac": "Rijeka - HNK Gorica",
+"secim": "MS 1",
+"odds": 1.18,
+"p": 0.7225,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran<1.20"
+]
+},
+{
+"mac": "PAOK - AE Kifisia",
+"secim": "MS 1",
+"odds": 1.18,
+"p": 0.7214,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran<1.20"
+]
+},
+{
+"mac": "Strongest - Blooming",
+"secim": "MS 1",
+"odds": 1.15,
+"p": 0.7225,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran<1.20"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "10'lu 1/2 kuponu (düzeltilmiş, ≥1.20)",
+"bacak": 10,
+"oran": 8.77,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": "KAYBETTİ",
+"tutan_bacak": 8,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 9,
+"not_": "",
+"legs": [
+{
+"mac": "NK Maribor - Nafta",
+"secim": "MS 1",
+"odds": 1.26,
+"p": 0.6701,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Hull City - Brighton",
+"secim": "MS 2",
+"odds": 1.28,
+"p": 0.6582,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Kortrijk - U. S. Gilloise",
+"secim": "MS 2",
+"odds": 1.21,
+"p": 0.695,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "NK Celje - NK Brinje Grosuplje",
+"secim": "MS 1",
+"odds": 1.2,
+"p": 0.692,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Sarajevo - Siroki Brijeg",
+"secim": "MS 1",
+"odds": 1.21,
+"p": 0.7036,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Dunajska S. - KFC Komarno",
+"secim": "MS 1",
+"odds": 1.23,
+"p": 0.6875,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Anderlecht - O. H. Leuven",
+"secim": "MS 1",
+"odds": 1.3,
+"p": 0.6509,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Rosario C. - Gimnasia Y.",
+"secim": "MS 1",
+"odds": 1.23,
+"p": 0.6919,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Marsilya - Le Mans",
+"secim": "MS 1",
+"odds": 1.29,
+"p": 0.6708,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "S. Cristal - CS Cienciano",
+"secim": "MS 1",
+"odds": 1.22,
+"p": 0.6902,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "A banko (5)",
+"bacak": 5,
+"oran": 2.7,
+"stake": null,
+"oynandi": false,
+"durum": "kazandı",
+"oz_beyan": "KAZANDI",
+"tutan_bacak": 5,
+"yatan_bacak": 0,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 5,
+"not_": "",
+"legs": [
+{
+"mac": "Vik. Zizkov - Opava",
+"secim": "2Y KG Yok",
+"odds": 1.2,
+"p": 0.692,
+"won": true,
+"aile": "2Y KG",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Araz Nakhchivan PFK - Neftçi",
+"secim": "MS 2",
+"odds": 1.2,
+"p": 0.6962,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Erzurumspor FK - Göztepe",
+"secim": "İY 1.5 Alt",
+"odds": 1.21,
+"p": 0.678,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Batman Petrol - Muğlaspor",
+"secim": "3.5 Alt",
+"odds": 1.27,
+"p": 0.665,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Getafe B - RSD Alcala",
+"secim": "İY 0.5 Üst",
+"odds": 1.22,
+"p": 0.6604,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "A yüksek (6)",
+"bacak": 6,
+"oran": 3.51,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": "KAYBETTİ",
+"tutan_bacak": 5,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 6,
+"not_": "",
+"legs": [
+{
+"mac": "Vik. Zizkov - Opava",
+"secim": "2Y KG Yok",
+"odds": 1.2,
+"p": 0.692,
+"won": true,
+"aile": "2Y KG",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Erzurumspor FK - Göztepe",
+"secim": "İY 0.5 Üst",
+"odds": 1.28,
+"p": 0.6502,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Batman Petrol - Muğlaspor",
+"secim": "3.5 Alt",
+"odds": 1.27,
+"p": 0.665,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Pena Deportiva - Lorca Deportiva",
+"secim": "İY 0.5 Üst",
+"odds": 1.23,
+"p": 0.6588,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Getafe B - RSD Alcala",
+"secim": "İY 0.5 Üst",
+"odds": 1.22,
+"p": 0.6604,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Araz Nakhchivan PFK - Neftçi",
+"secim": "MS 2",
+"odds": 1.2,
+"p": 0.6962,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "Gün kupon_a",
+"bacak": 4,
+"oran": 2.18,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": "BEKLİYOR",
+"tutan_bacak": 3,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 3,
+"not_": "",
+"legs": [
+{
+"mac": "SK Beveren - KAA Gent",
+"secim": "3.5 Alt",
+"odds": 1.21,
+"p": 0.7048,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Esenler Erokspor - Antalyaspor",
+"secim": "3.5 Alt",
+"odds": 1.23,
+"p": 0.6941,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Getafe - Atl Madrid",
+"secim": "İY 1.5 Alt",
+"odds": 1.22,
+"p": 0.6895,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Bragantino - Vasco Da G.",
+"secim": "İY ÇŞ X2",
+"odds": 1.2,
+"p": 0.6937,
+"won": true,
+"aile": "İY çifte şans",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "Gün kupon_b",
+"bacak": 5,
+"oran": 2.64,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": "BEKLİYOR",
+"tutan_bacak": 3,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 5,
+"not_": "",
+"legs": [
+{
+"mac": "Sambenedettese - Perugia",
+"secim": "3.5 Alt",
+"odds": 1.25,
+"p": 0.6884,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Nordsjælland - Kopenhag",
+"secim": "2Y KG Yok",
+"odds": 1.21,
+"p": 0.6856,
+"won": true,
+"aile": "2Y KG",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Celta Vigo B - Real Valladolid",
+"secim": "2Y KG Yok",
+"odds": 1.2,
+"p": 0.6896,
+"won": false,
+"aile": "2Y KG",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Girona - Eibar",
+"secim": "3.5 Alt",
+"odds": 1.21,
+"p": 0.6887,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Marsilya - Le Mans",
+"secim": "2Y KG Yok",
+"odds": 1.2,
+"p": 0.6835,
+"won": true,
+"aile": "2Y KG",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "Gün kupon_c",
+"bacak": 6,
+"oran": 4.83,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": "KAYBETTİ",
+"tutan_bacak": 4,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 6,
+"not_": "",
+"legs": [
+{
+"mac": "A.Club De Getxo - Real Aviles",
+"secim": "3.5 Alt",
+"odds": 1.31,
+"p": 0.6514,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Kaiserslautern - D. Dresden",
+"secim": "3.5 Alt",
+"odds": 1.29,
+"p": 0.6633,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Barcelona - Villarreal",
+"secim": "İY 2.5 Alt",
+"odds": 1.29,
+"p": 0.6505,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Atalanta - Inter",
+"secim": "DEĞİL(Ev En Az Bir Yarıyı Kazanır)",
+"odds": 1.29,
+"p": 0.6506,
+"won": false,
+"aile": "Yarı özel",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Fluminense - Mirassol SP",
+"secim": "İY 1.5 Alt",
+"odds": 1.32,
+"p": 0.6503,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Bragantino - Vasco Da G.",
+"secim": "3.5 Alt",
+"odds": 1.3,
+"p": 0.6514,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "4'lü öneri (Maribor, Brighton, USG, Celje)",
+"bacak": 4,
+"oran": 2.34,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": "KAYBETTİ",
+"tutan_bacak": 3,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 4,
+"not_": "",
+"legs": [
+{
+"mac": "NK Maribor - Nafta",
+"secim": "MS 1",
+"odds": 1.26,
+"p": 0.6701,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Hull City - Brighton",
+"secim": "MS 2",
+"odds": 1.28,
+"p": 0.6582,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Kortrijk - U. S. Gilloise",
+"secim": "MS 2",
+"odds": 1.21,
+"p": 0.695,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "NK Celje - NK Brinje Grosuplje",
+"secim": "MS 1",
+"odds": 1.2,
+"p": 0.692,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "gece_kupon_0709 A — A — En banko 6'lı",
+"bacak": 6,
+"oran": 3.43,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": "KAYBETTİ",
+"tutan_bacak": 5,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 6,
+"not_": "",
+"legs": [
+{
+"mac": "Gimcheon Sangmu - Jeju Utd",
+"secim": "3.5 Alt",
+"odds": 1.21,
+"p": 0.6858,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Gwangju - Bucheon",
+"secim": "3.5 Alt",
+"odds": 1.21,
+"p": 0.6859,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Daegu - Gimhae",
+"secim": "2.5 Üst",
+"odds": 1.22,
+"p": 0.6733,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Jeonnam Dragons - Ansan Greene",
+"secim": "2Y KG Yok",
+"odds": 1.21,
+"p": 0.6719,
+"won": true,
+"aile": "2Y KG",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Adelaide City - Broadmeadow Mag",
+"secim": "DEĞİL(Ev İki Yarıda Gol)",
+"odds": 1.24,
+"p": 0.6609,
+"won": true,
+"aile": "Yarı özel",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Osaka - Kamatamare S",
+"secim": "MS 1",
+"odds": 1.28,
+"p": 0.6615,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "gece_kupon_0709 B — B — P≥0,65 ile en yüksek oran",
+"bacak": 6,
+"oran": 3.66,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": "KAYBETTİ",
+"tutan_bacak": 5,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 6,
+"not_": "",
+"legs": [
+{
+"mac": "Osaka - Kamatamare S",
+"secim": "MS 1",
+"odds": 1.28,
+"p": 0.6615,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Daegu - Gimhae",
+"secim": "MS 1 & 1.5 Üst",
+"odds": 1.26,
+"p": 0.6682,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Adelaide City - Broadmeadow Mag",
+"secim": "DEĞİL(Ev İki Yarıda Gol)",
+"odds": 1.24,
+"p": 0.6609,
+"won": true,
+"aile": "Yarı özel",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Gwangju - Bucheon",
+"secim": "İY ÇŞ X2",
+"odds": 1.23,
+"p": 0.6748,
+"won": true,
+"aile": "İY çifte şans",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "T. Vortis - S. Bellmare",
+"secim": "İY 1.5 Alt",
+"odds": 1.23,
+"p": 0.6523,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Gimcheon Sangmu - Jeju Utd",
+"secim": "3.5 Alt",
+"odds": 1.21,
+"p": 0.6858,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "gece_kupon_0709 C — C — RİSKLİ: ≥20 oran (banko DEĞİL)",
+"bacak": 6,
+"oran": 20.3,
+"stake": null,
+"oynandi": false,
+"durum": "kaybetti",
+"oz_beyan": "KAYBETTİ",
+"tutan_bacak": 2,
+"yatan_bacak": 4,
+"belirsiz_bacak": 0,
+"donus": null,
+"ihlalli_bacak": 6,
+"not_": "",
+"legs": [
+{
+"mac": "Okinawa SV - Maruyasu Okazaki",
+"secim": "MS 1",
+"odds": 1.57,
+"p": 0.5662,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Veertien Mie - Criacao Shinjuku",
+"secim": "2.5 Alt",
+"odds": 1.47,
+"p": 0.5727,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Daegu - Gimhae",
+"secim": "3.5 Üst",
+"odds": 1.74,
+"p": 0.5222,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Jeonnam Dragons - Ansan Greene",
+"secim": "MS 1",
+"odds": 1.67,
+"p": 0.5069,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Azul Claro N. - Yscc Yokohama",
+"secim": "MS 1",
+"odds": 1.56,
+"p": 0.5705,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Metro Gallery - Kui Tan SC",
+"secim": "MS 2",
+"odds": 1.94,
+"p": 0.4377,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "K1",
+"bacak": 3,
+"oran": 24.97,
+"stake": 50,
+"oynandi": true,
+"durum": "kaybetti",
+"oz_beyan": "açık",
+"tutan_bacak": 0,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": 0,
+"ihlalli_bacak": 3,
+"not_": "eski",
+"legs": [
+{
+"mac": "Espanyol II - Barcelona B",
+"secim": "MS 1",
+"odds": 2.18,
+"p": 0.4983,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Rad. Bijelji - Velez Mostar",
+"secim": "MS 2",
+"odds": 3.32,
+"p": 0.2759,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "CD Tecnico Uni. - CD Cuenca",
+"secim": "MS 2",
+"odds": 3.45,
+"p": 0.2526,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "K3",
+"bacak": 3,
+"oran": 26.11,
+"stake": 50,
+"oynandi": true,
+"durum": "kaybetti",
+"oz_beyan": "kaybetti",
+"tutan_bacak": 2,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": 0,
+"ihlalli_bacak": 3,
+"not_": "bacaklar Set A Kupon 3 dosyasından (oynanırken oran 25.85→26.11)",
+"legs": [
+{
+"mac": "Galatasaray - Samsunspor",
+"secim": "2.5 Üst & KG Yok",
+"odds": 3.41,
+"p": 0.2685,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Southampton - Derby County",
+"secim": "MS 1 & KG Yok",
+"odds": 2.29,
+"p": 0.3996,
+"won": true,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Charleroi - St. Truidense",
+"secim": "MS 0",
+"odds": 3.31,
+"p": 0.265,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"beraberlik",
+"oran>1.80",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "K4",
+"bacak": 3,
+"oran": 24.72,
+"stake": 50,
+"oynandi": true,
+"durum": "kaybetti",
+"oz_beyan": "kaybetti",
+"tutan_bacak": 1,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": 0,
+"ihlalli_bacak": 3,
+"not_": "bacaklar Set A Kupon 4 dosyasından (oynanırken oran 25.15→24.72)",
+"legs": [
+{
+"mac": "Vallecano - Valencia",
+"secim": "MS 1 & 2.5 Üst",
+"odds": 2.95,
+"p": 0.2984,
+"won": false,
+"aile": "Kombine",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Fleury 91 - Rouen",
+"secim": "MS 0",
+"odds": 2.75,
+"p": 0.3211,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"beraberlik",
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Bolton - Portsmouth",
+"secim": "MS 0",
+"odds": 3.1,
+"p": 0.2817,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"beraberlik",
+"oran>1.80",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "K5",
+"bacak": 3,
+"oran": 20.49,
+"stake": 50,
+"oynandi": true,
+"durum": "kaybetti",
+"oz_beyan": "açık",
+"tutan_bacak": 0,
+"yatan_bacak": 2,
+"belirsiz_bacak": 1,
+"donus": 0,
+"ihlalli_bacak": 3,
+"not_": "eski",
+"legs": [
+{
+"mac": "CSKA Moskova - Akhmat Grozny",
+"secim": "2.5 Alt",
+"odds": 2.11,
+"p": 0.4334,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Carrarese - Virtus Entella",
+"secim": "MS 0",
+"odds": 2.79,
+"p": 0.3139,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"beraberlik",
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Yeovil Town - Forest Green",
+"secim": "MS 2 ve 3.5 Alt",
+"odds": 3.48,
+"p": 0.2507,
+"won": null,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "K6",
+"bacak": 3,
+"oran": 20.82,
+"stake": 50,
+"oynandi": true,
+"durum": "kaybetti",
+"oz_beyan": "kaybetti",
+"tutan_bacak": 1,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": 0,
+"ihlalli_bacak": 3,
+"not_": "eski",
+"legs": [
+{
+"mac": "Norwich City - Cardiff City",
+"secim": "İY 2",
+"odds": 4.07,
+"p": 0.2322,
+"won": false,
+"aile": "İY sonucu",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Millwall - QPR",
+"secim": "İY 2",
+"odds": 2.89,
+"p": 0.3063,
+"won": true,
+"aile": "İY sonucu",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Elche B - C. Dep. Minera",
+"secim": "MS 2",
+"odds": 1.74,
+"p": 0.5397,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "B5",
+"bacak": 5,
+"oran": 7.27,
+"stake": 400,
+"oynandi": true,
+"durum": "kaybetti",
+"oz_beyan": "açık",
+"tutan_bacak": 4,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": 0,
+"ihlalli_bacak": 5,
+"not_": "Espanyol ÇŞ1X yerine Antequera 3,5 Alt (yedek); Coleraine 1.67",
+"legs": [
+{
+"mac": "BVV Barendrecht - VV Kloetinge",
+"secim": "MS 1",
+"odds": 1.55,
+"p": 0.55,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Carrick Rangers - Coleraine",
+"secim": "MS 2",
+"odds": 1.67,
+"p": 0.5689,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Antequera - Juventud Torremolinos",
+"secim": "3.5 Alt",
+"odds": 1.25,
+"p": 0.6885,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Grazer AK - Rapid Wien",
+"secim": "3.5 Alt",
+"odds": 1.46,
+"p": 0.6168,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Lille - Lyon",
+"secim": "2.5 Alt",
+"odds": 1.53,
+"p": 0.5714,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "MS10",
+"bacak": 10,
+"oran": 7.67,
+"stake": 100,
+"oynandi": true,
+"durum": "kaybetti",
+"oz_beyan": "kaybetti",
+"tutan_bacak": 8,
+"yatan_bacak": 2,
+"belirsiz_bacak": 0,
+"donus": 0,
+"ihlalli_bacak": 6,
+"not_": "eski-banko",
+"legs": [
+{
+"mac": "Lugano - Grasshoppers",
+"secim": "MS 1",
+"odds": 1.2,
+"p": 0.721,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "D. Bükreş - Petrolul Ploiesti",
+"secim": "MS 1",
+"odds": 1.21,
+"p": 0.7053,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Truro City - H. Hempstead",
+"secim": "MS 1",
+"odds": 1.21,
+"p": 0.7027,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Dungannon - Crusaders",
+"secim": "MS 1",
+"odds": 1.23,
+"p": 0.7005,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Castellon - C. Dep. Eldense",
+"secim": "MS 1",
+"odds": 1.22,
+"p": 0.6977,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Zaragoza - Rayo Majadah",
+"secim": "MS 1",
+"odds": 1.23,
+"p": 0.6951,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "MSK Zilina - Dukla BB",
+"secim": "MS 1",
+"odds": 1.22,
+"p": 0.6914,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Larne - Ballymena Utd",
+"secim": "MS 1",
+"odds": 1.24,
+"p": 0.686,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "CD Fas - C.D. Cacahuatique",
+"secim": "MS 1",
+"odds": 1.25,
+"p": 0.6737,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "O. Ljubljana - NK Radomlje",
+"secim": "MS 1",
+"odds": 1.25,
+"p": 0.6723,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "CANLI",
+"bacak": 3,
+"oran": 7.64,
+"stake": 70,
+"oynandi": true,
+"durum": "kaybetti",
+"oz_beyan": "kaybetti",
+"tutan_bacak": 0,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": 0,
+"ihlalli_bacak": 2,
+"not_": "canlı model P (oynanırken); piyasa P: Kokand 0.205, Khor 0.627, Reading 0.505",
+"legs": [
+{
+"mac": "Kokand 1912 - Sogdiana",
+"secim": "MS 1",
+"odds": 3.79,
+"p": 0.317,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80",
+"P<0.65"
+]
+},
+{
+"mac": "Khor Fakkan - AL Jazira (Bae)",
+"secim": "MS 2",
+"odds": 1.26,
+"p": 0.808,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Reading - Bromley",
+"secim": "Ev 1.5 Üst",
+"odds": 1.6,
+"p": 0.644,
+"won": false,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "A5",
+"bacak": 5,
+"oran": 5.0,
+"stake": 100,
+"oynandi": true,
+"durum": "kaybetti",
+"oz_beyan": "kaybetti",
+"tutan_bacak": 2,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": 0,
+"ihlalli_bacak": 5,
+"not_": "eski-banko",
+"legs": [
+{
+"mac": "AC Milan (K) - Sassuolo Calcio (K)",
+"secim": "3.5 Alt",
+"odds": 1.45,
+"p": 0.6078,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Sturm Gr.(Amt.) - Amstetten",
+"secim": "2.5 Üst",
+"odds": 1.38,
+"p": 0.6451,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Catanzaro - US Palermo",
+"secim": "3.5 Alt",
+"odds": 1.38,
+"p": 0.6331,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Lazio - Lecce",
+"secim": "MS 1",
+"odds": 1.34,
+"p": 0.6536,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P 0.65-0.70"
+]
+},
+{
+"mac": "Napoli - Torino",
+"secim": "MS 1",
+"odds": 1.34,
+"p": 0.6474,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "B10",
+"bacak": 10,
+"oran": 6.84,
+"stake": 150,
+"oynandi": true,
+"durum": "kaybetti",
+"oz_beyan": "kaybetti",
+"tutan_bacak": 7,
+"yatan_bacak": 3,
+"belirsiz_bacak": 0,
+"donus": 0,
+"ihlalli_bacak": 3,
+"not_": "Tottenham Dep1,5Alt ve Mineiro Dep0,5Ü düşürüldü (oran <1.20); Genk + West Ham eklendi; West Ham P ≈ exp(-0.45·μ_dep)",
+"legs": [
+{
+"mac": "Linfield - Limavady Utd",
+"secim": "Hnd(-1) 1",
+"odds": 1.21,
+"p": 0.7281,
+"won": true,
+"aile": "Handikap",
+"ihlal": []
+},
+{
+"mac": "Strasbourg - Brest",
+"secim": "Dep 0.5 Üst",
+"odds": 1.2,
+"p": 0.7267,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Pumas Unam - Monterrey",
+"secim": "İY 0.5 Üst",
+"odds": 1.2,
+"p": 0.7213,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Argentinos J. - Independiente",
+"secim": "Ev 0.5 Üst",
+"odds": 1.21,
+"p": 0.7176,
+"won": true,
+"aile": "Takım gol",
+"ihlal": [
+"yasak_aile"
+]
+},
+{
+"mac": "Reims - St Etienne",
+"secim": "3.5 Alt",
+"odds": 1.21,
+"p": 0.7166,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Stoke City - Birmingham",
+"secim": "İY 1.5 Alt",
+"odds": 1.21,
+"p": 0.7163,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Hibernian - Dundee Utd",
+"secim": "ÇŞ 1X",
+"odds": 1.2,
+"p": 0.7162,
+"won": false,
+"aile": "Çifte şans",
+"ihlal": []
+},
+{
+"mac": "Zulte Waregem - Antwerp",
+"secim": "İY 0.5 Üst",
+"odds": 1.21,
+"p": 0.7157,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "KRC Genk - RAAL La Louviere",
+"secim": "MS 1",
+"odds": 1.25,
+"p": 0.70826,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "West Ham - Preston",
+"secim": "Dep İY 0.5 Alt",
+"odds": 1.21,
+"p": 0.7068,
+"won": false,
+"aile": "Takım İY gol",
+"ihlal": [
+"yasak_aile"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "K2000",
+"bacak": 5,
+"oran": 7.21,
+"stake": 300,
+"oynandi": true,
+"durum": "kaybetti",
+"oz_beyan": "kaybetti",
+"tutan_bacak": 4,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": 0,
+"ihlalli_bacak": 5,
+"not_": "oynanırken Pontevedra 1.60→1.69, Águila 1.46→1.48; toplam 6.74→7.21, maks 2.163,41 TL",
+"legs": [
+{
+"mac": "Pontevedra - Lugo",
+"secim": "2.5 Alt",
+"odds": 1.69,
+"p": 0.5991,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Motherwell - Rangers",
+"secim": "KG Var",
+"odds": 1.42,
+"p": 0.6109,
+"won": true,
+"aile": "KG",
+"ihlal": [
+"yasak_aile",
+"P<0.65"
+]
+},
+{
+"mac": "Bahia BA - Coritiba",
+"secim": "İY 1.5 Alt",
+"odds": 1.41,
+"p": 0.648,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "CD Aguila - CD Platense Municipal",
+"secim": "MS 1",
+"odds": 1.48,
+"p": 0.6042,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": [
+"P<0.65"
+]
+},
+{
+"mac": "Chapecoense - Cruzeiro MG",
+"secim": "İY 1.5 Alt",
+"odds": 1.44,
+"p": 0.6291,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": [
+"P<0.65"
+]
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-21",
+"surum": "eski (≤22 Kas)",
+"id": "GECE-5.00",
+"bacak": 5,
+"oran": 5.0,
+"stake": 200,
+"oynandi": true,
+"durum": "kaybetti",
+"oz_beyan": "kaybetti",
+"tutan_bacak": 4,
+"yatan_bacak": 1,
+"belirsiz_bacak": 0,
+"donus": 0,
+"ihlalli_bacak": 0,
+"not_": "",
+"legs": [
+{
+"mac": "Chapecoense - Cruzeiro",
+"secim": "İY 1.5 Alt",
+"odds": 1.43,
+"p": null,
+"won": true,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Gimnasia Jujuy - Deportivo Madryn",
+"secim": "2.5 Alt",
+"odds": 1.49,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Pumas UNAM - Monterrey",
+"secim": "İY 0.5 Üst",
+"odds": 1.21,
+"p": null,
+"won": false,
+"aile": "İY Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "San Marcos - Real Esteli",
+"secim": "MS 2",
+"odds": 1.26,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Wellington Phoenix - Macarthur",
+"secim": "2.5 Üst",
+"odds": 1.54,
+"p": null,
+"won": true,
+"aile": "Alt/Üst",
+"ihlal": []
+}
+]
+},
+{
+"ai": "grokbottahmin",
+"tarih": "2026-11-22",
+"surum": "eski (≤22 Kas)",
+"id": "0709-C (20.30)",
+"bacak": 6,
+"oran": 20.3,
+"stake": 150,
+"oynandi": true,
+"durum": "kaybetti",
+"oz_beyan": "kaybetti",
+"tutan_bacak": 2,
+"yatan_bacak": 4,
+"belirsiz_bacak": 0,
+"donus": 0,
+"ihlalli_bacak": 1,
+"not_": "riskli (banko değil), kullanıcı seçti",
+"legs": [
+{
+"mac": "Okinawa SV - Maruyasu Okazaki",
+"secim": "MS 1",
+"odds": 1.57,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Veertien Mie - Criacao Shinjuku",
+"secim": "2.5 Alt",
+"odds": 1.47,
+"p": null,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Daegu - Gimhae",
+"secim": "3.5 Üst",
+"odds": 1.74,
+"p": null,
+"won": false,
+"aile": "Alt/Üst",
+"ihlal": []
+},
+{
+"mac": "Jeonnam Dragons - Ansan Greene",
+"secim": "MS 1",
+"odds": 1.67,
+"p": null,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Azul Claro Numazu - YSCC Yokohama",
+"secim": "MS 1",
+"odds": 1.56,
+"p": null,
+"won": false,
+"aile": "Maç sonucu",
+"ihlal": []
+},
+{
+"mac": "Metro Gallery - Kui Tan SC",
+"secim": "MS 2",
+"odds": 1.94,
+"p": null,
+"won": true,
+"aile": "Maç sonucu",
+"ihlal": [
+"oran>1.80"
+]
+}
+]
+}
+]
