@@ -39,7 +39,6 @@ Tek tek adımlar: `scripts/nesine_global.py --date D` (fiyatlama), `scripts/gunl
 |---|---|---|
 | Banko kupon | `nesine_kupon.py` + `coupon_rules` + `market_diagnosis` kalkanları + 20.000'lik bağımsız simülasyon | günlük hatta, zorunlu |
 | Yüksek oranlı pazarlar | kesin skor, İY skoru, İY/MS, 2Y KG, korner için **yalnız analiz**: `python scripts/yuksek_oran_pazarlar.py backtest` / `tahmin --lig E0 --ev A --dep B --oran 1 X 2`. Banko kupona **girmez** | isteğe bağlı |
-| Eski yüksek oran motoru | `scripts/yuksek_oran_motoru.py`, `yuksek_oran_analiz.py` (1X2 denk maç, 1/2–2/1); günlük hatta yok (KURALLAR.md) | yalnız açık istekle |
 | Web araştırma | kupon adayı maçlarda ESPN/Wikipedia/Open Matchday/FPL bilgi kaydı ([docs/WEB_ARASTIRMA.md](docs/WEB_ARASTIRMA.md)); olasılığı değiştirmez | açık (`QF_WEB_RESEARCH=0` kapatır) |
 | GFI, form, sakat/kadro kalkanı | GFI öncülleri, son-120-gün formu, ücretsiz sakat/cezalı kalkanı; ölçümde anlamlı iyileşme yok | **varsayılan kapalı** (`settings.py`) |
 | Arşiv genişletme | `data/arsiv/` ~646 bin ek maç (1888–2026), yarışma/takım katalogları, oyuncu özetleri; lisans ve kapsam: [data/arsiv/BENIOKU.md](data/arsiv/BENIOKU.md) | veri |

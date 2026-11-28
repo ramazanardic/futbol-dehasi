@@ -15,11 +15,6 @@ from quantfoot.data.nesine import load_market_definitions, parse_bulletin, trans
 from quantfoot.data.oddsmath import parse_oddsmath_1x2_payload  # noqa: E402
 from quantfoot.markets.extreme_goals import score_both_halves_btts_match  # noqa: E402
 from quantfoot.markets.goal_markets import goal_probability  # noqa: E402
-from quantfoot.markets.high_odds_analyzer import (  # noqa: E402
-    analyze_balanced_1x2,
-    rank_golden_scores_with_ev,
-    score_comeback_reversals,
-)
 from quantfoot.markets.league_halves import league_comeback_rates, league_first_half_share  # noqa: E402
 from quantfoot.markets.market_diagnosis import rank_macro_coherent_scores  # noqa: E402
 
@@ -83,78 +78,6 @@ def test_oddsmath_computes_consensus_gap():
     res = parse_oddsmath_1x2_payload(payload)
     assert res["consensus_gap"] is not None and res["consensus_gap"] > 0.01
     assert res["steam_1x2"] is not None and res["steam_1x2"][0] > 0.01
-
-
-def test_balanced_1x2_analyzer_signals_and_pas():
-    # Düşük skorlu dengeli maç -> Beraberlik pozitif kaymalı; steam Ev'e gelirse Ev öne çıkmalı
-    m_draw = {
-        "code": 1001,
-        "kickoff": "2026-11-27 20:00",
-        "league": "İtalya Serie A",
-        "home": "Takım A",
-        "away": "Takım B",
-        "status": "fiyatlandı",
-        "price_tier": "keskin",
-        "fair_1x2": [0.36, 0.31, 0.33],
-        "nesine_ms": [2.25, 3.35, 2.55],
-        "mu_home": 1.05,
-        "mu_away": 1.00,
-        "steam_1x2": [-0.03, 0.03, 0.0],
-        "selections": [{"name": "2.5 Üst", "odds": 2.15, "fair_prob": 0.43}],
-        "research": {"teams": {"home": {"table": {"rank": 4}}, "away": {"table": {"rank": 12}}}, "flags": []},
-    }
-    a = analyze_balanced_1x2(m_draw)
-    assert a is not None
-    assert a.trap_draw_alert is True
-    assert a.post_probs[1] > a.market_probs[1]
-    assert a.verdict == "MS 0"
-
-    # Düşük güven maç her zaman PAS dönmeli
-    m_low = {**m_draw, "status": "düşük güven — global fiyat yok, Nesine oranından (kupona alınmaz)", "price_tier": "dusuk_guven"}
-    b = analyze_balanced_1x2(m_low)
-    assert b is not None and b.verdict == "PAS (Yazı-Tura)"
-
-
-def test_comeback_reversals_and_golden_scores_with_live_odds():
-    m = {
-        "code": 1002,
-        "kickoff": "2026-11-27 21:00",
-        "league": "İngiltere Premier Lig",
-        "home": "Ev Açık",
-        "away": "Dep Favori",
-        "status": "fiyatlandı",
-        "fair_1x2": [0.22, 0.25, 0.53],
-        "mu_home": 1.25,
-        "mu_away": 2.05,
-        "selections": [
-            {"name": "İY/MS 1/2", "odds": 24.0, "fair_prob": 0.045},
-            {"name": "2.5 Üst", "odds": 1.55, "fair_prob": 0.68},
-            {"name": "KG Var", "odds": 1.62, "fair_prob": 0.62},
-            {"name": "Skor 1-2", "odds": 8.80, "fair_prob": 0.095},
-            {"name": "Skor 0-2", "odds": 9.50, "fair_prob": 0.088},
-            {"name": "Skor 1-1", "odds": 7.20, "fair_prob": 0.110},
-            {"name": "Skor 0-1", "odds": 8.40, "fair_prob": 0.075},
-            {"name": "Skor 2-1", "odds": 13.5, "fair_prob": 0.055},
-            {"name": "Skor 2-0", "odds": 19.0, "fair_prob": 0.035},
-            {"name": "Skor 0-0", "odds": 15.0, "fair_prob": 0.035},
-            {"name": "Skor 2-2", "odds": 14.0, "fair_prob": 0.050},
-            {"name": "Skor 1-3", "odds": 16.0, "fair_prob": 0.055},
-        ],
-    }
-    cbs = score_comeback_reversals(m)
-    assert any(c.selection == "İY/MS 1/2" for c in cbs)
-    c12 = next(c for c in cbs if c.selection == "İY/MS 1/2")
-    assert 0.01 < c12.p_calibrated <= 0.095
-    assert c12.ev is not None and c12.insurance_leg is not None
-
-    ft_dist = {"1-1": 0.115, "1-2": 0.112, "0-2": 0.095, "0-1": 0.080, "2-1": 0.060}
-    ranked = rank_macro_coherent_scores(
-        ft_dist, f1x2=m["fair_1x2"], p_o25=0.68, p_btts=0.62, mu_home=1.25, mu_away=2.05,
-        market_score_odds={"1-2": 8.8, "0-2": 9.5, "1-1": 7.2, "0-1": 8.4, "2-1": 13.5, "2-0": 19.0, "0-0": 15.0, "2-2": 14.0, "1-3": 16.0},
-    )
-    assert ranked[0][0] == "1-2"
-    gs = rank_golden_scores_with_ev(m, ft_dist, top_n=3)
-    assert gs[0].score == "1-2" and gs[0].is_golden and gs[0].nesine_odds == 8.8
 
 
 def test_both_halves_btts_integrates_league_rate():
