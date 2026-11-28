@@ -64,6 +64,8 @@ def played(matches: list[dict], before: dt.date) -> list[dict]:
     out = []
     for x in matches:
         sc = x.get("score") or {}
+        if not isinstance(sc, dict):  # some openfootball files store score as a list
+            continue
         if sc.get("ft") and sc.get("ht") and x.get("date") and dt.date.fromisoformat(x["date"]) < before:
             out.append(x)
     return sorted(out, key=lambda x: x["date"])
