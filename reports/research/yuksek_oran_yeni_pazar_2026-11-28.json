@@ -1,0 +1,859 @@
+{
+ "tarih": "2026-11-28",
+ "son_mac": "2026-11-27",
+ "eklenen": [],
+ "elenen": {
+  "gol_araligi": "doğrulama: log-loss farkı +0.00038 (t=1.67), eşik t ≤ -2.0; test: log-loss farkı -0.00025 (t=-1.7), eşik t ≤ -3.0",
+  "iy_gol": "doğrulama: log-loss farkı -0.00002 (t=-0.07), eşik t ≤ -2.0; test: log-loss farkı +0.00007 (t=0.35), eşik t ≤ -3.0",
+  "2y_gol": "doğrulama: log-loss farkı +0.00007 (t=0.26), eşik t ≤ -2.0; test: log-loss farkı -0.00044 (t=-2.1), eşik t ≤ -3.0",
+  "en_cok_gol_yari": "doğrulama: log-loss farkı -0.00011 (t=-0.32), eşik t ≤ -2.0; test: log-loss farkı -0.00001 (t=-0.03), eşik t ≤ -3.0; test ECE kötü: 0.00243 > 0.00065",
+  "iki_yari_15_ust": "test: log-loss farkı +0.00029 (t=1.2), eşik t ≤ -3.0; test ECE kötü: 0.0082 > 0.00212",
+  "2y_sonucu": "doğrulama: log-loss farkı +0.00008 (t=0.47), eşik t ≤ -2.0; test: log-loss farkı +0.00012 (t=0.72), eşik t ≤ -3.0; test ECE kötü: 0.00509 > 0.00272",
+  "iy_2y_kg": "doğrulama: log-loss farkı +0.00045 (t=1.71), eşik t ≤ -2.0; test: log-loss farkı +0.00031 (t=1.65), eşik t ≤ -3.0",
+  "iy_ms_skor": "doğrulama: log-loss farkı +0.00222 (t=1.58), eşik t ≤ -2.0; test: log-loss farkı -0.00192 (t=-1.85), eşik t ≤ -3.0; test ECE kötü: 4e-05 > 2e-05"
+ },
+ "sonuc": {
+  "gol_araligi": {
+   "doğrulama": {
+    "n": 15113,
+    "logloss": {
+     "piyasa": 1.18761,
+     "sonra_ham": 1.18775,
+     "sonra": 1.18799
+    },
+    "sonra_vs_piyasa": {
+     "fark": 0.00038,
+     "t": 1.67
+    },
+    "ham_vs_piyasa": {
+     "fark": 0.00014,
+     "t": 1.8
+    },
+    "ece": {
+     "piyasa": 0.00389,
+     "sonra": 0.00414
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "0%-2%",
+      "n": 348,
+      "tahmin": 0.017,
+      "gercek": 0.0144
+     },
+     {
+      "bant": "2%-5%",
+      "n": 7003,
+      "tahmin": 0.0365,
+      "gercek": 0.0364
+     },
+     {
+      "bant": "5%-10%",
+      "n": 6672,
+      "tahmin": 0.0687,
+      "gercek": 0.0767
+     },
+     {
+      "bant": "10%-20%",
+      "n": 8107,
+      "tahmin": 0.1667,
+      "gercek": 0.1579
+     },
+     {
+      "bant": "20%-35%",
+      "n": 22492,
+      "tahmin": 0.2567,
+      "gercek": 0.2599
+     },
+     {
+      "bant": "35%-50%",
+      "n": 15830,
+      "tahmin": 0.4591,
+      "gercek": 0.4558
+     }
+    ]
+   },
+   "test": {
+    "n": 17431,
+    "logloss": {
+     "piyasa": 1.18518,
+     "sonra_ham": 1.18541,
+     "sonra": 1.18493
+    },
+    "sonra_vs_piyasa": {
+     "fark": -0.00025,
+     "t": -1.7
+    },
+    "ham_vs_piyasa": {
+     "fark": 0.00022,
+     "t": 3.52
+    },
+    "ece": {
+     "piyasa": 0.00389,
+     "sonra": 0.00184
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "0%-2%",
+      "n": 230,
+      "tahmin": 0.017,
+      "gercek": 0.013
+     },
+     {
+      "bant": "2%-5%",
+      "n": 7182,
+      "tahmin": 0.0376,
+      "gercek": 0.033
+     },
+     {
+      "bant": "5%-10%",
+      "n": 8412,
+      "tahmin": 0.0686,
+      "gercek": 0.068
+     },
+     {
+      "bant": "10%-20%",
+      "n": 9516,
+      "tahmin": 0.1651,
+      "gercek": 0.1625
+     },
+     {
+      "bant": "20%-35%",
+      "n": 26337,
+      "tahmin": 0.256,
+      "gercek": 0.2562
+     },
+     {
+      "bant": "35%-50%",
+      "n": 18047,
+      "tahmin": 0.4581,
+      "gercek": 0.4614
+     }
+    ]
+   }
+  },
+  "iy_gol": {
+   "doğrulama": {
+    "n": 15113,
+    "logloss": {
+     "piyasa": 1.08266,
+     "sonra_ham": 1.08267,
+     "sonra": 1.08264
+    },
+    "sonra_vs_piyasa": {
+     "fark": -2e-05,
+     "t": -0.07
+    },
+    "ham_vs_piyasa": {
+     "fark": 1e-05,
+     "t": 0.04
+    },
+    "ece": {
+     "piyasa": 0.01088,
+     "sonra": 0.00616
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "10%-20%",
+      "n": 374,
+      "tahmin": 0.1808,
+      "gercek": 0.1471
+     },
+     {
+      "bant": "20%-35%",
+      "n": 23669,
+      "tahmin": 0.2979,
+      "gercek": 0.2925
+     },
+     {
+      "bant": "35%-50%",
+      "n": 21133,
+      "tahmin": 0.3743,
+      "gercek": 0.3805
+     },
+     {
+      "bant": "50%-70%",
+      "n": 163,
+      "tahmin": 0.5297,
+      "gercek": 0.5767
+     }
+    ]
+   },
+   "test": {
+    "n": 17431,
+    "logloss": {
+     "piyasa": 1.08333,
+     "sonra_ham": 1.08347,
+     "sonra": 1.08341
+    },
+    "sonra_vs_piyasa": {
+     "fark": 7e-05,
+     "t": 0.35
+    },
+    "ham_vs_piyasa": {
+     "fark": 0.00014,
+     "t": 0.84
+    },
+    "ece": {
+     "piyasa": 0.00683,
+     "sonra": 0.00317
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "10%-20%",
+      "n": 483,
+      "tahmin": 0.1804,
+      "gercek": 0.1615
+     },
+     {
+      "bant": "20%-35%",
+      "n": 27551,
+      "tahmin": 0.2982,
+      "gercek": 0.2955
+     },
+     {
+      "bant": "35%-50%",
+      "n": 24066,
+      "tahmin": 0.375,
+      "gercek": 0.378
+     },
+     {
+      "bant": "50%-70%",
+      "n": 193,
+      "tahmin": 0.5337,
+      "gercek": 0.5855
+     }
+    ]
+   }
+  },
+  "2y_gol": {
+   "doğrulama": {
+    "n": 15113,
+    "logloss": {
+     "piyasa": 1.04437,
+     "sonra_ham": 1.0449,
+     "sonra": 1.04444
+    },
+    "sonra_vs_piyasa": {
+     "fark": 7e-05,
+     "t": 0.26
+    },
+    "ham_vs_piyasa": {
+     "fark": 0.00053,
+     "t": 2.69
+    },
+    "ece": {
+     "piyasa": 0.00601,
+     "sonra": 0.00321
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "10%-20%",
+      "n": 5233,
+      "tahmin": 0.1733,
+      "gercek": 0.1672
+     },
+     {
+      "bant": "20%-35%",
+      "n": 20177,
+      "tahmin": 0.2843,
+      "gercek": 0.2822
+     },
+     {
+      "bant": "35%-50%",
+      "n": 16983,
+      "tahmin": 0.4057,
+      "gercek": 0.4075
+     },
+     {
+      "bant": "50%-70%",
+      "n": 2915,
+      "tahmin": 0.5398,
+      "gercek": 0.5537
+     }
+    ]
+   },
+   "test": {
+    "n": 17431,
+    "logloss": {
+     "piyasa": 1.04425,
+     "sonra_ham": 1.04434,
+     "sonra": 1.04381
+    },
+    "sonra_vs_piyasa": {
+     "fark": -0.00044,
+     "t": -2.1
+    },
+    "ham_vs_piyasa": {
+     "fark": 9e-05,
+     "t": 0.59
+    },
+    "ece": {
+     "piyasa": 0.003,
+     "sonra": 0.00269
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "5%-10%",
+      "n": 42,
+      "tahmin": 0.0897,
+      "gercek": 0.0476
+     },
+     {
+      "bant": "10%-20%",
+      "n": 6505,
+      "tahmin": 0.1722,
+      "gercek": 0.1662
+     },
+     {
+      "bant": "20%-35%",
+      "n": 24147,
+      "tahmin": 0.2852,
+      "gercek": 0.2877
+     },
+     {
+      "bant": "35%-50%",
+      "n": 17765,
+      "tahmin": 0.4131,
+      "gercek": 0.4114
+     },
+     {
+      "bant": "50%-70%",
+      "n": 3824,
+      "tahmin": 0.5428,
+      "gercek": 0.5452
+     }
+    ]
+   }
+  },
+  "en_cok_gol_yari": {
+   "doğrulama": {
+    "n": 15113,
+    "logloss": {
+     "piyasa": 1.07413,
+     "sonra_ham": 1.0744,
+     "sonra": 1.07402
+    },
+    "sonra_vs_piyasa": {
+     "fark": -0.00011,
+     "t": -0.32
+    },
+    "ham_vs_piyasa": {
+     "fark": 0.00027,
+     "t": 1.03
+    },
+    "ece": {
+     "piyasa": 0.00225,
+     "sonra": 0.00223
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "20%-35%",
+      "n": 30220,
+      "tahmin": 0.2824,
+      "gercek": 0.2807
+     },
+     {
+      "bant": "35%-50%",
+      "n": 15094,
+      "tahmin": 0.4352,
+      "gercek": 0.4385
+     }
+    ]
+   },
+   "test": {
+    "n": 17431,
+    "logloss": {
+     "piyasa": 1.07053,
+     "sonra_ham": 1.07058,
+     "sonra": 1.07052
+    },
+    "sonra_vs_piyasa": {
+     "fark": -1e-05,
+     "t": -0.03
+    },
+    "ham_vs_piyasa": {
+     "fark": 6e-05,
+     "t": 0.27
+    },
+    "ece": {
+     "piyasa": 0.00065,
+     "sonra": 0.00243
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "20%-35%",
+      "n": 34852,
+      "tahmin": 0.28,
+      "gercek": 0.2782
+     },
+     {
+      "bant": "35%-50%",
+      "n": 17416,
+      "tahmin": 0.44,
+      "gercek": 0.4437
+     }
+    ]
+   }
+  },
+  "iki_yari_15_ust": {
+   "doğrulama": {
+    "n": 15113,
+    "logloss": {
+     "piyasa": 0.43801,
+     "sonra_ham": 0.43802,
+     "sonra": 0.43731
+    },
+    "sonra_vs_piyasa": {
+     "fark": -0.00069,
+     "t": -2.0
+    },
+    "ham_vs_piyasa": {
+     "fark": 1e-05,
+     "t": 0.35
+    },
+    "ece": {
+     "piyasa": 0.01222,
+     "sonra": 0.00169
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "5%-10%",
+      "n": 1735,
+      "tahmin": 0.0844,
+      "gercek": 0.0934
+     },
+     {
+      "bant": "10%-20%",
+      "n": 9771,
+      "tahmin": 0.1479,
+      "gercek": 0.1485
+     },
+     {
+      "bant": "20%-35%",
+      "n": 3403,
+      "tahmin": 0.243,
+      "gercek": 0.2424
+     },
+     {
+      "bant": "35%-50%",
+      "n": 172,
+      "tahmin": 0.3948,
+      "gercek": 0.3837
+     }
+    ]
+   },
+   "test": {
+    "n": 17431,
+    "logloss": {
+     "piyasa": 0.42871,
+     "sonra_ham": 0.42873,
+     "sonra": 0.429
+    },
+    "sonra_vs_piyasa": {
+     "fark": 0.00029,
+     "t": 1.2
+    },
+    "ham_vs_piyasa": {
+     "fark": 2e-05,
+     "t": 0.54
+    },
+    "ece": {
+     "piyasa": 0.00212,
+     "sonra": 0.0082
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "5%-10%",
+      "n": 1363,
+      "tahmin": 0.086,
+      "gercek": 0.0851
+     },
+     {
+      "bant": "10%-20%",
+      "n": 12035,
+      "tahmin": 0.1491,
+      "gercek": 0.1437
+     },
+     {
+      "bant": "20%-35%",
+      "n": 3851,
+      "tahmin": 0.2437,
+      "gercek": 0.2238
+     },
+     {
+      "bant": "35%-50%",
+      "n": 167,
+      "tahmin": 0.389,
+      "gercek": 0.3892
+     }
+    ]
+   }
+  },
+  "2y_sonucu": {
+   "doğrulama": {
+    "n": 15113,
+    "logloss": {
+     "piyasa": 1.04937,
+     "sonra_ham": 1.04975,
+     "sonra": 1.04946
+    },
+    "sonra_vs_piyasa": {
+     "fark": 8e-05,
+     "t": 0.47
+    },
+    "ham_vs_piyasa": {
+     "fark": 0.00038,
+     "t": 2.94
+    },
+    "ece": {
+     "piyasa": 0.00435,
+     "sonra": 0.00701
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "5%-10%",
+      "n": 316,
+      "tahmin": 0.0828,
+      "gercek": 0.0918
+     },
+     {
+      "bant": "10%-20%",
+      "n": 3367,
+      "tahmin": 0.1625,
+      "gercek": 0.1562
+     },
+     {
+      "bant": "20%-35%",
+      "n": 21906,
+      "tahmin": 0.2914,
+      "gercek": 0.2851
+     },
+     {
+      "bant": "35%-50%",
+      "n": 17532,
+      "tahmin": 0.3925,
+      "gercek": 0.3988
+     },
+     {
+      "bant": "50%-70%",
+      "n": 2123,
+      "tahmin": 0.5695,
+      "gercek": 0.5907
+     },
+     {
+      "bant": "70%-100%",
+      "n": 92,
+      "tahmin": 0.731,
+      "gercek": 0.7283
+     }
+    ]
+   },
+   "test": {
+    "n": 17431,
+    "logloss": {
+     "piyasa": 1.05158,
+     "sonra_ham": 1.05181,
+     "sonra": 1.0517
+    },
+    "sonra_vs_piyasa": {
+     "fark": 0.00012,
+     "t": 0.72
+    },
+    "ham_vs_piyasa": {
+     "fark": 0.00023,
+     "t": 1.99
+    },
+    "ece": {
+     "piyasa": 0.00272,
+     "sonra": 0.00509
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "5%-10%",
+      "n": 306,
+      "tahmin": 0.0853,
+      "gercek": 0.0882
+     },
+     {
+      "bant": "10%-20%",
+      "n": 3968,
+      "tahmin": 0.1643,
+      "gercek": 0.1537
+     },
+     {
+      "bant": "20%-35%",
+      "n": 25604,
+      "tahmin": 0.2921,
+      "gercek": 0.2889
+     },
+     {
+      "bant": "35%-50%",
+      "n": 19855,
+      "tahmin": 0.3935,
+      "gercek": 0.3971
+     },
+     {
+      "bant": "50%-70%",
+      "n": 2482,
+      "tahmin": 0.5659,
+      "gercek": 0.5902
+     },
+     {
+      "bant": "70%-100%",
+      "n": 78,
+      "tahmin": 0.7245,
+      "gercek": 0.6026
+     }
+    ]
+   }
+  },
+  "iy_2y_kg": {
+   "doğrulama": {
+    "n": 15113,
+    "logloss": {
+     "piyasa": 1.05606,
+     "sonra_ham": 1.05646,
+     "sonra": 1.05652
+    },
+    "sonra_vs_piyasa": {
+     "fark": 0.00045,
+     "t": 1.71
+    },
+    "ham_vs_piyasa": {
+     "fark": 0.00039,
+     "t": 2.01
+    },
+    "ece": {
+     "piyasa": 0.00313,
+     "sonra": 0.00186
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "0%-2%",
+      "n": 58,
+      "tahmin": 0.0183,
+      "gercek": 0.0
+     },
+     {
+      "bant": "2%-5%",
+      "n": 7827,
+      "tahmin": 0.0394,
+      "gercek": 0.0417
+     },
+     {
+      "bant": "5%-10%",
+      "n": 7226,
+      "tahmin": 0.0641,
+      "gercek": 0.0674
+     },
+     {
+      "bant": "10%-20%",
+      "n": 22483,
+      "tahmin": 0.1553,
+      "gercek": 0.1554
+     },
+     {
+      "bant": "20%-35%",
+      "n": 7745,
+      "tahmin": 0.2208,
+      "gercek": 0.2218
+     },
+     {
+      "bant": "35%-50%",
+      "n": 442,
+      "tahmin": 0.4754,
+      "gercek": 0.4661
+     },
+     {
+      "bant": "50%-70%",
+      "n": 14182,
+      "tahmin": 0.6049,
+      "gercek": 0.6013
+     },
+     {
+      "bant": "70%-100%",
+      "n": 489,
+      "tahmin": 0.7171,
+      "gercek": 0.726
+     }
+    ]
+   },
+   "test": {
+    "n": 17431,
+    "logloss": {
+     "piyasa": 1.06814,
+     "sonra_ham": 1.06844,
+     "sonra": 1.06845
+    },
+    "sonra_vs_piyasa": {
+     "fark": 0.00031,
+     "t": 1.65
+    },
+    "ham_vs_piyasa": {
+     "fark": 0.0003,
+     "t": 1.88
+    },
+    "ece": {
+     "piyasa": 0.00271,
+     "sonra": 0.00211
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "0%-2%",
+      "n": 37,
+      "tahmin": 0.0183,
+      "gercek": 0.0
+     },
+     {
+      "bant": "2%-5%",
+      "n": 8109,
+      "tahmin": 0.0399,
+      "gercek": 0.0444
+     },
+     {
+      "bant": "5%-10%",
+      "n": 9090,
+      "tahmin": 0.0652,
+      "gercek": 0.0626
+     },
+     {
+      "bant": "10%-20%",
+      "n": 24586,
+      "tahmin": 0.1547,
+      "gercek": 0.1562
+     },
+     {
+      "bant": "20%-35%",
+      "n": 10472,
+      "tahmin": 0.2229,
+      "gercek": 0.2216
+     },
+     {
+      "bant": "35%-50%",
+      "n": 905,
+      "tahmin": 0.4737,
+      "gercek": 0.4652
+     },
+     {
+      "bant": "50%-70%",
+      "n": 16162,
+      "tahmin": 0.5994,
+      "gercek": 0.5991
+     },
+     {
+      "bant": "70%-100%",
+      "n": 363,
+      "tahmin": 0.7163,
+      "gercek": 0.6529
+     }
+    ]
+   }
+  },
+  "iy_ms_skor": {
+   "doğrulama": {
+    "n": 15113,
+    "logloss": {
+     "piyasa": 3.91326,
+     "sonra_ham": 3.91103,
+     "sonra": 3.91548
+    },
+    "sonra_vs_piyasa": {
+     "fark": 0.00222,
+     "t": 1.58
+    },
+    "ham_vs_piyasa": {
+     "fark": -0.00223,
+     "t": -4.45
+    },
+    "ece": {
+     "piyasa": 3e-05,
+     "sonra": 4e-05
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "0%-2%",
+      "n": 3194803,
+      "tahmin": 0.002,
+      "gercek": 0.002
+     },
+     {
+      "bant": "2%-5%",
+      "n": 173419,
+      "tahmin": 0.0315,
+      "gercek": 0.0311
+     },
+     {
+      "bant": "5%-10%",
+      "n": 43497,
+      "tahmin": 0.0652,
+      "gercek": 0.0662
+     },
+     {
+      "bant": "10%-20%",
+      "n": 3575,
+      "tahmin": 0.1228,
+      "gercek": 0.1306
+     },
+     {
+      "bant": "20%-35%",
+      "n": 236,
+      "tahmin": 0.2424,
+      "gercek": 0.2076
+     }
+    ]
+   },
+   "test": {
+    "n": 17431,
+    "logloss": {
+     "piyasa": 3.92596,
+     "sonra_ham": 3.92379,
+     "sonra": 3.92404
+    },
+    "sonra_vs_piyasa": {
+     "fark": -0.00192,
+     "t": -1.85
+    },
+    "ham_vs_piyasa": {
+     "fark": -0.00217,
+     "t": -4.33
+    },
+    "ece": {
+     "piyasa": 2e-05,
+     "sonra": 4e-05
+    },
+    "kalibrasyon_sonra": [
+     {
+      "bant": "0%-2%",
+      "n": 3686926,
+      "tahmin": 0.002,
+      "gercek": 0.002
+     },
+     {
+      "bant": "2%-5%",
+      "n": 199254,
+      "tahmin": 0.0312,
+      "gercek": 0.031
+     },
+     {
+      "bant": "5%-10%",
+      "n": 49211,
+      "tahmin": 0.0651,
+      "gercek": 0.0672
+     },
+     {
+      "bant": "10%-20%",
+      "n": 3753,
+      "tahmin": 0.1233,
+      "gercek": 0.1252
+     },
+     {
+      "bant": "20%-35%",
+      "n": 255,
+      "tahmin": 0.2385,
+      "gercek": 0.2471
+     }
+    ]
+   }
+  }
+ }
+}

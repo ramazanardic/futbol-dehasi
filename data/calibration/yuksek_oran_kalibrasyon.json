@@ -143,21 +143,5 @@
   "BRA": 0.4493,
   "MEX": 0.4493,
   "_genel": 0.4493
- },
- "korner_var_ort": {
-  "_genel": 1.1482
- },
- "korner_duzeltme": {
-  "katsayi": [
-   4.1641,
-   0.5658,
-   0.4502
-  ],
-  "ozellikler": [
-   "sabit",
-   "takim_beklentisi",
-   "abs_ustunluk"
-  ],
-  "var_ort": 1.1482
  }
 }

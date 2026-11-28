@@ -3,7 +3,8 @@
 KURALLAR.md'deki her kural burada en az bir testle bağlanır. Bu testler kırılırsa kural gevşetilmiş demektir:
 PR birleştirilmez. Kurallar: bacak P ≥ 0,70 · oran 1,20–1,80 · maç başına tek bacak · 2–5 bacak (en çok 6) ·
 yasak aileler (beraberlik, maç geneli KG/BTTS, 2Y KG Var, ilk gol, takım golü, İY/MS, İY/2Y, skor, çifte şans
-— DEĞİL(MS 0) dahil —, handikap) · izinli: 2Y KG Yok ve takımın yarı kazanma pazarları ·
+— DEĞİL(MS 0) dahil —, handikap) · izinli: 2Y KG Yok, takımın yarı kazanma pazarları ve toplam korner Alt/Üst
+(ölçümle doğrulanmış çizgiler, aynı P/oran kurallarıyla) ·
 banko yoksa boş sonuç + dürüst mesaj · varsayılan 20+ oranlı kupon yok · yüksek oran motoru günlük hatta yok.
 """
 
@@ -119,6 +120,40 @@ ALLOWED = ["MS 1", "2.5 Alt", "3.5 Alt", "İY 1.5 Alt",
 @pytest.mark.parametrize("name", ALLOWED)
 def test_plain_allowed_legs_still_pass(name):
     assert R.leg_decision(_leg(1, name=name, odds=1.35, p=0.86)).ok, name
+
+
+# ---------------------------------------------------------------- 6b) toplam korner Alt/Üst izinli banko ailesi (t179u)
+
+def test_total_corner_is_allowed_banko_family_under_same_rules(monkeypatch):
+    from quantfoot.markets import korner_banko as K
+
+    monkeypatch.setattr(K, "load_params", lambda path=None: {"etkin": True, "gecerli": ["Korner 8.5 Üst", "Korner 12.5 Alt"]})
+    monkeypatch.setenv("QF_KORNER_BANKO", "1")
+    for name in ("Korner 8.5 Üst", "Korner 12.5 Alt"):
+        assert R.leg_decision(_leg(1, name=name, odds=1.40, p=0.76)).ok, name
+        assert not R.leg_decision(_leg(1, name=name, odds=1.40, p=0.69)).ok       # P ≥ 0,70
+        assert not R.leg_decision(_leg(1, name=name, odds=1.19, p=0.80)).ok       # oran 1,20–1,80
+        assert not R.leg_decision(_leg(1, name=name, odds=1.85, p=0.80)).ok
+    # ölçümde doğrulanmamış çizgi, ilk yarı korneri ve diğer aileler beyaz listede kalmaz
+    assert not R.leg_decision(_leg(1, name="Korner 9.5 Üst", odds=1.40, p=0.80)).ok
+    assert not R.leg_decision(_leg(1, name="İY Korner 4.5 Üst", odds=1.40, p=0.80)).ok
+    assert not R.leg_decision(_leg(1, name="Kart 3.5 Üst", odds=1.40, p=0.80)).ok
+    # kapalıyken (ortam ya da etkin=false) hiçbir korner bacağı geçmez
+    monkeypatch.setenv("QF_KORNER_BANKO", "0")
+    assert not R.leg_decision(_leg(1, name="Korner 8.5 Üst", odds=1.40, p=0.80)).ok
+    monkeypatch.setenv("QF_KORNER_BANKO", "1")
+    monkeypatch.setattr(K, "load_params", lambda path=None: {"etkin": False, "gecerli": ["Korner 8.5 Üst"]})
+    assert not R.leg_decision(_leg(1, name="Korner 8.5 Üst", odds=1.40, p=0.80)).ok
+
+
+def test_corner_exception_does_not_open_banned_families(monkeypatch):
+    from quantfoot.markets import korner_banko as K
+
+    monkeypatch.setattr(K, "load_params", lambda path=None: {"etkin": True, "gecerli": ["Korner 8.5 Üst"]})
+    monkeypatch.setenv("QF_KORNER_BANKO", "1")
+    for name in BANNED:
+        assert not R.leg_decision(_leg(1, name=name, odds=1.40, p=0.95)).ok, name
+    assert not R.leg_decision(_leg(1, name="Korner 8.5 Üst & KG Var", odds=1.60, p=0.90)).ok  # kombine: yasak parça
 
 
 def test_combo_leg_with_banned_part_rejected():

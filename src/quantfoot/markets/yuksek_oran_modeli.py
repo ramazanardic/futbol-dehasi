@@ -1,6 +1,6 @@
 """Yüksek oranlı pazarlar için yarı-bazlı skor modeli (analiz katmanı, banko kupona GİRMEZ).
 
-Pazarlar: kesin skor, İY skoru, İY/MS (9 hücre), 2. yarı KG, korner alt/üst.
+Pazarlar: kesin skor, İY skoru, İY/MS (9 hücre), 2. yarı KG. (Korner alt/üst 28 Kas'ta banko ailesine taşındı: `markets/korner_banko.py`.)
 
 Model (28 Kas 2026, `scripts/yuksek_oran_pazarlar.py backtest` ile seçildi ve ölçüldü):
 
@@ -16,9 +16,6 @@ Model (28 Kas 2026, `scripts/yuksek_oran_pazarlar.py backtest` ile seçildi ve �
    tahminlerin gerçek frekansına hücre çarpanıyla kalibre edilir (`apply_cell_factors`; favori kovası başına).
 5. **Kesin skor / İY skoru.** Yarı modelinden gelen maç skoru matrisi + skor hücresi çarpanları (beraberlik şişmesi).
 6. **2Y KG.** 2. yarı DC matrisinden; logit kalibrasyonu.
-7. **Korner.** Takım korner kazanma/yeme oranları (zaman ağırlıklı Maher, korner sayıları); beklenen toplam,
-   geçmiş örneklem-dışı satırlarla doğrusal büzülür (toplam ≈ a + b·beklenti + c·|üstünlük|, b ≈ 0.57) ve
-   negatif binomla fiyatlanır (Var/Ort geçmiş artıklardan).
 
 Piyasa payı nedeniyle bu pazarlarda pozitif beklenen değer garanti değildir; arşivde bu pazarların oranı yok,
 o yüzden ROI ölçülemez. Çıktılar yalnız olasılıktır.
@@ -27,14 +24,12 @@ o yüzden ROI ölçülemez. Çıktılar yalnız olasılıktır.
 from __future__ import annotations
 
 import json
-import math
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 from scipy.special import gammaln
-from scipy.stats import nbinom
 
 ROOT = Path(__file__).resolve().parents[3]
 PARAMS_PATH = ROOT / "data" / "calibration" / "yuksek_oran_kalibrasyon.json"
@@ -43,7 +38,6 @@ MAXG = 10  # yarı ve maç matrisi 0..MAXG
 HTFT_LABELS = ("1/1", "1/0", "1/2", "0/1", "0/0", "0/2", "2/1", "2/0", "2/2")
 FT_SCORES = tuple((h, a) for h in range(5) for a in range(5))  # + "diğer"
 HT_SCORES = tuple((h, a) for h in range(3) for a in range(3))  # + "diğer"
-CORNER_LINES = (8.5, 9.5, 10.5, 11.5)
 DEFAULT_FIRST_HALF_SHARE = 0.445
 
 # football-data bölüm kodu -> data/gfi/lig_yari_dakika_gfi.csv lig kodu (yalnız eşleşenler)
@@ -159,7 +153,7 @@ def game_state_model(m1: np.ndarray, lam2: np.ndarray, mu2: np.ndarray, mult_h: 
         ft += convolve_halves(m1 * masks[s][None], m2s[s], n, normalize=False)
         kg2 += (m1 * masks[s][None]).sum(axis=(1, 2)) * btts_from_matrix(m2s[s])
     ft /= ft.sum(axis=(1, 2), keepdims=True)
-    return {"htft": out, "ft_matrix": ft, "kg2": kg2}
+    return {"htft": out, "ft_matrix": ft, "kg2": kg2, "m2s": m2s}
 
 
 def convolve_halves(m1: np.ndarray, m2: np.ndarray, n: int = MAXG, normalize: bool = True) -> np.ndarray:
@@ -192,6 +186,96 @@ def score_classes(mat: np.ndarray, scores: tuple[tuple[int, int], ...]) -> np.nd
 def btts_from_matrix(mat: np.ndarray) -> np.ndarray:
     return 1.0 - mat[:, 0, :].sum(axis=1) - mat[:, :, 0].sum(axis=1) + mat[:, 0, 0]
 
+
+
+# ----------------------------------------------------------------------------------------------
+# Ek pazarlar (yarı/toplam gol temelli): aynı yarı modelinden türetilir
+# ----------------------------------------------------------------------------------------------
+GOAL_RANGE_LABELS = ("0-1", "2-3", "4-5", "6+")
+HALF_COUNT_LABELS = ("0", "1", "2+")
+BEST_HALF_LABELS = ("1Y", "Eşit", "2Y")
+RESULT_LABELS = ("1", "X", "2")
+KG_HALVES_LABELS = ("Evet/Evet", "Evet/Hayır", "Hayır/Evet", "Hayır/Hayır")
+HT_FT_SCORE_HT = tuple((h, a) for h in range(3) for a in range(3))
+HT_FT_SCORE_FT = tuple((h, a) for h in range(5) for a in range(5))
+
+
+def total_dist(mat: np.ndarray) -> np.ndarray:
+    """(N, 2n+1): skor matrisinin toplam gol dağılımı."""
+    n = mat.shape[1] - 1
+    out = np.zeros((mat.shape[0], 2 * n + 1))
+    for i in range(n + 1):
+        for j in range(n + 1):
+            out[:, i + j] += mat[:, i, j]
+    return out
+
+
+def extra_markets(m1: np.ndarray, gs: dict[str, np.ndarray]) -> dict[str, np.ndarray]:
+    """İY matrisi ``m1`` ve ``game_state_model`` çıktısından ek pazar olasılıkları (hepsi satır başına toplam 1).
+
+    gol_araligi (0-1/2-3/4-5/6+) · iy_gol (0/1/2+) · 2y_gol (0/1/2+) · en_cok_gol_yari (1Y/Eşit/2Y) ·
+    iki_yari_15_ust (ikili) · 2y_sonucu (1/X/2) · iy_2y_kg (Evet/Evet…) · iy_ms_skor (İY skoru × maç skoru).
+    """
+    n = m1.shape[1] - 1
+    masks = half_state_masks(n)
+    m2s = gs["m2s"]
+    mf = gs["ft_matrix"]
+    tf = total_dist(mf)
+    gol_araligi = np.stack([tf[:, :2].sum(1), tf[:, 2:4].sum(1), tf[:, 4:6].sum(1), tf[:, 6:].sum(1)], axis=1)
+    N = m1.shape[0]
+    t1_by_s = [total_dist(m1 * masks[s][None]) for s in range(3)]   # P(T1=a, durum=s)
+    t2_by_s = [total_dist(m2s[s]) for s in range(3)]                # P(T2=b | durum=s)
+    t1 = sum(t1_by_s)
+    t2 = sum(t1_by_s[s].sum(1, keepdims=True) * t2_by_s[s] for s in range(3))
+    iy = np.stack([t1[:, 0], t1[:, 1], t1[:, 2:].sum(1)], axis=1)
+    y2 = np.stack([t2[:, 0], t2[:, 1], t2[:, 2:].sum(1)], axis=1)
+    both15 = np.zeros(N)
+    res2 = np.zeros((N, 3))
+    kg = np.zeros((N, 4))
+    ii, jj = np.indices((n + 1, n + 1))
+    for s in range(3):
+        w = t1_by_s[s]
+        both15 += w[:, 2:].sum(1) * t2_by_s[s][:, 2:].sum(1)
+        ps = w.sum(1)
+        m2 = m2s[s]
+        res2[:, 0] += ps * (m2 * (ii > jj)).sum(axis=(1, 2))
+        res2[:, 1] += ps * (m2 * (ii == jj)).sum(axis=(1, 2))
+        res2[:, 2] += ps * (m2 * (ii < jj)).sum(axis=(1, 2))
+        b1 = (m1 * masks[s][None] * ((ii > 0) & (jj > 0))[None]).sum(axis=(1, 2))
+        b2 = btts_from_matrix(m2)
+        kg[:, 0] += b1 * b2
+        kg[:, 1] += b1 * (1 - b2)
+        kg[:, 2] += (ps - b1) * b2
+        kg[:, 3] += (ps - b1) * (1 - b2)
+    # En çok gol olacak yarı: 1Y = T1 > T2, 2Y = T2 > T1; eşit = kalan
+    t1_gt_t2 = np.zeros(N)
+    t2_gt_t1 = np.zeros(N)
+    for s in range(3):
+        c2 = np.cumsum(t2_by_s[s], axis=1)
+        w = t1_by_s[s]
+        for a in range(w.shape[1]):
+            t1_gt_t2 += w[:, a] * (c2[:, a - 1] if a >= 1 else 0.0)
+            t2_gt_t1 += w[:, a] * (1.0 - c2[:, a])
+    best = np.stack([t1_gt_t2, 1.0 - t1_gt_t2 - t2_gt_t1, t2_gt_t1], axis=1)
+    out = {"gol_araligi": gol_araligi, "iy_gol": iy, "2y_gol": y2, "en_cok_gol_yari": best,
+           "iki_yari_15_ust": both15, "2y_sonucu": res2, "iy_2y_kg": kg}
+    # İY skoru × maç skoru: P(İY=(a,b), MS=(c,d)) = m1[a,b] · m2[durum(a,b)][c-a, d-b]
+    cols = []
+    for (a, b) in HT_FT_SCORE_HT:
+        s = 0 if a > b else (1 if a == b else 2)
+        for (c, d) in HT_FT_SCORE_FT:
+            if c < a or d < b:
+                cols.append(np.zeros(N))
+            else:
+                cols.append(m1[:, a, b] * m2s[s][:, c - a, d - b])
+    cell = np.stack(cols, axis=1)
+    other = np.clip(1.0 - cell.sum(axis=1, keepdims=True), 1e-9, None)
+    cell = np.concatenate([cell, other], axis=1)
+    out["iy_ms_skor"] = cell / cell.sum(axis=1, keepdims=True)
+    for k, v in out.items():
+        if v.ndim == 2:
+            out[k] = v / v.sum(axis=1, keepdims=True)
+    return out
 
 # ----------------------------------------------------------------------------------------------
 # Zaman ağırlıklı Maher (çarpımsal Poisson) takım oranları
@@ -324,26 +408,6 @@ def apply_logit(p: np.ndarray, ab: tuple[float, float]) -> np.ndarray:
 
 
 # ----------------------------------------------------------------------------------------------
-# Korner
-# ----------------------------------------------------------------------------------------------
-def nb_over(mean: np.ndarray, var_mean: np.ndarray | float, line: float) -> np.ndarray:
-    """P(T > line), T ~ NB(ort, Var/Ort oranı); oran <= 1 ise Poisson."""
-    mean = np.asarray(mean, float)
-    vm = np.broadcast_to(np.asarray(var_mean, float), mean.shape)
-    k = math.floor(line)
-    out = np.empty_like(mean)
-    nbm = vm > 1.0 + 1e-6
-    if nbm.any():
-        r = mean[nbm] / (vm[nbm] - 1.0)
-        out[nbm] = nbinom.sf(k, r, r / (r + mean[nbm]))
-    if (~nbm).any():
-        from scipy.stats import poisson
-
-        out[~nbm] = poisson.sf(k, mean[~nbm])
-    return out
-
-
-# ----------------------------------------------------------------------------------------------
 # Canlı kullanım (açık komutla; günlük akışta yok)
 # ----------------------------------------------------------------------------------------------
 def load_params(path: Path | None = None) -> dict[str, Any]:
@@ -354,12 +418,11 @@ def load_params(path: Path | None = None) -> dict[str, Any]:
 
 
 def predict_markets(lam: float, mu: float, *, division: str | None = None, team_share_h: float | None = None,
-                    team_share_a: float | None = None, corners: tuple[float, float] | None = None,
+                    team_share_a: float | None = None,
                     params: dict[str, Any] | None = None) -> dict[str, Any]:
     """Tek maç için kalibre edilmiş yüksek oran pazar olasılıkları (analiz; banko kupona girmez).
 
     lam, mu: maç sonu gol beklentisi (piyasa/model harmanı). team_share_*: takımın İY gol payı (yoksa lig payı).
-    corners: (ev, dep) korner beklentisi.
     """
     P = params if params is not None else load_params()
     hp = P.get("hiperparametre", {})
@@ -397,15 +460,6 @@ def predict_markets(lam: float, mu: float, *, division: str | None = None, team_
                     "İY Skor Diğer": float(ht[0, -1])},
         "2Y KG": {"2Y KG Var": float(kg2[0]), "2Y KG Yok": float(1 - kg2[0])},
     }
-    if corners is not None:
-        vms = P.get("korner_var_ort", {})
-        vm = vms.get(division or "", vms.get("_genel", 1.2))
-        tot = np.array([sum(corners)])
-        out["Korner"] = {}
-        for ln in CORNER_LINES:
-            po = float(nb_over(tot, vm, ln)[0])
-            out["Korner"][f"Korner {ln} Üst"] = po
-            out["Korner"][f"Korner {ln} Alt"] = 1 - po
     for grp in out.values():
         for kname, v in list(grp.items()):
             grp[kname] = round(v, 5)

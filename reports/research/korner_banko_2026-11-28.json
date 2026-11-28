@@ -1,0 +1,345 @@
+{
+ "parametreler": {
+  "surum": 1,
+  "uretim": "2026-11-28",
+  "son_mac": "2026-11-27",
+  "etkin": true,
+  "gecerli": [
+   "Korner 6.5 Üst",
+   "Korner 7.5 Üst",
+   "Korner 8.5 Üst",
+   "Korner 10.5 Alt",
+   "Korner 11.5 Alt",
+   "Korner 12.5 Alt",
+   "Korner 13.5 Alt"
+  ],
+  "katsayi": [
+   4.1331,
+   0.5804
+  ],
+  "var_ort": 1.1489,
+  "n_egitim": 37358,
+  "olcut": {
+   "dilim_P": 0.7,
+   "min_n": 300,
+   "azami_eksik": 0.05,
+   "donemler": [
+    [
+     "doğrulama",
+     "2022-07-01",
+     "2024-07-01"
+    ],
+    [
+     "test",
+     "2024-07-01",
+     null
+    ]
+   ]
+  },
+  "elenen": {
+   "Korner 6.5 Alt": "doğrulama: P≥0,70 diliminde yalnız 0 maç; test: P≥0,70 diliminde yalnız 0 maç",
+   "Korner 7.5 Alt": "doğrulama: P≥0,70 diliminde yalnız 0 maç; test: P≥0,70 diliminde yalnız 0 maç",
+   "Korner 8.5 Alt": "doğrulama: P≥0,70 diliminde yalnız 0 maç; test: P≥0,70 diliminde yalnız 0 maç",
+   "Korner 9.5 Üst": "doğrulama: P≥0,70 diliminde yalnız 39 maç; test: P≥0,70 diliminde yalnız 39 maç",
+   "Korner 9.5 Alt": "doğrulama: P≥0,70 diliminde yalnız 2 maç; test: P≥0,70 diliminde yalnız 5 maç",
+   "Korner 10.5 Üst": "doğrulama: P≥0,70 diliminde yalnız 1 maç; test: P≥0,70 diliminde yalnız 1 maç",
+   "Korner 11.5 Üst": "doğrulama: P≥0,70 diliminde yalnız 0 maç; test: P≥0,70 diliminde yalnız 0 maç",
+   "Korner 12.5 Üst": "doğrulama: P≥0,70 diliminde yalnız 0 maç; test: P≥0,70 diliminde yalnız 0 maç",
+   "Korner 13.5 Üst": "doğrulama: P≥0,70 diliminde yalnız 0 maç; test: P≥0,70 diliminde yalnız 0 maç"
+  }
+ },
+ "olcum": {
+  "secimler": {
+   "Korner 6.5 Üst": {
+    "doğrulama": {
+     "n": 14006,
+     "tahmin": 0.8417,
+     "gercek": 0.8454,
+     "fark": 0.0037,
+     "z": 1.2
+    },
+    "test": {
+     "n": 16549,
+     "tahmin": 0.837,
+     "gercek": 0.832,
+     "fark": -0.005,
+     "z": -1.75
+    }
+   },
+   "Korner 6.5 Alt": {
+    "doğrulama": {
+     "n": 0
+    },
+    "test": {
+     "n": 0
+    }
+   },
+   "Korner 7.5 Üst": {
+    "doğrulama": {
+     "n": 12099,
+     "tahmin": 0.7588,
+     "gercek": 0.7618,
+     "fark": 0.003,
+     "z": 0.77
+    },
+    "test": {
+     "n": 13310,
+     "tahmin": 0.7591,
+     "gercek": 0.7539,
+     "fark": -0.0051,
+     "z": -1.38
+    }
+   },
+   "Korner 7.5 Alt": {
+    "doğrulama": {
+     "n": 0
+    },
+    "test": {
+     "n": 0
+    }
+   },
+   "Korner 8.5 Üst": {
+    "doğrulama": {
+     "n": 1492,
+     "tahmin": 0.7283,
+     "gercek": 0.7413,
+     "fark": 0.0129,
+     "z": 1.12
+    },
+    "test": {
+     "n": 1887,
+     "tahmin": 0.7283,
+     "gercek": 0.7101,
+     "fark": -0.0182,
+     "z": -1.78
+    }
+   },
+   "Korner 8.5 Alt": {
+    "doğrulama": {
+     "n": 0
+    },
+    "test": {
+     "n": 0
+    }
+   },
+   "Korner 9.5 Üst": {
+    "doğrulama": {
+     "n": 39,
+     "tahmin": 0.726,
+     "gercek": 0.7179,
+     "fark": -0.008,
+     "z": -0.11
+    },
+    "test": {
+     "n": 39,
+     "tahmin": 0.7232,
+     "gercek": 0.5641,
+     "fark": -0.1591,
+     "z": -2.22
+    }
+   },
+   "Korner 9.5 Alt": {
+    "doğrulama": {
+     "n": 2,
+     "tahmin": 0.7104,
+     "gercek": 1.0,
+     "fark": 0.2896,
+     "z": 0.9
+    },
+    "test": {
+     "n": 5,
+     "tahmin": 0.7363,
+     "gercek": 1.0,
+     "fark": 0.2637,
+     "z": 1.34
+    }
+   },
+   "Korner 10.5 Üst": {
+    "doğrulama": {
+     "n": 1,
+     "tahmin": 0.7197,
+     "gercek": 1.0,
+     "fark": 0.2803,
+     "z": 0.62
+    },
+    "test": {
+     "n": 1,
+     "tahmin": 0.7084,
+     "gercek": 0.0,
+     "fark": -0.7084,
+     "z": -1.56
+    }
+   },
+   "Korner 10.5 Alt": {
+    "doğrulama": {
+     "n": 325,
+     "tahmin": 0.7184,
+     "gercek": 0.7446,
+     "fark": 0.0262,
+     "z": 1.05
+    },
+    "test": {
+     "n": 765,
+     "tahmin": 0.7198,
+     "gercek": 0.6967,
+     "fark": -0.0231,
+     "z": -1.42
+    }
+   },
+   "Korner 11.5 Üst": {
+    "doğrulama": {
+     "n": 0
+    },
+    "test": {
+     "n": 0
+    }
+   },
+   "Korner 11.5 Alt": {
+    "doğrulama": {
+     "n": 7684,
+     "tahmin": 0.7384,
+     "gercek": 0.74,
+     "fark": 0.0016,
+     "z": 0.32
+    },
+    "test": {
+     "n": 9474,
+     "tahmin": 0.7446,
+     "gercek": 0.7489,
+     "fark": 0.0042,
+     "z": 0.95
+    }
+   },
+   "Korner 12.5 Üst": {
+    "doğrulama": {
+     "n": 0
+    },
+    "test": {
+     "n": 0
+    }
+   },
+   "Korner 12.5 Alt": {
+    "doğrulama": {
+     "n": 13558,
+     "tahmin": 0.7933,
+     "gercek": 0.789,
+     "fark": -0.0044,
+     "z": -1.26
+    },
+    "test": {
+     "n": 15946,
+     "tahmin": 0.7969,
+     "gercek": 0.803,
+     "fark": 0.006,
+     "z": 1.89
+    }
+   },
+   "Korner 13.5 Üst": {
+    "doğrulama": {
+     "n": 0
+    },
+    "test": {
+     "n": 0
+    }
+   },
+   "Korner 13.5 Alt": {
+    "doğrulama": {
+     "n": 13989,
+     "tahmin": 0.8577,
+     "gercek": 0.8547,
+     "fark": -0.003,
+     "z": -1.0
+    },
+    "test": {
+     "n": 16532,
+     "tahmin": 0.8596,
+     "gercek": 0.8623,
+     "fark": 0.0027,
+     "z": 0.99
+    }
+   }
+  },
+  "havuz": {
+   "doğrulama": {
+    "tum_P>=0.70": {
+     "n": 63195,
+     "tahmin": 0.803,
+     "gercek": 0.8035,
+     "fark": 0.0004,
+     "z": 0.28
+    }
+   },
+   "test": {
+    "tum_P>=0.70": {
+     "n": 74508,
+     "tahmin": 0.8038,
+     "gercek": 0.8034,
+     "fark": -0.0004,
+     "z": -0.26
+    }
+   }
+  },
+  "bantlar": {
+   "doğrulama": {
+    "0.70-0.75": {
+     "n": 14244,
+     "tahmin": 0.7257,
+     "gercek": 0.7228,
+     "fark": -0.003,
+     "z": -0.79
+    },
+    "0.75-0.80": {
+     "n": 15442,
+     "tahmin": 0.7753,
+     "gercek": 0.7744,
+     "fark": -0.0008,
+     "z": -0.24
+    },
+    "0.80-0.90": {
+     "n": 31914,
+     "tahmin": 0.8456,
+     "gercek": 0.8478,
+     "fark": 0.0022,
+     "z": 1.07
+    },
+    "0.90-1.00": {
+     "n": 1595,
+     "tahmin": 0.9108,
+     "gercek": 0.9191,
+     "fark": 0.0083,
+     "z": 1.17
+    }
+   },
+   "test": {
+    "0.70-0.75": {
+     "n": 16634,
+     "tahmin": 0.7254,
+     "gercek": 0.7221,
+     "fark": -0.0033,
+     "z": -0.95
+    },
+    "0.75-0.80": {
+     "n": 18302,
+     "tahmin": 0.7754,
+     "gercek": 0.7747,
+     "fark": -0.0007,
+     "z": -0.23
+    },
+    "0.80-0.90": {
+     "n": 36955,
+     "tahmin": 0.8454,
+     "gercek": 0.8469,
+     "fark": 0.0015,
+     "z": 0.78
+    },
+    "0.90-1.00": {
+     "n": 2617,
+     "tahmin": 0.912,
+     "gercek": 0.9064,
+     "fark": -0.0056,
+     "z": -1.01
+    }
+   }
+  }
+ }
+}

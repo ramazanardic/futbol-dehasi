@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Yüksek oranlı pazarlar: kesin skor, İY skoru, İY/MS, 2Y KG, korner alt/üst — ANALİZ katmanı.
+"""Yüksek oranlı pazarlar: kesin skor, İY skoru, İY/MS, 2Y KG — ANALİZ katmanı (korner banko ailesine taşındı: scripts/korner_olcum.py).
 
 Banko kupona GİRMEZ (KURALLAR.md: İY/MS, skor, KG banko kuponda yasak). Günlük akışa bağlı değildir;
 yalnız bu komut açıkça çalıştırılınca çalışır.
@@ -152,14 +152,6 @@ def backtest(args: argparse.Namespace) -> None:
     markets["iy_skor"] = _market_block("İY skoru", {k: d["ht"][ht] for k, d in variants}, yt["ht"][ht], HT_LABELS)
     markets["kg2"] = _market_block("2. yarı KG Var", {k: d["kg2"][ht] for k, d in variants}, yt["kg2"][ht], None)
 
-    # korner
-    c_new, c_beta = bt.corner_probs(f, y, args.cal_from)
-    c_old = bt.corner_probs_old(f, y)
-    cmask = test & y["c_ok"] & np.isfinite(c_new[9.5]) & np.isfinite(c_old[9.5])
-    for ln in ym.CORNER_LINES:
-        yy = (y["ctot"][cmask] > ln).astype(int)
-        markets[f"korner_{ln}"] = _market_block(f"Korner {ln} Üst", {"once": c_old[ln][cmask], "sonra": c_new[ln][cmask]}, yy, None)
-
     # alt kümeler: lig x pazar
     subsets = []
     divs = tf.Division.to_numpy()
@@ -178,20 +170,6 @@ def backtest(args: argparse.Namespace) -> None:
             subsets.append({"pazar": key, "lig": d, "n": int(s.sum()), "sonra_vs_piyasa": dp, "sonra_vs_once": do,
                             "ece_sonra": e_s, "ece_piyasa": e_p,
                             "guvenilir": bool(dp["fark"] < 0 and dp["t"] <= -2.0 and e_s <= e_p)})
-    cdivs = f.Division.to_numpy()[cmask]
-    for ln in ym.CORNER_LINES:
-        yy = (y["ctot"][cmask] > ln).astype(int)
-        for d in np.unique(cdivs):
-            s = cdivs == d
-            if s.sum() < args.min_subset:
-                continue
-            ls, lo_ = bt.per_row_ll(c_new[ln][cmask][s], yy[s]), bt.per_row_ll(c_old[ln][cmask][s], yy[s])
-            do = bt.paired_delta(lo_, ls)
-            e_s, e_o = bt.ece(c_new[ln][cmask][s], yy[s]), bt.ece(c_old[ln][cmask][s], yy[s])
-            subsets.append({"pazar": f"korner_{ln}", "lig": d, "n": int(s.sum()), "sonra_vs_once": do,
-                            "ece_sonra": e_s, "ece_once": e_o,
-                            "guvenilir": bool(do["fark"] < 0 and do["t"] <= -2.0 and e_s <= e_o)})
-
     sel = []
     sel += _selection_reliability("İY/MS", son["htft"][ht], yt["htft"][ht], list(ym.HTFT_LABELS))
     sel += _selection_reliability("Skor", son["ft"], yt["ft"], FT_LABELS)
@@ -201,21 +179,20 @@ def backtest(args: argparse.Namespace) -> None:
     last_rows = f.sort_values("MatchDate").groupby("Division").tail(1)
     shares = {r.Division: round(float(r.s_lig), 4) for r in last_rows.itertuples() if np.isfinite(r.s_lig)}
     shares["_genel"] = round(float(np.nanmedian(list(shares.values()))), 4) if shares else ym.DEFAULT_FIRST_HALF_SHARE
-    cvm = {"_genel": c_beta.get("var_ort") or 1.2}
     params = {
         "olusturma": str(date.today()), "kaynak": "scripts/yuksek_oran_pazarlar.py backtest",
         "not": "Analiz katmanı; banko kupona girmez (KURALLAR.md).",
         "hiperparametre": {"half_life": best_hl, "w_market": best_cfg.w_market, "gamma_team": best_cfg.gamma_team,
                            "rho_iy": best_cfg.rho_iy, "rho_2y": best_cfg.rho_2y},
         "durum_carpani": {"ev": gs_last.get("ev", [1, 1, 1]), "dep": gs_last.get("dep", [1, 1, 1])},
-        "kalibrasyon": cal_last, "lig_iy_payi": shares, "korner_var_ort": cvm, "korner_duzeltme": c_beta,
+        "kalibrasyon": cal_last, "lig_iy_payi": shares,
     }
     res = {"tarih": str(date.today()), "dogrulama": [val_a, val_b], "test_baslangic": test_a,
            "yari_omur_secimi": {str(k): v for k, v in hl_scores.items()}, "izgara": grid_rows,
            "secilen": params["hiperparametre"], "durum_carpani": params["durum_carpani"],
            "pazarlar": markets, "alt_kumeler": subsets, "secim_guvenilirligi": sel,
            "roi": "Hesaplanamadı: data/matches.csv'de yalnız 1X2 ve 2.5 Alt/Üst oranı var; İY/MS, skor, İY skoru, "
-                  "2Y KG ve korner oranı yok. Uydurma ROI yazılmadı."}
+                  "2Y KG oranı yok. Uydurma ROI yazılmadı."}
     out_dir = ROOT / "reports" / "research"
     stamp = args.stamp or str(date.today())
     (out_dir / f"yuksek_oran_pazarlar_{stamp}.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -235,7 +212,7 @@ def render_md(res: dict) -> str:
          (f"- Devre-arası durum çarpanları (2Y gol, [ev önde, eşit, ev geride]): ev {res['durum_carpani']['ev']}, "
           f"dep {res['durum_carpani']['dep']}"),
          ("- **önce** = depodaki eski analitik taban (takım oranı λ, sabit %44.4 İY payı, bağımsız Poisson, kalibrasyon "
-          "yok; korner: CornerCardRatings α=0.02). **piyasa** = 1X2 + 2.5 Alt/Üst oranlarından ters çevrilmiş λ ile aynı "
+          "yok). **piyasa** = 1X2 + 2.5 Alt/Üst oranlarından ters çevrilmiş λ ile aynı "
           "taban (bu pazarların gerçek piyasa fiyatı arşivde yok). **sonra** = yeni model."), "",
          "## Pazar özeti (test)", "",
          "| Pazar | n | log-loss önce | piyasa | sonra | Brier önce → sonra | ECE önce → sonra | sonra−piyasa (t) |",
@@ -260,14 +237,14 @@ def render_md(res: dict) -> str:
         L.append(f"| {r['secim']} | {md['once']['secim_frekans'][i]['tahmin']:.4f} | {md['piyasa']['secim_frekans'][i]['tahmin']:.4f} | "
                  f"{r['tahmin']:.4f} | {r['gercek']:.4f} |")
     L += ["", "## Kalibrasyon tablosu (sonra, test; çok sınıflılarda hücreler havuzlanmış)", ""]
-    for k in ("iyms", "skor", "iy_skor", "kg2", "korner_9.5"):
+    for k in ("iyms", "skor", "iy_skor", "kg2"):
         m = res["pazarlar"][k]
         L.append(f"**{m['pazar']}**: " + "; ".join(f"{r['bant']} n={r['n']} tahmin {r['tahmin']:.3f} / gerçek {r['gercek']:.3f}"
                                                 for r in m["modeller"]["sonra"]["kalibrasyon"]))
         L.append("")
     good = [s for s in res["alt_kumeler"] if s["guvenilir"]]
     L += ["## Güvenilir alt kümeler (lig × pazar)", "",
-          ("Ölçüt: test n ≥ eşik, sonra log-loss'u kıyas modelinden (piyasa türevi; korner için önce) anlamlı düşük "
+          ("Ölçüt: test n ≥ eşik, sonra log-loss'u kıyas modelinden (piyasa türevi) anlamlı düşük "
            "(t ≤ −2) ve kalibrasyon hatası (ECE) da düşük."), ""]
     if good:
         L += ["| Pazar | Lig | n | log-loss farkı | t |", "|---|---|---|---|---|"]
@@ -298,7 +275,7 @@ def tahmin(args: argparse.Namespace) -> None:
     df = bt.load_matches()
     div = args.lig
     tr = df[(df.Division == div) & (df.MatchDate >= df.MatchDate.max() - pd.Timedelta(days=3 * 365))]
-    lam = mu = sh = sa = corners = None
+    lam = mu = sh = sa = None
     if len(tr) >= 150:
         age = (df.MatchDate.max() - tr.MatchDate).dt.days.to_numpy(float)
         w = 0.5 ** (age / hp["half_life"])
@@ -313,11 +290,6 @@ def tahmin(args: argparse.Namespace) -> None:
             a1, b1 = f1.expect(args.ev, args.dep)
             a2, b2 = f2.expect(args.ev, args.dep)
             sh, sa = a1 / (a1 + a2), b1 / (b1 + b2)
-        c = tr.HomeCorners.notna().to_numpy() & tr.AwayCorners.notna().to_numpy()
-        if c.sum() >= 150:
-            t3 = tr[c]
-            cf = ym.fit_maher(H[c], A[c], t3.HomeCorners.to_numpy(float), t3.AwayCorners.to_numpy(float), w[c], 25.0)
-            corners = cf.expect(args.ev, args.dep)
     if args.oran:
         p = ym.devig(np.array([args.oran]))
         po = ym.devig(np.array([args.ust_alt]))[:, 0] if args.ust_alt else None
@@ -328,15 +300,9 @@ def tahmin(args: argparse.Namespace) -> None:
             wm = hp["w_market"]
             lam = float(np.exp(wm * np.log(lp[0]) + (1 - wm) * np.log(lam)))
             mu = float(np.exp(wm * np.log(mp[0]) + (1 - wm) * np.log(mu)))
-    if corners is not None:
-        k = params.get("korner_duzeltme", {}).get("katsayi") or []
-        e = corners[0] + corners[1]
-        sup = abs(float(p[0, 0] - p[0, 2])) if args.oran else 0.0
-        tot = k[0] + k[1] * e + (k[2] * sup if len(k) > 2 else 0.0) if len(k) >= 2 else e
-        corners = (corners[0] * tot / e, corners[1] * tot / e)
     if lam is None:
         sys.exit("Bu lig için arşiv yok ve oran verilmedi.")
-    out = ym.predict_markets(lam, mu, division=div, team_share_h=sh, team_share_a=sa, corners=corners, params=params)
+    out = ym.predict_markets(lam, mu, division=div, team_share_h=sh, team_share_a=sa, params=params)
     print(f"{args.ev} - {args.dep} ({div}) λ={lam:.2f} μ={mu:.2f}  [analiz; banko kupona girmez]")
     for grp, sel in out.items():
         print(f"\n{grp}:")

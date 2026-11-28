@@ -530,6 +530,19 @@ def shrink_local_probability(prob: float, weight: float = 0.78) -> float:
     return float(max(0.01, min(0.99, 0.5 + weight * (float(prob) - 0.5))))
 
 
+def _korner_model_probability(event, name: str) -> float | None:
+    """Total-corner Alt/Üst probability from the walk-forward corner model; None when the selection is not a validated
+    banko corner line, the teams are not in the corner archive (same league), or the flag/calibration is off."""
+    from quantfoot.markets import korner_banko
+
+    if not korner_banko.banko_name_allowed(name):
+        return None
+    model = korner_banko.default_model()
+    if model is None:
+        return None
+    return model.probability(getattr(event, "home", ""), getattr(event, "away", ""), name)
+
+
 def price_event(
     event,
     ref: dict,
@@ -633,9 +646,15 @@ def price_event(
             continue  # derivative distribution not calibrated for this competition
         if not direct and not totals_known and not (s.name.startswith(("MS ", "ÇŞ ")) and "&" not in s.name):
             continue  # goal-count market with no global total to anchor it
+        corner_model = False
         if "Korner" in s.name and s.name not in quoted:
-            continue  # corners are priced only from a direct exchange quote (no goal-model extrapolation)
-        if s.name in quoted:
+            # Corners are never extrapolated from the goal grid. Total-corner Alt/Üst may be priced by the validated
+            # walk-forward corner model (markets/korner_banko.py, banko family); anything else stays unpriced.
+            p = None if s.negate else _korner_model_probability(event, s.name)
+            if p is None:
+                continue
+            corner_model = True
+        elif s.name in quoted:
             p = quoted[s.name]
         elif s.name in exact_direct:
             p = exact_direct[s.name]
@@ -655,14 +674,15 @@ def price_event(
             continue
         if s.negate:
             p = 1.0 - p
-        if is_local_fallback and p > 0.50:
+        if is_local_fallback and p > 0.50 and not corner_model:
             p = shrink_local_probability(p, weight=0.78)
         # Nesine templates ("{{handicap}} Gol Alt/Üst" / "{{SOV}} Üst"): show the resolved name instead.
         market = s.market_title.replace("{{handicap}} ", "").replace(" ({{handicap}})", "")
         label = s.name if "{{" in s.label or "{{" in s.market_title else s.label
         rows.append({"key": selection_key(s), "market": market, "selection": label, "name": s.name if not s.negate else f"DEĞİL({s.name})",
                      "odds": s.odds, "fair_prob": round(p, 5), "fair_odds": round(1 / p, 3) if p > 1e-9 else None,
-                     "ev": round(p * s.odds - 1.0, 4), "mbs": s.mbs, "direct": direct})
+                     "ev": round(p * s.odds - 1.0, 4), "mbs": s.mbs, "direct": direct,
+                     **({"korner_modeli": True} if corner_model else {})})
     rows.sort(key=lambda r: r["ev"], reverse=True)
     nesine_ms = [event.odds_of(f"MS {c}") for c in "102"]
     margin = sum(1 / o for o in nesine_ms) - 1 if all(nesine_ms) else None

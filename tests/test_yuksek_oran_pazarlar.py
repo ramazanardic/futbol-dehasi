@@ -1,4 +1,4 @@
-"""Yüksek oranlı pazar katmanı (skor, İY skoru, İY/MS, 2Y KG, korner): matematik, sızıntısızlık ve izolasyon."""
+"""Yüksek oranlı pazar katmanı (skor, İY skoru, İY/MS, 2Y KG): matematik, sızıntısızlık ve izolasyon."""
 
 from __future__ import annotations
 
@@ -102,12 +102,6 @@ def test_fit_maher_ranks_teams():
     assert fit.expect("A", "D")[0] > fit.expect("D", "A")[0]
 
 
-def test_nb_over_wider_than_poisson():
-    p_pois = ym.nb_over(np.array([10.0]), 1.0, 13.5)[0]
-    p_nb = ym.nb_over(np.array([10.0]), 1.5, 13.5)[0]
-    assert p_nb > p_pois > 0
-
-
 def _synthetic(n_weeks: int = 140) -> pd.DataFrame:
     rng = np.random.default_rng(3)
     teams = [f"T{i}" for i in range(12)]
@@ -158,12 +152,12 @@ def test_walk_forward_calibration_uses_only_past_months():
 
 def test_predict_markets_probabilities_sum_to_one():
     params = ym.load_params()
-    out = ym.predict_markets(1.5, 1.1, division="E0", corners=(5.5, 4.5), params=params)
-    assert set(out) >= {"İY/MS", "Skor", "İY Skor", "2Y KG", "Korner"}
+    out = ym.predict_markets(1.5, 1.1, division="E0", params=params)
+    assert set(out) >= {"İY/MS", "Skor", "İY Skor", "2Y KG"}
+    assert "Korner" not in out  # korner banko ailesine taşındı (markets/korner_banko.py)
     assert sum(out["İY/MS"].values()) == pytest.approx(1.0, abs=1e-3)
     assert sum(out["Skor"].values()) == pytest.approx(1.0, abs=1e-3)
     assert sum(out["İY Skor"].values()) == pytest.approx(1.0, abs=1e-3)
-    assert out["Korner"]["Korner 9.5 Üst"] + out["Korner"]["Korner 9.5 Alt"] == pytest.approx(1.0, abs=1e-4)
     # ev favorisinde 1/1 > 2/2 ve geri dönüş 2/1 > 0
     assert out["İY/MS"]["İY/MS 1/1"] > out["İY/MS"]["İY/MS 2/2"] > 0
     assert out["İY/MS"]["İY/MS 2/1"] > 0
@@ -181,3 +175,42 @@ def test_layer_not_wired_into_daily_pipeline():
         p = ROOT / rel
         if p.exists():
             assert not pattern.search(p.read_text(encoding="utf-8")), f"{rel} yüksek oran katmanını otomatik çağırmamalı"
+
+
+def test_extra_markets_are_coherent_with_half_model():
+    from scipy.stats import poisson
+
+    lam, mu, sh = np.array([1.5]), np.array([1.1]), 0.45
+    m1 = ym.dc_matrix(lam * sh, mu * sh, 0.0)
+    ones = np.ones((1, 3))
+    gs = ym.game_state_model(m1, lam * (1 - sh), mu * (1 - sh), ones, ones, 0.0)
+    ex = ym.extra_markets(m1, gs)
+    for k, v in ex.items():
+        if v.ndim == 2:
+            assert v.sum(axis=1)[0] == pytest.approx(1.0, abs=1e-6), k
+        assert (v >= -1e-12).all(), k
+    # durum çarpanı 1 ve rho 0: toplam gol Poisson(λ+μ); yarılar bağımsız Poisson
+    assert ex["gol_araligi"][0, 0] == pytest.approx(poisson.cdf(1, 2.6), abs=2e-3)
+    assert ex["iy_gol"][0, 0] == pytest.approx(poisson.pmf(0, (lam + mu)[0] * sh), abs=1e-4)
+    assert ex["2y_gol"][0, 0] == pytest.approx(poisson.pmf(0, (lam + mu)[0] * (1 - sh)), abs=1e-4)
+    p2 = poisson.sf(1, (lam + mu)[0] * sh) * poisson.sf(1, (lam + mu)[0] * (1 - sh))
+    assert ex["iki_yari_15_ust"][0] == pytest.approx(p2, abs=1e-4)
+    # İY skoru marjinali: İY 0-0 hücrelerinin toplamı = m1[0,0]
+    k = len(ym.HT_FT_SCORE_FT)
+    assert ex["iy_ms_skor"][0, :k].sum() == pytest.approx(m1[0, 0, 0], abs=2e-3)
+    # İY/2Y KG: dört hücre toplamı 1
+    assert ex["iy_2y_kg"][0].sum() == pytest.approx(1.0, abs=1e-9)
+
+
+def test_new_market_decision_requires_both_periods_and_ece():
+    from quantfoot.evaluation import yuksek_oran_yeni_pazar as yn
+
+    def blk(fark, t, ece_s=0.001, ece_p=0.002):
+        return {"sonra_vs_piyasa": {"fark": fark, "t": t}, "ece": {"sonra": ece_s, "piyasa": ece_p}}
+
+    res = {"gol_araligi": {"doğrulama": blk(-0.001, -2.5), "test": blk(-0.001, -3.5)},          # geçer
+           "iy_gol": {"doğrulama": blk(-0.001, -2.5), "test": blk(-0.0005, -2.0)},              # test zayıf
+           "2y_gol": {"doğrulama": blk(0.0004, 1.0), "test": blk(-0.001, -4.0)},                # doğrulama kötü
+           "2y_sonucu": {"doğrulama": blk(-0.001, -2.5), "test": blk(-0.001, -3.5, 0.004, 0.002)}}  # ECE kötü
+    keep, why = yn.decide(res)
+    assert keep == ["gol_araligi"] and set(why) == {"iy_gol", "2y_gol", "2y_sonucu"}

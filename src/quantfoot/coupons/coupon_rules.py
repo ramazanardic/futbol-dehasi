@@ -11,6 +11,7 @@ Bu modül banko kupon bacaklarını şu kurallarla süzgeçler:
   bant residuali); taban ``MIN_CALIBRATED_P`` (%70).
 * Aynı maçtan tek bacak; beraberlik bacağı yok (MS 0, İY X, İY/MS …/X …);
   Karşılıklı gol, İlk gol, ev/deplasman gol bacakları yasak.
+* Toplam korner Alt/Üst (ölçümle doğrulanmış çizgiler) izinli banko ailesidir; aynı kurallara tabidir.
 * Bacak oranı ≥ 1.20 (Nesine tabanı); banko kurulumunda üst sınır 1.80.
 * 2–5 bacak (gerekçeliyse açıkça 6). P(kupon) düzeltilmiş P'lerin çarpımıdır;
   2 kurala uygun bacak bile yoksa kupon boş döner ve dürüst not yazılır (kural gevşetilmez).
@@ -323,6 +324,20 @@ def _has_diagnosis_context(obj: Any) -> bool:
     return False
 
 
+def _korner_banko_ok(family: str, name: str) -> bool:
+    """Toplam korner Alt/Üst (28 Kas, t179u): ölçümle doğrulanmış (çizgi, yön) için izinli banko ailesi.
+
+    Yalnız "Korner <x.5> Üst/Alt"; ilk yarı korneri, kart ve diğer çizgiler beyaz listede kalmaz. Geçerli liste
+    ``data/calibration/korner_kalibrasyon.json`` içinde (``scripts/korner_olcum.py``); dosya yok / etkin=false ise kapalı.
+    P ≥ 0,70, oran 1,20–1,80 ve diğer tüm kurallar aynen geçerlidir.
+    """
+    if family != "Korner":
+        return False
+    from quantfoot.markets.korner_banko import banko_name_allowed
+
+    return banko_name_allowed(name)
+
+
 def leg_decision(obj: Any, cal: Calibration | None = None, *,
                  min_p: float = MIN_CALIBRATED_P,
                  min_odds: float = S.MIN_LEG_ODDS,
@@ -385,7 +400,7 @@ def leg_decision(obj: Any, cal: Calibration | None = None, *,
         reasons.append(hard)
     if family in BANNED_FAMILIES:
         reasons.append(f"{family} ailesi yasak")
-    elif not is_rehabilitated and not family_allowed(family, cal):
+    elif not is_rehabilitated and not family_allowed(family, cal) and not _korner_banko_ok(family, name):
         reasons.append(f"{family} ailesi kupon beyaz listesinde değil")
     allowed_names = FAMILY_NAME_ALLOW.get(family)
     if allowed_names is not None and name not in allowed_names:

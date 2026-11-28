@@ -1,0 +1,49 @@
+{
+ "surum": 1,
+ "uretim": "2026-11-28",
+ "son_mac": "2026-11-27",
+ "etkin": true,
+ "gecerli": [
+  "Korner 6.5 Üst",
+  "Korner 7.5 Üst",
+  "Korner 8.5 Üst",
+  "Korner 10.5 Alt",
+  "Korner 11.5 Alt",
+  "Korner 12.5 Alt",
+  "Korner 13.5 Alt"
+ ],
+ "katsayi": [
+  4.1331,
+  0.5804
+ ],
+ "var_ort": 1.1489,
+ "n_egitim": 37358,
+ "olcut": {
+  "dilim_P": 0.7,
+  "min_n": 300,
+  "azami_eksik": 0.05,
+  "donemler": [
+   [
+    "doğrulama",
+    "2022-07-01",
+    "2024-07-01"
+   ],
+   [
+    "test",
+    "2024-07-01",
+    null
+   ]
+  ]
+ },
+ "elenen": {
+  "Korner 6.5 Alt": "doğrulama: P≥0,70 diliminde yalnız 0 maç; test: P≥0,70 diliminde yalnız 0 maç",
+  "Korner 7.5 Alt": "doğrulama: P≥0,70 diliminde yalnız 0 maç; test: P≥0,70 diliminde yalnız 0 maç",
+  "Korner 8.5 Alt": "doğrulama: P≥0,70 diliminde yalnız 0 maç; test: P≥0,70 diliminde yalnız 0 maç",
+  "Korner 9.5 Üst": "doğrulama: P≥0,70 diliminde yalnız 39 maç; test: P≥0,70 diliminde yalnız 39 maç",
+  "Korner 9.5 Alt": "doğrulama: P≥0,70 diliminde yalnız 2 maç; test: P≥0,70 diliminde yalnız 5 maç",
+  "Korner 10.5 Üst": "doğrulama: P≥0,70 diliminde yalnız 1 maç; test: P≥0,70 diliminde yalnız 1 maç",
+  "Korner 11.5 Üst": "doğrulama: P≥0,70 diliminde yalnız 0 maç; test: P≥0,70 diliminde yalnız 0 maç",
+  "Korner 12.5 Üst": "doğrulama: P≥0,70 diliminde yalnız 0 maç; test: P≥0,70 diliminde yalnız 0 maç",
+  "Korner 13.5 Üst": "doğrulama: P≥0,70 diliminde yalnız 0 maç; test: P≥0,70 diliminde yalnız 0 maç"
+ }
+}
