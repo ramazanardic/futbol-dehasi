@@ -17,19 +17,42 @@ from quantfoot.coupons.coupon_rules import (
     leg_decision,
 )
 
+from quantfoot.coupons.unified_engine import (
+    BANNED_CORE_SELECTIONS,
+    GOLD_CORE_SELECTIONS,
+    InjuryProfile,
+    UnifiedCoupon,
+    UnifiedLeg,
+    build_clean_slate_portfolio,
+    evaluate_directional_injury,
+    extract_clean_candidates,
+    extract_injury_profile,
+    optimize_unified_coupon,
+)
+
 __all__ = [
-    "MIN_CALIBRATED_P",
+    "BANNED_CORE_SELECTIONS",
     "BANNED_FAMILIES",
     "Calibration",
+    "GOLD_CORE_SELECTIONS",
+    "InjuryProfile",
+    "MIN_CALIBRATED_P",
     "RuleCoupon",
     "RuleDecision",
     "RuleLeg",
+    "UnifiedCoupon",
+    "UnifiedLeg",
+    "build_clean_slate_portfolio",
     "build_rules_coupon",
     "calibrate_p",
     "canonical_name",
     "classify_family",
     "default_calibration",
+    "evaluate_directional_injury",
+    "extract_clean_candidates",
+    "extract_injury_profile",
     "filter_legs",
     "is_draw_leg",
     "leg_decision",
+    "optimize_unified_coupon",
 ]
