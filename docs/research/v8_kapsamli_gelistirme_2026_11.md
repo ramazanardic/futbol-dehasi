@@ -2,7 +2,7 @@
 
 Bu belge, `docs/research/gap_analysis_2026_11_21.md` ve `docs/research/roadmap_2026_11.md` içindeki en yüksek getirili
 açıkları kapatmak üzere ortak çekirdeğe (`src/quantfoot/`, `scripts/`) entegre edilen **6 yapısal yükseltmeyi** ve
-`scripts/v8_dogrulama.py` ile gerçek arşiv verisi üzerinde ölçülen örneklem dışı sonuçları belgeler. Tüm modüller
+`arsiv_kod/v8_dogrulama.py` ile gerçek arşiv verisi üzerinde ölçülen örneklem dışı sonuçları belgeler. Tüm modüller
 5 yapay zekâ (`claudetahmin`, `geminitahmin`, `antigravitytahmin`, `chatgbttahmin`, `grokbottahmin`) için birebir
 ortak ve eşittir.
 
@@ -18,7 +18,7 @@ ortak ve eşittir.
   gerektirmeden kapalı formda düzeltilir. Aşırı düşük olasılıklı sürprizlerde aktif-küme projeksiyonu ile pozitif
   simpleks ve toplam $= 1$ garanti edilir.
 
-### Gerçek Veri Doğrulaması (`scripts/v8_dogrulama.py`, toplam 9.798 maç)
+### Gerçek Veri Doğrulaması (`arsiv_kod/v8_dogrulama.py`, toplam 9.798 maç)
 
 #### A) Betfair Exchange Kapanış 1X2 (`data/global_odds/latest/season_2627/*.csv`, 22 Avrupa ligi, `n = 2.449`)
 
@@ -102,7 +102,7 @@ ortak ve eşittir.
 - **Kod:** `src/quantfoot/markets/lineup_xg.py` ve `src/quantfoot/markets/market_diagnosis.py` (opsiyonel bağlam sinyalleri).
 - **Çift-sayımı önleme kuralı (`news_fresher_than_odds`):**
   - 2026/27 sezonunun `HxG`/`AxG` kayıtları üzerinde katı kronolojik walk-forward testinde (`n = 1.015`,
-    `scripts/v8_dogrulama.py`), salt tarihsel xG modelinin Betfair Exchange kapanış 1X2'sine karşı optimal log-opinion-pool
+    `arsiv_kod/v8_dogrulama.py`), salt tarihsel xG modelinin Betfair Exchange kapanış 1X2'sine karşı optimal log-opinion-pool
     ağırlığı **`w = 0.0000`** çıktı (`piyasa log-loss = 0.961450`, `model = 1.008288`).
   - Bu kanıt nedeniyle `compute_lineup_shock`, haber keskin oran çekiminden **önce** zaten fiyatlandıysa
     (`news_fresher_than_odds=False`) keskin $(\mu_{\text{ev}}, \mu_{\text{dep}})$ değerlerini **asla değiştirmez**,
@@ -178,7 +178,7 @@ ortak ve eşittir.
     `scripts/nesine_kupon.py`, `scripts/derin_tahmin.py` ve `src/quantfoot/evaluation/self_improve.py` (`_build_diag_ctx`,
     `scripts/kasa_koruma.py` tarafından doğrudan kullanılır) artık `dead_rubber` ve `referee_card_zscore` sinyallerini
     uçtan uca `diagnose_selection` kalkanına taşır.
-- **Tekrarlanabilir Monte Carlo Doğrulaması (`scripts/v8_dogrulama.py`, 400 yol × 250 bahis, +%2,5 gerçek kenar, ±%2,5 tahmin gürültüsü, 1.000 TL başlangıç):**
+- **Tekrarlanabilir Monte Carlo Doğrulaması (`arsiv_kod/v8_dogrulama.py`, 400 yol × 250 bahis, +%2,5 gerçek kenar, ±%2,5 tahmin gürültüsü, 1.000 TL başlangıç):**
 
 | Strateji | Ortanca Maks. Düşüş | %95-Dilim Maks. Düşüş | `DD ≥ %25` İhlal Oranı | %5-Dilim Kuyruk Kasa | Ortanca Kasa |
 |---|---:|---:|---:|---:|---:|
@@ -191,7 +191,7 @@ ortak ve eşittir.
 
 ```bash
 # Tüm v8 + v8.5 ampirik doğrulama tablosunu yeniden üret (gerçek veri üzerinde):
-PYTHONPATH=src python scripts/v8_dogrulama.py
+PYTHONPATH=src python arsiv_kod/v8_dogrulama.py
 
 # CLV + Devig + CORP izotonik güvenilirlik + Sharp-Soft & Steam yönü denetimi:
 PYTHONPATH=src python scripts/clv_analiz.py --tipsaudit --steam

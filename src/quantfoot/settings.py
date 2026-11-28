@@ -41,7 +41,7 @@ UNTESTED_MARKET_P_LOW_PENALTY = 0.0  # kurucularda sıralama için ek p_low ceza
 WEAK_FAMILIES: tuple[str, ...] = ("ev_golleri", "cifte_sans")  # banko'da yalnız doğrudan keskin fiyatla + ek P
 WEAK_FAMILY_EXTRA_MIN_PROB = 0.05  # zayıf aile doğrudan fiyatlıysa banko P tabanı + 5 puan (%70)
 WEAK_FAMILY_REQUIRE_DIRECT = True  # zayıf aile türetilmiş P ile banko bacağı olamaz
-# 21 Kas gece hata analizi (scripts/hata_analizi_21kasim.py; reports/research/hata_analizi_21kasim.md). Yalnız arşivde
+# 21 Kas gece hata analizi (arsiv_kod/hata_analizi_21kasim.py; reports/research/hata_analizi_21kasim.md). Yalnız arşivde
 # (2011/12–2020/21 eğitim, 2021/22+ test) doğrulanan dersler; tek günün pazar sapmalarının çoğu arşivde gürültü çıktı.
 TAIL_CALIBRATION_ON = True     # data/calibration/market_tail_calibration.json: banko bölgesi (P .55–.90) logit kaymaları
 UNTESTED_MARKET_SHRINK = 0.05  # arşivde sınanamayan TÜRETİLMİŞ pazarlara (İlk Gol, yarı KG kombineleri…) ek büzme

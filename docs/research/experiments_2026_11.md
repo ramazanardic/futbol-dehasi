@@ -1,6 +1,6 @@
 # Deney Sonuçları (Kasım 2026) — sistemde gerçekten avantaj nerede?
 
-Hepsi örneklem dışıdır ve `scripts/research_experiments.py` ile yeniden üretilebilir; ham çıktılar
+Hepsi örneklem dışıdır ve `arsiv_kod/research_experiments.py` ile yeniden üretilebilir; ham çıktılar
 `reports/research/` altındadır.
 
 ## 1. Modeller piyasaya bilgi katıyor mu? — Hayır
@@ -104,7 +104,7 @@ README'deki "ν = 1.10 kulüp rejimi" bulgusu bu sabitlenmiş kullanımda geçer
 
 ## 6. Gol modelinin doğrudan borsa fiyatlarına kalibrasyonu (19 Kasım)
 
-`scripts/calibrate_direct.py`: Smarkets'in tam ve likit defterlerinden (KG, tüm Alt/Üst çizgileri, İY,
+`arsiv_kod/calibrate_direct.py`: Smarkets'in tam ve likit defterlerinden (KG, tüm Alt/Üst çizgileri, İY,
 İY/MS, yarı Alt/Üst, Tek/Çift, gol aralığı, kombineler) bağımsız bir doğrulama seti. Model üretimdeki
 girdilerle (1X2 + 2,5 Alt/Üst) uydurulur, girdi olmayan seçimlerde KL(borsa || model) ölçülür; maçlar
 ikiye bölünür (seçim / test). 38 maç:
@@ -120,7 +120,7 @@ modeller ve marj yöntemleri sistemde zaten var; entegrasyon ölçülebilir kaza
 
 ## 7. İlk yarı / oyun durumu kalibrasyonu (19 Kasım)
 
-`scripts/calibrate_halves.py`: ilk yarı gol payı ve ikinci yarı oyun durumu çarpanları (0-0, gollü
+`arsiv_kod/calibrate_halves.py`: ilk yarı gol payı ve ikinci yarı oyun durumu çarpanları (0-0, gollü
 beraberlik, 1 ve 2+ farkla önde / geride) doğrudan kote edilen yarı pazarlarına (İY/MS, İY sonucu,
 İY Alt/Üst, İY KG, 2Y…) uyduruldu, maçların yarısında test edildi. Test KL 0.00028 → 0.00026 (%7).
 Geride kalan takımın 1 farkta ikinci yarı tempo artışı **+%10.5** çıktı: Maia vd. (2023) ile birebir

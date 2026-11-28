@@ -1,7 +1,7 @@
 """21 Kasım hata analizi — günlük hataların arşivde (2011/12+, ~116k maç; test 2016/17+) kalıcı mı gürültü mü olduğunu sınar.
 
     python scripts/bahis_aileleri_kalibrasyon.py onbellek     # önce arşiv önbelleği (üretim hattı)
-    python scripts/hata_analizi_21kasim.py [--yaz]
+    python arsiv_kod/hata_analizi_21kasim.py [--yaz]
 
 A) Yüksek-P kuyruk kalibrasyonu (seçimlerin oynandığı bölge, P .55–.90): her seçim/karşı taraf için mevcut üretim
    kalibrasyonundan (market_calibration.json Platt, yalnız türetilmiş) SONRA kalan sapma. Eğitim 2011–2020 sezonları,

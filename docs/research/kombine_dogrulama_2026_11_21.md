@@ -1,6 +1,6 @@
 # Kombine politikası — örneklem-dışı doğrulama (21 Kasım 2026)
 
-Üretim: `python scripts/kombine_dogrulama.py`. Sonuçlar gerçek maç sonuçlarıyla; güven aralığı gün-kümeli bootstrap.
+Üretim: `python arsiv_kod/kombine_dogrulama.py`. Sonuçlar gerçek maç sonuçlarıyla; güven aralığı gün-kümeli bootstrap.
 
 ## A. Marj bileşikleşmesi — `data/matches.csv` 2021-07+ (15483 favori bacak, medyan 1X2 marjı 6.4%)
 

@@ -102,19 +102,11 @@ açıkça söyle; kuralları gevşeterek hedefe ulaşma.
 
 ## 3. Kupon kuralları (banko — varsayılan ve zorunlu)
 
-| Kural | Değer |
-|---|---|
-| Bacak olasılığı | **düzeltilmiş P ≥ 0,70** (`coupon_rules.MIN_CALIBRATED_P`); eski %65 tabanı kupon için geçersiz |
-| Bacak oranı | Nesine ≥ 1,20, ≤ 1,80 |
-| Bacak sayısı | **2–5 bacak** (`BANKO_MIN_LEGS = 2`, `BANKO_MAX_LEGS = 5`; gerekçeliyse açıkça en çok 6 = `BANKO_HARD_MAX_LEGS`). Tek maçlık banko kupon yok. Kurallara uyan 2 bacak bile yoksa kupon **yok** (dürüst ret, kural gevşetilmez). |
-| Toplam oran | Banko kupon toplam oranı **< 20** (`BANKO_MAX_TOTAL_ODDS`); varsayılan olarak 20+ oranlı kupon üretilmez |
-| Maç | Bir kuponda aynı maçtan tek bacak; birden çok kuponda çapraz yoğunlaşma `PortfolioExposureGuard` ile ölçülür |
-| İzinli aileler | İlk yarı (İY 0,5/1,5 Alt-Üst …; İY ÇŞ 12 ve İY Çift hariç), maç sonu Alt/Üst, Yarı özel, Maç sonucu (yalnız 1/2 + beraberlik & sert steam süzgeci), yasak parça içermeyen Kombine, **2Y KG Yok** (maç geneli KG ve 2Y KG Var yasak), takımın yarı kazanma pazarları; `DEĞİL(MS 0/1/2)` çifte şans sayılır ve yasaktır ([KURALLAR.md](../KURALLAR.md)). Liste veriden gelir (`family_allowed`). |
-| Yasak | Beraberlik bacağı (MS 0, İY 0, skor 0-0 …), Karşılıklı gol (KG Var/Yok), "iki yarıda da KG var", İlk gol, Ev sahibi / Deplasman gol sayısı ve takım "iki yarıda gol atar/atamaz", İY/MS, İY/2Y, skor, Tek/Çift (İY Çift dahil), şu an Çifte şans ve Handikap |
-| Piyango yok | Skor, İY/MS, "+6 gol" gibi kuyruk bacakları, 100+ oranlı kuponlar banko kuponuna girmez. |
-| Tekrar yok | Aynı tercih iki kupona konmaz (`PortfolioExposureGuard` + `audit_coupons`). |
-| Şeffaflık | Her kuponda toplam oran, toplam tutma olasılığı (= düzeltilmiş P'lerin çarpımı) ve portföy yoğunlaşma skoru yazılır. |
-| Para | Hiçbir yapay zekâ kullanıcı açıkça onaylamadan bahis oynamaz, para yatırmaz/çekmez, kupon bozdurmaz. Oynamadan önce oranlar yeniden kontrol edilir. |
+**Tek kaynak: [KURALLAR.md](../KURALLAR.md).** Bacak olasılığı, oran aralığı, maç başına tek bacak, bacak sayısı, toplam oran
+sınırı, yasak ve izinli aileler (2Y KG Yok, yarı kazanma pazarları dahil), dürüst ret ve şeffaflık kuralları orada tablo olarak
+durur ve `tests/test_ramazan_kurallari.py` ile kilitlidir; bu belgede kopyalanmaz (eski kopya KURALLAR.md ile ayrışıyordu).
+Ek olarak: aynı tercih iki kupona konmaz (`PortfolioExposureGuard` + `audit_coupons`) ve kullanıcı açıkça onaylamadan
+bahis oynanmaz, para yatırılmaz/çekilmez, kupon bozdurulmaz; oynamadan önce oranlar yeniden kontrol edilir.
 
 ### 3.1. Kullanıcı açıkça istediğinde ortak özel modüller
 
@@ -200,7 +192,7 @@ notlanamaz. Ortak alanlara (`reports/`, `docs/data/`) tahmin yazılmaz.
 - **T-60 Kadro Şoku, Üstel NPxG, Hakem ve Motivasyon (`lineup_xg.py`, `market_diagnosis.py`):**
   Çift-sayımı önleyen `news_fresher_than_odds` disiplini (±%12 sınırlı `Δμ`), 126 hakemlik kart/tempo profili ve
   `dead_rubber` / sert hakem teşhis sinyalleri.
-- **CLV Anlamlılık, Brier MCB/DSC, CORP İzotonik Güvenilirlik ve Güvenli Kalibrasyon Önericisi (`clv_tracker.py`, `scripts/clv_analiz.py`, `scripts/v8_dogrulama.py`):**
+- **CLV Anlamlılık, Brier MCB/DSC, CORP İzotonik Güvenilirlik ve Güvenli Kalibrasyon Önericisi (`clv_tracker.py`, `scripts/clv_analiz.py`, `arsiv_kod/v8_dogrulama.py`):**
   Student-t + bootstrap %95 GA CLV ölçümü, Murphy/Dimitriadis `Brier = MCB − DSC + UNC` ve kutusuz $O(n)$ PAVA
   **CORP** ayrıştırması (`tipsaudit`, `n = 7.349`: `ensemble` `CORP MCB = 0.001447` vs `multiplicative` `0.001765`),
   log-opinion-pool ağırlık testi ve James-Stein negatif-artık kalibrasyon önerisi.

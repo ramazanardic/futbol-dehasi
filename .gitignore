@@ -1,4 +1,7 @@
 .venv/
+.venv*/
+venv/
+venv_*/
 __pycache__/
 *.py[cod]
 *$py.class
@@ -6,6 +9,9 @@ __pycache__/
 pytest-of-*/
 *.egg-info/
 .ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
 dist/
 build/
 node_modules/
@@ -13,6 +19,15 @@ node_modules/
 .env.*
 .DS_Store
 Thumbs.db
+
+# Geçici dosyalar / yedekler / günlükler
+*.bak
+*.orig
+*.rej
+*.tmp
+*.swp
+*~
+*.log
 
 # Regenerable research cache and scheduler logs
 reports/research/backtest_cache*

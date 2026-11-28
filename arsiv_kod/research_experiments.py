@@ -1,9 +1,9 @@
 """Research experiments: does anything in this repository carry information the market has not priced?
 
-    python scripts/research_experiments.py cache        # run the walk-forward backtest once, cache predictions
-    python scripts/research_experiments.py pool         # pooling test of every model vs the Bet365 price
-    python scripts/research_experiments.py rest         # do rest days add information beyond the market?
-    python scripts/research_experiments.py sharp-soft   # Pinnacle-open vs best-soft-book strategy (tipsaudit.csv)
+    python arsiv_kod/research_experiments.py cache        # run the walk-forward backtest once, cache predictions
+    python arsiv_kod/research_experiments.py pool         # pooling test of every model vs the Bet365 price
+    python arsiv_kod/research_experiments.py rest         # do rest days add information beyond the market?
+    python arsiv_kod/research_experiments.py sharp-soft   # Pinnacle-open vs best-soft-book strategy (tipsaudit.csv)
 
 Results are written to reports/research/.  All tests are out-of-sample: model predictions come
 from the expanding walk-forward backtest (refit only on data before each season), and

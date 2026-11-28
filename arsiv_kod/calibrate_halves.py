@@ -1,6 +1,6 @@
 """Calibrate the half-time / game-state part of the goal model against direct exchange prices.
 
-    python scripts/calibrate_halves.py
+    python arsiv_kod/calibrate_halves.py
 
 Free parameters (symmetric home/away):
   a1      share of a team's goals expected in the first half
@@ -27,6 +27,7 @@ from scipy.optimize import minimize
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from calibrate_direct import kl, snapshots  # noqa: E402
 from nesine_global import direct_probabilities  # noqa: E402
 

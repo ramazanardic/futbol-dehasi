@@ -1,6 +1,6 @@
 """Marj temizleme yöntemi karşılaştırması: repo (power) vs penaltyblog'un 7 yöntemi (MIT).
 
-    python scripts/devig_karsilastirma.py     # → docs/research/devig_karsilastirma_2026_11_21.md
+    python arsiv_kod/devig_karsilastirma.py     # → docs/research/devig_karsilastirma_2026_11_21.md
 
 Uydurma parametre yok (yöntemler veri üzerinde eğitilmez), dolayısıyla her maç örneklem dışıdır.
 Ölçü: 1X2 log-loss ve Brier; fark için maç bazlı eşleştirilmiş bootstrap %95 GA (power'a göre).

@@ -1,0 +1,213 @@
+# Ayrıntılı çalışma rehberi (eski README'den taşındı)
+
+> 28 Kasım 2026 temizliğinde README kısaltıldı; eski uzun içerik **kayıp olmasın** diye buraya taşındı.
+> Güncel ve bağlayıcı kurallar için [KURALLAR.md](../KURALLAR.md) → [AGENTS.md](../AGENTS.md) →
+> [ORTAK_SISTEM.md](ORTAK_SISTEM.md) sırasına bakın. Aşağıdaki sayılar ve komutlar yazıldığı günün durumunu yansıtır;
+> Windows (`.\.venv\Scripts\...`) örneklerinde Linux/macOS için `python`/`quantfoot` yazın.
+> Dosyada "v5", "10x/20x/30x", tarihsel model skorları geçen yerler **arşiv niteliğindedir**; çelişirlerse KURALLAR.md geçerlidir.
+
+## QuantFoot Terminal
+
+Yerel web uygulaması depodaki mevcut QuantFoot motorunu çağırır. Projenin Python ortamında paketi kurduktan sonra
+kendi `QUANTFOOT_AI` değerinle terminali aç:
+
+```powershell
+$env:QUANTFOOT_AI = "chatgbttahmin"
+.\.venv\Scripts\python.exe scripts/terminal.py
+```
+
+Linux/macOS: `QUANTFOOT_AI=chatgbttahmin python scripts/terminal.py`. Tarayıcıda `http://127.0.0.1:8765/` adresini
+aç. **Derin araştırmayı başlat** Türkiye saatiyle aktif bahis gününü alır ve ortak günlük hattı
+`--derin-veri` seçeneğiyle çalıştırır. Başlamamış tüm gerçek maçlar için takım istatistiklerini arar.
+Araştırma çıktısında eşleşen form, lig sırası, dinlenme, son maçlar, gol ortalamaları, sakatlık/kadro, ikili geçmiş,
+hava ve bahis verileri bulunur. Bulunamayan istatistikler eksik gösterilir. **Arşiv ve dosya yükleme** bölümünde
+geçmiş günleri açabilir, kupon hesaplayabilir ve kuponlarını kontrol edebilirsin.
+
+[Web paneli](https://quantfoot-terminal-ramazan.ramazanardic.chatgpt.site) yayımlanmış GitHub tahminlerini ve
+yerel terminalde indirilen araştırma JSON dosyasını gösterir. Canlı araştırma yerel Python motorunda yürür.
+
+## Çalışma düzeni
+
+- **Futbol işlemleri yalnız kullanıcı istediğinde başlatılır.** [Ortak komut ve kurallar](docs/ORTAK_SISTEM.md).
+  Gerekirse oran verisi elle yenilenir (`gh workflow run global-odds.yml`), kupon kontrolü
+  `python scripts/kupon_kontrol.py kontrol` ve sonuç arşivi `python scripts/api_gecmis.py --arsiv` ile çalıştırılır.
+  Kod testleri GitHub'da değişiklik gönderildiğinde veya elle başlatıldığında çalışır.
+- **Her yapay zekâ yalnız kendi klasörüne yazar:** `tahminler/<klasör>/<tarih>/` (Claude `claudetahmin`, Gemini
+  `geminitahmin`, Antigravity `antigravitytahmin`, ChatGPT `chatgbttahmin`, Grok Bot `grokbottahmin`).
+  Kod bunu zorunlu `QUANTFOOT_AI=<klasör>` ile yapar (varsayılan yoktur). Başka bir yapay zekânın klasörü açılmaz, okunmaz; bağlayıcı kural: [AGENTS.md](AGENTS.md).
+- **GitHub ortak ana depodur.** Kod değişiklikleri için PR açın ve `ci-tests` sonucunu kontrol edin.
+  ChatGPT, istek üzerine hazırlanan günlük `mac_tahminleri.csv` ve `kuponlar.csv` dosyalarını
+  `tahminler/chatgbttahmin/<tarih>/` yolunda da yayımlar. Depo herkese açıktır.
+  Diğer yapay zekâlar için kendi klasör kuralları ve yayın izinleri geçerlidir.
+  Ham analizler yerelde tutulur. Tahminler `reports/` veya `docs/data/` alanına yazılmaz.
+- **Değerlendirme ortaktır:** ertesi gün, istek üzerine `scripts/gun_degerlendirme.py --tarih <gün>` bütün yapay
+  zekâların bitmiş maçlardaki tahminlerini puanlar → herkese açık `degerlendirme/<gün>.md`.
+- **Derin araştırma standarttır:** `scripts/derin_arastirma.py` her aday/bacak için takımların son maçlarının
+  yarı yarı skorlarını, aynı bahsin geçmişte tutma sıklığını ve Avrupa/rotasyon programını çıkarır.
+  Takım geçmişi sırasıyla ESPN → API-Football (`scripts/api_gecmis.py`, anahtar git'e girmeyen `.env`'de) →
+  Wikipedia sezon tablosu (`scripts/wiki_gecmis.py`, yalnız maç sonu) kaynaklarından gelir.
+  Büyük liglerde (İngiltere 1-2, Almanya, İspanya, Fransa, İtalya, Hollanda, Portekiz) openfootball/football.json
+  (CC0, ilk yarı skorlu; `scripts/openfootball_gecmis.py`) ESPN'den sonra ikinci kaynaktır. `scripts/simulasyon.py`
+  her bahsi piyasa / simülasyon / takım geçmişi / lig modeli (penaltyblog Dixon-Coles, `scripts/dc_model.py`) olarak
+  dört görüşle karşılaştırır. Değerlendirilip eklenmeyenler (21 Kasım): socceraction (numpy 2 ile çalışmıyor),
+  StatsBomb açık verisi ve kloppy (2025 sonrası kulüp sezonu yok).
+  Beşinci görüş Club Elo (`scripts/elo_gorus.py`): puan farkı arşivdeki 140 bin maçta ölçülen 1/X/2 sıklıklarına
+  çevrilir; puanlar ve football-data.co.uk sezon dosyaları Türkiye'den açılmadığı için global-odds iş akışında çekilir.
+  Arşiv `scripts/arsiv_guncelle.py` ile güncellenir (yalnız yeni maçlar sona eklenir). Her ana tercihin kapanış fiyatı
+  (CLV) `tahmin_clv.json`'a, simülasyon kararlarının (üçlü onay / çelişki …) isabeti ertesi gün değerlendirmesine
+  yazılır.
+  Ana tercih tek kuraldır (hangi araç en son çalışırsa çalışsın): simülasyonun üçlü onaylı en sağlam bahsi, yoksa
+  derin araştırma tercihi. Simülasyon piyasadan bağımsızdır (lig modeli + form + eksikler + maçın ilk yarı gol payı);
+  kupon kurucu simülasyonun "çelişki" dediği bacağı almaz. Tarayıcıyla elle okunan maç önizleme sitelerinin kullanım
+  koşulları doğrulanmadığı için bunlar otomatik toplanmaz; yalnız elle, notu tahmin dosyasına yazılarak kullanılır.
+- **Kupon (24 Kasım — v5):** `scripts/kupon_kur.py` bacakları takım geçmişi (`derin_arastirma.py`), 20.000 bağımsız simülasyon (`simulasyon.py` — `çelişki` olanlar elenir) ve 19 katmanlı v5 teşhis kalkanı (`src/quantfoot/markets/market_diagnosis.py`) ile denetler. Kullanıcı kupon istediğinde **2–5 bacaklık (en çok 6)** kupon kurulur; kurallara uyan kupon yoksa dürüstçe "kupon yok" denir ([KURALLAR.md](KURALLAR.md)). Bacak olasılıkları bitmiş günlerden öğrenilen düzeltmeyle (`prob_shift` ve `market_calibration.json`) kullanılır. Sabah raporu, Windows kupon izleyicisi (`QuantFoot\KuponIzle`) ve diğer zamanlanmış futbol işleri emekliye ayrılmıştır; tüm işlemler yalnız kullanıcı istediğinde çalışır.
+
+## Güncel Durum (24 Kasım 2026 — QuantFoot v5)
+
+- **Tek ortak üretim ve doğrulama hattı (`v5`):**
+  - `scripts/gunluk_tahmin.py --tarih <YYYY-AA-GG>` tek komutta 5 adımı yürütür: `nesine_global.py` (Nesine bülteni + keskin referanslar) → `ai_tahmin.py` (`mac_tahminleri.csv`) → `derin_tahmin.py` + `simulasyon.py` (20.000 bağımsız simülasyon) + `ekstrem_gol_analiz.py` (`6+ Gol` & `İki Yarıda KG Var` DNA taraması) → `kupon_kur.py` (`<= 5` maçlık v5 banko kupon + 100 TL `Sistem n-1, n` tek-bacak sigortası) → `kupon_denetim.md`.
+  - **19 Katmanlı v5 Post-Mortem Teşhis Kalkanı (`market_diagnosis.py` & `banko_guard.py`):** 22 Kasım 453 maçlık kök-neden denetiminden öğrenilen kalkanlar (`İY ÇŞ 12` koşulsuz yasağı, sert steam `MS 1/2` & `Alt`, Tier-3 alt lig `3.5 Alt` dengeli hücum kalkanı, `4.5 Alt` yüksek toplam kalkanı, `Ev/Dep İY 0.5 Alt` & `İY 0.5 Üst` steam kalkanı, `DEĞİL(Ev/Dep En Az Bir Yarıyı Kazanır)` tehdit kalkanı, `İY ÇŞ 1X/X2` & `İY KG Yok` ve `Hnd(-2) 2` kalkanları) hem kupon kurucuda hem de `gunluk_analiz.py`, `derin_tahmin.py` ve `bahis_aileleri.py` üzerinde aktiftir (453 maçlık geri testte `gunluk_analiz` ana tercih isabeti **%70,2**, v5 banko havuzu **20/20 = %100,0**).
+- **Modeller tek başına keskin piyasayı yenmiyor; kanıtı olan yöntem keskin–yumuşak oran farkı + bağımsız simülasyon/geçmiş doğrulamasıdır:**
+  16.423 maçlık ileri-yürüyen testte saf istatistiksel modeller marjsız keskin borsa fiyatına ek bilgi katmadı ([docs/research/experiments_2026_11.md](docs/research/experiments_2026_11.md)). Canlıda temel olasılık keskin referanstan (Pinnacle / BetInAsia / Smarkets / Matchbook) alınır; bağımsız 20.000 simülasyon ve takım geçmişi ise piyasanın şişirdiği tuzak favorileri (`çelişki`) elemek için kullanılır.
+- **20 pazar ailesi + Bet Builder** tek tutarlı dağılımdan: [docs/markets.md](docs/markets.md). Kulüp gol
+  rejimi piyasaya sabitlenmiş türev pazarlarda yeniden kalibre edildi (ν = 1.0, ρ = −0.03).
+- **Nesine analizi ve kuponu:** `scripts/nesine_global.py --date <gün>` ([docs/nesine.md](docs/nesine.md)) ve `scripts/kupon_kur.py --hedef 2.5 --tarih <gün> --mod banko` (maksimum en garanti 5 maç, her bacak `≥ 1,20`).
+- Yol haritası: [docs/research/roadmap_2026_11.md](docs/research/roadmap_2026_11.md).
+
+---
+
+## Araştırma Bulguları ve v6 / v5 / v4 Yükseltmeleri (Ampirik Kanıtlar)
+
+1. **Doğru Skorlama Kuralları & v4-Pyramid Expanding Süper Topluluk (*cal=9.629 -> genişleyen, n_test=16.423, 2021–2026, 9 lig*):**
+   - **L2-Düzenlileştirilmiş Kronolojik OOF Simplex + Sezonluk Genişleyen Yeniden Eğitim (*Expanding Yearly Causal Refit*):** 10 alt-modelin ağırlıkları (`gap_ordered=0.204`, `gap_elo=0.187`, `lgbm=0.151`, `kalman=0.107`, `mlp=0.102`, `pyramid_rating=0.096`, `gas_poisson=0.051`, `pi=0.049`, `dc_goals=0.034`, `dc_hybrid=0.020`, `Temperature=0.939`) COVID seyircisiz sezon ağırlıklandırması (`0.55x`) ve yumuşak zaman azalmasıyla sıfır sızıntıyla optimize edilmiştir.
+   - **V4-Pyramid Expanding (Calibrated):** `LogLoss = 0.98305 | RPS = 0.19955 | Brier = 0.58602 | ECE = 0.00717` (v1 `0.98789`, v2 `0.98640`, v3 `0.98631` modellerinin tamamını geride bıraktı; `ECE=0.00717` kalibrasyon hatası `Market B365 Power`'ın `0.00978` skorundan dahi düşüktür).
+   - **Lig Piramidi Terfi/Küme Düşme Taşıması (`pyramid.py` + `E3/E2/E1/E0, SP2/SP1, D2/D1, I2/I1, F2/F1`):** Alt liglerden gelen takımlara katman merkezi regresyonu uygulanarak:
+     - `Pyramid Causal Elo`: `LogLoss = 0.98825 | RPS = 0.20106 | ECE = 0.00964` (harici `ClubElo` `0.99153` referansını geçti).
+     - `Pyramid Glicko-2`: `LogLoss = 0.98901 | RPS = 0.20135 | ECE = 0.00648` (en düşük kalibrasyon hatası).
+     - `Pyramid Pi-Ratings`: `LogLoss = 0.99077 | RPS = 0.20192 | ECE = 0.00716`.
+   - **Tier-Aware GAP + Oyun-Durumu Düzeltilmiş xG (`OrderedLogit3Class`):** Devre arası skor (`HTHome/HTAway`) sönümlemeli nedensel xG vekili ve `H < D < A` sıralı eşik yapısıyla tekil doğrusal model olarak `LogLoss = 0.98358 | RPS = 0.19968 | ECE = 0.00708` elde etti.
+   - **Laplace-Kalman Durum-Uzayı Poisson (`KalmanPoissonModel`):** Takım hücum/savunma belirsizlik kovaryansını (`P_att`, `P_def`), terfi/sezon-arası belirsizlik sıçramasını ve dinamik `mu0 / HFA` parametrelerini gol + xG + SOT üzerinden günceller (`LogLoss = 0.99482`, `ECE = 0.01351`).
+   - **Dixon-Coles Hybrid (`Goals + 0.25 * GS_xG`):** Standart `Dixon-Coles Goals` (`0.99487`) üzerine `0.25` oyun-durumu xG ağırlığıyla `LogLoss = 0.99284 | RPS = 0.20239` skoruna iyileşti.
+2. **Çapraz-Pazar Marj Temizleme (`AH + O/U -> Fair 1X2`) ve Gerçek +EV Bulguları:**
+   - Bet365 Asya Handikap (`3.27%` vig) marjı `1X2` (`5.34%`) ve `O/U 2.5` (`5.24%`) pazarlarından neredeyse yarı yarıya daha keskindir; `invert_ah_ou_1x2` çıkarımı tek başına **`LogLoss = 0.97224 | RPS = 0.19619 | ECE = 0.00996`** üretir.
+   - **`Cross-Mkt (70% 1X2+30% AH/OU) vs MaxBook (EV>=1.5%)`:** `1.254` bahis, **`+7.32%` flat ROI (`t = +2.08`, `p = 0.0186`)**, Çeyrek-Kelly ile `MaxDD = 19.8%` (`Market-Power vs MaxBook` tekil `+5.10%` / `DD = 26.4%` stratejisinden hem daha yüksek ROI hem daha düşük düşüş).
+   - **`Joint Multi-Market Portfolio (1X2 + O/U 2.5)`:** Aynı maçta `0.85` korelasyon sönümlemesi + `Baker-McHale Kelly` ile `2.349` bahis, `win = 0.539`, **`+4.98%` flat ROI (`t = +2.29`, `p = 0.0109`)**, `$1,000 -> $1,730.48` (`MaxDD = 22.8%`).
+3. **2026 Pinnacle Açılış vs Yumuşak Büro & Walk-Forward ML CLV Filtresi (`n = 7.348`):**
+   - `Pin Open vs BestSoft (Base)` (`EV>=2.5%, O<=4.0`): `2.112` bahis, `+5.07%` flat ROI (`t=+1.85, p=0.0324`), `+5.57%` CLV, `Kelly = $7,263.37` (`MaxDD = 50.2%`).
+   - **`Pin Open High-Liq (Books>=12, O<=3.5)`:** `1.457` bahis, **`+6.49%` flat ROI (`t = +2.09`, `p = 0.0183`)**, `+5.21%` CLV, `Kelly = $3,225.40` (`MaxDD = 26.6%`).
+   - **`Pin Open WF CLV-ML Filter (P_hold >= 0.70, O<=3.5)` (`CLVPreservationFilter`):** Kapanış çizgisi değerinin (`CLV > 0`) korunacağını piyasa mikro-yapısından öngören nedensel walk-forward LGBM filtresi ve Baker-McHale Kelly boyutlandırmasıyla `1.052` bahis, `win = 0.495`, **`+8.77%` flat ROI (`t = +2.41`, `p = 0.0081`)**, **`+7.53%` CLV**, `Kelly = $2,735.38` (`MaxDD = 32.3%`).
+4. **QuantFoot-v5 Kuyruk Golü (`Over 5.5 / 6+`) & Yarı-Devre `KG` Yükseltmeleri (`184.276` İY+MS & `34.463` Holdout Test `2022–2026`):**
+   - **Çift Rejimli Skor Matrisi (`tail_goals.py`):** Kulüp liglerinde `COM-Poisson (nu = 1.10)` ile standart Poisson'u aynı anda `5+` (`LL 0.39055 -> 0.39041`), **`6+` (`LL 0.21304 -> 0.21279`, `%5.84` vs gerçek `%5.81`)** ve **`BTTS` (`LL 0.68621 -> 0.68563`)** pazarlarında geçti; `49.940` milli maçta gözlenen yüksek varyans (`Var/Mean = 1.286`) nedeniyle milli/genç/kadın turnuvalarında ise Gamma-Poisson aşırı dağılım rejimi (`15x15` matris) korundu.
+   - **Devre Bazlı İlişkili `KG` (`halves_btts.py`):** `184.276` maçta küresel ilk yarı gol payı `0.4403` ölçüldü; **FGM Copula (`fgm_1h`) + Gauss-Laguerre tempo integrasyonu (`match_kappa`)** `34.463` örneklem dışı maçta `1Y KG` (`LL 0.48771 -> 0.48756`), `2Y KG` (`LL 0.56894 -> 0.56891`) ve `1Y+2Y KG` (`LL 0.20363 -> 0.20359`) skorlarını iyileştirdi.
+   - **Genişletilmiş Değer Tarayıcı (`strategy/value.py`):** `BTTS`, `Alt-O/U (3.5 / 4.5 / 5.5)` ve `evaluate_halves_btts_value` (`1H / 2H / Both-Halves BTTS`) entegrasyonu.
+5. **QuantFoot-v6 Omni-Market Motoru (`omni_markets.py`) & Post-Mortem Risk Kalkanlı Kupon Optimizasyonu (`coupon_builder.py`):**
+   - **Tüm Bahis Seçenekleri (`OmniMarketBundle`):** `184.276` İY+MS maçı ve `6.000` maçlık (`2022–2026`) test seti üzerinde doğrulanan ortak motor; `9'lu İY/MS` (`1/1, 1/0, 1/2, 0/1, 0/0, 0/2, 2/1, 2/0, 2/2` — `LogLoss: 1.87468 -> 1.87342`, `1/2 + 2/1` geri dönüş oranı `%4.07 -> %4.30–%4.64`), `Toplam Gol Aralıkları` (`0-1, 2-3, 2-4, 3-5, 4-5, +6 Gol` — `2-3 Gol LL: 0.68943 -> 0.68929`), `Maç Geneli Alt/Üst` (`1.5..5.5`), `1. Yarı & 2. Yarı Alt/Üst` (`0.5, 1.5, 2.5` — `1Y 1.5 Üst LL: 0.63080 -> 0.63070`, `2Y 1.5 Üst LL: 0.67728 -> 0.67724`), `1Y/2Y Sonucu`, `Genel & Devre KG`, `Özel Kombineler` ve `Kesin Skor / Top-2 & Top-3 Dar Skor Kümeleri` olasılıklarını tek seferde hesaplar.
+   - **Beş Katmanlı Post-Mortem Risk Kalkanı (`audit_match_risks` & `select_best_valid_bet`):**
+     1. **Kesin `>= 1.20` Oran Tabanı (`MIN_ALLOWED_ODDS = 1.20`):** `1.18` gibi düşük oranlı tuzaklar kesin olarak reddedilir.
+     2. **Asimetrik `2.5 Alt / 3.5 Alt` Yasağı:** Favorinin gol beklentisi yüksek (`max_mu >= 1.28`, `|mu_h - mu_a| >= 0.42`, `p_fav >= 0.45` veya `must_win=True`) maçlarda `2.5 Alt` yasaklanır; `KG Yok` veya `MS 1` seçilir.
+     3. **`İY 0` Erken Gol Kırılganlık Kalkanı:** `exp_1h_total > 0.84` veya `|mu_h - mu_a| > 0.14` olan maçlarda `İY 0` yerine `İY 1.5 Alt` tercih edilir.
+     4. **Kademeli Güvenlik İndirimi (`Step-Down`):** `P(+6 Gol) < %45` (`xG < 5.35`) veya `P(1Y ve 2Y KG) < %28` olan maçlarda zorlama yapılmaz; otomatik olarak `2.5 Üst / 3.5 Üst / 3-5 Gol / KG Var` kademesine inilir.
+     5. **Hedef Oranlı (`10x / 20x / 30x`) Kupon Oluşturucu (`build_target_odds_coupon`):** Çift cepheli Pareto ışın araması (*beam search*) ile `10x`, `20x` ve `30x` hedef oranlı en yüksek birleşik olasılıklı kuponları kurar (`30 passed` birim testi, 17 Kasım 16 maçlık geriye dönük testte `16/16 — %100` isabet).
+
+---
+
+## Paket Yapısı
+
+- `src/quantfoot/data/` — Veri indirici/temizleyici (`loader.py`, opsiyonel `football-data.co.uk` güncel sezon CSV birleştirme), canlı ESPN Kulüp + UCL + Milli maç tarayıcı/senkronizasyon & Open-Meteo/The Odds API bağlayıcıları (`live_espn.py`), ESPN maç araştırma katmanı (`match_research.py`), **canlı Transfermarkt 2026/27 sakat/cezalı & kadro önem motoru** (`absences.py`: 75+ lig, 1. kaleci / gol kralı / kilit eksik ayrımı, sarı kart sınırındakileri hariç tutma), **OddsMath keskin oran, doğrudan O/U ve canlı steam modülü** (`oddsmath.py`: BetInAsia/Pinnacle/borsalar + açılış-canlı hareket), **`probberechts/soccerdata` tam entegrasyon köprüsü** (`soccerdata_bridge.py`: ClubElo, ESPN, MatchHistory, Understat, FBref, Sofascore, SoFIFA, WhoScored; `data/soccerdata/` proje-yerel önbellek ve QuantFoot lig/şema dönüştürücüleri), nedensel Box-Score xG vekili (`xg_proxy.py`).
+- `src/quantfoot/markets/` — `Power`, `Shin`, `Odds Ratio`, `Multiplicative` devig çözücüleri (`devig.py`); `1X2`, `Çifte Şans`, `O/U`, `KG Var/Yok`, `Skellam`, çeyrek-top (`.25 / .75`) Asya Handikap fiyatlama ve `invert_ah_ou_1x2` çapraz-pazar çözücüsü (`pricing.py`); çift rejimli `COM-Poisson + Gamma-Poisson` `6+` kuyruk golü motoru (`tail_goals.py`); küme tutarlı FGM Copula + Gauss-Laguerre yarı-devre `KG` motoru (`halves_btts.py`); tüm bahis marketlerini tek çatıda birleştiren `OmniMarketBundle` motoru (`omni_markets.py`).
+- `src/quantfoot/models/` — Piramit katman regresyonu (`pyramid.py`), `KalmanPoissonModel` (`kalman.py`), `FootballGlicko2` (`glicko2.py`), `OrderedLogit3Class` (`ordinal.py`), `TimeDecayedDixonColes` (`dixon_coles.py`), Dual-Signal `GASPoissonModel` (`gas_poisson.py`), `WheatcroftGAPRatings` (`gap_ratings.py`), `weibull_copula`, `DiagonalBivariatePoisson`, `CausalRatingEngine` (`ratings.py`), `FundamentalEnsemble` (10-model L2 OOF Simplex + MLP + LightGBM + Temperature / Dirichlet ODIR).
+- `src/quantfoot/strategy/` — `CLVPreservationFilter` (`clv_filter.py`), +EV değer tarayıcı (`value.py`: `1X2`, `O/U`, `AH`, `BTTS`, `1H/2H/Both-Halves BTTS`), Baker-McHale / Çeyrek-Kelly / Korelasyonlu Portföy Kelly (`kelly.py`) ve `>= 1.20` oran tabanlı risk kalkanı + `10x/20x/30x` garanti kupon oluşturucu (`coupon_builder.py`).
+- `src/quantfoot/evaluation/` — `RPS`, `Log-Loss`, `Brier`, `ECE`, genişleyen piramit walk-forward backtester (`backtest.py`) ve grafik raporlama (`reporting.py`).
+
+---
+
+## Kullanım (Ortak Sistem — v5)
+
+PowerShell (Windows):
+
+```powershell
+$env:QUANTFOOT_AI = "antigravitytahmin"   # zorunlu: kendi yapay zekâ klasörünüz
+$env:PYTHONIOENCODING = "utf-8"
+
+# 1. Günlük tam ortak üretim hattı (bülten + tahmin + derin araştırma + 20k simülasyon + ekstrem gol + <=5 maç banko kupon + denetim)
+python scripts/gunluk_tahmin.py --tarih 2026-11-24
+
+# 2. Kasa koruma 3 maçlık düşük-marjlı değer planı (EV >= -%10, P >= %60, sıfır ortak maç)
+python scripts/kasa_koruma.py --tarih 2026-11-24 --kasa 1000
+
+# 3. Tek sayfada günün tüm maçları özeti ve kendi çok-günlük kalibrasyon öz-denetimi
+python scripts/gunluk_analiz.py --tarih 2026-11-24
+python scripts/oz_gelistirme.py
+
+# 4. Ertesi gün bitmiş maçlar üzerinden ortak nesnel değerlendirme karnesi
+python scripts/gun_degerlendirme.py --tarih 2026-11-23
+
+# 5. Birim testler
+pytest -q
+```
+
+Linux / macOS:
+
+```bash
+cd /path/to/futbol-dehasi
+source .venv/bin/activate
+export QUANTFOOT_AI=grokbottahmin   # zorunlu; kendi klasörünüz
+export PYTHONIOENCODING=utf-8
+export TZ=Europe/Istanbul
+
+python scripts/gunluk_tahmin.py --tarih 2026-11-24
+python scripts/kasa_koruma.py --tarih 2026-11-24 --kasa 1000
+python scripts/oz_gelistirme.py
+python scripts/kupon_kontrol.py kontrol                # istek üzerine kupon bacak kontrolü
+pytest -q
+```
+
+`scripts/daily.py coupons` / `run` çıktısı **model-only** taramadır; resmi Nesine kuponu `gunluk_tahmin.py` / `kupon_kur.py` ile kurulur.
+Global referans 3 saatten eskiyse analiz yine fiyatlar (raporda ESKİ işaretlenir) ama kupon bu fiyatı kullanmaz.
+
+```powershell
+# 1. Tam walk-forward v4 backtest + grafikler
+.\.venv\Scripts\quantfoot.exe backtest --report-dir reports
+
+# 2. Tekil maç analizi (canlı ESPN 2026-27 Süper Lig / Premier Lig senkronizasyonlu)
+.\.venv\Scripts\quantfoot.exe analyze --league T1 --home Galatasaray --away Fenerbahce `
+  --odds 2.15 3.40 3.30 --sharp-odds 2.02 3.45 3.65 --ou25 1.85 2.00 --ah -0.25 1.88 2.02
+
+# 3. Canlı günlük Milli + Avrupa Kulüp Ligleri + Şampiyonlar Ligi bülteni & +EV portföyü
+.\.venv\Scripts\quantfoot.exe slate --mode all --dates 20261116 20261117 --fund-weight 0.25 --min-ev 0.02
+
+# 4. Korelasyonlu portföy Kelly optimizasyonu
+.\.venv\Scripts\quantfoot.exe portfolio --bets-json examples/matchday_portfolio.json --bankroll 1000
+
+# 5. Birim testler
+.\.venv\Scripts\pytest.exe -v
+
+# 6. Tek maç için 20 pazar ailesi + Bet Builder (bkz. docs/markets.md)
+.\.venv\Scripts\quantfoot.exe markets --mu-home 1.8 --mu-away 1.0 --league eng.1 --division E0 `
+  --player "Haaland;Ev;0.42;0.08;85;3.8;1.9;0.1" --builder "MS 1" "2.5 Üst" "Haaland: Gol Atar"
+
+# 7. probberechts/soccerdata entegrasyonu (ligler, ESPN fikstür/kadro/istatistik, ClubElo, Understat xG, MatchHistory)
+.\.venv\Scripts\quantfoot.exe soccerdata --action leagues
+.\.venv\Scripts\quantfoot.exe soccerdata --action espn-schedule --league T1 --season 2627 --force-cache
+.\.venv\Scripts\quantfoot.exe soccerdata --action enrich --league E0 --home Arsenal --away Chelsea --season 2627 --force-cache
+
+# 8. Canlı OddsMath sharp/steam + Transfermarkt 2026/27 sakat/cezalı istihbaratı ve yeni kupon filtreleri
+.\.venv\Scripts\quantfoot.exe intel --date 2026-11-20 --oddsmath --limit 10
+.\.venv\Scripts\quantfoot.exe intel --league L1 --limit 10
+.\.venv\Scripts\python.exe scripts\nesine_global.py --date 2026-11-20 --oddsmath --tm
+.\.venv\Scripts\python.exe scripts\nesine_kupon.py --hedef 5 --kupasiz --ana-pazar --oddsmath --tm
+```
+
+Günlük akış (tarihe bağlı eski betiklerin yerine tek betik; çıktılar `tahminler/<yapay zekâ>/<tarih>/`):
+
+```powershell
+.\.venv\Scripts\python.exe scripts\daily.py run --date 2026-11-20       # tahmin + kupon + rapor
+.\.venv\Scripts\python.exe scripts\daily.py snapshot --date 2026-11-20  # maçlardan önce: kapanış oranları (CLV için)
+.\.venv\Scripts\python.exe scripts\daily.py results --date 2026-11-20   # İY / 90' skorları
+.\.venv\Scripts\python.exe scripts\daily.py verify --date 2026-11-20    # isabet, kupon, havuz testi ve CLV
+.\.venv\Scripts\python.exe scripts\daily.py summary                     # tüm günler: model piyasaya bilgi katıyor mu?
+.\.venv\Scripts\python.exe scripts\ledger_report.py --date 2026_11_18   # gerçekten oynanan bahislerin defteri
+```
+
+Pazar modelleri, veri kalibrasyonu ve kaynaklar: [docs/markets.md](docs/markets.md) ·
+bileşen bazlı literatür taraması: [docs/research/literature_review_2026_11.md](docs/research/literature_review_2026_11.md)
