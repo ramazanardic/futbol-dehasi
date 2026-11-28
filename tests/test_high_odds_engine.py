@@ -252,6 +252,6 @@ def test_live_2026_27_half_split_lookup_and_daily_scanner():
     assert day_out["comebacks"]
     assert day_out["exact_scores"]
 
-    # Kural onarımı (28 Kas): yüksek oran motoru günlük ortak hattan ÇIKARILDI (araştırma modülü olarak kalır)
+    # Kural onarımı (28 Kas): eski yüksek oran motoru günlük ortak hattan ÇIKARILDI ve betikleri silindi (t178u); kilit korunur
     cmds = G.step_commands("2026-11-26", [2.5], py="py")
     assert not any(c[1].endswith(("yuksek_oran_analiz.py", "yuksek_oran_motoru.py")) for c in cmds["derin"])

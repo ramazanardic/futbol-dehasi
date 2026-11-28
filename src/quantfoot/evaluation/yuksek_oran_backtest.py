@@ -22,7 +22,7 @@ import pandas as pd
 from quantfoot.markets import yuksek_oran_modeli as ym
 
 ROOT = Path(__file__).resolve().parents[3]
-OLD_SHARE = 0.444  # eski analitik taban (high_odds_analyzer / halves 'e0' profili)
+OLD_SHARE = 0.444  # eski analitik taban (kaldırılan eski yüksek oran analizörü / halves 'e0' profili)
 
 
 # ----------------------------------------------------------------------------------------------

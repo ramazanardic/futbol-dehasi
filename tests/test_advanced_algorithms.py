@@ -10,7 +10,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from quantfoot.coupons.portfolio_optimizer import optimize_hedged_allocation, simulate_correlated_system  # noqa: E402
 from quantfoot.coupons.system_builder import SystemLeg  # noqa: E402
 from quantfoot.markets.club_half_dna import (  # noqa: E402
     ClubHalfDNA,
@@ -23,7 +22,6 @@ from quantfoot.markets.score_calibrator import (  # noqa: E402
     classify_score_regime,
     optimize_score_dutching,
 )
-from quantfoot.markets.sharp_lag import TSI, scan_sharp_lag  # noqa: E402
 from quantfoot.models.balanced_residual import load_balanced_residual, predict_balanced_residual  # noqa: E402
 
 
@@ -51,42 +49,6 @@ def test_balanced_residual_model_load_and_probabilities():
     assert all(0.01 < x < 0.98 for x in p)
 
 
-def test_sharp_lag_detects_history_velocity_steam_and_score_lag():
-    now = dt.datetime(2026, 11, 27, 19, 0, tzinfo=TSI)
-    ko_soon = (now + dt.timedelta(hours=2)).isoformat()
-    matches = [
-        {
-            "code": 5001,
-            "kickoff": "2026-11-27 21:00",
-            "kickoff_iso": ko_soon,
-            "league": "İtalya Serie A",
-            "home": "Roma",
-            "away": "Napoli",
-            "status": "fiyatlandı",
-            "price_tier": "keskin",
-            "ref_fetched_utc": "2026-11-27T16:00:00+00:00",
-            "steam_1x2": [0.06, -0.02, -0.04],
-            "selections": [
-                {"name": "MS 1", "odds": 2.30, "fair_prob": 0.45, "ev": 0.035, "direct": True},
-                {"name": "Skor 2-1", "odds": 9.50, "fair_prob": 0.105, "ev": -0.002, "direct": False},
-            ],
-        }
-    ]
-    history = [
-        {
-            "ts": (now - dt.timedelta(hours=2)).isoformat(),
-            "m": {"5001": {"ref_t": "2026-11-27T14:00:00+00:00", "s": {"MS 1": [2.30, 0.40]}}},
-        }
-    ]
-    sigs = scan_sharp_lag(matches, history, now=now)
-    kinds = {s.source_kind for s in sigs}
-    assert "history_lag" in kinds
-    assert "pre_ko_steam" in kinds
-    assert "score_lag" in kinds
-    hl = next(s for s in sigs if s.source_kind == "history_lag")
-    assert abs(hl.velocity_pp_per_h - 2.5) < 0.1
-
-
 def test_score_calibrator_and_dutching_optimizer():
     assert classify_score_regime(0.60, 0.22, 0.18, 0.60) == "strong_home_open"
     assert classify_score_regime(0.35, 0.32, 0.33, 0.42) == "balanced_low"
@@ -102,24 +64,3 @@ def test_score_calibrator_and_dutching_optimizer():
     assert abs(sum(top.stake_tl) - 100.0) < 0.1
     exp_eff = 1.0 / sum(1.0 / o for o in top.odds)
     assert abs(top.effective_odds - round(exp_eff, 2)) <= 0.02
-
-
-def test_monte_carlo_portfolio_and_hedged_allocation():
-    hi = [
-        SystemLeg(str(i), f"Maç {i}", "İY/MS 1/2", odds=18.0, p=0.06, league="LigA", kickoff="2026-11-27 21:00")
-        for i in range(4)
-    ]
-    ins = [
-        SystemLeg(str(i), f"Maç {i}", "2.5 Üst", odds=1.35, p=0.76, league="LigA", kickoff="2026-11-27 21:00")
-        for i in range(2)
-    ]
-    mc_corr = simulate_correlated_system(hi, (2,), stake_per_col=5.0, n_sims=4000, same_league_rho=0.15)
-    assert mc_corr.total_cost == 30.0
-    assert 0.0 <= mc_corr.p_profit <= 1.0
-    assert 0.0 <= mc_corr.p_zero_return <= 1.0
-    assert mc_corr.correlation_used > 0.0
-
-    plan = optimize_hedged_allocation(hi, ins, total_budget_tl=100.0, n_sims=3000)
-    assert plan is not None
-    assert math.isclose(plan.high_odds_budget_tl + plan.hedge_budget_tl, 100.0, abs_tol=0.05)
-    assert 0.0 <= plan.p_profit <= 1.0

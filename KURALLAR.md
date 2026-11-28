@@ -30,9 +30,7 @@
 | 9 | Şeffaflık | Her kuponda bacaklar, toplam oran ve **toplam tutma olasılığı** (düzeltilmiş P'lerin çarpımı) yazılır | `honest_line`, `audit_markdown` |
 
 Varsayılan olarak bacaklar doğrudan Nesine fiyatlıdır. Model türevi bacaklar yalnız `--model-bacak` ile, açık istek
-üzerine eklenir. Yüksek oran motoru (`yuksek_oran_motoru.py`, `yuksek_oran_analiz.py`) **günlük ortak hatta yok**.
-Araştırma modülü olarak durur ve yalnız kullanıcı açıkça isterse `--mod yuksek_oran` / `--mod risk` ile çalışır.
-O durumda tutma ihtimali dürüstçe yazılır.
+üzerine eklenir. Risk modu (`--mod risk`) yalnız kullanıcı açıkça isterse çalışır; o durumda tutma ihtimali dürüstçe yazılır.
 
 ## Çıktı ve sonuç kuralları (her yapay zekâ, Gemini dahil)
 
