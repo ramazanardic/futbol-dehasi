@@ -37,6 +37,9 @@ sys.path.insert(0, str(ROOT / "src"))
 import quantfoot.settings as _settings
 
 VARIANT = os.environ.get("QF_AILE_VARYANT", "")  # "" = production pipeline, "ham" = pre-21-Nov (no raking)
+# "pinnacle" = production pipeline priced from Pinnacle CLOSING 1X2 + 2.5 (PSC*, 2019/20+), i.e. the same sharp
+# reference the live engine uses (OddsMath/Pinnacle); rows without full Pinnacle prices are dropped.
+PINNACLE = VARIANT == "pinnacle"
 RESEARCH = ROOT / "reports" / "research"
 OUT_JSON = RESEARCH / "bahis_aileleri_kalibrasyon.json"
 CAL_FILE = ROOT / "data" / "calibration" / "market_calibration.json"
@@ -46,7 +49,7 @@ G = 8  # joint grid per half (0..7 goals per team per half)
 
 
 # research variant 'fark0.15' = explicit margin tilt θ; production ("") = settings.MARGIN_TILT; "ham" = no raking
-TILT = float(VARIANT[4:]) if VARIANT.startswith("fark") else (_settings.MARGIN_TILT if not VARIANT else 0.0)
+TILT = float(VARIANT[4:]) if VARIANT.startswith("fark") else (_settings.MARGIN_TILT if VARIANT in ("", "pinnacle") else 0.0)
 
 
 def cache_path(variant: str = VARIANT) -> Path:
@@ -145,7 +148,12 @@ def load_archive() -> pd.DataFrame:
     cols = ["Division", "MatchDate", "HomeTeam", "AwayTeam", "OddHome", "OddDraw", "OddAway", "Over25", "Under25",
             "MaxHome", "MaxDraw", "MaxAway", "MaxOver25", "MaxUnder25", "HandiSize", "HandiHome", "HandiAway",
             "FTHome", "FTAway", "HTHome", "HTAway"]
-    df = pd.read_csv(ROOT / "data" / "matches.csv", low_memory=False, parse_dates=["MatchDate"], usecols=cols)
+    psc = ["PSCHome", "PSCDraw", "PSCAway", "PSCOver25", "PSCUnder25"]
+    df = pd.read_csv(ROOT / "data" / "matches.csv", low_memory=False, parse_dates=["MatchDate"],
+                     usecols=cols + (psc if PINNACLE else []))
+    if PINNACLE:
+        df = df.dropna(subset=psc)
+        df[["OddHome", "OddDraw", "OddAway", "Over25", "Under25"]] = df[psc].to_numpy(float)
     need = ["OddHome", "OddDraw", "OddAway", "Over25", "Under25", "FTHome", "FTAway", "HTHome", "HTAway"]
     df = df.dropna(subset=need)
     df = df[(df[["OddHome", "OddDraw", "OddAway", "Over25", "Under25"]] > 1.0).all(axis=1) & (df.MatchDate >= START)]

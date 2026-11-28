@@ -92,6 +92,10 @@ def test_shipped_market_calibration_file_is_consistent():
     fam = root / "reports" / "research" / "bahis_aileleri_kalibrasyon.json"  # 21 Nov bet-family audit (all families)
     if fam.exists():
         kept |= {r["secim"] for r in json.loads(fam.read_text(encoding="utf-8"))["secimler"] if r.get("tutulan")}
+    pin = root / "reports" / "research" / "pinnacle_kalibrasyon_olcumu.json"  # 28 Nov: Pinnacle-priced walk-forward
+    if pin.exists():
+        kept |= {r["secim"] for r in json.loads(pin.read_text(encoding="utf-8"))["yeni_adaylar"]
+                 if r.get("tutulan") and r.get("banko_iyi")}
     assert set(cal["markets"]) <= kept
     for name, par in cal["markets"].items():
         assert {"a", "b"} <= set(par) and math.isfinite(par["a"]) and 0.5 < par["b"] < 1.5, name
