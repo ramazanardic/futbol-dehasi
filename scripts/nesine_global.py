@@ -999,12 +999,7 @@ def analyze_day(
         else:
             attach_research(out, events, day, generated)
     if use_tm:
-        tm_cache = ROOT / "data" / "cache" / "tm_absences" / f"tm_{day.isoformat()}.json"
-        tm_map = fetch_matchday_absences(
-            [m for m in out if m.get("price_tier") != "ozel_bahis"],
-            cache_path=tm_cache,
-            cache_ttl_hours=4.0,
-        )
+        tm_map = fetch_matchday_absences([m for m in out if m.get("price_tier") != "ozel_bahis"])
         if not tm_map:
             # Preserve same-day Transfermarkt data already captured earlier (e.g. when a cloud datacenter IP gets throttled)
             prev_path = DAILY / day.isoformat() / "nesine_global.json"

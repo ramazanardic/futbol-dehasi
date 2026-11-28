@@ -1,0 +1,172 @@
+{
+ "date": "2026-11-21",
+ "query": "Parma W - Napoli W",
+ "flags": [],
+ "sources": {
+  "API-Football fikstür": "tamam",
+  "ESPN (puan durumu, dinlenme)": "yok",
+  "Dinlenme / fikstür yoğunluğu": "yok",
+  "Sakat / cezalı": "tamam",
+  "Form / karşılaşma geçmişi": "tamam",
+  "Oranlar": "tamam",
+  "İlk 11": "yok",
+  "Hava (Open-Meteo)": "tamam",
+  "FotMob (ilk 11, eksikler, hakem)": "yok (maç bulunamadı)"
+ },
+ "fixture_id": 1601294,
+ "league": "Serie A Women",
+ "country": "Italy",
+ "league_id": 139,
+ "round": "Regular Season - 8",
+ "home": "Parma W",
+ "away": "Napoli W",
+ "kickoff_utc": "2026-11-21T11:30:00+00:00",
+ "referee": "E. Cerbasi",
+ "venue": "Stadio Ennio Tardini",
+ "city": "Parma",
+ "status": "NS",
+ "home_schedule": {
+  "rest_days": null,
+  "last_competition": null,
+  "matches_last_window": 0,
+  "window_days": 14,
+  "days_to_next": null,
+  "next_competition": null
+ },
+ "away_schedule": {
+  "rest_days": null,
+  "last_competition": null,
+  "matches_last_window": 0,
+  "window_days": 14,
+  "days_to_next": null,
+  "next_competition": null
+ },
+ "injuries": {
+  "home": [],
+  "away": []
+ },
+ "form": {
+  "home": {
+   "last5_form": "27%",
+   "last5_att": "29%",
+   "last5_def": "54%",
+   "last5_goals_for": "1.4",
+   "last5_goals_against": "2.2",
+   "league_form": "DLLLDWL"
+  },
+  "away": {
+   "last5_form": "40%",
+   "last5_att": "33%",
+   "last5_def": "75%",
+   "last5_goals_for": "1.6",
+   "last5_goals_against": "1.2",
+   "league_form": "LLWDLDD"
+  },
+  "comparison": {
+   "form": {
+    "home": "40%",
+    "away": "60%"
+   },
+   "att": {
+    "home": "47%",
+    "away": "53%"
+   },
+   "def": {
+    "home": "35%",
+    "away": "65%"
+   },
+   "poisson_distribution": {
+    "home": "41%",
+    "away": "59%"
+   },
+   "h2h": {
+    "home": "33%",
+    "away": "67%"
+   },
+   "goals": {
+    "home": "43%",
+    "away": "57%"
+   },
+   "total": {
+    "home": "39.8%",
+    "away": "60.2%"
+   }
+  },
+  "api_advice": "Double chance : draw or Napoli W",
+  "h2h": [
+   "2026-09-06 Napoli W 1-0 Parma W",
+   "2026-02-21 Napoli W 0-0 Parma W",
+   "2025-11-01 Parma W 1-1 Napoli W",
+   "2025-09-07 Napoli W 2-2 Parma W"
+  ]
+ },
+ "odds": {
+  "update": "2026-11-21T06:36:16+00:00",
+  "books": 10,
+  "1X2": {
+   "sharp_book": "Pinnacle",
+   "margins": {
+    "William Hill": 0.1317,
+    "Bet365": 0.1132,
+    "Marathonbet": 0.1217,
+    "Betfair": 0.1096,
+    "BetVictor": 0.0928,
+    "Pinnacle": 0.0843,
+    "SBO": 0.1795,
+    "1xBet": 0.1217,
+    "Betano": 0.1096,
+    "Dafabet": 0.1013
+   },
+   "best_soft": [
+    2.4,
+    3.3,
+    2.75
+   ],
+   "fair": [
+    0.3734,
+    0.29,
+    0.3366
+   ],
+   "best_soft_ev": [
+    -0.1039,
+    -0.0429,
+    -0.0744
+   ]
+  },
+  "2.5": {
+   "sharp_book": "Pinnacle",
+   "margins": {
+    "Bet365": 0.0556,
+    "Marathonbet": 0.0896,
+    "BetVictor": 0.089,
+    "Pinnacle": 0.0563,
+    "1xBet": 0.0896,
+    "Betano": 0.0995
+   },
+   "best_soft": [
+    2.0,
+    1.8
+   ],
+   "fair": [
+    0.4855,
+    0.5145
+   ],
+   "best_soft_ev": [
+    -0.029,
+    -0.0739
+   ]
+  }
+ },
+ "lineups": [],
+ "weather": {
+  "hour_utc": "2026-11-21T11:00",
+  "temp_c": 8.9,
+  "rain_mm": 0.0,
+  "wind_kmh": 2.4,
+  "snow_cm": 0.0,
+  "severe": false,
+  "flag": null
+ },
+ "api_football_used_today": 41,
+ "errors": []
+}

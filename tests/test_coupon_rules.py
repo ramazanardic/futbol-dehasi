@@ -100,16 +100,17 @@ def test_leg_decision_rejects_banned_draw_low_odds_and_low_calibrated_p():
 
 def test_leg_decision_accepts_good_families_at_high_calibrated_p():
     ok_legs = [
-        {"code": 1, "match": "A - B", "name": "2Y KG Yok", "odds": 1.35, "p": 0.72},
         {"code": 2, "match": "C - D", "name": "İY 1.5 Alt", "odds": 1.40, "p": 0.75},
         {"code": 3, "match": "E - F", "name": "MS 1", "odds": 1.28, "p": 0.73},
-        {"code": 4, "match": "G - H", "name": "DEĞİL(Ev İki Yarıda Gol)", "odds": 1.45, "p": 0.75},
         {"code": 5, "match": "I - J", "name": "3.5 Alt", "odds": 1.32, "p": 0.75},
     ]
     for leg in ok_legs:
         dec = leg_decision(leg)
         assert dec.ok, (leg["name"], dec.reasons, dec.p_cal)
         assert dec.p_cal >= MIN_CALIBRATED_P
+    # Ramazan'ın kuralı (28 Kas): KG (yarı KG dahil) ve takım golü ("iki yarıda gol atamaz") yüksek P'de bile yasak
+    for name in ("2Y KG Yok", "DEĞİL(Ev İki Yarıda Gol)"):
+        assert not leg_decision({"code": 7, "match": "K - L", "name": name, "odds": 1.35, "p": 0.80}).ok, name
     # 2.5 Üst bugün −11 puan; isim kalıbı aile residualinin yerine geçer, yüksek P gerek
     weak_ou = leg_decision({"code": 9, "match": "U - V", "name": "2.5 Üst", "odds": 1.40, "p": 0.70})
     assert weak_ou.ok is False and weak_ou.p_cal < 0.70
@@ -130,10 +131,10 @@ def test_filter_and_one_leg_per_match_highest_calibrated_p():
         {"code": 1, "match": "A - B", "name": "MS 1", "odds": 1.30, "p": 0.73},
         {"code": 1, "match": "A - B", "name": "İY 1.5 Alt", "odds": 1.35, "p": 0.78},
         {"code": 2, "match": "C - D", "name": "KG Var", "odds": 1.40, "p": 0.80},
-        {"code": 3, "match": "E - F", "name": "2Y KG Yok", "odds": 1.33, "p": 0.74},
+        {"code": 3, "match": "E - F", "name": "3.5 Alt", "odds": 1.33, "p": 0.76},
     ]
     kept = filter_legs(cands)
-    assert {x["name"] for x in kept} == {"MS 1", "İY 1.5 Alt", "2Y KG Yok"}
+    assert {x["name"] for x in kept} == {"MS 1", "İY 1.5 Alt", "3.5 Alt"}
     coupon = build_rules_coupon(cands, min_legs=2, prefer_n=2, max_legs=2)
     assert not coupon.short
     assert [L.match_id for L in coupon.legs] == ["1", "3"]
@@ -155,11 +156,16 @@ def test_build_rules_coupon_prefers_five_legs_and_reports_shortfall_honestly():
     # açıkça max_legs=6 ve prefer_n=6 istendiğinde 6
     six = build_rules_coupon([leg(i) for i in range(6)], prefer_n=6, max_legs=6)
     assert len(six.legs) == 6 and not six.short
-    # yetersiz havuz: kısa kupon, dürüst çarpım
-    short = build_rules_coupon([leg(i) for i in range(3)])
-    assert short.short and len(short.legs) == 3
-    assert any("yalnızca 3 bacak" in n for n in short.notes)
-    assert short.p_win == pytest.approx(math.prod(L.p_cal for L in short.legs))
+    # 3 uygun bacak: 2–5 aralığında geçerli kupon
+    three = build_rules_coupon([leg(i) for i in range(3)])
+    assert not three.short and len(three.legs) == 3
+    assert three.p_win == pytest.approx(math.prod(L.p_cal for L in three.legs))
+    # 6'dan fazla asla
+    assert len(build_rules_coupon([leg(i) for i in range(9)], prefer_n=9, max_legs=9).legs) == 6
+    # yetersiz havuz (1 bacak): kupon UYDURULMAZ, boş + dürüst not (Ramazan'ın kuralı, 28 Kas)
+    short = build_rules_coupon([leg(1)])
+    assert short.short and short.legs == () and short.p_win == 0.0
+    assert any("yalnızca 1 bacak" in n and "kural gevşetilmedi" in n for n in short.notes)
     empty = build_rules_coupon([leg(1, name="MS 0"), leg(2, name="KG Var")])
     assert empty.short and empty.legs == () and empty.p_win == 0.0
 
@@ -198,8 +204,8 @@ def test_nesine_kupon_banko_path_applies_rules_without_breaking_legacy_filter():
     legacy = {"code": 1, "match": "A - B", "name": "2.5 Alt", "odds": 1.30, "p": 0.70, "tier": "keskin"}
     out = mod.filter_pools_for_mode([[legacy]], KM.policy("banko"))
     assert out == [[legacy]]
-    # yeni kural: aynı bacak düzeltilmiş P < %70 → elenir; yüksek P'li 2Y KG Yok kalır
-    strong = {"code": 2, "match": "C - D", "name": "2Y KG Yok", "odds": 1.33, "p": 0.74, "tier": "keskin"}
+    # yeni kural: aynı bacak düzeltilmiş P < %70 → elenir; yüksek P'li 3.5 Alt kalır
+    strong = {"code": 2, "match": "C - D", "name": "3.5 Alt", "odds": 1.33, "p": 0.76, "tier": "keskin"}
     ruled = mod.apply_coupon_rules_to_pools([[legacy, strong]], "banko")
     assert len(ruled) == len(ruled[0]) == 1
     assert ruled[0][0]["code"] == strong["code"]

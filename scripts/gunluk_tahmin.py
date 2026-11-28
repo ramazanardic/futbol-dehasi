@@ -34,7 +34,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from quantfoot.coupons.coupon_rules import DEFAULT_MAX_LEGS, DEFAULT_MIN_LEGS, canonical_name, leg_decision  # noqa: E402
+from quantfoot.coupons.coupon_rules import HARD_MAX_LEGS, DEFAULT_MIN_LEGS, canonical_name, leg_decision  # noqa: E402
 from quantfoot.coupons.system_builder import PortfolioExposureGuard, SystemLeg  # noqa: E402
 from quantfoot.data.nesine import betting_day
 from quantfoot.paths import VALID_AIS, QuantfootAIError, ai_name  # noqa: E402
@@ -54,8 +54,6 @@ def step_commands(date: str, targets: list[float], py: str = sys.executable) -> 
             [py, f"{s}/derin_tahmin.py", "--tarih", date],
             [py, f"{s}/simulasyon.py", "--tarih", date],
             [py, f"{s}/ekstrem_gol_analiz.py", "--tarih", date],
-            [py, f"{s}/yuksek_oran_analiz.py", "--tarih", date],
-            [py, f"{s}/yuksek_oran_motoru.py", "--tarih", date],
         ],
         "kupon": [[py, f"{s}/kupon_kur.py", "--hedef", f"{t:g}", "--tarih", date, "--mod", "banko"] for t in targets],
         "denetim": [],
@@ -139,8 +137,8 @@ def audit_coupons(rows: list[dict], analysis_by_code: dict[str, dict] | None = N
     for cid, legs in coupons.items():
         issues: list[str] = []
         n = len(legs)
-        if not DEFAULT_MIN_LEGS <= n <= DEFAULT_MAX_LEGS:
-            issues.append(f"{n} bacak (kural: {DEFAULT_MIN_LEGS}–{DEFAULT_MAX_LEGS})")
+        if not DEFAULT_MIN_LEGS <= n <= HARD_MAX_LEGS:
+            issues.append(f"{n} bacak (kural: {DEFAULT_MIN_LEGS}–{HARD_MAX_LEGS})")
         codes = [str(leg.get("nesine_kodu") or leg.get("mac")) for leg in legs]
         if len(set(codes)) < len(codes):
             issues.append("aynı maçtan birden çok bacak")

@@ -1,0 +1,160 @@
+{
+ "date": "2026-11-21",
+ "query": "Espanyol II - Barcelona B",
+ "flags": [],
+ "sources": {
+  "API-Football fikstür": "tamam",
+  "ESPN (puan durumu, dinlenme)": "yok",
+  "Dinlenme / fikstür yoğunluğu": "yok",
+  "Sakat / cezalı": "tamam",
+  "Form / karşılaşma geçmişi": "tamam",
+  "Oranlar": "tamam",
+  "İlk 11": "yok (henüz açıklanmadı (maçtan ~1 saat önce))",
+  "FotMob (ilk 11, eksikler, hakem)": "yok (maç bulunamadı)"
+ },
+ "fixture_id": 1572435,
+ "league": "Segunda División RFEF - Group 2",
+ "country": "Spain",
+ "league_id": 876,
+ "round": "Group 2 - 12",
+ "home": "Espanyol II",
+ "away": "Barcelona B",
+ "kickoff_utc": "2026-11-21T17:00:00+00:00",
+ "referee": null,
+ "venue": null,
+ "city": null,
+ "status": "NS",
+ "home_schedule": {
+  "rest_days": null,
+  "last_competition": null,
+  "matches_last_window": 0,
+  "window_days": 14,
+  "days_to_next": null,
+  "next_competition": null
+ },
+ "away_schedule": {
+  "rest_days": null,
+  "last_competition": null,
+  "matches_last_window": 0,
+  "window_days": 14,
+  "days_to_next": null,
+  "next_competition": null
+ },
+ "injuries": {
+  "home": [],
+  "away": []
+ },
+ "form": {
+  "home": {
+   "last5_form": "60%",
+   "last5_att": "88%",
+   "last5_def": "50%",
+   "last5_goals_for": "1.4",
+   "last5_goals_against": "0.8",
+   "league_form": "WWLWWDWWDD"
+  },
+  "away": {
+   "last5_form": "60%",
+   "last5_att": "88%",
+   "last5_def": "38%",
+   "last5_goals_for": "1.4",
+   "last5_goals_against": "1.0",
+   "league_form": "WDWWWWWLWWL"
+  },
+  "comparison": {
+   "form": {
+    "home": "50%",
+    "away": "50%"
+   },
+   "att": {
+    "home": "50%",
+    "away": "50%"
+   },
+   "def": {
+    "home": "56%",
+    "away": "44%"
+   },
+   "poisson_distribution": {
+    "home": "71%",
+    "away": "29%"
+   },
+   "h2h": {
+    "home": "29%",
+    "away": "71%"
+   },
+   "goals": {
+    "home": "33%",
+    "away": "67%"
+   },
+   "total": {
+    "home": "48.2%",
+    "away": "51.8%"
+   }
+  },
+  "api_advice": "Double chance : draw or Barcelona B",
+  "h2h": [
+   "2026-04-12 Barcelona B 3-1 Espanyol II",
+   "2025-11-16 Espanyol II 1-0 Barcelona B",
+   "2021-03-14 Espanyol II 0-1 Barcelona B",
+   "2020-12-13 Barcelona B 2-1 Espanyol II",
+   "2020-05-16 Espanyol II None-None Barcelona B",
+   "2020-01-04 Barcelona B 2-0 Espanyol II"
+  ]
+ },
+ "odds": {
+  "update": "2026-11-20T00:16:14+00:00",
+  "books": 8,
+  "1X2": {
+   "sharp_book": "Pinnacle",
+   "margins": {
+    "William Hill": 0.1207,
+    "Bet365": 0.1211,
+    "Marathonbet": 0.1179,
+    "Betfair": 0.0927,
+    "Pinnacle": 0.0863,
+    "1xBet": 0.1055,
+    "Betano": 0.0938,
+    "Dafabet": 0.0806
+   },
+   "best_soft": [
+    1.98,
+    3.5,
+    3.45
+   ],
+   "fair": [
+    0.4745,
+    0.2684,
+    0.2571
+   ],
+   "best_soft_ev": [
+    -0.0605,
+    -0.0607,
+    -0.1129
+   ]
+  },
+  "2.5": {
+   "sharp_book": "Pinnacle",
+   "margins": {
+    "Bet365": 0.0644,
+    "Marathonbet": 0.0902,
+    "Pinnacle": 0.0639,
+    "1xBet": 0.0902,
+    "Betano": 0.0939
+   },
+   "best_soft": [
+    1.7,
+    2.1
+   ],
+   "fair": [
+    0.5628,
+    0.4372
+   ],
+   "best_soft_ev": [
+    -0.0432,
+    -0.0819
+   ]
+  }
+ },
+ "api_football_used_today": 37,
+ "errors": []
+}
