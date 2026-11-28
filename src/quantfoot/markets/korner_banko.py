@@ -221,6 +221,57 @@ class CornerBankoModel:
         return p_over if side == "Üst" else 1.0 - p_over
 
 
+# -- derin kontrol için takımın gerçek korner geçmişi ------------------------------------------------------------
+N_HISTORY = 10          # takım başına bakılan son maç
+MIN_HISTORY = 6         # derin kontrolün kanıt saydığı en az maç (derin_arastirma.verdict ile aynı)
+HISTORY_MAX_AGE_DAYS = 120
+
+
+def _load_corner_games(path: Path | None = None) -> pd.DataFrame:
+    cols = ["Division", "MatchDate", "HomeTeam", "AwayTeam", "HomeCorners", "AwayCorners"]
+    df = pd.read_csv(path or MATCHES_PATH, usecols=cols, low_memory=False)
+    df["MatchDate"] = pd.to_datetime(df["MatchDate"], errors="coerce")
+    df = df.dropna(subset=["MatchDate", "HomeTeam", "AwayTeam", "HomeCorners", "AwayCorners"])
+    return df
+
+
+def team_corner_totals(df: pd.DataFrame, team: str, division: str, asof: date | datetime | str,
+                       n: int = N_HISTORY, max_age_days: int = HISTORY_MAX_AGE_DAYS) -> list[float]:
+    """Takımın o ligdeki son ``n`` maçının TOPLAM korner sayısı (kendi + rakip), ``asof`` öncesi ve en çok
+    ``max_age_days`` gün eski. Korner verisi olmayan maç sayılmaz; veri yoksa liste kısa/boş kalır."""
+    asof_ts = pd.Timestamp(asof).normalize()
+    g = df[(df.Division == division) & (df.MatchDate < asof_ts) & (df.MatchDate >= asof_ts - pd.Timedelta(days=max_age_days))
+           & ((df.HomeTeam == team) | (df.AwayTeam == team))].sort_values("MatchDate").tail(n)
+    return [float(h) + float(a) for h, a in zip(g.HomeCorners, g.AwayCorners)]
+
+
+def leg_history(model: CornerBankoModel, df: pd.DataFrame, home: str, away: str, name: str,
+                asof: date | datetime | str) -> dict | None:
+    """``derin_arastirma.leg_history`` ile aynı şemada geçmiş özeti, ama takımların GERÇEK toplam korner sayılarından:
+    ``home_rate`` / ``away_rate`` = seçimin o takımın son maçlarında tutma oranı. Seçim tanınmıyor ya da takımlar
+    ligde eşleşmiyorsa None (bacak kanıtsız sayılır)."""
+    sel = parse_selection(name)
+    r = model.resolve(home, away)
+    if sel is None or r is None:
+        return None
+    line, side = sel
+    div, h, a = r
+    out: dict = {"division": div, "home_team": h, "away_team": a}
+    rates = []
+    for key, team in (("home", h), ("away", a)):
+        tot = team_corner_totals(df, team, div, asof)
+        hits = [(t > line) if side == "Üst" else (t < line) for t in tot]
+        out[f"{key}_n"] = len(tot)
+        out[f"{key}_rate"] = sum(hits) / len(hits) if hits else None
+        out[f"{key}_avg_corners"] = sum(tot) / len(tot) if tot else None
+        out[f"{key}_venue_rate"], out[f"{key}_venue_n"] = None, 0
+        rates.append(out[f"{key}_rate"])
+    vals = [x for x in rates if x is not None]
+    out["mean"] = sum(vals) / len(vals) if vals else None
+    out["min_side"] = min(rates) if len(vals) == 2 else None
+    return out
+
+
 @lru_cache(maxsize=1)
 def default_model() -> CornerBankoModel | None:
     """Günlük akış için tek örnek; kapalıysa / veri yoksa None."""

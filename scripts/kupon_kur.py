@@ -25,6 +25,7 @@ import json
 from pathlib import Path
 import sys
 
+from quantfoot.markets import korner_banko as kb
 from quantfoot.paths import ai_name
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -60,10 +61,44 @@ def weak_legs_allowed(ai: str | None = None, path: Path | None = None) -> bool:
     return g["won"] / g["n"] >= g["p_sum"] / g["p_n"] - WEAK_MAX_SHORTFALL
 
 
+_CORNER_STATE: dict = {}
+
+
+def corner_research(row: dict, m: dict, leg: dict) -> bool:
+    """Total-corner legs: evidence is the two teams' REAL recent corner totals (data/matches.csv via
+    ``markets/korner_banko``), judged by the same ``derin_arastirma.verdict`` thresholds as goal legs. Teams that do
+    not resolve in one league, or fewer than 6 games with corner data per team, stay "geçmiş yetersiz" (leg dropped)."""
+    name = leg.get("name") or ""
+    if kb.parse_selection(name) is None:
+        return False
+    if "model" not in _CORNER_STATE:
+        try:
+            _CORNER_STATE["model"], _CORNER_STATE["df"] = kb.CornerBankoModel.from_repo(), kb._load_corner_games()
+        except (OSError, ValueError, KeyError):
+            _CORNER_STATE["model"] = _CORNER_STATE["df"] = None
+    model, df = _CORNER_STATE["model"], _CORNER_STATE["df"]
+    hist = kb.leg_history(model, df, m["home"], m["away"], name, m["kickoff_iso"][:10]) if model is not None else None
+    if hist is None:
+        hist = {"home_rate": None, "home_n": 0, "away_rate": None, "away_n": 0, "mean": None, "min_side": None}
+    if min(hist.get("home_n") or 0, hist.get("away_n") or 0) < kb.MIN_HISTORY:
+        v = "geçmiş yetersiz"
+    else:
+        v = dr.verdict(leg["p"], hist)
+    if row["legs"]:
+        row["legs"][0].update({k: x for k, x in hist.items() if k in (
+            "home_rate", "home_n", "away_rate", "away_n", "mean", "min_side", "home_venue_rate", "home_venue_n",
+            "away_venue_rate", "away_venue_n")})
+        row["legs"][0]["verdict"] = v
+        row["legs"][0]["kaynak"] = "data/matches.csv gerçek korner toplamları (son 10 maç)"
+    return True
+
+
 def research_leg(m: dict, leg: dict, fixtures: list[dict] | None) -> dict:
     """Research row of one leg: ESPN, API-Football, openfootball, OpenLigaDB, Football Charts, Open Matchday, then the Wikipedia season table."""
     row = dr.research_match(m, [{"name": leg.get("name"), "label": f"{leg['market']}: {leg['selection']}",
                                  "p": leg["p"], "odds": leg["odds"], "coupons": []}])
+    if corner_research(row, m, leg):
+        return row  # goal-score histories say nothing about corners
     if row["legs"] and row["legs"][0]["verdict"].startswith("geçmiş yetersiz"):
         if fixtures:
             try:
