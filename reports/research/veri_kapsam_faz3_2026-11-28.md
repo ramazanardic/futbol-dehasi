@@ -48,3 +48,10 @@ nötr, 2Y KG ECE 0,0045 → 0,0068 (hâlâ < 0,01; banko dışı analiz pazarı)
   Korner 1 biraz kötüleşti; kartta belirgin iyileşme vardı ama kart değerlendirmesi korner satırı gerektiriyor.)
 - **football-data `PPH/PPD/PPA` → Pinnacle eşlemesi — yapılmadı.** notes.txt: PP* = **Paddy Power**; Pinnacle = PSH/PH,
   P>2.5. Pinnacle değil, uydurulmadı. 2026/27 dosyalarında Pinnacle sütunu yok.
+
+## Ek: Çin Süper Ligi (CHN, chn.1) — indirme tamamlandıktan sonra
+Aynı kurallar (yalnız boş hücre, korner yok). ESPN İY ↔ mevcut İY uyumu %100 (n=8); 479/480 maç eşleşti; İY>FT 0.
+CHN eksik % (2025-01-01+, n=480): İY 98,3 → 0,2; şut/isabetli/faul/kart 100 → 0,2; korner 100 (alınmadı).
+Ölçüm (model−piyasa log-loss, ECE; #40 → CHN eklendi): İY/MS −0,0030 → −0,0032 (t −5,69), ECE 0,0022 → 0,0021;
+İY skoru −0,0006 → −0,0006, ECE 0,0010 → 0,0012; 2Y KG −0,0002 → −0,0002, ECE 0,0068 → 0,0071; kesin skor aynı.
+Nötr; üretim kalibrasyon dosyaları değişmedi.
