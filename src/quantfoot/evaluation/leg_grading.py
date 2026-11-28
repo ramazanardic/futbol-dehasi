@@ -93,6 +93,18 @@ def grade(p: dict, r: dict) -> bool | None:
 
     if nm == 'KGKG':
         return h1 > 0 and a1 > 0 and h2 > 0 and a2 > 0
+    # Yarı özel pazarlar (28 Kas post-mortem: önceden None dönüyordu, notlanmıyordu)
+    m_half = re.fullmatch(r'(Ev|Dep) (Her İki Yarıyı Kazanır|En Az Bir Yarıyı Kazanır|Herhangi Bir Yarıyı Kazanır|İki Yarıda Gol)', nm)
+    if m_half and ht is None:
+        return None
+    if m_half:
+        own1, opp1, own2, opp2 = (h1, a1, h2, a2) if m_half.group(1) == 'Ev' else (a1, h1, a2, h2)
+        kind = m_half.group(2)
+        if kind == 'Her İki Yarıyı Kazanır':
+            return own1 > opp1 and own2 > opp2
+        if kind == 'İki Yarıda Gol':
+            return own1 > 0 and own2 > 0
+        return own1 > opp1 or own2 > opp2
     if nm.startswith('İYMS') or nm.startswith('İY/MS'):
         code_src = sel if '/' in sel else nm.split()[-1]
         if '/' not in code_src:
@@ -102,6 +114,8 @@ def grade(p: dict, r: dict) -> bool | None:
         return None if (r1 is None or r2 is None) else (r1 and r2)
     if '&' in sel or ' ve ' in sel or '&' in mk or '&' in nm:
         combo_src = sel if ('&' in sel or ' ve ' in sel) else nm
+        if '&' in nm and combo_src is sel and not re.search(r'MS |\d[.,]5|KG|İY|2Y', sel):
+            combo_src = nm  # Nesine seçimi "1 & Üst" gibi kısa: çizgi ve pazar kısa adda (MS 1 & 1.5 Üst)
         parts = re.split(r'\s*&\s*|\s+ve\s+', combo_src.replace('MS ', 'MS '))
         out = True
         for part in parts:
@@ -175,7 +189,7 @@ def grade(p: dict, r: dict) -> bool | None:
         s = nm.replace('ÇŞ', '').strip().replace('-', '') or sel.replace('-', '')
         return dc(s, h, a)
     if 'Handikap' in mk or nm.startswith('Hnd('):
-        m_hc = re.search(r'\((-?\d+)\)', nm)
+        m_hc = re.search(r'\(([+-]?\d+)\)', nm)
         if not m_hc:
             return None
         hc = int(m_hc.group(1)); hh = h + hc
